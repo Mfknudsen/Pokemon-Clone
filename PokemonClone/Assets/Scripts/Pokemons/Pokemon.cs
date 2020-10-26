@@ -1,32 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
-#region Enums
-public enum PokemonState { EnterBattle, Idle, Attacking }
-#endregion
-
-public class Pokemon : MonoBehaviour, IPokemon
+public class Pokemon : ScriptableObject
 {
     #region Values:
     [Header("Object Reference:")]
-    public PokemonState state;
+    public string name; 
+    public int currentHealth;
 
-    [Header(" - Stats:")]
-    [SerializeField] protected float health;
-    [SerializeField] protected float defence, specialDefence;
-    [SerializeField] protected float attack, specialAttack;
+    [Header("Stats:")]
+    [SerializeField] protected int health;
+    [SerializeField] protected int defence, specialDefence;
+    [SerializeField] protected int attack, specialAttack;
+
+    [Header("Display:")]
+    public Vector2 spriteOffset = Vector2.zero;
     #endregion
 
-    public void UpdatePokemon()
+    #region Getters/Setters
+    public int GetHealth()
     {
-        switch (state)
-        {
-            case PokemonState.Idle:
-                break;
-
-            case PokemonState.Attacking:
-                break;
-        }
+        return health;
     }
+    #endregion
 }
