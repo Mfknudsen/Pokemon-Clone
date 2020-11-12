@@ -57,17 +57,23 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Battle\ProgressBar.cs" />
     <Compile Include="Assets\Scripts\Player\Controller.cs" />
-    <Compile Include="Assets\Scripts\Pokemons\Pokemon.cs" />
-    <Compile Include="Assets\Scripts\Pokemons\IPokemon.cs" />
-    <Compile Include="Assets\Scripts\Player\Team.cs" />
-    <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleDisplay.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
-    <Compile Include="Assets\TestEnemy.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleMathf.cs" />
     <Compile Include="Assets\Scripts\Player\MasterPlayer.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Pokemon.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
-    <Compile Include="Assets\Scripts\Player\BattlePlayer.cs" />
+    <Compile Include="Assets\Scripts\Battle\AI\EasyAI.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleEnemy.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Moves\PokemonMove.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleAction.cs" />
+    <Compile Include="Assets\Scripts\Player\Team.cs" />
+    <Compile Include="Assets\Scripts\Battle\AI\BattleAI.cs" />
+    <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Battle\PokemonDisplay.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattlePlayer.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleDisplay.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Types\Type.cs" />
+    <Compile Include="Assets\TestEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

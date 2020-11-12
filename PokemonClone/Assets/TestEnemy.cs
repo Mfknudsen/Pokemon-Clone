@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Trainer;
 
-public class TestEnemy : BattleMember
+public class TestEnemy : EasyAI
 {
-    [SerializeField]
-    private string[] startText;
 
-    public string[] getStartText()
-    {
-        return startText;
-    }
 }

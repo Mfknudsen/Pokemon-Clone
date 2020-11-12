@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
+  m_Name: Circle
+  m_EditorClassIdentifier: 
+  pokemonName: Circle
+  types:
+  - {fileID: 11400000, guid: 0b95b520435267647b230846d0eefffb, type: 2}
+  - {fileID: 0}
+  health: 25
+  defence: 15
+  specialDefence: 20
+  attack: 15
+  specialAttack: 20
+  speed: 10
+  level: 5
+  exp: 0
+  learnedMoves:
+  - {fileID: 11400000, guid: 9b5925b9daf5f7340b656f336b0b7bcf, type: 2}
+  - {fileID: 11400000, guid: 631a5d7eba664934d973917dcb7ba22f, type: 2}
+  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
+  - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
+  key: 
+  result: []
+  spriteOffset: {x: 0, y: 0}

@@ -17,14 +17,17 @@ namespace BattleUI
             if (newPokemon != null)
             {
                 pokemon = newPokemon;
-                nameDisplay.text = newPokemon.name;
+                nameDisplay.text = pokemon.GetName() + " " + pokemon.GetLevel() + "Lv";
+                healthBar.SetBarMax(pokemon.GetHealth());
             }
         }
 
         private void Update()
         {
-            healthDisplay.text = pokemon.currentHealth + " / " + pokemon.GetHealth();
-            healthBar.SetCurrentBar(pokemon.currentHealth);
+            if (pokemon != null) {
+                healthDisplay.text = pokemon.GetHealth() + " / " + pokemon.GetCurrentHealth();
+                healthBar.SetCurrentBar(pokemon.GetCurrentHealth());
+            }
         }
     }
 }

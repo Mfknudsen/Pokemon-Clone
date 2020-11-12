@@ -15,5 +15,12 @@ namespace Trainer
         [Header("Move Selection:")]
         public bool selectMove = false;
         public bool hasSelectedMove = false;
+
+        public Pokemon SendOutFirstPokemon(Transform spawnPoint)
+        {
+            Pokemon pokemon = Instantiate(team.GetPokemonByIndex(0));
+
+            return pokemon;
+        }
     }
 }
