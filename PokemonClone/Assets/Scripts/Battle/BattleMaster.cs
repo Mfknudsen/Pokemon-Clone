@@ -59,12 +59,10 @@ public class BattleMaster : MonoBehaviour
         else
             Destroy(gameObject);
 
-        Setup();
-
         display.DisplayNewText("You are challenged by " + enemy.name + "!");
         selectionMenu.SetActive(false);
 
-        state = MasterState.ChoosingMove;
+        state = MasterState.Starting;
     }
 
     private void Update()
@@ -72,6 +70,17 @@ public class BattleMaster : MonoBehaviour
         switch (state)
         {
             case MasterState.Starting:
+                if (player.GetTeam().GetReady() && enemy.GetTeam().GetReady())
+                {
+                    Setup();
+
+                    state = MasterState.ChoosingMove;
+                }
+                else
+                {
+                    player.GetTeam().Setup();
+                    enemy.GetTeam().Setup();
+                }
                 break;
 
             case MasterState.ChoosingMove:
@@ -152,13 +161,25 @@ public class BattleMaster : MonoBehaviour
         }
     }
 
+    public void StartBattle(BattleMember player, BattleMember[] enemies)
+    {
+
+    }
+
+    private void EndBattle()
+    {
+
+    }
+
     private void Setup()
     {
-        playerPokemon = player.team.GetPokemonByIndex(0);
+        playerPokemon = player.GetTeam().GetPokemonByIndex(0);
         playerPokemonDisplay.SetNewPokemon(playerPokemon);
+        playerPokemon.SpawnPokemon(playerTransform);
 
-        enemyPokemon = enemy.team.GetPokemonByIndex(0);
+        enemyPokemon = enemy.GetTeam().GetPokemonByIndex(0);
         enemyPokemonDisplay.SetNewPokemon(enemyPokemon);
+        enemyPokemon.SpawnPokemon(enemyTransform);
     }
 
     private void DisplayForPokemon()
@@ -200,9 +221,7 @@ public class BattleMaster : MonoBehaviour
         }
         else if (i == 5)
         {
-            Debug.Log("Switch Not Implemented!");
             selectionMenu.SetActive(true);
-            return;
         }
         else if (i == 6)
         {
@@ -222,13 +241,14 @@ public class BattleMaster : MonoBehaviour
 
         if (i > 0 && i < 6)
         {
-            result = player.team.GetPokemonByIndex(i);
+            result = player.GetTeam().GetPokemonByIndex(i);
 
-            if(result != null)
+            if (result != null)
             {
-                player.team.SwitchTeamPlaces(0, i);
-
-                playerPokemon = Instantiate(player.team.GetPokemonByIndex(0));
+                player.GetTeam().SwitchTeamPlaces(0, i);
+                playerPokemon.DespawnPokemon();
+                playerPokemon = player.GetTeam().GetPokemonByIndex(0);
+                playerPokemon.SpawnPokemon(playerTransform);
                 playerPokemonDisplay.SetNewPokemon(playerPokemon);
 
                 Debug.Log(result.GetName());

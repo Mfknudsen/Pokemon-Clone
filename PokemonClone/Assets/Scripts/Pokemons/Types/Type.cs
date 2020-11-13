@@ -24,7 +24,7 @@ public enum TypeName
     Fairy
 }
 
-[CreateAssetMenu(fileName = "Type", menuName = "Pokemon/Create new Type")]
+[CreateAssetMenu(fileName = "Type", menuName = "Pokemon/Create new Type", order = 3)]
 public class Type : ScriptableObject
 {
     [SerializeField] private TypeName typeName = 0;

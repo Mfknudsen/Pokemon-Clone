@@ -6,7 +6,13 @@ namespace Trainer
 {
     public class Team : MonoBehaviour
     {
-        public Pokemon[] pokemons = new Pokemon[6];
+        [SerializeField] private Pokemon[] pokemons = new Pokemon[6];
+        private bool ready = false;
+
+        public bool GetReady()
+        {
+            return ready;
+        }
 
         public void Setup()
         {
@@ -17,6 +23,8 @@ namespace Trainer
                     pokemons[i] = Instantiate(pokemons[i]);
                 }
             }
+
+            ready = true;
         }
 
         public void SwitchTeamPlaces(int from, int to)

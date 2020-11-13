@@ -5,7 +5,7 @@ using UnityEngine;
 public enum Category { Physical, Special, Status, Extents }
 public enum Contest { None, Tough, Cute, Clever, Beutiful, Cool }
 
-[CreateAssetMenu(fileName = "Move", menuName = "Pokemon/Create new Move")]
+[CreateAssetMenu(fileName = "Move", menuName = "Pokemon/Create new Move", order = 1)]
 public class PokemonMove : BattleAction
 {
     [SerializeField] protected int index = 0;
@@ -42,7 +42,7 @@ public class PokemonMove : BattleAction
                         BattleMathf.CalculateModifiers(
                             currentPokemon, p, type.GetTypeName(), (targetPokemon.Length == 1)));
 
-                    p.Damage(damage);
+                    p.RecieveDamage(damage);
                 }
             }
         }

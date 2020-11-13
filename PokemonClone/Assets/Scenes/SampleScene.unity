@@ -484,11 +484,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d3b4474443e4f49a557391dc880bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: test
+  memberName: 
   team: {fileID: 703445254}
   selectMove: 0
   hasSelectedMove: 0
-  startText: 
+  startChat: {fileID: 0}
+  endChat:
+  - {fileID: 11400000, guid: 6be73a12bbb0f434e8749d2217cbd805, type: 2}
+  - {fileID: 11400000, guid: 0202de2b5e0993b48b496b7c7aa36e3f, type: 2}
 --- !u!1 &791190598
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b124cc625c9a640a99b64ac7616e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  memberName: 
   team: {fileID: 1113961415}
   selectMove: 0
   hasSelectedMove: 0

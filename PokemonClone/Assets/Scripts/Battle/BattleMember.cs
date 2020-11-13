@@ -7,14 +7,26 @@ namespace Trainer
     public class BattleMember : MonoBehaviour
     {
         [Header("Object Reference:")]
-        public string name;
+        [SerializeField] private string memberName = "";
 
         [Header("Team:")]
-        public Team team;
+        [SerializeField] private Team team = null;
 
         [Header("Move Selection:")]
         public bool selectMove = false;
         public bool hasSelectedMove = false;
+
+        #region Getters
+        public string GetName()
+        {
+            return memberName;
+        }
+
+        public Team GetTeam()
+        {
+            return team;
+        }
+        #endregion
 
         public Pokemon SendOutFirstPokemon(Transform spawnPoint)
         {

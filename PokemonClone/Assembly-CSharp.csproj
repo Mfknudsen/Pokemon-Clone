@@ -59,7 +59,7 @@
     <Compile Include="Assets\Scripts\Player\Controller.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMathf.cs" />
     <Compile Include="Assets\Scripts\Player\MasterPlayer.cs" />
-    <Compile Include="Assets\Scripts\Pokemons\Pokemon.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Pokedex\Pokemon.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
     <Compile Include="Assets\Scripts\Battle\AI\EasyAI.cs" />
@@ -74,6 +74,9 @@
     <Compile Include="Assets\Scripts\Battle\BattleDisplay.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Types\Type.cs" />
     <Compile Include="Assets\TestEnemy.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Ability\Ability.cs" />
+    <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
+    <Compile Include="Assets\Scripts\Chat\Chat.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

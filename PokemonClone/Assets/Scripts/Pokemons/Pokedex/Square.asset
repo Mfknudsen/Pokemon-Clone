@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
   m_Name: Square
   m_EditorClassIdentifier: 
-  pokemonName: Square
+  pokemonName: Chimchar
   types:
-  - {fileID: 11400000, guid: 0b95b520435267647b230846d0eefffb, type: 2}
+  - {fileID: 11400000, guid: ed7030f5bbb8eb74b9242907049220f9, type: 2}
   - {fileID: 0}
+  ability: {fileID: 11400000, guid: e64e1a76aa56a4348b987b30c26ee8f4, type: 2}
+  description: 
   health: 30
+  currentHealth: 30
   defence: 10
   specialDefence: 20
   attack: 10
@@ -32,3 +35,4 @@ MonoBehaviour:
   key: 
   result: []
   spriteOffset: {x: 0, y: 0}
+  prefab: {fileID: 7326807084871739605, guid: 74f91415c1efce843b38fb97d8eac13f, type: 3}
