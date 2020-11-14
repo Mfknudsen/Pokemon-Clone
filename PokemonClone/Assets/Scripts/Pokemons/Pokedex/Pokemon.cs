@@ -165,6 +165,7 @@ public class Pokemon : ScriptableObject
         spawnedObject = Instantiate(prefab);
         spawnedObject.transform.position = transform.position;
         spawnedObject.transform.rotation = transform.rotation;
+        spawnedObject.transform.parent = transform;
     }
 
     public void DespawnPokemon()

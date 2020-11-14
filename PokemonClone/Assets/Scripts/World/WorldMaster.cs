@@ -7,9 +7,16 @@ using UnityEngine.SceneManagement;
 
 public class WorldMaster : MonoBehaviour
 {
+    [Header("Object Reference:")]
     public static WorldMaster instance;
     public BattleMember player = null, enemy = null;
-   [SerializeField] private Scene battleScene;
+    private Coroutine currentOperation;
+
+    [Header("Loading:")]
+    [SerializeField] private int progressMeter = 0;
+
+    [Header("Battle Scene:")]
+    [SerializeField] private string currentLoadedBattleScene = "";
 
     private void Start()
     {
@@ -33,25 +40,67 @@ public class WorldMaster : MonoBehaviour
     {
         if (player != null)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                StartCoroutine(LoadSceneAsync());
+            if (Input.GetKeyDown(KeyCode.Space) && currentOperation == null)
+            {
+                currentOperation = StartCoroutine(LoadBattleSceneAsync("TestBattle", true));
+                currentLoadedBattleScene = "TestBattle";
+            }
         }
     }
 
-    private IEnumerator LoadSceneAsync()
+    #region Getters
+    public int GetLoadMeter()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TestBattle");
+        return progressMeter;
+    }
+
+    public bool GetEmpty()
+    {
+        return (currentOperation == null);
+    }
+    #endregion
+
+    public void UnloadCurrentBattleScene()
+    {
+        currentOperation = StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene));
+    }
+
+    #region Load/Unload Battle Scene
+    private IEnumerator LoadBattleSceneAsync(string sceneName, bool additive)
+    {
+        AsyncOperation asyncLoad;
+
+        if (additive)
+            asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        else
+            asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        progressMeter = 0;
 
         while (!asyncLoad.isDone)
         {
+            progressMeter = (int)(asyncLoad.progress + 0.1f) * 100;
             yield return null;
         }
 
-        battleScene = SceneManager.GetSceneByName("TestBattle");
-
         BattleMaster.instance.StartBattle(player, new BattleMember[] { enemy });
 
-        player = null;
-        enemy = null;
+        currentOperation = null;
     }
+
+    private IEnumerator UnloadBattleSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
+
+        progressMeter = 0;
+
+        while (!asyncUnload.isDone)
+        {
+            progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
+            yield return null;
+        }
+
+        currentOperation = null;
+    }
+    #endregion
 }

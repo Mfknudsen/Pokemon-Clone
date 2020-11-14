@@ -159,6 +159,12 @@ public class BattleMaster : MonoBehaviour
                 break;
 
             case MasterState.SelectNew:
+                Debug.Log(WorldMaster.instance.GetEmpty());
+                if (WorldMaster.instance.GetEmpty())
+                {
+                    WorldMaster.instance.UnloadCurrentBattleScene();
+                    Debug.Log("Unloading");
+                }
                 break;
         }
     }
@@ -166,7 +172,7 @@ public class BattleMaster : MonoBehaviour
     public void StartBattle(BattleMember player, BattleMember[] enemies)
     {
         this.player = player;
-        this.enemy = enemies[0];
+        enemy = enemies[0];
     }
 
     private void EndBattle()
