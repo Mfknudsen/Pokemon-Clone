@@ -5,14 +5,15 @@ using TMPro;
 using Trainer;
 using BattleUI;
 
-public enum MasterState { Starting, ChoosingMove, AI, Checking, Action, RoundDone, SelectNew }
+public enum MasterState { Setup, Starting, ChoosingMove, AI, Checking, Action, RoundDone, SelectNew }
 
 public enum Weather { Rain, HarshSunlight, Hail }
 
 public class BattleMaster : MonoBehaviour
 {
-    public static BattleMaster Master;
-    public static MasterState state = 0;
+    #region Values
+    public static BattleMaster instance;
+    public MasterState state = 0;
     public static Weather weather = 0;
 
     [Header("Members:")]
@@ -51,36 +52,39 @@ public class BattleMaster : MonoBehaviour
     public TextMeshProUGUI[] buttonsText = new TextMeshProUGUI[4];
     [Header(" -- Selectio Menu:")]
     public GameObject selectionMenu = null;
+    #endregion
 
     private void Start()
     {
-        if (Master == null)
-            Master = this;
-        else
-            Destroy(gameObject);
+        instance = this;
 
-        display.DisplayNewText("You are challenged by " + enemy.name + "!");
-        selectionMenu.SetActive(false);
-
-        state = MasterState.Starting;
+        state = MasterState.Setup;
     }
 
     private void Update()
     {
         switch (state)
         {
-            case MasterState.Starting:
-                if (player.GetTeam().GetReady() && enemy.GetTeam().GetReady())
+            case MasterState.Setup:
+                if (player != null && enemy != null && ChatMaster.instance != null)
                 {
-                    Setup();
+                    if (ChatMaster.instance.GetIsClear())
+                        state = MasterState.Starting;
+                }
+                break;
 
+            case MasterState.Starting:
+                player.GetTeam().Setup();
+                enemy.GetTeam().Setup();
+
+                Setup();
+
+                BattleEnemy enemyChat = enemy as BattleEnemy;
+
+                ChatMaster.instance.Add(enemyChat.GetStartChat());
+
+                if (ChatMaster.instance.GetIsClear() && playerPokemon != null && enemyPokemon != null)
                     state = MasterState.ChoosingMove;
-                }
-                else
-                {
-                    player.GetTeam().Setup();
-                    enemy.GetTeam().Setup();
-                }
                 break;
 
             case MasterState.ChoosingMove:
@@ -140,8 +144,6 @@ public class BattleMaster : MonoBehaviour
                 break;
 
             case MasterState.RoundDone:
-                Debug.Log("Done");
-
                 if (playerPokemon.GetCurrentHealth() == 0)
                 {
                     Debug.Log("You Lose!");
@@ -163,7 +165,8 @@ public class BattleMaster : MonoBehaviour
 
     public void StartBattle(BattleMember player, BattleMember[] enemies)
     {
-
+        this.player = player;
+        this.enemy = enemies[0];
     }
 
     private void EndBattle()

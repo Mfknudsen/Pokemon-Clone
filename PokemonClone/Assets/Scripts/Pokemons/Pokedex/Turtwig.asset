@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonName: Turtwig
   types:
-  - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
+  - {fileID: 11400000, guid: 01191abd2a7c6c743977edc974b40780, type: 2}
   - {fileID: 0}
   ability: {fileID: 11400000, guid: e64e1a76aa56a4348b987b30c26ee8f4, type: 2}
   description: 
@@ -26,7 +26,8 @@ MonoBehaviour:
   specialAttack: 20
   speed: 10
   level: 5
-  exp: 0
+  maxExp: 0
+  currentExp: 0
   learnedMoves:
   - {fileID: 11400000, guid: 9b5925b9daf5f7340b656f336b0b7bcf, type: 2}
   - {fileID: 11400000, guid: 631a5d7eba664934d973917dcb7ba22f, type: 2}

@@ -22,3 +22,4 @@ MonoBehaviour:
   weakness:
   - {fileID: 11400000, guid: 37b6af3d66cc57b4986b19982cd67823, type: 2}
   - {fileID: 11400000, guid: 5653934b9bb928a489ebfca52f5710d6, type: 2}
+  - {fileID: 11400000, guid: 5f5047f919ac51449bce1b9570d935c8, type: 2}

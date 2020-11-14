@@ -61,9 +61,12 @@
     <Compile Include="Assets\Scripts\Player\MasterPlayer.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Pokedex\Pokemon.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
+    <Compile Include="Assets\Scripts\Chat\Chat.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Ability\Ability.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
     <Compile Include="Assets\Scripts\Battle\AI\EasyAI.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleEnemy.cs" />
+    <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Moves\PokemonMove.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleAction.cs" />
     <Compile Include="Assets\Scripts\Player\Team.cs" />
@@ -74,9 +77,9 @@
     <Compile Include="Assets\Scripts\Battle\BattleDisplay.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Types\Type.cs" />
     <Compile Include="Assets\TestEnemy.cs" />
-    <Compile Include="Assets\Scripts\Pokemons\Ability\Ability.cs" />
-    <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
-    <Compile Include="Assets\Scripts\Chat\Chat.cs" />
+    <Compile Include="Assets\Scripts\Chat\ChatOverride.cs" />
+    <Compile Include="Assets\Scripts\World\WorldMaster.cs" />
+    <Compile Include="Assets\Scripts\Chat\TextField.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

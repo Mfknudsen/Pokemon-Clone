@@ -5,10 +5,10 @@ using Trainer;
 
 public class BattleEnemy : BattleMember
 {
-    [SerializeField] private Chat startChat = null;
+    [SerializeField] private Chat[] startChat = new Chat[1];
     [SerializeField] private Chat[] endChat = new Chat[2];
 
-    public Chat GetStartChat()
+    public Chat[] GetStartChat()
     {
         return startChat;
     }

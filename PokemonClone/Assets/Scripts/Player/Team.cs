@@ -9,11 +9,6 @@ namespace Trainer
         [SerializeField] private Pokemon[] pokemons = new Pokemon[6];
         private bool ready = false;
 
-        public bool GetReady()
-        {
-            return ready;
-        }
-
         public void Setup()
         {
             for (int i = 0; i < pokemons.Length; i++)
@@ -27,13 +22,10 @@ namespace Trainer
             ready = true;
         }
 
-        public void SwitchTeamPlaces(int from, int to)
+        public bool GetReady()
         {
-            Pokemon toStore = pokemons[to];
-            pokemons[to] = pokemons[from];
-            pokemons[from] = toStore;
+            return ready;
         }
-
         public Pokemon GetPokemonByIndex(int index)
         {
             if (index >= 0 && index <= 5) {
@@ -42,6 +34,27 @@ namespace Trainer
             }
 
             return null;
+        }
+
+        public void SwitchTeamPlaces(int from, int to)
+        {
+            Pokemon toStore = pokemons[to];
+            pokemons[to] = pokemons[from];
+            pokemons[from] = toStore;
+        }
+
+        public int HasMorePokemon()
+        {
+            for (int i = 1; i < pokemons.Length; i++)
+            {
+                if(pokemons[i] != null)
+                {
+                    if (pokemons[i].GetHealth() != 0)
+                        return i;
+                }
+            }
+
+            return -1;
         }
     }
 }
