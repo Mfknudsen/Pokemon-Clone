@@ -22,6 +22,7 @@ public class BattleMathf : MonoBehaviour
         result += 2;
         foreach (float modifier in modifiers)
             result *= modifier;
+
         return (int)result;
     }
 
@@ -89,7 +90,7 @@ public class BattleMathf : MonoBehaviour
         else if (type != 0)
         {
             type += (0.5f * toCheck[0].GetWeakness(attackType)) - (0.5f * toCheck[0].GetResistance(attackType));
-            
+
 
         }
 

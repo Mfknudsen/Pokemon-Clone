@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Pound
   m_EditorClassIdentifier: 
   priority: 2
+  currentPokemon: {fileID: 0}
+  targetPokemon: []
+  moveActive: 0
+  chatOnActivation:
+  - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
   index: 1
   moveName: Pound
   type: {fileID: 11400000, guid: 5f5047f919ac51449bce1b9570d935c8, type: 2}

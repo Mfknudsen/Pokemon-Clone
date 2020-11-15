@@ -101,35 +101,49 @@ public class ChatMaster : MonoBehaviour
     }
     #endregion
 
-    public void Play(Chat toPlay)
-    {
-        textField.gameObject.SetActive(true);
-
-        running = toPlay;
-        running.CheckTextOverride();
-        coroutine = StartCoroutine(running.Play());
-    }
-
     public void Add(Chat[] toAdd)
     {
-        if (running == null)
+        if (toAdd.Length > 0)
         {
-            if (toAdd[0] != null)
-                Play(Instantiate(toAdd[0]));
-
-            if (toAdd.Length > 1)
+            if (running == null)
             {
-                for (int i = 1; i < toAdd.Length; i++)
+                if (toAdd[0] != null)
                 {
-                    if (toAdd[i] != null)
-                        waitlist.Add(Instantiate(toAdd[i]));
+                    if (toAdd[0].GetIsInstantiated())
+                        Play(toAdd[0]);
+                    else
+                        Play(Instantiate(toAdd[0]));
+                }
+
+                if (toAdd.Length > 1)
+                {
+                    for (int i = 1; i < toAdd.Length; i++)
+                    {
+                        if (toAdd[i] != null)
+                        {
+                            waitlist.Add(Instantiate(toAdd[i]));
+
+                            if (toAdd[i] != null)
+                            {
+                                if (toAdd[i].GetIsInstantiated())
+                                    waitlist.Add(toAdd[i]);
+                                else
+                                    waitlist.Add(Instantiate(toAdd[i]));
+                            }
+                        }
+                    }
                 }
             }
-        }
-        else
-        {
-            foreach (Chat c in toAdd)
-                waitlist.Add(Instantiate(c));
+            else
+            {
+                foreach (Chat c in toAdd)
+                {
+                    if (c.GetIsInstantiated())
+                        waitlist.Add(c);
+                    else
+                        waitlist.Add(Instantiate(c));
+                }
+            }
         }
     }
 
@@ -142,5 +156,13 @@ public class ChatMaster : MonoBehaviour
         {
             running.SetDone(true);
         }
+    }
+
+    public void Play(Chat toPlay)
+    {
+        textField.gameObject.SetActive(true);
+
+        running = toPlay;
+        coroutine = StartCoroutine(running.Play());
     }
 }

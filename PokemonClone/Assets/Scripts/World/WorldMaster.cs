@@ -38,7 +38,7 @@ public class WorldMaster : MonoBehaviour
 
     private void Update()
     {
-        if (player != null)
+        if (player != null && false)
         {
             if (Input.GetKeyDown(KeyCode.Space) && currentOperation == null)
             {

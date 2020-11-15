@@ -24,9 +24,15 @@ namespace BattleUI
 
         private void Update()
         {
-            if (pokemon != null) {
-                healthDisplay.text = pokemon.GetHealth() + " / " + pokemon.GetCurrentHealth();
-                healthBar.SetCurrentBar(pokemon.GetCurrentHealth());
+            if (pokemon != null)
+            {
+                float healthToDisplay = pokemon.GetCurrentHealth();
+
+                if (healthToDisplay < 1 && healthToDisplay > 0)
+                    healthToDisplay = 1;
+
+                healthDisplay.text = pokemon.GetHealth() + " / " + (int)healthToDisplay;
+                healthBar.SetCurrentBar(healthToDisplay);
             }
         }
     }

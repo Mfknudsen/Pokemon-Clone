@@ -14,12 +14,17 @@ public class Pokemon : ScriptableObject
 
     [Header("Stats:")]
     [SerializeField] private int health = 0;
-    [SerializeField] private int currentHealth = 0;
+    [SerializeField] private float currentHealth = 0;
     [SerializeField] private int defence = 0, specialDefence = 0;
     [SerializeField] private int attack = 0, specialAttack = 0;
     [SerializeField] private int speed = 0;
     [SerializeField] private int level = 0, maxExp = 0;
     [SerializeField] private int currentExp = 0;
+
+    [Header("Evolotion:")]
+    [SerializeField] private bool canEvolve = true;
+    [SerializeField] Pokemon evolveTo = null;
+    [SerializeField] int evolutionLevel = 0;
 
     [Header("Moves:")]
     [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
@@ -93,7 +98,7 @@ public class Pokemon : ScriptableObject
         return pokemonName;
     }
 
-    public int GetCurrentHealth()
+    public float GetCurrentHealth()
     {
         return currentHealth;
     }
@@ -189,7 +194,7 @@ public class Pokemon : ScriptableObject
     #endregion
 
     #region In
-    public void RecieveDamage(int damage)
+    public void RecieveDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, health);
     }

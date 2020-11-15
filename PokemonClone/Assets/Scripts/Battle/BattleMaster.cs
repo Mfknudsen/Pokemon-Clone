@@ -39,7 +39,9 @@ public class BattleMaster : MonoBehaviour
     [Header(" -- Checking:")]
     [SerializeField] private List<BattleAction> instantActions = new List<BattleAction>(), fastActions = new List<BattleAction>(), normalActions = new List<BattleAction>(), slowActions = new List<BattleAction>();
     [Header(" -- Actions:")]
-    Vector2 v2placeholder;
+    [SerializeField] float secondsPerPokemonMove = 1;
+    [SerializeField] private int actionIndex = 0;
+    Coroutine actionOperation = null;
     [Header(" -- Select New:")]
     Vector3 v3placeholder;
 
@@ -120,27 +122,49 @@ public class BattleMaster : MonoBehaviour
                 break;
 
             case MasterState.Action:
-                foreach (PokemonMove action in normalActions)
+                PokemonMove action = null;
+                if (actionIndex >= 0 && actionIndex < normalActions.Count)
+                    action = normalActions[actionIndex] as PokemonMove;
+
+                if (actionOperation == null && ChatMaster.instance.GetIsClear())
                 {
-                    bool check = true;
+                    if (action != null)
+                    {
+                        bool check = true;
 
-                    if (action == playerAction && playerPokemon.GetCurrentHealth() == 0)
-                        check = false;
-                    else if (action == enemyAction && enemyPokemon.GetCurrentHealth() == 0)
-                        check = false;
+                        if (action == playerAction && playerPokemon.GetCurrentHealth() == 0)
+                            check = false;
+                        else if (action == enemyAction && enemyPokemon.GetCurrentHealth() == 0)
+                            check = false;
 
-                    if (check)
-                        action.Activate();
+                        if (check)
+                        {
+                            actionOperation = StartCoroutine(action.Activate());
+                        }
+                    }
                 }
+                else if (actionOperation != null)
+                {
+                    if (action.IsDone())
+                    {
+                        actionOperation = null;
+                        action = null;
+                        actionIndex++;
 
-                normalActions.Clear();
-                enemyAction = null;
-                playerAction = null;
+                        if (ChatMaster.instance.GetIsClear())
+                        {
+                            actionIndex = 0;
+                            normalActions.Clear();
+                            enemyAction = null;
+                            playerAction = null;
 
-                if (playerPokemon.GetCurrentHealth() == 0 || enemyPokemon.GetCurrentHealth() == 0)
-                    state = MasterState.RoundDone;
-                else
-                    state = MasterState.ChoosingMove;
+                            if (playerPokemon.GetCurrentHealth() == 0 || enemyPokemon.GetCurrentHealth() == 0)
+                                state = MasterState.RoundDone;
+                            else
+                                state = MasterState.ChoosingMove;
+                        }
+                    }
+                }
                 break;
 
             case MasterState.RoundDone:
@@ -159,7 +183,6 @@ public class BattleMaster : MonoBehaviour
                 break;
 
             case MasterState.SelectNew:
-                Debug.Log(WorldMaster.instance.GetEmpty());
                 if (WorldMaster.instance.GetEmpty())
                 {
                     WorldMaster.instance.UnloadCurrentBattleScene();
@@ -168,6 +191,13 @@ public class BattleMaster : MonoBehaviour
                 break;
         }
     }
+
+    #region Getters
+    public float GetSecPerPokeMove()
+    {
+        return secondsPerPokemonMove;
+    }
+    #endregion
 
     public void StartBattle(BattleMember player, BattleMember[] enemies)
     {

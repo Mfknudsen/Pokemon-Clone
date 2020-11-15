@@ -28,6 +28,9 @@ MonoBehaviour:
   level: 5
   maxExp: 0
   currentExp: 0
+  canEvolve: 1
+  evolveTo: {fileID: 0}
+  evolutionLevel: 0
   learnedMoves:
   - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
   - {fileID: 0}

@@ -6,12 +6,18 @@ using UnityEngine;
 public class Chat : ScriptableObject
 {
     [Header("Object Reference:")]
+    protected bool isInstantiated = false;
     [SerializeField] protected string location = "";
     [SerializeField, TextArea] protected string description = "";
     [SerializeField, TextArea] protected string[] textList = new string[0];
 
     [Header("Continuation:")]
     [SerializeField] protected bool needInput = true;
+    [SerializeField] protected int time;
+
+    [Header("Overriding:")]
+    [SerializeField] protected List<string> replaceString = new List<string>();
+    [SerializeField] protected List<string> addString = new List<string>();
 
     [Header("Text Animation:")]
     protected string showText = "";
@@ -20,6 +26,11 @@ public class Chat : ScriptableObject
     protected int nextCharacter = 0;
 
     #region Getters/Setters
+    public bool GetIsInstantiated()
+    {
+        return isInstantiated;
+    }
+
     public bool GetDone()
     {
         return done;
@@ -30,9 +41,19 @@ public class Chat : ScriptableObject
         return (index < textList.Length - 1);
     }
 
+    public void SetIsInstantiated()
+    {
+        isInstantiated = true;
+    }
+
     public void SetDone(bool set)
     {
         done = set;
+
+        showText = "";
+        index = 0;
+        active = false;
+        nextCharacter = 0;
     }
     #endregion
 
@@ -44,9 +65,19 @@ public class Chat : ScriptableObject
         waiting = false;
     }
 
-    public virtual void CheckTextOverride()
+    public void AddToOverride(string replace, string add)
     {
+        replaceString.Add(replace);
+        addString.Add(add);
+    }
 
+    protected virtual void CheckTextOverride()
+    {
+        for (int i = 0; i < textList.Length; i++)
+        {
+            for (int j = 0; j < replaceString.Count; j++)
+                textList[i] = textList[i].Replace(replaceString[j], addString[j]);
+        }
     }
 
     public IEnumerator Play()
@@ -55,6 +86,9 @@ public class Chat : ScriptableObject
         {
             if (!active)
             {
+                index = 0;
+                CheckTextOverride();
+                done = false;
                 active = true;
             }
 
@@ -73,10 +107,13 @@ public class Chat : ScriptableObject
                     nextCharacter++;
                     relativSpeed *= 1.5f;
                 }
-                else if (nextCharacter <= fromList.Length)
+                else if (nextCharacter < fromList.Length)
                 {
                     showText += fromList[nextCharacter];
                 }
+
+                if (showText.Length != 0)
+                    ChatMaster.instance.SetDisplayText(showText);
 
                 if (showText.Length < fromList.Length)
                 {
@@ -84,12 +121,9 @@ public class Chat : ScriptableObject
                 }
                 else if (showText.Length == fromList.Length)
                 {
-
                     ChatMaster.instance.CheckRunningState();
                     waiting = true;
                 }
-
-                ChatMaster.instance.SetDisplayText(showText);
                 yield return new WaitForSeconds(relativSpeed);
             }
             while (waiting)

@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: KarateChop
   m_EditorClassIdentifier: 
   priority: 2
+  currentPokemon: {fileID: 0}
+  targetPokemon: []
+  moveActive: 0
+  chatOnActivation:
+  - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
   index: 2
   moveName: Karate Chop
   type: {fileID: 11400000, guid: 0b95b520435267647b230846d0eefffb, type: 2}
