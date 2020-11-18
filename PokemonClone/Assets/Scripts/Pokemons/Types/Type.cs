@@ -24,19 +24,17 @@ public enum TypeName
     Fairy
 }
 
-[CreateAssetMenu(fileName = "Type", menuName = "Pokemon/Create new Type", order = 3)]
+[CreateAssetMenu(fileName = "Type", menuName = "Pokemon/Create new Type", order = 4)]
 public class Type : ScriptableObject
 {
+    #region Values
     [SerializeField] private TypeName typeName = 0;
     [SerializeField] private Type[] noEffect = new Type[0];
     [SerializeField] private Type[] resistances = new Type[0];
     [SerializeField] private Type[] weakness = new Type[0];
+    #endregion
 
-    public void Setup()
-    {
-
-    }
-
+    #region Getters
     public TypeName GetTypeName()
     {
         return typeName;
@@ -78,4 +76,5 @@ public class Type : ScriptableObject
 
         return result;
     }
+    #endregion
 }

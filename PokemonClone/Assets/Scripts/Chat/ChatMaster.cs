@@ -5,13 +5,13 @@ using TMPro;
 
 public class ChatMaster : MonoBehaviour
 {
+    #region Values
     [Header("Object Reference:")]
     public static ChatMaster instance;
     [SerializeField] private bool empty = true;
     [SerializeField] private Chat running = null;
     [SerializeField] private List<Chat> waitlist = new List<Chat>();
     Coroutine coroutine = null;
-    public bool ACTIVE = false;
 
     [Header("Display:")]
     [SerializeField] private TextMeshProUGUI textField = null;
@@ -20,6 +20,7 @@ public class ChatMaster : MonoBehaviour
 
     [Header("Chat Settings:")]
     [SerializeField] private float textPerSecond = 0;
+    #endregion
 
     private void Start()
     {
@@ -37,11 +38,9 @@ public class ChatMaster : MonoBehaviour
         if (textField == null)
             textField = TextField.instance;
 
-        ACTIVE = (coroutine != null);
-
         if (waitForInput)
         {
-            if (Input.GetKeyDown(continueKey))
+            if (Input.GetKeyDown(continueKey) || !running.GetNeedInput())
             {
                 if (running != null)
                 {
@@ -50,24 +49,21 @@ public class ChatMaster : MonoBehaviour
                     else
                         coroutine = StartCoroutine(running.PlayNext());
                 }
-                else if (waitlist.Count > 0)
-                {
-                    Play(waitlist[0]);
-                    waitlist.RemoveAt(0);
-                }
 
                 waitForInput = false;
             }
         }
 
         if (running == null && waitlist.Count > 0)
-        {
-            running = waitlist[0];
-            waitlist.RemoveAt(0);
-
-            Play(running);
-        }
+            PlayNextInLine();
     }
+
+    #region Defaults
+    public void DefaultTextSpeed()
+    {
+        textPerSecond = 20;
+    }
+    #endregion
 
     #region Getters
     public bool GetIsClear()
@@ -99,63 +95,39 @@ public class ChatMaster : MonoBehaviour
         textField = newTextField;
         textField.text = currentText;
     }
+
+    public void SetTextSpeed(float speed)
+    {
+        textPerSecond = speed;
+    }
     #endregion
 
+    #region In
     public void Add(Chat[] toAdd)
     {
-        if (toAdd.Length > 0)
-        {
-            if (running == null)
-            {
-                if (toAdd[0] != null)
-                {
-                    if (toAdd[0].GetIsInstantiated())
-                        Play(toAdd[0]);
-                    else
-                        Play(Instantiate(toAdd[0]));
-                }
-
-                if (toAdd.Length > 1)
-                {
-                    for (int i = 1; i < toAdd.Length; i++)
-                    {
-                        if (toAdd[i] != null)
-                        {
-                            waitlist.Add(Instantiate(toAdd[i]));
-
-                            if (toAdd[i] != null)
-                            {
-                                if (toAdd[i].GetIsInstantiated())
-                                    waitlist.Add(toAdd[i]);
-                                else
-                                    waitlist.Add(Instantiate(toAdd[i]));
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                foreach (Chat c in toAdd)
-                {
-                    if (c.GetIsInstantiated())
-                        waitlist.Add(c);
-                    else
-                        waitlist.Add(Instantiate(c));
-                }
-            }
-        }
+        foreach (Chat c in toAdd)
+            waitlist.Add(c.GetChat());
     }
+    #endregion
 
+    #region Internal
     public void CheckRunningState()
     {
         waitForInput = true;
         coroutine = null;
 
-        if (!running.HasMore())
+        if (!running.GetHasMore())
         {
             running.SetDone(true);
         }
+    }
+
+    private void PlayNextInLine()
+    {
+        running = waitlist[0];
+        waitlist.RemoveAt(0);
+
+        Play(running);
     }
 
     public void Play(Chat toPlay)
@@ -165,4 +137,5 @@ public class ChatMaster : MonoBehaviour
         running = toPlay;
         coroutine = StartCoroutine(running.Play());
     }
+    #endregion
 }

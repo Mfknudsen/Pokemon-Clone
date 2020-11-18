@@ -34,8 +34,9 @@ public class Pokemon : ScriptableObject
     private Dictionary<int, PokemonMove> learnableMoves = new Dictionary<int, PokemonMove>();
 
     [Header("Visual:")]
-    [SerializeField] private Vector2 spriteOffset = Vector2.zero;
     [SerializeField] private GameObject prefab = null;
+    [SerializeField] private Vector2 spriteOffset = Vector2.zero;
+    [SerializeField] private Sprite frontSprite = null, backSprite = null;
     private GameObject spawnedObject = null;
     [Header(" -- Animation:")]
     private Animator anim = null;
@@ -165,12 +166,21 @@ public class Pokemon : ScriptableObject
     #endregion
 
     #region Out
-    public void SpawnPokemon(Transform transform)
+    public void SpawnPokemon(Transform transform, bool back)
     {
-        spawnedObject = Instantiate(prefab);
-        spawnedObject.transform.position = transform.position;
-        spawnedObject.transform.rotation = transform.rotation;
-        spawnedObject.transform.parent = transform;
+        if (spawnedObject == null)
+        {
+            spawnedObject = Instantiate(prefab);
+            spawnedObject.transform.position = transform.position;
+            spawnedObject.transform.rotation = transform.rotation;
+            spawnedObject.transform.parent = transform;
+            SpriteRenderer SR = spawnedObject.AddComponent<SpriteRenderer>();
+
+            if (back)
+                SR.sprite = backSprite;
+            else
+                SR.sprite = frontSprite;
+        }
     }
 
     public void DespawnPokemon()

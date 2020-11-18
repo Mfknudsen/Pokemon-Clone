@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97d662b8124f3b43a5e5ed4ee9b14c0, type: 3}
+  m_Name: Earthquake
+  m_EditorClassIdentifier: 
+  priority: 2
+  currentPokemon: {fileID: 0}
+  targetPokemon: []
+  moveActive: 0
+  chatOnActivation:
+  - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
+  index: 89
+  moveName: Earthquake
+  type: {fileID: 11400000, guid: 38567af638dd2c04eb5bf1cb436fa9d0, type: 2}
+  category: 0
+  contest: 1
+  maxPP: 10
+  power: 100
+  accuracy: 100

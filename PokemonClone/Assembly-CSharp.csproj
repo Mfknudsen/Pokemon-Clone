@@ -66,8 +66,10 @@
     <Compile Include="Assets\Scripts\Pokemons\Ability\Ability.cs" />
     <Compile Include="Assets\Scripts\World\WorldMaster.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
+    <Compile Include="Assets\Scripts\Pokemons\Conditions\Condition.cs" />
     <Compile Include="Assets\Scripts\Battle\AI\EasyAI.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleEnemy.cs" />
+    <Compile Include="Assets\Scripts\World\Overworld\Tileset.cs" />
     <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Moves\PokemonMove.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleAction.cs" />
@@ -76,11 +78,11 @@
     <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Battle\PokemonDisplay.cs" />
     <Compile Include="Assets\Scripts\Battle\BattlePlayer.cs" />
+    <Compile Include="Assets\Scripts\World\Overworld\Tile.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleDisplay.cs" />
     <Compile Include="Assets\Scripts\Pokemons\Types\Type.cs" />
     <Compile Include="Assets\TestEnemy.cs" />
-    <Compile Include="Assets\Scripts\World\Overworld\Tileset.cs" />
-    <Compile Include="Assets\Scripts\World\Overworld\Tile.cs" />
+    <Compile Include="Assets\Scripts\Menu\StartMenu\MainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

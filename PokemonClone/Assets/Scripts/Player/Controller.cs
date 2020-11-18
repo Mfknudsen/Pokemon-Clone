@@ -6,6 +6,7 @@ namespace Player
 {
     public class Controller : MonoBehaviour
     {
+        #region Values
         [Header("Object Reference:")]
         [SerializeField] private Animator anim = null;
 
@@ -13,6 +14,7 @@ namespace Player
         [SerializeField] private Transform moveOrigin = null;
         [SerializeField] private float speed = 0;
         [SerializeField] private Vector2 moveDir = Vector2.zero;
+        #endregion
 
         private void Start()
         {
@@ -27,6 +29,7 @@ namespace Player
             Move();
         }
 
+        #region In
         private void GetInputFromSystem()
         {
             moveDir.x = Input.GetAxis("Horizontal");
@@ -45,7 +48,9 @@ namespace Player
             else
                 moveDir.y = 0;
         }
+        #endregion
 
+        #region Internal
         private void SetAnimator()
         {
             anim.SetInteger("Horizontal", (int)moveDir.x);
@@ -56,5 +61,6 @@ namespace Player
         {
             moveOrigin.transform.position += new Vector3(moveDir.x, moveDir.y, 0) * speed * Time.deltaTime;
         }
+        #endregion
     }
 }

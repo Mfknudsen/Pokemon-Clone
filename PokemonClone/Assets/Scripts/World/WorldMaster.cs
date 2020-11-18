@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class WorldMaster : MonoBehaviour
 {
+    #region Values
     [Header("Object Reference:")]
     public static WorldMaster instance;
     public BattleMember player = null, enemy = null;
@@ -17,35 +18,17 @@ public class WorldMaster : MonoBehaviour
 
     [Header("Battle Scene:")]
     [SerializeField] private string currentLoadedBattleScene = "";
+    #endregion
 
     private void Start()
     {
         if (instance == null)
         {
-            player.GetTeam().Setup();
-            enemy.GetTeam().Setup();
-
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-
-        if (enemy != null)
-            DontDestroyOnLoad(enemy.gameObject);
-    }
-
-    private void Update()
-    {
-        if (player != null && false)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && currentOperation == null)
-            {
-                currentOperation = StartCoroutine(LoadBattleSceneAsync("TestBattle", true));
-                currentLoadedBattleScene = "TestBattle";
-            }
-        }
     }
 
     #region Getters
@@ -60,10 +43,17 @@ public class WorldMaster : MonoBehaviour
     }
     #endregion
 
+    #region In
+    public void LoadTestBattleScene()
+    {
+        currentOperation = StartCoroutine(LoadBattleSceneAsync("TestBattle", false));
+    }
+
     public void UnloadCurrentBattleScene()
     {
         currentOperation = StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene));
     }
+    #endregion
 
     #region Load/Unload Battle Scene
     private IEnumerator LoadBattleSceneAsync(string sceneName, bool additive)

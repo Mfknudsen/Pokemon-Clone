@@ -8,12 +8,19 @@ namespace Player
     public class MasterPlayer : MonoBehaviour
     {
         [Header("Object Reference:")]
+        public static MasterPlayer instance = null;
         public Team team;
         public Controller controller;
 
-        private void Awake()
+        private void Start()
         {
-            DontDestroyOnLoad(gameObject);
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
         }
     }
 }

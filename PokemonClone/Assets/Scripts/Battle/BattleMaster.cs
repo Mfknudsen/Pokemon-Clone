@@ -40,6 +40,7 @@ public class BattleMaster : MonoBehaviour
     [SerializeField] private List<BattleAction> instantActions = new List<BattleAction>(), fastActions = new List<BattleAction>(), normalActions = new List<BattleAction>(), slowActions = new List<BattleAction>();
     [Header(" -- Actions:")]
     [SerializeField] float secondsPerPokemonMove = 1;
+    [SerializeField] PokemonMove currentPokeMove = null;
     [SerializeField] private int actionIndex = 0;
     Coroutine actionOperation = null;
     [Header(" -- Select New:")]
@@ -54,11 +55,17 @@ public class BattleMaster : MonoBehaviour
     public TextMeshProUGUI[] buttonsText = new TextMeshProUGUI[4];
     [Header(" -- Selectio Menu:")]
     public GameObject selectionMenu = null;
+
+    [Header("Chat:")]
+    [SerializeField] private Chat SwitchChat = null;
     #endregion
 
     private void Start()
     {
         instance = this;
+
+        if (player == null)
+            player = Player.MasterPlayer.instance.gameObject.GetComponent<BattlePlayer>();
 
         state = MasterState.Setup;
     }
@@ -68,129 +75,201 @@ public class BattleMaster : MonoBehaviour
         switch (state)
         {
             case MasterState.Setup:
-                if (player != null && enemy != null && ChatMaster.instance != null)
-                {
-                    if (ChatMaster.instance.GetIsClear())
-                        state = MasterState.Starting;
-                }
+                Setup();
                 break;
 
             case MasterState.Starting:
-                player.GetTeam().Setup();
-                enemy.GetTeam().Setup();
-
-                Setup();
-
-                BattleEnemy enemyChat = enemy as BattleEnemy;
-
-                ChatMaster.instance.Add(enemyChat.GetStartChat());
-
-                if (ChatMaster.instance.GetIsClear() && playerPokemon != null && enemyPokemon != null)
-                    state = MasterState.ChoosingMove;
+                Starting();
                 break;
 
             case MasterState.ChoosingMove:
-                if (!turnDisplay.activeSelf)
-                {
-                    turnDisplay.SetActive(true);
-                    DisplayForPokemon();
-                }
-
-                if (playerAction != null)
-                    state = MasterState.AI;
+                ChoosingMove();
                 break;
 
             case MasterState.AI:
-                //
-                // For TEST without AI
-                if (enemyAction == null)
-                {
-                    enemyAction = Instantiate(enemyPokemon.GetMoveByIndex(0));
-                    PokemonMove move = enemyAction as PokemonMove;
-                    move.SetCurrentPokemon(enemyPokemon);
-                    move.SetTargetPokemon(new Pokemon[] { playerPokemon });
-                }
-                state = MasterState.Checking;
+                AI();
                 break;
 
             case MasterState.Checking:
-                turnDisplay.SetActive(false);
-
-                CheckActions();
-
-                state = MasterState.Action;
+                Checking();
                 break;
 
             case MasterState.Action:
-                PokemonMove action = null;
-                if (actionIndex >= 0 && actionIndex < normalActions.Count)
-                    action = normalActions[actionIndex] as PokemonMove;
-
-                if (actionOperation == null && ChatMaster.instance.GetIsClear())
-                {
-                    if (action != null)
-                    {
-                        bool check = true;
-
-                        if (action == playerAction && playerPokemon.GetCurrentHealth() == 0)
-                            check = false;
-                        else if (action == enemyAction && enemyPokemon.GetCurrentHealth() == 0)
-                            check = false;
-
-                        if (check)
-                        {
-                            actionOperation = StartCoroutine(action.Activate());
-                        }
-                    }
-                }
-                else if (actionOperation != null)
-                {
-                    if (action.IsDone())
-                    {
-                        actionOperation = null;
-                        action = null;
-                        actionIndex++;
-
-                        if (ChatMaster.instance.GetIsClear())
-                        {
-                            actionIndex = 0;
-                            normalActions.Clear();
-                            enemyAction = null;
-                            playerAction = null;
-
-                            if (playerPokemon.GetCurrentHealth() == 0 || enemyPokemon.GetCurrentHealth() == 0)
-                                state = MasterState.RoundDone;
-                            else
-                                state = MasterState.ChoosingMove;
-                        }
-                    }
-                }
+                Action();
                 break;
 
             case MasterState.RoundDone:
-                if (playerPokemon.GetCurrentHealth() == 0)
-                {
-                    Debug.Log("You Lose!");
-                    playerPokemon = null;
-                }
-                else if (enemyPokemon.GetCurrentHealth() == 0)
-                {
-                    Debug.Log("You Win!");
-                    enemyPokemon = null;
-                }
-
-                state = MasterState.SelectNew;
+                RoundDone();
                 break;
 
             case MasterState.SelectNew:
-                if (WorldMaster.instance.GetEmpty())
-                {
-                    WorldMaster.instance.UnloadCurrentBattleScene();
-                    Debug.Log("Unloading");
-                }
+                SelectNew();
                 break;
         }
     }
+
+    #region States
+    private void Setup()
+    {
+        BattleEnemy enemyChat = enemy as BattleEnemy;
+
+        ChatMaster.instance.Add(enemyChat.GetStartChat());
+
+        state = MasterState.Starting;
+    }
+
+    private void Starting()
+    {
+        if (ChatMaster.instance.GetIsClear())
+        {
+            if (playerPokemon != null && enemyPokemon != null)
+            {
+                state = MasterState.ChoosingMove;
+            }
+            else if (playerPokemon == null && enemyPokemon == null)
+            {
+                if (!player.GetTeam().GetReady())
+                    player.GetTeam().Setup();
+                playerPokemon = player.GetTeam().GetPokemonByIndex(0);
+                playerPokemonDisplay.SetNewPokemon(playerPokemon);
+                playerPokemon.SpawnPokemon(playerTransform, true);
+
+                if (!enemy.GetTeam().GetReady())
+                    enemy.GetTeam().Setup();
+                enemyPokemon = enemy.GetTeam().GetPokemonByIndex(0);
+                enemyPokemonDisplay.SetNewPokemon(enemyPokemon);
+                enemyPokemon.SpawnPokemon(enemyTransform, false);
+            }
+        }
+    }
+
+    private void ChoosingMove()
+    {
+        if (!turnDisplay.activeSelf)
+        {
+            turnDisplay.SetActive(true);
+            DisplayForPokemon();
+        }
+
+        if (playerAction != null)
+            state = MasterState.AI;
+    }
+
+    private void AI()
+    {
+        //
+        // For TEST without AI
+        if (enemyAction == null)
+        {
+            enemyAction = Instantiate(enemyPokemon.GetMoveByIndex(0));
+            PokemonMove move = enemyAction as PokemonMove;
+            move.SetCurrentPokemon(enemyPokemon);
+            move.SetTargetPokemon(new Pokemon[] { playerPokemon });
+        }
+        state = MasterState.Checking;
+    }
+
+    private void Checking()
+    {
+        turnDisplay.SetActive(false);
+
+        CheckActions();
+
+        state = MasterState.Action;
+    }
+
+    private void Action()
+    {
+        PokemonMove action = null;
+        if (actionIndex >= 0 && actionIndex < normalActions.Count)
+            action = normalActions[actionIndex] as PokemonMove;
+
+        if (actionOperation == null && ChatMaster.instance.GetIsClear())
+        {
+            if (action != null)
+            {
+                bool check = true;
+
+                if (action == playerAction && playerPokemon.GetCurrentHealth() == 0)
+                    check = false;
+                else if (action == enemyAction && enemyPokemon.GetCurrentHealth() == 0)
+                    check = false;
+
+                if (check)
+                {
+                    actionOperation = StartCoroutine(action.Activate());
+                }
+            }
+            else
+            {
+                actionIndex++;
+                actionOperation = null;
+
+                if (actionIndex == normalActions.Count)
+                {
+                    actionIndex = 0;
+                    normalActions.Clear();
+                    enemyAction = null;
+                    playerAction = null;
+
+                    if (playerPokemon.GetCurrentHealth() == 0 || enemyPokemon.GetCurrentHealth() == 0)
+                        state = MasterState.RoundDone;
+                    else
+                        state = MasterState.ChoosingMove;
+                }
+            }
+        }
+        else if (actionOperation != null)
+        {
+            if (action.IsDone() && ChatMaster.instance.GetIsClear())
+            {
+                actionIndex++;
+                actionOperation = null;
+
+                if (actionIndex == normalActions.Count)
+                {
+                    actionIndex = 0;
+                    normalActions.Clear();
+                    enemyAction = null;
+                    playerAction = null;
+
+                    if (playerPokemon.GetCurrentHealth() == 0 || enemyPokemon.GetCurrentHealth() == 0)
+                        state = MasterState.RoundDone;
+                    else
+                        state = MasterState.ChoosingMove;
+                }
+            }
+        }
+    }
+
+    private void RoundDone()
+    {
+        if (playerPokemon.GetCurrentHealth() == 0)
+        {
+            Debug.Log("You Lose!");
+            playerPokemon = null;
+        }
+        else if (enemyPokemon.GetCurrentHealth() == 0)
+        {
+            Debug.Log("You Win!");
+            enemyPokemon = null;
+        }
+
+        state = MasterState.SelectNew;
+    }
+
+    private void SelectNew()
+    {
+        if (WorldMaster.instance != null)
+        {
+            if (WorldMaster.instance.GetEmpty())
+            {
+                WorldMaster.instance.UnloadCurrentBattleScene();
+                Debug.Log("Unloading");
+            }
+        }
+    }
+    #endregion
 
     #region Getters
     public float GetSecPerPokeMove()
@@ -199,6 +278,23 @@ public class BattleMaster : MonoBehaviour
     }
     #endregion
 
+    #region In
+    public void CheckOnAction()
+    {
+        PokemonMove m = normalActions[actionIndex] as PokemonMove;
+
+        if (m.IsDone())
+        {
+            //Update();
+        }
+    }
+    #endregion
+
+    #region Out
+
+    #endregion
+
+    #region Internal
     public void StartBattle(BattleMember player, BattleMember[] enemies)
     {
         this.player = player;
@@ -208,17 +304,6 @@ public class BattleMaster : MonoBehaviour
     private void EndBattle()
     {
 
-    }
-
-    private void Setup()
-    {
-        playerPokemon = player.GetTeam().GetPokemonByIndex(0);
-        playerPokemonDisplay.SetNewPokemon(playerPokemon);
-        playerPokemon.SpawnPokemon(playerTransform);
-
-        enemyPokemon = enemy.GetTeam().GetPokemonByIndex(0);
-        enemyPokemonDisplay.SetNewPokemon(enemyPokemon);
-        enemyPokemon.SpawnPokemon(enemyTransform);
     }
 
     private void DisplayForPokemon()
@@ -285,17 +370,22 @@ public class BattleMaster : MonoBehaviour
             if (result != null)
             {
                 player.GetTeam().SwitchTeamPlaces(0, i);
-                playerPokemon.DespawnPokemon();
-                playerPokemon = player.GetTeam().GetPokemonByIndex(0);
-                playerPokemon.SpawnPokemon(playerTransform);
-                playerPokemonDisplay.SetNewPokemon(playerPokemon);
 
-                Debug.Log(result.GetName());
+                playerPokemon.DespawnPokemon();
+
+                playerPokemon = player.GetTeam().GetPokemonByIndex(0);
+
+                playerPokemon.SpawnPokemon(playerTransform, true);
+
+                playerPokemonDisplay.SetNewPokemon(playerPokemon);
 
                 selectionMenu.SetActive(false);
 
-                playerAction = playerPokemon.GetMoveByIndex(0);
+                ChatMaster.instance.Add(new Chat[] { SwitchChat.GetChat() });
+
+                state = MasterState.AI;
             }
         }
     }
+    #endregion
 }
