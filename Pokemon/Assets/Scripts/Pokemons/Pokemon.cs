@@ -4,16 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 #endregion
 
+#region Enums
+public enum Stat { HP, Attack, Defence, SpAtk, SpDef, Speed }
 public enum EvolutionMethod { None, Level, Item, Trade, LearnedMove }
+public enum EggGroup { Monster, Water1 }
+public enum LevelRate { Slow, MediumSlow }
+public enum Shape { }
+public enum Footprint { }
+#endregion
 
 [CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Create new Pokemon", order = 0)]
 public class Pokemon : ScriptableObject
 {
     #region Values:
+    #region Pokemon
     [Header("Object Reference:")]
     [SerializeField] private bool isInstantiated = false;
     [SerializeField] private string pokemonName = "";
-    [SerializeField] private Type[] types = new Type[2];
+    [SerializeField] private int pokedexIndex = 0;
+    [SerializeField] private string pokemonCategory = "";
+    [SerializeField] private Type[] types = new Type[1];
     [SerializeField] private Ability ability = null;
     [SerializeField] private HoldableItem itemInHand = null;
     [SerializeField, TextArea] private string description = "";
@@ -22,11 +32,10 @@ public class Pokemon : ScriptableObject
     [SerializeField] private ConditionOversight oversight = null;
 
     [Header("Stats:")]
-    [SerializeField] private int health = 0;
     [SerializeField] private float currentHealth = 0;
-    [SerializeField] private int defence = 0, specialDefence = 0;
-    [SerializeField] private int attack = 0, specialAttack = 0;
-    [SerializeField] private int speed = 0;
+    [SerializeField] private int[] stats = new int[6];
+    [SerializeField] private int[] iv = new int[6];
+    [SerializeField] private int[] ev = new int[6];
     [SerializeField] private int level = 0, maxExp = 0;
     [SerializeField] private int currentExp = 0;
 
@@ -38,68 +47,47 @@ public class Pokemon : ScriptableObject
     [Header("Moves:")]
     [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
     [Header(" -- Learnable:")]
-    [SerializeField] private int[] key = new int[0];
-    [SerializeField] private PokemonMove[] result = new PokemonMove[0];
-    private Dictionary<int, PokemonMove> learnableMoves = new Dictionary<int, PokemonMove>();
+    //Level
+    [SerializeField] private int[] levelLearnableMoveKeys = new int[0];
+    [SerializeField] private PokemonMove[] levelLearnableMoveValue = new PokemonMove[0];
+    //TM/TR
+    [SerializeField] private PokemonMove[] tmLearnableMoveValue = new PokemonMove[0];
+    //Breeding
+    [SerializeField] private Pokemon[] breedingLearnedMoveKeys = new Pokemon[0];
+    [SerializeField] private PokemonMove[] breedingLearnedMoveValue = new PokemonMove[0];
+    //Tutor
+    [SerializeField] private PokemonMove[] tutorLearnableMoveValue = new PokemonMove[0];
 
+    [Header("Breeding:")]
+    [SerializeField] private EggGroup eggGroup = 0;
+    [SerializeField] private int hatchTimeMin = 0, hatchTimeMax = 0;
+    [SerializeField] private float height = 0, weight = 0;
+    [SerializeField] private float genderRate = 0, catchRate = 0;
+
+    [Header("Mich")]
+    // ---Mega
+    [SerializeField] private int expYield = 0;
+    [SerializeField] private LevelRate levelRate = 0;
+    [SerializeField] private int[] evYield = new int[6];
+    [SerializeField] private Shape shape = 0;
+    [SerializeField] private Footprint footprint = 0;
+    [SerializeField] private Color pokedexColor = Color.green;
+    [SerializeField] private int baseFriendship = 0;
+    #endregion
+
+    #region In Battle
     [Header("Visual:")]
     [SerializeField] private GameObject prefab = null;
-    private GameObject spawnedObject = null;
+    [SerializeField] private GameObject spawnedObject = null;
     [Header(" -- Animation:")]
-    private Animator anim = null;
-
-    private void OnValidate()
-    {
-        #region Typing Check
-        if (types.Length > 2)
-        {
-            types = new Type[2];
-            Debug.Log("A Pokemon can max have two types!");
-        }
-        else if (types.Length < 1)
-        {
-            types = new Type[1];
-            Debug.Log("A Pokemon must have at least one type!");
-        }
-        else if (types.Length == 1)
-        {
-            Type holder = types[0];
-            types = new Type[2];
-            types[0] = holder;
-        }
-        if (types.Length == 2)
-        {
-            if (types[0] == types[1] && types[0] != null)
-                types[1] = null;
-            else if (types[0] == null && types[1] != null)
-            {
-                types[0] = types[1];
-                types[1] = null;
-            }
-        }
-        #endregion
-        #region Move Check
-        if (result.Length > key.Length)
-        {
-            int[] copy = key;
-            key = new int[result.Length];
-            for (int i = 0; i < copy.Length; i++)
-                key[i] = copy[i];
-        }
-        else if (result.Length < key.Length)
-        {
-            int[] copy = key;
-            key = new int[result.Length];
-            for (int i = 0; i < key.Length; i++)
-                key[i] = copy[i];
-        }
-        #endregion
-        #region Health Check
-        currentHealth = health;
-        #endregion
-    }
+    [SerializeField] private Animator anim = null;
+    [Header("Turn")]
+    [SerializeField] private bool stunned = false;
     #endregion
+    #endregion
+
     #region Getters
+    #region - Pokemon
     public Pokemon GetPokemon()
     {
         Pokemon result = this;
@@ -123,14 +111,19 @@ public class Pokemon : ScriptableObject
         return pokemonName;
     }
 
-    public float GetCurrentHealth()
+    public int GetStatRaw(Stat target)
     {
-        return currentHealth;
+        return stats[(int)target];
     }
 
-    public int GetHealth()
+    public int GetIV(Stat target)
     {
-        return health;
+        return iv[(int)target];
+    }
+
+    public int GetEV(Stat target)
+    {
+        return ev[(int)target];
     }
 
     public int GetLevel()
@@ -138,47 +131,110 @@ public class Pokemon : ScriptableObject
         return level;
     }
 
-    public int GetAttack()
-    {
-        return attack;
-    }
-
-    public int GetSpecialAttack()
-    {
-        return specialAttack;
-    }
-
-    public int GetDefence()
-    {
-        return defence;
-    }
-
-    public int GetSpecialDefence()
-    {
-        return specialDefence;
-    }
-
-    public int GetSpeed()
-    {
-        return speed;
-    }
-
     public Type[] GetTypes()
     {
         return types;
     }
 
-    public PokemonMove[] GetMoves()
+    public EggGroup GetEggGroup()
     {
-        return learnedMoves;
+        return eggGroup;
     }
 
-    public PokemonMove GetMoveByIndex(int index)
+    public int GetMinHatchSteps()
     {
-        if (index >= 0 && index <= 4)
-            return learnedMoves[index];
-        else
-            return null;
+        return hatchTimeMin;
+    }
+
+    public int GetMaxHatchSteps()
+    {
+        return hatchTimeMax;
+    }
+
+    public float GetHeight()
+    {
+        return height;
+    }
+
+    public float GetWeight()
+    {
+        return weight;
+    }
+
+    public int GetPokedexIndex()
+    {
+        return pokedexIndex;
+    }
+
+    public string GetPokemonCategory()
+    {
+        return pokemonCategory;
+    }
+
+    public int GetEVYield(Stat target)
+    {
+        return evYield[(int)target];
+    }
+
+    public int GetExpYield()
+    {
+        return expYield;
+    }
+
+    public LevelRate GetLevelRate()
+    {
+        return levelRate;
+    }
+
+    public float GetGenderRate()
+    {
+        return genderRate;
+    }
+
+    public float GetCatchRate()
+    {
+        return catchRate;
+    }
+
+    public int[] GetLevelLearnedMovesKeys()
+    {
+        return levelLearnableMoveKeys;
+    }
+
+    public PokemonMove[] GetLevelLearnableMoveValue()
+    {
+        return levelLearnableMoveValue;
+    }
+
+    public Pokemon[] GetBreedingLearnableMoveKeys()
+    {
+        return breedingLearnedMoveKeys;
+    }
+
+    public PokemonMove[] GetBreedingLearnableMoveValue()
+    {
+        return breedingLearnedMoveValue;
+    }
+
+    public PokemonMove[] GetTMLearnableMoveValues()
+    {
+        return tmLearnableMoveValue;
+    }
+
+    public PokemonMove[] GetTutorLearnableMoveValue()
+    {
+        return tutorLearnableMoveValue;
+    }
+    #endregion
+
+    #region - In Battle
+    public int GetStat(Stat stat)
+    {
+        int baseStat = stats[(int)stat];
+        int baseIV = iv[(int)stat];
+        int baseEV = ev[(int)stat];
+
+        return BattleMathf.CalculateOtherStat(baseStat, baseIV, baseEV, level);
     }
 
     public ConditionOversight GetConditionOversight()
@@ -188,7 +244,28 @@ public class Pokemon : ScriptableObject
 
         return oversight;
     }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public PokemonMove[] GetMoves()
+    {
+        return learnedMoves;
+    }
+
+    public PokemonMove GetMoveByIndex(int index)
+    {
+        PokemonMove result = learnedMoves[index];
+        if (result != null)
+            return learnedMoves[index].GetAction() as PokemonMove;
+
+        return null;
+    }
     #endregion
+    #endregion
+
     #region Setters
     public void SetAbility(Ability toSet)
     {
@@ -199,7 +276,128 @@ public class Pokemon : ScriptableObject
     {
         isInstantiated = set;
     }
+
+    public void SetCurrentHP(int set)
+    {
+        currentHealth = set;
+    }
+
+    public void SetStat(Stat targetStat, int set)
+    {
+        stats[(int)targetStat] = set;
+    }
+
+    public void SetIV(Stat targetStat, int set)
+    {
+        iv[(int)targetStat] = set;
+    }
+
+    public void SetEV(Stat targetStat, int set)
+    {
+        ev[(int)targetStat] = set;
+    }
+
+    public void SetEggGroup(EggGroup egg)
+    {
+        eggGroup = egg;
+    }
+
+    public void SetMinHatchSteps(int set)
+    {
+        hatchTimeMin = set;
+    }
+
+    public void SetMaxHatchSteps(int set)
+    {
+        hatchTimeMax = set;
+    }
+
+    public void SetHeight(float set)
+    {
+        height = set;
+    }
+
+    public void SetWeight(float set)
+    {
+        weight = set;
+    }
+
+    public void SetLearnedMove(int moveIndex, PokemonMove move)
+    {
+        learnedMoves[moveIndex] = move;
+    }
+
+    public void SetTypes(Type[] set)
+    {
+        types = set;
+    }
+
+    public void SetPokedexIndex(int set)
+    {
+        pokedexIndex = set;
+    }
+
+    public void SetPokemonCategory(string set)
+    {
+        pokemonCategory = set;
+    }
+
+    public void SetEVYield(Stat target, int set)
+    {
+        evYield[(int)target] = set;
+    }
+
+    public void SetExpYield(int set)
+    {
+        expYield = set;
+    }
+
+    public void SetLevelingRate(LevelRate set)
+    {
+        levelRate = set;
+    }
+
+    public void SetGenderRate(float set)
+    {
+        genderRate = set;
+    }
+
+    public void SetCatchRate(float set)
+    {
+        catchRate = set;
+    }
+
+    public void SetLevelLearnedMoveKeys(int[] set)
+    {
+        levelLearnableMoveKeys = set;
+    }
+
+    public void SetLevelLearnableMoveValues(PokemonMove[] set)
+    {
+        levelLearnableMoveValue = set;
+    }
+
+    public void SetBreedingLearnableMoveKeys(Pokemon[] set)
+    {
+        breedingLearnedMoveKeys = set;
+    }
+
+    public void SetBreedingLearnableMoveValues(PokemonMove[] set)
+    {
+        breedingLearnedMoveValue = set;
+    }
+
+    public void SetTMLearnableMoveValues(PokemonMove[] set)
+    {
+        tmLearnableMoveValue = set;
+    }
+
+    public void SetTutorLearnableMoveValue(PokemonMove[] set)
+    {
+        tutorLearnableMoveValue = set;
+    }
     #endregion
+
     #region Out
     public void SpawnPokemon(Transform transform, bool back)
     {
@@ -231,10 +429,11 @@ public class Pokemon : ScriptableObject
         return false;
     }
     #endregion
+
     #region In
     public void RecieveDamage(float damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, health);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, GetStat(Stat.HP));
     }
 
     public void RecieveExp(int points)
@@ -258,6 +457,7 @@ public class Pokemon : ScriptableObject
         }
     }
     #endregion
+
     #region Internal
     private void LevelUp()
     {

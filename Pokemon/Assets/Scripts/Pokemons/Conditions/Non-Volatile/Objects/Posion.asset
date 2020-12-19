@@ -15,8 +15,11 @@ MonoBehaviour:
   isInstantiated: 0
   affectedPokemon: {fileID: 0}
   conditionEffect: Poison
+  active: 0
+  done: 0
   conditionName: 0
-  badlyPoison: 0
+  badlyPoison: 1
   damage: 0
-  n: 0
-  increaseN: 1
+  n: 1
+  increaseN: 0.25
+  onEffectChat: {fileID: 11400000, guid: a384d5220b83ab64eb0ad2f6690b9079, type: 2}

@@ -49,7 +49,7 @@ namespace Trainer
             {
                 if (pokemons[i] != null)
                 {
-                    if (pokemons[i].GetHealth() != 0)
+                    if (pokemons[i].GetStat(Stat.HP) != 0)
                         return i;
                 }
             }

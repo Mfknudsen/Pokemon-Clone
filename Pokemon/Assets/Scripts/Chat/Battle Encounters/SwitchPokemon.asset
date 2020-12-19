@@ -16,8 +16,8 @@ MonoBehaviour:
   location: 
   description: 
   textList:
-  - Switch out!
-  - GO <POKEMON_NAME>!
+  - Return <POKEMON_NAME>
+  - GO <NEXT_NAME>!
   needInput: 0
   timeUntilNext: 0.75
   replaceString: []

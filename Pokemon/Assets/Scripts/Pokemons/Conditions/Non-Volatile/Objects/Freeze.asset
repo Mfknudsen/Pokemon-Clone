@@ -13,3 +13,14 @@ MonoBehaviour:
   m_Name: Freeze
   m_EditorClassIdentifier: 
   isInstantiated: 0
+  affectedPokemon: {fileID: 0}
+  conditionEffect: Freeze
+  active: 0
+  done: 0
+  conditionName: 2
+  n: 0
+  onEffectChat: {fileID: 11400000, guid: 11f4e3dfdad61274ab3b04dd5f9eb860, type: 2}
+  onContinuousEffectChat: {fileID: 11400000, guid: 65b49d4d58c48d24faaea67826202008,
+    type: 2}
+  abruptEndChat: {fileID: 11400000, guid: a665c6da440a7c54782b37e839fd2e53, type: 2}
+  endEffectChat: {fileID: 11400000, guid: c0538418964661443a694526bb10ee20, type: 2}

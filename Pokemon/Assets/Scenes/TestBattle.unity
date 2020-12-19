@@ -233,23 +233,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  player: {fileID: 0}
-  enemy: {fileID: 1366071396}
-  playerPokemon: {fileID: 0}
-  enemyPokemon: {fileID: 0}
-  playerTransform: {fileID: 1948162614}
-  enemyTransform: {fileID: 1440984568}
+  members:
+  - {fileID: 0}
+  - {fileID: 1366071396}
+  pokemonOnSpots:
+  - {fileID: 0}
+  - {fileID: 0}
+  pokemonActions:
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnPoints:
+  - {fileID: 1948162614}
+  - {fileID: 1440984568}
+  switchAction: {fileID: 11400000, guid: b4b2eb28d8602f14f896b1a7f3eda8cc, type: 2}
   instantActions: []
   fastActions: []
   normalActions: []
   slowActions: []
   actionIndex: 0
+  combinedActions: []
   secondsPerPokemonMove: 1
   action: {fileID: 0}
   actionSwitchState: 1
+  checking: {fileID: 0}
   display: {fileID: 621661764}
-  playerPokemonDisplay: {fileID: 19882712}
-  enemyPokemonDisplay: {fileID: 1774768914}
+  pokemonDisplay:
+  - {fileID: 19882712}
+  - {fileID: 1774768914}
   turnDisplay: {fileID: 1735235209}
   buttonsText:
   - {fileID: 996224125}
@@ -257,8 +267,12 @@ MonoBehaviour:
   - {fileID: 1675156677}
   - {fileID: 800188240}
   selectionMenu: {fileID: 490165679}
+  menu: {fileID: 899145196012006083}
   superEffective: {fileID: 11400000, guid: 4ecc17f04f409a94a8e38aea3cec0e17, type: 2}
   notEffective: {fileID: 11400000, guid: 32fa517f4e565db46b03da7b83cf77a2, type: 2}
+  noEffect: {fileID: 11400000, guid: e75265cd9623d504d8b215c922e0afe3, type: 2}
+  barelyEffective: {fileID: 11400000, guid: f4ddf49c1e83f024da0072dd82d030a9, type: 2}
+  extremlyEffective: {fileID: 11400000, guid: 8e47ff91c5b937140bf0985bd47f1c16, type: 2}
   SwitchChat: {fileID: 11400000, guid: 76a09965ebd8aad44af51a50197b127a, type: 2}
 --- !u!1001 &455400489
 PrefabInstance:
@@ -1043,6 +1057,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce22f1afbb5a4124098c46b35e915a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
+  currentEnemyPokemon: []
+  chooseActive: 0
 --- !u!4 &1366071399
 Transform:
   m_ObjectHideFlags: 0
@@ -1737,246 +1754,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 356541949}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925298075077078841, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 356541949}
     - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2849644748520139856, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 356541949}
     - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 3853378830593119092, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 356541949}
     - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133383220060507940, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 356541949}
     - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204866232512234479, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 356541949}
     - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BattleMaster, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectNewPokemon
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 9095698535779216985, guid: b803116b37b79ab438170756e7ff9b54,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 5
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 356541949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b803116b37b79ab438170756e7ff9b54, type: 3}
+--- !u!114 &899145196012006083 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 764892982071817494, guid: b803116b37b79ab438170756e7ff9b54,
+    type: 3}
+  m_PrefabInstance: {fileID: 899145196012006082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490165679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f53af53da7ccb8b428e6212f5ea37752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5158821391701053826
 PrefabInstance:
   m_ObjectHideFlags: 0

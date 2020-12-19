@@ -39,7 +39,7 @@ public class BurnCondition : Condition
     }
     #endregion
     #region In
-    public override IEnumerator ActivateCondition()
+    public override IEnumerator ActivateCondition(ConditionOversight activator)
     {
         yield return null;
     }

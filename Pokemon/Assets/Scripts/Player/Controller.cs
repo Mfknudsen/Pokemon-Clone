@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Player
 {
@@ -8,25 +9,35 @@ namespace Player
     {
         #region Values
         [Header("Object Reference:")]
-        [SerializeField] private Animator anim = null;
+        [SerializeField] private NavMeshAgent agent = null;
 
         [Header("Movement:")]
+        [SerializeField] private Rigidbody rb = null;
         [SerializeField] private Transform moveOrigin = null;
         [SerializeField] private float speed = 0;
-        [SerializeField] private Vector2 moveDir = Vector2.zero;
+        [SerializeField] private Vector3 moveDir = Vector3.zero;
+
+        [Header("Turn")]
+        [SerializeField] private Transform turnPoint = null;
+        [SerializeField] private Vector3 oldRot = Vector3.zero;
         #endregion
 
         private void Start()
         {
-            if (anim == null)
-                anim = GetComponent<Animator>();
+            if (agent == null)
+                agent = moveOrigin.GetComponent<NavMeshAgent>();
+            agent.enabled = false;
+
+            if (rb == null)
+                rb = moveOrigin.GetComponent<Rigidbody>();
+            rb.useGravity = false;
         }
 
         private void Update()
         {
             GetInputFromSystem();
-            SetAnimator();
             Move();
+            Turn();
         }
 
         #region In
@@ -40,7 +51,7 @@ namespace Player
             else
                 moveDir.x = 0;
 
-            moveDir.y = Input.GetAxis("Vertical");
+            moveDir.z = Input.GetAxis("Vertical");
             if (moveDir.y < 0)
                 moveDir.y = -1;
             else if (moveDir.y > 0)
@@ -51,15 +62,17 @@ namespace Player
         #endregion
 
         #region Internal
-        private void SetAnimator()
-        {
-            anim.SetInteger("Horizontal", (int)moveDir.x);
-            anim.SetInteger("Vertical", (int)moveDir.y);
-        }
-
         private void Move()
         {
-            moveOrigin.transform.position += new Vector3(moveDir.x, moveDir.y, 0) * speed * Time.deltaTime;
+            moveOrigin.position += moveDir.normalized * speed * Time.deltaTime;
+        }
+
+        private void Turn()
+        {
+            if (moveDir != Vector3.zero)
+            {
+                turnPoint.rotation = Quaternion.LookRotation(Vector3.Lerp(turnPoint.forward, moveDir, 5 * Time.deltaTime), transform.up);
+            }
         }
         #endregion
     }

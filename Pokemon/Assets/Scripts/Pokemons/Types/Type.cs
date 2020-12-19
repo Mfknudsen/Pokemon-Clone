@@ -61,28 +61,24 @@ public class Type : ScriptableObject
 
     public int GetResistance(TypeName input)
     {
-        int result = 0;
-
         foreach (Type t in resistances)
         {
             if (t.typeName == input)
-                result += 1;
+                return 1;
         }
 
-        return result;
+        return 0;
     }
 
     public int GetWeakness(TypeName input)
     {
-        int result = 0;
-
         foreach (Type t in weakness)
         {
             if (t.typeName == input)
-                result += 1;
+                return 1;
         }
 
-        return result;
+        return 0;
     }
     #endregion
 }

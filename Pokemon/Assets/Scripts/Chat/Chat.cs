@@ -28,6 +28,7 @@ public class Chat : ScriptableObject
     [SerializeField] protected bool active = false, waiting = false, done = false;
     [SerializeField] protected int nextCharacter = 0;
     #endregion
+
     #region Getters
     public bool GetIsInstantiated()
     {
@@ -49,6 +50,7 @@ public class Chat : ScriptableObject
         return needInput;
     }
     #endregion
+
     #region Setters
     public void SetIsInstantiated()
     {
@@ -70,6 +72,7 @@ public class Chat : ScriptableObject
         waiting = set;
     }
     #endregion
+
     #region In
     protected void IncreaseIndex()
     {
@@ -85,6 +88,7 @@ public class Chat : ScriptableObject
         addString.Add(add);
     }
     #endregion
+
     #region Out
     public Chat GetChat()
     {
@@ -101,65 +105,68 @@ public class Chat : ScriptableObject
 
     public IEnumerator Play()
     {
-        if (!done)
+        if (!active)
         {
-            if (!active)
-            {
-                index = 0;
-                CheckTextOverride();
-                done = false;
-                active = true;
-            }
-
-            while (!done && !waiting && (index < textList.Length))
-            {
-                string tempText = "";
-                string fromList = textList[index];
-                float relativSpeed = ChatMaster.instance.GetTextSpeed();
-
-                if (nextCharacter + 1 < fromList.Length)
-                    tempText = "" + fromList[nextCharacter] + fromList[nextCharacter + 1];
-
-                if (tempText == "\n")
-                {
-                    showText += "\n";
-                    nextCharacter++;
-                    relativSpeed *= 1.5f;
-                }
-                else if (nextCharacter < fromList.Length)
-                {
-                    showText += fromList[nextCharacter];
-                }
-
-                if (showText.Length != 0)
-                    ChatMaster.instance.SetDisplayText(showText);
-
-                if (showText.Length < fromList.Length)
-                {
-                    nextCharacter++;
-                }
-                else if (showText.Length == fromList.Length)
-                {
-                    if (!needInput)
-                        yield return new WaitForSeconds(timeUntilNext);
-
-                    waiting = true;
-                    ChatMaster.instance.CheckRunningState();
-                }
-                yield return new WaitForSeconds(relativSpeed);
-            }
-            while (waiting)
-                yield return 0;
+            index = 0;
+            CheckTextOverride();
+            active = true;
         }
+
+        while (!done && !waiting && (index < textList.Length))
+        {
+            string tempText = "";
+            string fromList = textList[index];
+            float relativSpeed = ChatMaster.instance.GetTextSpeed();
+
+            if (nextCharacter + 1 < fromList.Length)
+                tempText = "" + fromList[nextCharacter] + fromList[nextCharacter + 1];
+
+            if (tempText == "\n")
+            {
+                showText += "\n";
+                nextCharacter += 2;
+                relativSpeed *= 1.5f;
+            }
+            else if (nextCharacter < fromList.Length)
+            {
+                showText += fromList[nextCharacter];
+                nextCharacter++;
+            }
+
+            if (showText.Length != 0)
+                ChatMaster.instance.SetDisplayText(showText);
+
+            if (showText.Length == fromList.Length)
+            {
+                if (!needInput)
+                    yield return new WaitForSeconds(timeUntilNext);
+
+                if (index < (textList.Length - 1))
+                    waiting = true;
+                else
+                    done = true;
+
+                ChatMaster.instance.CheckRunningState();
+            }
+            yield return new WaitForSeconds(relativSpeed);
+        }
+
+        Debug.Log("Done: " + done + "\n" + name);
+
+        while (waiting)
+            yield return null;
     }
 
     public IEnumerator PlayNext()
     {
         IncreaseIndex();
 
+        done = false;
+
         return Play();
     }
     #endregion
+
     #region Internal
     protected virtual void CheckTextOverride()
     {

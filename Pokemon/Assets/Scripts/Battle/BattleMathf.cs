@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleMathf : MonoBehaviour
 {
     #region Values
-    [SerializeField] private static Chat superEffective = null, notEffective = null;
+    [SerializeField] private static Chat superEffective = null, notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
     #endregion
 
     #region Setter
@@ -16,6 +16,18 @@ public class BattleMathf : MonoBehaviour
     public static void SetNotEffective(Chat input)
     {
         notEffective = input;
+    }
+    public static void SetNoEffect(Chat input)
+    {
+        noEffect = input;
+    }
+    public static void SetBarelyEffective(Chat input)
+    {
+        barelyEffective = input;
+    }
+    public static void SetExtremlyEffective(Chat input)
+    {
+        extremlyEffective = input;
     }
     #endregion
 
@@ -44,7 +56,7 @@ public class BattleMathf : MonoBehaviour
 
     public static float[] CalculateModifiers(Pokemon attacker, Pokemon target, PokemonMove attackMove, bool multiTarget)
     {
-        TypeName attackType = attackMove.GetType().GetTypeName();
+        TypeName attackType = attackMove.GetMoveType().GetTypeName();
 
         List<float> result = new List<float>();
         #region Targets
@@ -108,16 +120,36 @@ public class BattleMathf : MonoBehaviour
 
         if (type != 0)
         {
-            type += (0.5f * toCheck[0].GetWeakness(attackType)) - (0.5f * toCheck[0].GetResistance(attackType));
+            type += (toCheck[0].GetWeakness(attackType) - toCheck[0].GetResistance(attackType));
 
             if (toCheck[1] != null)
-                type += (0.5f * toCheck[1].GetWeakness(attackType)) - (0.5f * toCheck[1].GetResistance(attackType));
+                type += (toCheck[1].GetWeakness(attackType) - toCheck[1].GetResistance(attackType));
 
-            if (type == 1.5f)
-                ChatMaster.instance.Add(superEffective.GetChat());
-            else if (type == 0.5f)
+            if (type == 0)
+            {
+                type = 0.5f;
                 ChatMaster.instance.Add(notEffective.GetChat());
+            }
+            else if (type == -1)
+            {
+                type = 0.25f;
+                ChatMaster.instance.Add(barelyEffective.GetChat());
+            }
+            else if (type == 2)
+            {
+                type = 1.5f;
+                ChatMaster.instance.Add(superEffective.GetChat());
+            }
+            else if (type == 3)
+            {
+                type = 2;
+                ChatMaster.instance.Add(extremlyEffective.GetChat());
+            }
+            else
+                type = 1;
         }
+        else if (noEffect != null)
+            ChatMaster.instance.Add(noEffect.GetChat());
 
         result.Add(type);
         #endregion
@@ -161,5 +193,40 @@ public class BattleMathf : MonoBehaviour
         return (int)result;
     }
 
+    public static int CalculateOtherStat(int baseStat, int IV, int EV, int level)
+    {
+        float result = (baseStat + IV) * 2;
+        result += (EV / 4);
+        result *= level;
+        result /= 100;
+        result += 5;
+
+        return (int)Mathf.Floor(result);
+    }
+
+    public static int CalculateHPStat(int baseStat, int IV, int EV, int level)
+    {
+        float result = (baseStat + IV) * 2;
+        result += (EV / 4);
+        result *= level;
+        result /= 100;
+        result += level + 10;
+
+        Debug.Log(baseStat + " becomes " + (int)Mathf.Floor(result));
+
+        return (int)Mathf.Floor(result);
+    }
+
+    public static bool CalculateHit(float accurMove, float accurUser, float evaTarget, bool holdingBrightPowder)
+    {
+        float t = accurMove * (accurUser - evaTarget);
+        if (holdingBrightPowder)
+            t -= 20;
+        t *= 2.55f;
+
+        float r = Random.Range(0, 255);
+
+        return (r <= t);
+    }
     #endregion
 }

@@ -9,7 +9,7 @@ public enum NonVolatile { Poison, Sleep, Freeze, Paralysis, Burn, Fainted }
 public enum Volatile { Confusion }
 #endregion
 
-public class Condition : ScriptableObject
+public abstract class Condition : ScriptableObject
 {
     #region Values
     [SerializeField] protected bool isInstantiated = false;
@@ -18,6 +18,7 @@ public class Condition : ScriptableObject
     [SerializeField] protected bool active = false, done = false;
 
     #endregion
+
     #region Getters
     public virtual string GetConditionName()
     {
@@ -40,7 +41,13 @@ public class Condition : ScriptableObject
     {
         return conditionEffect;
     }
+
+    public bool GetDone()
+    {
+        return done;
+    }
     #endregion
+
     #region Setters
     public void SetIsInstantiated(bool set)
     {
@@ -51,8 +58,14 @@ public class Condition : ScriptableObject
         affectedPokemon = pokemon;
     }
     #endregion
+
     #region In
-    public virtual IEnumerator ActivateCondition()
+    public virtual void Reset()
+    {
+
+    }
+
+    public virtual IEnumerator ActivateCondition(ConditionOversight activator)
     {
         Debug.Log("Activation of Condition needs override!");
         yield return null;

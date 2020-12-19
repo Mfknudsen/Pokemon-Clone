@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
   m_Name: Grottle
   m_EditorClassIdentifier: 
+  isInstantiated: 0
   pokemonName: Grottle
+  pokedexIndex: 0
+  pokemonCategory: 
   types:
   - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
   - {fileID: 0}
@@ -20,13 +23,10 @@ MonoBehaviour:
   itemInHand: {fileID: 0}
   description: 
   oversight: {fileID: 11400000, guid: 876460c316d07cc4b9642d6ff68cca45, type: 2}
-  health: 0
-  currentHealth: 0
-  defence: 0
-  specialDefence: 0
-  attack: 0
-  specialAttack: 0
-  speed: 0
+  currentHealth: 5
+  stats: 000000000000000000000000000000000000000000000000
+  iv: 000000000000000000000000000000000000000000000000
+  ev: 000000000000000000000000000000000000000000000000
   level: 0
   maxExp: 0
   currentExp: 0
@@ -38,6 +38,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  key: 
-  result: []
+  levelLearnableMoveKeys: 
+  levelLearnableMoveValue: []
+  tmLearnableMoveValue: []
+  breedingLearnedMoveKeys: []
+  breedingLearnedMoveValue: []
+  tutorLearnableMoveValue: []
+  eggGroup: 0
+  hatchTimeMin: 0
+  hatchTimeMax: 0
+  height: 0
+  weight: 0
+  genderRate: 0
+  catchRate: 11.9
+  expYield: 0
+  levelRate: 0
+  evYield: 000000000000000000000000000000000000000000000000
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  baseFriendship: 0
   prefab: {fileID: 0}
+  spawnedObject: {fileID: 0}
+  anim: {fileID: 0}
+  stunned: 0

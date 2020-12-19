@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { }
+public enum ItemType { Berry, MegaStone, Potion, }
 
 [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new standard Item")]
 public class Item : ScriptableObject

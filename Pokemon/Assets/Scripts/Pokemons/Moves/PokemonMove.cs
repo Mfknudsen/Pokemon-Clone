@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 #endregion
+
 #region Enums
 public enum Category
 {
@@ -13,14 +14,20 @@ public enum Category
 }
 public enum Contest
 {
-    None,
     Tough,
     Cute,
     Clever,
     Beutiful,
-    Cool
+    Cool,
+}
+public enum HitType
+{
+    One,
+    AllOneSide,
+    All
 }
 #endregion
+
 [CreateAssetMenu(fileName = "Move", menuName = "Pokemon/Create new Move", order = 1)]
 public class PokemonMove : BattleAction
 {
@@ -30,8 +37,7 @@ public class PokemonMove : BattleAction
     [SerializeField] protected string moveName = "";
     [SerializeField] protected Type type = null;
     [SerializeField] protected Category category = 0;
-    [SerializeField] protected Contest contest = 0;
-    [SerializeField] protected int maxPP = 0;
+    [SerializeField] protected int startPP = 0, maxPP = 0;
     protected int currentPP = 0;
     [SerializeField] protected int power = 0, accuracy = 0;
 
@@ -39,47 +45,159 @@ public class PokemonMove : BattleAction
     [SerializeField] protected bool makesContact = false;
     [SerializeField] protected bool affectByProtect = false, affectByMagicCoat = false, affectBySnatch = false, affectByMirrorMove = false, affectByKingsRock = false;
 
+    [Header("Target:")]
+    [SerializeField] protected HitType hitType = 0;
+    [SerializeField] protected bool selfTargetable = false;
+    [SerializeField] protected bool[] enemyTargetable = new bool[3];
+    [SerializeField] protected bool[] allyTargetable = new bool[2];
+
+    [Header("Contests:")]
+    //Standard
+    [SerializeField] protected Contest normalCondition = 0;
+    [SerializeField] protected int normalAppeal = 0, normalJam = 0;
+    //Super
+    [SerializeField] protected Contest superCondition = 0;
+    [SerializeField] protected int superAppeal = 0, superJam = 0;
+    //Spectacular
+    [SerializeField] protected Contest spectacularCondition = 0;
+    [SerializeField] protected int spectacularAppeal = 0, spectacularJam = 0;
+
     [Header("Status:")]
-    [SerializeField] protected Condition canApplyCondition = null;
+    [SerializeField] protected bool hasStatus = false;
+    [SerializeField] protected Condition statusCondition = null;
     [SerializeField] protected float applyChange = 0;
     [SerializeField] protected bool statusHit = false;
     [SerializeField] Chat statusHitChat = null, statusFailedChat = null;
 
     [Header("Action Operation:")]
-    protected bool active = false, done = false;
     protected float[] damagePerTarget = new float[0], damageApplied = new float[0], damageOverTime = new float[0];
-
-    [Header("Instatiation:")]
-    protected bool isInstantiated = false;
 
     private void OnValidate()
     {
-        if (maxPP < 0)
+        if (startPP < 0)
         {
-            maxPP = 0;
+            startPP = 0;
             Debug.LogError("Max PP of " + moveName + " should be more then 0!");
         }
 
-        currentPP = maxPP;
+        currentPP = startPP;
     }
     #endregion
-    #region Setters
-    public void SetCurrentPokemon(Pokemon pokemon)
-    {
-        currentPokemon = pokemon;
-    }
 
+    #region Setters
     public void SetTargetPokemon(Pokemon[] targets)
     {
         targetPokemon = targets;
     }
 
-    public void SetIsInstantiated()
+    public void SetType(Type set)
     {
-        isInstantiated = true;
+        type = set;
+    }
+
+    public void SetCategory(Category set)
+    {
+        category = set;
+    }
+
+    public void SetStartPP(int set)
+    {
+        startPP = set;
+    }
+
+    public void SetPower(int set)
+    {
+        power = set;
+    }
+
+    public void SetAccuracy(int set)
+    {
+        accuracy = set;
+    }
+
+    public void SetTargetable(bool[] set)
+    {
+        enemyTargetable[0] = set[0];
+        enemyTargetable[1] = set[1];
+        enemyTargetable[2] = set[2];
+
+        allyTargetable[0] = set[3];
+        allyTargetable[1] = set[4];
+
+        selfTargetable = set[5];
+    }
+
+    public void SetAffected(bool[] set)
+    {
+        makesContact = set[0];
+        affectByProtect = set[1];
+        affectByMagicCoat = set[2];
+        affectBySnatch = set[3];
+        affectByMirrorMove = set[4];
+        affectByKingsRock = set[5];
+    }
+
+    public void SetNormalContests(int[] set)
+    {
+        normalCondition = (Contest)set[0];
+        normalAppeal = set[1];
+        normalJam = set[2];
+    }
+
+    public void SetSuperContests(int[] set)
+    {
+        superCondition = (Contest)set[0];
+        superAppeal = set[1];
+        superJam = set[2];
+    }
+
+    public void SetSpectacularContests(int[] set)
+    {
+        spectacularCondition = (Contest)set[0];
+        spectacularAppeal = set[1];
+        spectacularJam = set[2];
+    }
+
+    public void SetHitType(HitType set)
+    {
+        hitType = set;
+    }
+
+    public void SetHasStatus(bool set)
+    {
+        hasStatus = set;
+    }
+
+    public void SetStatusCondition(Condition set)
+    {
+        statusCondition = set;
+    }
+
+    public void SetApplyChange(float set)
+    {
+        applyChange = set;
+    }
+
+    public void SetMaxPP(int set)
+    {
+        maxPP = set;
     }
     #endregion
+
     #region Getters
+    public override BattleAction GetAction()
+    {
+        BattleAction result = this;
+
+        if (!result.GetIsInstantiated())
+        {
+            result = Instantiate(result);
+            result.SetIsInstantiated(true);
+        }
+
+        return result;
+    }
+
     public string GetName()
     {
         return moveName;
@@ -90,16 +208,6 @@ public class PokemonMove : BattleAction
         return active;
     }
 
-    public bool IsDone()
-    {
-        return done;
-    }
-
-    public bool GetIsInstantiated()
-    {
-        return isInstantiated;
-    }
-
     public PokemonMove GetPokemonMove()
     {
         PokemonMove result = this;
@@ -107,13 +215,13 @@ public class PokemonMove : BattleAction
         if (!result.GetIsInstantiated())
         {
             result = Instantiate(this);
-            result.SetIsInstantiated();
+            result.SetIsInstantiated(true);
         }
 
         return result;
     }
 
-    public new Type GetType()
+    public Type GetMoveType()
     {
         return type;
     }
@@ -122,35 +230,99 @@ public class PokemonMove : BattleAction
     {
         return category;
     }
-    #endregion
-    #region Out
-    protected override void TransferInformationToChat()
-    {
-        for (int i = 0; i < chatOnActivation.Length; i++)
-        {
-            Chat c = chatOnActivation[i];
-            if (c != null)
-            {
-                if (!c.GetIsInstantiated())
-                {
-                    chatOnActivation[i] = Instantiate(c);
-                    chatOnActivation[i].SetIsInstantiated();
-                    c = chatOnActivation[i];
-                }
 
-                if (currentPokemon != null)
-                    c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
-                c.AddToOverride("<POKEMON_MOVE>", moveName);
-            }
-        }
+    public int GetStartPP()
+    {
+        return startPP;
     }
 
-    public new IEnumerator Activate()
+    public int GetPower()
+    {
+        return power;
+    }
+
+    public int GetAccuracy()
+    {
+        return accuracy;
+    }
+
+    public bool[] GetTargetable()
+    {
+        bool[] result = new bool[6];
+
+        result[0] = enemyTargetable[0];
+        result[1] = enemyTargetable[1];
+        result[2] = enemyTargetable[2];
+
+        result[3] = allyTargetable[0];
+        result[4] = allyTargetable[1];
+
+        result[5] = selfTargetable;
+
+        return result;
+    }
+
+    public bool[] GetAffected()
+    {
+        bool[] result = new bool[6];
+
+        result[0] = makesContact;
+        result[1] = affectByProtect;
+        result[2] = affectByMagicCoat;
+        result[3] = affectBySnatch;
+        result[4] = affectByMirrorMove;
+        result[5] = affectByKingsRock;
+
+        return result;
+    }
+
+    public int[] GetNormalContests()
+    {
+        return new int[] { (int)normalCondition, normalAppeal, normalJam };
+    }
+
+    public int[] GetSuperContests()
+    {
+        return new int[] { (int)superCondition, superAppeal, superJam };
+    }
+
+    public int[] GetSpectacularContests()
+    {
+        return new int[] { (int)spectacularCondition, spectacularAppeal, spectacularJam };
+    }
+
+    public HitType GetHitType()
+    {
+        return hitType;
+    }
+
+    public bool GetHasStatus()
+    {
+        return hasStatus;
+    }
+
+    public Condition GetStatusCondition()
+    {
+        return statusCondition;
+    }
+
+    public float GetApplyChange()
+    {
+        return applyChange;
+    }
+
+    public int GetMaxPP()
+    {
+        return maxPP;
+    }
+    #endregion
+
+    #region Out
+    public override IEnumerator Activate()
     {
         if (!active)
         {
-            TransferInformationToChat();
-            SendChatsToMaster();
+            SendChatsToMaster(TransferInformationToChat());
 
             active = true;
             done = false;
@@ -162,20 +334,20 @@ public class PokemonMove : BattleAction
             {
                 if (category == Category.Physical || category == Category.Special)
                 {
-                    float attack = currentPokemon.GetSpecialAttack();
+                    float attack = currentPokemon.GetStat(Stat.SpAtk);
 
                     if (category == Category.Physical)
-                        attack = currentPokemon.GetAttack();
+                        attack = currentPokemon.GetStat(Stat.Attack);
 
                     damagePerTarget = new float[targetPokemon.Length];
 
                     for (int i = 0; i < targetPokemon.Length; i++)
                     {
                         Pokemon p = targetPokemon[i];
-                        float defence = p.GetSpecialDefence();
+                        float defence = p.GetStat(Stat.SpDef);
 
                         if (category == Category.Physical)
-                            defence = p.GetDefence();
+                            defence = p.GetStat(Stat.Defence);
 
                         int damage = BattleMathf.CalculateDamage(
                             currentPokemon.GetLevel(),
@@ -193,13 +365,13 @@ public class PokemonMove : BattleAction
         }
         else
         {
-            if (canApplyCondition != null)
+            if (statusCondition != null)
             {
-                if (Random.Range(0, 100) <= applyChange)
+                if (Random.Range(0.0f, 1.0f) <= (applyChange / 100))
                 {
                     foreach (Pokemon target in targetPokemon)
                     {
-                        Condition toApply = canApplyCondition.GetCondition();
+                        Condition toApply = statusCondition.GetCondition();
                         toApply.SetAffectedPokemon(target);
 
                         if (target.GetConditionOversight().TryApplyNonVolatileCondition(toApply))
@@ -229,8 +401,30 @@ public class PokemonMove : BattleAction
         return Operation();
     }
     #endregion
+
+    #region Internal
+    protected override Chat[] TransferInformationToChat()
+    {
+        Chat[] result = new Chat[chatOnActivation.Length];
+
+        for (int i = 0; i < chatOnActivation.Length; i++)
+        {
+            if (chatOnActivation[i] != null)
+            {
+                result[i] = chatOnActivation[i].GetChat();
+
+                result[i].AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
+                result[i].AddToOverride("<POKEMON_MOVE>", moveName);
+            }
+        }
+
+        return result;
+    }
+
+    #endregion
+
     #region IEnumerator
-    private IEnumerator Operation()
+    protected override IEnumerator Operation()
     {
         if (category != Category.Status)
         {

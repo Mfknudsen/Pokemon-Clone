@@ -23,7 +23,7 @@ namespace BattleUI
                 if (healthToDisplay < 1 && healthToDisplay > 0)
                     healthToDisplay = 1;
 
-                healthDisplay.text = pokemon.GetHealth() + " / " + (int)healthToDisplay;
+                healthDisplay.text = pokemon.GetStat(Stat.HP) + " / " + (int)healthToDisplay;
                 healthBar.SetCurrentBar(healthToDisplay);
             }
         }
@@ -35,7 +35,7 @@ namespace BattleUI
             {
                 pokemon = newPokemon;
                 nameDisplay.text = pokemon.GetName() + " " + pokemon.GetLevel() + "Lv";
-                healthBar.SetBarMax(pokemon.GetHealth());
+                healthBar.SetBarMax(pokemon.GetStat(Stat.HP));
             }
         }
         #endregion

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+#endregion
 
 public class ChatMaster : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class ChatMaster : MonoBehaviour
     [SerializeField] private bool empty = true;
     [SerializeField] private Chat running = null;
     [SerializeField] private List<Chat> waitlist = new List<Chat>();
-    Coroutine coroutine = null;
+    Coroutine chatCoroutine = null;
 
     [Header("Display:")]
     [SerializeField] private TextMeshProUGUI textField = null;
@@ -38,24 +40,28 @@ public class ChatMaster : MonoBehaviour
         if (textField == null)
             textField = TextField.instance;
 
-        if (waitForInput)
+        if (running != null && waitForInput)
         {
             if ((Input.GetKeyDown(continueKey) || Input.GetKeyDown(KeyCode.Mouse0)) || !running.GetNeedInput())
             {
                 if (running != null)
                 {
                     if (running.GetDone())
+                    {
                         running = null;
+                        chatCoroutine = null;
+                    }
                     else
-                        coroutine = StartCoroutine(running.PlayNext());
+                        chatCoroutine = StartCoroutine(running.PlayNext());
                 }
 
                 waitForInput = false;
             }
         }
-
-        if (running == null && waitlist.Count > 0)
+        else if (running == null && waitlist.Count > 0)
+        {
             PlayNextInLine();
+        }
     }
 
     #region Defaults
@@ -114,12 +120,6 @@ public class ChatMaster : MonoBehaviour
     public void CheckRunningState()
     {
         waitForInput = true;
-        coroutine = null;
-
-        if (!running.GetHasMore())
-        {
-            running.SetDone(true);
-        }
     }
 
     private void PlayNextInLine()
@@ -135,7 +135,7 @@ public class ChatMaster : MonoBehaviour
         textField.gameObject.SetActive(true);
 
         running = toPlay;
-        coroutine = StartCoroutine(running.Play());
+        chatCoroutine = StartCoroutine(running.Play());
     }
     #endregion
 }

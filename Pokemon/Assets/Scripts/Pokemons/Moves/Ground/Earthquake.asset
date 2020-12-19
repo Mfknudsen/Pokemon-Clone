@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97d662b8124f3b43a5e5ed4ee9b14c0, type: 3}
   m_Name: Earthquake
   m_EditorClassIdentifier: 
+  active: 0
+  done: 0
   priority: 2
   currentPokemon: {fileID: 0}
-  targetPokemon: []
+  targetPokemon:
+  - {fileID: 0}
   moveActive: 0
   chatOnActivation:
   - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
@@ -26,3 +29,14 @@ MonoBehaviour:
   maxPP: 10
   power: 100
   accuracy: 100
+  makesContact: 0
+  affectByProtect: 0
+  affectByMagicCoat: 0
+  affectBySnatch: 0
+  affectByMirrorMove: 0
+  affectByKingsRock: 0
+  canApplyCondition: {fileID: 0}
+  applyChange: 0
+  statusHit: 0
+  statusHitChat: {fileID: 0}
+  statusFailedChat: {fileID: 0}
