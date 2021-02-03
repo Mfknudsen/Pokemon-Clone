@@ -23,3 +23,5 @@ MonoBehaviour:
   fieldSpot: -1
   display: {fileID: 0}
   nextPokemon: {fileID: 0}
+  nextChat:
+  - {fileID: 11400000, guid: b5b9acee84921714ea4abe2ec1832175, type: 2}

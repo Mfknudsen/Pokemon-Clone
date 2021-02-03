@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Trainer;
 using UnityEngine.SceneManagement;
-
+#endregion
 
 public class WorldMaster : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class WorldMaster : MonoBehaviour
     private Coroutine currentOperation;
 
     [Header("Loading:")]
-    [SerializeField] private int progressMeter = 0;
+    [SerializeField] private float progressMeter = 0;
 
     [Header("Battle Scene:")]
     [SerializeField] private string currentLoadedBattleScene = "";
@@ -31,7 +32,7 @@ public class WorldMaster : MonoBehaviour
     }
 
     #region Getters
-    public int GetLoadMeter()
+    public float GetLoadMeter()
     {
         return progressMeter;
     }
@@ -43,9 +44,9 @@ public class WorldMaster : MonoBehaviour
     #endregion
 
     #region In
-    public void LoadTestBattleScene()
+    public void LoadScene(string sceneName)
     {
-        currentOperation = StartCoroutine(LoadBattleSceneAsync("TestBattle", false));
+        currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, false));
     }
 
     public void UnloadCurrentBattleScene()
@@ -68,7 +69,7 @@ public class WorldMaster : MonoBehaviour
 
         while (!asyncLoad.isDone)
         {
-            progressMeter = (int)(asyncLoad.progress + 0.1f) * 100;
+            progressMeter = asyncLoad.progress + 0.1f;
             yield return null;
         }
 

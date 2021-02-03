@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 namespace Trainer
 {
@@ -36,6 +38,7 @@ namespace Trainer
             return null;
         }
 
+        #region SwitchingPokemon
         public void SwitchTeamPlaces(int from, int to)
         {
             Pokemon toStore = pokemons[to];
@@ -43,18 +46,63 @@ namespace Trainer
             pokemons[from] = toStore;
         }
 
-        public int HasMorePokemon()
+        public void SwitchTeamPlaces(Pokemon from, Pokemon to)
         {
-            for (int i = 1; i < pokemons.Length; i++)
+            int i = 0, j = 1;
+
+            for (i = 0; i < pokemons.Length; i++)
             {
                 if (pokemons[i] != null)
                 {
-                    if (pokemons[i].GetStat(Stat.HP) != 0)
-                        return i;
+                    if (pokemons[i] == from)
+                        break;
                 }
             }
 
-            return -1;
+            for (j = 0; j < pokemons.Length; j++)
+            {
+                if (pokemons[j] != null)
+                {
+                    if (pokemons[j] == to)
+                        break;
+                }
+            }
+
+            Pokemon toStore = pokemons[j];
+            pokemons[j] = pokemons[i];
+            pokemons[i] = toStore;
+        }
+        #endregion
+
+        public bool HasMorePokemon()
+        {
+            foreach (Pokemon pokemon in pokemons)
+            {
+                if (pokemon != null)
+                {
+                    Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
+                    if (c != null)
+                    {
+                        if (c.GetConditionName() != NonVolatile.Fainted.ToString())
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool PartOfTeam(Pokemon pokemon)
+        {
+            foreach (Pokemon p in pokemons)
+            {
+                if (p == pokemon)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

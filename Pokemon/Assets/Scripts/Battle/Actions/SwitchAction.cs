@@ -17,9 +17,12 @@ using BattleUI;
 public class SwitchAction : BattleAction
 {
     #region Values
+    [Header("Switch Specific Values:")]
+    [SerializeField] private Trainer.Team team = null;
     [SerializeField] private int fieldSpot = -1;
     [SerializeField] private PokemonDisplay display = null;
     [SerializeField] private Pokemon nextPokemon = null;
+    [SerializeField] private Chat[] nextChat = new Chat[0];
     #endregion
 
     #region Getters
@@ -33,6 +36,16 @@ public class SwitchAction : BattleAction
     public void SetNextPokemon(Pokemon next)
     {
         nextPokemon = next.GetPokemon();
+    }
+
+    public void SetFieldSpot(int set)
+    {
+        fieldSpot = set;
+    }
+
+    public void SetTeam(Trainer.Team set)
+    {
+        team = set;
     }
     #endregion
 
@@ -49,31 +62,53 @@ public class SwitchAction : BattleAction
 
     protected override IEnumerator Operation()
     {
-        //Switch out text
-        if (!active)
+        Debug.Log("Starting Switch Action\n" + currentPokemon.GetName()+"\n"+nextPokemon.GetName());
+
+        done = false;
+        Chat[] toSend = new Chat[0];
+
+        //Switch team member places
+        team.SwitchTeamPlaces(currentPokemon, nextPokemon);
+
+        //Start of match there will be no current pokemon
+        if (currentPokemon != null)
         {
-            Chat[] toSend = new Chat[chatOnActivation.Length];
+            //Switch out text
+            toSend = new Chat[chatOnActivation.Length];
 
             for (int i = 0; i < toSend.Length; i++)
             {
                 Chat c = chatOnActivation[i].GetChat();
                 c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
-                c.AddToOverride("<NEXT_NAME>", nextPokemon.GetName());
                 toSend[i] = c;
             }
             ChatMaster.instance.Add(toSend);
+
+            GameObject obj = currentPokemon.GetSpawnedObject();
+
+            while (!ChatMaster.instance.GetIsClear() && obj != null)
+            {
+                if (obj.transform.localScale.y > 0.01f)
+                    obj.transform.localScale += -Vector3.one * Time.deltaTime;
+
+                yield return null;
+            }
+
+            //Despawn current
+            currentPokemon.DespawnPokemon();
         }
 
-        //Debug.Log("First " + ChatMaster.instance.GetIsClear());
-
-        while (!ChatMaster.instance.GetIsClear())
-            yield return null;
-        //Debug.Log("Second " + ChatMaster.instance.GetIsClear());
-
-        //Despawn Current
-        yield return new WaitForSeconds(1);
         //Out text + Spawn new Pokemon
+        toSend = new Chat[nextChat.Length];
+        for (int i = 0; i < toSend.Length; i++)
+        {
+            Chat c = chatOnActivation[i].GetChat();
+            c.AddToOverride("<NEXT_NAME>", nextPokemon.GetName());
+            toSend[i] = c;
+        }
+        BattleMaster.instance.SpawnPokemon(nextPokemon, fieldSpot);
 
+        yield return new WaitForSeconds(1);
         //End
 
         done = true;

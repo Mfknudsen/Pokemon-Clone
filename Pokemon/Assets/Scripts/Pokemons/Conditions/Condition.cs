@@ -22,13 +22,13 @@ public abstract class Condition : ScriptableObject
     #region Getters
     public virtual string GetConditionName()
     {
-        Debug.Log("Get Condition Name Need Override!");
+        Debug.Log(name + "\nGet Condition Name Need Override!");
         return "";
     }
 
     public virtual Condition GetCondition()
     {
-        Debug.Log("Get Condition Need Override!");
+        Debug.Log(name + "\nGet Condition Need Override!");
         return null;
     }
 

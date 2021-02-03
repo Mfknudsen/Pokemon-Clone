@@ -76,13 +76,17 @@ public class Pokemon : ScriptableObject
     #endregion
 
     #region In Battle
+    [Header("Battlefield:")]
+    [SerializeField] private int spotIndex = 0;
     [Header("Visual:")]
     [SerializeField] private GameObject prefab = null;
     [SerializeField] private GameObject spawnedObject = null;
     [Header(" -- Animation:")]
     [SerializeField] private Animator anim = null;
     [Header("Turn")]
-    [SerializeField] private bool stunned = false;
+    [SerializeField] private bool stunned = false, gettingSwitched = false;
+    [Header("Action:")]
+    [SerializeField] private BattleAction battleAction = null;
     #endregion
     #endregion
 
@@ -239,8 +243,11 @@ public class Pokemon : ScriptableObject
 
     public ConditionOversight GetConditionOversight()
     {
-        if (!oversight.GetIsInstantiated())
-            oversight = oversight.GetConditionOversight();
+        if (oversight == null)
+        {
+            oversight = CreateInstance("ConditionOversight") as ConditionOversight;
+            oversight.SetIsInstantiated(true);
+        }
 
         return oversight;
     }
@@ -263,10 +270,36 @@ public class Pokemon : ScriptableObject
 
         return null;
     }
+
+    public int GetSpotIndex()
+    {
+        return spotIndex;
+    }
+
+    public GameObject GetPokemonPrefab()
+    {
+        return prefab;
+    }
+
+    public GameObject GetSpawnedObject()
+    {
+        return spawnedObject;
+    }
+
+    public BattleAction GetBattleAction()
+    {
+        return battleAction;
+    }
+
+    public Ability GetAbility()
+    {
+        return ability;
+    }
     #endregion
     #endregion
 
     #region Setters
+    #region Pokemon
     public void SetAbility(Ability toSet)
     {
         ability = toSet;
@@ -398,18 +431,25 @@ public class Pokemon : ScriptableObject
     }
     #endregion
 
-    #region Out
-    public void SpawnPokemon(Transform transform, bool back)
+    #region Battle
+    public void SetSpotIndex(int set)
     {
-        if (spawnedObject == null)
-        {
-            spawnedObject = Instantiate(prefab);
-            spawnedObject.transform.position = transform.position;
-            spawnedObject.transform.rotation = transform.rotation;
-            spawnedObject.transform.parent = transform;
-        }
+        spotIndex = set;
     }
 
+    public void SetSpawnedObject(GameObject set)
+    {
+        spawnedObject = set;
+    }
+
+    public void SetBattleAction(BattleAction set)
+    {
+        battleAction = set;
+    }
+    #endregion
+    #endregion
+
+    #region Out
     public void DespawnPokemon()
     {
         Destroy(spawnedObject);
@@ -420,7 +460,8 @@ public class Pokemon : ScriptableObject
     {
         if (types[0].GetTypeName() == typeName)
             return true;
-        else if (types[1] != null)
+
+        if (types[1] != null)
         {
             if (types[1].GetTypeName() == typeName)
                 return true;

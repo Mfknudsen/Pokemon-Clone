@@ -42,7 +42,7 @@ public class EditorPokemonMove : Editor
         conditionNames = new string[allConditionAssets.Length + 1];
 
         conditions.Add(null);
-        typeNames[0] = "Null";
+        conditionNames[0] = "Null";
         for (int i = 0; i < allConditionAssets.Length; i++)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(allConditionAssets[i]);
@@ -56,6 +56,7 @@ public class EditorPokemonMove : Editor
     {
         standard = GUI.color;
         script = (PokemonMove)target;
+        script.SetDirty();
         headerStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 30 };
         subheaderStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 25 };
         textStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 20 };
@@ -73,6 +74,10 @@ public class EditorPokemonMove : Editor
         GUILayout.Space(10);
 
         ShowContests();
+
+        GUILayout.Space(10);
+
+        base.OnInspectorGUI();
     }
 
     private void ShowBattle()

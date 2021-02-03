@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 [CreateAssetMenu(fileName = "ConditionOversight", menuName = "Condition/Create new Condition Oversight")]
 public class ConditionOversight : ScriptableObject
@@ -18,6 +20,7 @@ public class ConditionOversight : ScriptableObject
     [Header(" -- Before Pokemon Move:")]
     [SerializeField] private NonVolatile[] beforeNonVolatile = new NonVolatile[0];
     [SerializeField] private Volatile[] beforeVolatile = new Volatile[0];
+    [SerializeField] private bool isStunned = false;
 
     [Header(" -- End of turn:")]
     [SerializeField] private NonVolatile[] endNonVolatile = new NonVolatile[0];
@@ -27,15 +30,7 @@ public class ConditionOversight : ScriptableObject
     #region Getters
     public ConditionOversight GetConditionOversight()
     {
-        ConditionOversight result = this;
-
-        if (!result.GetIsInstantiated())
-        {
-            result = Instantiate(result);
-            result.SetIsInstantiated(true);
-        }
-
-        return result;
+        return this;
     }
 
     public bool GetIsInstantiated()
@@ -52,16 +47,43 @@ public class ConditionOversight : ScriptableObject
     {
         return done;
     }
+
+    public bool GetIsStunned()
+    {
+        return isStunned;
+    }
     #endregion
 
     #region Setters
     public void SetIsInstantiated(bool set)
     {
         isInstantiated = set;
+
+        #region Before
+        beforeNonVolatile = new NonVolatile[3];
+        beforeNonVolatile[0] = NonVolatile.Paralysis;
+        beforeNonVolatile[1] = NonVolatile.Freeze;
+        beforeNonVolatile[2] = NonVolatile.Sleep;
+
+        beforeVolatile = new Volatile[1];
+        beforeVolatile[0] = Volatile.Confusion;
+        #endregion
+
+        #region After
+        endNonVolatile = new NonVolatile[2];
+        endNonVolatile[0] = NonVolatile.Burn;
+        endNonVolatile[1] = NonVolatile.Poison;
+        #endregion
     }
+
     public void SetDone(bool set)
     {
         done = set;
+    }
+
+    public void SetIsStunned(bool set)
+    {
+        isStunned = set;
     }
     #endregion
 
@@ -77,9 +99,10 @@ public class ConditionOversight : ScriptableObject
         volatileStatus.Add(condition.GetCondition());
         return true;
     }
+
     public bool TryApplyNonVolatileCondition(Condition condition)
     {
-        if (nonVolatileStatus == null)
+        if (nonVolatileStatus == null || condition.GetConditionName() == NonVolatile.Fainted.ToString())
         {
             nonVolatileStatus = condition.GetCondition();
             return true;
@@ -87,11 +110,14 @@ public class ConditionOversight : ScriptableObject
 
         return false;
     }
+
     public void Reset()
     {
         conditionIndex = 0;
         done = false;
+        isStunned = false;
     }
+
     public void RemoveFromCondition(Condition condition)
     {
         if (volatileStatus.Contains(condition))
@@ -111,6 +137,7 @@ public class ConditionOversight : ScriptableObject
         done = false;
 
         List<Condition> toPlay = new List<Condition>();
+
         #region Check To Play
         if (nonVolatileStatus != null)
         {
@@ -160,11 +187,13 @@ public class ConditionOversight : ScriptableObject
 
         done = true;
     }
+
     public IEnumerator CheckConditionEndTurn()
     {
         done = false;
 
         List<Condition> toPlay = new List<Condition>();
+
         #region Check To Play
         if (nonVolatileStatus != null)
         {
@@ -207,7 +236,10 @@ public class ConditionOversight : ScriptableObject
                 while (checker != null)
                 {
                     if (checker.GetDone())
+                    {
                         BattleMaster.instance.SetConditionOperation(null);
+                        checker = null;
+                    }
                     yield return null;
                 }
 
@@ -215,6 +247,31 @@ public class ConditionOversight : ScriptableObject
             }
         }
         #endregion
+
+        done = true;
+    }
+
+    public IEnumerator CheckFaintedCondition()
+    {
+        done = false;
+        Condition c = nonVolatileStatus;
+
+        if (c.GetConditionName() == NonVolatile.Fainted.ToString())
+        {
+            BattleMaster.instance.SetConditionOperation(c.ActivateCondition(this));
+
+            while (c != null)
+            {
+                if (c.GetDone())
+                {
+                    BattleMaster.instance.SetConditionOperation(null);
+                    c = null;
+                }
+            }
+        }
+
+        yield return null;
+
         done = true;
     }
     #endregion

@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 #endregion
 
-#region Enums
-public enum ActionPriority { Instant, Fast, Normal, Slow }
-#endregion
-
 public abstract class BattleAction : ScriptableObject
 {
     #region Values
@@ -16,10 +12,13 @@ public abstract class BattleAction : ScriptableObject
     [SerializeField] protected bool done = false;
 
     [Header("Move Reference:")]
-    [SerializeField] protected ActionPriority priority = ActionPriority.Normal;
     [SerializeField] protected Pokemon currentPokemon = null;
     [SerializeField] protected Pokemon[] targetPokemon = new Pokemon[0];
     [SerializeField] protected bool moveActive = false;
+
+    [Header("Priority:")]
+    [SerializeField] protected int priority = 0;
+    [SerializeField] protected string[] priorityInteraction;
 
     [Header("Chat:")]
     [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
@@ -49,6 +48,11 @@ public abstract class BattleAction : ScriptableObject
     {
         return isInstantiated;
     }
+
+    public int GetPriority()
+    {
+        return priority;
+    }
     #endregion
 
     #region Setter
@@ -60,6 +64,11 @@ public abstract class BattleAction : ScriptableObject
     public void SetIsInstantiated(bool set)
     {
         isInstantiated = set;
+    }
+
+    public void SetPriority(int set)
+    {
+        priority = set;
     }
     #endregion
 
@@ -75,6 +84,15 @@ public abstract class BattleAction : ScriptableObject
         return Operation();
     }
 
+    #endregion
+
+    #region In
+    public bool CheckAction(BattleAction action)
+    {
+
+
+        return false;
+    }
     #endregion
 
     #region Internal

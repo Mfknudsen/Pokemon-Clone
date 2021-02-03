@@ -176,8 +176,6 @@ public class BattleMathf : MonoBehaviour
 
     public static bool CalculateCriticalRool()
     {
-        float result = 0;
-
         return false;
     }
 

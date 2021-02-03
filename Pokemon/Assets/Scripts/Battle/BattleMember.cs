@@ -1,20 +1,25 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 namespace Trainer
 {
     public class BattleMember : MonoBehaviour
     {
+        #region Values
         [Header("Object Reference:")]
         [SerializeField] private string memberName = "";
 
         [Header("Team:")]
-        [SerializeField] private Team team = null;
+        [SerializeField] private Team pokemonTeam = null;
+        [SerializeField] private int teamNumber = 1; //0 is player and player teammates
 
         [Header("Move Selection:")]
         public bool selectMove = false;
         public bool hasSelectedMove = false;
+        #endregion
 
         #region Getters
         public string GetName()
@@ -24,15 +29,20 @@ namespace Trainer
 
         public Team GetTeam()
         {
-            return team;
+            return pokemonTeam;
+        }
+
+        public int GetTeamNumber()
+        {
+            return teamNumber;
         }
         #endregion
 
-        public Pokemon SendOutFirstPokemon(Transform spawnPoint)
+        #region Setters
+        public void SetTeamNumber(int set)
         {
-            Pokemon pokemon = Instantiate(team.GetPokemonByIndex(0));
-
-            return pokemon;
+            teamNumber = set;
         }
+        #endregion
     }
 }

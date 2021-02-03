@@ -12,9 +12,9 @@ public class MainMenu : MonoBehaviour
     #endregion
 
     #region Out
-    public void LoadTestBattle()
+    public void LoadScene(string sceneName)
     {
-        WorldMaster.instance.LoadTestBattleScene();
+        WorldMaster.instance.LoadScene(sceneName);
     }
     #endregion
 }

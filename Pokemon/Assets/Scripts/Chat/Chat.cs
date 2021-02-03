@@ -151,8 +151,6 @@ public class Chat : ScriptableObject
             yield return new WaitForSeconds(relativSpeed);
         }
 
-        Debug.Log("Done: " + done + "\n" + name);
-
         while (waiting)
             yield return null;
     }
@@ -170,6 +168,8 @@ public class Chat : ScriptableObject
     #region Internal
     protected virtual void CheckTextOverride()
     {
+        AddPronounsToOverride();
+
         for (int i = 0; i < textList.Length; i++)
         {
             for (int j = 0; j < replaceString.Count; j++)
@@ -178,6 +178,14 @@ public class Chat : ScriptableObject
                     textList[i] = textList[i].Replace(replaceString[j], addString[j]);
             }
         }
+    }
+
+    private void AddPronounsToOverride()
+    {
+        string[] pronouns = Player.MasterPlayer.instance.GetPronouns();
+
+        AddToOverride("P_ONE", pronouns[0]);
+        AddToOverride("P_TWO", pronouns[1]);
     }
     #endregion
 }
