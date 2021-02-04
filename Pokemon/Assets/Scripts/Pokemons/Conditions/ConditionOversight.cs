@@ -267,6 +267,7 @@ public class ConditionOversight : ScriptableObject
                     BattleMaster.instance.SetConditionOperation(null);
                     c = null;
                 }
+                yield return null;
             }
         }
 

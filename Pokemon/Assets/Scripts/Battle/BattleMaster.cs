@@ -43,8 +43,9 @@ public class BattleMaster : MonoBehaviour
     /////
     /////
 
-    [Header(" -- Select New:")]
-    Vector3 v3placeholder;
+    [Header(" -- Fainted:")]
+    [SerializeField] private bool isFainted = false;
+    [SerializeField] private List<Pokemon> faintedPokemon = new List<Pokemon>();
 
     [Header("Conditions:")]
     [SerializeField] private ConditionOversight checking = null;
@@ -63,7 +64,6 @@ public class BattleMaster : MonoBehaviour
     [Header(" -- Effective")]
     [SerializeField] private Chat superEffective = null;
     [SerializeField] private Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
-
 
     [Header("Chat:")]
     [SerializeField] private Chat SwitchChat = null;
@@ -91,48 +91,53 @@ public class BattleMaster : MonoBehaviour
             spots[i].SetSpotNumber(i);
         }
 
+        if (members[0] == null)
+            members[0] = Player.MasterPlayer.instance.gameObject.GetComponent<BattleMember>();
+
         state = MasterState.Setup;
     }
 
     private void Update()
     {
-        if (members[0] == null)
-            members[0] = Player.MasterPlayer.instance.gameObject.GetComponent<BattlePlayer>();
-
-        switch (state)
+        if (!isFainted)
         {
-            case MasterState.Setup:
-                Setup();
-                break;
+            switch (state)
+            {
+                case MasterState.Setup:
+                    Setup();
+                    break;
 
-            case MasterState.Starting:
-                Starting();
-                break;
+                case MasterState.Starting:
+                    Starting();
+                    break;
 
-            case MasterState.ChoosingMove:
-                ChoosingMove();
-                break;
+                case MasterState.ChoosingMove:
+                    ChoosingMove();
+                    break;
 
-            case MasterState.AI:
-                AI();
-                break;
+                case MasterState.AI:
+                    AI();
+                    break;
 
-            case MasterState.Checking:
-                Checking();
-                break;
+                case MasterState.Checking:
+                    Checking();
+                    break;
 
-            case MasterState.Action:
-                Action();
-                break;
+                case MasterState.Action:
+                    Action();
+                    break;
 
-            case MasterState.RoundDone:
-                RoundDone();
-                break;
+                case MasterState.RoundDone:
+                    RoundDone();
+                    break;
 
-            case MasterState.SelectNew:
-                SelectNew();
-                break;
+                case MasterState.SelectNew:
+                    SelectNew();
+                    break;
+            }
         }
+        else
+            DoFaintedPokemon();
     }
     #endregion
 
@@ -390,7 +395,7 @@ public class BattleMaster : MonoBehaviour
                         }
                     }
                 }
-                Debug.Log(allOpposite);
+
                 if (allOpposite)
                     state = MasterState.RoundDone;
                 else
@@ -427,6 +432,33 @@ public class BattleMaster : MonoBehaviour
                 //Debug.Log("Unloading");
             }
         }
+    }
+
+    private void DoFaintedPokemon()
+    {
+        Debug.Log("Start");
+        foreach (Pokemon p in faintedPokemon)
+        {
+            if (checking == null)
+            {
+                Debug.Log("New");
+                checking = p.GetConditionOversight();
+                conditionChecker = StartCoroutine(p.GetConditionOversight().CheckFaintedCondition());
+            }
+        }
+
+        if (checking != null)
+        {
+            if (checking.GetDone())
+            {
+                faintedPokemon.Remove(checking.GetNonVolatileStatus().GetPokemon());
+                checking = null;
+                conditionChecker = null;
+            }
+        }
+
+        if (faintedPokemon.Count == 0)
+            isFainted = false;
     }
     #endregion
 
@@ -658,11 +690,12 @@ public class BattleMaster : MonoBehaviour
     {
         if (pokemon.GetCurrentHealth() == 0)
         {
-            Debug.Log("Fainted");
-
             Condition condition = faintCondtion.GetCondition();
             condition.SetAffectedPokemon(pokemon);
             pokemon.GetConditionOversight().TryApplyNonVolatileCondition(condition);
+
+            faintedPokemon.Add(pokemon);
+            isFainted = true;
 
             return indirect.Value;
         }

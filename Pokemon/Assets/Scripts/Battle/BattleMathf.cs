@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleMathf : MonoBehaviour
+public class BattleMathf : ScriptableObject
 {
     #region Values
     [SerializeField] private static Chat superEffective = null, notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;

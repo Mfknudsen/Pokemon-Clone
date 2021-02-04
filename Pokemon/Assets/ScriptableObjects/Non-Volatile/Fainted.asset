@@ -17,4 +17,5 @@ MonoBehaviour:
   conditionEffect: Fainted
   active: 0
   done: 0
-  onEffectChat: {fileID: 0}
+  conditionName: 5
+  onEffectChat: {fileID: 11400000, guid: 5a7dd26d15b9f13458ac4a86282faf37, type: 2}

@@ -16,10 +16,14 @@ public abstract class Condition : ScriptableObject
     [SerializeField] protected Pokemon affectedPokemon = null;
     [SerializeField] protected string conditionEffect = "";
     [SerializeField] protected bool active = false, done = false;
-
     #endregion
 
     #region Getters
+    public Pokemon GetPokemon()
+    {
+        return affectedPokemon;
+    }
+
     public virtual string GetConditionName()
     {
         Debug.Log(name + "\nGet Condition Name Need Override!");
