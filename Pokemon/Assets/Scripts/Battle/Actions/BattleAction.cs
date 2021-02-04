@@ -13,7 +13,7 @@ public abstract class BattleAction : ScriptableObject
 
     [Header("Move Reference:")]
     [SerializeField] protected Pokemon currentPokemon = null;
-    [SerializeField] protected Pokemon[] targetPokemon = new Pokemon[0];
+    [SerializeField] protected List<Pokemon> targetPokemon = new List<Pokemon>();
     [SerializeField] protected bool moveActive = false;
 
     [Header("Priority:")]
@@ -86,15 +86,6 @@ public abstract class BattleAction : ScriptableObject
 
     #endregion
 
-    #region In
-    public bool CheckAction(BattleAction action)
-    {
-
-
-        return false;
-    }
-    #endregion
-
     #region Internal
     protected void SetupChats()
     {
@@ -106,6 +97,12 @@ public abstract class BattleAction : ScriptableObject
     {
         Debug.Log("Transfering");
         return new Chat[0];
+    }
+
+    protected virtual Spot[] SetupTargets(int targetIndex)
+    {
+        Debug.Log("Setup Targets Need Over!");
+        return new Spot[0];
     }
     #endregion
 

@@ -240,9 +240,9 @@ MonoBehaviour:
   activePokemons:
   - {fileID: 0}
   - {fileID: 0}
-  spawnPoints:
-  - {fileID: 1948162614}
-  - {fileID: 1440984568}
+  spots:
+  - {fileID: 1948162615}
+  - {fileID: 1440984569}
   switchAction: {fileID: 11400000, guid: b4b2eb28d8602f14f896b1a7f3eda8cc, type: 2}
   actionIndex: 0
   actionList: []
@@ -1285,6 +1285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1440984568}
+  - component: {fileID: 1440984569}
   m_Layer: 0
   m_Name: EnemyBattlestation
   m_TagString: Untagged
@@ -1307,6 +1308,25 @@ Transform:
   m_Father: {fileID: 954402177}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1440984569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440984567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8cfb8f3ba12c341bea33caa75e0a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  activePokemon: {fileID: 0}
+  spotNumber: -1
+  left: {fileID: 0}
+  right: {fileID: 0}
+  front: {fileID: 1948162615}
+  currentTransform: {fileID: 0}
 --- !u!1 &1460872855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,6 +1512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948162614}
+  - component: {fileID: 1948162615}
   m_Layer: 0
   m_Name: PlayerBattlestation
   m_TagString: Untagged
@@ -1514,6 +1535,25 @@ Transform:
   m_Father: {fileID: 954402177}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948162615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948162613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8cfb8f3ba12c341bea33caa75e0a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  activePokemon: {fileID: 0}
+  spotNumber: -1
+  left: {fileID: 0}
+  right: {fileID: 0}
+  front: {fileID: 1440984569}
+  currentTransform: {fileID: 0}
 --- !u!1001 &1996421241
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - faintCondtion: {fileID: 11400000, guid: d801e3dd745c6cf41acbf0755efe1204, type: 2}
   - switchAction: {fileID: 11400000, guid: b4b2eb28d8602f14f896b1a7f3eda8cc, type: 2}
   - action: {instanceID: 0}
   - checking: {instanceID: 0}

@@ -23,8 +23,10 @@ public enum Contest
 public enum HitType
 {
     One,
+    AllAdjacentOneSide,
+    AllAdjacent,
     AllOneSide,
-    All
+    All,
 }
 #endregion
 
@@ -46,6 +48,7 @@ public class PokemonMove : BattleAction
     [SerializeField] protected bool affectByProtect = false, affectByMagicCoat = false, affectBySnatch = false, affectByMirrorMove = false, affectByKingsRock = false;
 
     [Header("Target:")]
+    [SerializeField] protected int targetIndex = -1;
     [SerializeField] protected HitType hitType = 0;
     [SerializeField] protected bool selfTargetable = false;
     [SerializeField] protected bool[] enemyTargetable = new bool[3];
@@ -85,9 +88,9 @@ public class PokemonMove : BattleAction
     #endregion
 
     #region Setters
-    public void SetTargetPokemon(Pokemon[] targets)
+    public void SetTargetIndex(int set)
     {
-        targetPokemon = targets;
+        targetIndex = set;
     }
 
     public void SetType(Type set)
@@ -322,6 +325,15 @@ public class PokemonMove : BattleAction
     {
         if (!active)
         {
+            foreach (Spot s in SetupTargets(targetIndex))
+            {
+                if (s != null)
+                {
+                    if (s.GetActivePokemon() != null)
+                        targetPokemon.Add(s.GetActivePokemon());
+                }
+            }
+
             SendChatsToMaster(TransferInformationToChat());
 
             active = true;
@@ -330,7 +342,7 @@ public class PokemonMove : BattleAction
 
         if (category != Category.Status)
         {
-            if (targetPokemon.Length > 0 && currentPokemon != null && power > 0)
+            if (targetPokemon.Count > 0)
             {
                 if (category == Category.Physical || category == Category.Special)
                 {
@@ -339,9 +351,10 @@ public class PokemonMove : BattleAction
                     if (category == Category.Physical)
                         attack = currentPokemon.GetStat(Stat.Attack);
 
-                    damagePerTarget = new float[targetPokemon.Length];
+                    damagePerTarget = new float[targetPokemon.Count];
 
-                    for (int i = 0; i < targetPokemon.Length; i++)
+
+                    for (int i = 0; i < targetPokemon.Count; i++)
                     {
                         Pokemon p = targetPokemon[i];
                         float defence = p.GetStat(Stat.SpDef);
@@ -355,13 +368,15 @@ public class PokemonMove : BattleAction
                             defence,
                             power,
                             BattleMathf.CalculateModifiers(
-                                currentPokemon, p, this, (targetPokemon.Length == 1)));
+                                currentPokemon, p, this, (targetPokemon.Count == 1)));
 
                         damagePerTarget[i] = damage;
                     }
 
                 }
             }
+            else
+                Debug.Log("No targets to hit");
         }
         else
         {
@@ -421,6 +436,128 @@ public class PokemonMove : BattleAction
         return result;
     }
 
+    protected override Spot[] SetupTargets(int Index)
+    {
+        targetPokemon.Clear();
+        List<Spot> result = new List<Spot>();
+        Spot[] toCheck = BattleMaster.instance.GetSpots();
+
+        if (hitType == HitType.One)
+        {
+            //The Spot relativ to the index is returned
+            foreach (Spot s in toCheck)
+            {
+                if (s.GetSpotNumber() == Index)
+                {
+                    result.Add(s);
+                    break;
+                }
+            }
+        }
+        else if (hitType == HitType.AllOneSide)
+        {
+            bool checkDone = false;
+
+            foreach (Spot s in toCheck)
+            {
+                if (s.GetSpotNumber() == Index)
+                    result.Add(s);
+            }
+
+            while (!checkDone)
+            {
+                checkDone = true;
+
+                foreach (Spot s in result)
+                {
+                    bool allowSelfTarget = true;
+
+                    if (s.GetLeft() != null)
+                    {
+                        if (s.GetLeft().GetActivePokemon() == currentPokemon && !selfTargetable)
+                            allowSelfTarget = false;
+
+                        if (!result.Contains(s.GetLeft()) && allowSelfTarget)
+                        {
+                            result.Add(s.GetLeft());
+                            checkDone = false;
+                        }
+                    }
+
+                    allowSelfTarget = true;
+
+                    if (s.GetRight() != null)
+                    {
+                        if (s.GetRight().GetActivePokemon() == currentPokemon && !selfTargetable)
+                            allowSelfTarget = false;
+
+                        if (!result.Contains(s.GetRight()))
+                        {
+                            result.Add(s.GetRight());
+                            checkDone = false;
+                        }
+                    }
+                }
+            }
+        }
+        else if (hitType == HitType.AllAdjacentOneSide)
+        {
+            foreach (Spot s in toCheck)
+            {
+                if (s.GetSpotNumber() == Index)
+                {
+                    if (s.GetActivePokemon() != currentPokemon)
+                        result.Add(s);
+
+                    result.Add(s.GetLeft());
+                    result.Add(s.GetRight());
+
+                    break;
+                }
+            }
+        }
+        else if (hitType == HitType.AllAdjacent)
+        {
+            foreach (Spot s in toCheck)
+            {
+                if (s.GetActivePokemon() == currentPokemon)
+                {
+                    if (s.GetLeft() != null)
+                    {
+                        result.Add(s.GetLeft());
+                        result.Add(s.GetLeft().GetFront());
+                    }
+                    if (s.GetRight() != null)
+                    {
+                        result.Add(s.GetRight());
+                        result.Add(s.GetRight().GetFront());
+                    }
+                    if (s.GetFront() != null)
+                    {
+                        result.Add(s.GetFront());
+
+                        if (s.GetLeft() == null)
+                            result.Add(s.GetFront().GetRight());
+                        if (s.GetRight() == null)
+                            result.Add(s.GetFront().GetLeft());
+                    }
+
+                    break;
+                }
+            }
+        }
+        else if (hitType == HitType.All)
+        {
+            foreach (Spot s in toCheck)
+            {
+                if (s.GetActivePokemon() != currentPokemon)
+                    result.Add(s);
+                else if (s.GetActivePokemon() == currentPokemon && selfTargetable)
+                    result.Add(s);
+            }
+        }
+        return result.ToArray();
+    }
     #endregion
 
     #region IEnumerator
@@ -432,15 +569,15 @@ public class PokemonMove : BattleAction
             {
                 float divide = 200 * BattleMaster.instance.GetSecPerPokeMove();
 
-                float[] damageApplied = new float[targetPokemon.Length];
-                float[] damageOverTime = new float[targetPokemon.Length];
+                float[] damageApplied = new float[targetPokemon.Count];
+                float[] damageOverTime = new float[targetPokemon.Count];
 
-                for (int i = 0; i < targetPokemon.Length; i++)
+                for (int i = 0; i < targetPokemon.Count; i++)
                     damageOverTime[i] = damagePerTarget[i] / divide;
 
                 while (damageApplied[0] < damagePerTarget[0])
                 {
-                    for (int i = 0; i < targetPokemon.Length; i++)
+                    for (int i = 0; i < targetPokemon.Count; i++)
                     {
                         if (Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]) == damagePerTarget[i])
                             damageOverTime[i] = damagePerTarget[i] - damageApplied[i];

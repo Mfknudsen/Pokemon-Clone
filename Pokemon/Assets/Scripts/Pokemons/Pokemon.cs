@@ -84,7 +84,7 @@ public class Pokemon : ScriptableObject
     [Header(" -- Animation:")]
     [SerializeField] private Animator anim = null;
     [Header("Turn")]
-    [SerializeField] private bool stunned = false, gettingSwitched = false;
+    [SerializeField] private bool gettingSwitched = false, inBattle = false;
     [Header("Action:")]
     [SerializeField] private BattleAction battleAction = null;
     #endregion
@@ -295,6 +295,16 @@ public class Pokemon : ScriptableObject
     {
         return ability;
     }
+
+    public bool GetGettingSwitched()
+    {
+        return gettingSwitched;
+    }
+
+    public bool GetInBattle()
+    {
+        return inBattle;
+    }
     #endregion
     #endregion
 
@@ -445,6 +455,16 @@ public class Pokemon : ScriptableObject
     public void SetBattleAction(BattleAction set)
     {
         battleAction = set;
+    }
+
+    public void SetGettingSwitched(bool set)
+    {
+        gettingSwitched = set;
+    }
+
+    public void SetInBattle(bool set)
+    {
+        inBattle = set;
     }
     #endregion
     #endregion

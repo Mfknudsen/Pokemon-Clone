@@ -25,28 +25,15 @@ public class BattleMaster : MonoBehaviour
 
     [Header("Members:")]
     [SerializeField] private BattleMember[] members = new BattleMember[2];
-
-    [Header("Pokemons:")]
     [SerializeField] private Pokemon[] activePokemons = new Pokemon[2];
 
-    [Header("Transforms")]
-    [SerializeField] private Transform[] spawnPoints = new Transform[2];
-
-    [Header("States:")]
-    string splacerholder;
-
-    [Header(" -- SetUp:")]
-    int iplaceholder;
-
-    [Header(" -- Action Selection:")]
-    [SerializeField] private SwitchAction switchAction = null;
-
-    [Header(" -- Checking:")]
-
+    [Header("Battlefield:")]
+    [SerializeField] private Spot[] spots;
 
     /////
     /////
     [Header(" -- Actions:")]
+    [SerializeField] private SwitchAction switchAction = null;
     [SerializeField] private int actionIndex = 0;
     [SerializeField] private List<BattleAction> actionList = new List<BattleAction>();
     [SerializeField] private float secondsPerPokemonMove = 1;
@@ -97,6 +84,12 @@ public class BattleMaster : MonoBehaviour
         BattleMathf.SetNoEffect(noEffect);
         BattleMathf.SetBarelyEffective(barelyEffective);
         BattleMathf.SetExtremlyEffective(extremlyEffective);
+
+        for (int i = 0; i < spots.Length; i++)
+        {
+            spots[i].SetTransform();
+            spots[i].SetSpotNumber(i);
+        }
 
         state = MasterState.Setup;
     }
@@ -206,7 +199,7 @@ public class BattleMaster : MonoBehaviour
                 if (pokemon.GetBattleAction() != null)
                 {
                     (pokemon.GetBattleAction() as PokemonMove).SetCurrentPokemon(pokemon);
-                    (pokemon.GetBattleAction() as PokemonMove).SetTargetPokemon(new Pokemon[] { activePokemons[0] });
+                    (pokemon.GetBattleAction() as PokemonMove).SetTargetIndex(0);
                 }
             }
         }
@@ -442,9 +435,15 @@ public class BattleMaster : MonoBehaviour
     {
         return secondsPerPokemonMove;
     }
+
     public Coroutine GetConditionOperation()
     {
         return conditionOperation;
+    }
+
+    public Spot[] GetSpots()
+    {
+        return spots;
     }
     #endregion
 
@@ -467,10 +466,10 @@ public class BattleMaster : MonoBehaviour
     public void SpawnPokemon(Pokemon pokemon, int spotIndex)
     {
         BattleLog.instance.AddNewLog(name, "Spawning: " + pokemon.GetName());
-        if (spotIndex < 0 || spotIndex >= spawnPoints.Length)
+        if (spotIndex < 0 || spotIndex >= spots.Length)
             return;
         GameObject obj = Instantiate(pokemon.GetPokemonPrefab());
-        Transform trans = spawnPoints[spotIndex];
+        Transform trans = spots[spotIndex].GetTransform();
 
         activePokemons[spotIndex] = pokemon;
 
@@ -479,6 +478,8 @@ public class BattleMaster : MonoBehaviour
         obj.transform.position = trans.position;
         obj.transform.rotation = trans.rotation;
         obj.transform.parent = trans;
+
+        spots[spotIndex].SetActivePokemon(pokemon);
 
         //Check if spawned object is placeholder;
         PokemonPlaceholder.CheckPlaceholder(pokemon, obj);
@@ -602,7 +603,7 @@ public class BattleMaster : MonoBehaviour
             if (move != null)
             {
                 move.SetCurrentPokemon(activePokemons[0]);
-                move.SetTargetPokemon(new Pokemon[] { activePokemons[1] });
+                move.SetTargetIndex(1);
                 move.GetCurrentPokemon().SetBattleAction(move);
             }
         }

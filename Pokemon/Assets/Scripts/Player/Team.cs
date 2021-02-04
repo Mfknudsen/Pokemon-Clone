@@ -8,9 +8,50 @@ namespace Trainer
 {
     public class Team : MonoBehaviour
     {
+        #region Values
         [SerializeField] private Pokemon[] pokemons = new Pokemon[6];
         private bool ready = false;
+        #endregion
 
+        #region Getters
+        public bool GetReady()
+        {
+            return ready;
+        }
+
+        public bool HasMorePokemon()
+        {
+            foreach (Pokemon pokemon in pokemons)
+            {
+                if (pokemon != null)
+                {
+                    Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
+                    if (c != null)
+                    {
+                        if (c.GetConditionName() != NonVolatile.Fainted.ToString())
+                            return true;
+                    }
+                    else
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool PartOfTeam(Pokemon pokemon)
+        {
+            foreach (Pokemon p in pokemons)
+            {
+                if (p == pokemon)
+                    return true;
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region In
         public void Setup()
         {
             for (int i = 0; i < pokemons.Length; i++)
@@ -20,11 +61,6 @@ namespace Trainer
             }
 
             ready = true;
-        }
-
-        public bool GetReady()
-        {
-            return ready;
         }
 
         public Pokemon GetPokemonByIndex(int index)
@@ -37,7 +73,6 @@ namespace Trainer
 
             return null;
         }
-
         #region SwitchingPokemon
         public void SwitchTeamPlaces(int from, int to)
         {
@@ -73,36 +108,6 @@ namespace Trainer
             pokemons[i] = toStore;
         }
         #endregion
-
-        public bool HasMorePokemon()
-        {
-            foreach (Pokemon pokemon in pokemons)
-            {
-                if (pokemon != null)
-                {
-                    Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
-                    if (c != null)
-                    {
-                        if (c.GetConditionName() != NonVolatile.Fainted.ToString())
-                            return true;
-                    }
-                    else
-                        return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool PartOfTeam(Pokemon pokemon)
-        {
-            foreach (Pokemon p in pokemons)
-            {
-                if (p == pokemon)
-                    return true;
-            }
-
-            return false;
-        }
+        #endregion
     }
 }

@@ -35,10 +35,11 @@ MonoBehaviour:
   affectBySnatch: 0
   affectByMirrorMove: 1
   affectByKingsRock: 0
+  targetIndex: -1
   hitType: 0
   selfTargetable: 0
-  enemyTargetable: 000000
-  allyTargetable: 0000
+  enemyTargetable: 010100
+  allyTargetable: 0100
   normalCondition: 0
   normalAppeal: 0
   normalJam: 0

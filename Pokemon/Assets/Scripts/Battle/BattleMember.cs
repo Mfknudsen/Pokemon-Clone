@@ -16,6 +16,9 @@ namespace Trainer
         [SerializeField] private Team pokemonTeam = null;
         [SerializeField] private int teamNumber = 1; //0 is player and player teammates
 
+        [Header("")]
+        [SerializeField] private List<Spot> owendSpots = new List<Spot>();
+
         [Header("Move Selection:")]
         public bool selectMove = false;
         public bool hasSelectedMove = false;
@@ -42,6 +45,12 @@ namespace Trainer
         public void SetTeamNumber(int set)
         {
             teamNumber = set;
+        }
+
+        public void SetOwendSpot(Spot set)
+        {
+            if (set != null)
+                owendSpots.Add(set);
         }
         #endregion
     }

@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
     <Compile Include="Assets\Scripts\Battle\BattlePlayer.cs" />
     <Compile Include="Assets\Scripts\Battle\PokemonDisplay.cs" />
+    <Compile Include="Assets\Scripts\Battle\Spot.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\BattleDisplay.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\ProgressBar.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\SelectionMenu.cs" />
