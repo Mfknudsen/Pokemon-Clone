@@ -11,13 +11,19 @@ namespace Trainer
         #region Values
         [Header("Object Reference:")]
         [SerializeField] private string memberName = "";
+        [SerializeField] bool isPlayer = false;
+
+        [Header("Inventory:")]
+        [SerializeField] private Inventory inventory = null;
 
         [Header("Team:")]
         [SerializeField] private Team pokemonTeam = null;
         [SerializeField] private int teamNumber = 1; //0 is player and player teammates
 
-        [Header("")]
-        [SerializeField] private List<Spot> owendSpots = new List<Spot>();
+        [Header("Spots")]
+        [SerializeField] private int spotsToOwn = 1;
+        [SerializeField] bool hasAllSpots = false;
+        [SerializeField] private List<Spot> owndSpots = new List<Spot>();
 
         [Header("Move Selection:")]
         public bool selectMove = false;
@@ -39,6 +45,32 @@ namespace Trainer
         {
             return teamNumber;
         }
+
+        public List<Spot> GetOwnedSpots()
+        {
+            return owndSpots;
+        }
+
+        public bool OwnSpot(Spot spot)
+        {
+
+            return owndSpots.Contains(spot);
+        }
+
+        public bool IsPlayer()
+        {
+            return isPlayer;
+        }
+
+        public bool HasAllSpots()
+        {
+            return hasAllSpots;
+        }
+
+        public Inventory GetInventory()
+        {
+            return inventory;
+        }
         #endregion
 
         #region Setters
@@ -47,10 +79,15 @@ namespace Trainer
             teamNumber = set;
         }
 
-        public void SetOwendSpot(Spot set)
+        public void SetOwndSpot(Spot set)
         {
             if (set != null)
-                owendSpots.Add(set);
+            {
+                if (!owndSpots.Contains(set))
+                    owndSpots.Add(set);
+            }
+
+            hasAllSpots = (owndSpots.Count == spotsToOwn);
         }
         #endregion
     }

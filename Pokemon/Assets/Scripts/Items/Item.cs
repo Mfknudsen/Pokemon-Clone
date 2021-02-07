@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
-public enum ItemType { Berry, MegaStone, Potion, }
+#region Enums
+public enum ItemType { Berry, MegaStone, Revive, Potion, }
+#endregion
 
 [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new standard Item")]
 public class Item : ScriptableObject
@@ -15,6 +19,10 @@ public class Item : ScriptableObject
     [SerializeField] protected ItemType type = 0;
     [SerializeField] protected string itemName = "";
     [SerializeField, TextArea] protected string description = "";
+
+    [Header("Operation:")]
+    [SerializeField] private bool inUse = false;
+    [SerializeField] private bool active = false, done = false;
     #endregion
 
     #region Getters
@@ -50,12 +58,39 @@ public class Item : ScriptableObject
     {
         return description;
     }
+
+    public bool GetInUse()
+    {
+        return inUse;
+    }
+
+    public bool GetDone()
+    {
+        return done;
+    }
     #endregion
 
     #region Setters
     public void SetIsInstantiated(bool set)
     {
         isInstantiated = set;
+    }
+
+    public void SetInUse(bool set)
+    {
+        inUse = set;
+    }
+    #endregion
+
+    #region Out
+    public IEnumerator Activate()
+    {
+        active = true;
+
+        Debug.Log("Activate Need Override");
+        yield return null;
+        
+        done = true;
     }
     #endregion
 }

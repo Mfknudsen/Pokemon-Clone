@@ -13,7 +13,24 @@ public class Spot : MonoBehaviour
     [SerializeField] private Spot left = null, right = null, front = null;
     [SerializeField] private Transform currentTransform = null;
     [SerializeField] private Trainer.Team teamAllowed = null;
+
+    [Header("UI:")]
+    [SerializeField] Vector2 offset = Vector2.zero;
+    [SerializeField] private BattleUI.PokemonDisplay display = null;
+    [SerializeField] private GameObject displayPrefab = null;
     #endregion
+
+    private void Update()
+    {
+        //DEBUG
+        if (left != null)
+            Debug.DrawRay(currentTransform.position, currentTransform.position - left.GetTransform().position);
+        if (right != null)
+            Debug.DrawRay(currentTransform.position, currentTransform.position - right.GetTransform().position);
+        if (front != null)
+            Debug.DrawRay(currentTransform.position, currentTransform.position - front.GetTransform().position);
+        //
+    }
 
     #region Getters
     public Spot GetLeft()
@@ -48,6 +65,11 @@ public class Spot : MonoBehaviour
     {
         return currentTransform;
     }
+
+    public Trainer.Team GetAllowedTeam()
+    {
+        return teamAllowed;
+    }
     #endregion
 
     #region Setters
@@ -67,6 +89,9 @@ public class Spot : MonoBehaviour
     public void SetActivePokemon(Pokemon set)
     {
         activePokemon = set;
+
+        if (set != null)
+            display.SetNewPokemon(set);
     }
 
     public void SetSpotNumber(int set)
@@ -82,6 +107,25 @@ public class Spot : MonoBehaviour
     public void SetTransform()
     {
         currentTransform = transform;
+    }
+
+    public void SetAllowedTeam(Trainer.Team t)
+    {
+        if (t != null)
+            teamAllowed = t;
+    }
+    #endregion
+
+    #region In
+    public void Setup(Transform origin, int i)
+    {
+        GameObject obj = Instantiate(displayPrefab);
+        Vector2 v2 = origin.position;
+        obj.transform.position = v2 + offset * i;
+        obj.transform.parent = origin;
+        obj.transform.localScale = Vector3.one;
+
+        display = obj.GetComponent<BattleUI.PokemonDisplay>();
     }
     #endregion
 }

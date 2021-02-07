@@ -19,7 +19,7 @@ public abstract class Condition : ScriptableObject
     #endregion
 
     #region Getters
-    public Pokemon GetPokemon()
+    public Pokemon GetAffectedPokemon()
     {
         return affectedPokemon;
     }

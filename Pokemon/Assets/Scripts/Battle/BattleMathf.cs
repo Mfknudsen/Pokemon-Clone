@@ -67,14 +67,14 @@ public class BattleMathf : ScriptableObject
         #endregion
         #region Weather
         float weather = 1;
-        if (BattleMaster.weather == Weather.Rain)
+        if (BattleMaster.instance.GetWeather() == Weather.Rain)
         {
             if (attackType == TypeName.Fire)
                 weather = 0.5f;
             else if (attackType == TypeName.Water)
                 weather = 1.5f;
         }
-        else if (BattleMaster.weather == Weather.HarshSunlight)
+        else if (BattleMaster.instance.GetWeather() == Weather.HarshSunlight)
         {
             if (attackType == TypeName.Fire)
                 weather = 1.5f;

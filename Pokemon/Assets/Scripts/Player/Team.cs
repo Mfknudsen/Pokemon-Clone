@@ -39,6 +39,25 @@ namespace Trainer
             return false;
         }
 
+        public bool CanSendMorePokemon()
+        {
+            foreach (Pokemon pokemon in pokemons)
+            {
+                if (pokemon != null)
+                {
+                    if (!pokemon.GetInBattle() && !pokemon.GetGettingSwitched())
+                    {
+                        if (pokemon.GetConditionOversight().GetNonVolatileStatus() == null)
+                            return true;
+                        else if (pokemon.GetConditionOversight().GetNonVolatileStatus().GetConditionName() != NonVolatile.Fainted.ToString())
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public bool PartOfTeam(Pokemon pokemon)
         {
             foreach (Pokemon p in pokemons)
@@ -48,6 +67,20 @@ namespace Trainer
             }
 
             return false;
+        }
+
+        public Pokemon GetFirstOut()
+        {
+            foreach (Pokemon p in pokemons)
+            {
+                if (p != null)
+                {
+                    if (!p.GetInBattle() && !p.GetGettingSwitched())
+                        return p;
+                }
+            }
+
+            return null;
         }
         #endregion
 

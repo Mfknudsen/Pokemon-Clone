@@ -49,6 +49,12 @@ public class WorldMaster : MonoBehaviour
         currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, false));
     }
 
+    public void LoadBattleScene(string sceneName)
+    {
+        currentLoadedBattleScene = sceneName;
+        currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, true));
+    }
+
     public void UnloadCurrentBattleScene()
     {
         currentOperation = StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene));

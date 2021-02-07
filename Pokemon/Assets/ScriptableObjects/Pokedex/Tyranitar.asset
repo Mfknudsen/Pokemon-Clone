@@ -35,9 +35,9 @@ MonoBehaviour:
   evolutionLevel: 0
   learnedMoves:
   - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 11400000, guid: 9b5925b9daf5f7340b656f336b0b7bcf, type: 2}
-  - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
-  - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   levelLearnableMoveKeys: 
   levelLearnableMoveValue: []
   tmLearnableMoveValue: []
@@ -62,5 +62,6 @@ MonoBehaviour:
   prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
-  stunned: 0
   gettingSwitched: 0
+  inBattle: 0
+  battleAction: {fileID: 0}

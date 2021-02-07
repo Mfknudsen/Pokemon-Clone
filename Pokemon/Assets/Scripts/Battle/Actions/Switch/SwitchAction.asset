@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ecec7d9512c1c47955d6387184977a, type: 3}
+  m_Name: SwitchAction
+  m_EditorClassIdentifier: 
+  active: 0
+  done: 0
+  currentPokemon: {fileID: 0}
+  targetPokemon: []
+  moveActive: 0
+  priority: 2
+  priorityInteraction: []
+  chatOnActivation:
+  - {fileID: 11400000, guid: 76a09965ebd8aad44af51a50197b127a, type: 2}
+  team: {fileID: 0}
+  display: {fileID: 0}
+  nextPokemon: {fileID: 0}
+  nextChat:
+  - {fileID: 11400000, guid: b5b9acee84921714ea4abe2ec1832175, type: 2}
+  spot: {fileID: 0}

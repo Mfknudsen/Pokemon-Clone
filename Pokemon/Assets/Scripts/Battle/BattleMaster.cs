@@ -18,34 +18,43 @@ public enum Weather { Rain, HarshSunlight, Hail }
 public class BattleMaster : MonoBehaviour
 {
     #region Values
-    public static BattleMaster instance;
-    public MasterState state = 0;
-    public static Weather weather = 0;
+    [Header("Object Reference:")]
+    [HideInInspector] public static BattleMaster instance;
+    [SerializeField] private bool active = false;
+    [SerializeField] private BattleStarter starter = null;
+    [SerializeField] private MasterState state = 0;
+    [SerializeField] private Weather weather = 0;
     [SerializeField] private Condition faintCondtion = null;
+    [SerializeField] private BattleAction switchAction = null, itemAction = null;
 
     [Header("Members:")]
-    [SerializeField] private BattleMember[] members = new BattleMember[2];
-    [SerializeField] private Pokemon[] activePokemons = new Pokemon[2];
+    [SerializeField] private List<BattleMember> members = new List<BattleMember>();
 
     [Header("Battlefield:")]
-    [SerializeField] private Spot[] spots;
+    [SerializeField] private GameObject spotPrefab = null;
+    [SerializeField] private int closeCount = 0, farCount = 0;
+    [SerializeField] private Transform closeSpotTransform = null, farSpotTransform = null;
+    [SerializeField] private Transform closeUITransform = null, farUITransform = null;
+    [SerializeField] private List<Spot> spots = new List<Spot>();
 
-    /////
-    /////
+    [Header("Start:")]
+    [SerializeField] private List<BattleAction> startAction = new List<BattleAction>();
+
     [Header(" -- Actions:")]
-    [SerializeField] private SwitchAction switchAction = null;
     [SerializeField] private int actionIndex = 0;
     [SerializeField] private List<BattleAction> actionList = new List<BattleAction>();
     [SerializeField] private float secondsPerPokemonMove = 1;
     Coroutine actionOperation = null;
     [SerializeField] BattleAction action = null;
     [SerializeField] private int actionSwitchState = 1;
-    /////
-    /////
 
     [Header(" -- Fainted:")]
     [SerializeField] private bool isFainted = false;
     [SerializeField] private List<Pokemon> faintedPokemon = new List<Pokemon>();
+
+    [Header(" -- Select New:")]
+    [SerializeField] private bool chooseNew = false;
+    [SerializeField] private Spot needNew = null;
 
     [Header("Conditions:")]
     [SerializeField] private ConditionOversight checking = null;
@@ -54,27 +63,29 @@ public class BattleMaster : MonoBehaviour
 
     [Header("UI:")]
     [SerializeField] private BattleDisplay display = null;
-    [SerializeField] private PokemonDisplay[] pokemonDisplay = new PokemonDisplay[2];
     [Header(" -- Turn Display:")]
     [SerializeField] private GameObject turnDisplay = null;
     [SerializeField] private TextMeshProUGUI[] buttonsText = new TextMeshProUGUI[4];
-    [Header(" -- Selectio Menu:")]
-    [SerializeField] private GameObject selectionMenu = null;
-    [SerializeField] private SelectionMenu menu = null;
+    [Header(" -- Pokemon Selectio Menu:")]
+    [SerializeField] private GameObject pokemonSelectionMenu = null;
+    [SerializeField] private SelectionMenu pokemonMenu = null;
+    [Header(" -- Item Selection Menu:")]
+    [SerializeField] private GameObject itemSelectionMenu = null;
+    [SerializeField] private ItemSelection itemMenu = null;
     [Header(" -- Effective")]
     [SerializeField] private Chat superEffective = null;
     [SerializeField] private Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
 
     [Header("Chat:")]
     [SerializeField] private Chat SwitchChat = null;
+    #endregion
 
+    #region Build In States
     private void OnValidate()
     {
         actionSwitchState = 1;
     }
-    #endregion
 
-    #region Build In States
     private void Start()
     {
         instance = this;
@@ -84,21 +95,13 @@ public class BattleMaster : MonoBehaviour
         BattleMathf.SetNoEffect(noEffect);
         BattleMathf.SetBarelyEffective(barelyEffective);
         BattleMathf.SetExtremlyEffective(extremlyEffective);
-
-        for (int i = 0; i < spots.Length; i++)
-        {
-            spots[i].SetTransform();
-            spots[i].SetSpotNumber(i);
-        }
-
-        if (members[0] == null)
-            members[0] = Player.MasterPlayer.instance.gameObject.GetComponent<BattleMember>();
-
-        state = MasterState.Setup;
     }
 
     private void Update()
     {
+        if (!active)
+            return;
+
         if (!isFainted)
         {
             switch (state)
@@ -136,7 +139,7 @@ public class BattleMaster : MonoBehaviour
                     break;
             }
         }
-        else
+        else if (isFainted)
             DoFaintedPokemon();
     }
     #endregion
@@ -144,72 +147,186 @@ public class BattleMaster : MonoBehaviour
     #region States
     private void Setup()
     {
-        ChatMaster.instance.Add((members[1] as BattleEnemy).GetStartChat());
+        foreach (BattleMember m in members)
+        {
+            if (m == null)
+                continue;
+            if (m.HasAllSpots())
+                continue;
 
-        state = MasterState.Starting;
+            if (!m.HasAllSpots())
+            {
+                GameObject obj = Instantiate(spotPrefab);
+                Spot s = obj.GetComponent<Spot>();
+
+                if (m.GetTeamNumber() == 0)
+                {
+                    closeCount++;
+                    obj.transform.position = closeSpotTransform.position;
+                    obj.transform.rotation = closeSpotTransform.rotation;
+                    obj.transform.parent = closeSpotTransform;
+                    s.Setup(closeUITransform, closeCount - 1);
+                }
+                else
+                {
+                    farCount++;
+                    obj.transform.position = farSpotTransform.position;
+                    obj.transform.rotation = farSpotTransform.rotation;
+                    obj.transform.parent = farSpotTransform;
+                    s.Setup(farUITransform, farCount - 1);
+                }
+
+                foreach (Spot right in spots)
+                {
+                    if (right == null)
+                        continue;
+
+                    if (s.transform.parent == right.transform.parent && right.GetLeft() == null)
+                    {
+                        right.SetLeft(s);
+                        s.SetRight(right);
+                    }
+                }
+
+                s.SetAllowedTeam(m.GetTeam());
+                s.SetSpotNumber(farCount + closeCount - 1);
+                s.SetTransform();
+
+                spots.Add(s);
+                m.SetOwndSpot(s);
+            }
+        }
+
+        if (ChatMaster.instance.GetIsClear())
+        {
+            foreach (Spot s in spots)
+            {
+                if (s == null)
+                    continue;
+
+                foreach (BattleMember m in members)
+                {
+                    if (m == null)
+                        continue;
+
+                    if (!m.GetTeam().GetReady())
+                        m.GetTeam().Setup();
+
+                    if (m.OwnSpot(s) && m.GetTeam().CanSendMorePokemon())
+                    {
+                        SwitchAction action = Instantiate(switchAction) as SwitchAction;
+                        action.SetNextPokemon(m.GetTeam().GetFirstOut());
+                        action.SetSpot(s);
+                        startAction.Add(action);
+                    }
+                }
+            }
+
+            SwitchState(MasterState.Starting);
+        }
+
     }
 
     private void Starting()
     {
-        if (ChatMaster.instance.GetIsClear())
+        if (action == null && startAction.Count > 0)
         {
-            for (int i = 0; i < members.Length; i++)
-            {
-                BattleMember member = members[i];
-
-                if (!member.GetTeam().GetReady())
-                    member.GetTeam().Setup();
-
-                activePokemons[i] = member.GetTeam().GetPokemonByIndex(0);
-                pokemonDisplay[i].SetNewPokemon(activePokemons[i]);
-                SpawnPokemon(activePokemons[i], i);
-            }
-
-            state = MasterState.ChoosingMove;
+            action = startAction[0];
+            actionOperation = StartCoroutine(action.Activate());
         }
+        else if (ChatMaster.instance.GetIsClear())
+        {
+            if (action != null)
+            {
+                if (action.GetDone())
+                {
+                    startAction.Remove(action);
+                    (action as SwitchAction).GetNextPokemon().SetBattleAction(null);
+                    action = null;
+                    actionOperation = null;
+                }
+            }
+        }
+
+        if (startAction.Count == 0)
+            SwitchState(MasterState.ChoosingMove);
     }
 
     private void ChoosingMove()
     {
         if (!turnDisplay.activeSelf)
         {
-            BattleLog.instance.AddNewLog(name, "Player Choose Action");
-
             turnDisplay.SetActive(true);
             DisplayMovesForPokemon();
         }
 
         bool ready = true;
-        foreach (Pokemon pokemon in activePokemons)
+        foreach (Spot s in spots)
         {
-            if (members[0].GetTeam().PartOfTeam(pokemon) && pokemon.GetBattleAction() == null)
-                ready = false;
+            if (s == null)
+                continue;
+            Pokemon p = s.GetActivePokemon();
+            if (p == null)
+                continue;
+
+            foreach (BattleMember m in members)
+            {
+                if (m == null)
+                    continue;
+                if (!m.IsPlayer())
+                    continue;
+
+                if (m.GetTeam().PartOfTeam(p) && p.GetBattleAction() == null)
+                    ready = false;
+            }
         }
 
         if (ready)
-            state = MasterState.AI;
+            SwitchState(MasterState.AI);
     }
 
     private void AI()
     {
-        BattleLog.instance.AddNewLog(name, "AI Deciding");
         //
         // For TEST without AI
-        foreach (Pokemon pokemon in activePokemons)
+        bool nextState = true;
+        foreach (BattleMember m in members)
         {
-            if (!members[0].GetTeam().PartOfTeam(pokemon))
-            {
-                pokemon.SetBattleAction(pokemon.GetMoveByIndex(Random.Range(0, 3)));
+            if (m == null)
+                continue;
+            if (m.IsPlayer())
+                continue;
 
-                if (pokemon.GetBattleAction() != null)
+            foreach (Spot s in spots)
+            {
+                if (s == null)
+                    continue;
+                Pokemon p = s.GetActivePokemon();
+                if (p == null)
+                    continue;
+                if (!m.GetTeam().PartOfTeam(p))
+                    continue;
+
+                if (p.GetBattleAction() == null)
                 {
-                    (pokemon.GetBattleAction() as PokemonMove).SetCurrentPokemon(pokemon);
-                    (pokemon.GetBattleAction() as PokemonMove).SetTargetIndex(0);
+                    nextState = false;
+
+                    if (p.GetMoves().Length > 1)
+                        p.SetBattleAction(p.GetMoveByIndex(Random.Range(0, p.GetMoves().Length - 1)));
+                    else
+                        p.SetBattleAction(p.GetMoveByIndex(0));
+
+                    if (p.GetBattleAction() != null)
+                    {
+                        p.GetBattleAction().SetCurrentPokemon(p);
+                        (p.GetBattleAction() as PokemonMove).SetTargetIndex(0);
+                    }
                 }
             }
         }
 
-        state = MasterState.Checking;
+        if (nextState)
+            SwitchState(MasterState.Checking);
     }
 
     private void Checking()
@@ -218,7 +335,7 @@ public class BattleMaster : MonoBehaviour
 
         CheckActions();
 
-        state = MasterState.Action;
+        SwitchState(MasterState.Action);
     }
 
     private void Action()
@@ -240,10 +357,7 @@ public class BattleMaster : MonoBehaviour
                     BattleLog.instance.AddNewLog(name, "Starting Action: " + action.name.Replace("(Clone)", ""));
                 }
                 else
-                {
-                    Debug.LogError("No action to perform!");
                     actionSwitchState = 7;
-                }
                 break;
             #endregion
             #region Case 2
@@ -294,8 +408,16 @@ public class BattleMaster : MonoBehaviour
                 //Checking
                 if (action.GetDone() && ChatMaster.instance.GetIsClear())
                 {
-                    foreach (Pokemon p in activePokemons)
+                    foreach (Spot s in spots)
+                    {
+                        if (s == null)
+                            continue;
+                        Pokemon p = s.GetActivePokemon();
+                        if (p == null)
+                            continue;
+
                         CheckFaintedAndDecide(p);
+                    }
 
                     actionSwitchState = 5;
                 }
@@ -304,20 +426,26 @@ public class BattleMaster : MonoBehaviour
             #region Case 5
             case 5:
                 //Moving on
-                if (actionIndex < actionList.Count)
+                actionIndex++;
+
+                if (actionIndex == actionList.Count)
                 {
-                    actionIndex++;
-
-                    if (actionIndex == actionList.Count || (activePokemons[0].GetCurrentHealth() == 0 || activePokemons[1].GetCurrentHealth() == 0))
+                    foreach (Spot s in spots)
                     {
-                        foreach (Pokemon member in activePokemons)
-                            member.GetConditionOversight().Reset();
+                        if (s == null)
+                            continue;
+                        Pokemon p = s.GetActivePokemon();
+                        if (p == null)
+                            continue;
 
-                        actionSwitchState = 6;
+                        p.GetConditionOversight().Reset();
                     }
-                    else
-                        actionSwitchState = 1;
+
+                    actionSwitchState = 6;
                 }
+                else
+                    actionSwitchState = 1;
+
                 break;
             #endregion
             #region Case 6
@@ -325,11 +453,17 @@ public class BattleMaster : MonoBehaviour
                 //Conditions
                 if (conditionChecker == null && checking == null)
                 {
-                    foreach (Pokemon pokemon in activePokemons)
+                    foreach (Spot s in spots)
                     {
-                        if (!pokemon.GetConditionOversight().GetDone())
+                        if (s == null)
+                            continue;
+                        Pokemon p = s.GetActivePokemon();
+                        if (p == null)
+                            continue;
+
+                        if (!p.GetConditionOversight().GetDone())
                         {
-                            checking = pokemon.GetConditionOversight();
+                            checking = p.GetConditionOversight();
                             conditionChecker = StartCoroutine(checking.CheckConditionEndTurn());
                         }
                     }
@@ -341,11 +475,17 @@ public class BattleMaster : MonoBehaviour
                         checking = null;
                         conditionChecker = null;
 
-                        foreach (Pokemon pokemon in activePokemons)
+                        foreach (Spot s in spots)
                         {
-                            if (!pokemon.GetConditionOversight().GetDone())
+                            if (s == null)
+                                continue;
+                            Pokemon p = s.GetActivePokemon();
+                            if (p == null)
+                                continue;
+
+                            if (!p.GetConditionOversight().GetDone())
                             {
-                                checking = pokemon.GetConditionOversight();
+                                checking = p.GetConditionOversight();
                                 conditionChecker = StartCoroutine(checking.CheckConditionEndTurn());
                             }
                         }
@@ -354,9 +494,15 @@ public class BattleMaster : MonoBehaviour
                         {
                             actionSwitchState = 7;
 
-                            foreach (Pokemon pokemon in activePokemons)
+                            foreach (Spot s in spots)
                             {
-                                pokemon.GetConditionOversight().Reset();
+                                if (s == null)
+                                    continue;
+                                Pokemon p = s.GetActivePokemon();
+                                if (p == null)
+                                    continue;
+
+                                p.GetConditionOversight().Reset();
                             }
                         }
                     }
@@ -370,36 +516,48 @@ public class BattleMaster : MonoBehaviour
                 action = null;
                 actionOperation = null;
 
-                foreach (Pokemon p in activePokemons)
+                foreach (Spot s in spots)
+                {
+                    if (s == null)
+                        continue;
+                    Pokemon p = s.GetActivePokemon();
+                    if (p == null)
+                        continue;
                     p.SetBattleAction(null);
+                }
 
                 //Clear
                 actionList.Clear();
 
                 //Check if there is enough Pokemon to continue the battle
-                bool allOpposite = true;
+                bool noMore = true;
                 int checkNumber = -1;
-                foreach (BattleMember member in members)
+                foreach (BattleMember m in members)
                 {
-                    if (member.GetTeam().HasMorePokemon())
+                    if (m == null)
+                        continue;
+
+                    if (m.GetTeam().HasMorePokemon())
                     {
                         if (checkNumber == -1)
-                            checkNumber = member.GetTeamNumber();
+                            checkNumber = m.GetTeamNumber();
                         else
                         {
-                            if (checkNumber != member.GetTeamNumber())
+                            if (checkNumber != m.GetTeamNumber())
                             {
-                                allOpposite = false;
+                                noMore = false;
                                 break;
                             }
                         }
                     }
                 }
 
-                if (allOpposite)
-                    state = MasterState.RoundDone;
+                if (noMore)
+                    SwitchState(MasterState.RoundDone);
+                else if (chooseNew)
+                    SwitchState(MasterState.SelectNew);
                 else
-                    state = MasterState.ChoosingMove;
+                    SwitchState(MasterState.ChoosingMove);
                 break;
                 #endregion
         }
@@ -407,41 +565,83 @@ public class BattleMaster : MonoBehaviour
 
     private void RoundDone()
     {
-        if (members[0].GetTeam().HasMorePokemon())
-            Debug.Log("You Win!");
-        else
-            Debug.Log("You Lose!");
+        bool victory = false;
+
+        foreach (BattleMember m in members)
+        {
+            if (m == null)
+                continue;
+            if (m.GetTeamNumber() == 1)
+                continue;
+
+            if (m.GetTeam().HasMorePokemon())
+                victory = true;
+        }
+
+        starter.EndBattle(victory);
     }
 
     private void SelectNew()
     {
-        if (activePokemons[1] != null)
+        if (needNew == null)
         {
-            if (activePokemons[1].GetCurrentHealth() == 0)
+            foreach (Spot s in spots)
             {
-                Debug.Log("Despawning Enemy Pokemon");
-                activePokemons[1].DespawnPokemon();
-            }
-        }
+                if (s == null)
+                    continue;
 
-        if (WorldMaster.instance != null)
-        {
-            if (WorldMaster.instance.GetEmpty())
+                if (s.GetActive())
+                    continue;
+
+                if (s.GetActivePokemon() != null)
+                    continue;
+
+
+                foreach (BattleMember m in members)
+                {
+                    if (m == null)
+                        continue;
+
+                    if (m.OwnSpot(s) && m.GetTeam().CanSendMorePokemon())
+                    {
+                        s.SetActive(true);
+
+                        if (m.IsPlayer())
+                        {
+                            BattleLog.instance.AddNewLog(name, "Waiting For Player Pokemon Selection");
+                            pokemonSelectionMenu.SetActive(true);
+                            pokemonMenu.SetFieldNames(m.GetTeam());
+                        }
+                        else
+                        {
+                            pokemonSelectionMenu.SetActive(false);
+                        }
+
+                        needNew = s;
+                        break;
+                    }
+                }
+
+                if (needNew != null)
+                    break;
+            }
+
+            if (needNew == null)
             {
-                //WorldMaster.instance.UnloadCurrentBattleScene();
-                //Debug.Log("Unloading");
+                pokemonSelectionMenu.SetActive(false);
+                chooseNew = false;
+                SwitchState(MasterState.Starting);
             }
         }
     }
 
     private void DoFaintedPokemon()
     {
-        Debug.Log("Start");
         foreach (Pokemon p in faintedPokemon)
         {
             if (checking == null)
             {
-                Debug.Log("New");
+                chooseNew = true;
                 checking = p.GetConditionOversight();
                 conditionChecker = StartCoroutine(p.GetConditionOversight().CheckFaintedCondition());
             }
@@ -451,7 +651,12 @@ public class BattleMaster : MonoBehaviour
         {
             if (checking.GetDone())
             {
-                faintedPokemon.Remove(checking.GetNonVolatileStatus().GetPokemon());
+                Pokemon p = checking.GetNonVolatileStatus().GetAffectedPokemon();
+
+                if (p.GetBattleAction() != null)
+                    actionList.Remove(p.GetBattleAction());
+
+                faintedPokemon.Remove(p);
                 checking = null;
                 conditionChecker = null;
             }
@@ -463,6 +668,11 @@ public class BattleMaster : MonoBehaviour
     #endregion
 
     #region Getters
+    public bool GetActive()
+    {
+        return active;
+    }
+
     public float GetSecPerPokeMove()
     {
         return secondsPerPokemonMove;
@@ -475,7 +685,12 @@ public class BattleMaster : MonoBehaviour
 
     public Spot[] GetSpots()
     {
-        return spots;
+        return spots.ToArray();
+    }
+
+    public Weather GetWeather()
+    {
+        return weather;
     }
     #endregion
 
@@ -490,31 +705,208 @@ public class BattleMaster : MonoBehaviour
     #endregion
 
     #region In
-    public void SetNewActivePokemonByIndex(int index)
+    public void StartBattle(BattleStarter bs, BattleMember[] players)
     {
+        starter = bs;
+        members.Clear();
 
+        string s = "Starting Battle Between:";
+        foreach (BattleMember member in players)
+        {
+            if (!members.Contains(member))
+            {
+                members.Add(member);
+                s += "\n    - " + member.GetName();
+            }
+        }
+
+        BattleLog.instance.AddNewLog(name, s);
+
+        active = true;
+        state = MasterState.Setup;
     }
 
-    public void SpawnPokemon(Pokemon pokemon, int spotIndex)
+    public void SelectAction(int i)
+    {
+        if (i > 0 && i < 5)
+        {
+            foreach (BattleMember m in members)
+            {
+                if (m == null)
+                    continue;
+                if (!m.IsPlayer())
+                    continue;
+
+                foreach (Spot s in spots)
+                {
+                    if (s == null)
+                        continue;
+                    Pokemon p = s.GetActivePokemon();
+                    if (p == null)
+                        continue;
+                    if (p.GetBattleAction() != null || !m.GetTeam().PartOfTeam(p))
+                        continue;
+
+                    PokemonMove move = p.GetMoveByIndex(i - 1);
+                    if (move == null)
+                        continue;
+
+                    move.SetCurrentPokemon(p);
+                    move.SetTargetIndex(1);
+                    move.GetCurrentPokemon().SetBattleAction(move);
+                    break;
+                }
+            }
+        }
+        else if (i == 5)
+        {
+            pokemonSelectionMenu.SetActive(true);
+
+            foreach (BattleMember m in members)
+            {
+                if (m.IsPlayer())
+                {
+                    pokemonMenu.SetFieldNames(m.GetTeam());
+                    break;
+                }
+            }
+        }
+        else if (i == 6)
+        {
+            Debug.Log("Bag Not Implemented!");
+        }
+        else
+        {
+            Debug.Log("Run Not Implemented!");
+        }
+    }
+
+    public void SelectNewPokemon(int i)
+    {
+        if (i < 0 && i > 5)
+            return;
+
+        if (chooseNew)
+        {
+            Pokemon p = needNew.GetAllowedTeam().GetPokemonByIndex(i);
+            if (p == null)
+                return;
+
+            SwitchAction a = Instantiate(switchAction) as SwitchAction;
+
+            a.SetSpot(needNew);
+            a.SetTeam(needNew.GetAllowedTeam());
+            a.SetNextPokemon(needNew.GetAllowedTeam().GetPokemonByIndex(i));
+
+            foreach (BattleMember m in members)
+            {
+                if (m == null)
+                    continue;
+
+                if (m.OwnSpot(needNew))
+                    startAction.Add(a);
+            }
+
+
+            needNew = null;
+        }
+        else
+        {
+            SwitchAction a = Instantiate(switchAction) as SwitchAction;
+            foreach (Spot s in spots)
+            {
+                if (s == null)
+                    continue;
+                Pokemon p = s.GetActivePokemon();
+                if (p == null)
+                    continue;
+
+                if (p.GetBattleAction() == null)
+                {
+                    a.SetCurrentPokemon(p);
+                    a.SetSpot(s);
+                    a.SetTeam(s.GetAllowedTeam());
+                    a.SetNextPokemon(s.GetAllowedTeam().GetPokemonByIndex(i));
+
+                    foreach (BattleMember m in members)
+                    {
+                        if (m == null)
+                            continue;
+
+                        if (m.IsPlayer())
+                        {
+                            p.SetBattleAction(a);
+                            pokemonSelectionMenu.SetActive(false);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public void SelectItem(BattleMember m, Pokemon target, int itemIndex)
+    {
+        foreach (Spot s in spots)
+        {
+            if (s == null)
+                continue;
+            Pokemon p = s.GetActivePokemon();
+            if (p == null)
+                continue;
+            if (p.GetBattleAction() != null)
+                continue;
+
+            ItemAction action = Instantiate(itemAction) as ItemAction;
+            action.SetBattleMember(m);
+            action.SetCurrentPokemon(target);
+            action.SetToUse(m.GetInventory().GetItemByIndex(itemIndex));
+
+            p.SetBattleAction(action);
+
+            break;
+        }
+    }
+
+    public void SpawnPokemon(Pokemon pokemon, Spot spot)
     {
         BattleLog.instance.AddNewLog(name, "Spawning: " + pokemon.GetName());
-        if (spotIndex < 0 || spotIndex >= spots.Length)
-            return;
-        GameObject obj = Instantiate(pokemon.GetPokemonPrefab());
-        Transform trans = spots[spotIndex].GetTransform();
 
-        activePokemons[spotIndex] = pokemon;
+        GameObject obj = Instantiate(pokemon.GetPokemonPrefab());
+        Transform trans = spot.GetTransform();
+
 
         pokemon.SetSpawnedObject(obj);
+        pokemon.SetInBattle(true);
+        pokemon.SetGettingSwitched(false);
 
         obj.transform.position = trans.position;
         obj.transform.rotation = trans.rotation;
         obj.transform.parent = trans;
 
-        spots[spotIndex].SetActivePokemon(pokemon);
+        spot.SetActivePokemon(pokemon);
 
         //Check if spawned object is placeholder;
         PokemonPlaceholder.CheckPlaceholder(pokemon, obj);
+    }
+
+    public void DespawnPokemon(Pokemon pokemon)
+    {
+        foreach (Spot s in spots)
+        {
+            if (s == null)
+                continue;
+            Pokemon p = s.GetActivePokemon();
+            if (p == null)
+                continue;
+
+            if (p == pokemon)
+            {
+                pokemon.DespawnPokemon();
+                s.SetActive(false);
+                s.SetActivePokemon(null);
+            }
+        }
     }
 
     public void RemoveAction(BattleAction action)
@@ -522,44 +914,50 @@ public class BattleMaster : MonoBehaviour
         if (actionList.Contains(action))
             actionList.Remove(action);
     }
+
+    public void StartRemoteCoroutine(IEnumerator operation)
+    {
+        StartCoroutine(operation);
+    }
     #endregion
 
     #region Internal
-    public void StartBattle(BattleMember player, BattleMember[] enemies)
-    {
-        members[0] = player;
-
-        for (int i = 0; i < enemies.Length; i++)
-            members[i + 1] = enemies[i];
-
-        string s = "Starting Battle Between:";
-        foreach (BattleMember member in members)
-            s += "\n    - " + member.GetName();
-        BattleLog.instance.AddNewLog(name, s);
-    }
-
-    private void EndBattle()
-    {
-
-    }
-
     private void DisplayMovesForPokemon()
     {
-        PokemonMove[] toDisplay = activePokemons[0].GetMoves();
-
-        for (int i = 0; i < 4; i++)
+        foreach (Spot s in spots)
         {
-            Image img = buttonsText[i].transform.parent.GetComponent<Image>();
+            if (s == null)
+                continue;
+            Pokemon p = s.GetActivePokemon();
+            if (p == null)
+                continue;
+            if (p.GetBattleAction() != null)
+                continue;
 
-            img.color = Color.white;
-
-            if (toDisplay[i] != null)
+            foreach (BattleMember m in members)
             {
-                buttonsText[i].text = toDisplay[i].GetName();
-                img.color = toDisplay[i].GetMoveType().GetTypeColor();
+                if (!m.IsPlayer())
+                    continue;
+
+                PokemonMove[] toDisplay = p.GetMoves();
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Image img = buttonsText[i].transform.parent.GetComponent<Image>();
+
+                    img.color = Color.white;
+
+                    if (toDisplay[i] != null)
+                    {
+                        buttonsText[i].text = toDisplay[i].GetName();
+                        img.color = toDisplay[i].GetMoveType().GetTypeColor();
+                    }
+                    else
+                        buttonsText[i].text = "";
+                }
+
+                return;
             }
-            else
-                buttonsText[i].text = "";
         }
     }
 
@@ -569,8 +967,16 @@ public class BattleMaster : MonoBehaviour
 
         //Setup
         List<BattleAction> tempList = new List<BattleAction>();
-        foreach (Pokemon pokemon in activePokemons)
-            tempList.Add(pokemon.GetBattleAction());
+        foreach (Spot s in spots)
+        {
+            if (s == null)
+                continue;
+            Pokemon p = s.GetActivePokemon();
+            if (p == null)
+                continue;
+
+            tempList.Add(p.GetBattleAction());
+        }
 
         //Ability Effect on Priority
         foreach (BattleAction action in tempList)
@@ -627,65 +1033,6 @@ public class BattleMaster : MonoBehaviour
         }
     }
 
-    public void SelectAction(int i)
-    {
-        if (i > 0 && i < 5)
-        {
-            PokemonMove move = activePokemons[0].GetMoveByIndex(i - 1);
-            if (move != null)
-            {
-                move.SetCurrentPokemon(activePokemons[0]);
-                move.SetTargetIndex(1);
-                move.GetCurrentPokemon().SetBattleAction(move);
-            }
-        }
-        else if (i == 5)
-        {
-            Debug.Log("Bag Not Implemented!");
-            return;
-            //selectionMenu.SetActive(true);
-        }
-        else if (i == 6)
-        {
-            Debug.Log("Bag Not Implemented!");
-            return;
-        }
-        else
-        {
-            Debug.Log("Run Not Implemented!");
-            return;
-        }
-    }
-
-    public void SelectNewPokemon(int i)
-    {
-        if (i > 0 && i < 6)
-        {
-            Pokemon result = members[0].GetTeam().GetPokemonByIndex(i);
-
-            if (result != null)
-            {
-                SwitchAction action = Instantiate(switchAction);
-                action.SetCurrentPokemon(members[0].GetTeam().GetPokemonByIndex(0));
-
-                for (int j = 0; j < activePokemons.Length; j++)
-                {
-                    if (activePokemons[j] == action.GetCurrentPokemon())
-                    {
-                        action.SetFieldSpot(j);
-                        break;
-                    }
-                }
-                action.SetNextPokemon(result);
-                action.SetTeam(members[0].GetTeam());
-
-                //pokemonActions[0] = action;
-
-                selectionMenu.SetActive(false);
-            }
-        }
-    }
-
     private int CheckFaintedAndDecide(Pokemon pokemon, int? direct = 0, int? indirect = 0)
     {
         if (pokemon.GetCurrentHealth() == 0)
@@ -701,6 +1048,12 @@ public class BattleMaster : MonoBehaviour
         }
 
         return direct.Value;
+    }
+
+    private void SwitchState(MasterState s)
+    {
+        state = s;
+        BattleLog.instance.AddNewLog(name, "Switching to: " + state.ToString());
     }
     #endregion
 }

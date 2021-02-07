@@ -447,6 +447,9 @@ public class PokemonMove : BattleAction
             //The Spot relativ to the index is returned
             foreach (Spot s in toCheck)
             {
+                if (s == null)
+                    continue;
+
                 if (s.GetSpotNumber() == Index)
                 {
                     result.Add(s);

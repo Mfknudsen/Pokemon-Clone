@@ -472,8 +472,13 @@ public class Pokemon : ScriptableObject
     #region Out
     public void DespawnPokemon()
     {
-        Destroy(spawnedObject);
+        inBattle = false;
+
+        gettingSwitched = false;
+
         spawnedObject = null;
+
+        Destroy(spawnedObject);
     }
 
     public bool IsSameType(TypeName typeName)

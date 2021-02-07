@@ -28,7 +28,7 @@ MonoBehaviour:
   category: 0
   startPP: 0
   maxPP: 25
-  power: 50
+  power: 250
   accuracy: 100
   makesContact: 0
   affectByProtect: 0
@@ -36,6 +36,7 @@ MonoBehaviour:
   affectBySnatch: 0
   affectByMirrorMove: 0
   affectByKingsRock: 0
+  targetIndex: -1
   hitType: 0
   selfTargetable: 0
   enemyTargetable: 000000

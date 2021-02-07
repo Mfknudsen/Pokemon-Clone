@@ -655,7 +655,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128552530}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &128552532
 Camera:
   m_ObjectHideFlags: 0
@@ -2284,7 +2284,7 @@ GameObject:
   - component: {fileID: 1426798488}
   m_Layer: 5
   m_Name: UI
-  m_TagString: Untagged
+  m_TagString: UI Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2382,6 +2382,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c36891447bf514cbaa3a2dcecabe87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1480210384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1480210389}
+  - component: {fileID: 1480210387}
+  - component: {fileID: 1480210386}
+  - component: {fileID: 1480210385}
+  m_Layer: 0
+  m_Name: TestEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1480210385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480210384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2a9bc5d048b9741b9a8ec02b7d58fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleSceneName: TestBattle
+  playerSpotCount: 1
+  allies: []
+  enemies:
+  - {fileID: 1480210386}
+  onStartChat: {fileID: 11400000, guid: 6a86379a12a16e440bb6102f612ce7d3, type: 2}
+--- !u!114 &1480210386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480210384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d3b4474443e4f49a557391dc880bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memberName: Bug Cather
+  isPlayer: 0
+  pokemonTeam: {fileID: 1480210387}
+  teamNumber: 1
+  spotsToOwn: 1
+  hasAllSpots: 0
+  owndSpots: []
+  selectMove: 0
+  hasSelectedMove: 0
+  startChat:
+  - {fileID: 0}
+  endChat:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1480210387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480210384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88c51db965b60240944fc90082bb8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemons:
+  - {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!4 &1480210389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480210384}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1492770081
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,9 +3115,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1426798488}
-        m_MethodName: LoadScene
-        m_Mode: 5
+      - m_Target: {fileID: 1480210385}
+        m_MethodName: StartBattleNow
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3491,8 +3587,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   memberName: Mads
+  isPlayer: 1
   pokemonTeam: {fileID: 1745007487}
   teamNumber: 0
+  spotsToOwn: 1
+  hasAllSpots: 0
+  owndSpots: []
   selectMove: 0
   hasSelectedMove: 0
 --- !u!114 &1745007487

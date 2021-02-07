@@ -55,7 +55,7 @@ public class FaintedCondition : Condition
             yield return null;
         }
 
-        affectedPokemon.DespawnPokemon();
+        BattleMaster.instance.DespawnPokemon(affectedPokemon);
 
         yield return new WaitForSeconds(1);
 
