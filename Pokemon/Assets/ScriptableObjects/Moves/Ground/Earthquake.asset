@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   done: 0
-  priority: 2
   currentPokemon: {fileID: 0}
-  targetPokemon:
-  - {fileID: 0}
+  targetPokemon: []
   moveActive: 0
+  priority: 2
+  priorityInteraction: []
   chatOnActivation:
   - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
   index: 89
   moveName: Earthquake
   type: {fileID: 11400000, guid: 38567af638dd2c04eb5bf1cb436fa9d0, type: 2}
   category: 0
-  contest: 1
+  startPP: 0
   maxPP: 10
   power: 100
   accuracy: 100
@@ -35,7 +35,22 @@ MonoBehaviour:
   affectBySnatch: 0
   affectByMirrorMove: 0
   affectByKingsRock: 0
-  canApplyCondition: {fileID: 0}
+  targetIndex: 1
+  hitType: 0
+  selfTargetable: 0
+  enemyTargetable: 000000
+  allyTargetable: 0000
+  normalCondition: 0
+  normalAppeal: 0
+  normalJam: 0
+  superCondition: 0
+  superAppeal: 0
+  superJam: 0
+  spectacularCondition: 0
+  spectacularAppeal: 0
+  spectacularJam: 0
+  hasStatus: 0
+  statusCondition: {fileID: 0}
   applyChange: 0
   statusHit: 0
   statusHitChat: {fileID: 0}

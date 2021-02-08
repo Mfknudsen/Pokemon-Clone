@@ -78,6 +78,11 @@ public class BattleMaster : MonoBehaviour
 
     [Header("Chat:")]
     [SerializeField] private Chat SwitchChat = null;
+
+    [Header("Targeting:")]
+    [SerializeField] private bool waitForTarget = false;
+    [SerializeField] private Pokemon user = null;
+    [SerializeField] private BattleAction actionInWait = null;
     #endregion
 
     #region Build In States
@@ -249,7 +254,12 @@ public class BattleMaster : MonoBehaviour
         }
 
         if (startAction.Count == 0)
+        {
+            foreach (BattleMember m in members)
+                m.GetInventory().Setup();
+
             SwitchState(MasterState.ChoosingMove);
+        }
     }
 
     private void ChoosingMove()
@@ -311,15 +321,17 @@ public class BattleMaster : MonoBehaviour
                 {
                     nextState = false;
 
+                    PokemonMove action = null;
                     if (p.GetMoves().Length > 1)
-                        p.SetBattleAction(p.GetMoveByIndex(Random.Range(0, p.GetMoves().Length - 1)));
+                        action = p.GetMoveByIndex(Random.Range(0, p.GetMoves().Length - 1));
                     else
-                        p.SetBattleAction(p.GetMoveByIndex(0));
+                        action = p.GetMoveByIndex(0);
 
-                    if (p.GetBattleAction() != null)
+                    if (action != null)
                     {
-                        p.GetBattleAction().SetCurrentPokemon(p);
-                        (p.GetBattleAction() as PokemonMove).SetTargetIndex(0);
+                        action.SetCurrentPokemon(p);
+                        action.SetTargetIndex(0);
+                        p.SetBattleAction(action);
                     }
                 }
             }
@@ -384,7 +396,7 @@ public class BattleMaster : MonoBehaviour
                         }
                     }
                 }
-                else if ((action as SwitchAction) != null)
+                else
                     actionSwitchState = 3;
                 break;
             #endregion
@@ -527,6 +539,11 @@ public class BattleMaster : MonoBehaviour
                 }
 
                 //Clear
+                foreach (BattleAction a in actionList)
+                {
+                    if (a.GetIsInstantiated())
+                        Destroy(a);
+                }
                 actionList.Clear();
 
                 //Check if there is enough Pokemon to continue the battle
@@ -610,7 +627,7 @@ public class BattleMaster : MonoBehaviour
                         {
                             BattleLog.instance.AddNewLog(name, "Waiting For Player Pokemon Selection");
                             pokemonSelectionMenu.SetActive(true);
-                            pokemonMenu.SetFieldNames(m.GetTeam());
+                            pokemonMenu.SetFieldNames(m.GetTeam(), SelectorGoal.Switch);
                         }
                         else
                         {
@@ -647,7 +664,7 @@ public class BattleMaster : MonoBehaviour
             }
         }
 
-        if (checking != null)
+        if (conditionChecker != null)
         {
             if (checking.GetDone())
             {
@@ -753,7 +770,7 @@ public class BattleMaster : MonoBehaviour
 
                     move.SetCurrentPokemon(p);
                     move.SetTargetIndex(1);
-                    move.GetCurrentPokemon().SetBattleAction(move);
+                    p.SetBattleAction(move);
                     break;
                 }
             }
@@ -766,14 +783,24 @@ public class BattleMaster : MonoBehaviour
             {
                 if (m.IsPlayer())
                 {
-                    pokemonMenu.SetFieldNames(m.GetTeam());
+                    pokemonMenu.SetFieldNames(m.GetTeam(), SelectorGoal.Switch);
                     break;
                 }
             }
         }
         else if (i == 6)
         {
-            Debug.Log("Bag Not Implemented!");
+            itemSelectionMenu.SetActive(true);
+            foreach (BattleMember m in members)
+            {
+                if (m == null)
+                    continue;
+                if (!m.IsPlayer())
+                    continue;
+
+                itemMenu.Setup(m.GetInventory().GetAllItems());
+                break;
+            }
         }
         else
         {
@@ -845,7 +872,7 @@ public class BattleMaster : MonoBehaviour
         }
     }
 
-    public void SelectItem(BattleMember m, Pokemon target, int itemIndex)
+    public void SelectItem(Item item, Pokemon target)
     {
         foreach (Spot s in spots)
         {
@@ -857,12 +884,25 @@ public class BattleMaster : MonoBehaviour
             if (p.GetBattleAction() != null)
                 continue;
 
-            ItemAction action = Instantiate(itemAction) as ItemAction;
-            action.SetBattleMember(m);
+            ItemAction action = itemAction.GetAction() as ItemAction;
+            action.SetToUse(item);
             action.SetCurrentPokemon(target);
-            action.SetToUse(m.GetInventory().GetItemByIndex(itemIndex));
+
+            //Delegate to secondary selection if more then one target
+            foreach (BattleMember m in members)
+            {
+                if (!m.GetInventory().IsItemInBag(item))
+                    continue;
+                action.SetBattleMember(m);
+            }
+            actionInWait = action;
+            user = p;
+            waitForTarget = true;
 
             p.SetBattleAction(action);
+
+            pokemonSelectionMenu.SetActive(false);
+            itemSelectionMenu.SetActive(false);
 
             break;
         }
@@ -875,10 +915,10 @@ public class BattleMaster : MonoBehaviour
         GameObject obj = Instantiate(pokemon.GetPokemonPrefab());
         Transform trans = spot.GetTransform();
 
-
         pokemon.SetSpawnedObject(obj);
         pokemon.SetInBattle(true);
         pokemon.SetGettingSwitched(false);
+        pokemon.SetRevived(false);
 
         obj.transform.position = trans.position;
         obj.transform.rotation = trans.rotation;
@@ -915,9 +955,46 @@ public class BattleMaster : MonoBehaviour
             actionList.Remove(action);
     }
 
+    public void LateTarget(Spot target)
+    {
+        if (waitForTarget)
+        {
+            actionInWait.SetCurrentPokemon(target.GetActivePokemon());
+            user.SetBattleAction(actionInWait);
+
+            user = null;
+            actionInWait = null;
+            waitForTarget = false;
+
+            pokemonSelectionMenu.SetActive(false);
+            itemSelectionMenu.SetActive(false);
+        }
+    }
+
     public void StartRemoteCoroutine(IEnumerator operation)
     {
         StartCoroutine(operation);
+    }
+
+    public void ShowPokemonSelector(SelectorGoal goal, Item item = null)
+    {
+        pokemonSelectionMenu.SetActive(true);
+
+        foreach (BattleMember m in members)
+        {
+            if (m == null)
+                continue;
+            if (!m.IsPlayer())
+                continue;
+            pokemonMenu.SetFieldNames(m.GetTeam(), goal);
+        }
+
+        pokemonMenu.SetItem(item);
+    }
+
+    public void ParseTargetToItemSelector(Pokemon p)
+    {
+        itemMenu.ReceiveTarget(p);
     }
     #endregion
 

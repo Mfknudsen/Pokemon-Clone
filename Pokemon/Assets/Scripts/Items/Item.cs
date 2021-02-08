@@ -8,7 +8,6 @@ using UnityEngine;
 public enum ItemType { Berry, MegaStone, Revive, Potion, }
 #endregion
 
-[CreateAssetMenu(fileName = "Item", menuName = "Item/Create new standard Item")]
 public class Item : ScriptableObject
 {
     #region Values
@@ -21,8 +20,9 @@ public class Item : ScriptableObject
     [SerializeField, TextArea] protected string description = "";
 
     [Header("Operation:")]
-    [SerializeField] private bool inUse = false;
-    [SerializeField] private bool active = false, done = false;
+    [SerializeField] protected Pokemon target = null;
+    [SerializeField] protected bool inUse = false;
+    [SerializeField] protected bool active = false, done = false;
     #endregion
 
     #region Getters
@@ -68,6 +68,12 @@ public class Item : ScriptableObject
     {
         return done;
     }
+
+    public virtual bool IsUsableTarget(Pokemon p)
+    {
+        Debug.Log("Is Usable Target Need Override");
+        return false;
+    }
     #endregion
 
     #region Setters
@@ -80,16 +86,21 @@ public class Item : ScriptableObject
     {
         inUse = set;
     }
+
+    public virtual void SetTarget(Pokemon set)
+    {
+        target = set;
+    }
     #endregion
 
     #region Out
-    public IEnumerator Activate()
+    public virtual IEnumerator Activate()
     {
         active = true;
 
         Debug.Log("Activate Need Override");
         yield return null;
-        
+
         done = true;
     }
     #endregion

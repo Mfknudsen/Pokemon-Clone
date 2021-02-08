@@ -17,7 +17,7 @@ MonoBehaviour:
   currentPokemon: {fileID: 0}
   targetPokemon: []
   moveActive: 0
-  priority: 0
+  priority: 5
   priorityInteraction: []
   chatOnActivation:
   - {fileID: 11400000, guid: 092c88cebc1aa314b859f254517ee6ad, type: 2}

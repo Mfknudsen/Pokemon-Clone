@@ -11,9 +11,9 @@ namespace Trainer
         #region Values
         [Header("Object Reference:")]
         [SerializeField] private List<Item> items = new List<Item>();
-
         [Header("Bag Categories:")]
-        [SerializeField] private List<ItemType> medicine, balls, battle, berries, other, tm, treasure, key;
+        [SerializeField] private List<ItemType> medicine;
+        [SerializeField] private List<ItemType> balls, battle, berries, other, tm, treasure, key;
         #endregion
 
         #region Getters
@@ -26,6 +26,12 @@ namespace Trainer
         {
             return items[i];
         }
+
+        public bool IsItemInBag(Item i)
+        {
+            return items.Contains(i);
+        }
+
         #region - Bag Categories
         public Item[] GetMedicine()
         {
@@ -130,6 +136,18 @@ namespace Trainer
         #endregion
 
         #region In
+        public void Setup()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (!items[i].GetIsInstantiated())
+                {
+                    items[i] = Instantiate(items[i]);
+                    items[i].SetIsInstantiated(true);
+                }
+            }
+        }
+
         public void AddItem(Item i)
         {
             items.Add(i);

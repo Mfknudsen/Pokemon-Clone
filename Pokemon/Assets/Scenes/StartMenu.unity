@@ -2394,6 +2394,7 @@ GameObject:
   - component: {fileID: 1480210387}
   - component: {fileID: 1480210386}
   - component: {fileID: 1480210385}
+  - component: {fileID: 1480210388}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -2433,6 +2434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memberName: Bug Cather
   isPlayer: 0
+  inventory: {fileID: 1480210388}
   pokemonTeam: {fileID: 1480210387}
   teamNumber: 1
   spotsToOwn: 1
@@ -2464,6 +2466,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &1480210388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480210384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6215533ab38fb242aa22af8907bbf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  medicine: 
+  balls: 
+  battle: 
+  berries: 
+  other: 
+  tm: 
+  treasure: 
+  key: 
 --- !u!4 &1480210389
 Transform:
   m_ObjectHideFlags: 0
@@ -3567,6 +3590,7 @@ GameObject:
   - component: {fileID: 1745007488}
   - component: {fileID: 1745007487}
   - component: {fileID: 1745007486}
+  - component: {fileID: 1745007490}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3588,6 +3612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memberName: Mads
   isPlayer: 1
+  inventory: {fileID: 1745007490}
   pokemonTeam: {fileID: 1745007487}
   teamNumber: 0
   spotsToOwn: 1
@@ -3647,6 +3672,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1745007490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745007485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6215533ab38fb242aa22af8907bbf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 1f02fa979601860439402eecf6926df9, type: 2}
+  - {fileID: 11400000, guid: 1f02fa979601860439402eecf6926df9, type: 2}
+  - {fileID: 11400000, guid: fd73b8562db19d84684ad46bd52e13ec, type: 2}
+  medicine: 0300000002000000
+  balls: 
+  battle: 
+  berries: 00000000
+  other: 
+  tm: 
+  treasure: 01000000
+  key: 
 --- !u!1 &1750031650
 GameObject:
   m_ObjectHideFlags: 0

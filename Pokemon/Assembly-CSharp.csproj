@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI\EasyAI.cs" />
-    <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\BattleAction.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\Item\ItemAction.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\Switch\SwitchAction.cs" />
@@ -88,6 +87,9 @@
     <Compile Include="Assets\Scripts\Items\HoldableItem.cs" />
     <Compile Include="Assets\Scripts\Items\Inventory.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
+    <Compile Include="Assets\Scripts\Items\ItemDisplay.cs" />
+    <Compile Include="Assets\Scripts\Items\Medicine\Potion.cs" />
+    <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
     <Compile Include="Assets\Scripts\Menu\SettingsData.cs" />
     <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
     <Compile Include="Assets\Scripts\Menu\StartMenu\MainMenu.cs" />

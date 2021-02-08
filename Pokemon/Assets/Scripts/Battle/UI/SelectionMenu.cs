@@ -5,16 +5,32 @@ using UnityEngine;
 using TMPro;
 //Custom
 using Trainer;
-#endregion 
+#endregion
+
+#region Enums
+public enum SelectorGoal { Switch, Item }
+#endregion
 
 public class SelectionMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI[] fields = new TextMeshProUGUI[6];
     [SerializeField] private Team team = null;
+    [SerializeField] private SelectorGoal goal = 0;
 
-    public void SetFieldNames(Team set)
+    [SerializeField] private Item item = null;
+
+    #region Setters
+    public void SetItem(Item set)
     {
-        team = set;
+        item = set;
+    }
+    #endregion
+
+    #region In
+    public void SetFieldNames(Team tSet, SelectorGoal gSet)
+    {
+        team = tSet;
+        goal = gSet;
 
         for (int i = 0; i < 6; i++)
         {
@@ -32,15 +48,24 @@ public class SelectionMenu : MonoBehaviour
         Pokemon p = team.GetPokemonByIndex(i);
         if (p == null)
             return;
-        if (p.GetInBattle() || p.GetGettingSwitched())
-            return;
-        Condition c = p.GetConditionOversight().GetNonVolatileStatus();
-        if (c != null)
+        if (goal == SelectorGoal.Switch)
         {
-            if (c.GetConditionName() == NonVolatile.Fainted.ToString())
+            if (p.GetInBattle() || p.GetGettingSwitched())
                 return;
-        }
+            Condition c = p.GetConditionOversight().GetNonVolatileStatus();
+            if (c != null)
+            {
+                if (c.GetConditionName() == NonVolatile.Fainted.ToString())
+                    return;
+            }
 
-        BattleMaster.instance.SelectNewPokemon(i);
+            BattleMaster.instance.SelectNewPokemon(i);
+        }
+        else if (goal == SelectorGoal.Item)
+        {
+            if (item.IsUsableTarget(p))
+                BattleMaster.instance.ParseTargetToItemSelector(p);
+        }
     }
+    #endregion
 }

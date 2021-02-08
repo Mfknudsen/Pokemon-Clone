@@ -30,6 +30,19 @@ public class Chat : ScriptableObject
     #endregion
 
     #region Getters
+    public Chat GetChat()
+    {
+        Chat result = this;
+
+        if (!result.GetIsInstantiated())
+        {
+            result = Instantiate(result);
+            result.SetIsInstantiated();
+        }
+
+        return result;
+    }
+
     public bool GetIsInstantiated()
     {
         return isInstantiated;
@@ -90,19 +103,6 @@ public class Chat : ScriptableObject
     #endregion
 
     #region Out
-    public Chat GetChat()
-    {
-        Chat result = this;
-
-        if (!result.GetIsInstantiated())
-        {
-            result = Instantiate(result);
-            result.SetIsInstantiated();
-        }
-
-        return result;
-    }
-
     public IEnumerator Play()
     {
         if (!active)

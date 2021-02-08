@@ -17,8 +17,8 @@ MonoBehaviour:
   description: 
   textList:
   - <USER_NAME> used <ITEM_NAME>
-  needInput: 1
-  timeUntilNext: 0
+  needInput: 0
+  timeUntilNext: 0.75
   replaceString: []
   addString: []
   showText: 

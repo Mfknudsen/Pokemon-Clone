@@ -194,7 +194,7 @@ public class PokemonMove : BattleAction
 
         if (!result.GetIsInstantiated())
         {
-            result = Instantiate(result);
+            result = Instantiate(this);
             result.SetIsInstantiated(true);
         }
 
@@ -209,19 +209,6 @@ public class PokemonMove : BattleAction
     public bool GetActive()
     {
         return active;
-    }
-
-    public PokemonMove GetPokemonMove()
-    {
-        PokemonMove result = this;
-
-        if (!result.GetIsInstantiated())
-        {
-            result = Instantiate(this);
-            result.SetIsInstantiated(true);
-        }
-
-        return result;
     }
 
     public Type GetMoveType()
@@ -334,7 +321,7 @@ public class PokemonMove : BattleAction
                 }
             }
 
-            SendChatsToMaster(TransferInformationToChat());
+            ChatMaster.instance.Add(TransferInformationToChat());
 
             active = true;
             done = false;

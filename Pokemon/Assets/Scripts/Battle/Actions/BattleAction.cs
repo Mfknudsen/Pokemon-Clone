@@ -28,6 +28,11 @@ public abstract class BattleAction : ScriptableObject
     #endregion
 
     #region Getters
+    public virtual BattleAction GetAction()
+    {
+        return this;
+    }
+
     public Pokemon GetCurrentPokemon()
     {
         return currentPokemon;
@@ -36,12 +41,6 @@ public abstract class BattleAction : ScriptableObject
     public bool GetDone()
     {
         return done;
-    }
-
-    public virtual BattleAction GetAction()
-    {
-        Debug.Log("Get Action needs override!");
-        return null;
     }
 
     public bool GetIsInstantiated()
@@ -73,11 +72,6 @@ public abstract class BattleAction : ScriptableObject
     #endregion
 
     #region Out
-    protected void SendChatsToMaster(Chat[] toSend)
-    {
-        ChatMaster.instance.Add(toSend);
-    }
-
     public virtual IEnumerator Activate()
     {
         Debug.Log("Activate need Override!");

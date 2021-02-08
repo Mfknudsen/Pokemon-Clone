@@ -48,11 +48,6 @@ public class SwitchAction : BattleAction
     #endregion
 
     #region Overrides
-    public override BattleAction GetAction()
-    {
-        return this;
-    }
-
     public override IEnumerator Activate()
     {
         return Operation();

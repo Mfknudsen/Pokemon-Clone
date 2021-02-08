@@ -33,11 +33,6 @@ public class ItemAction : BattleAction
     #endregion
 
     #region Overrides
-    public override BattleAction GetAction()
-    {
-        return this;
-    }
-
     public override IEnumerator Activate()
     {
         return Operation();
@@ -46,14 +41,14 @@ public class ItemAction : BattleAction
     protected override IEnumerator Operation()
     {
         done = false;
-
+        toUse.SetTarget(currentPokemon);
         //Send Chat
         List<Chat> toSend = new List<Chat>();
         foreach (Chat chat in chatOnActivation)
         {
             Chat c = Instantiate(chat);
             c.AddToOverride("<USER_NAME>", battleMember.GetName());
-            c.AddToOverride("ITEM_NAME", toUse.GetItemName());
+            c.AddToOverride("<ITEM_NAME>", toUse.GetItemName());
             toSend.Add(c);
         }
         ChatMaster.instance.Add(toSend.ToArray());
@@ -63,6 +58,8 @@ public class ItemAction : BattleAction
 
         while (!ChatMaster.instance.GetIsClear() || !toUse.GetDone())
             yield return null;
+
+        battleMember.GetInventory().RemoveItem(toUse);
 
         done = true;
     }

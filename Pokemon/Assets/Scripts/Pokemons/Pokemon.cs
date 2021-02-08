@@ -76,17 +76,14 @@ public class Pokemon : ScriptableObject
     #endregion
 
     #region In Battle
-    [Header("Battlefield:")]
+    [Header("Battle:")]
     [SerializeField] private int spotIndex = 0;
-    [Header("Visual:")]
     [SerializeField] private GameObject prefab = null;
     [SerializeField] private GameObject spawnedObject = null;
-    [Header(" -- Animation:")]
     [SerializeField] private Animator anim = null;
-    [Header("Turn")]
     [SerializeField] private bool gettingSwitched = false, inBattle = false;
-    [Header("Action:")]
     [SerializeField] private BattleAction battleAction = null;
+    [SerializeField] private bool gettingRevived = false;
     #endregion
     #endregion
 
@@ -264,11 +261,14 @@ public class Pokemon : ScriptableObject
 
     public PokemonMove GetMoveByIndex(int index)
     {
-        PokemonMove result = learnedMoves[index];
-        if (result != null)
-            return learnedMoves[index].GetAction() as PokemonMove;
+        PokemonMove result = null;
+        if (learnedMoves.Length > 0 && index >= 0 && index < learnedMoves.Length)
+        {
+            if (learnedMoves[index] != null)
+                result = (learnedMoves[index].GetAction() as PokemonMove);
+        }
 
-        return null;
+        return result;
     }
 
     public int GetSpotIndex()
@@ -304,6 +304,11 @@ public class Pokemon : ScriptableObject
     public bool GetInBattle()
     {
         return inBattle;
+    }
+
+    public bool GetRevived()
+    {
+        return gettingRevived;
     }
     #endregion
     #endregion
@@ -466,21 +471,15 @@ public class Pokemon : ScriptableObject
     {
         inBattle = set;
     }
+
+    public void SetRevived(bool set)
+    {
+        gettingRevived = set;
+    }
     #endregion
     #endregion
 
     #region Out
-    public void DespawnPokemon()
-    {
-        inBattle = false;
-
-        gettingSwitched = false;
-
-        spawnedObject = null;
-
-        Destroy(spawnedObject);
-    }
-
     public bool IsSameType(TypeName typeName)
     {
         if (types[0].GetTypeName() == typeName)
@@ -497,6 +496,17 @@ public class Pokemon : ScriptableObject
     #endregion
 
     #region In
+    public void DespawnPokemon()
+    {
+        inBattle = false;
+        gettingSwitched = false;
+        spawnedObject = null;
+
+        oversight.ResetConditionList();
+
+        Destroy(spawnedObject);
+    }
+
     public void RecieveDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, GetStat(Stat.HP));

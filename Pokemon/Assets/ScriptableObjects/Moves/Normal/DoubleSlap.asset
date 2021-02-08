@@ -12,17 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97d662b8124f3b43a5e5ed4ee9b14c0, type: 3}
   m_Name: DoubleSlap
   m_EditorClassIdentifier: 
-  priority: 2
+  active: 0
+  done: 0
   currentPokemon: {fileID: 0}
   targetPokemon: []
   moveActive: 0
+  priority: 2
+  priorityInteraction: []
   chatOnActivation:
   - {fileID: 11400000, guid: 8d524e0082710784aa0ea17c6ada9ff5, type: 2}
   index: 3
   moveName: Double Slap
   type: {fileID: 11400000, guid: 5f5047f919ac51449bce1b9570d935c8, type: 2}
   category: 0
-  contest: 2
+  startPP: 0
   maxPP: 10
   power: 15
   accuracy: 85
+  makesContact: 0
+  affectByProtect: 0
+  affectByMagicCoat: 0
+  affectBySnatch: 0
+  affectByMirrorMove: 0
+  affectByKingsRock: 0
+  targetIndex: -1
+  hitType: 0
+  selfTargetable: 0
+  enemyTargetable: 000000
+  allyTargetable: 0000
+  normalCondition: 0
+  normalAppeal: 0
+  normalJam: 0
+  superCondition: 0
+  superAppeal: 0
+  superJam: 0
+  spectacularCondition: 0
+  spectacularAppeal: 0
+  spectacularJam: 0
+  hasStatus: 0
+  statusCondition: {fileID: 0}
+  applyChange: 0
+  statusHit: 0
+  statusHitChat: {fileID: 0}
+  statusFailedChat: {fileID: 0}
