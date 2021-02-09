@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
-public class EasyAI : BattleAI
+namespace AI
 {
+    public class EasyAI : BattleAI
+    {
 
+    }
 }

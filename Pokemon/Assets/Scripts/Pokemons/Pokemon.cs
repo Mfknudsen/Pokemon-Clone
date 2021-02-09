@@ -498,13 +498,13 @@ public class Pokemon : ScriptableObject
     #region In
     public void DespawnPokemon()
     {
+        Destroy(spawnedObject);
+
         inBattle = false;
         gettingSwitched = false;
         spawnedObject = null;
 
         oversight.ResetConditionList();
-
-        Destroy(spawnedObject);
     }
 
     public void RecieveDamage(float damage)

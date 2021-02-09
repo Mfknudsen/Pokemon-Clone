@@ -37,10 +37,14 @@ public class Revive : Item
         done = false;
 
         Chat toSend = onActivation.GetChat();
+        toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
         ChatMaster.instance.Add(toSend);
 
         target.GetConditionOversight().TryApplyNonVolatileCondition(null);
-        target.RecieveDamage(-Mathf.Infinity);
+        if (toFull)
+            target.RecieveDamage(-Mathf.Infinity);
+        else
+            target.RecieveDamage(-(target.GetStat(Stat.HP) / 2));
 
         while (!ChatMaster.instance.GetIsClear())
             yield return null;

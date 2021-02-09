@@ -13,11 +13,12 @@ public enum SelectorGoal { Switch, Item }
 
 public class SelectionMenu : MonoBehaviour
 {
+    #region Values
     [SerializeField] private TextMeshProUGUI[] fields = new TextMeshProUGUI[6];
     [SerializeField] private Team team = null;
     [SerializeField] private SelectorGoal goal = 0;
-
     [SerializeField] private Item item = null;
+    #endregion
 
     #region Setters
     public void SetItem(Item set)

@@ -64,22 +64,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\MoveUsingCamera.cs" />
     <Compile Include="Assets\Scripts\AI\EasyAI.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\BattleAction.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\Item\ItemAction.cs" />
     <Compile Include="Assets\Scripts\Battle\Actions\Switch\SwitchAction.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleAI.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleMathf.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleMember.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattlePlayer.cs" />
-    <Compile Include="Assets\Scripts\Battle\BattleStarter.cs" />
-    <Compile Include="Assets\Scripts\Battle\PokemonDisplay.cs" />
-    <Compile Include="Assets\Scripts\Battle\Spot.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\AI\BattleAI.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\AI\Macro.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\AI\Micro.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\BattleMaster.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\BattleMathf.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\BattleMember.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\BattleStarter.cs" />
+    <Compile Include="Assets\Scripts\Battle\Systems\Spot.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\BattleDisplay.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\ItemSelection.cs" />
+    <Compile Include="Assets\Scripts\Battle\UI\PokemonDisplay.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\ProgressBar.cs" />
     <Compile Include="Assets\Scripts\Battle\UI\SelectionMenu.cs" />
+    <Compile Include="Assets\Scripts\Battle\Wild\AI\WildEasyAI.cs" />
+    <Compile Include="Assets\Scripts\Battle\Wild\AI\WildHardAI.cs" />
+    <Compile Include="Assets\Scripts\Battle\Wild\AI\WildMediumAI.cs" />
     <Compile Include="Assets\Scripts\Chat\Chat.cs" />
     <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
     <Compile Include="Assets\Scripts\Chat\TextField.cs" />

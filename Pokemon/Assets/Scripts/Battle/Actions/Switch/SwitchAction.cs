@@ -64,24 +64,26 @@ public class SwitchAction : BattleAction
             //Switch team member places
             team.SwitchTeamPlaces(currentPokemon, nextPokemon);
 
-            for (int i = 0; i < chatOnActivation.Length; i++)
-            {
-                Chat c = Instantiate(chatOnActivation[i]);
-                c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
-                toSend.Add(c);
-            }
-            ChatMaster.instance.Add(toSend.ToArray());
-
-            GameObject obj = currentPokemon.GetSpawnedObject();
-
-            while (!ChatMaster.instance.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
-            {
-                obj.transform.localScale += -Vector3.one * Time.deltaTime;
-                yield return null;
-            }
-
-            //Despawn current
             currentPokemon.DespawnPokemon();
+
+            if (currentPokemon.GetSpawnedObject() != null)
+            {
+                for (int i = 0; i < chatOnActivation.Length; i++)
+                {
+                    Chat c = Instantiate(chatOnActivation[i]);
+                    c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
+                    toSend.Add(c);
+                }
+                ChatMaster.instance.Add(toSend.ToArray());
+
+                GameObject obj = currentPokemon.GetSpawnedObject();
+
+                while (!ChatMaster.instance.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
+                {
+                    obj.transform.localScale += -Vector3.one * Time.deltaTime;
+                    yield return null;
+                }
+            }
         }
 
         //Out text + Spawn new Pokemon

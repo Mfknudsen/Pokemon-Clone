@@ -27,7 +27,7 @@ MonoBehaviour:
   category: 0
   startPP: 0
   maxPP: 25
-  power: 50
+  power: 250
   accuracy: 100
   makesContact: 0
   affectByProtect: 0

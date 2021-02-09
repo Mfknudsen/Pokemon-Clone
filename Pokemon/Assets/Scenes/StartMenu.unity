@@ -2391,8 +2391,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1480210389}
-  - component: {fileID: 1480210387}
   - component: {fileID: 1480210386}
+  - component: {fileID: 1480210387}
   - component: {fileID: 1480210385}
   - component: {fileID: 1480210388}
   m_Layer: 0
@@ -2429,11 +2429,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1480210384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d3b4474443e4f49a557391dc880bca, type: 3}
+  m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberName: Bug Cather
+  memberName: Bug Catcher
   isPlayer: 0
+  ai: {fileID: 0}
   inventory: {fileID: 1480210388}
   pokemonTeam: {fileID: 1480210387}
   teamNumber: 1
@@ -2442,11 +2443,6 @@ MonoBehaviour:
   owndSpots: []
   selectMove: 0
   hasSelectedMove: 0
-  startChat:
-  - {fileID: 0}
-  endChat:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &1480210387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3607,11 +3603,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1745007485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b124cc625c9a640a99b64ac7616e36, type: 3}
+  m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   memberName: Mads
   isPlayer: 1
+  ai: {fileID: 0}
   inventory: {fileID: 1745007490}
   pokemonTeam: {fileID: 1745007487}
   teamNumber: 0
@@ -3688,6 +3685,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f02fa979601860439402eecf6926df9, type: 2}
   - {fileID: 11400000, guid: 1f02fa979601860439402eecf6926df9, type: 2}
   - {fileID: 11400000, guid: fd73b8562db19d84684ad46bd52e13ec, type: 2}
+  - {fileID: 11400000, guid: af5ef921ba5c5b3489dad0eabe8aa801, type: 2}
+  - {fileID: 11400000, guid: af5ef921ba5c5b3489dad0eabe8aa801, type: 2}
   medicine: 0300000002000000
   balls: 
   battle: 

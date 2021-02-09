@@ -102,10 +102,19 @@ public class ConditionOversight : ScriptableObject
 
     public bool TryApplyNonVolatileCondition(Condition condition)
     {
-        if (condition != null && (nonVolatileStatus == null || condition.GetConditionName() == NonVolatile.Fainted.ToString()))
+        if (condition != null && nonVolatileStatus == null)
         {
+            Destroy(nonVolatileStatus);
             nonVolatileStatus = condition.GetCondition();
             return true;
+        }
+        else if (condition == null && nonVolatileStatus != null)
+        {
+            if (nonVolatileStatus.GetConditionName() == NonVolatile.Fainted.ToString())
+            {
+                Destroy(nonVolatileStatus);
+                nonVolatileStatus = null;
+            }
         }
 
         return false;
