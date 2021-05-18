@@ -1,0 +1,294 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a48286fb2da5664a8230b965e623b74, type: 3}
+  m_Name: Test Behaviour
+  m_EditorClassIdentifier: 
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
+  references:
+    version: 1
+    00000000:
+      type: {class: RootNode, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 0
+        transitions: []
+    00000001:
+      type: {class: GetTransformNode, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 1
+        transitions:
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 4
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+    00000002:
+      type: {class: GetVec3Node, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 2
+        transitions:
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 5
+          transitions: []
+          targetNodeID: 3
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        input:
+          id: 10
+    00000003:
+      type: {class: RotateNode, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 3
+        transitions: []
+    00000004:
+      type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 4
+        transitions: []
+        targetNodeID: 3
+        fromNodeID: 1
+        targetFieldID: 0
+        fromFieldID: 0
+    00000005:
+      type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 5
+        transitions: []
+        targetNodeID: 3
+        fromNodeID: 2
+        targetFieldID: 1
+        fromFieldID: 0
+    00000006:
+      type: {class: TransformSplitNode, ns: AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter,
+        asm: Assembly-CSharp}
+      data:
+        id: 6
+        transitions:
+        - id: 9
+          transitions: []
+          targetNodeID: 8
+          fromNodeID: 6
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 9
+          transitions: []
+          targetNodeID: 8
+          fromNodeID: 6
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 9
+          transitions: []
+          targetNodeID: 8
+          fromNodeID: 6
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 9
+          transitions: []
+          targetNodeID: 8
+          fromNodeID: 6
+          targetFieldID: 0
+          fromFieldID: 1
+    00000007:
+      type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 7
+        transitions: []
+        targetNodeID: 6
+        fromNodeID: 1
+        targetFieldID: 0
+        fromFieldID: 0
+    00000008:
+      type: {class: DebugNode, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 8
+        transitions: []
+    00000009:
+      type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
+      data:
+        id: 9
+        transitions: []
+        targetNodeID: 8
+        fromNodeID: 6
+        targetFieldID: 0
+        fromFieldID: 1
+    0000000A:
+      type: {class: Vector3, ns: UnityEngine, asm: UnityEngine.CoreModule}
+      data:
+        x: 10
+        y: 25
+        z: 5

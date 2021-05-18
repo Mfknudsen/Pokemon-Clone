@@ -2,55 +2,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Monster;
+using Monster.Conditions;
+using Communications;
 #endregion
 
-[CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Revive")]
-public class Revive : Item
+namespace Items.Revives
 {
-    #region Values
-    [Header("Revive:")]
-    [SerializeField] private bool toFull = false;
-    [SerializeField] private Chat onActivation = null;
-    #endregion
-
-    #region Override
-    public override void SetTarget(Pokemon set)
+    [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Revive")]
+    public class Revive : Item
     {
-        base.SetTarget(set);
+        #region Values
+        [Header("Revive:")]
+        [SerializeField] private bool toFull = false;
+        [SerializeField] private Chat onActivation = null;
+        #endregion
 
-        set.SetRevived(true);
-    }
-
-    public override bool IsUsableTarget(Pokemon p)
-    {
-        if (p.GetConditionOversight().GetNonVolatileStatus() != null)
+        #region Override
+        public override void SetTarget(Pokemon set)
         {
-            if (p.GetConditionOversight().GetNonVolatileStatus().GetConditionName() == NonVolatile.Fainted.ToString() && !p.GetRevived())
-                return true;
+            base.SetTarget(set);
+
+            set.SetRevived(true);
         }
 
-        return false;
-    }
+        public override bool IsUsableTarget(Pokemon p)
+        {
+            if (p.GetConditionOversight().GetNonVolatileStatus() != null)
+            {
+                if (p.GetConditionOversight().GetNonVolatileStatus().GetConditionName() == NonVolatile.Fainted.ToString() && !p.GetRevived())
+                    return true;
+            }
 
-    public override IEnumerator Activate()
-    {
-        done = false;
+            return false;
+        }
 
-        Chat toSend = onActivation.GetChat();
-        toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
-        ChatMaster.instance.Add(toSend);
+        public override IEnumerator Activate()
+        {
+            done = false;
 
-        target.GetConditionOversight().TryApplyNonVolatileCondition(null);
-        if (toFull)
-            target.RecieveDamage(-Mathf.Infinity);
-        else
-            target.RecieveDamage(-(target.GetStat(Stat.HP) / 2));
+            Chat toSend = onActivation.GetChat();
+            toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
+            ChatMaster.instance.Add(toSend);
 
-        while (!ChatMaster.instance.GetIsClear())
+            target.GetConditionOversight().TryApplyNonVolatileCondition(null);
+            if (toFull)
+                target.RecieveDamage(-Mathf.Infinity);
+            else
+                target.RecieveDamage(-(target.GetStat(Stat.HP) / 2));
+
+            while (!ChatMaster.instance.GetIsClear())
+                yield return null;
+
             yield return null;
-
-        yield return null;
-        done = true;
+            done = true;
+        }
+        #endregion
     }
-    #endregion
 }

@@ -2,66 +2,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Communications;
 #endregion
 
-[CreateAssetMenu(fileName = "ItemAction", menuName = "Action/Create new Item Action")]
-public class ItemAction : BattleAction
+namespace Battle.Actions.Items
 {
-    #region Values
-    [Header("Item Action:")]
-    [SerializeField] private Item toUse = null;
-    [SerializeField] private Trainer.BattleMember battleMember = null;
-    #endregion
-
-    #region Getters
-    public bool GetToUse()
+    [CreateAssetMenu(fileName = "ItemAction", menuName = "Action/Create new Item Action")]
+    public class ItemAction : BattleAction
     {
-        return toUse;
-    }
-    #endregion
+        #region Values
+        [Header("Item Action:")]
+        [SerializeField] private Item toUse = null;
+        [SerializeField] private Trainer.BattleMember battleMember = null;
+        #endregion
 
-    #region Setters
-    public void SetToUse(Item set)
-    {
-        toUse = set;
-    }
-
-    public void SetBattleMember(Trainer.BattleMember set)
-    {
-        battleMember = set;
-    }
-    #endregion
-
-    #region Overrides
-    public override IEnumerator Activate()
-    {
-        return Operation();
-    }
-
-    protected override IEnumerator Operation()
-    {
-        done = false;
-        toUse.SetTarget(currentPokemon);
-        //Send Chat
-        List<Chat> toSend = new List<Chat>();
-        foreach (Chat chat in chatOnActivation)
+        #region Getters
+        public bool GetToUse()
         {
-            Chat c = Instantiate(chat);
-            c.AddToOverride("<USER_NAME>", battleMember.GetName());
-            c.AddToOverride("<ITEM_NAME>", toUse.GetItemName());
-            toSend.Add(c);
+            return toUse;
         }
-        ChatMaster.instance.Add(toSend.ToArray());
+        #endregion
 
-        //Activate Item
-        BattleMaster.instance.StartCoroutine(toUse.Activate());
+        #region Setters
+        public void SetToUse(Item set)
+        {
+            toUse = set;
+        }
 
-        while (!ChatMaster.instance.GetIsClear() || !toUse.GetDone())
-            yield return null;
+        public void SetBattleMember(Trainer.BattleMember set)
+        {
+            battleMember = set;
+        }
+        #endregion
 
-        battleMember.GetInventory().RemoveItem(toUse);
+        #region Overrides
+        public override IEnumerator Activate()
+        {
+            return Operation();
+        }
 
-        done = true;
+        protected override IEnumerator Operation()
+        {
+            done = false;
+            toUse.SetTarget(currentPokemon);
+            //Send Chat
+            List<Chat> toSend = new List<Chat>();
+            foreach (Chat chat in chatOnActivation)
+            {
+                Chat c = Instantiate(chat);
+                c.AddToOverride("<USER_NAME>", battleMember.GetName());
+                c.AddToOverride("<ITEM_NAME>", toUse.GetItemName());
+                toSend.Add(c);
+            }
+            ChatMaster.instance.Add(toSend.ToArray());
+
+            //Activate Item
+            BattleMaster.instance.StartCoroutine(toUse.Activate());
+
+            while (!ChatMaster.instance.GetIsClear() || !toUse.GetDone())
+                yield return null;
+
+            battleMember.GetInventory().RemoveItem(toUse);
+
+            done = true;
+        }
+        #endregion
     }
-    #endregion
 }

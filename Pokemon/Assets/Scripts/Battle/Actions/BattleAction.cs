@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Monster;
+using Communications;
+using Battle;
 #endregion
 
 public abstract class BattleAction : ScriptableObject

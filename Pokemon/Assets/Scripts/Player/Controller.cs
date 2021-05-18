@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+#endregion
 
 namespace Player
 {
@@ -10,26 +12,39 @@ namespace Player
         #region Values
         [Header("Object Reference:")]
         [SerializeField] private NavMeshAgent agent = null;
+        [SerializeField] private Rigidbody rb = null;
+
+        [Header("World Condtions:")]
+        [SerializeField] private bool onBoat = false;
+        [SerializeField] private bool inSandstorm = false, inWater = false, climbStone = false, climbIce = false;
 
         [Header("Movement:")]
-        [SerializeField] private Rigidbody rb = null;
         [SerializeField] private Transform moveOrigin = null;
         [SerializeField] private float speed = 0;
         [SerializeField] private Vector3 moveDir = Vector3.zero;
+        [Header(" - Climbing:")]
 
         [Header("Turn")]
         [SerializeField] private Transform turnPoint = null;
         [SerializeField] private Vector3 oldRot = Vector3.zero;
         #endregion
 
+        #region Build In States
+        private void OnValidate()
+        {
+            if (moveOrigin != null)
+            {
+                if (agent == null)
+                    agent = moveOrigin.GetComponent<NavMeshAgent>();
+                agent.enabled = false;
+
+                if (rb == null)
+                    rb = moveOrigin.GetComponent<Rigidbody>();
+            }
+        }
+
         private void Start()
         {
-            if (agent == null)
-                agent = moveOrigin.GetComponent<NavMeshAgent>();
-            agent.enabled = false;
-
-            if (rb == null)
-                rb = moveOrigin.GetComponent<Rigidbody>();
             rb.useGravity = false;
         }
 
@@ -39,6 +54,13 @@ namespace Player
             Move();
             Turn();
         }
+        #endregion
+
+        #region Getters
+        #endregion
+
+        #region Setters
+        #endregion
 
         #region In
         private void GetInputFromSystem()
@@ -59,6 +81,9 @@ namespace Player
             else
                 moveDir.y = 0;
         }
+        #endregion
+
+        #region Out
         #endregion
 
         #region Internal

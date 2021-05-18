@@ -5,6 +5,9 @@ using UnityEngine;
 using TMPro;
 //Custom
 using Trainer;
+using Battle;
+using Monster;
+using Monster.Conditions;
 #endregion
 
 #region Enums

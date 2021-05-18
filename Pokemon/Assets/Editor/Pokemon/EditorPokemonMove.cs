@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+//Custom
+using Monster;
+using Monster.Conditions;
+using Battle.Actions.Moves;
 #endregion
 
 [CustomEditor(typeof(PokemonMove))]
@@ -56,7 +60,8 @@ public class EditorPokemonMove : Editor
     {
         standard = GUI.color;
         script = (PokemonMove)target;
-        script.SetDirty();
+        //script.SetDirty();
+        EditorUtility.SetDirty(this);
         headerStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 30 };
         subheaderStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 25 };
         textStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 20 };

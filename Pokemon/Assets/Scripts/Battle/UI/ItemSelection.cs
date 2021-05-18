@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//Custom
+using Monster;
+using Battle;
 #endregion
 
 namespace BattleUI

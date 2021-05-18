@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Battle;
 #endregion
 
 namespace Trainer
@@ -67,7 +69,6 @@ namespace Trainer
 
         public bool OwnSpot(Spot spot)
         {
-
             return owndSpots.Contains(spot);
         }
 

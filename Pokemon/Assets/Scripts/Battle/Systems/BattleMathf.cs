@@ -1,6 +1,13 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Monster;
+using Battle;
+using Battle.Actions.Moves;
+using Communications;
+#endregion
 
 public class BattleMathf : ScriptableObject
 {

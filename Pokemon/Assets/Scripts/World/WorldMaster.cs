@@ -44,6 +44,11 @@ public class WorldMaster : MonoBehaviour
     #endregion
 
     #region In
+    public void SpawnWorld()
+    {
+
+    }
+
     public void LoadScene(string sceneName)
     {
         currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, false));
@@ -61,7 +66,8 @@ public class WorldMaster : MonoBehaviour
     }
     #endregion
 
-    #region Load/Unload Battle Scene
+    #region IEnumerator
+    #region Load/Unload Battle Scenes
     private IEnumerator LoadBattleSceneAsync(string sceneName, bool additive)
     {
         AsyncOperation asyncLoad;
@@ -96,5 +102,23 @@ public class WorldMaster : MonoBehaviour
 
         currentOperation = null;
     }
+    #endregion
+
+    #region Load/Unload World Scenes
+    private IEnumerator SpawnWorldAsync()
+    {
+        yield return null;
+    }
+
+    private IEnumerator LoadWorldSceneAsync()
+    {
+        yield return null;
+    }
+
+    private IEnumerator DeloadWorldSceneAsync()
+    {
+        yield return null;
+    }
+    #endregion
     #endregion
 }

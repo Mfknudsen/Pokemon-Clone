@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿#region SDK
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Custom
+using Monster;
+#endregion
 
 public class PokemonPlaceholder : MonoBehaviour
 {
