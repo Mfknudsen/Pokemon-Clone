@@ -24,7 +24,6 @@ namespace AI.BehaviorTree
 
             if (nodeQueue.Count > 0)
             {
-                Debug.Log(nodeQueue[0].id);
                 nodeQueue[0].Tick(this);
                 nodeQueue.RemoveAt(0);
             }

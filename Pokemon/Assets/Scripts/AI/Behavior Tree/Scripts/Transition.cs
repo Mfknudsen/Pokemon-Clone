@@ -93,6 +93,9 @@ namespace AI.BehaviorTree.Nodes
 
         private object ReturnAsType(object o, VariableType type)
         {
+            if (o == null)
+                return null;
+            
             String s = o.ToString();
             if (type == VariableType.Float)
                 return float.Parse(s);

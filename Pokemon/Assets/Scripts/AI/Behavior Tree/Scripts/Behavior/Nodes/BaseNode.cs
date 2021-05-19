@@ -18,26 +18,12 @@ namespace AI.BehaviorTree.Nodes
 
         public abstract void Tick(BehaviorController setup);
 
-        public void Reset(BaseNode n)
-        {
-            foreach (FieldInfo info in n.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (info.GetCustomAttribute(typeof(InputType)) is InputType input)
-                    ResetField(n, info, input.varType);
-                //else if (info.GetCustomAttribute(typeof(OutputType)) is OutputType output)
-                    //ResetField(n, info, output.varType);
-            }
-
-            n.checkState = new Dictionary<string, bool>();
-        }
-
-        protected void ContinueTransitions(BaseNode n, BehaviorController setup)
+        protected void ContinueTransitions(BehaviorController setup)
         {
             if (transitions == null) return;
+            
             foreach (Transition t in transitions)
                 t.Tick(setup);
-
-            Reset(n);
         }
 
         public void AddTransition(Transition transition)
@@ -76,24 +62,6 @@ namespace AI.BehaviorTree.Nodes
             }
 
             return i == n.checkState.Keys.Count;
-        }
-
-        protected void ResetField(BaseNode n, FieldInfo info, VariableType varType)
-        {
-            if (varType == VariableType.Float)
-                info.SetValue(n, 0.0f);
-            else if (varType == VariableType.Int)
-                info.SetValue(n, 0);
-            else if (varType == VariableType.String)
-                info.SetValue(n, "");
-            else if (varType == VariableType.Vector2)
-                info.SetValue(n, Vector2.zero);
-            else if (varType == VariableType.Vector3)
-                info.SetValue(n, Vector3.zero);
-            else if (varType == VariableType.Quaterion)
-                info.SetValue(n, Quaternion.identity);
-            else if (varType == VariableType.Transform)
-                info.SetValue(n, null);
         }
     }
 }

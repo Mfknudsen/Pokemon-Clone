@@ -22,7 +22,7 @@ namespace AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
 
             rot = (input as Transform).rotation.eulerAngles;
             
-            ContinueTransitions(this, setup);
+            ContinueTransitions(setup);
         }
     }
 }

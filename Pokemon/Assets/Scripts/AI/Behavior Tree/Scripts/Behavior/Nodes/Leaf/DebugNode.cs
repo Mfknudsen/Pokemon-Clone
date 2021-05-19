@@ -1,4 +1,5 @@
-﻿using AI.BehaviourTreeEditor;
+﻿using System;
+using AI.BehaviourTreeEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,13 @@ namespace AI.BehaviorTree.Nodes
         [InputType(VariableType.Any, "To Log", true)]
         public object toLog;
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void Tick(BehaviorController setup)
         {
-            Debug.Log("Debug Node Message:\n" + toLog);
+            if (toLog == null)
+                throw new Exception("Cant Debug Null Object");
+            
+            Debug.Log("Debug Node Message:\n(" +toLog.GetType()+")"+ toLog);
         }
     }
 }

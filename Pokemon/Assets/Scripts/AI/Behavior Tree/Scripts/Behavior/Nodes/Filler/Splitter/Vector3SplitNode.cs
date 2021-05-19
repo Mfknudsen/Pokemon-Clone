@@ -22,7 +22,7 @@ namespace AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
             y = vec.y;
             z = vec.z;
 
-            ContinueTransitions(this, setup);
+            ContinueTransitions(setup);
         }
     }
 }

@@ -1,16 +1,9 @@
 ﻿#region SDK
 
-using System;
-using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI.BehaviorTree.Nodes;
 using UnityEngine;
-using UnityEditor;
-//Custom
-using AI.BehaviourTreeEditor;
-using JetBrains.Annotations;
 
 #endregion
 
@@ -22,7 +15,7 @@ namespace AI.BehaviorTree
         #region Values
 
         [SerializeReference] public List<BaseNode> nodes;
- 
+
         #endregion
 
         public void Setup()
@@ -73,8 +66,6 @@ namespace AI.BehaviorTree
             nodes.Remove(n);
         }
 
-        #endregion
-
         public bool AddNode(BaseNode node)
         {
             if (node == null)
@@ -91,10 +82,13 @@ namespace AI.BehaviorTree
             return true;
         }
 
+        #endregion
+
         #region Out
 
         public bool HasRoot()
         {
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (BaseNode n in nodes.Where(n => n is RootNode))
                 return true;
             return false;

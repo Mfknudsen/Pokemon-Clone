@@ -28,7 +28,7 @@ namespace AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
         {
             result = Mathf.Clamp((float) toCheck, (float) min, (float) max);
 
-            ContinueTransitions(this, setup);
+            ContinueTransitions(setup);
         }
     }
 }

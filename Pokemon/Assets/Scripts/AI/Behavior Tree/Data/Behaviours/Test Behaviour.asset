@@ -47,155 +47,11 @@ MonoBehaviour:
           fromNodeID: 1
           targetFieldID: 0
           fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 7
-          transitions: []
-          targetNodeID: 6
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 7
-          transitions: []
-          targetNodeID: 6
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 7
-          transitions: []
-          targetNodeID: 6
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 4
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
-        - id: 7
-          transitions: []
-          targetNodeID: 6
-          fromNodeID: 1
-          targetFieldID: 0
-          fromFieldID: 0
     00000002:
       type: {class: GetVec3Node, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
       data:
         id: 2
         transitions:
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
-        - id: 5
-          transitions: []
-          targetNodeID: 3
-          fromNodeID: 2
-          targetFieldID: 1
-          fromFieldID: 0
         - id: 5
           transitions: []
           targetNodeID: 3
@@ -214,7 +70,19 @@ MonoBehaviour:
       type: {class: RotateNode, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
       data:
         id: 3
-        transitions: []
+        transitions:
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 3
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 7
+          transitions: []
+          targetNodeID: 6
+          fromNodeID: 3
+          targetFieldID: 0
+          fromFieldID: 0
     00000004:
       type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
       data:
@@ -251,25 +119,13 @@ MonoBehaviour:
           fromNodeID: 6
           targetFieldID: 0
           fromFieldID: 1
-        - id: 9
-          transitions: []
-          targetNodeID: 8
-          fromNodeID: 6
-          targetFieldID: 0
-          fromFieldID: 1
-        - id: 9
-          transitions: []
-          targetNodeID: 8
-          fromNodeID: 6
-          targetFieldID: 0
-          fromFieldID: 1
     00000007:
       type: {class: Transition, ns: AI.BehaviorTree.Nodes, asm: Assembly-CSharp}
       data:
         id: 7
         transitions: []
         targetNodeID: 6
-        fromNodeID: 1
+        fromNodeID: 3
         targetFieldID: 0
         fromFieldID: 0
     00000008:

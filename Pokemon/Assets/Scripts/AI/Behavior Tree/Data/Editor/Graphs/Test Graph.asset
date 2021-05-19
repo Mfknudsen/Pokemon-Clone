@@ -19,8 +19,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 8acca2f4a60cab147b9ae8c92454b9a4, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 707
-      y: 440
+      x: 401
+      y: 71
       width: 50
       height: 50
     windowTitle: Root
@@ -47,8 +47,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 157
-      y: 140
+      x: 47
+      y: 152
       width: 215
       height: 72.5
     windowTitle: Transform Input
@@ -75,8 +75,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 122
-      y: 336
+      x: 36
+      y: 308
       width: 215
       height: 72.5
     windowTitle: Vector3 Input
@@ -103,8 +103,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 419
-      y: 276
+      x: 290
+      y: 219
       width: 215
       height: 159.5
     windowTitle: Rotate Node
@@ -150,11 +150,11 @@ MonoBehaviour:
     allTransitionIDs: 01000000
     enterID: 3
     exitID: 1
-    preEnterPos: {x: 419, y: 276}
-    preExitPos: {x: 157, y: 140}
-    enterStart: {x: 426.5, y: 328.5}
-    exitStart: {x: 364.5, y: 202.5}
-    mouse: {x: 471, y: 281}
+    preEnterPos: {x: 290, y: 219}
+    preExitPos: {x: 47, y: 152}
+    enterStart: {x: 297.5, y: 271.5}
+    exitStart: {x: 254.5, y: 214.5}
+    mouse: {x: 433, y: 312}
   - id: 5
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
@@ -178,17 +178,17 @@ MonoBehaviour:
     allTransitionIDs: 02000000
     enterID: 3
     exitID: 2
-    preEnterPos: {x: 419, y: 276}
-    preExitPos: {x: 122, y: 336}
-    enterStart: {x: 426.5, y: 368.5}
-    exitStart: {x: 329.5, y: 398.5}
-    mouse: {x: 472, y: 317}
+    preEnterPos: {x: 290, y: 219}
+    preExitPos: {x: 36, y: 308}
+    enterStart: {x: 297.5, y: 311.5}
+    exitStart: {x: 243.5, y: 370.5}
+    mouse: {x: 427, y: 351}
   - id: 6
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 450
-      y: 42
+      x: 540
+      y: 289
       width: 215
       height: 159.5
     windowTitle: Transform Splitter
@@ -231,20 +231,20 @@ MonoBehaviour:
     showActions: 1
     showEnterExit: 0
     previousCollapse: 0
-    allTransitionIDs: 01000000
+    allTransitionIDs: 03000000
     enterID: 6
-    exitID: 1
-    preEnterPos: {x: 450, y: 42}
-    preExitPos: {x: 157, y: 140}
-    enterStart: {x: 457.5, y: 94.5}
-    exitStart: {x: 364.5, y: 202.5}
-    mouse: {x: 322, y: 521}
+    exitID: 3
+    preEnterPos: {x: 540, y: 289}
+    preExitPos: {x: 290, y: 219}
+    enterStart: {x: 547.5, y: 341.5}
+    exitStart: {x: 497.5, y: 361.5}
+    mouse: {x: 612, y: 469}
   - id: 8
     drawNode: {fileID: 11400000, guid: 4b493d811fed61b46b4460adad61bfc5, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 713
-      y: 107
+      x: 794
+      y: 455
       width: 100
       height: 72.5
     windowTitle: Debug Leaf
@@ -290,9 +290,9 @@ MonoBehaviour:
     allTransitionIDs: 06000000
     enterID: 8
     exitID: 6
-    preEnterPos: {x: 713, y: 107}
-    preExitPos: {x: 450, y: 42}
-    enterStart: {x: 720.5, y: 159.5}
-    exitStart: {x: 657.5, y: 184.5}
-    mouse: {x: 585, y: 577}
+    preEnterPos: {x: 794, y: 455}
+    preExitPos: {x: 540, y: 289}
+    enterStart: {x: 801.5, y: 507.5}
+    exitStart: {x: 747.5, y: 431.5}
+    mouse: {x: 765, y: 624}
   idCount: 10

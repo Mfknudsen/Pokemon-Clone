@@ -14,7 +14,7 @@ namespace AI.BehaviorTree.Nodes
 
         public override void Tick(BehaviorController setup)
         {
-            ContinueTransitions(this, setup);
+            ContinueTransitions(setup);
         }
     }
 }

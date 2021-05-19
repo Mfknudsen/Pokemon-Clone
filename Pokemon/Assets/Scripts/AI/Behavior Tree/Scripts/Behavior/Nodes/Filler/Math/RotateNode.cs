@@ -18,7 +18,9 @@ namespace AI.BehaviorTree.Nodes
 
             transform.Rotate((Vector3) amount * Time.deltaTime);
 
-            ContinueTransitions(this, setup);
+            ContinueTransitions(setup);
         }
+        
+        
     }
 }
