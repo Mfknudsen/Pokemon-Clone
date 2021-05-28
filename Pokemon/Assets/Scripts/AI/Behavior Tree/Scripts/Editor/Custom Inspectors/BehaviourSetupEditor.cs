@@ -59,7 +59,7 @@ public class BehaviourSetupEditor : Editor
 
                     if (attribute == null)
                         continue;
-                    if (attribute.varType == VariableType.Null)
+                    if (attribute.varType == VariableType.DEFAULT)
                         continue;
 
                     EditorGUILayout.BeginHorizontal();
@@ -68,7 +68,7 @@ public class BehaviourSetupEditor : Editor
 
                     object obj = info.GetValue(node);
 
-                    object newValue = EditorMethods.InputField(attribute.varType, obj);
+                    object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
 
                     if (obj != newValue)
                     {

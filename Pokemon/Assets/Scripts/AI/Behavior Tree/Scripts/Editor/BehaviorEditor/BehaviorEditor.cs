@@ -46,7 +46,7 @@ namespace AI.BehaviourTreeEditor
         //Transition
         BaseNodeSetting drawTrans;
 
-        public enum UserActions
+        private enum UserActions
         {
             //Input
             addIntInput,
@@ -56,10 +56,15 @@ namespace AI.BehaviourTreeEditor
             addVec3Input,
             addTransformInput,
 
+            // -- Pokemon
+            addPokeTeamInput,
+
             //Filler
             addMathClampFiller,
             addRotateFiller,
             addTransSplitFiller,
+            addVec2SplitFiller,
+            addVec3SplitFiller,
 
             //Leaf
             addDebugLeaf,
@@ -429,6 +434,8 @@ namespace AI.BehaviourTreeEditor
             {
                 if (drawTrans.baseNode == null)
                 {
+                    if (settings.currentGraph.windows.Contains(drawTrans))
+                        settings.currentGraph.windows.Remove(drawTrans);
                     drawTrans = null;
                     return;
                 }
@@ -484,6 +491,9 @@ namespace AI.BehaviourTreeEditor
                 menu.AddItem(new GUIContent("Add Input/Vector3"), false, ContextCallback, UserActions.addVec3Input);
                 menu.AddItem(new GUIContent("Add Input/Transform"), false, ContextCallback,
                     UserActions.addTransformInput);
+                // -- Pokemon
+                menu.AddItem(new GUIContent("Add Input/Pokemon/Team"), false, ContextCallback,
+                    UserActions.addPokeTeamInput);
 
                 #endregion
 
@@ -496,7 +506,11 @@ namespace AI.BehaviourTreeEditor
                 menu.AddItem(new GUIContent("Add Filler/Transform/Rotate"), false, ContextCallback,
                     UserActions.addRotateFiller);
                 //Splitter
-                menu.AddItem(new GUIContent("Add Filler/Split/TransformSplit"), false, ContextCallback,
+                menu.AddItem(new GUIContent("Add Filler/Split/Vector2 Split"), false, ContextCallback,
+                    UserActions.addVec2SplitFiller);
+                menu.AddItem(new GUIContent("Add Filler/Split/Vector3 Split"), false, ContextCallback,
+                    UserActions.addVec3SplitFiller);
+                menu.AddItem(new GUIContent("Add Filler/Split/Transform Split"), false, ContextCallback,
                     UserActions.addTransSplitFiller);
 
                 #endregion
@@ -562,6 +576,20 @@ namespace AI.BehaviourTreeEditor
                     settings.AddNodeOnGraph(settings.inputNode, new GetTransformNode(), 215, 25, "Transform Input",
                         mousePosition);
                     break;
+                case UserActions.addFloatInput:
+                    settings.AddNodeOnGraph(settings.inputNode, new GetFloatNode(), 215, 25, "Float Input",
+                        mousePosition);
+                    break;
+                case UserActions.addVec2Input:
+                    settings.AddNodeOnGraph(settings.inputNode, new GetVec2Node(), 215, 25, "Vector2 Input",
+                        mousePosition);
+                    break;
+
+                // -- Pokemon
+                case UserActions.addPokeTeamInput:
+                    settings.AddNodeOnGraph(settings.inputNode, new GetPokeTeamNode(), 215, 25, "Poké Team Input",
+                        mousePosition);
+                    break;
 
                 #endregion
 
@@ -572,7 +600,15 @@ namespace AI.BehaviourTreeEditor
                         mousePosition);
                     break;
                 case UserActions.addRotateFiller:
-                    settings.AddNodeOnGraph(settings.fillerNode, new RotateNode(), 215, 25, "Rotate Node",
+                    settings.AddNodeOnGraph(settings.fillerNode, new RotateNode(), 215, 25, "Rotate",
+                        mousePosition);
+                    break;
+                case UserActions.addVec2SplitFiller:
+                    settings.AddNodeOnGraph(settings.fillerNode, new Vector2SplitNode(), 215, 25, "Vector2 Split ",
+                        mousePosition);
+                    break;
+                case UserActions.addVec3SplitFiller:
+                    settings.AddNodeOnGraph(settings.fillerNode, new Vector3SplitNode(), 215, 25, "Vector3 Split",
                         mousePosition);
                     break;
                 case UserActions.addTransSplitFiller:
@@ -585,7 +621,7 @@ namespace AI.BehaviourTreeEditor
                 #region Leaf
 
                 case UserActions.addDebugLeaf:
-                    settings.AddNodeOnGraph(settings.leafNode, new DebugNode(), 100, 25, "Debug Leaf", mousePosition);
+                    settings.AddNodeOnGraph(settings.leafNode, new DebugNode(), 125, 25, "Debug Leaf", mousePosition);
                     break;
 
                 #endregion

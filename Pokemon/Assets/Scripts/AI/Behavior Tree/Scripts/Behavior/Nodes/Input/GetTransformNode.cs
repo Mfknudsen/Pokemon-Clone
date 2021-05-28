@@ -8,8 +8,8 @@ namespace AI.BehaviorTree.Nodes
     [System.Serializable]
     public class GetTransformNode : InputNode
     {
-        [OutputType(VariableType.Transform, "Transform Input")]
-        public object input = null;
+        [OutputType(VariableType.Transform, "Transform Input"), SerializeField]
+        public object input = (Transform)null;
 
         public override void Tick(BehaviorController setup)
         {

@@ -11,15 +11,24 @@ namespace AI.BehaviourTreeEditor
 {
     public enum VariableType
     {
-        Null,
+        DEFAULT,
         Any,
         Int,
         Float,
+        Double,
         String,
         Vector2,
         Vector3,
-        Quaterion,
-        Transform
+        Transform,
+        Script
+    }
+
+    public enum ScriptType
+    {
+        DEFAULT,
+        TrainerTeam,
+        Pokemon,
+        PokeMove,
     }
 
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
@@ -27,10 +36,12 @@ namespace AI.BehaviourTreeEditor
     {
         public bool receiveMultiply;
 
-        public InputType(VariableType varType, string name, bool receiveMultiply)
+        public InputType(VariableType varType, string name, bool receiveMultiply,
+            ScriptType scriptType = ScriptType.DEFAULT)
         {
             this.varType = varType;
             this.name = name;
+            this.scriptType = scriptType;
             this.receiveMultiply = receiveMultiply;
         }
     }
@@ -38,10 +49,11 @@ namespace AI.BehaviourTreeEditor
     [AttributeUsage(AttributeTargets.Field)]
     public class OutputType : InformationType
     {
-        public OutputType(VariableType varType, string name)
+        public OutputType(VariableType varType, string name, ScriptType scriptType = ScriptType.DEFAULT)
         {
             this.varType = varType;
             this.name = name;
+            this.scriptType = scriptType;
         }
     }
 
@@ -49,5 +61,6 @@ namespace AI.BehaviourTreeEditor
     {
         public string name;
         public VariableType varType;
+        public ScriptType scriptType;
     }
 }

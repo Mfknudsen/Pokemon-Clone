@@ -26,7 +26,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
         {
             if (node == null)
                 return 0;
-            
+
             int i = 0;
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -38,7 +38,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.Null)
+                if (attribute.varType == VariableType.DEFAULT)
                     continue;
 
                 height += 40;
@@ -56,7 +56,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.Null)
+                if (attribute.varType == VariableType.DEFAULT)
                     continue;
 
                 EditorGUILayout.BeginVertical();
@@ -80,7 +80,8 @@ namespace AI.BehaviourTreeEditor.EditorNodes
                     node,
                     EditorMethods.InputField(
                         attribute.varType,
-                        obj)
+                        obj,
+                        attribute.scriptType)
                 );
 
                 EditorGUILayout.EndHorizontal();
@@ -88,15 +89,15 @@ namespace AI.BehaviourTreeEditor.EditorNodes
             }
 
             EditorGUILayout.EndVertical();
-            
+
             return i;
         }
 
         public static int DisplayOutputs(BaseNodeSetting b, BaseNode node, int extra)
         {
             if (node == null)
-                return 0 ;
-            
+                return 0;
+
             int i = 0;
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -109,7 +110,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.Null)
+                if (attribute.varType == VariableType.DEFAULT)
                     continue;
 
                 height += 40;
@@ -127,7 +128,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.Null)
+                if (attribute.varType == VariableType.DEFAULT)
                     continue;
 
                 EditorGUILayout.BeginVertical();
@@ -140,7 +141,8 @@ namespace AI.BehaviourTreeEditor.EditorNodes
                     node,
                     EditorMethods.InputField(
                         attribute.varType,
-                        obj)
+                        obj,
+                        attribute.scriptType)
                 );
 
                 //
@@ -150,7 +152,8 @@ namespace AI.BehaviourTreeEditor.EditorNodes
                     BehaviorEditor.editor.MakeTransition(
                         b,
                         (i - 1),
-                        b.windowRect.position + new Vector2(b.windowRect.width - 7.5f, 25 + 10 + ((i + extra) * 40) - 12.5f),
+                        b.windowRect.position +
+                        new Vector2(b.windowRect.width - 7.5f, 25 + 10 + ((i + extra) * 40) - 12.5f),
                         false
                     );
                 }
@@ -160,7 +163,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
             }
 
             EditorGUILayout.EndVertical();
-            
+
             return i;
         }
     }

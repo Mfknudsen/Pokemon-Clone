@@ -18,7 +18,7 @@ namespace AI.BehaviorTree.Nodes
             if (toLog == null)
                 throw new Exception("Cant Debug Null Object");
             
-            Debug.Log("Debug Node Message:\n(" +toLog.GetType()+")"+ toLog);
+            Debug.Log("Debug Node Message:\n(" +toLog.GetType()+") : "+ toLog);
         }
     }
 }
