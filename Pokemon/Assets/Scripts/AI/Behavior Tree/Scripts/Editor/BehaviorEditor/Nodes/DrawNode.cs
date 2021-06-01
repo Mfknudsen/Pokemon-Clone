@@ -20,7 +20,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
         public abstract void DrawCurve(BaseNodeSetting b, BaseNode node);
     }
 
-    public class NodeFunc
+    public static class NodeFunc
     {
         public static int DisplayInputs(BaseNodeSetting b, BaseNode node, int extra)
         {

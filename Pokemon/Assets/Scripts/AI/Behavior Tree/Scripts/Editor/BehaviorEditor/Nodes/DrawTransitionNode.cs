@@ -25,6 +25,8 @@ namespace AI.BehaviourTreeEditor.EditorNodes
             if (transNode.fromNodeID != -1 && transNode.targetNodeID != -1 &&
                 (b.enterDraw != null && b.exitDraw != null))
             {
+                b.windowRect.position = b.exitStart - new Vector2(10, 10) + ((b.enterStart - b.exitStart) / 2);
+
                 b.enterStart -= (b.preEnterPos - b.enterDraw.windowRect.position);
                 b.preEnterPos = b.enterDraw.windowRect.position;
                 b.exitStart -= (b.preExitPos - b.exitDraw.windowRect.position);

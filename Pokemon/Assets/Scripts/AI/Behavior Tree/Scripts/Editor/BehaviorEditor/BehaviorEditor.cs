@@ -321,6 +321,7 @@ namespace AI.BehaviourTreeEditor
             GUILayout.EndArea();
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Local
         private void DrawNodeWindow(int id)
         {
             settings.currentGraph.windows[id].DrawWindow(
@@ -410,7 +411,7 @@ namespace AI.BehaviourTreeEditor
 
             if (drawTrans == null)
             {
-                drawTrans = settings.AddNodeOnGraph(settings.transitionNode, new Transition(), 0, 0, "",
+                drawTrans = settings.AddNodeOnGraph(settings.transitionNode, new Transition(), 20, 20, "",
                     Vector2.zero);
                 Transition transition = drawTrans.baseNode as Transition;
                 transition?.Set(node, infoID, isTarget);
@@ -534,11 +535,11 @@ namespace AI.BehaviourTreeEditor
             e.Use();
         }
 
-        void ModifyNode(Event e)
+        private void ModifyNode(Event e)
         {
             GenericMenu menu = new GenericMenu();
 
-            if (selectedNode.drawNode is DrawTransitionNode)
+            if (selectedNode.drawNode != null)
             {
                 if (selectedNode.isDuplicate || !selectedNode.isAssigned)
                 {
@@ -558,7 +559,7 @@ namespace AI.BehaviourTreeEditor
             e.Use();
         }
 
-        void ContextCallback(object o)
+        private void ContextCallback(object o)
         {
             UserActions a = (UserActions) o;
             switch (a)
@@ -627,7 +628,7 @@ namespace AI.BehaviourTreeEditor
                 #endregion
 
                 case UserActions.deleteNode:
-                    if (selectedNode.drawNode is DrawTransitionNode)
+                    if (selectedNode.drawNode != null)
                     {
                         BaseNodeSetting enterNode = settings.currentGraph.GetNodeWithIndex(selectedNode.enterNode);
                     }

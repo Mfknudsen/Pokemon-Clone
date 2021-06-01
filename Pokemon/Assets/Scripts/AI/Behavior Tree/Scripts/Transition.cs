@@ -6,6 +6,7 @@ using System.Linq;
 using AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
 using UnityEngine;
 using AI.BehaviourTreeEditor;
+using Debug = System.Diagnostics.Debug;
 
 namespace AI.BehaviorTree.Nodes
 {
@@ -19,6 +20,9 @@ namespace AI.BehaviorTree.Nodes
 
         public void Set(BaseNode node, int infoID, bool isTarget)
         {
+            if(node == null)
+                return;
+            
             if (isTarget)
             {
                 targetFieldID = infoID;

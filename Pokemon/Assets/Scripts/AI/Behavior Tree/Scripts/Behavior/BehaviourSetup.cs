@@ -61,9 +61,11 @@ namespace AI.BehaviorTree
 
         public void RemoveNode(int id)
         {
-            BaseNode n = nodes.FirstOrDefault(node => node.id == id);
-
-            nodes.Remove(n);
+            foreach (BaseNode n in nodes.Where(n => n.id == id))
+            {
+                nodes.Remove(n);
+                return;
+            }
         }
 
         public bool AddNode(BaseNode node)
