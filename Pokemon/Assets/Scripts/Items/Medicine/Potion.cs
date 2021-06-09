@@ -6,7 +6,8 @@ using UnityEngine;
 using Battle;
 using Monster;
 using Monster.Conditions;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Items.Potions

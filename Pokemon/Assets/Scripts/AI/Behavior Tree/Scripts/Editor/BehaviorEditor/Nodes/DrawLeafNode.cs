@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 
 namespace AI.BehaviourTreeEditor.EditorNodes
 {

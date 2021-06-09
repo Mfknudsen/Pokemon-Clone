@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AI.BehaviorTree.Nodes;
 using AI.BehaviourTreeEditor.EditorNodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 using UnityEngine;
 
 namespace AI.BehaviourTreeEditor.EditorNodes

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 //Custom
 using Trainer;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Battle

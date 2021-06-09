@@ -8,6 +8,7 @@ using UnityEditor;
 //Custom
 using AI.BehaviourTreeEditor.EditorNodes;
 using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 
 #endregion
 

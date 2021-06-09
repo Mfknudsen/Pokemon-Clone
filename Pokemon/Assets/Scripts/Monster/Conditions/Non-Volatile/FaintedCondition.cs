@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 //Custom
 using Battle;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Monster.Conditions.Non_Volatile

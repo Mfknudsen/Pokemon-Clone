@@ -5,7 +5,8 @@ using UnityEngine;
 //Custom
 using Monster;
 using Monster.Conditions;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Battle.Actions.Moves

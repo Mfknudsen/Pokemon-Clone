@@ -6,7 +6,8 @@ using UnityEngine;
 using BattleUI;
 using Monster;
 using Battle;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Battle.Actions.Switchs

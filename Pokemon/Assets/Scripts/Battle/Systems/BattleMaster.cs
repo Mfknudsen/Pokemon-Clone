@@ -12,7 +12,8 @@ using Monster.Conditions;
 using Battle.Actions.Moves;
 using Battle.Actions.Items;
 using Battle.Actions.Switchs;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 namespace Battle

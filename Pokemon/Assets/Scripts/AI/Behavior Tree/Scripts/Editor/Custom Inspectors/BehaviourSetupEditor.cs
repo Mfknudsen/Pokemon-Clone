@@ -27,6 +27,10 @@ public class BehaviourSetupEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+        
+        GUILayout.Space(10);
+        
         if (EditorGUILayout.Toggle("RESET", false))
         {
             script.nodes.Clear();

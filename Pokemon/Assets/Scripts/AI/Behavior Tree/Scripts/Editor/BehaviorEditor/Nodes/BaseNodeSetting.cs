@@ -1,15 +1,13 @@
 ﻿#region SDK
 
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-//Custom
 using AI.BehaviorTree.Nodes;
+using AI.BehaviourTreeEditor.EditorNodes;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace AI.BehaviourTreeEditor.EditorNodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
     [System.Serializable]
     public class BaseNodeSetting
@@ -30,13 +28,13 @@ namespace AI.BehaviourTreeEditor.EditorNodes
 
         public bool collapse;
         public bool showActions = true;
-        public bool showEnterExit = false;
+        public bool showEnterExit;
         [HideInInspector] public bool previousCollapse;
 
         [Header("Transition")] public List<int> allTransitionIDs;
 
-        public int enterID,
-            exitID;
+        public int enterID = -1, exitID = -1;
+        public int varID = -1;
         public BaseNodeSetting enterDraw, exitDraw;
 
         public Vector2 preEnterPos,
@@ -59,12 +57,11 @@ namespace AI.BehaviourTreeEditor.EditorNodes
             drawNode.DrawCurve(this, node);
         }
 
-        public void AddTransitionID(int id)
+        public void AddTransitionID(int transID)
         {
-            if (allTransitionIDs == null)
-                allTransitionIDs = new List<int>();
+            allTransitionIDs ??= new List<int>();
 
-            allTransitionIDs.Add(id);
+            allTransitionIDs.Add(transID);
         }
     }
 }

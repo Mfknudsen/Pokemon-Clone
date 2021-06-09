@@ -1,10 +1,12 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 #endregion
 
-namespace Communications
+namespace Mfknudsen.Chat
 {
     [CreateAssetMenu(fileName = "Chat", menuName = "Chat/Create new Standard Chat", order = 0)]
     public class Chat : ScriptableObject
@@ -116,9 +118,8 @@ namespace Communications
 
             while (!done && !waiting && (index < textList.Length))
             {
-                string tempText = "";
-                string fromList = textList[index];
-                float relativSpeed = ChatMaster.instance.GetTextSpeed();
+                string tempText = "", fromList = textList[index];
+                float relativeSpeed = ChatMaster.instance.GetTextSpeed();
 
                 if (nextCharacter + 1 < fromList.Length)
                     tempText = "" + fromList[nextCharacter] + fromList[nextCharacter + 1];
@@ -127,7 +128,7 @@ namespace Communications
                 {
                     showText += "\n";
                     nextCharacter += 2;
-                    relativSpeed *= 1.5f;
+                    relativeSpeed *= 1.5f;
                 }
                 else if (nextCharacter < fromList.Length)
                 {
@@ -137,7 +138,9 @@ namespace Communications
 
                 if (showText.Length != 0)
                     ChatMaster.instance.SetDisplayText(showText);
-
+                
+                Debug.Log(relativeSpeed);
+                
                 if (showText.Length == fromList.Length)
                 {
                     if (!needInput)
@@ -150,9 +153,9 @@ namespace Communications
 
                     ChatMaster.instance.CheckRunningState();
                 }
-                yield return new WaitForSeconds(relativSpeed);
+                yield return new WaitForSeconds(relativeSpeed);
             }
-
+Debug.Log("T");
             while (waiting)
                 yield return null;
         }

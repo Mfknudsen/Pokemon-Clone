@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEditor;
 //Custom
 using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 
 #endregion
 
@@ -70,6 +72,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
                     BehaviorEditor.editor.MakeTransition(
                         b,
                         (-1 + i),
+                        (int) attribute.varType,
                         b.windowRect.position + new Vector2(7.5f, 25 + ((i + extra) * 40) - 12.5f),
                         true
                     );
@@ -152,6 +155,7 @@ namespace AI.BehaviourTreeEditor.EditorNodes
                     BehaviorEditor.editor.MakeTransition(
                         b,
                         (i - 1),
+                        (int)attribute.varType,
                         b.windowRect.position +
                         new Vector2(b.windowRect.width - 7.5f, 25 + 10 + ((i + extra) * 40) - 12.5f),
                         false

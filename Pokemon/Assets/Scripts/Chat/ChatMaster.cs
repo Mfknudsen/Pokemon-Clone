@@ -1,29 +1,29 @@
 ﻿#region SDK
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+
 #endregion
 
-namespace Communications
+namespace Mfknudsen.Chat
 {
     public class ChatMaster : MonoBehaviour
     {
         #region Values
-        [Header("Object Reference:")]
-        public static ChatMaster instance;
-        [SerializeField] private bool empty = true;
-        [SerializeField] private Chat running = null;
+
+        [Header("Object Reference:")] public static ChatMaster instance;
+        [SerializeField] private Chat running;
         [SerializeField] private List<Chat> waitlist = new List<Chat>();
-        Coroutine chatCoroutine = null;
+        private Coroutine chatCoroutine;
 
-        [Header("Display:")]
-        [SerializeField] private TextMeshProUGUI textField = null;
+        [Header("Display:")] [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] private KeyCode continueKey = 0;
-        [SerializeField] private bool waitForInput = false;
+        [SerializeField] private bool waitForInput = true;
 
-        [Header("Chat Settings:")]
-        [SerializeField] private float textPerSecond = 0;
+        [Header("Chat Settings:")] [SerializeField]
+        private float textPerSecond = 30;
+
         #endregion
 
         private void Start()
@@ -67,12 +67,16 @@ namespace Communications
         }
 
         #region Defaults
+
         public void DefaultTextSpeed()
         {
             textPerSecond = 20;
         }
+
         #endregion
+
         #region Getters
+
         public bool GetIsClear()
         {
             if (running == null && waitlist.Count == 0)
@@ -88,8 +92,11 @@ namespace Communications
         {
             return 1 / textPerSecond;
         }
+
         #endregion
+
         #region Setters
+
         public void SetDisplayText(string text)
         {
             textField.text = text;
@@ -106,19 +113,26 @@ namespace Communications
         {
             textPerSecond = speed;
         }
+
         #endregion
+
         #region In
+
         public void Add(Chat[] toAdd)
         {
             foreach (Chat c in toAdd)
                 waitlist.Add(c.GetChat());
         }
+
         public void Add(Chat toAdd)
         {
             waitlist.Add(toAdd.GetChat());
         }
+
         #endregion
+
         #region Internal
+
         public void CheckRunningState()
         {
             waitForInput = true;
@@ -132,13 +146,14 @@ namespace Communications
             Play(running);
         }
 
-        public void Play(Chat toPlay)
+        private void Play(Chat toPlay)
         {
             textField.gameObject.SetActive(true);
 
             running = toPlay;
             chatCoroutine = StartCoroutine(running.Play());
         }
+
         #endregion
     }
 }

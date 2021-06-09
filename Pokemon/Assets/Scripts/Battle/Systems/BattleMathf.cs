@@ -6,7 +6,8 @@ using UnityEngine;
 using Monster;
 using Battle;
 using Battle.Actions.Moves;
-using Communications;
+using Mfknudsen.Chat;
+
 #endregion
 
 public class BattleMathf : ScriptableObject

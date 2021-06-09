@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 //Custom
 using Monster;
-using Communications;
 using Battle;
+using Mfknudsen.Chat;
+
 #endregion
 
 public abstract class BattleAction : ScriptableObject

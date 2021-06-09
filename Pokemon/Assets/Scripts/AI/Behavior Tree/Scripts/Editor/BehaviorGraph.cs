@@ -7,6 +7,7 @@ using UnityEngine;
 //Custom
 using AI.BehaviourTreeEditor.EditorNodes;
 using AI.BehaviorTree;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 using UnityEditor;
 
 #endregion
@@ -69,7 +70,11 @@ namespace AI.BehaviourTreeEditor
         public void DeleteNode(int index)
         {
             if (!indexToDelete.Contains(index))
+            {
                 indexToDelete.Add(index);
+                if (behaviour != null)
+                    behaviour.RemoveNode(index);
+            }
         }
 
         public bool IsStateDuplicate(BaseNodeSetting b)
