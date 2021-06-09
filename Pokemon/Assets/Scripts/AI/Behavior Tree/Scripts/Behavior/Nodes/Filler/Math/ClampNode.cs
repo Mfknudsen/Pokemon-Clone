@@ -1,13 +1,10 @@
 ﻿#region SDK
 
-using AI.BehaviorTree;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor;
 using UnityEngine;
 
 #endregion
 
-namespace AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
 {
     [System.Serializable]
     public class ClampNode : BaseNode

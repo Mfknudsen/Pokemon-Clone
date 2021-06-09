@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
+using System.Reflection;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
-using AI.BehaviourTreeEditor;
-using Debug = System.Diagnostics.Debug;
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts
 {
     [System.Serializable]
     public class Transition : BaseNode

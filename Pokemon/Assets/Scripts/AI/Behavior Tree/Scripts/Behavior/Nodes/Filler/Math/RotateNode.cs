@@ -1,7 +1,6 @@
-﻿using AI.BehaviourTreeEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
 {
     [System.Serializable]
     public class RotateNode : BaseNode

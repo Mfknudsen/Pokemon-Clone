@@ -1,18 +1,12 @@
 ﻿#region SDK
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-//Custom
-using AI.BehaviourTreeEditor.EditorNodes;
-using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace AI.BehaviourTreeEditor
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 {
     [CreateAssetMenu(menuName = "Behavior Tree/Editor/Settings")]
     public class EditorSettings : ScriptableObject
@@ -23,8 +17,7 @@ namespace AI.BehaviourTreeEditor
 
         #region Draw Nodes
 
-        [Header("Nodes"), Space(5)] public DrawRootNode rootNode;
-        public DrawTransitionNode transitionNode;
+        [Header("Nodes"), Space(5)] public DrawTransitionNode transitionNode;
         public DrawInputNode inputNode;
         public DrawFillerNode fillerNode;
         public DrawLeafNode leafNode;

@@ -1,18 +1,20 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
 using Trainer;
-#endregion
+using UnityEngine;
 
-#region Enums
-public enum MacroState { Aggresor, Defensiv, Recorver, Support }
-public enum MicroState { Temp}
-#endregion
-
-namespace AI
+namespace Mfknudsen.AI
 {
+
+    #endregion
+
+    #region Enums
+    public enum MacroState { Aggresor, Defensiv, Recorver, Support }
+    public enum MicroState { Temp}
+    #endregion
+
     public class BattleAI : ScriptableObject
     {
         #region Values

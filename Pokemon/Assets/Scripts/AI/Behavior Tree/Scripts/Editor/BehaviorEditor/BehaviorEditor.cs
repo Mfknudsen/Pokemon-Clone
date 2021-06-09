@@ -2,17 +2,18 @@
 
 using System;
 using System.Linq;
-using AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
-using AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor;
-using AI.BehaviourTreeEditor.EditorNodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.PokemonNodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.Screen;
-using EditorSettings = AI.BehaviourTreeEditor.EditorSettings;
+using EditorSettings = Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.EditorSettings;
 
 #endregion
 
@@ -102,12 +103,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         {
             hasWindowFocus = true;
 
-            if(_settings == null) return;
+            if (_settings == null) return;
             if (_settings.currentGraph == null) return;
-
-            if (!_settings.currentGraph.behaviour.HasRoot())
-                _settings.AddNodeOnGraph(_settings.rootNode, new RootNode(), 50, 50, "Root",
-                    new Vector2(width / 2, height / 2));
 
             foreach (BaseNodeSetting node in _settings.currentGraph.windows.Where(node => node.baseNode == null))
                 node.baseNode = _settings.currentGraph.behaviour.GetNodeByID(node.id);
@@ -145,6 +142,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (drawTrans != null)
             {
                 drawTrans.mouse = mousePosition;
+                
+                if(_settings.currentGraph.behaviour.nodes == null) return;
+                
                 if (_settings.currentGraph.behaviour.nodes.Count == 0)
                 {
                     drawTrans = null;
@@ -322,30 +322,31 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (_settings.currentGraph == null || !hasWindowFocus)
                 return;
 
-            if (e.button == 0 && e.type == EventType.MouseDown)
+            switch (e.button)
             {
-                foreach (BaseNodeSetting b in _settings.currentGraph.windows)
-                {
-                    if (b.windowRect.Contains(mousePosition))
+                case 0 when e.type == EventType.MouseDown:
+                    foreach (BaseNodeSetting b in _settings.currentGraph.windows.Where(b =>
+                        b.windowRect.Contains(mousePosition)))
                     {
                         selectedNode = b;
                         lastSelected = selectedNode;
                         clickedOnWindow = true;
-                        Debug.Log(b.id);
                     }
-                }
-            }
+                    break;
+                
+                case 1:
+                    RightClick(e);
+                    break;
 
-            if (e.button == 1)
-                RightClick(e);
-
-            if (e.button == 2)
-            {
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
-                if (e.type == EventType.MouseDown)
+                case 2 when e.type == EventType.MouseDown:
                     scrollStartPos = e.mousePosition;
-                else if (e.type == EventType.MouseDrag)
-                    HandlePanning(e);
+                    break;
+
+                case 2:
+                    if (e.type == EventType.MouseDrag)
+                        HandlePanning(e);
+                    break;
             }
 
             // ReSharper disable once InvertIf
@@ -404,7 +405,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             BaseNode node = setting.baseNode;
             if (drawTrans == null)
             {
-                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(), 10, 10, "",
+                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(), 20, 20, "",
                     Vector2.zero);
                 Transition transition = drawTrans.baseNode as Transition;
                 transition?.Set(node, infoID, isTarget);

@@ -1,18 +1,11 @@
 ﻿#region SDK
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using System;
-using System.Reflection;
-//Custom
-using AI.BehaviorTree.Nodes;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace AI.BehaviourTreeEditor.EditorNodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
     [CreateAssetMenu(menuName = "Behavior Tree/Editor/Input Node")]
     public class DrawInputNode : DrawNode

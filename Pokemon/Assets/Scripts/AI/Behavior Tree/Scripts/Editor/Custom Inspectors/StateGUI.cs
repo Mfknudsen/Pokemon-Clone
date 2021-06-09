@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AI;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
 
-namespace AI.CustomUI
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 {
 	[CustomEditor(typeof(UnityEditor.Animations.AnimatorState))]
-	public class StateGUI : Editor
+	public class StateGUI : UnityEditor.Editor
 	{
 		SerializedObject serializedState;
 		ReorderableList onFixedList;

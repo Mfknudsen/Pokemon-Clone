@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 //Custom
 using Battle;
+using Mfknudsen.AI;
+
 #endregion
 
 namespace Trainer
@@ -17,7 +19,7 @@ namespace Trainer
         [SerializeField] private bool isPlayer = false;
 
         [Header("AI")]
-        [SerializeField] private AI.BattleAI ai = null;
+        [SerializeField] private BattleAI ai = null;
 
         [Header("Inventory:")]
         [SerializeField] private Inventory inventory = null;

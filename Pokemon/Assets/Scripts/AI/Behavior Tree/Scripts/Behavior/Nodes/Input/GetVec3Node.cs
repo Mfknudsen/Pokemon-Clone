@@ -1,14 +1,10 @@
 ﻿#region SDK
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AI.BehaviourTreeEditor;
 using UnityEngine;
 
 #endregion
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
     [System.Serializable]
     public class GetVec3Node : InputNode

@@ -1,19 +1,15 @@
 ﻿#region SDK
 
 using System;
-using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Reflection;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEditor;
-//Custom
-using AI.BehaviorTree.Nodes;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace AI.BehaviourTreeEditor.EditorNodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
     public abstract class DrawNode : ScriptableObject
     {

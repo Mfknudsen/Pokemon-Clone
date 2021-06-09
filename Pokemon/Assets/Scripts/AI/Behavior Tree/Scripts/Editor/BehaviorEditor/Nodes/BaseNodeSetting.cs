@@ -1,9 +1,8 @@
 ﻿#region SDK
 
 using System.Collections.Generic;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor.EditorNodes;
-using UnityEngine; //Custom
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
+using UnityEngine;
 
 #endregion
 

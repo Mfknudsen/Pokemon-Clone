@@ -1,9 +1,6 @@
-﻿using AI.BehaviourTreeEditor;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
     public class GetVec2Node : InputNode
     {

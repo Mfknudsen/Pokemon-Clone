@@ -1,9 +1,6 @@
-﻿using AI.BehaviorTree;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
 {
     public class Vector3SplitNode : BaseNode
     {

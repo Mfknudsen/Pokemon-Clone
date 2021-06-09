@@ -1,13 +1,10 @@
 ﻿#region SDK
 
-using System.Collections;
-using System.Collections.Generic;
-using AI.BehaviourTreeEditor;
 using UnityEngine;
 
 #endregion
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
 {
 
     public class Vector2SplitNode : BaseNode

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
 
-namespace AI.BehaviorTree
+namespace Mfknudsen.AI.Behavior_Tree.Scripts
 {
     public class BehaviorController : MonoBehaviour
     {

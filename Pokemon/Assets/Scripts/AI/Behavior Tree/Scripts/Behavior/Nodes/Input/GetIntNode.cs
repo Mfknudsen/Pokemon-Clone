@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using AI.BehaviourTreeEditor;
+﻿using UnityEngine; //Custom
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
     [System.Serializable]
     public class GetIntNode : InputNode

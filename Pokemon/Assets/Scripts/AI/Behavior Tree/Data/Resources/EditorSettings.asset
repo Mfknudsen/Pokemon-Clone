@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: EditorSettings
   m_EditorClassIdentifier: 
   currentGraph: {fileID: 11400000, guid: 2ce9d6039a9e6b947b688a9b8434fbbf, type: 2}
-  rootNode: {fileID: 11400000, guid: 8acca2f4a60cab147b9ae8c92454b9a4, type: 2}
   transitionNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
   inputNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
   fillerNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}

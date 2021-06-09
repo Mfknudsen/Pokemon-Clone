@@ -1,10 +1,7 @@
 ﻿using System;
-using AI.BehaviourTreeEditor;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
 {
     [System.Serializable]
     public class DebugNode : LeafNode

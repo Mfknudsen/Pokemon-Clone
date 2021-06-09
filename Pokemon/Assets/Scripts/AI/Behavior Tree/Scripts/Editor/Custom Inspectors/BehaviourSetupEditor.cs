@@ -1,94 +1,99 @@
 ﻿#region SDK
 
 using System;
-using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using System.Reflection;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using UnityEditor;
-//Custom
-using AI.BehaviorTree;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor;
-using AI.BehaviourTreeEditor.EditorNodes;
+using UnityEngine; //Custom
 
 #endregion
 
-[CustomEditor(typeof(BehaviourSetup))]
-public class BehaviourSetupEditor : Editor
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 {
-    BehaviourSetup script;
-
-    private void OnEnable()
+    [CustomEditor(typeof(BehaviourSetup))]
+    public class BehaviourSetupEditor : UnityEditor.Editor
     {
-        script = (BehaviourSetup) target;
-    }
+        private BehaviourSetup script;
 
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        
-        GUILayout.Space(10);
-        
-        if (EditorGUILayout.Toggle("RESET", false))
+        private void OnEnable()
         {
-            script.nodes.Clear();
+            script = (BehaviourSetup) target;
         }
 
-        List<BaseNode> inputs = new List<BaseNode>();
-        foreach (BaseNode node in script.nodes.Where(n => n is InputNode))
-            inputs.Add(node);
-
-        if (inputs.Count > 0)
+        public override void OnInspectorGUI()
         {
-            GUILayout.Space(20);
-            GUILayout.Label("Inputs");
+            base.OnInspectorGUI();
 
-            EditorGUILayout.BeginVertical();
-            GUIStyle style = GUI.skin.box;
-            foreach (BaseNode node in inputs)
+            GUILayout.Space(10);
+
+            if (EditorGUILayout.Toggle("RESET", false))
             {
-                FieldInfo[] fields = node.GetType()
-                    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                script.nodes.Clear();
+            }
 
-                if (fields.Length == 0)
+            List<BaseNode> inputs = new List<BaseNode>();
+            foreach (BaseNode node in script.nodes)
+            {
+                if (node == null)
                     continue;
+                if (node is InputNode && !inputs.Contains(node))
+                    inputs.Add(node);
+            }
 
-                EditorGUILayout.BeginVertical("Box");
+            if (inputs.Count > 0)
+            {
+                GUILayout.Space(20);
+                GUILayout.Label("Inputs");
 
-                foreach (FieldInfo info in fields)
+                EditorGUILayout.BeginVertical();
+                GUIStyle style = GUI.skin.box;
+                foreach (BaseNode node in inputs)
                 {
-                    OutputType attribute = Attribute.GetCustomAttribute(info, typeof(OutputType)) as OutputType;
+                    FieldInfo[] fields = node.GetType()
+                        .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-                    if (attribute == null)
+                    if (fields.Length == 0)
                         continue;
-                    if (attribute.varType == VariableType.DEFAULT)
-                        continue;
 
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(attribute.name,
-                        GUILayout.Width(200));
+                    EditorGUILayout.BeginVertical("Box");
 
-                    object obj = info.GetValue(node);
-
-                    object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
-
-                    if (obj != newValue)
+                    foreach (FieldInfo info in fields)
                     {
-                        info.SetValue(
-                            node,
-                            newValue
-                        );
+                        OutputType attribute = Attribute.GetCustomAttribute(info, typeof(OutputType)) as OutputType;
+
+                        if (attribute == null)
+                            continue;
+                        if (attribute.varType == VariableType.DEFAULT)
+                            continue;
+
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField(attribute.name,
+                            GUILayout.Width(200));
+
+                        object obj = info.GetValue(node);
+
+                        object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
+
+                        if (obj != newValue)
+                        {
+                            info.SetValue(
+                                node,
+                                newValue
+                            );
+                        }
+
+                        EditorGUILayout.EndHorizontal();
                     }
 
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
                 }
 
                 EditorGUILayout.EndVertical();
             }
-
-            EditorGUILayout.EndVertical();
         }
     }
 }

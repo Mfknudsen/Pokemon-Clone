@@ -1,13 +1,10 @@
 ﻿#region SDK
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 #endregion
 
-namespace AI.BehaviourTreeEditor
+namespace Mfknudsen.AI.Behavior_Tree.Scripts
 {
     public enum VariableType
     {

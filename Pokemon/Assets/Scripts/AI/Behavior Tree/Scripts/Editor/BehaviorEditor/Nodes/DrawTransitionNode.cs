@@ -1,16 +1,11 @@
 ﻿#region SDK
 
-using System.Collections;
-using System.Collections.Generic;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
-using UnityEditor;
-using AI.BehaviorTree.Nodes;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 
 #endregion
 
-namespace AI.BehaviourTreeEditor.EditorNodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
     [CreateAssetMenu(menuName = "Behaviour Tree/Editor/Transition Node")]
     public class DrawTransitionNode : DrawNode

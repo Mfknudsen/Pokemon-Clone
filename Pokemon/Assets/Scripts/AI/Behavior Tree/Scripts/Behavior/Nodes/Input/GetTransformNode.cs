@@ -1,9 +1,6 @@
-﻿using AI.BehaviorTree;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace AI.BehaviorTree.Nodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
     [System.Serializable]
     public class GetTransformNode : InputNode

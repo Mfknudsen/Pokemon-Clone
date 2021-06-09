@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AI.BehaviorTree.Nodes;
-using AI.BehaviourTreeEditor.EditorNodes;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
+﻿using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
 
-namespace AI.BehaviourTreeEditor.EditorNodes
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
     [CreateAssetMenu(menuName = "Behavior Tree/Editor/Filler Node")]
     public class DrawFillerNode : DrawNode

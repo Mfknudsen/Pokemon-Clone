@@ -2,19 +2,19 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AI.BehaviorTree.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
+using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using UnityEngine;
 
 #endregion
 
-namespace AI.BehaviorTree
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior
 {
     [CreateAssetMenu(menuName = "Behaviour Tree/Behaviour", fileName = "New Behaviour", order = 0)]
     public class BehaviourSetup : ScriptableObject
     {
         #region Values
-
-        [SerializeReference] public List<BaseNode> nodes;
+        public List<BaseNode> nodes;
 
         #endregion
 
@@ -33,9 +33,6 @@ namespace AI.BehaviorTree
         public void Tick(BehaviorController setup)
         {
             foreach (BaseNode node in nodes.Where(node => node is InputNode))
-                node.Tick(setup);
-
-            foreach (BaseNode node in nodes.Where(node => node is RootNode))
                 node.Tick(setup);
         }
 
@@ -76,24 +73,9 @@ namespace AI.BehaviorTree
             if (nodes == null)
                 nodes = new List<BaseNode>();
 
-            if (HasRoot() && node is RootNode)
-                return false;
-
             nodes.Add(node);
 
             return true;
-        }
-
-        #endregion
-
-        #region Out
-
-        public bool HasRoot()
-        {
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (BaseNode n in nodes.Where(n => n is RootNode))
-                return true;
-            return false;
         }
 
         #endregion
