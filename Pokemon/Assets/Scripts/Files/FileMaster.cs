@@ -1,39 +1,42 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+
 #endregion
 
-[ExecuteInEditMode]
-public class FileMaster : MonoBehaviour
+namespace Mfknudsen.Files
 {
-    #region Values
-    [Header("Object Refernce")]
-    public static FileMaster instance = null;
-    public bool UPDATE = false;
-    #endregion
-
-    private void Update()
+    [ExecuteInEditMode]
+    public class FileMaster : MonoBehaviour
     {
-        if (UPDATE)
+        #region Values
+        [Header("Object Refernce")]
+        public static FileMaster instance = null;
+        public bool UPDATE = false;
+        #endregion
+
+        private void Update()
+        {
+            if (UPDATE)
+            {
+
+                UPDATE = false;
+            }
+        }
+
+        #region Player
+        public static void SavePlayerData(Player.MasterPlayer player)
         {
 
-            UPDATE = false;
         }
+
+        public static void LoadDataToPlayer(Player.MasterPlayer player)
+        {
+
+        }
+        #endregion
+
+        #region Pokemon()
+        #endregion
     }
-
-    #region Player
-    public static void SavePlayerData(Player.MasterPlayer player)
-    {
-
-    }
-
-    public static void LoadDataToPlayer(Player.MasterPlayer player)
-    {
-
-    }
-    #endregion
-
-    #region Pokemon()
-    #endregion
 }

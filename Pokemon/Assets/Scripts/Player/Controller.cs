@@ -1,11 +1,11 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.AI;
+
 #endregion
 
-namespace Player
+namespace Mfknudsen.Player
 {
     public class Controller : MonoBehaviour
     {

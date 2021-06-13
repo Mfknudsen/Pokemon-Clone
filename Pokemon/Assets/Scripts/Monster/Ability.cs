@@ -1,10 +1,11 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
+
+using Mfknudsen.Battle.Actions;
 using UnityEngine;
+
 #endregion
 
-namespace Monster
+namespace Mfknudsen.Monster
 {
     #region Enums
     public enum AbilityName { Test }

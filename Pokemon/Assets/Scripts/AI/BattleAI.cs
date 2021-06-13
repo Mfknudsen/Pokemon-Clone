@@ -2,7 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Trainer;
+using Mfknudsen.Trainer;
 using UnityEngine;
 
 namespace Mfknudsen.AI

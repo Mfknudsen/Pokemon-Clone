@@ -1,15 +1,16 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
-using Monster.Conditions;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Chat;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Battle.Actions.Moves
+namespace Mfknudsen.Battle.Actions.Move
 {
     #region Enums
     public enum Category
@@ -77,7 +78,7 @@ namespace Battle.Actions.Moves
         [SerializeField] protected Condition statusCondition = null;
         [SerializeField] protected float applyChange = 0;
         [SerializeField] protected bool statusHit = false;
-        [SerializeField] Chat statusHitChat = null, statusFailedChat = null;
+        [SerializeField] Chat.Chat statusHitChat = null, statusFailedChat = null;
 
         [Header("Action Operation:")]
         protected float[] damagePerTarget = new float[0], damageApplied = new float[0], damageOverTime = new float[0];
@@ -388,14 +389,14 @@ namespace Battle.Actions.Moves
                                 statusHit = true;
                                 if (statusHitChat != null)
                                 {
-                                    Chat toSend = statusHitChat.GetChat();
+                                    Chat.Chat toSend = statusHitChat.GetChat();
                                     toSend.AddToOverride("<TARGET_NAME>", target.GetName());
                                     ChatMaster.instance.Add(toSend);
                                 }
                             }
                             else if (statusFailedChat != null)
                             {
-                                Chat toSend = statusFailedChat.GetChat();
+                                Chat.Chat toSend = statusFailedChat.GetChat();
                                 toSend.AddToOverride("<TARGET_NAME>", target.GetName());
                                 toSend.AddToOverride("<CONDITION_EFFECT>", toApply.GetConditionEffect());
                                 ChatMaster.instance.Add(toSend);
@@ -412,9 +413,9 @@ namespace Battle.Actions.Moves
         #endregion
 
         #region Internal
-        protected override Chat[] TransferInformationToChat()
+        protected override Chat.Chat[] TransferInformationToChat()
         {
-            Chat[] result = new Chat[chatOnActivation.Length];
+            Chat.Chat[] result = new Chat.Chat[chatOnActivation.Length];
 
             for (int i = 0; i < chatOnActivation.Length; i++)
             {

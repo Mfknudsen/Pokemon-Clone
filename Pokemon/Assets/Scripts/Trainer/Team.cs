@@ -1,13 +1,13 @@
 ﻿#region SDK
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
-using Monster.Conditions;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace Trainer
+namespace Mfknudsen.Trainer
 {
     public class Team : MonoBehaviour
     {

@@ -1,11 +1,12 @@
 ﻿#region SDK
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Battle.Actions.Move;
+using Mfknudsen.Monster;
 using UnityEngine;
 using UnityEditor;
 //Custom
-using Monster;
-using Battle.Actions.Moves;
+
 #endregion
 
 [CustomEditor(typeof(Pokemon))]

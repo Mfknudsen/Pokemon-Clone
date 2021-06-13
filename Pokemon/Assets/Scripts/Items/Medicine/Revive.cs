@@ -1,15 +1,14 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
-using Monster.Conditions;
 using Mfknudsen.Chat;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Items.Revives
+namespace Mfknudsen.Items.Medicine
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Revive")]
     public class Revive : Item
@@ -17,7 +16,7 @@ namespace Items.Revives
         #region Values
         [Header("Revive:")]
         [SerializeField] private bool toFull = false;
-        [SerializeField] private Chat onActivation = null;
+        [SerializeField] private Chat.Chat onActivation = null;
         #endregion
 
         #region Override
@@ -43,7 +42,7 @@ namespace Items.Revives
         {
             done = false;
 
-            Chat toSend = onActivation.GetChat();
+            Chat.Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
             ChatMaster.instance.Add(toSend);
 

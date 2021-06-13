@@ -13,6 +13,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         Int,
         Float,
         Double,
+        Bool,
         String,
         Vector2,
         Vector3,
@@ -26,6 +27,17 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         TrainerTeam,
         Pokemon,
         PokeMove,
+    }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class OutCaller : Attribute
+    {
+        public string display;
+
+        public OutCaller(string display)
+        {
+            this.display = display;
+        }
     }
 
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]

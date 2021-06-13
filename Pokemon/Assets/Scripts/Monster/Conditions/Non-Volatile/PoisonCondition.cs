@@ -1,14 +1,13 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Battle;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Chat;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Monster.Conditions.Non_Volatile
+namespace Mfknudsen.Monster.Conditions
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Poison", order = 1)]
     public class PoisonCondition : Condition
@@ -18,7 +17,7 @@ namespace Monster.Conditions.Non_Volatile
         [SerializeField] private bool badlyPoison = false;
         [SerializeField] private float damage = 0;
         [SerializeField] private float n = 0, increaseN = 1;
-        [SerializeField] private Chat onEffectChat = null;
+        [SerializeField] private Chat.Chat onEffectChat = null;
         #endregion
 
         #region Getters
@@ -72,7 +71,7 @@ namespace Monster.Conditions.Non_Volatile
 
         public override IEnumerator ActivateCondition(ConditionOversight activator)
         {
-            Chat toSend = onEffectChat.GetChat();
+            Chat.Chat toSend = onEffectChat.GetChat();
             toSend.AddToOverride("<TARGET_NAME>", affectedPokemon.GetName());
             ChatMaster.instance.Add(toSend);
 

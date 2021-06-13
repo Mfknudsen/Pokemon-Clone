@@ -1,41 +1,44 @@
 ﻿#region SDK
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
+using Mfknudsen.Monster;
 using TMPro;
-//Custom
-using Monster;
+using UnityEngine; //Custom
+
 #endregion
 
-public class BoxContainer : MonoBehaviour
+namespace Mfknudsen.PC
 {
-    #region Values
-    [SerializeField] string boxName = "";
-    [SerializeField] Pokemon[] list = new Pokemon[0];
-
-    //GUI
-    [SerializeField]
-    private TextMeshProUGUI numberGUI = null;
-    private List<BoxSpot> spots = new List<BoxSpot>();
-
-    private void OnValidate()
+    public class BoxContainer : MonoBehaviour
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            BoxSpot spot = transform.GetChild(i).GetComponent<BoxSpot>();
+        #region Values
+        [SerializeField] string boxName = "";
+        [SerializeField] Pokemon[] list = new Pokemon[0];
 
-            if (spot != null)
-                spots.Add(spot);
+        //GUI
+        [SerializeField]
+        private TextMeshProUGUI numberGUI = null;
+        private List<BoxSpot> spots = new List<BoxSpot>();
+
+        private void OnValidate()
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                BoxSpot spot = transform.GetChild(i).GetComponent<BoxSpot>();
+
+                if (spot != null)
+                    spots.Add(spot);
+            }
         }
-    }
-    #endregion
+        #endregion
 
-    public void Setup(int number, Pokemon[] list)
-    {
-        numberGUI.text = boxName;
-        for (int i = 0; i < spots.Count; i++)
+        public void Setup(int number, Pokemon[] list)
         {
-            spots[i].SetPokemon(list[i]);
+            numberGUI.text = boxName;
+            for (int i = 0; i < spots.Count; i++)
+            {
+                spots[i].SetPokemon(list[i]);
+            }
         }
     }
 }

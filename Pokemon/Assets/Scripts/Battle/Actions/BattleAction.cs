@@ -1,115 +1,117 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
-using Battle;
-using Mfknudsen.Chat;
+using Mfknudsen.Battle.Systems;
+using Mfknudsen.Monster;
+using UnityEngine; //Custom
 
 #endregion
 
-public abstract class BattleAction : ScriptableObject
+namespace Mfknudsen.Battle.Actions
 {
-    #region Values
-    [Header("Object Reference:")]
-    [SerializeField] protected bool active = false;
-    [SerializeField] protected bool done = false;
-
-    [Header("Move Reference:")]
-    [SerializeField] protected Pokemon currentPokemon = null;
-    [SerializeField] protected List<Pokemon> targetPokemon = new List<Pokemon>();
-    [SerializeField] protected bool moveActive = false;
-
-    [Header("Priority:")]
-    [SerializeField] protected int priority = 0;
-    [SerializeField] protected string[] priorityInteraction;
-
-    [Header("Chat:")]
-    [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
-
-    [Header("Instatiation:")]
-    protected bool isInstantiated = false;
-    #endregion
-
-    #region Getters
-    public virtual BattleAction GetAction()
+    public abstract class BattleAction : ScriptableObject
     {
-        return this;
-    }
+        #region Values
+        [Header("Object Reference:")]
+        [SerializeField] protected bool active = false;
+        [SerializeField] protected bool done = false;
 
-    public Pokemon GetCurrentPokemon()
-    {
-        return currentPokemon;
-    }
+        [Header("Move Reference:")]
+        [SerializeField] protected Pokemon currentPokemon = null;
+        [SerializeField] protected List<Pokemon> targetPokemon = new List<Pokemon>();
+        [SerializeField] protected bool moveActive = false;
 
-    public bool GetDone()
-    {
-        return done;
-    }
+        [Header("Priority:")]
+        [SerializeField] protected int priority = 0;
+        [SerializeField] protected string[] priorityInteraction;
 
-    public bool GetIsInstantiated()
-    {
-        return isInstantiated;
-    }
+        [Header("Chat:")]
+        [SerializeField] protected Chat.Chat[] chatOnActivation = new Chat.Chat[0];
 
-    public int GetPriority()
-    {
-        return priority;
-    }
-    #endregion
+        [Header("Instatiation:")]
+        protected bool isInstantiated = false;
+        #endregion
 
-    #region Setter
-    public void SetCurrentPokemon(Pokemon pokemon)
-    {
-        currentPokemon = pokemon;
-    }
+        #region Getters
+        public virtual BattleAction GetAction()
+        {
+            return this;
+        }
 
-    public void SetIsInstantiated(bool set)
-    {
-        isInstantiated = set;
-    }
+        public Pokemon GetCurrentPokemon()
+        {
+            return currentPokemon;
+        }
 
-    public void SetPriority(int set)
-    {
-        priority = set;
-    }
-    #endregion
+        public bool GetDone()
+        {
+            return done;
+        }
 
-    #region Out
-    public virtual IEnumerator Activate()
-    {
-        Debug.Log("Activate need Override!");
-        return Operation();
-    }
+        public bool GetIsInstantiated()
+        {
+            return isInstantiated;
+        }
 
-    #endregion
+        public int GetPriority()
+        {
+            return priority;
+        }
+        #endregion
 
-    #region Internal
-    protected void SetupChats()
-    {
-        for (int i = 0; i < chatOnActivation.Length; i++)
-            chatOnActivation[i] = Instantiate(chatOnActivation[i]);
-    }
+        #region Setter
+        public void SetCurrentPokemon(Pokemon pokemon)
+        {
+            currentPokemon = pokemon;
+        }
 
-    protected virtual Chat[] TransferInformationToChat()
-    {
-        Debug.Log("Transfering");
-        return new Chat[0];
-    }
+        public void SetIsInstantiated(bool set)
+        {
+            isInstantiated = set;
+        }
 
-    protected virtual Spot[] SetupTargets(int targetIndex)
-    {
-        Debug.Log("Setup Targets Need Over!");
-        return new Spot[0];
-    }
-    #endregion
+        public void SetPriority(int set)
+        {
+            priority = set;
+        }
+        #endregion
 
-    #region IEnumerator
-    protected virtual IEnumerator Operation()
-    {
-        Debug.Log("Operation need Override!");
-        yield return null;
+        #region Out
+        public virtual IEnumerator Activate()
+        {
+            Debug.Log("Activate need Override!");
+            return Operation();
+        }
+
+        #endregion
+
+        #region Internal
+        protected void SetupChats()
+        {
+            for (int i = 0; i < chatOnActivation.Length; i++)
+                chatOnActivation[i] = Instantiate(chatOnActivation[i]);
+        }
+
+        protected virtual Chat.Chat[] TransferInformationToChat()
+        {
+            Debug.Log("Transfering");
+            return new Chat.Chat[0];
+        }
+
+        protected virtual Spot[] SetupTargets(int targetIndex)
+        {
+            Debug.Log("Setup Targets Need Over!");
+            return new Spot[0];
+        }
+        #endregion
+
+        #region IEnumerator
+        protected virtual IEnumerator Operation()
+        {
+            Debug.Log("Operation need Override!");
+            yield return null;
+        }
+        #endregion
     }
-    #endregion
 }

@@ -9,6 +9,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
     {
         public int id;
 
+        public bool inCall;
+
         public List<Transition> transitions;
         public Dictionary<string, bool> checkState;
 
@@ -17,7 +19,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
         protected void ContinueTransitions(BehaviorController setup)
         {
             if (transitions == null) return;
-            
+
             foreach (Transition t in transitions)
                 t.Tick(setup);
         }

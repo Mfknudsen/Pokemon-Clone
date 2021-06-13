@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mfknudsen.Trainer;
 using UnityEngine;
-using Trainer;
 
-namespace Player
+namespace Mfknudsen.Player
 {
     public class MasterPlayer : MonoBehaviour
     {

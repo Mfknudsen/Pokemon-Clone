@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "HoldableItem", menuName = "Item/Create new holdable item")]
-public class HoldableItem : Item
+namespace Mfknudsen.Items
 {
+    [CreateAssetMenu(fileName = "HoldableItem", menuName = "Item/Create new holdable item")]
+    public class HoldableItem : Item
+    {
 
+    }
 }

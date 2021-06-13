@@ -1,10 +1,11 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 #endregion
 
-namespace Monster.Conditions.Non_Volatile
+namespace Mfknudsen.Monster.Conditions
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Burn", order = 1)]
     public class BurnCondition : Condition

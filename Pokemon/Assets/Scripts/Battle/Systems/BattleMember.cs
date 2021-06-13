@@ -1,14 +1,14 @@
 ﻿#region SDK
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-//Custom
-using Battle;
 using Mfknudsen.AI;
+using Mfknudsen.Items;
+using Mfknudsen.Trainer;
 
 #endregion
 
-namespace Trainer
+namespace Mfknudsen.Battle.Systems
 {
     [RequireComponent(typeof(Team), typeof(Inventory))]
     public class BattleMember : MonoBehaviour

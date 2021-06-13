@@ -1,12 +1,11 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
+
+using Mfknudsen.Items;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace Monster
+namespace Mfknudsen.Monster
 {
     [CreateAssetMenu(fileName = "MegaStone", menuName = "Item/Create new Mega Stone")]
     public class MegaStone : HoldableItem

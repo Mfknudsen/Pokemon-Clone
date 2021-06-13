@@ -1,21 +1,20 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Battle;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Chat;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Monster.Conditions.Non_Volatile
+namespace Mfknudsen.Monster.Conditions
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Fainted", order = 0)]
     public class FaintedCondition : Condition
     {
         #region Values
         [SerializeField] private NonVolatile conditionName = NonVolatile.Fainted;
-        [SerializeField] private Chat onEffectChat = null;
+        [SerializeField] private Chat.Chat onEffectChat = null;
         #endregion
 
         #region Getters
@@ -47,7 +46,7 @@ namespace Monster.Conditions.Non_Volatile
 
         public override IEnumerator ActivateCondition(ConditionOversight activator)
         {
-            Chat toSend = onEffectChat.GetChat();
+            Chat.Chat toSend = onEffectChat.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
             ChatMaster.instance.Add(toSend);
 

@@ -1,21 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 
-public class TextField : MonoBehaviour
+namespace Mfknudsen.Chat
 {
-    public static TextMeshProUGUI instance = null;
-
-    private void Start()
+    public class TextField : MonoBehaviour
     {
-        if (instance == null)
-            instance = GetComponent<TextMeshProUGUI>();
-    }
+        public static TextMeshProUGUI instance = null;
 
-    private void OnDestroy()
-    {
-        if (instance == GetComponent<TextMeshProUGUI>())
-            instance = null;
+        private void Start()
+        {
+            if (instance == null)
+                instance = GetComponent<TextMeshProUGUI>();
+        }
+
+        private void OnDestroy()
+        {
+            if (instance == GetComponent<TextMeshProUGUI>())
+                instance = null;
+        }
     }
 }

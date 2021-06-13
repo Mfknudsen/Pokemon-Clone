@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using Mfknudsen.Battle.Actions.Move;
 using UnityEditor;
 using UnityEngine; //Custom
 
@@ -66,8 +67,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
                         return EditorGUILayout.ObjectField("", (Monster.Pokemon) input, typeof(Monster.Pokemon), true,
                             GUILayout.MaxWidth(185));
                     case ScriptType.PokeMove:
-                        return EditorGUILayout.ObjectField("", (Battle.Actions.Moves.PokemonMove) input,
-                            typeof(Battle.Actions.Moves.PokemonMove), true, GUILayout.MaxWidth(185));
+                        return EditorGUILayout.ObjectField("", (PokemonMove) input,
+                            typeof(PokemonMove), true, GUILayout.MaxWidth(185));
+                        return EditorGUILayout.ObjectField("", (PokemonMove) input,
+                            typeof(PokemonMove), true, GUILayout.MaxWidth(185));
                     case ScriptType.TrainerTeam:
                         return EditorGUILayout.ObjectField("", (Trainer.Team) input, typeof(Trainer.Team), true,
                             GUILayout.MaxWidth(185));

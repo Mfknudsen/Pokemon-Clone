@@ -1,13 +1,12 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
+using UnityEngine; //Custom
+
 #endregion
 
 
-namespace Monster.Conditions
+namespace Mfknudsen.Monster.Conditions
 {
     #region Enums
     public enum NonVolatile { Poison, Sleep, Freeze, Paralysis, Burn, Fainted }

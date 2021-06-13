@@ -1,21 +1,22 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Chat;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Battle.Actions.Items
+namespace Mfknudsen.Battle.Actions.Item
 {
     [CreateAssetMenu(fileName = "ItemAction", menuName = "Action/Create new Item Action")]
     public class ItemAction : BattleAction
     {
         #region Values
         [Header("Item Action:")]
-        [SerializeField] private Item toUse = null;
-        [SerializeField] private Trainer.BattleMember battleMember = null;
+        [SerializeField] private Items.Item toUse = null;
+        [SerializeField] private BattleMember battleMember = null;
         #endregion
 
         #region Getters
@@ -26,12 +27,12 @@ namespace Battle.Actions.Items
         #endregion
 
         #region Setters
-        public void SetToUse(Item set)
+        public void SetToUse(Items.Item set)
         {
             toUse = set;
         }
 
-        public void SetBattleMember(Trainer.BattleMember set)
+        public void SetBattleMember(BattleMember set)
         {
             battleMember = set;
         }
@@ -48,10 +49,10 @@ namespace Battle.Actions.Items
             done = false;
             toUse.SetTarget(currentPokemon);
             //Send Chat
-            List<Chat> toSend = new List<Chat>();
-            foreach (Chat chat in chatOnActivation)
+            List<Chat.Chat> toSend = new List<Chat.Chat>();
+            foreach (Chat.Chat chat in chatOnActivation)
             {
-                Chat c = Instantiate(chat);
+                Chat.Chat c = Instantiate(chat);
                 c.AddToOverride("<USER_NAME>", battleMember.GetName());
                 c.AddToOverride("<ITEM_NAME>", toUse.GetItemName());
                 toSend.Add(c);

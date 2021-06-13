@@ -1,11 +1,11 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+
 //Custom
 #endregion
 
-namespace NPC
+namespace Mfknudsen.NPC
 {
     public class NPCController : MonoBehaviour
     {

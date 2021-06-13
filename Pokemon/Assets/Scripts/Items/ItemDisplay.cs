@@ -1,49 +1,52 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 using TMPro;
+using UnityEngine;
+
 #endregion
 
-public class ItemDisplay : MonoBehaviour
+namespace Mfknudsen.Items
 {
-    #region Values
-    [SerializeField] private Item item;
-    [SerializeField] private int count;
-    [SerializeField] TextMeshProUGUI nameText = null, countText = null;
-    #endregion
-
-    #region Getters
-    public string GetItemName()
+    public class ItemDisplay : MonoBehaviour
     {
-        return item.GetItemName();
+        #region Values
+        [SerializeField] private Item item;
+        [SerializeField] private int count;
+        [SerializeField] TextMeshProUGUI nameText = null, countText = null;
+        #endregion
+
+        #region Getters
+        public string GetItemName()
+        {
+            return item.GetItemName();
+        }
+        #endregion
+
+        #region Set
+        public void SetItem(Item i)
+        {
+            item = i;
+
+            nameText.text = item.GetItemName();
+
+            AddCount(1);
+        }
+        #endregion
+
+        #region In
+        public void AddCount(int i)
+        {
+            count += i;
+
+            countText.text = "" + count;
+        }
+
+        public void RemoveCount(int i)
+        {
+            count -= i;
+
+            countText.text = "" + count;
+        }
+        #endregion
     }
-    #endregion
-
-    #region Set
-    public void SetItem(Item i)
-    {
-        item = i;
-
-        nameText.text = item.GetItemName();
-
-        AddCount(1);
-    }
-    #endregion
-
-    #region In
-    public void AddCount(int i)
-    {
-        count += i;
-
-        countText.text = "" + count;
-    }
-
-    public void RemoveCount(int i)
-    {
-        count -= i;
-
-        countText.text = "" + count;
-    }
-    #endregion
 }

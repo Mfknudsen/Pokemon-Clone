@@ -1,20 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SettingsMaster : MonoBehaviour
+namespace Mfknudsen.Menu
 {
-    public static SettingsMaster instance = null;
-    [SerializeField] private SettingsData data = null;
-
-    private void Start()
+    public class SettingsMaster : MonoBehaviour
     {
-        if (instance)
+        public static SettingsMaster instance = null;
+        [SerializeField] private SettingsData data = null;
+
+        private void Start()
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (instance)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
         }
-        else
-            Destroy(gameObject);
     }
 }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
@@ -48,6 +49,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
             }
 
             // ReSharper disable once InvertIf
+
             if (inputs.Count > 0)
             {
                 GUILayout.Space(20);

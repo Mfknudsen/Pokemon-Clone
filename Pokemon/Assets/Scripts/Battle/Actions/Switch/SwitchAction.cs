@@ -1,16 +1,16 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using BattleUI;
-using Monster;
-using Battle;
+using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.UI;
 using Mfknudsen.Chat;
+using Mfknudsen.Monster;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Battle.Actions.Switchs
+namespace Mfknudsen.Battle.Actions.Switch
 {
     [CreateAssetMenu(fileName = "SwitchAction", menuName = "Action/Create new Switch Action")]
     public class SwitchAction : BattleAction
@@ -20,7 +20,7 @@ namespace Battle.Actions.Switchs
         [SerializeField] private Trainer.Team team = null;
         [SerializeField] private PokemonDisplay display = null;
         [SerializeField] private Pokemon nextPokemon = null;
-        [SerializeField] private Chat[] nextChat = new Chat[0];
+        [SerializeField] private Chat.Chat[] nextChat = new Chat.Chat[0];
         [SerializeField] Spot spot = null;
         #endregion
 
@@ -62,7 +62,7 @@ namespace Battle.Actions.Switchs
         protected override IEnumerator Operation()
         {
             done = false;
-            List<Chat> toSend = new List<Chat>();
+            List<Chat.Chat> toSend = new List<Chat.Chat>();
 
             //Start of match there will be no current pokemon
             if (currentPokemon != null)
@@ -76,7 +76,7 @@ namespace Battle.Actions.Switchs
                 {
                     for (int i = 0; i < chatOnActivation.Length; i++)
                     {
-                        Chat c = Instantiate(chatOnActivation[i]);
+                        Chat.Chat c = Instantiate(chatOnActivation[i]);
                         c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
                         toSend.Add(c);
                     }
@@ -96,7 +96,7 @@ namespace Battle.Actions.Switchs
             toSend.Clear();
             for (int i = 0; i < nextChat.Length; i++)
             {
-                Chat c = Instantiate(nextChat[i]);
+                Chat.Chat c = Instantiate(nextChat[i]);
                 c.AddToOverride("<NEXT_POKEMON>", nextPokemon.GetName());
                 toSend.Add(c);
             }

@@ -1,20 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mfknudsen.World;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+namespace Mfknudsen.Menu.StartMenu
 {
-    #region Values
-
-    #endregion
-
-    #region In
-    #endregion
-
-    #region Out
-    public void LoadScene(string sceneName)
+    public class MainMenu : MonoBehaviour
     {
-        WorldMaster.instance.LoadScene(sceneName);
+        #region Values
+
+        #endregion
+
+        #region In
+        #endregion
+
+        #region Out
+        public void LoadScene(string sceneName)
+        {
+            WorldMaster.instance.LoadScene(sceneName);
+        }
+        #endregion
     }
-    #endregion
 }

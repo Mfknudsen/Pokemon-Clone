@@ -1,66 +1,69 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Mfknudsen.World.Overworld;
 using UnityEngine;
 
-public class ShowInteractions : MonoBehaviour
+namespace Mfknudsen.Player
 {
-    #region Values
-    [SerializeField] private GameObject closestInteractable = null;
-    [SerializeField] private List<GameObject> interactableInRange = new List<GameObject>();
-    #endregion
-
-    #region Internal
-    private void Evaluate()
+    public class ShowInteractions : MonoBehaviour
     {
-        float dist = 0;
-        Vector3 playerPos = Player.MasterPlayer.instance.transform.position;
+        #region Values
+        [SerializeField] private GameObject closestInteractable = null;
+        [SerializeField] private List<GameObject> interactableInRange = new List<GameObject>();
+        #endregion
 
-        if (closestInteractable != null)
-            dist = Vector3.Distance(playerPos, closestInteractable.transform.position);
-
-        foreach (GameObject obj in interactableInRange)
+        #region Internal
+        private void Evaluate()
         {
-            if (closestInteractable != obj)
-            {
-                float tempDist = Vector3.Distance(playerPos, obj.transform.position);
+            float dist = 0;
+            Vector3 playerPos = Player.MasterPlayer.instance.transform.position;
 
-                if (tempDist < dist)
+            if (closestInteractable != null)
+                dist = Vector3.Distance(playerPos, closestInteractable.transform.position);
+
+            foreach (GameObject obj in interactableInRange)
+            {
+                if (closestInteractable != obj)
                 {
-                    dist = tempDist;
-                    closestInteractable = obj;
+                    float tempDist = Vector3.Distance(playerPos, obj.transform.position);
+
+                    if (tempDist < dist)
+                    {
+                        dist = tempDist;
+                        closestInteractable = obj;
+                    }
                 }
             }
         }
-    }
-    #endregion
+        #endregion
 
-    #region Collision
-    private void OnCollisionEnter(Collision collision)
-    {
-        InteractableInterface holder = collision.gameObject.GetComponent<InteractableInterface>();
-
-        if (holder != null)
+        #region Collision
+        private void OnCollisionEnter(Collision collision)
         {
-            if (!interactableInRange.Contains(gameObject))
+            InteractableInterface holder = collision.gameObject.GetComponent<InteractableInterface>();
+
+            if (holder != null)
             {
-                interactableInRange.Add(collision.gameObject);
-                Evaluate();
+                if (!interactableInRange.Contains(gameObject))
+                {
+                    interactableInRange.Add(collision.gameObject);
+                    Evaluate();
+                }
             }
         }
-    }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        InteractableInterface holder = collision.gameObject.GetComponent<InteractableInterface>();
-
-        if (holder != null)
+        private void OnCollisionExit(Collision collision)
         {
-            if (interactableInRange.Contains(gameObject))
+            InteractableInterface holder = collision.gameObject.GetComponent<InteractableInterface>();
+
+            if (holder != null)
             {
-                interactableInRange.Remove(gameObject);
-                Evaluate();
+                if (interactableInRange.Contains(gameObject))
+                {
+                    interactableInRange.Remove(gameObject);
+                    Evaluate();
+                }
             }
         }
+        #endregion
     }
-    #endregion
 }

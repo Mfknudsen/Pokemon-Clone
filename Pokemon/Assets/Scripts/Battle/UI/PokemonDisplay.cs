@@ -1,13 +1,12 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
+using Mfknudsen.Monster;
 using TMPro;
-//Custom
-using Monster;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace BattleUI
+namespace Mfknudsen.Battle.UI
 {
     public class PokemonDisplay : MonoBehaviour
     {

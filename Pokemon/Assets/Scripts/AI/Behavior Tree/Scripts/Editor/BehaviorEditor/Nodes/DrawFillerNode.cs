@@ -9,7 +9,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
         public override void DrawWindow(BaseNodeSetting b, BaseNode node)
         {
             b.windowRect.height = 25;
-            int i = NodeFunc.DisplayInputs(b, node, 0);
+            int i = NodeFunc.DisplayCalls(b, node);
+            i = NodeFunc.DisplayInputs(b, node, i);
             NodeFunc.DisplayOutputs(b, node, i);
         }
 

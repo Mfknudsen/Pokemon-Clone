@@ -1,21 +1,23 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
+
+using Mfknudsen.Monster;
 using UnityEngine;
-using UnityEngine.UI;
-//Custom
-using Monster;
+using UnityEngine.UI; //Custom
+
 #endregion
 
-public class BoxSpot : MonoBehaviour
+namespace Mfknudsen.PC
 {
-    private Pokemon onSpot = null;
-    private Image visual = null;
-
-    public void SetPokemon(Pokemon set)
+    public class BoxSpot : MonoBehaviour
     {
-        onSpot = set;
+        private Pokemon onSpot = null;
+        private Image visual = null;
 
-        visual.sprite = null;
+        public void SetPokemon(Pokemon set)
+        {
+            onSpot = set;
+
+            visual.sprite = null;
+        }
     }
 }

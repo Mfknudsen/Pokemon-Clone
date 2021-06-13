@@ -1,4 +1,7 @@
-﻿public interface InteractableInterface
+﻿namespace Mfknudsen.World.Overworld
 {
-    void InteractNow();
+    public interface InteractableInterface
+    {
+        void InteractNow();
+    }
 }

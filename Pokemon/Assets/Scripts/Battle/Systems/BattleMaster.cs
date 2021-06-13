@@ -1,22 +1,24 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-//Custom
-using Trainer;
-using BattleUI;
-using Monster;
-using Monster.Conditions;
-using Battle.Actions.Moves;
-using Battle.Actions.Items;
-using Battle.Actions.Switchs;
+using Mfknudsen._Debug;
+using Mfknudsen.Battle.Actions;
+using Mfknudsen.Battle.Actions.Item;
+using Mfknudsen.Battle.Actions.Move;
+using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.UI;
 using Mfknudsen.Chat;
+using Mfknudsen.Items;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI; //Custom
 
 #endregion
 
-namespace Battle
+namespace Mfknudsen.Battle.Systems
 {
     #region Enums
     public enum MasterState { Setup, Starting, ChoosingMove, AI, Checking, Action, RoundDone, SelectNew }
@@ -82,11 +84,11 @@ namespace Battle
         [SerializeField] private GameObject itemSelectionMenu = null;
         [SerializeField] private ItemSelection itemMenu = null;
         [Header(" -- Effective")]
-        [SerializeField] private Chat superEffective = null;
-        [SerializeField] private Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
+        [SerializeField] private Chat.Chat superEffective = null;
+        [SerializeField] private Chat.Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
 
         [Header("Chat:")]
-        [SerializeField] private Chat SwitchChat = null;
+        [SerializeField] private Chat.Chat SwitchChat = null;
 
         [Header("Targeting:")]
         [SerializeField] private bool waitForTarget = false;

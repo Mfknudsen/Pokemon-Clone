@@ -1,12 +1,13 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Battle;
+using Mfknudsen.Battle.Systems;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace Monster.Conditions
+namespace Mfknudsen.Monster.Conditions
 {
     [CreateAssetMenu(fileName = "ConditionOversight", menuName = "Condition/Create new Condition Oversight")]
     public class ConditionOversight : ScriptableObject

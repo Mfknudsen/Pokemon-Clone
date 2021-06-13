@@ -1,16 +1,15 @@
 ﻿#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Battle;
-using Monster;
-using Monster.Conditions;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Chat;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Items.Potions
+namespace Mfknudsen.Items.Medicine
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Potion")]
     public class Potion : Item
@@ -18,7 +17,7 @@ namespace Items.Potions
         #region Values
         [Header("Potion:")]
         [SerializeField] private float healAmount = 0;
-        [SerializeField] private Chat onActivation = null;
+        [SerializeField] private Chat.Chat onActivation = null;
         #endregion
 
         #region Overrides
@@ -56,7 +55,7 @@ namespace Items.Potions
                 }
             }
 
-            Chat toSend = onActivation.GetChat();
+            Chat.Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
             ChatMaster.instance.Add(toSend);
 

@@ -1,14 +1,15 @@
 ﻿#region SDK
-using System.Collections;
+
 using System.Collections.Generic;
+using Mfknudsen.Battle.Systems;
+using Mfknudsen.Items;
+using Mfknudsen.Monster;
 using UnityEngine;
-using UnityEngine.UI;
-//Custom
-using Monster;
-using Battle;
+using UnityEngine.UI; //Custom
+
 #endregion
 
-namespace BattleUI
+namespace Mfknudsen.Battle.UI
 {
     public class ItemSelection : MonoBehaviour
     {

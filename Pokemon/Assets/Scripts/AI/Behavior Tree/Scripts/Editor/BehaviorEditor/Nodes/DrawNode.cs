@@ -20,6 +20,61 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
     public static class NodeFunc
     {
+        public static int DisplayCalls(BaseNodeSetting b, BaseNode node)
+        {
+            GUIStyle style = new GUIStyle();
+            int i = 0, height = (int) b.windowRect.height;
+
+            EditorGUILayout.BeginHorizontal();
+
+            FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            EditorGUILayout.BeginVertical(GUILayout.Width(b.windowRect.width / 2));
+
+            if (node.inCall)
+            {
+                EditorGUILayout.BeginHorizontal();
+                if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
+                { 
+                    //Only activate once
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUILayout.EndVertical();
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.BeginVertical();
+
+            foreach (FieldInfo f in fields)
+            {
+                OutCaller c = Attribute.GetCustomAttribute(f, typeof(OutCaller)) as OutCaller;
+
+                if (c == null) continue;
+                height += 40;
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(c.display,
+                    GUILayout.MaxWidth(style.CalcSize(new GUIContent(c.display)).x + 2));
+
+                if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
+                {
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            b.windowRect.height = height;
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.EndHorizontal();
+
+            if (node.inCall)
+                i = (int) Mathf.Clamp(i, 1, Mathf.Infinity);
+
+            return i;
+        }
+
         public static int DisplayInputs(BaseNodeSetting b, BaseNode node, int extra)
         {
             if (node == null)
@@ -151,7 +206,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                     BehaviorEditor.editor.MakeTransition(
                         b,
                         (i - 1),
-                        (int)attribute.varType,
+                        (int) attribute.varType,
                         b.windowRect.position +
                         new Vector2(b.windowRect.width - 7.5f, 25 + 10 + ((i + extra) * 40) - 12.5f),
                         false

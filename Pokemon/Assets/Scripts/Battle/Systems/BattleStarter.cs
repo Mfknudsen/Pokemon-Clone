@@ -1,14 +1,14 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Trainer;
 using Mfknudsen.Chat;
+using Mfknudsen.World;
+using UnityEngine; //Custom
 
 #endregion
 
-namespace Battle
+namespace Mfknudsen.Battle.Systems
 {
     public class BattleStarter : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace Battle
         [SerializeField] private int playerSpotCount = 1;
         [SerializeField] private BattleMember[] allies = new BattleMember[0];
         [SerializeField] private BattleMember[] enemies = new BattleMember[0];
-        [SerializeField] private Chat onStartChat = null;
+        [SerializeField] private Chat.Chat onStartChat = null;
 
         [Header("Before/After:")]
         [SerializeField] private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
@@ -81,9 +81,9 @@ namespace Battle
             }
             BattleMaster.instance.StartBattle(this, result.ToArray());
 
-            Chat toSend = Instantiate(onStartChat);
+            Chat.Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatMaster.instance.Add(new Chat[] { toSend });
+            ChatMaster.instance.Add(new Chat.Chat[] { toSend });
         }
         #endregion
     }

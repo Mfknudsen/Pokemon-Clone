@@ -1,75 +1,81 @@
 ﻿#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Mfknudsen.Battle.Systems;
+using Mfknudsen.Items;
+using Mfknudsen.Monster;
+using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Trainer;
 using TMPro;
-//Custom
-using Trainer;
-using Battle;
-using Monster;
-using Monster.Conditions;
-#endregion
+using UnityEngine;
 
-#region Enums
-public enum SelectorGoal { Switch, Item }
-#endregion
-
-public class SelectionMenu : MonoBehaviour
+namespace Mfknudsen.Battle.UI
 {
-    #region Values
-    [SerializeField] private TextMeshProUGUI[] fields = new TextMeshProUGUI[6];
-    [SerializeField] private Team team = null;
-    [SerializeField] private SelectorGoal goal = 0;
-    [SerializeField] private Item item = null;
+
     #endregion
 
-    #region Setters
-    public void SetItem(Item set)
-    {
-        item = set;
-    }
+    #region Enums
+    public enum SelectorGoal { Switch, Item }
     #endregion
 
-    #region In
-    public void SetFieldNames(Team tSet, SelectorGoal gSet)
+    public class SelectionMenu : MonoBehaviour
     {
-        team = tSet;
-        goal = gSet;
+        #region Values
+        [SerializeField] private TextMeshProUGUI[] fields = new TextMeshProUGUI[6];
+        [SerializeField] private Team team = null;
+        [SerializeField] private SelectorGoal goal = 0;
+        [SerializeField] private Item item = null;
+        #endregion
 
-        for (int i = 0; i < 6; i++)
+        #region Setters
+        public void SetItem(Item set)
         {
-            Pokemon pokemon = team.GetPokemonByIndex(i);
-
-            if (pokemon != null)
-                fields[i].text = pokemon.GetName() + " (" + pokemon.GetLevel() + ")";
-            else
-                fields[i].text = "Empty";
+            item = set;
         }
-    }
+        #endregion
 
-    public void TrySend(int i)
-    {
-        Pokemon p = team.GetPokemonByIndex(i);
-        if (p == null)
-            return;
-        if (goal == SelectorGoal.Switch)
+        #region In
+        public void SetFieldNames(Team tSet, SelectorGoal gSet)
         {
-            if (p.GetInBattle() || p.GetGettingSwitched())
-                return;
-            Condition c = p.GetConditionOversight().GetNonVolatileStatus();
-            if (c != null)
+            team = tSet;
+            goal = gSet;
+
+            for (int i = 0; i < 6; i++)
             {
-                if (c.GetConditionName() == NonVolatile.Fainted.ToString())
-                    return;
-            }
+                Pokemon pokemon = team.GetPokemonByIndex(i);
 
-            BattleMaster.instance.SelectNewPokemon(i);
+                if (pokemon != null)
+                    fields[i].text = pokemon.GetName() + " (" + pokemon.GetLevel() + ")";
+                else
+                    fields[i].text = "Empty";
+            }
         }
-        else if (goal == SelectorGoal.Item)
+
+        public void TrySend(int i)
         {
-            if (item.IsUsableTarget(p))
-                BattleMaster.instance.ParseTargetToItemSelector(p);
+            Pokemon p = team.GetPokemonByIndex(i);
+            if (p == null)
+                return;
+            if (goal == SelectorGoal.Switch)
+            {
+                if (p.GetInBattle() || p.GetGettingSwitched())
+                    return;
+                Condition c = p.GetConditionOversight().GetNonVolatileStatus();
+                if (c != null)
+                {
+                    if (c.GetConditionName() == NonVolatile.Fainted.ToString())
+                        return;
+                }
+
+                BattleMaster.instance.SelectNewPokemon(i);
+            }
+            else if (goal == SelectorGoal.Item)
+            {
+                if (item.IsUsableTarget(p))
+                    BattleMaster.instance.ParseTargetToItemSelector(p);
+            }
         }
+        #endregion
     }
-    #endregion
 }

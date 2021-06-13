@@ -1,12 +1,12 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Monster;
+
+using Mfknudsen.Battle.UI;
+using Mfknudsen.Monster;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace Battle
+namespace Mfknudsen.Battle.Systems
 {
     public class Spot : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Battle
 
         [Header("UI:")]
         [SerializeField] Vector2 offset = Vector2.zero;
-        [SerializeField] private BattleUI.PokemonDisplay display = null;
+        [SerializeField] private PokemonDisplay display = null;
         [SerializeField] private GameObject displayPrefab = null;
         #endregion
 
@@ -139,7 +139,7 @@ namespace Battle
             obj.transform.parent = origin;
             obj.transform.localScale = Vector3.one;
 
-            display = obj.GetComponent<BattleUI.PokemonDisplay>();
+            display = obj.GetComponent<PokemonDisplay>();
         }
         #endregion
     }

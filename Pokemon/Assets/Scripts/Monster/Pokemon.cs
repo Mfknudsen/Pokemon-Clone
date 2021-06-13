@@ -1,13 +1,15 @@
 ﻿#region SDK
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//Custom
-using Battle.Actions.Moves;
-using Monster.Conditions;
+
+using Mfknudsen.Battle.Actions;
+using Mfknudsen.Battle.Actions.Move;
+using Mfknudsen.Battle.Systems;
+using Mfknudsen.Items;
+using Mfknudsen.Monster.Conditions;
+using UnityEngine; //Custom
+
 #endregion
 
-namespace Monster
+namespace Mfknudsen.Monster
 {
     #region Enums
     public enum Stat { HP, Attack, Defence, SpAtk, SpDef, Speed }
