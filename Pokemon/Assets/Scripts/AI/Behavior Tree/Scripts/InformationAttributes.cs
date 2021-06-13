@@ -17,7 +17,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         Vector2,
         Vector3,
         Transform,
-        Script
+        Script,
     }
 
     public enum ScriptType

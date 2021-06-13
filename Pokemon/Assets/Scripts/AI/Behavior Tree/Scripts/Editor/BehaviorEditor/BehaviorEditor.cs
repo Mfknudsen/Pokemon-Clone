@@ -1,7 +1,9 @@
 ﻿#region SDK
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter;
@@ -60,6 +62,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
             // -- Pokemon
             AddPokeTeamInput,
+            AddPokemon,
+            AddPokeMove,
 
             //Filler
             AddMathClampFiller,
@@ -142,9 +146,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (drawTrans != null)
             {
                 drawTrans.mouse = mousePosition;
-                
-                if(_settings.currentGraph.behaviour.nodes == null) return;
-                
+
+                if (_settings.currentGraph.behaviour.nodes == null) return;
+
                 if (_settings.currentGraph.behaviour.nodes.Count == 0)
                 {
                     drawTrans = null;
@@ -240,7 +244,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
         private void Inspector()
         {
-            if (!showInspector || _settings.currentGraph == null || lastSelected == null) return;
+            if (!showInspector || _settings.currentGraph == null || lastSelected == null ||
+                selectedNode.baseNode == null) return;
 
             EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(350));
             EditorGUILayout.BeginHorizontal();
@@ -267,7 +272,61 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             selectedNode.comment = EditorGUILayout.TextField(selectedNode.comment, GUILayout.Height(100));
             EditorGUILayout.EndVertical();
 
+            //Values
+            FieldInfo[] fields = selectedNode.baseNode.GetType()
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            List<FieldInfo> outputs = new List<FieldInfo>();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (FieldInfo f in fields)
+            {
+                OutputType attribute = (OutputType) Attribute.GetCustomAttribute(f, typeof(OutputType));
+
+                if (attribute == null) continue;
+                
+                outputs.Add(f);
+            }
+            
+            if (outputs.Count > 0)
+            {
+                GUILayout.Space(20);
+                GUILayout.Label("Inputs");
+
+                EditorGUILayout.BeginVertical("Box");
+
+                foreach (FieldInfo output in outputs)
+                {
+                    OutputType attribute = Attribute.GetCustomAttribute(output, typeof(OutputType)) as OutputType;
+
+                    if (attribute == null)
+                        continue;
+                    if (attribute.varType == VariableType.DEFAULT)
+                        continue;
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(attribute.name,
+                        GUILayout.Width(200));
+
+                    object obj = output.GetValue(selectedNode.baseNode);
+
+                    object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
+
+                    if (obj != newValue)
+                    {
+                        output.SetValue(
+                            selectedNode.baseNode,
+                            newValue
+                        );
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                EditorGUILayout.EndVertical();
+            }
+
             GUILayout.FlexibleSpace();
+
             EditorGUILayout.EndVertical();
         }
 
@@ -332,8 +391,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                         lastSelected = selectedNode;
                         clickedOnWindow = true;
                     }
+
                     break;
-                
+
                 case 1:
                     RightClick(e);
                     break;
@@ -498,8 +558,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 menu.AddItem(new GUIContent("Add Input/Transform"), false, ContextCallback,
                     UserActions.AddTransformInput);
                 // -- Pokemon
+                menu.AddItem(new GUIContent("Add Input/Pokemon/Pokemon"), false, ContextCallback,
+                    UserActions.AddPokemon);
                 menu.AddItem(new GUIContent("Add Input/Pokemon/Team"), false, ContextCallback,
                     UserActions.AddPokeTeamInput);
+                menu.AddItem(new GUIContent("Add Input/Pokemon/Move"), false, ContextCallback, UserActions.AddPokeMove);
 
                 #endregion
 

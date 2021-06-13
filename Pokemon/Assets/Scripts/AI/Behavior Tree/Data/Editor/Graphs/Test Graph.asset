@@ -14,5 +14,92 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reset: 0
   behaviour: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
-  windows: []
-  idCount: 0
+  windows:
+  - id: 0
+    drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 353
+      y: 297
+      width: 215
+      height: 25
+    windowTitle: Int Input
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    showDescription: 0
+    isOnCurrent: 0
+    collapse: 0
+    showActions: 1
+    showEnterExit: 0
+    previousCollapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    varID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  - id: 1
+    drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 396
+      y: 454
+      width: 215
+      height: 25
+    windowTitle: Transform Input
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    showDescription: 0
+    isOnCurrent: 0
+    collapse: 0
+    showActions: 1
+    showEnterExit: 0
+    previousCollapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    varID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  - id: 2
+    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 630
+      y: 520
+      width: 215
+      height: 25
+    windowTitle: Rotate
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    showDescription: 0
+    isOnCurrent: 0
+    collapse: 0
+    showActions: 1
+    showEnterExit: 0
+    previousCollapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    varID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  idCount: 3

@@ -130,6 +130,7 @@
      <Compile Include="Assets\Scripts\Monster\Ability.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\PokemonNodes\GetPokemon.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

@@ -2,13 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using UnityEditor;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
@@ -32,18 +31,23 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
             if (EditorGUILayout.Toggle("RESET", false))
             {
-                script.nodes.Clear();
+                script.nodes = new List<BaseNode>();
             }
 
             List<BaseNode> inputs = new List<BaseNode>();
+            if(script.nodes == null) return;
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (BaseNode node in script.nodes)
             {
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                // ReSharper disable once UseNullPropagation
                 if (node == null)
                     continue;
                 if (node is InputNode && !inputs.Contains(node))
                     inputs.Add(node);
             }
 
+            // ReSharper disable once InvertIf
             if (inputs.Count > 0)
             {
                 GUILayout.Space(20);
