@@ -34,9 +34,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             if (node.inCall)
             {
                 EditorGUILayout.BeginHorizontal();
-                if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
+                if (GUILayout.Button("", GUILayout.Width(20)))
                 { 
                     //Only activate once
+                    BehaviorEditor.editor.MakeActionTransition(b, true);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -51,13 +52,16 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 OutCaller c = Attribute.GetCustomAttribute(f, typeof(OutCaller)) as OutCaller;
 
                 if (c == null) continue;
+                
                 height += 40;
+                
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(c.display,
                     GUILayout.MaxWidth(style.CalcSize(new GUIContent(c.display)).x + 2));
 
-                if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
+                if (GUILayout.Button("", GUILayout.Width(20)))
                 {
+                    BehaviorEditor.editor.MakeActionTransition(b, false);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -120,7 +124,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 i++;
                 if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
                 {
-                    BehaviorEditor.editor.MakeTransition(
+                    BehaviorEditor.editor.MakeInformationTransition(
                         b,
                         (-1 + i),
                         (int) attribute.varType,
@@ -203,7 +207,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 i++;
                 if (EditorGUILayout.Toggle(false, GUILayout.Width(15)))
                 {
-                    BehaviorEditor.editor.MakeTransition(
+                    BehaviorEditor.editor.MakeInformationTransition(
                         b,
                         (i - 1),
                         (int) attribute.varType,

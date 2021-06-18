@@ -10,10 +10,17 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
     [System.Serializable]
     public class Transition : BaseNode
     {
+        public bool transferInformation;
+        
         [SerializeReference] public int targetNodeID = -1,
             fromNodeID = -1,
             targetFieldID = -1,
             fromFieldID = -1;
+
+        public Transition(bool transferInformation)
+        {
+            this.transferInformation = transferInformation;
+        }
 
         public void Set(BaseNode node, int infoID, bool isTarget)
         {
@@ -32,64 +39,84 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
             }
         }
 
+        public void Set(BaseNode node, bool isTarget)
+        {
+            if(node == null)
+                return;
+
+            if (isTarget)
+                targetNodeID = node.id;
+            else
+                fromNodeID = node.id;
+        }
+
         public override void Tick(BehaviorController setup)
         {
-            BaseNode targetNode = null, fromNode = null;
-            FieldInfo targetField, fromField;
-
-            //Get the Nodes
-            foreach (BaseNode n in setup.GetNodes().Where(n => n.id == targetNodeID))
-                targetNode = n;
-            foreach (BaseNode n in setup.GetNodes().Where(n => n.id == fromNodeID))
-                fromNode = n;
-            //Get the FieldInfos
-            try
+            if (transferInformation)
             {
-                List<FieldInfo> infos = new List<FieldInfo>();
-                foreach (FieldInfo info in targetNode.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance))
+                BaseNode targetNode = null, fromNode = null;
+                FieldInfo targetField, fromField;
+
+                //Get the Nodes
+                foreach (BaseNode n in setup.GetNodes().Where(n => n.id == targetNodeID))
+                    targetNode = n;
+                foreach (BaseNode n in setup.GetNodes().Where(n => n.id == fromNodeID))
+                    fromNode = n;
+                //Get the FieldInfos
+                try
                 {
-                    InputType t = info.GetCustomAttribute(typeof(InputType)) as InputType;
+                    List<FieldInfo> infos = new List<FieldInfo>();
+                    foreach (FieldInfo info in targetNode.GetType()
+                        .GetFields(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        InputType t = info.GetCustomAttribute(typeof(InputType)) as InputType;
 
-                    if (t == null)
-                        continue;
+                        if (t == null)
+                            continue;
 
-                    infos.Add(info);
+                        infos.Add(info);
+                    }
+
+                    targetField = infos[targetFieldID];
+                    infos.Clear();
+
+                    foreach (FieldInfo info in fromNode.GetType()
+                        .GetFields(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        OutputType t = info.GetCustomAttribute(typeof(OutputType)) as OutputType;
+
+                        if (t == null)
+                            continue;
+
+                        infos.Add(info);
+                    }
+
+                    fromField = infos[fromFieldID];
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return;
                 }
 
-                targetField = infos[targetFieldID];
-                infos.Clear();
+                if (targetNode == null || fromNode == null || targetField == null || fromField == null)
+                    return;
 
-                foreach (FieldInfo info in fromNode.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance))
-                {
-                    OutputType t = info.GetCustomAttribute(typeof(OutputType)) as OutputType;
+                object value = fromField.GetValue(fromNode);
 
-                    if (t == null)
-                        continue;
+                value = ReturnAsType(value, ((InputType) targetField.GetCustomAttribute(typeof(InputType))).varType);
+                targetField.SetValue(targetNode, value);
 
-                    infos.Add(info);
-                }
+                //Set Info Received
+                targetNode.AddCheckState(targetField.Name, true);
 
-                fromField = infos[fromFieldID];
+                if (CheckNodeReady(targetNode))
+                    setup.AddNodeToQueue(targetNode);
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
-                return;
+                BaseNode node = setup.GetNodes()[targetNodeID];
             }
-
-            if (targetNode == null || fromNode == null || targetField == null || fromField == null)
-                return;
-
-            object value = fromField.GetValue(fromNode);
-
-            value = ReturnAsType(value, ((InputType) targetField.GetCustomAttribute(typeof(InputType))).varType);
-            targetField.SetValue(targetNode, value);
-            
-            //Set Info Received
-            targetNode.AddCheckState(targetField.Name, true);
-
-            if (CheckNodeReady(targetNode))
-                setup.AddNodeToQueue(targetNode);
         }
 
         private object ReturnAsType(object o, VariableType type)

@@ -8,8 +8,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
     public abstract class BaseNode : object
     {
         public int id;
-
-        public bool inCall;
+        public bool ready, inCall;
 
         public List<Transition> transitions;
         public Dictionary<string, bool> checkState;
@@ -26,8 +25,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
 
         public void AddTransition(Transition transition)
         {
-            if (transitions == null)
-                transitions = new List<Transition>();
+            transitions ??= new List<Transition>();
 
             transitions.Add(transition);
         }

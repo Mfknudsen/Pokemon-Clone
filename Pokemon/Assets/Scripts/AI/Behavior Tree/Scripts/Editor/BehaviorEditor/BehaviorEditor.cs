@@ -283,10 +283,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 OutputType attribute = (OutputType) Attribute.GetCustomAttribute(f, typeof(OutputType));
 
                 if (attribute == null) continue;
-                
+
                 outputs.Add(f);
             }
-            
+
             if (outputs.Count > 0)
             {
                 GUILayout.Space(20);
@@ -460,15 +460,24 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 ModifyNode(e);
         }
 
-        public void MakeTransition(BaseNodeSetting setting, int infoID, int varID, Vector2 pos, bool isTarget)
+        public void MakeInformationTransition(BaseNodeSetting setting, int infoID, int varID, Vector2 pos,
+            bool isTarget)
         {
+            Transition t = (Transition) drawTrans?.baseNode;
+            if (t is {transferInformation: true})
+            {
+                if (_settings.currentGraph.windows.Contains(drawTrans))
+                    _settings.currentGraph.DeleteNode(drawTrans.id);
+                drawTrans = null;
+            }
+
             BaseNode node = setting.baseNode;
             if (drawTrans == null)
             {
-                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(), 20, 20, "",
+                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(true), 20, 20, "",
                     Vector2.zero);
                 Transition transition = drawTrans.baseNode as Transition;
-                transition?.Set(node, infoID, isTarget);
+                transition.Set(node, infoID, isTarget);
                 drawTrans.varID = varID;
                 if (isTarget)
                 {
@@ -535,6 +544,32 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                     drawTrans = null;
                 }
+            }
+        }
+
+        public void MakeActionTransition(BaseNodeSetting setting, bool isTarget)
+        {
+            if (drawTrans != null)
+            {
+                Transition t = (Transition) drawTrans.baseNode;
+                if (t  is {transferInformation: false})
+                {
+                    if (_settings.currentGraph.windows.Contains(drawTrans))
+                        _settings.currentGraph.DeleteNode(drawTrans.id);
+                    drawTrans = null;
+                }
+            }
+
+            BaseNode node = setting.baseNode;
+            if (drawTrans == null)
+            {
+                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(false), 20, 20, "",
+                    Vector2.zero);
+                Transition transition = drawTrans.baseNode as Transition;
+                transition.Set(node, isTarget);
+            }
+            else
+            {
             }
         }
 

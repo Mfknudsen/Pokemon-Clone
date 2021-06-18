@@ -14,7 +14,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior
     public class BehaviourSetup : ScriptableObject
     {
         #region Values
-        public List<BaseNode> nodes;
+      [SerializeReference]  public List<BaseNode> nodes;
 
         #endregion
 

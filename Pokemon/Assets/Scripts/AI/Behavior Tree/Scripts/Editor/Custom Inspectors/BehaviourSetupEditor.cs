@@ -26,17 +26,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-
-            GUILayout.Space(10);
-
             if (EditorGUILayout.Toggle("RESET", false))
             {
                 script.nodes = new List<BaseNode>();
             }
 
             List<BaseNode> inputs = new List<BaseNode>();
-            if(script.nodes == null) return;
+            if (script.nodes == null) return;
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (BaseNode node in script.nodes)
             {
@@ -49,7 +45,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
             }
 
             // ReSharper disable once InvertIf
-
             if (inputs.Count > 0)
             {
                 GUILayout.Space(20);
@@ -100,6 +95,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
                 EditorGUILayout.EndVertical();
             }
+
+            GUILayout.Space(10);
+
+            base.OnInspectorGUI();
         }
     }
 }

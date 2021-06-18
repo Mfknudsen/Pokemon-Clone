@@ -16,14 +16,14 @@ MonoBehaviour:
   behaviour: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
   windows:
   - id: 0
-    drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
+    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 209
-      y: 157
+      x: 892
+      y: 478
       width: 215
-      height: 25
-    windowTitle: Int Input
+      height: 199.5
+    windowTitle: Rotate
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -44,33 +44,4 @@ MonoBehaviour:
     enterStart: {x: 0, y: 0}
     exitStart: {x: 0, y: 0}
     mouse: {x: 0, y: 0}
-  - id: 1
-    drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
-    windowRect:
-      serializedVersion: 2
-      x: 201
-      y: 305
-      width: 215
-      height: 72.5
-    windowTitle: Int Input
-    enterNode: 0
-    targetNode: 0
-    isDuplicate: 0
-    comment: 
-    isAssigned: 0
-    showDescription: 0
-    isOnCurrent: 0
-    collapse: 0
-    showActions: 1
-    showEnterExit: 0
-    previousCollapse: 0
-    allTransitionIDs: 
-    enterID: -1
-    exitID: -1
-    varID: -1
-    preEnterPos: {x: 0, y: 0}
-    preExitPos: {x: 0, y: 0}
-    enterStart: {x: 0, y: 0}
-    exitStart: {x: 0, y: 0}
-    mouse: {x: 0, y: 0}
-  idCount: 2
+  idCount: 1

@@ -19,6 +19,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             if (!(node is Transition transNode) || b == null)
                 return;
 
+            Color c = Color.green;
+            if (!((Transition) node).transferInformation)
+                c = Color.white;
+
             if (transNode.fromNodeID != -1 && transNode.targetNodeID != -1 &&
                 (b.enterDraw != null && b.exitDraw != null))
             {
@@ -33,7 +37,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                     b.exitStart,
                     b.enterStart,
                     (b.enterStart.x < b.exitStart.x),
-                    Color.green
+                    c
                 );
             }
             else
