@@ -547,25 +547,22 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             }
         }
 
-        public void MakeActionTransition(BaseNodeSetting setting, bool isTarget)
+        public void MakeActionTransition(BaseNodeSetting setting, bool isTarget, Vector2 pos)
         {
-            if (drawTrans != null)
+            Transition transition = (Transition) drawTrans?.baseNode;
+            if (transition is {transferInformation: false})
             {
-                Transition t = (Transition) drawTrans.baseNode;
-                if (t  is {transferInformation: false})
-                {
-                    if (_settings.currentGraph.windows.Contains(drawTrans))
-                        _settings.currentGraph.DeleteNode(drawTrans.id);
-                    drawTrans = null;
-                }
+                if (_settings.currentGraph.windows.Contains(drawTrans))
+                    _settings.currentGraph.DeleteNode(drawTrans.id);
+                drawTrans = null;
             }
 
-            BaseNode node = setting.baseNode;
             if (drawTrans == null)
             {
                 drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(false), 20, 20, "",
-                    Vector2.zero);
-                Transition transition = drawTrans.baseNode as Transition;
+                    pos);
+                BaseNode node = setting.baseNode;
+                transition = drawTrans.baseNode as Transition;
                 transition.Set(node, isTarget);
             }
             else
