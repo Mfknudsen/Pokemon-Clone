@@ -22,8 +22,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
     {
         public static int DisplayCalls(BaseNodeSetting b, BaseNode node)
         {
+            if (b == null || node == null) return 0;
+            
             GUIStyle style = new GUIStyle();
-            int i = 0, height = (int) b.windowRect.height;
+            int i = 1, height = (int) b.windowRect.height;
+            float xLeftOffset = b.windowRect.x + 7.5f, xRightOffset = b.windowRect.x + b.windowRect.width - 7.5f,
+                yStart = b.windowRect.y + b.windowRect.height;
 
             EditorGUILayout.BeginHorizontal();
 
@@ -37,7 +41,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 { 
                     //Only activate once
-                    BehaviorEditor.editor.MakeActionTransition(b, true);
+                    Debug.Log(new Vector2(xLeftOffset, yStart + 40 - 12.5f));
+                    BehaviorEditor.editor.MakeActionTransition(b, true, new Vector2(xLeftOffset, yStart + 40 - 12.5f));
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -61,8 +66,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 {
-                    BehaviorEditor.editor.MakeActionTransition(b, false);
+                    Debug.Log(new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
+                    BehaviorEditor.editor.MakeActionTransition(b, false, new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
                 }
+
+                i++;
 
                 EditorGUILayout.EndHorizontal();
             }

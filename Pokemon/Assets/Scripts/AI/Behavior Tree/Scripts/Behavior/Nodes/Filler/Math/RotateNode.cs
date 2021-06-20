@@ -6,7 +6,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
     [System.Serializable]
     public class RotateNode : BaseNode
     {
-        [OutCaller("")] public List<Transition> outCalls;
+        [OutCaller("")] public List<Transition> outCalls, list;
 
         [InputType(VariableType.Transform, "Target", true), OutputType(VariableType.Transform, "Result")]
         public object target = null;

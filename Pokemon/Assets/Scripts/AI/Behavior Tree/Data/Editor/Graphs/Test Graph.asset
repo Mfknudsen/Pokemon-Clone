@@ -19,10 +19,10 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 660.79974
-      y: 389.40005
+      x: 439.79974
+      y: 296.40005
       width: 215
-      height: 199.5
+      height: 239.5
     windowTitle: Rotate
     enterNode: 0
     targetNode: 0
