@@ -1,5 +1,7 @@
 ﻿namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.PokemonNodes
 {
+    [System.Serializable]
+    [Node("Input/Pokemon/Team", "Pokemon Team Input")]
     public class GetPokeTeamNode : InputNode
     {
         [OutputType(VariableType.Script, "Team Input", ScriptType.TrainerTeam)]

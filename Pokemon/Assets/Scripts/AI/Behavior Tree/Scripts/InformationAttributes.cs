@@ -8,7 +8,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 {
     public enum VariableType
     {
-        DEFAULT,
+        Default,
         Any,
         Int,
         Float,
@@ -23,10 +23,32 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
     public enum ScriptType
     {
-        DEFAULT,
+        Default,
         TrainerTeam,
         Pokemon,
         PokeMove,
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class NodeAttribute : Attribute
+    {
+        private readonly string menuName, displayName;
+
+        public NodeAttribute(string menuName, string displayName)
+        {
+            this.menuName = menuName;
+            this.displayName = displayName;
+        }
+
+        public string GetMenuName()
+        {
+            return menuName;
+        }
+
+        public string GetDisplayName()
+        {
+            return displayName;
+        }
     }
 
     [AttributeUsage(AttributeTargets.Field)]
@@ -40,25 +62,37 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         }
     }
 
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class InputType : InformationType
     {
-        public bool receiveMultiply;
+        public InputType(VariableType varType, string name)
+        {
+            this.varType = varType;
+            this.name = name;
 
-        public InputType(VariableType varType, string name, bool receiveMultiply,
-            ScriptType scriptType = ScriptType.DEFAULT)
+            scriptType = ScriptType.Default;
+        }
+
+        public InputType(VariableType varType, string name, ScriptType scriptType)
         {
             this.varType = varType;
             this.name = name;
             this.scriptType = scriptType;
-            this.receiveMultiply = receiveMultiply;
         }
     }
 
     [AttributeUsage(AttributeTargets.Field)]
     public class OutputType : InformationType
     {
-        public OutputType(VariableType varType, string name, ScriptType scriptType = ScriptType.DEFAULT)
+        public OutputType(VariableType varType, string name)
+        {
+            this.varType = varType;
+            this.name = name;
+            
+            scriptType = ScriptType.Default;
+        }
+        
+        public OutputType(VariableType varType, string name, ScriptType scriptType)
         {
             this.varType = varType;
             this.name = name;

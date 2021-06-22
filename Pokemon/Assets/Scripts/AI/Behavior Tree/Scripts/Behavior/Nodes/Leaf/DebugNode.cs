@@ -4,9 +4,10 @@ using UnityEngine;
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
 {
     [System.Serializable]
+    [Node("Leaf/Debug", "Debug")]
     public class DebugNode : LeafNode
     {
-        [InputType(VariableType.Any, "To Log", true)]
+        [InputType(VariableType.Any, "To Log")]
         public object toLog;
 
         // ReSharper disable Unity.PerformanceAnalysis

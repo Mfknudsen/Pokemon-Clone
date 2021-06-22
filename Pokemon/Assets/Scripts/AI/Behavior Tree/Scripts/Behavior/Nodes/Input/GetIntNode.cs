@@ -3,6 +3,7 @@
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
     [System.Serializable]
+    [Node("Input/Int", "Int Input")]
     public class GetIntNode : InputNode
     {
         [OutputType(VariableType.Int, "Int Input"), SerializeReference]

@@ -2,9 +2,11 @@ using System.Collections.Generic;
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector
 {
+    [System.Serializable]
+    [Node("Filler/Selection/Selector", "Selector")]
     public class SelectorNode : BaseNode
     {
-        [InputType(VariableType.Bool, "State", false)]
+        [InputType(VariableType.Bool, "State")]
         public bool state;
 
         [OutCaller("True")]

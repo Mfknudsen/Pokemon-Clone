@@ -1,6 +1,5 @@
-﻿namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
+namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
 {
-    [System.Serializable]
     public class LeafNode : BaseNode
     {
         public override void Tick(BehaviorController setup)

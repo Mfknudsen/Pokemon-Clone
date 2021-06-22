@@ -2,6 +2,8 @@
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
+    [System.Serializable]
+    [Node("Input/Vector2", "Vector2 Input")]
     public class GetVec2Node : InputNode
     {
         [OutputType(VariableType.Vector2, "Vector2 Input")]

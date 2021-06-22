@@ -62,5 +62,23 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
             allTransitionIDs.Add(transID);
         }
+
+        public void SetDraws(bool isTarget, BaseNodeSetting setting, Vector2 pos)
+        {
+            if (isTarget)
+            {
+                enterDraw = setting;
+                preEnterPos = setting.windowRect.position;
+                enterStart = pos;
+                enterID = setting.id;
+            }
+            else
+            {
+                exitDraw = setting;
+                preExitPos = setting.windowRect.position;
+                exitStart = pos;
+                exitID = setting.id;
+            }
+        }
     }
 }

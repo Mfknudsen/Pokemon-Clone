@@ -68,7 +68,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
                         if (attribute == null)
                             continue;
-                        if (attribute.varType == VariableType.DEFAULT)
+                        if (attribute.varType == VariableType.Default)
                             continue;
 
                         EditorGUILayout.BeginHorizontal();

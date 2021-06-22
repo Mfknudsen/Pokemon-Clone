@@ -7,15 +7,16 @@ using UnityEngine;
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
 {
     [System.Serializable]
+    [Node("Math/Clamp", "Clamp")]
     public class ClampNode : BaseNode
     {
-        [InputType(VariableType.Float, "To Check", true)]
+        [InputType(VariableType.Float, "To Check")]
         public object toCheck = 0.0f;
 
-        [InputType(VariableType.Float, "Min", false), SerializeReference]
+        [InputType(VariableType.Float, "Min"), SerializeReference]
         public object min = 0.0f;
 
-        [InputType(VariableType.Float, "Max", false), SerializeReference]
+        [InputType(VariableType.Float, "Max"), SerializeReference]
         public object max = 0.0f;
 
         [OutputType(VariableType.Float, "Result"), SerializeReference]

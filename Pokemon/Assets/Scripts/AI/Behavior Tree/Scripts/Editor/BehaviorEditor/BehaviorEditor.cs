@@ -79,6 +79,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             ResetPan,
         }
 
+        private List<NodeCreationEntity> creationList = new List<NodeCreationEntity>();
+
         #endregion
 
         #region Init
@@ -134,6 +136,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     }
                 }
             }
+
+            LoadNodesFromProject();
         }
 
         private void OnLostFocus()
@@ -211,6 +215,51 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
         }
+
+        #region Setup
+
+        private void LoadNodesFromProject()
+        {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (!type.IsSubclassOf(typeof(BaseNode)) ||
+                        type == typeof(Transition) ||
+                        type == typeof(RootNode) ||
+                        (type == typeof(InputNode) && !type.IsSubclassOf(typeof(InputNode))) ||
+                        (type == typeof(LeafNode) && !type.IsSubclassOf(typeof(LeafNode))))
+                        continue;
+
+                    if (type.GetCustomAttribute(typeof(NodeAttribute)) is NodeAttribute nodeAttribute)
+                    {
+                        if (ContainsEntity(type)) continue;
+
+                        NodeCreationEntity entity = new NodeCreationEntity(nodeAttribute.GetMenuName(),
+                            nodeAttribute.GetDisplayName(), type);
+
+                        creationList.Add(entity);
+                    }
+                    else
+                        Debug.LogError("Node Missing NodeAttribute\n" +
+                                       "" + type);
+                }
+            }
+        }
+
+        private bool ContainsEntity(Type t)
+        {
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (NodeCreationEntity n in creationList)
+            {
+                if (n.GetNodeType() == t)
+                    return true;
+            }
+
+            return false;
+        }
+
+        #endregion
 
         #region Header
 
@@ -300,7 +349,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                     if (attribute == null)
                         continue;
-                    if (attribute.varType == VariableType.DEFAULT)
+                    if (attribute.varType == VariableType.Default)
                         continue;
 
                     EditorGUILayout.BeginHorizontal();
@@ -474,25 +523,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             BaseNode node = setting.baseNode;
             if (drawTrans == null)
             {
-                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(true), 20, 20, "",
+                Transition transition = new Transition(true);
+                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, transition, 20, 20, "",
                     Vector2.zero);
-                Transition transition = drawTrans.baseNode as Transition;
-                transition.Set(node, infoID, isTarget);
+                transition?.Set(node, infoID, isTarget);
                 drawTrans.varID = varID;
-                if (isTarget)
-                {
-                    drawTrans.enterDraw = setting;
-                    drawTrans.preEnterPos = setting.windowRect.position;
-                    drawTrans.enterStart = pos;
-                    drawTrans.enterID = setting.id;
-                }
-                else
-                {
-                    drawTrans.exitDraw = setting;
-                    drawTrans.preExitPos = setting.windowRect.position;
-                    drawTrans.exitStart = pos;
-                    drawTrans.exitID = setting.id;
-                }
+                drawTrans.SetDraws(isTarget, setting, pos);
             }
             else
             {
@@ -504,10 +540,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     return;
                 }
 
-                if ((isTarget && drawTrans.enterDraw != null) ||
-                    (!isTarget && drawTrans.exitDraw != null) ||
-                    varID != drawTrans.varID ||
-                    setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
+                if ((isTarget && drawTrans.enterDraw != null) || (!isTarget && drawTrans.exitDraw != null) ||
+                    varID != drawTrans.varID || setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
                 {
                     if (_settings.currentGraph.windows.Contains(drawTrans))
                         _settings.currentGraph.DeleteNode(drawTrans.id);
@@ -519,20 +553,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 transition.Set(node, infoID, isTarget);
 
-                if (isTarget)
-                {
-                    drawTrans.enterDraw = setting;
-                    drawTrans.preEnterPos = setting.windowRect.position;
-                    drawTrans.enterStart = pos;
-                    drawTrans.enterID = setting.id;
-                }
-                else
-                {
-                    drawTrans.exitDraw = setting;
-                    drawTrans.preExitPos = setting.windowRect.position;
-                    drawTrans.exitStart = pos;
-                    drawTrans.exitID = setting.id;
-                }
+                drawTrans.SetDraws(isTarget, setting, pos);
 
                 if (transition.targetNodeID != -1 && transition.fromNodeID != -1)
                 {
@@ -549,8 +570,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
         public void MakeActionTransition(BaseNodeSetting setting, bool isTarget, Vector2 pos)
         {
-            Transition transition = (Transition) drawTrans?.baseNode;
-            if (transition is {transferInformation: false})
+            if (drawTrans != null)
             {
                 if (_settings.currentGraph.windows.Contains(drawTrans))
                     _settings.currentGraph.DeleteNode(drawTrans.id);
@@ -559,14 +579,52 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
             if (drawTrans == null)
             {
-                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, new Transition(false), 20, 20, "",
+                Transition transition = new Transition(false);
+
+                drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, transition, 20, 20, "",
                     pos);
+
                 BaseNode node = setting.baseNode;
-                transition = drawTrans.baseNode as Transition;
+
                 transition.Set(node, isTarget);
+
+                drawTrans.SetDraws(isTarget, setting, pos);
             }
             else
             {
+                if (drawTrans.baseNode == null)
+                {
+                    if (_settings.currentGraph.windows.Contains(drawTrans))
+                        _settings.currentGraph.DeleteNode(drawTrans.id);
+                    drawTrans = null;
+                    return;
+                }
+
+                if ((isTarget && drawTrans.enterDraw != null) || (!isTarget && drawTrans.exitDraw != null) ||
+                    setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
+                {
+                    if (_settings.currentGraph.windows.Contains(drawTrans))
+                        _settings.currentGraph.DeleteNode(drawTrans.id);
+                    drawTrans = null;
+                    return;
+                }
+
+                Transition transition = (Transition) drawTrans.baseNode;
+
+                transition.Set(setting.baseNode, isTarget);
+
+                drawTrans.SetDraws(isTarget, setting, pos);
+
+                if (transition.targetNodeID != -1 && transition.fromNodeID != -1)
+                {
+                    drawTrans.AddTransitionID(transition.fromNodeID);
+
+                    foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
+                        n.id == transition.fromNodeID))
+                        toSet.AddTransition(transition);
+
+                    drawTrans = null;
+                }
             }
         }
 
@@ -578,60 +636,25 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         {
             GenericMenu menu = new GenericMenu();
             menu.AddSeparator("");
+            // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
             if (_settings.currentGraph != null)
             {
-                #region Input
-
-                menu.AddItem(new GUIContent("Add Input/Int"), false, ContextCallback, UserActions.AddIntInput);
-                menu.AddItem(new GUIContent("Add Input/Float"), false, ContextCallback, UserActions.AddFloatInput);
-                menu.AddItem(new GUIContent("Add Input/String"), false, ContextCallback, UserActions.AddStringInput);
-                menu.AddItem(new GUIContent("Add Input/Vector2"), false, ContextCallback, UserActions.AddVec2Input);
-                menu.AddItem(new GUIContent("Add Input/Vector3"), false, ContextCallback, UserActions.AddVec3Input);
-                menu.AddItem(new GUIContent("Add Input/Transform"), false, ContextCallback,
-                    UserActions.AddTransformInput);
-                // -- Pokemon
-                menu.AddItem(new GUIContent("Add Input/Pokemon/Pokemon"), false, ContextCallback,
-                    UserActions.AddPokemon);
-                menu.AddItem(new GUIContent("Add Input/Pokemon/Team"), false, ContextCallback,
-                    UserActions.AddPokeTeamInput);
-                menu.AddItem(new GUIContent("Add Input/Pokemon/Move"), false, ContextCallback, UserActions.AddPokeMove);
-
-                #endregion
-
-                #region Filler
-
-                //Math
-                menu.AddItem(new GUIContent("Add Filler/Math/Clamp"), false, ContextCallback,
-                    UserActions.AddMathClampFiller);
-                //Transform
-                menu.AddItem(new GUIContent("Add Filler/Transform/Rotate"), false, ContextCallback,
-                    UserActions.AddRotateFiller);
-                //Splitter
-                menu.AddItem(new GUIContent("Add Filler/Split/Vector2 Split"), false, ContextCallback,
-                    UserActions.AddVec2SplitFiller);
-                menu.AddItem(new GUIContent("Add Filler/Split/Vector3 Split"), false, ContextCallback,
-                    UserActions.AddVec3SplitFiller);
-                menu.AddItem(new GUIContent("Add Filler/Split/Transform Split"), false, ContextCallback,
-                    UserActions.AddTransSplitFiller);
-
-                #endregion
-
-                #region Leaf
-
-                menu.AddItem(new GUIContent("Add Leaf/Debug"), false, ContextCallback, UserActions.AddDebugLeaf);
-
-                #endregion
+                foreach (NodeCreationEntity nodeCreationEntity in creationList)
+                {
+                    menu.AddItem(new GUIContent(nodeCreationEntity.GetMenuName()), false, ContextCallback,
+                        nodeCreationEntity);
+                }
 
                 menu.AddSeparator("");
-                menu.AddItem(new GUIContent("Reset Panning"), false, ContextCallback, UserActions.ResetPan);
+                menu.AddItem(new GUIContent("Reset Panning"), false, ContextCallback, true);
             }
-
             else
             {
                 menu.AddDisabledItem(new GUIContent("Add State"));
                 menu.AddDisabledItem(new GUIContent("Add Comment"));
             }
 
+            menu.AddSeparator("");
             menu.ShowAsContext();
             e.Use();
         }
@@ -661,87 +684,23 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
         private void ContextCallback(object o)
         {
-            UserActions a = (UserActions) o;
-            switch (a)
+            NodeCreationEntity nodeEntity = (NodeCreationEntity) o;
+
+            if (nodeEntity.GetMenuName() != "")
             {
-                #region Inputs
+                BaseNode node = Activator.CreateInstance(nodeEntity.GetNodeType()) as BaseNode;
+                DrawNode drawNode;
 
-                case UserActions.AddIntInput:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetIntNode(), 215, 25, "Int Input",
-                        mousePosition);
-                    break;
-                case UserActions.AddVec3Input:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetVec3Node(), 215, 25, "Vector3 Input",
-                        mousePosition);
-                    break;
-                case UserActions.AddTransformInput:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetTransformNode(), 215, 25, "Transform Input",
-                        mousePosition);
-                    break;
-                case UserActions.AddFloatInput:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetFloatNode(), 215, 25, "Float Input",
-                        mousePosition);
-                    break;
-                case UserActions.AddVec2Input:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetVec2Node(), 215, 25, "Vector2 Input",
-                        mousePosition);
-                    break;
+                if (nodeEntity.GetNodeType().IsSubclassOf(typeof(InputNode)))
+                    drawNode = _settings.inputNode;
+                else if (nodeEntity.GetNodeType().IsSubclassOf(typeof(LeafNode)))
+                    drawNode = _settings.leafNode;
+                else
+                    drawNode = _settings.fillerNode;
 
-                // -- Pokemon
-                case UserActions.AddPokeTeamInput:
-                    _settings.AddNodeOnGraph(_settings.inputNode, new GetPokeTeamNode(), 215, 25, "Pokémon Team Input",
-                        mousePosition);
-                    break;
 
-                #endregion
-
-                #region Filler
-
-                case UserActions.AddMathClampFiller:
-                    _settings.AddNodeOnGraph(_settings.fillerNode, new ClampNode(), 125, 25, "Clamp Filler",
-                        mousePosition);
-                    break;
-                case UserActions.AddRotateFiller:
-                    _settings.AddNodeOnGraph(_settings.fillerNode, new RotateNode(), 215, 25, "Rotate",
-                        mousePosition);
-                    break;
-                case UserActions.AddVec2SplitFiller:
-                    _settings.AddNodeOnGraph(_settings.fillerNode, new Vector2SplitNode(), 215, 25, "Vector2 Split ",
-                        mousePosition);
-                    break;
-                case UserActions.AddVec3SplitFiller:
-                    _settings.AddNodeOnGraph(_settings.fillerNode, new Vector3SplitNode(), 215, 25, "Vector3 Split",
-                        mousePosition);
-                    break;
-                case UserActions.AddTransSplitFiller:
-                    _settings.AddNodeOnGraph(_settings.fillerNode, new TransformSplitNode(), 215, 25,
-                        "Transform Splitter", mousePosition);
-                    break;
-
-                #endregion
-
-                #region Leaf
-
-                case UserActions.AddDebugLeaf:
-                    _settings.AddNodeOnGraph(_settings.leafNode, new DebugNode(), 125, 25, "Debug Leaf", mousePosition);
-                    break;
-
-                #endregion
-
-                case UserActions.DeleteNode:
-                    if (selectedNode.drawNode == null)
-                        break;
-
-                    nodesToDelete++;
-                    _settings.currentGraph.DeleteNode(selectedNode.id);
-                    break;
-
-                case UserActions.ResetPan:
-                    ResetScroll();
-                    break;
-
-                default:
-                    break;
+                _settings.AddNodeOnGraph(drawNode, node, 215, 25, nodeEntity.GetDisplayName(),
+                    mousePosition);
             }
 
             _forceSetDirty = true;
@@ -775,5 +734,33 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         }
 
         #endregion
+    }
+
+    public readonly struct NodeCreationEntity
+    {
+        private readonly string menuName, displayName;
+        private readonly Type nodeType;
+
+        public NodeCreationEntity(string menuName, string displayName, Type nodeType)
+        {
+            this.menuName = menuName;
+            this.displayName = displayName;
+            this.nodeType = nodeType;
+        }
+
+        public string GetMenuName()
+        {
+            return menuName;
+        }
+
+        public string GetDisplayName()
+        {
+            return displayName;
+        }
+
+        public Type GetNodeType()
+        {
+            return nodeType;
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
                         EditorGUILayout.LabelField("Any Accepted");
                         break;
                 
-                    case VariableType.DEFAULT:
+                    case VariableType.Default:
                         EditorGUILayout.LabelField("SET VARIABLE-TYPE OF FIELD ATTRIBUTE");
                         break;
                     default:
@@ -57,7 +57,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
 
         private static object ScriptField(object input, ScriptType type)
         {
-            if (type == ScriptType.DEFAULT)
+            if (type == ScriptType.Default)
                 return null;
             try
             {
@@ -76,7 +76,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
                             GUILayout.MaxWidth(185));
 
                     // ReSharper disable once UnreachableSwitchCaseDueToIntegerAnalysis
-                    case ScriptType.DEFAULT:
+                    case ScriptType.Default:
                         EditorGUILayout.LabelField("SET SCRIPT-TYPE OF FIELD ATTRIBUTE");
                         break;
                     default:

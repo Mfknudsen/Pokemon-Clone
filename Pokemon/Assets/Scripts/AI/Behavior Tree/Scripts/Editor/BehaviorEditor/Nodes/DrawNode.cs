@@ -43,6 +43,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                     //Only activate once
                     Debug.Log(new Vector2(xLeftOffset, yStart + 40 - 12.5f));
                     BehaviorEditor.editor.MakeActionTransition(b, true, new Vector2(xLeftOffset, yStart + 40 - 12.5f));
+                    Debug.Log("Done");
+
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -68,6 +70,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 {
                     Debug.Log(new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
                     BehaviorEditor.editor.MakeActionTransition(b, false, new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
+                    Debug.Log("Done");
                 }
 
                 i++;
@@ -103,7 +106,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.DEFAULT)
+                if (attribute.varType == VariableType.Default)
                     continue;
 
                 height += 40;
@@ -121,7 +124,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.DEFAULT)
+                if (attribute.varType == VariableType.Default)
                     continue;
 
                 EditorGUILayout.BeginVertical();
@@ -176,7 +179,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.DEFAULT)
+                if (attribute.varType == VariableType.Default)
                     continue;
 
                 height += 40;
@@ -194,7 +197,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.DEFAULT)
+                if (attribute.varType == VariableType.Default)
                     continue;
 
                 EditorGUILayout.BeginVertical();

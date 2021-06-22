@@ -2,9 +2,11 @@
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
 {
+    [System.Serializable]
+    [Node("Splitter/Vector3", "Vector3 Split")]
     public class Vector3SplitNode : BaseNode
     {
-        [InputType(VariableType.Vector3, "Vector3 Input", true)]
+        [InputType(VariableType.Vector3, "Vector3 Input")]
         public object input = Vector3.zero;
 
         [OutputType(VariableType.Float, "X")] public object x = 0.0f;
