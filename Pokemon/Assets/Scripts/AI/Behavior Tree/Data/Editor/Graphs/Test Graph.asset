@@ -19,8 +19,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 356
-      y: 233
+      x: 126
+      y: 227
       width: 215
       height: 159.5
     windowTitle: Transform Split
@@ -48,8 +48,8 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 689
-      y: 270
+      x: 322
+      y: 64
       width: 215
       height: 119.5
     windowTitle: Move Transform

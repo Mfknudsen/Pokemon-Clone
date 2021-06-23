@@ -23,10 +23,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
         public static int DisplayCalls(BaseNodeSetting b, BaseNode node)
         {
             if (b == null || node == null) return 0;
-            
+
             GUIStyle style = new GUIStyle();
             int i = 1, height = (int) b.windowRect.height;
-            float xLeftOffset = b.windowRect.x + 7.5f, xRightOffset = b.windowRect.x + b.windowRect.width - 7.5f,
+            float xLeftOffset = b.windowRect.x + 7.5f,
+                xRightOffset = b.windowRect.x + b.windowRect.width - 7.5f,
                 yStart = b.windowRect.y + b.windowRect.height;
 
             EditorGUILayout.BeginHorizontal();
@@ -39,12 +40,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             {
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("", GUILayout.Width(20)))
-                { 
+                {
                     //Only activate once
                     Debug.Log(new Vector2(xLeftOffset, yStart + 40 - 12.5f));
                     BehaviorEditor.editor.MakeActionTransition(b, true, new Vector2(xLeftOffset, yStart + 40 - 12.5f));
                     Debug.Log("Done");
-
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -59,9 +59,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 OutCaller c = Attribute.GetCustomAttribute(f, typeof(OutCaller)) as OutCaller;
 
                 if (c == null) continue;
-                
+
                 height += 40;
-                
+
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(c.display,
                     GUILayout.MaxWidth(style.CalcSize(new GUIContent(c.display)).x + 2));
@@ -69,7 +69,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 {
                     Debug.Log(new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
-                    BehaviorEditor.editor.MakeActionTransition(b, false, new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
+                    BehaviorEditor.editor.MakeActionTransition(b, false,
+                        new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
                     Debug.Log("Done");
                 }
 

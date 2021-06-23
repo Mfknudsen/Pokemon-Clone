@@ -296,23 +296,40 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (!showInspector || _settings.currentGraph == null || lastSelected == null ||
                 selectedNode.baseNode == null) return;
 
-            EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(350));
-            EditorGUILayout.BeginHorizontal();
+            const float maxWidth = 275;
+
+            EditorGUILayout.BeginHorizontal("box");
+            EditorGUILayout.BeginVertical();
+
+            #region Titel
+
+            EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(maxWidth));
+
             GUILayout.FlexibleSpace();
+
             GUIStyle guiStyle = GUI.skin.box;
+
             guiStyle.alignment = TextAnchor.MiddleCenter;
+
             EditorGUILayout.LabelField("Inspector",
                 GUILayout.Width(guiStyle.CalcSize(new GUIContent("Inspector")).x));
+
             EditorGUILayout.EndHorizontal();
 
-            //Name
-            EditorGUILayout.BeginHorizontal();
+            #endregion
+
+            #region Name
+
+            EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(maxWidth));
             EditorGUILayout.LabelField("Name: ", GUILayout.Width(guiStyle.CalcSize(new GUIContent("Name: ")).x));
             selectedNode.windowTitle = EditorGUILayout.TextField(selectedNode.windowTitle);
             EditorGUILayout.EndHorizontal();
 
-            //Comment
-            EditorGUILayout.BeginVertical();
+            #endregion
+
+            #region Comment
+
+            EditorGUILayout.BeginVertical(GUILayout.MaxWidth(maxWidth));
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             EditorGUILayout.LabelField("Comment: ", GUILayout.Width(guiStyle.CalcSize(new GUIContent("Comment: ")).x));
@@ -321,7 +338,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             selectedNode.comment = EditorGUILayout.TextField(selectedNode.comment, GUILayout.Height(100));
             EditorGUILayout.EndVertical();
 
-            //Values
+            #endregion
+
+            #region Values
+
             FieldInfo[] fields = selectedNode.baseNode.GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             List<FieldInfo> outputs = new List<FieldInfo>();
@@ -341,7 +361,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 GUILayout.Space(20);
                 GUILayout.Label("Inputs");
 
-                EditorGUILayout.BeginVertical("Box");
+                EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(maxWidth));
 
                 foreach (FieldInfo output in outputs)
                 {
@@ -354,9 +374,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(attribute.name,
-                        GUILayout.Width(200));
+                        GUILayout.MaxWidth(style.CalcSize(new GUIContent(attribute.name)).x));
 
                     object obj = output.GetValue(selectedNode.baseNode);
+
+                    GUILayout.FlexibleSpace();
 
                     object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
 
@@ -374,9 +396,43 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 EditorGUILayout.EndVertical();
             }
 
+            #endregion
+
+            #region Settings
+
+            GUILayout.Space(10);
+            GUILayout.Label("Settings");
+            EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(maxWidth));
+
+            //Titel
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Title", GUILayout.Width(style.CalcSize(new GUIContent("Title")).x));
+            GUILayout.FlexibleSpace();
+            selectedNode.windowTitle = EditorGUILayout.TextField(selectedNode.windowTitle);
+            EditorGUILayout.EndHorizontal();
+
+            //Position
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Position", GUILayout.Width(style.CalcSize(new GUIContent("Position")).x));
+            GUILayout.FlexibleSpace();
+            selectedNode.windowRect.position = EditorGUILayout.Vector2Field("", selectedNode.windowRect.position);
+            EditorGUILayout.EndHorizontal();
+
+            //Scale
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Position", GUILayout.Width(style.CalcSize(new GUIContent("Position")).x));
+            GUILayout.FlexibleSpace();
+            selectedNode.windowRect.size = EditorGUILayout.Vector2Field("", selectedNode.windowRect.size);
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.EndVertical();
+
+            #endregion
+
             GUILayout.FlexibleSpace();
 
             EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
         }
 
         #endregion
