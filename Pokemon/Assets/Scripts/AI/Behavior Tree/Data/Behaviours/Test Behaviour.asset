@@ -15,23 +15,40 @@ MonoBehaviour:
   nodes:
   - id: 0
   - id: 1
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: TransformSplitNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter,
+      type: {class: RootNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes,
         asm: Assembly-CSharp}
       data:
         id: 0
         ready: 0
         inCall: 0
+        resetOnEnd: 0
         transitions: []
+        outCalls: []
     00000001:
-      type: {class: MoveTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+      type: {class: RotateTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
         asm: Assembly-CSharp}
       data:
         id: 1
         ready: 0
-        inCall: 0
+        inCall: 1
+        resetOnEnd: 0
         transitions: []
+        outCalls: []
+        target: {fileID: 0}
+        amount: {x: 0, y: 0, z: 0}
+    00000002:
+      type: {class: MoveTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+        asm: Assembly-CSharp}
+      data:
+        id: 2
+        ready: 0
+        inCall: 1
+        resetOnEnd: 0
+        transitions: []
+        outCalls: []
         input: {fileID: 0}
         pos: {x: 0, y: 0, z: 0}

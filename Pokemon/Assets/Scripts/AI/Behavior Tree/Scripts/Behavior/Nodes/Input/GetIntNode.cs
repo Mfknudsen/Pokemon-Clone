@@ -1,4 +1,4 @@
-﻿using UnityEngine; //Custom
+﻿using UnityEngine; 
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
 {
@@ -12,6 +12,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         public override void Tick(BehaviorController setup)
         {
             ContinueTransitions(setup);
+        }
+
+        protected override void Resets()
+        {
         }
     }
 }

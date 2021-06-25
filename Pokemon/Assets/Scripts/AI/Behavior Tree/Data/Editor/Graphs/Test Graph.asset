@@ -19,11 +19,11 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 126
-      y: 227
-      width: 215
-      height: 159.5
-    windowTitle: Transform Split
+      x: 344
+      y: 206
+      width: 50
+      height: 65
+    windowTitle: Root
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -48,10 +48,39 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 322
-      y: 64
+      x: 518
+      y: 304
       width: 215
-      height: 119.5
+      height: 199.5
+    windowTitle: Rotate
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    showDescription: 0
+    isOnCurrent: 0
+    collapse: 0
+    showActions: 1
+    showEnterExit: 0
+    previousCollapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    varID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  - id: 2
+    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 881
+      y: 217
+      width: 215
+      height: 199.5
     windowTitle: Move Transform
     enterNode: 0
     targetNode: 0
@@ -73,4 +102,4 @@ MonoBehaviour:
     enterStart: {x: 0, y: 0}
     exitStart: {x: 0, y: 0}
     mouse: {x: 0, y: 0}
-  idCount: 2
+  idCount: 4

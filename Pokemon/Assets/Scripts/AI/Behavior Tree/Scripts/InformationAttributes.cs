@@ -33,11 +33,20 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
     public class NodeAttribute : Attribute
     {
         private readonly string menuName, displayName;
+        private readonly float width;
 
         public NodeAttribute(string menuName, string displayName)
         {
             this.menuName = menuName;
             this.displayName = displayName;
+            width = 215;
+        }
+        
+        public NodeAttribute(string menuName, string displayName, float width)
+        {
+            this.menuName = menuName;
+            this.displayName = displayName;
+            this.width = width;
         }
 
         public string GetMenuName()
@@ -48,6 +57,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         public string GetDisplayName()
         {
             return displayName;
+        }
+
+        public float GetWidth()
+        {
+            return width;
         }
     }
 

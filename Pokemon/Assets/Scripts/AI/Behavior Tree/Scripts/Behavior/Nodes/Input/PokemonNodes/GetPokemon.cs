@@ -6,5 +6,14 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.PokemonNodes
     {
         [OutputType(VariableType.Script, "Input", ScriptType.Pokemon)]
         public object input = null;
+
+        public override void Tick(BehaviorController setup)
+        {
+            ContinueTransitions(setup);
+        }
+
+        protected override void Resets()
+        {
+        }
     }
 }

@@ -14,7 +14,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior
     public class BehaviourSetup : ScriptableObject
     {
         #region Values
-      [SerializeReference]  public List<BaseNode> nodes;
+
+        [SerializeReference] public List<BaseNode> nodes;
 
         #endregion
 
@@ -24,9 +25,15 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior
             {
                 Transition transition = (Transition) node;
 
-                foreach (BaseNode n in nodes.Where(n =>
-                    n.id == transition.fromNodeID && !n.transitions.Contains(transition)))
-                    n.transitions.Add(transition);
+                if (transition.transferInformation)
+                {
+                    foreach (BaseNode n in nodes.Where(n =>
+                        n.id == transition.fromNodeID && !n.transitions.Contains(transition)))
+                        n.transitions.Add(transition);
+                }
+                else
+                {
+                }
             }
         }
 

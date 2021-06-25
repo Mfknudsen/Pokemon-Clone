@@ -68,10 +68,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 {
-                    Debug.Log(new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
                     BehaviorEditor.editor.MakeActionTransition(b, false,
                         new Vector2(xRightOffset, yStart + i * 40 - 12.5f));
-                    Debug.Log("Done");
                 }
 
                 i++;
@@ -99,7 +97,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             int i = 0;
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-            List<FieldInfo> input = new List<FieldInfo>();
+            List<FieldInfo> inputs = new List<FieldInfo>();
             int height = (int) b.windowRect.height;
             foreach (FieldInfo f in fields)
             {
@@ -112,14 +110,16 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 height += 40;
 
-                input.Add(f);
+                inputs.Add(f);
             }
+
+            if (inputs.Count == 0) return 0;
 
             b.windowRect.height = height + 7.5f;
 
             EditorGUILayout.BeginVertical("box");
             //All outputs
-            foreach (FieldInfo field in input)
+            foreach (FieldInfo field in inputs)
             {
                 InputType attribute = Attribute.GetCustomAttribute(field, typeof(InputType)) as InputType;
 
@@ -172,7 +172,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 
-            List<FieldInfo> output = new List<FieldInfo>();
+            List<FieldInfo> outputs = new List<FieldInfo>();
             int height = (int) b.windowRect.height;
             foreach (FieldInfo f in fields)
             {
@@ -185,14 +185,16 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 height += 40;
 
-                output.Add(f);
+                outputs.Add(f);
             }
+
+            if (outputs.Count == 0) return 0;
 
             b.windowRect.height = height + 7.5f;
 
             EditorGUILayout.BeginVertical("box");
             //All outputs
-            foreach (FieldInfo field in output)
+            foreach (FieldInfo field in outputs)
             {
                 OutputType attribute = Attribute.GetCustomAttribute(field, typeof(OutputType)) as OutputType;
 

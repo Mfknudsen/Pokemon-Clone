@@ -8,19 +8,27 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
     public abstract class BaseNode : object
     {
         public int id;
-        public bool ready, inCall;
+        public bool ready = false, inCall, resetOnEnd;
 
         public List<Transition> transitions;
         public Dictionary<string, bool> checkState;
 
         public abstract void Tick(BehaviorController setup);
 
+        protected abstract void Resets();
+
         protected void ContinueTransitions(BehaviorController setup)
         {
+            ready = false;
+
             if (transitions == null) return;
 
             foreach (Transition t in transitions)
                 t.Tick(setup);
+
+            if (!resetOnEnd) return;
+
+            Resets();
         }
 
         public void AddTransition(Transition transition)
@@ -41,6 +49,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
 
         protected bool CheckNodeReady(BaseNode n)
         {
+            if (!ready && inCall) return false;
+
             FieldInfo[] infos = n.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
 
             int i = 0;
@@ -48,13 +58,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
             {
                 i++;
 
-                foreach (string c in n.checkState.Keys)
-                {
-                    if (!f.Name.Equals(c)) continue;
-
-                    if (!n.checkState[c])
-                        return false;
-                }
+                if (n.checkState.Keys.Where(c => f.Name.Equals(c)).Any(c => !n.checkState[c]))
+                    return false;
             }
 
             return i == n.checkState.Keys.Count;

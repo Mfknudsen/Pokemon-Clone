@@ -23,5 +23,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector
         {
             ContinueTransitions(setup);
         }
+
+        protected override void Resets()
+        {
+        }
     }
 }

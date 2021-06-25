@@ -7,21 +7,26 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
     public class TransformSplitNode : BaseNode
     {
         [InputType(VariableType.Transform, "Transform Input")]
-        public object input = null;
+        public Transform input = null;
 
         [OutputType(VariableType.Vector3, "Position")]
-        public object pos = Vector3.zero;
+        public Vector3 pos = Vector3.zero;
 
         [OutputType(VariableType.Vector3, "Rotation")]
-        public object rot = Vector3.zero;
+        public Vector3 rot = Vector3.zero;
 
         public override void Tick(BehaviorController setup)
         {
-            pos = (input as Transform).position;
+            pos = input.position;
 
-            rot = (input as Transform).rotation.eulerAngles;
+            rot = input.rotation.eulerAngles;
             
             ContinueTransitions(setup);
+        }
+
+        protected override void Resets()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -11,5 +11,9 @@
         {
             ContinueTransitions(setup);
         }
+
+        protected override void Resets()
+        {
+        }
     }
 }

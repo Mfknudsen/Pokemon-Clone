@@ -226,7 +226,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 {
                     if (!type.IsSubclassOf(typeof(BaseNode)) ||
                         type == typeof(Transition) ||
-                        type == typeof(RootNode) ||
                         (type == typeof(InputNode) && !type.IsSubclassOf(typeof(InputNode))) ||
                         (type == typeof(LeafNode) && !type.IsSubclassOf(typeof(LeafNode))))
                         continue;
@@ -236,7 +235,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                         if (ContainsEntity(type)) continue;
 
                         NodeCreationEntity entity = new NodeCreationEntity(nodeAttribute.GetMenuName(),
-                            nodeAttribute.GetDisplayName(), type);
+                            nodeAttribute.GetDisplayName(), type, nodeAttribute.GetWidth());
 
                         creationList.Add(entity);
                     }
@@ -420,7 +419,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
             //Scale
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("Position", GUILayout.Width(style.CalcSize(new GUIContent("Position")).x));
+            GUILayout.Label("Scale", GUILayout.Width(style.CalcSize(new GUIContent("Scale")).x));
             GUILayout.FlexibleSpace();
             selectedNode.windowRect.size = EditorGUILayout.Vector2Field("", selectedNode.windowRect.size);
             EditorGUILayout.EndHorizontal();
@@ -569,7 +568,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             bool isTarget)
         {
             Transition t = (Transition) drawTrans?.baseNode;
-            if (t is {transferInformation: true})
+            if (t is {transferInformation: false})
             {
                 if (_settings.currentGraph.windows.Contains(drawTrans))
                     _settings.currentGraph.DeleteNode(drawTrans.id);
@@ -611,25 +610,26 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 drawTrans.SetDraws(isTarget, setting, pos);
 
-                if (transition.targetNodeID != -1 && transition.fromNodeID != -1)
-                {
-                    drawTrans.AddTransitionID(transition.fromNodeID);
+                if (transition.targetNodeID == -1 || transition.fromNodeID == -1) return;
 
-                    foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
-                        n.id == transition.fromNodeID))
-                        toSet.AddTransition(transition);
+                drawTrans.AddTransitionID(transition.fromNodeID);
 
-                    drawTrans = null;
-                }
+                foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
+                    n.id == transition.fromNodeID))
+                    toSet.AddTransition(transition);
+
+                drawTrans = null;
             }
         }
 
-        public void MakeActionTransition(BaseNodeSetting setting, bool isTarget, Vector2 pos)
+        public void MakeActionTransition(BaseNodeSetting setting, bool isTarget, Vector2 pos, int index = -1)
         {
-            if (drawTrans != null)
+            Transition t = (Transition) drawTrans?.baseNode;
+            if (t is {transferInformation: true})
             {
                 if (_settings.currentGraph.windows.Contains(drawTrans))
                     _settings.currentGraph.DeleteNode(drawTrans.id);
+                
                 drawTrans = null;
             }
 
@@ -640,9 +640,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, transition, 20, 20, "",
                     pos);
 
-                BaseNode node = setting.baseNode;
-
-                transition.Set(node, isTarget);
+                transition.Set(setting.baseNode, isTarget);
 
                 drawTrans.SetDraws(isTarget, setting, pos);
             }
@@ -671,16 +669,15 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 drawTrans.SetDraws(isTarget, setting, pos);
 
-                if (transition.targetNodeID != -1 && transition.fromNodeID != -1)
-                {
-                    drawTrans.AddTransitionID(transition.fromNodeID);
+                if (transition.targetNodeID == -1 || transition.fromNodeID == -1) return;
 
-                    foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
-                        n.id == transition.fromNodeID))
-                        toSet.AddTransition(transition);
+                drawTrans.AddTransitionID(transition.fromNodeID);
 
-                    drawTrans = null;
-                }
+                foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
+                    n.id == transition.fromNodeID))
+                    toSet.AddTransition(transition);
+
+                drawTrans = null;
             }
         }
 
@@ -755,7 +752,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     drawNode = _settings.fillerNode;
 
 
-                _settings.AddNodeOnGraph(drawNode, node, 215, 25, nodeEntity.GetDisplayName(),
+                _settings.AddNodeOnGraph(drawNode, node, nodeEntity.GetWidth(), 25, nodeEntity.GetDisplayName(),
                     mousePosition);
             }
 
@@ -796,12 +793,14 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
     {
         private readonly string menuName, displayName;
         private readonly Type nodeType;
+        private readonly float width;
 
-        public NodeCreationEntity(string menuName, string displayName, Type nodeType)
+        public NodeCreationEntity(string menuName, string displayName, Type nodeType, float width)
         {
             this.menuName = menuName;
             this.displayName = displayName;
             this.nodeType = nodeType;
+            this.width = width;
         }
 
         public string GetMenuName()
@@ -817,6 +816,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         public Type GetNodeType()
         {
             return nodeType;
+        }
+
+        public float GetWidth()
+        {
+            return width;
         }
     }
 }

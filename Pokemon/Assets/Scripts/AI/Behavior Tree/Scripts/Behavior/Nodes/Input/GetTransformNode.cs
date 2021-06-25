@@ -13,5 +13,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         {
             ContinueTransitions(setup);
         }
+
+        protected override void Resets()
+        {
+        }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
 {
-    [System.Serializable]
+    [Serializable]
     [Node("Leaf/Debug", "Debug")]
     public class DebugNode : LeafNode
     {
@@ -17,6 +17,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
                 throw new Exception("Cant Debug Null Object");
             
             Debug.Log("Debug Node Message:\n(" +toLog.GetType()+") : "+ toLog);
+            
+            Resets();
+        }
+
+        protected override void Resets()
+        {
+            toLog = null;
         }
     }
 }

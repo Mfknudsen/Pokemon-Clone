@@ -6,5 +6,14 @@
     {
         [OutputType(VariableType.Script, "Team Input", ScriptType.TrainerTeam)]
         public object input = (Trainer.Team)null;
+
+        public override void Tick(BehaviorController setup)
+        {
+            ContinueTransitions(setup);
+        }
+
+        protected override void Resets()
+        {
+        }
     }
 }

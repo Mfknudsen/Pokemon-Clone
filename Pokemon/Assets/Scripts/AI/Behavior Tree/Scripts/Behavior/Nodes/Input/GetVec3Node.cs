@@ -11,11 +11,15 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
     public class GetVec3Node : InputNode
     {
         [OutputType(VariableType.Vector3, "Vector3 Input"), SerializeReference]
-        public object input = Vector3.zero;
+        public Vector3 input = Vector3.zero;
 
         public override void Tick(BehaviorController setup)
         {
             ContinueTransitions(setup);
+        }
+
+        protected override void Resets()
+        {
         }
     }
 }

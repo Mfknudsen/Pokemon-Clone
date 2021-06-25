@@ -62,6 +62,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
                     targetNode = n;
                 foreach (BaseNode n in setup.GetNodes().Where(n => n.id == fromNodeID))
                     fromNode = n;
+                
                 //Get the FieldInfos
                 try
                 {
@@ -99,7 +100,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
                     return;
                 }
 
-                if (targetNode == null || fromNode == null || targetField == null || fromField == null)
+                if (targetField == null || fromField == null)
                     return;
 
                 object value = fromField.GetValue(fromNode);
@@ -116,7 +117,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
             else
             {
                 BaseNode node = setup.GetNodes()[targetNodeID];
+
+                node.ready = true;
             }
+        }
+
+        protected override void Resets()
+        {
         }
 
         private object ReturnAsType(object o, VariableType type)
