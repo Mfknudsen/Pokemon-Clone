@@ -1,102 +1,143 @@
 ﻿#region SDK
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.AI;
 using Mfknudsen._Debug;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Item;
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.Systems.States;
 using Mfknudsen.Battle.UI;
-using Mfknudsen.Chat;
+using Mfknudsen.Comunication;
 using Mfknudsen.Items;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Player;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI; //Custom
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Random = UnityEngine.Random; //Custom
 
 #endregion
 
 namespace Mfknudsen.Battle.Systems
 {
     #region Enums
-    public enum MasterState { Setup, Starting, ChoosingMove, AI, Checking, Action, RoundDone, SelectNew }
 
-    public enum Weather { None, Rain, HarshSunlight, Hail }
+    public enum MasterState
+    {
+        Setup,
+        Starting,
+        ChoosingMove,
+        AI,
+        Checking,
+        Action,
+        RoundDone,
+        SelectNew
+    }
+
+    public enum Weather
+    {
+        None,
+        Rain,
+        HarshSunlight,
+        Hail
+    }
+
     #endregion
 
     public class BattleMaster : MonoBehaviour
     {
         #region Values
-        [Header("Object Reference:")]
-        [HideInInspector] public static BattleMaster instance;
+
+        [Header("Object Reference:")] [HideInInspector]
+        public static BattleMaster instance;
+
         [SerializeField] private bool active = false;
         [SerializeField] private BattleStarter starter = null;
         [SerializeField] private MasterState state = 0;
         [SerializeField] private Weather weather = 0;
-        [SerializeField] private Condition faintCondtion = null;
+        [SerializeField] private Condition faintCondition = null;
         [SerializeField] private BattleAction switchAction = null, itemAction = null;
 
-        [Header("Members:")]
-        [SerializeField] private List<BattleMember> members = new List<BattleMember>();
+        [Header("Members:")] [SerializeField] private List<BattleMember> members = new List<BattleMember>();
 
-        [Header("Battlefield:")]
-        [SerializeField] private GameObject spotPrefab = null;
+        [Header("Battlefield:")] [SerializeField]
+        private GameObject spotPrefab = null;
+
         [SerializeField] private int closeCount = 0, farCount = 0;
         [SerializeField] private Transform closeSpotTransform = null, farSpotTransform = null;
         [SerializeField] private Transform closeUITransform = null, farUITransform = null;
         [SerializeField] private List<Spot> spots = new List<Spot>();
+        private SpotOversight spotOversight;
 
-        [Header("Start:")]
-        [SerializeField] private List<BattleAction> startAction = new List<BattleAction>();
+        private State stateManage;
+        [Header("Start:")] [SerializeField] private List<BattleAction> startAction = new List<BattleAction>();
 
-        [Header(" -- Actions:")]
-        [SerializeField] private int actionIndex = 0;
+        [Header(" -- Actions:")] [SerializeField]
+        private int actionIndex = 0;
+
         [SerializeField] private List<BattleAction> actionList = new List<BattleAction>();
         [SerializeField] private float secondsPerPokemonMove = 1;
         Coroutine actionOperation = null;
         [SerializeField] BattleAction action = null;
         [SerializeField] private int actionSwitchState = 1;
 
-        [Header(" -- Fainted:")]
-        [SerializeField] private bool isFainted = false;
+        [Header(" -- Fainted:")] [SerializeField]
+        private bool isFainted = false;
+
         [SerializeField] private List<Pokemon> faintedPokemon = new List<Pokemon>();
 
-        [Header(" -- Select New:")]
-        [SerializeField] private bool chooseNew = false;
+        [Header(" -- Select New:")] [SerializeField]
+        private bool chooseNew = false;
+
         [SerializeField] private Spot needNew = null;
 
-        [Header("Conditions:")]
-        [SerializeField] private ConditionOversight checking = null;
+        [Header("Conditions:")] [SerializeField]
+        private ConditionOversight checking = null;
+
         private Coroutine conditionChecker = null;
         private Coroutine conditionOperation = null;
 
-        [Header("UI:")]
-        [SerializeField] private BattleDisplay display = null;
-        [Header(" -- Turn Display:")]
-        [SerializeField] private GameObject turnDisplay = null;
+        [Header("UI:")] [SerializeField] private BattleDisplay display = null;
+
+        [Header(" -- Turn Display:")] [SerializeField]
+        private GameObject turnDisplay = null;
+
         [SerializeField] private TextMeshProUGUI[] buttonsText = new TextMeshProUGUI[4];
-        [Header(" -- Pokemon Selectio Menu:")]
-        [SerializeField] private GameObject pokemonSelectionMenu = null;
+
+        [Header(" -- Pokemon Selection Menu:")] [SerializeField]
+        private GameObject pokemonSelectionMenu = null;
+
         [SerializeField] private SelectionMenu pokemonMenu = null;
-        [Header(" -- Item Selection Menu:")]
-        [SerializeField] private GameObject itemSelectionMenu = null;
+
+        [Header(" -- Item Selection Menu:")] [SerializeField]
+        private GameObject itemSelectionMenu = null;
+
         [SerializeField] private ItemSelection itemMenu = null;
-        [Header(" -- Effective")]
-        [SerializeField] private Chat.Chat superEffective = null;
-        [SerializeField] private Chat.Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
 
-        [Header("Chat:")]
-        [SerializeField] private Chat.Chat SwitchChat = null;
+        [Header(" -- Effective")] [SerializeField]
+        private Chat superEffective = null;
 
-        [Header("Targeting:")]
-        [SerializeField] private bool waitForTarget = false;
+        [SerializeField]
+        private Chat notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
+
+        [Header("Chat:")] [SerializeField] private Chat SwitchChat = null;
+
+        [Header("Targeting:")] [SerializeField]
+        private bool waitForTarget = false;
+
         [SerializeField] private Pokemon user = null;
         [SerializeField] private BattleAction actionInWait = null;
+
         #endregion
 
         #region Build In States
+
         private void OnValidate()
         {
             actionSwitchState = 1;
@@ -115,6 +156,7 @@ namespace Mfknudsen.Battle.Systems
 
         private void Update()
         {
+            /*
             if (!active)
                 return;
 
@@ -157,154 +199,12 @@ namespace Mfknudsen.Battle.Systems
             }
             else if (isFainted)
                 DoFaintedPokemon();
+                */
         }
+
         #endregion
 
         #region States
-        private void Setup()
-        {
-            foreach (BattleMember m in members)
-            {
-                if (m == null)
-                    continue;
-                if (m.HasAllSpots())
-                    continue;
-
-                if (!m.HasAllSpots())
-                {
-                    GameObject obj = Instantiate(spotPrefab);
-                    Spot s = obj.GetComponent<Spot>();
-
-                    if (m.GetTeamNumber() == 0)
-                    {
-                        closeCount++;
-                        obj.transform.position = closeSpotTransform.position;
-                        obj.transform.rotation = closeSpotTransform.rotation;
-                        obj.transform.parent = closeSpotTransform;
-                        s.Setup(closeUITransform, closeCount - 1);
-                    }
-                    else
-                    {
-                        farCount++;
-                        obj.transform.position = farSpotTransform.position;
-                        obj.transform.rotation = farSpotTransform.rotation;
-                        obj.transform.parent = farSpotTransform;
-                        s.Setup(farUITransform, farCount - 1);
-                    }
-
-                    foreach (Spot right in spots)
-                    {
-                        if (right == null)
-                            continue;
-
-                        if (s.transform.parent == right.transform.parent && right.GetLeft() == null)
-                        {
-                            right.SetLeft(s);
-                            s.SetRight(right);
-                        }
-                    }
-
-                    s.SetAllowedTeam(m.GetTeam());
-                    s.SetSpotNumber(farCount + closeCount - 1);
-                    s.SetTransform();
-
-                    spots.Add(s);
-                    m.SetOwndSpot(s);
-                }
-            }
-
-            if (ChatMaster.instance.GetIsClear())
-            {
-                foreach (Spot s in spots)
-                {
-                    if (s == null)
-                        continue;
-
-                    foreach (BattleMember m in members)
-                    {
-                        if (m == null)
-                            continue;
-
-                        if (!m.GetTeam().GetReady())
-                            m.GetTeam().Setup();
-
-                        if (m.OwnSpot(s) && m.GetTeam().CanSendMorePokemon())
-                        {
-                            SwitchAction action = Instantiate(switchAction) as SwitchAction;
-                            action.SetNextPokemon(m.GetTeam().GetFirstOut());
-                            action.SetSpot(s);
-                            startAction.Add(action);
-                        }
-                    }
-                }
-
-                SwitchState(MasterState.Starting);
-            }
-
-        }
-
-        private void Starting()
-        {
-            if (action == null && startAction.Count > 0)
-            {
-                action = startAction[0];
-                actionOperation = StartCoroutine(action.Activate());
-            }
-            else if (ChatMaster.instance.GetIsClear())
-            {
-                if (action != null)
-                {
-                    if (action.GetDone())
-                    {
-                        startAction.Remove(action);
-                        (action as SwitchAction).GetNextPokemon().SetBattleAction(null);
-                        action = null;
-                        actionOperation = null;
-                    }
-                }
-            }
-
-            if (startAction.Count == 0)
-            {
-                foreach (BattleMember m in members)
-                    m.GetInventory().Setup();
-
-                SwitchState(MasterState.ChoosingMove);
-            }
-        }
-
-        private void ChoosingMove()
-        {
-            if (!turnDisplay.activeSelf)
-            {
-                turnDisplay.SetActive(true);
-                DisplayMovesForPokemon();
-            }
-
-            bool ready = true;
-            foreach (Spot s in spots)
-            {
-                if (s == null)
-                    continue;
-                Pokemon p = s.GetActivePokemon();
-                if (p == null)
-                    continue;
-
-                foreach (BattleMember m in members)
-                {
-                    if (m == null)
-                        continue;
-                    if (!m.IsPlayer())
-                        continue;
-
-                    if (m.GetTeam().PartOfTeam(p) && p.GetBattleAction() == null)
-                        ready = false;
-                }
-            }
-
-            if (ready)
-                SwitchState(MasterState.AI);
-        }
 
         private void AI()
         {
@@ -366,11 +266,11 @@ namespace Mfknudsen.Battle.Systems
             switch (actionSwitchState)
             {
                 #region Case 1
+
                 case 1:
                     //Setup
                     if (actionIndex < actionList.Count)
                     {
-
                         action = actionList[actionIndex];
                         actionSwitchState = 2;
 
@@ -381,9 +281,13 @@ namespace Mfknudsen.Battle.Systems
                     }
                     else
                         actionSwitchState = 7;
+
                     break;
+
                 #endregion
+
                 #region Case 2
+
                 case 2:
                     //Check Pokemon Can Attack
                     if (action is PokemonMove)
@@ -409,9 +313,13 @@ namespace Mfknudsen.Battle.Systems
                     }
                     else
                         actionSwitchState = 3;
+
                     break;
+
                 #endregion
+
                 #region Case 3
+
                 case 3:
                     //Activation
                     if (actionOperation == null)
@@ -424,9 +332,13 @@ namespace Mfknudsen.Battle.Systems
                     }
                     else
                         actionSwitchState = 4;
+
                     break;
+
                 #endregion
+
                 #region Case 4
+
                 case 4:
                     //Checking
                     if (action.GetDone() && ChatMaster.instance.GetIsClear())
@@ -444,9 +356,13 @@ namespace Mfknudsen.Battle.Systems
 
                         actionSwitchState = 5;
                     }
+
                     break;
+
                 #endregion
+
                 #region Case 5
+
                 case 5:
                     //Moving on
                     actionIndex++;
@@ -470,8 +386,11 @@ namespace Mfknudsen.Battle.Systems
                         actionSwitchState = 1;
 
                     break;
+
                 #endregion
+
                 #region Case 6
+
                 case 6:
                     //Conditions
                     if (conditionChecker == null && checking == null)
@@ -530,9 +449,13 @@ namespace Mfknudsen.Battle.Systems
                             }
                         }
                     }
+
                     break;
+
                 #endregion
+
                 #region Case 7
+
                 case 7:
                     actionIndex = 0;
                     actionSwitchState = 1;
@@ -555,6 +478,7 @@ namespace Mfknudsen.Battle.Systems
                         if (a.GetIsInstantiated())
                             Destroy(a);
                     }
+
                     actionList.Clear();
 
                     //Check if there is enough Pokemon to continue the battle
@@ -587,7 +511,8 @@ namespace Mfknudsen.Battle.Systems
                     else
                         SwitchState(MasterState.ChoosingMove);
                     break;
-                    #endregion
+
+                #endregion
             }
         }
 
@@ -692,9 +617,11 @@ namespace Mfknudsen.Battle.Systems
             if (faintedPokemon.Count == 0)
                 isFainted = false;
         }
+
         #endregion
 
         #region Getters
+
         public bool GetActive()
         {
             return active;
@@ -719,9 +646,31 @@ namespace Mfknudsen.Battle.Systems
         {
             return weather;
         }
+
+        public BattleStarter GetStarter()
+        {
+            return starter;
+        }
+
+        public BattleMember[] GetMembers()
+        {
+            return members.ToArray();
+        }
+
+        public List<Pokemon> GetFaintedPokemon()
+        {
+            return faintedPokemon;
+        }
+
+        public SpotOversight GetSpotOversight()
+        {
+            return spotOversight;
+        }
+
         #endregion
 
         #region Setters
+
         public void SetConditionOperation(IEnumerator toStart)
         {
             if (toStart != null)
@@ -729,9 +678,11 @@ namespace Mfknudsen.Battle.Systems
             else
                 conditionOperation = null;
         }
+
         #endregion
 
         #region In
+
         public void StartBattle(BattleStarter bs, BattleMember[] players)
         {
             starter = bs;
@@ -750,39 +701,32 @@ namespace Mfknudsen.Battle.Systems
             BattleLog.instance.AddNewLog(name, s);
 
             active = true;
-            state = MasterState.Setup;
+
+            SetState(new BeginState(this));
         }
 
         public void SelectAction(int i)
         {
+            Debug.Log(i);
             if (i > 0 && i < 5)
             {
-                foreach (BattleMember m in members)
+                BattleMember battleMember = MasterPlayer.instance.GetBattleMember();
+
+                foreach (Spot spot in spotOversight.GetSpots())
                 {
-                    if (m == null)
+                    Pokemon pokemon = spot.GetActivePokemon();
+
+                    if (!battleMember.GetTeam().PartOfTeam(pokemon))
                         continue;
-                    if (!m.IsPlayer())
-                        continue;
 
-                    foreach (Spot s in spots)
-                    {
-                        if (s == null)
-                            continue;
-                        Pokemon p = s.GetActivePokemon();
-                        if (p == null)
-                            continue;
-                        if (p.GetBattleAction() != null || !m.GetTeam().PartOfTeam(p))
-                            continue;
+                    PokemonMove move = pokemon.GetMoveByIndex(i - 1);
 
-                        PokemonMove move = p.GetMoveByIndex(i - 1);
-                        if (move == null)
-                            continue;
+                    if (move == null)
+                        return;
 
-                        move.SetCurrentPokemon(p);
-                        move.SetTargetIndex(1);
-                        p.SetBattleAction(move);
-                        break;
-                    }
+                    move.SetCurrentPokemon(pokemon);
+
+                    pokemon.SetBattleAction(move);
                 }
             }
             else if (i == 5)
@@ -877,6 +821,7 @@ namespace Mfknudsen.Battle.Systems
                                 pokemonSelectionMenu.SetActive(false);
                             }
                         }
+
                         break;
                     }
                 }
@@ -906,6 +851,7 @@ namespace Mfknudsen.Battle.Systems
                         continue;
                     action.SetBattleMember(m);
                 }
+
                 actionInWait = action;
                 user = p;
                 waitForTarget = true;
@@ -923,17 +869,16 @@ namespace Mfknudsen.Battle.Systems
         {
             BattleLog.instance.AddNewLog(name, "Spawning: " + pokemon.GetName());
 
-            GameObject obj = Instantiate(pokemon.GetPokemonPrefab());
             Transform trans = spot.GetTransform();
+            GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), trans, true);
+
+            obj.transform.position = trans.position;
+            obj.transform.rotation = trans.rotation;
 
             pokemon.SetSpawnedObject(obj);
             pokemon.SetInBattle(true);
             pokemon.SetGettingSwitched(false);
             pokemon.SetRevived(false);
-
-            obj.transform.position = trans.position;
-            obj.transform.rotation = trans.rotation;
-            obj.transform.parent = trans;
 
             spot.SetActivePokemon(pokemon);
             spot.SetNeedNew(false);
@@ -1008,9 +953,69 @@ namespace Mfknudsen.Battle.Systems
         {
             itemMenu.ReceiveTarget(p);
         }
+
+        public void GetComputerAction(Decision decision)
+        {
+        }
+
+        public SpotOversight SetupSpotOversight(int x)
+        {
+            spotOversight = new SpotOversight(x);
+
+            return spotOversight;
+        }
+
+        public void SetState(State state)
+        {
+            stateManage = state;
+            StartCoroutine(state.Tick());
+        }
+
+        public void DisplayMoves(Pokemon pokemon)
+        {
+            if (!turnDisplay.activeSelf)
+                turnDisplay.SetActive(true);
+
+            PokemonMove[] toDisplay = pokemon.GetMoves();
+            for (int i = 0; i < 4; i++)
+            {
+                Image img = buttonsText[i].transform.parent.GetComponent<Image>();
+
+                img.color = Color.white;
+
+                if (toDisplay[i] != null)
+                {
+                    buttonsText[i].text = toDisplay[i].GetName();
+                    img.color = toDisplay[i].GetMoveType().GetTypeColor();
+                }
+                else
+                    buttonsText[i].text = "";
+            }
+        }
+
+        public void DisableMovesDisplay()
+        {
+            turnDisplay.SetActive(faintCondition);
+        }
+
+        #endregion
+
+        #region Out
+
+        public GameObject CreateSpot()
+        {
+            return Instantiate(spotPrefab);
+        }
+
+        public SwitchAction InstantiateSwitchAction()
+        {
+            return (SwitchAction) Instantiate(switchAction);
+        }
+
         #endregion
 
         #region Internal
+
         private void DisplayMovesForPokemon()
         {
             foreach (Spot s in spots)
@@ -1110,7 +1115,8 @@ namespace Mfknudsen.Battle.Systems
                     for (int i = 1; i < actionList.Count; i++)
                     {
                         BattleAction one = actionList[i], two = actionList[i - 1];
-                        if (one.GetPriority() == two.GetPriority() && one.GetCurrentPokemon().GetStat(Stat.Speed) > two.GetCurrentPokemon().GetStat(Stat.Speed))
+                        if (one.GetPriority() == two.GetPriority() && one.GetCurrentPokemon().GetStat(Stat.Speed) >
+                            two.GetCurrentPokemon().GetStat(Stat.Speed))
                         {
                             end = false;
 
@@ -1126,7 +1132,7 @@ namespace Mfknudsen.Battle.Systems
         {
             if (pokemon.GetCurrentHealth() == 0)
             {
-                Condition condition = faintCondtion.GetCondition();
+                Condition condition = faintCondition.GetCondition();
                 condition.SetAffectedPokemon(pokemon);
                 pokemon.GetConditionOversight().TryApplyNonVolatileCondition(condition);
 
@@ -1144,6 +1150,7 @@ namespace Mfknudsen.Battle.Systems
             state = s;
             BattleLog.instance.AddNewLog(name, "Switching to: " + state.ToString());
         }
+
         #endregion
     }
 }

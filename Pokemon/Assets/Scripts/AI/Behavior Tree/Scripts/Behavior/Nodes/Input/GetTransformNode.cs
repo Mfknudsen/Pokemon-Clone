@@ -6,8 +6,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
     [Node("Input/Transform", "Transform Input")]
     public class GetTransformNode : InputNode
     {
-        [OutputType(VariableType.Transform, "Transform Input"), SerializeField]
-        public object input = (Transform)null;
+        [OutputType("Transform Input", typeof(Transform), true)]
+        public Transform input = null;
 
         public override void Tick(BehaviorController setup)
         {

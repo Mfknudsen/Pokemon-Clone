@@ -6,7 +6,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector
     [Node("Filler/Selection/Selector", "Selector")]
     public class SelectorNode : BaseNode
     {
-        [InputType(VariableType.Bool, "State")]
+        [InputType("State", typeof(bool))]
         public bool state;
 
         [OutCaller("True")]

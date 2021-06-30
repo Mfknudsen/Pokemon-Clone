@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Actions.Move;
-using Mfknudsen.Monster;
+using Mfknudsen.Pokémon;
 using UnityEngine;
 using UnityEditor;
 //Custom

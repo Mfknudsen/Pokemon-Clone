@@ -7,7 +7,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
     [Node("Leaf/Debug", "Debug")]
     public class DebugNode : LeafNode
     {
-        [InputType(VariableType.Any, "To Log")]
+        [InputType("To Log", null)]
         public object toLog;
 
         // ReSharper disable Unity.PerformanceAnalysis

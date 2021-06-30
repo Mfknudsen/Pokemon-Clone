@@ -1,34 +1,24 @@
-﻿using System.Collections;
+﻿#region SDK
+
 using System.Collections.Generic;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
+using UnityEngine.Serialization;
+
+#endregion
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts
 {
     public class BehaviorController : MonoBehaviour
     {
-        public BehaviourSetup behaviour;
-        private IEnumerator threadInstance = null;
-        private List<BaseNode> nodeQueue = new List<BaseNode>();
+        #region Values
 
-        private void Start()
-        {
-            behaviour.Setup();
-        }
+        [FormerlySerializedAs("behaviour")] public BehaviorSetup behavior;
+        private readonly List<BaseNode> nodeQueue = new List<BaseNode>();
 
-        private void Update()
-        {
-            if (nodeQueue.Count == 0 && threadInstance == null)
-                behaviour.Tick(this);
-
-            if (nodeQueue.Count > 0)
-            {
-                nodeQueue[0].Tick(this);
-                nodeQueue.RemoveAt(0);
-            }
-        }
-
+        #endregion
+        
         public void AddNodeToQueue(BaseNode node)
         {
             if (node == null)
@@ -40,7 +30,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
         public BaseNode[] GetNodes()
         {
-            return behaviour.nodes.ToArray();
+            return behavior.nodes.ToArray();
+        }
+
+        public void TickBrain()
+        {
+            behavior.Setup();
+            behavior.Tick(this);
         }
     }
 }

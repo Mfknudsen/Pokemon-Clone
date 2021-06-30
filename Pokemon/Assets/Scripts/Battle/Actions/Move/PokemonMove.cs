@@ -3,9 +3,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Chat;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine; //Custom
 
 #endregion
@@ -13,6 +13,7 @@ using UnityEngine; //Custom
 namespace Mfknudsen.Battle.Actions.Move
 {
     #region Enums
+
     public enum Category
     {
         Physical,
@@ -20,6 +21,7 @@ namespace Mfknudsen.Battle.Actions.Move
         Status,
         Extents
     }
+
     public enum Contest
     {
         Tough,
@@ -28,6 +30,7 @@ namespace Mfknudsen.Battle.Actions.Move
         Beutiful,
         Cool,
     }
+
     public enum HitType
     {
         One,
@@ -36,52 +39,69 @@ namespace Mfknudsen.Battle.Actions.Move
         AllOneSide,
         All,
     }
+
     #endregion
 
     [CreateAssetMenu(fileName = "Move", menuName = "Pokemon/Create new Move", order = 1)]
     public class PokemonMove : BattleAction
     {
         #region Values
-        [Header("Pokemon Move:")]
-        [SerializeField] protected int index = 0;
+
+        [Header("Pokemon Move:")] [SerializeField]
+        protected int index;
+
         [SerializeField] protected string moveName = "";
-        [SerializeField] protected Type type = null;
+        [SerializeField] protected Type type;
         [SerializeField] protected Category category = 0;
-        [SerializeField] protected int startPP = 0, maxPP = 0;
-        protected int currentPP = 0;
-        [SerializeField] protected int power = 0, accuracy = 0;
+        [SerializeField] protected int startPP, maxPP;
+        private int currentPP;
+        [SerializeField] protected int power, accuracy;
 
-        [Header("Interaction:")]
-        [SerializeField] protected bool makesContact = false;
-        [SerializeField] protected bool affectByProtect = false, affectByMagicCoat = false, affectBySnatch = false, affectByMirrorMove = false, affectByKingsRock = false;
+        [Header("Interaction:")] [SerializeField]
+        protected bool makesContact;
 
-        [Header("Target:")]
-        [SerializeField] protected int targetIndex = -1;
-        [SerializeField] protected HitType hitType = 0;
-        [SerializeField] protected bool selfTargetable = false;
+        [SerializeField] protected bool affectByProtect,
+            affectByMagicCoat,
+            affectBySnatch,
+            affectByMirrorMove,
+            affectByKingsRock;
+
+        [Header("Target:")] [SerializeField] protected HitType hitType = 0;
+        [SerializeField] protected bool selfTargetable;
         [SerializeField] protected bool[] enemyTargetable = new bool[3];
         [SerializeField] protected bool[] allyTargetable = new bool[2];
 
         [Header("Contests:")]
         //Standard
-        [SerializeField] protected Contest normalCondition = 0;
-        [SerializeField] protected int normalAppeal = 0, normalJam = 0;
+        [SerializeField]
+        protected Contest normalCondition = 0;
+
+        [SerializeField] protected int normalAppeal, normalJam;
+
         //Super
         [SerializeField] protected Contest superCondition = 0;
-        [SerializeField] protected int superAppeal = 0, superJam = 0;
+
+        [SerializeField] protected int superAppeal, superJam;
+
         //Spectacular
         [SerializeField] protected Contest spectacularCondition = 0;
-        [SerializeField] protected int spectacularAppeal = 0, spectacularJam = 0;
+        [SerializeField] protected int spectacularAppeal, spectacularJam;
 
-        [Header("Status:")]
-        [SerializeField] protected bool hasStatus = false;
-        [SerializeField] protected Condition statusCondition = null;
-        [SerializeField] protected float applyChange = 0;
-        [SerializeField] protected bool statusHit = false;
-        [SerializeField] Chat.Chat statusHitChat = null, statusFailedChat = null;
+        [Header("Status:")] [SerializeField] protected bool hasStatus;
+        [SerializeField] protected Condition statusCondition;
+        [SerializeField] protected float applyChange;
+        [SerializeField] protected bool statusHit;
+        [SerializeField] Chat statusHitChat, statusFailedChat;
 
-        [Header("Action Operation:")]
-        protected float[] damagePerTarget = new float[0], damageApplied = new float[0], damageOverTime = new float[0];
+        #region Operation
+
+        private float[] damagePerTarget = new float[0],
+            damageApplied = new float[0],
+            damageOverTime = new float[0];
+
+        private int targetIndex = -1;
+
+        #endregion
 
         private void OnValidate()
         {
@@ -93,9 +113,11 @@ namespace Mfknudsen.Battle.Actions.Move
 
             currentPP = startPP;
         }
+
         #endregion
 
         #region Setters
+
         public void SetTargetIndex(int set)
         {
             targetIndex = set;
@@ -150,21 +172,21 @@ namespace Mfknudsen.Battle.Actions.Move
 
         public void SetNormalContests(int[] set)
         {
-            normalCondition = (Contest)set[0];
+            normalCondition = (Contest) set[0];
             normalAppeal = set[1];
             normalJam = set[2];
         }
 
         public void SetSuperContests(int[] set)
         {
-            superCondition = (Contest)set[0];
+            superCondition = (Contest) set[0];
             superAppeal = set[1];
             superJam = set[2];
         }
 
         public void SetSpectacularContests(int[] set)
         {
-            spectacularCondition = (Contest)set[0];
+            spectacularCondition = (Contest) set[0];
             spectacularAppeal = set[1];
             spectacularJam = set[2];
         }
@@ -193,9 +215,11 @@ namespace Mfknudsen.Battle.Actions.Move
         {
             maxPP = set;
         }
+
         #endregion
 
         #region Getters
+
         public override BattleAction GetAction()
         {
             BattleAction result = this;
@@ -276,17 +300,17 @@ namespace Mfknudsen.Battle.Actions.Move
 
         public int[] GetNormalContests()
         {
-            return new int[] { (int)normalCondition, normalAppeal, normalJam };
+            return new int[] {(int) normalCondition, normalAppeal, normalJam};
         }
 
         public int[] GetSuperContests()
         {
-            return new int[] { (int)superCondition, superAppeal, superJam };
+            return new int[] {(int) superCondition, superAppeal, superJam};
         }
 
         public int[] GetSpectacularContests()
         {
-            return new int[] { (int)spectacularCondition, spectacularAppeal, spectacularJam };
+            return new int[] {(int) spectacularCondition, spectacularAppeal, spectacularJam};
         }
 
         public HitType GetHitType()
@@ -313,9 +337,11 @@ namespace Mfknudsen.Battle.Actions.Move
         {
             return maxPP;
         }
+
         #endregion
 
         #region Out
+
         public override IEnumerator Activate()
         {
             if (!active)
@@ -367,7 +393,6 @@ namespace Mfknudsen.Battle.Actions.Move
 
                             damagePerTarget[i] = damage;
                         }
-
                     }
                 }
                 else
@@ -389,14 +414,14 @@ namespace Mfknudsen.Battle.Actions.Move
                                 statusHit = true;
                                 if (statusHitChat != null)
                                 {
-                                    Chat.Chat toSend = statusHitChat.GetChat();
+                                    Chat toSend = statusHitChat.GetChat();
                                     toSend.AddToOverride("<TARGET_NAME>", target.GetName());
                                     ChatMaster.instance.Add(toSend);
                                 }
                             }
                             else if (statusFailedChat != null)
                             {
-                                Chat.Chat toSend = statusFailedChat.GetChat();
+                                Chat toSend = statusFailedChat.GetChat();
                                 toSend.AddToOverride("<TARGET_NAME>", target.GetName());
                                 toSend.AddToOverride("<CONDITION_EFFECT>", toApply.GetConditionEffect());
                                 ChatMaster.instance.Add(toSend);
@@ -410,12 +435,14 @@ namespace Mfknudsen.Battle.Actions.Move
 
             return Operation();
         }
+
         #endregion
 
         #region Internal
-        protected override Chat.Chat[] TransferInformationToChat()
+
+        protected override Chat[] TransferInformationToChat()
         {
-            Chat.Chat[] result = new Chat.Chat[chatOnActivation.Length];
+            Chat[] result = new Chat[chatOnActivation.Length];
 
             for (int i = 0; i < chatOnActivation.Length; i++)
             {
@@ -525,11 +552,13 @@ namespace Mfknudsen.Battle.Actions.Move
                             result.Add(s.GetLeft());
                             result.Add(s.GetLeft().GetFront());
                         }
+
                         if (s.GetRight() != null)
                         {
                             result.Add(s.GetRight());
                             result.Add(s.GetRight().GetFront());
                         }
+
                         if (s.GetFront() != null)
                         {
                             result.Add(s.GetFront());
@@ -554,11 +583,14 @@ namespace Mfknudsen.Battle.Actions.Move
                         result.Add(s);
                 }
             }
+
             return result.ToArray();
         }
+
         #endregion
 
         #region IEnumerator
+
         protected override IEnumerator Operation()
         {
             if (category != Category.Status)
@@ -577,7 +609,8 @@ namespace Mfknudsen.Battle.Actions.Move
                     {
                         for (int i = 0; i < targetPokemon.Count; i++)
                         {
-                            if (Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]) == damagePerTarget[i])
+                            if (Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]) ==
+                                damagePerTarget[i])
                                 damageOverTime[i] = damagePerTarget[i] - damageApplied[i];
 
                             damageApplied[i] = Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]);
@@ -601,6 +634,7 @@ namespace Mfknudsen.Battle.Actions.Move
 
             yield return null;
         }
+
         #endregion
     }
 }

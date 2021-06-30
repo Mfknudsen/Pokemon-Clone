@@ -105,7 +105,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
                 object value = fromField.GetValue(fromNode);
 
-                value = ReturnAsType(value, ((InputType) targetField.GetCustomAttribute(typeof(InputType))).varType);
                 targetField.SetValue(targetNode, value);
 
                 //Set Info Received

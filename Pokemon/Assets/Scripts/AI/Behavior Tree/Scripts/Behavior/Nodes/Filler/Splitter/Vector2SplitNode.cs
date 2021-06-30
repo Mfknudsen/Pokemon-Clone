@@ -10,11 +10,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
     [Node("Splitter/Vector2", "Vector2 Split")]
     public class Vector2SplitNode : BaseNode
     {
-        [InputType(VariableType.Vector2, "Input")]
-        public Vector2 input = Vector2.zero;
+        [InputType("Input", typeof(Vector2))] public Vector2 input = Vector2.zero;
 
-        [OutputType(VariableType.Float, "X")] public float x = 0.0f;
-        [OutputType(VariableType.Float, "Y")] public float y = 0.0f;
+        [OutputType("X", typeof(float))] public float x = 0.0f;
+        [OutputType("Y", typeof(float))] public float y = 0.0f;
 
         public override void Tick(BehaviorController setup)
         {

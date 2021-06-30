@@ -9,8 +9,8 @@ namespace Mfknudsen.Battle.UI
 
         private void Awake()
         {
-            if(textField != null)
-            textField.text = "";
+            if (textField != null)
+                textField.text = "";
         }
 
         public void DisplayNewText(string newText)

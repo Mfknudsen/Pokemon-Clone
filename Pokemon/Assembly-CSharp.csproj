@@ -52,25 +52,26 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Monster\Pokemon.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Pokemon.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Selector\SelectorNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\Spot.cs" />
-     <Compile Include="Assets\Scripts\Chat\TextField.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Pokémon\MovesFromPokemonNode.cs" />
+     <Compile Include="Assets\Scripts\Comunication\TextField.cs" />
      <Compile Include="Assets\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Scripts\World\WorldMaster.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\FreezeCondition.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\FreezeCondition.cs" />
      <Compile Include="Assets\Scripts\Menu\StartMenu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetFloatNode.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\PokemonDisplay.cs" />
      <Compile Include="Assets\Scripts\World\Overworld\InteractableInterface.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsData.cs" />
      <Compile Include="Assets\Scripts\AI\BattleAI.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\BurnCondition.cs" />
-     <Compile Include="Assets\Scripts\Chat\Chat.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\BurnCondition.cs" />
+     <Compile Include="Assets\Scripts\Comunication\Chat.cs" />
      <Compile Include="Assets\Scripts\Settings\Settings.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Math\Trans\RotateTransformNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetVec2Node.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Condition.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Condition.cs" />
      <Compile Include="Assets\Scripts\PC\Box.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\RootNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetTransformNode.cs" />
@@ -82,7 +83,7 @@
      <Compile Include="Assets\Scripts\_Debug\PokemonPlaceholder.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Transition.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\ItemSelection.cs" />
-     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\PokemonNodes\GetPokeTeamNode.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\Pokémon\GetPokeTeamNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Vector2SplitNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\TransformSplitNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleStarter.cs" />
@@ -90,18 +91,19 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\DebugNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMathf.cs" />
      <Compile Include="Assets\Scripts\Items\Inventory.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\FaintedCondition.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\SleepCondition.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\FaintedCondition.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\Pokémon\SendAttackNode.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\SleepCondition.cs" />
      <Compile Include="Assets\Scripts\Battle\Actions\Switch\SwitchAction.cs" />
      <Compile Include="Assets\Scripts\Player\CamController.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\LeafNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\InputNode.cs" />
      <Compile Include="Assets\Scripts\PC\BoxContainer.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\PoisonCondition.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\PoisonCondition.cs" />
      <Compile Include="Assets\Scripts\World\Overworld\TileManager.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\BehaviorController.cs" />
-     <Compile Include="Assets\Scripts\Monster\MegaStone.cs" />
-     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\BehaviourSetup.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\MegaStone.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\BehaviorSetup.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Math\ClampNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Actions\BattleAction.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMember.cs" />
@@ -113,27 +115,38 @@
      <Compile Include="Assets\Scripts\_Debug\BattleLog.cs" />
      <Compile Include="Assets\Scripts\Items\ItemDisplay.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\BattleDisplay.cs" />
-     <Compile Include="Assets\Scripts\Monster\Type.cs" />
-     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\PokemonNodes\GetPokemon.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\Non-Volatile\ParalysisCondition.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Type.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\Pokémon\GetPokemon.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\ParalysisCondition.cs" />
      <Compile Include="Assets\Scripts\Battle\Actions\Item\ItemAction.cs" />
-     <Compile Include="Assets\Scripts\Chat\ChatMaster.cs" />
+     <Compile Include="Assets\Scripts\Comunication\ChatMaster.cs" />
      <Compile Include="Assets\Scripts\Player\ShowInteractions.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\BaseNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetIntNode.cs" />
      <Compile Include="Assets\Scripts\Files\Save Types\PokemonSave.cs" />
      <Compile Include="Assets\Scripts\Files\FileMaster.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMaster.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Pokémon\ChooseRandomMove.cs" />
      <Compile Include="Assets\Scripts\PC\BoxSpot.cs" />
      <Compile Include="Assets\Scripts\NPC\NPCController.cs" />
-     <Compile Include="Assets\Scripts\Monster\HiddenAbility.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\HiddenAbility.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\SelectionMenu.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetGameObjNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\InformationAttributes.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Potion.cs" />
-     <Compile Include="Assets\Scripts\Monster\Conditions\ConditionOversight.cs" />
-     <Compile Include="Assets\Scripts\Monster\Ability.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Conditions\ConditionOversight.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Ability.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\State.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\WinState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\LostState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\PlayerTurnState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerTurnState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\BeginState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\RoundDoneState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\DoFaintedState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\ActionState.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -376,7 +389,7 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -724,34 +737,34 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
  <Reference Include="Cinemachine">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.cinemachine.editor">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

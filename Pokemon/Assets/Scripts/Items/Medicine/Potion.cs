@@ -2,9 +2,9 @@
 
 using System.Collections;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Chat;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine; //Custom
 
 #endregion
@@ -17,7 +17,7 @@ namespace Mfknudsen.Items.Medicine
         #region Values
         [Header("Potion:")]
         [SerializeField] private float healAmount = 0;
-        [SerializeField] private Chat.Chat onActivation = null;
+        [SerializeField] private Chat onActivation = null;
         #endregion
 
         #region Overrides
@@ -55,7 +55,7 @@ namespace Mfknudsen.Items.Medicine
                 }
             }
 
-            Chat.Chat toSend = onActivation.GetChat();
+            Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
             ChatMaster.instance.Add(toSend);
 

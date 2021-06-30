@@ -1,8 +1,8 @@
 ﻿#region SDK
 
 using System.Collections.Generic;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine; //Custom
 
 #endregion

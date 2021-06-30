@@ -43,6 +43,7 @@ namespace Mfknudsen._Debug
 
         private void Update()
         {
+            // ReSharper disable once InvertIf
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 active = (active == false);
@@ -57,6 +58,7 @@ namespace Mfknudsen._Debug
         }
 
         #region In
+        // ReSharper disable Unity.PerformanceAnalysis
         public void AddNewLog(string script, string input)
         {
             textLog.Add(script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: " + input);

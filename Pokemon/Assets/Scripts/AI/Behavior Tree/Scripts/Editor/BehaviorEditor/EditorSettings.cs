@@ -32,7 +32,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         public BaseNodeSetting AddNodeOnGraph(DrawNode draw, BaseNode node, float width, float height, string title,
             Vector3 pos)
         {
-            if (!currentGraph.behaviour.AddNode(node))
+            if (!currentGraph.behavior.AddNode(node))
                 return null;
             if (node == null)
                 return null;

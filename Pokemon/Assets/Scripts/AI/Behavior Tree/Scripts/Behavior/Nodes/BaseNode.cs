@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿#region SDK
+
+using System.Collections.Generic;
 using System.Reflection;
+
+#endregion
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
 {
     [System.Serializable]
-    public abstract class BaseNode : object
+    public abstract class BaseNode
     {
         public int id;
-        public bool ready = false, inCall, resetOnEnd;
+        public bool ready, inCall, resetOnEnd;
 
         public List<Transition> transitions;
         public Dictionary<string, bool> checkState;
@@ -40,8 +43,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
 
         public void AddCheckState(string key, bool value)
         {
-            if (checkState == null)
-                checkState = new Dictionary<string, bool>();
+            checkState ??= new Dictionary<string, bool>();
 
             if (!checkState.ContainsKey(key))
                 checkState.Add(key, value);
@@ -49,20 +51,22 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
 
         protected bool CheckNodeReady(BaseNode n)
         {
-            if (!ready && inCall) return false;
+            if (!n.ready && n.inCall) return false;
 
             FieldInfo[] infos = n.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-            int i = 0;
-            foreach (FieldInfo f in infos.Where(f => f.GetCustomAttribute(typeof(InputType)) as InputType != null))
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (FieldInfo f in infos)
             {
-                i++;
+                InputType type = (InputType) f.GetCustomAttribute(typeof(InputType));
 
-                if (n.checkState.Keys.Where(c => f.Name.Equals(c)).Any(c => !n.checkState[c]))
-                    return false;
+                if (type == null)
+                    continue;
+                
+                if (!n.checkState.ContainsKey(f.Name) || !n.checkState[f.Name]) return false;
             }
 
-            return i == n.checkState.Keys.Count;
+            return true;
         }
     }
 }

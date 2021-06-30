@@ -2,9 +2,11 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Chat;
+using System.Linq;
+using UnityEngine;
+using Mfknudsen.Comunication;
+using Mfknudsen.Player;
 using Mfknudsen.World;
-using UnityEngine; //Custom
 
 #endregion
 
@@ -13,18 +15,51 @@ namespace Mfknudsen.Battle.Systems
     public class BattleStarter : MonoBehaviour
     {
         #region Values
-        [Header("Battle Reference:")]
-        [SerializeField] private string battleSceneName = "";
+
+        [Header("Battle Reference:")] [SerializeField]
+        private string battleSceneName = "";
+
         [SerializeField] private int playerSpotCount = 1;
         [SerializeField] private BattleMember[] allies = new BattleMember[0];
         [SerializeField] private BattleMember[] enemies = new BattleMember[0];
-        [SerializeField] private Chat.Chat onStartChat = null;
+        [SerializeField] private Chat onStartChat = null;
 
-        [Header("Before/After:")]
-        [SerializeField] private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
+        [Header("Before/After:")] [SerializeField]
+        private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
+
+        #endregion
+
+        #region Getters
+
+        public int GetPlayerSpotCount()
+        {
+            return playerSpotCount;
+        }
+
+        public int GetAllySpotCount()
+        {
+            return allies.Sum(battleMember => battleMember.GetSpotsToOwn());
+        }
+
+        public int GetEnemiesSpotCount()
+        {
+            return enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
+        }
+
+        public BattleMember[] GetAllies()
+        {
+            return allies;
+        }
+
+        public BattleMember[] GetEnemies()
+        {
+            return enemies;
+        }
+
         #endregion
 
         #region In
+
         public void StartBattleNow()
         {
             GameObject obj = GameObject.FindGameObjectWithTag("UI Canvas");
@@ -59,7 +94,7 @@ namespace Mfknudsen.Battle.Systems
                 yield return null;
 
             List<BattleMember> result = new List<BattleMember>();
-            result.Add(Player.MasterPlayer.instance.GetComponent<BattleMember>());
+            result.Add(MasterPlayer.instance.GetComponent<BattleMember>());
             result[0].SetTeamNumber(0);
             foreach (BattleMember m in allies)
             {
@@ -70,6 +105,7 @@ namespace Mfknudsen.Battle.Systems
                         result.Add(m);
                 }
             }
+
             foreach (BattleMember m in enemies)
             {
                 if (m != null)
@@ -79,12 +115,14 @@ namespace Mfknudsen.Battle.Systems
                         result.Add(m);
                 }
             }
+
             BattleMaster.instance.StartBattle(this, result.ToArray());
 
-            Chat.Chat toSend = Instantiate(onStartChat);
+            Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatMaster.instance.Add(new Chat.Chat[] { toSend });
+            ChatMaster.instance.Add(new Chat[] {toSend});
         }
+
         #endregion
     }
 }

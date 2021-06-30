@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI;
-using Mfknudsen.Chat;
-using Mfknudsen.Monster;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
 using UnityEngine; //Custom
 
 #endregion
@@ -20,8 +20,8 @@ namespace Mfknudsen.Battle.Actions.Switch
         [SerializeField] private Trainer.Team team = null;
         [SerializeField] private PokemonDisplay display = null;
         [SerializeField] private Pokemon nextPokemon = null;
-        [SerializeField] private Chat.Chat[] nextChat = new Chat.Chat[0];
-        [SerializeField] Spot spot = null;
+        [SerializeField] private Chat[] nextChat = new Chat[0];
+        [SerializeField] private Spot spot = null;
         #endregion
 
         #region Getters
@@ -62,7 +62,7 @@ namespace Mfknudsen.Battle.Actions.Switch
         protected override IEnumerator Operation()
         {
             done = false;
-            List<Chat.Chat> toSend = new List<Chat.Chat>();
+            List<Chat> toSend = new List<Chat>();
 
             //Start of match there will be no current pokemon
             if (currentPokemon != null)
@@ -76,7 +76,7 @@ namespace Mfknudsen.Battle.Actions.Switch
                 {
                     for (int i = 0; i < chatOnActivation.Length; i++)
                     {
-                        Chat.Chat c = Instantiate(chatOnActivation[i]);
+                        Chat c = Instantiate(chatOnActivation[i]);
                         c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
                         toSend.Add(c);
                     }
@@ -96,7 +96,7 @@ namespace Mfknudsen.Battle.Actions.Switch
             toSend.Clear();
             for (int i = 0; i < nextChat.Length; i++)
             {
-                Chat.Chat c = Instantiate(nextChat[i]);
+                Chat c = Instantiate(nextChat[i]);
                 c.AddToOverride("<NEXT_POKEMON>", nextPokemon.GetName());
                 toSend.Add(c);
             }

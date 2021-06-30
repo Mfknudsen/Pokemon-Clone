@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Chat;
+using Mfknudsen.Comunication;
 using UnityEngine; //Custom
 
 #endregion
@@ -49,10 +49,10 @@ namespace Mfknudsen.Battle.Actions.Item
             done = false;
             toUse.SetTarget(currentPokemon);
             //Send Chat
-            List<Chat.Chat> toSend = new List<Chat.Chat>();
-            foreach (Chat.Chat chat in chatOnActivation)
+            List<Chat> toSend = new List<Chat>();
+            foreach (Chat chat in chatOnActivation)
             {
-                Chat.Chat c = Instantiate(chat);
+                Chat c = Instantiate(chat);
                 c.AddToOverride("<USER_NAME>", battleMember.GetName());
                 c.AddToOverride("<ITEM_NAME>", toUse.GetItemName());
                 toSend.Add(c);

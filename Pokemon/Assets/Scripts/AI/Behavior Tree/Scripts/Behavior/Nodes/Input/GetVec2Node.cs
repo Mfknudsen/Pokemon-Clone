@@ -6,7 +6,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
     [Node("Input/Vector2", "Vector2 Input")]
     public class GetVec2Node : InputNode
     {
-        [OutputType(VariableType.Vector2, "Vector2 Input")]
+        [OutputType("Vector2 Input", typeof(Vector2), true)]
         public Vector2 input = Vector2.zero;
         
         public override void Tick(BehaviorController setup)

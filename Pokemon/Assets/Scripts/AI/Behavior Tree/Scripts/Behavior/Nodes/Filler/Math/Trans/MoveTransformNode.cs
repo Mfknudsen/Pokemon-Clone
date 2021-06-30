@@ -14,10 +14,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans
     {
         [OutCaller("")] public List<Transition> outCalls;
 
-        [InputType(VariableType.Transform, "Transform Input"), OutputType(VariableType.Transform, "Result")]
+        [InputType("Transform Input", typeof(Transform)), OutputType("Result", typeof(Transform))]
         public Transform input = null;
 
-        [InputType(VariableType.Vector3, "Position")]
+        [InputType("Position", typeof(Vector3))]
         public Vector3 pos = Vector3.zero;
 
         public MoveTransformNode()

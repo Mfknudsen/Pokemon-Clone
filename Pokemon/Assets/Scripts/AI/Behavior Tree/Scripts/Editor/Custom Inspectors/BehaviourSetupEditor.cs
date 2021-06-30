@@ -14,14 +14,14 @@ using UnityEngine;
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 {
-    [CustomEditor(typeof(BehaviourSetup))]
+    [CustomEditor(typeof(BehaviorSetup))]
     public class BehaviourSetupEditor : UnityEditor.Editor
     {
-        private BehaviourSetup script;
+        private BehaviorSetup script;
 
         private void OnEnable()
         {
-            script = (BehaviourSetup) target;
+            script = (BehaviorSetup) target;
         }
 
         public override void OnInspectorGUI()
@@ -68,8 +68,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
                         if (attribute == null)
                             continue;
-                        if (attribute.varType == VariableType.Default)
-                            continue;
 
                         EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.LabelField(attribute.name,
@@ -77,6 +75,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
 
                         object obj = info.GetValue(node);
 
+                        /*
                         object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
 
                         if (obj != newValue)
@@ -86,6 +85,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.Custom_Inspectors
                                 newValue
                             );
                         }
+                        */
 
                         EditorGUILayout.EndHorizontal();
                     }

@@ -2,9 +2,9 @@
 
 using System.Collections.Generic;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
-using UnityEngine; //Custom
+using UnityEngine;
+using UnityEngine.Serialization;
 
 #endregion
 
@@ -18,22 +18,21 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
         //Custom
         public bool reset;
 
-        public BehaviourSetup behaviour;
+        [FormerlySerializedAs("behaviour")] public BehaviorSetup behavior;
 
         //Base
         [SerializeField] public List<BaseNodeSetting> windows = new List<BaseNodeSetting>();
         [SerializeField] public int idCount;
-        List<int> indexToDelete = new List<int>();
+        private readonly List<int> indexToDelete = new List<int>();
 
         private void OnValidate()
         {
-            if (reset)
-            {
-                windows.Clear();
-                idCount = 0;
+            if (!reset) return;
 
-                reset = false;
-            }
+            windows.Clear();
+            idCount = 0;
+
+            reset = false;
         }
 
         #endregion
@@ -53,11 +52,15 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
 
         public void DeleteWindowsThatNeedTo()
         {
-            foreach (int t in indexToDelete)
+            foreach (int i in indexToDelete)
             {
-                BaseNodeSetting b = GetNodeWithIndex(t);
-                if (b != null)
-                    windows.Remove(b);
+                Debug.Log(i);
+                BaseNodeSetting b = GetNodeWithIndex(i);
+
+                if (b == null) continue;
+
+                behavior.nodes.Remove(b.baseNode);
+                windows.Remove(b);
             }
 
             indexToDelete.Clear();
@@ -65,31 +68,18 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
 
         public void DeleteNode(int index)
         {
-            if (indexToDelete.Contains(index)) return;
-
-            if (behaviour == null) return;
+            Debug.Log("Delete");
+            if (indexToDelete.Contains(index) || behavior is null) return;
 
             indexToDelete.Add(index);
 
-            if (!(windows[index].baseNode is Transition))
-            {
-                foreach (Transition n in windows[index].baseNode.transitions)
-                    DeleteNode(n.id);
-            }
+            BaseNodeSetting b = GetNodeWithIndex(index);
 
-            behaviour.RemoveNode(index);
-        }
-        
-        public bool IsTransitionDuplicate(BaseNodeSetting b)
-        {
-            BaseNodeSetting enter = GetNodeWithIndex(b.enterNode);
-            if (enter == null)
-            {
-                Debug.Log("false");
-                return false;
-            }
-
-            return false;
+            if (b.baseNode is Transition) return;
+            foreach (Transition n in b.baseNode.transitions)
+                DeleteNode(n.id);
+            
+            DeleteWindowsThatNeedTo();
         }
 
         #endregion

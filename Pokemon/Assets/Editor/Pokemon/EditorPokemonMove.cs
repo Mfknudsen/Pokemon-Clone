@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Actions.Move;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 using UnityEditor;
 //Custom

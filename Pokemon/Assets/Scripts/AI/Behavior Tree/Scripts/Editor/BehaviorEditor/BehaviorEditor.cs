@@ -8,7 +8,6 @@ using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.PokemonNodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 using UnityEditor;
@@ -37,7 +36,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         private BaseNodeSetting lastSelected;
 
         //Window
-        private bool hasWindowFocus = true;
+        private bool hasWindowFocus;
         private Vector3 mousePosition;
         private bool clickedOnWindow;
         private BaseNodeSetting selectedNode;
@@ -50,36 +49,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         //Transition
         private BaseNodeSetting drawTrans;
 
-        private enum UserActions
-        {
-            //Input
-            AddIntInput,
-            AddFloatInput,
-            AddStringInput,
-            AddVec2Input,
-            AddVec3Input,
-            AddTransformInput,
-
-            // -- Pokemon
-            AddPokeTeamInput,
-            AddPokemon,
-            AddPokeMove,
-
-            //Filler
-            AddMathClampFiller,
-            AddRotateFiller,
-            AddTransSplitFiller,
-            AddVec2SplitFiller,
-            AddVec3SplitFiller,
-
-            //Leaf
-            AddDebugLeaf,
-
-            DeleteNode,
-            ResetPan,
-        }
-
-        private List<NodeCreationEntity> creationList = new List<NodeCreationEntity>();
+        private readonly List<NodeCreationEntity> creationList = new List<NodeCreationEntity>();
 
         #endregion
 
@@ -113,7 +83,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (_settings.currentGraph == null) return;
 
             foreach (BaseNodeSetting node in _settings.currentGraph.windows.Where(node => node.baseNode == null))
-                node.baseNode = _settings.currentGraph.behaviour.GetNodeByID(node.id);
+                node.baseNode = _settings.currentGraph.behavior.GetNodeByID(node.id);
 
             foreach (BaseNodeSetting node in _settings.currentGraph.windows.Where(node =>
                 node.drawNode is DrawTransitionNode))
@@ -137,6 +107,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 }
             }
 
+            CheckRootNode();
+
             LoadNodesFromProject();
         }
 
@@ -151,22 +123,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             {
                 drawTrans.mouse = mousePosition;
 
-                if (_settings.currentGraph.behaviour.nodes == null) return;
+                if (_settings.currentGraph.behavior.nodes == null) return;
 
-                if (_settings.currentGraph.behaviour.nodes.Count == 0)
+                if (_settings.currentGraph.behavior.nodes.Count == 0)
                 {
                     drawTrans = null;
                 }
-            }
-
-            if (nodesToDelete > 0)
-            {
-                if (_settings.currentGraph != null)
-                {
-                    _settings.currentGraph.DeleteWindowsThatNeedTo();
-                }
-
-                nodesToDelete = 0;
             }
 
             Repaint();
@@ -192,18 +154,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 }
             }
 
-            if (GUI.changed)
-            {
-                _settings.currentGraph.DeleteWindowsThatNeedTo();
-                Repaint();
-            }
-
             if (_forceSetDirty)
             {
                 _forceSetDirty = false;
                 EditorUtility.SetDirty(_settings);
                 EditorUtility.SetDirty(_settings.currentGraph);
-                EditorUtility.SetDirty(_settings.currentGraph.behaviour);
+                EditorUtility.SetDirty(_settings.currentGraph.behavior);
             }
 
             EditorGUILayout.BeginVertical();
@@ -225,6 +181,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 foreach (Type type in assembly.GetTypes())
                 {
                     if (!type.IsSubclassOf(typeof(BaseNode)) ||
+                        type == typeof(RootNode) ||
                         type == typeof(Transition) ||
                         (type == typeof(InputNode) && !type.IsSubclassOf(typeof(InputNode))) ||
                         (type == typeof(LeafNode) && !type.IsSubclassOf(typeof(LeafNode))))
@@ -256,6 +213,22 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             }
 
             return false;
+        }
+
+        private void CheckRootNode()
+        {
+            // ReSharper disable once Unity.NoNullPropagation
+            if (_settings?.currentGraph == null)
+                return;
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (BaseNodeSetting node in _settings.currentGraph.windows)
+            {
+                if (node.baseNode is RootNode)
+                    return;
+            }
+
+            _settings.AddNodeOnGraph(_settings.fillerNode, new RootNode(), 50, 20, "Root", Vector2.zero);
         }
 
         #endregion
@@ -358,7 +331,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             if (outputs.Count > 0)
             {
                 GUILayout.Space(20);
-                GUILayout.Label("Inputs");
+                GUILayout.Label("Outputs");
 
                 EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(maxWidth));
 
@@ -367,8 +340,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     OutputType attribute = Attribute.GetCustomAttribute(output, typeof(OutputType)) as OutputType;
 
                     if (attribute == null)
-                        continue;
-                    if (attribute.varType == VariableType.Default)
                         continue;
 
                     EditorGUILayout.BeginHorizontal();
@@ -379,7 +350,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                     GUILayout.FlexibleSpace();
 
-                    object newValue = EditorMethods.InputField(attribute.varType, obj, attribute.scriptType);
+                    object newValue = EditorMethods.InputField(attribute.type, obj);
 
                     if (obj != newValue)
                     {
@@ -448,10 +419,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             {
                 foreach (BaseNodeSetting n in _settings.currentGraph.windows)
                 {
-                    n.baseNode ??= _settings.currentGraph.behaviour.GetNodeByID(n.id);
+                    n.baseNode ??= _settings.currentGraph.behavior.GetNodeByID(n.id);
 
                     n.DrawCurve(
-                        _settings.currentGraph.behaviour.GetNodeByID(
+                        _settings.currentGraph.behavior.GetNodeByID(
                             n.id
                         )
                     );
@@ -475,7 +446,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         private void DrawNodeWindow(int id)
         {
             _settings.currentGraph.windows[id].DrawWindow(
-                _settings.currentGraph.behaviour.GetNodeByID(id)
+                _settings.currentGraph.behavior.GetNodeByID(id)
             );
             GUI.DragWindow();
         }
@@ -564,7 +535,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 ModifyNode(e);
         }
 
-        public void MakeInformationTransition(BaseNodeSetting setting, int infoID, int varID, Vector2 pos,
+        public void MakeInformationTransition(BaseNodeSetting setting, int infoID, Type type, Vector2 pos,
             bool isTarget)
         {
             Transition t = (Transition) drawTrans?.baseNode;
@@ -582,7 +553,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 drawTrans = _settings.AddNodeOnGraph(_settings.transitionNode, transition, 20, 20, "",
                     Vector2.zero);
                 transition?.Set(node, infoID, isTarget);
-                drawTrans.varID = varID;
+                drawTrans.type = type;
                 drawTrans.SetDraws(isTarget, setting, pos);
             }
             else
@@ -595,8 +566,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     return;
                 }
 
-                if ((isTarget && drawTrans.enterDraw != null) || (!isTarget && drawTrans.exitDraw != null) ||
-                    varID != drawTrans.varID || setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
+                if (!CheckTransitionAllow(type, isTarget, setting))
                 {
                     if (_settings.currentGraph.windows.Contains(drawTrans))
                         _settings.currentGraph.DeleteNode(drawTrans.id);
@@ -614,7 +584,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 drawTrans.AddTransitionID(transition.fromNodeID);
 
-                foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
+                foreach (BaseNode toSet in _settings.currentGraph.behavior.nodes.Where(n =>
                     n.id == transition.fromNodeID))
                     toSet.AddTransition(transition);
 
@@ -629,7 +599,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             {
                 if (_settings.currentGraph.windows.Contains(drawTrans))
                     _settings.currentGraph.DeleteNode(drawTrans.id);
-                
+
                 drawTrans = null;
             }
 
@@ -654,8 +624,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                     return;
                 }
 
-                if ((isTarget && drawTrans.enterDraw != null) || (!isTarget && drawTrans.exitDraw != null) ||
-                    setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
+                if (!CheckTransitionAllow(null, isTarget, setting))
                 {
                     if (_settings.currentGraph.windows.Contains(drawTrans))
                         _settings.currentGraph.DeleteNode(drawTrans.id);
@@ -673,12 +642,30 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 drawTrans.AddTransitionID(transition.fromNodeID);
 
-                foreach (BaseNode toSet in _settings.currentGraph.behaviour.nodes.Where(n =>
+                foreach (BaseNode toSet in _settings.currentGraph.behavior.nodes.Where(n =>
                     n.id == transition.fromNodeID))
                     toSet.AddTransition(transition);
 
                 drawTrans = null;
             }
+        }
+
+        private bool CheckTransitionAllow(Type type, bool isTarget, BaseNodeSetting setting)
+        {
+            if ((isTarget && drawTrans.enterDraw != null) || (!isTarget && drawTrans.exitDraw != null))
+                return false;
+            if (setting.id == drawTrans.enterID || setting.id == drawTrans.exitID)
+                return false;
+            if (drawTrans.enterID != -1 || drawTrans.exitID != -1)
+            {
+                if (drawTrans.type != null && type != null)
+                {
+                    if (drawTrans.type != type)
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         #endregion
@@ -687,8 +674,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
         private void AddNewNode(Event e)
         {
+            if (_settings == null)
+                return;
             GenericMenu menu = new GenericMenu();
-            menu.AddSeparator("");
+            menu.AddDisabledItem(new GUIContent("Add Node"));
+
             // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
             if (_settings.currentGraph != null)
             {
@@ -699,12 +689,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
                 }
 
                 menu.AddSeparator("");
-                menu.AddItem(new GUIContent("Reset Panning"), false, ContextCallback, true);
-            }
-            else
-            {
-                menu.AddDisabledItem(new GUIContent("Add State"));
-                menu.AddDisabledItem(new GUIContent("Add Comment"));
+                menu.AddDisabledItem(new GUIContent("Effect"));
+                menu.AddItem(new GUIContent("Reset Panning"), false, ContextCallback, false);
             }
 
             menu.AddSeparator("");
@@ -717,18 +703,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
             GenericMenu menu = new GenericMenu();
             if (selectedNode.drawNode != null)
             {
-                if (selectedNode.isDuplicate || !selectedNode.isAssigned)
-                {
-                    menu.AddSeparator("");
-                    menu.AddDisabledItem(new GUIContent("Make Transition"));
-                }
-                else
-                {
-                    menu.AddSeparator("");
-                }
-
+                menu.AddDisabledItem(new GUIContent("Modify"));
                 menu.AddSeparator("");
-                menu.AddItem(new GUIContent("Delete"), false, ContextCallback, UserActions.DeleteNode);
+                menu.AddItem(new GUIContent("Delete"), false, ContextCallback, true);
+                menu.AddSeparator("");
             }
 
             menu.ShowAsContext();
@@ -737,10 +715,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
         private void ContextCallback(object o)
         {
-            NodeCreationEntity nodeEntity = (NodeCreationEntity) o;
-
-            if (nodeEntity.GetMenuName() != "")
+            try
             {
+                NodeCreationEntity nodeEntity = (NodeCreationEntity) o;
+
                 BaseNode node = Activator.CreateInstance(nodeEntity.GetNodeType()) as BaseNode;
                 DrawNode drawNode;
 
@@ -754,6 +732,23 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
 
                 _settings.AddNodeOnGraph(drawNode, node, nodeEntity.GetWidth(), 25, nodeEntity.GetDisplayName(),
                     mousePosition);
+            }
+            catch
+            {
+                try
+                {
+                    bool statement = (bool) o;
+
+                    if (statement)
+                        _settings.currentGraph.DeleteNode(selectedNode.id);
+                    else
+                        ResetScroll();
+                }
+                catch(Exception e)
+                {
+                    Debug.Log(e.Message);
+                    Debug.Log("ContextCallback Input Error");
+                }
             }
 
             _forceSetDirty = true;

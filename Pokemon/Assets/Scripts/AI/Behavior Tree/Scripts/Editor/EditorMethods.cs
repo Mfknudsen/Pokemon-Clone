@@ -1,93 +1,47 @@
 ﻿#region SDK
 
+using System.Reflection;
 using Mfknudsen.Battle.Actions.Move;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Trainer;
 using UnityEditor;
-using UnityEngine; //Custom
+using UnityEngine;
+using Type = System.Type;
 
 #endregion
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor
 {
-    public class EditorMethods
+    public static class EditorMethods
     {
-        public static object InputField(VariableType type, object input, ScriptType sType)
+        public static object InputField(Type type, object input)
         {
-            try
-            {
-                switch (type)
-                {
-                    case VariableType.Int:
-                        return EditorGUILayout.IntField((int) input, GUILayout.MaxWidth(185));
-                    case VariableType.Float:
-                        return EditorGUILayout.FloatField((float) input, GUILayout.MaxWidth(185));
-                    case VariableType.Double:
-                        return EditorGUILayout.DoubleField((double) input, GUILayout.MaxWidth(185));
-                    case VariableType.String:
-                        return EditorGUILayout.TextField((string) input, GUILayout.MaxWidth(185));
-                    case VariableType.Vector2:
-                        return EditorGUILayout.Vector2Field("", (Vector2) input, GUILayout.MaxWidth(185));
-                    case VariableType.Vector3:
-                        return EditorGUILayout.Vector3Field("", (Vector3) input, GUILayout.MaxWidth(185));
-                    case VariableType.Transform:
-                        return EditorGUILayout.ObjectField("", (Transform) input, typeof(Transform), true,
-                                GUILayout.MaxWidth(185))
-                            as Transform;
-                    case VariableType.Script:
-                        return ScriptField(input, sType);
-
-                    case VariableType.Any:
-                        EditorGUILayout.LabelField("Any Accepted");
-                        break;
-                
-                    case VariableType.Default:
-                        EditorGUILayout.LabelField("SET VARIABLE-TYPE OF FIELD ATTRIBUTE");
-                        break;
-                    default:
-                        EditorGUILayout.LabelField("UNKNOWN VARIABLE TYPE");
-                        break;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-
-            return null;
-        }
-
-        private static object ScriptField(object input, ScriptType type)
-        {
-            if (type == ScriptType.Default)
-                return null;
-            try
-            {
-                switch (type)
-                {
-                    case ScriptType.Pokemon:
-                        return EditorGUILayout.ObjectField("", (Monster.Pokemon) input, typeof(Monster.Pokemon), true,
-                            GUILayout.MaxWidth(185));
-                    case ScriptType.PokeMove:
-                        return EditorGUILayout.ObjectField("", (PokemonMove) input,
-                            typeof(PokemonMove), true, GUILayout.MaxWidth(185));
-                        return EditorGUILayout.ObjectField("", (PokemonMove) input,
-                            typeof(PokemonMove), true, GUILayout.MaxWidth(185));
-                    case ScriptType.TrainerTeam:
-                        return EditorGUILayout.ObjectField("", (Trainer.Team) input, typeof(Trainer.Team), true,
-                            GUILayout.MaxWidth(185));
-
-                    // ReSharper disable once UnreachableSwitchCaseDueToIntegerAnalysis
-                    case ScriptType.Default:
-                        EditorGUILayout.LabelField("SET SCRIPT-TYPE OF FIELD ATTRIBUTE");
-                        break;
-                    default:
-                        EditorGUILayout.LabelField("UKNOWN SCRIPT TYPE");
-                        break;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
+            //Standard
+            if (type == typeof(bool))
+                return EditorGUILayout.Toggle((bool) input);
+            if (type == typeof(int))
+                return EditorGUILayout.IntField((int) input);
+            if (type == typeof(float))
+                return EditorGUILayout.FloatField((float) input);
+            if (type == typeof(double))
+                return EditorGUILayout.DoubleField((double) input);
+            if (type == typeof(string))
+                return EditorGUILayout.TextField((string) input);
+            if (type == typeof(Vector2))
+                return EditorGUILayout.Vector2Field("", (Vector2) input, GUILayout.MaxWidth(185));
+            if (type == typeof(Vector3))
+                return EditorGUILayout.Vector3Field("", (Vector3) input, GUILayout.MaxWidth(185));
+            if (type == typeof(Transform))
+                return EditorGUILayout.ObjectField((Transform) input, typeof(Transform), true);
+            if (type == typeof(GameObject))
+                return EditorGUILayout.ObjectField((GameObject) input, typeof(GameObject), true);
+            //Pokemon
+            if (type == typeof(Pokemon))
+                return EditorGUILayout.ObjectField((Pokemon) input, typeof(Pokemon), true);
+            if (type == typeof(PokemonMove))
+                return EditorGUILayout.ObjectField((PokemonMove) input, typeof(PokemonMove), true);
+            if (type == typeof(Team))
+                return EditorGUILayout.ObjectField((Team) input, typeof(Team), true);
 
             return null;
         }

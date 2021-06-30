@@ -4,8 +4,8 @@
     [Node("Input/Float", "Float Input")]
     public class GetFloatNode : InputNode
     {
-        [OutputType(VariableType.Float, "Float Input")]
-        public object input = 0.0f;
+        [OutputType("Float Input", typeof(float), true)]
+        public float input = 0.0f;
 
         public override void Tick(BehaviorController setup)
         {

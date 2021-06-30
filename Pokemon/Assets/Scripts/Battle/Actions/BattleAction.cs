@@ -3,7 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Monster;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
 using UnityEngine; //Custom
 
 #endregion
@@ -27,7 +28,7 @@ namespace Mfknudsen.Battle.Actions
         [SerializeField] protected string[] priorityInteraction;
 
         [Header("Chat:")]
-        [SerializeField] protected Chat.Chat[] chatOnActivation = new Chat.Chat[0];
+        [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
 
         [Header("Instatiation:")]
         protected bool isInstantiated = false;
@@ -93,10 +94,10 @@ namespace Mfknudsen.Battle.Actions
                 chatOnActivation[i] = Instantiate(chatOnActivation[i]);
         }
 
-        protected virtual Chat.Chat[] TransferInformationToChat()
+        protected virtual Chat[] TransferInformationToChat()
         {
             Debug.Log("Transfering");
-            return new Chat.Chat[0];
+            return new Chat[0];
         }
 
         protected virtual Spot[] SetupTargets(int targetIndex)

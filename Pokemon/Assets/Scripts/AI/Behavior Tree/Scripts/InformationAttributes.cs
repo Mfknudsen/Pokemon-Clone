@@ -68,7 +68,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
     [AttributeUsage(AttributeTargets.Field)]
     public class OutCaller : Attribute
     {
-        public string display;
+        public readonly string display;
 
         public OutCaller(string display)
         {
@@ -79,45 +79,29 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
     [AttributeUsage(AttributeTargets.Field)]
     public class InputType : InformationType
     {
-        public InputType(VariableType varType, string name)
+        public InputType(string name, Type type)
         {
-            this.varType = varType;
             this.name = name;
-
-            scriptType = ScriptType.Default;
-        }
-
-        public InputType(VariableType varType, string name, ScriptType scriptType)
-        {
-            this.varType = varType;
-            this.name = name;
-            this.scriptType = scriptType;
+            this.type = type;
         }
     }
 
     [AttributeUsage(AttributeTargets.Field)]
     public class OutputType : InformationType
     {
-        public OutputType(VariableType varType, string name)
-        {
-            this.varType = varType;
-            this.name = name;
-            
-            scriptType = ScriptType.Default;
-        }
+        public readonly bool show;
         
-        public OutputType(VariableType varType, string name, ScriptType scriptType)
+        public OutputType(string name, Type type, bool show = false)
         {
-            this.varType = varType;
             this.name = name;
-            this.scriptType = scriptType;
+            this.type = type;
+            this.show = show;
         }
     }
 
     public class InformationType : Attribute
     {
         public string name;
-        public VariableType varType;
-        public ScriptType scriptType;
+        public Type type;
     }
 }

@@ -6,8 +6,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
     [Node("Input/Int", "Int Input")]
     public class GetIntNode : InputNode
     {
-        [OutputType(VariableType.Int, "Int Input"), SerializeReference]
-        public object input = 0;
+        [OutputType("Int Input", typeof(int), true), SerializeReference]
+        public int input = 0;
 
         public override void Tick(BehaviorController setup)
         {

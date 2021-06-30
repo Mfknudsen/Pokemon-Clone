@@ -1,9 +1,9 @@
 ﻿#region SDK
 
 using System.Collections;
-using Mfknudsen.Chat;
-using Mfknudsen.Monster;
-using Mfknudsen.Monster.Conditions;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine; //Custom
 
 #endregion
@@ -16,7 +16,7 @@ namespace Mfknudsen.Items.Medicine
         #region Values
         [Header("Revive:")]
         [SerializeField] private bool toFull = false;
-        [SerializeField] private Chat.Chat onActivation = null;
+        [SerializeField] private Chat onActivation = null;
         #endregion
 
         #region Override
@@ -42,7 +42,7 @@ namespace Mfknudsen.Items.Medicine
         {
             done = false;
 
-            Chat.Chat toSend = onActivation.GetChat();
+            Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
             ChatMaster.instance.Add(toSend);
 

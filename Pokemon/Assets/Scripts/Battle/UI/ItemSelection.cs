@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
-using Mfknudsen.Monster;
+using Mfknudsen.Pokémon;
 using UnityEngine;
 using UnityEngine.UI; //Custom
 

@@ -6,13 +6,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
     [Node("Splitter/Transform", "Transform Split")]
     public class TransformSplitNode : BaseNode
     {
-        [InputType(VariableType.Transform, "Transform Input")]
+        [InputType("Transform Input", typeof(Transform))]
         public Transform input = null;
 
-        [OutputType(VariableType.Vector3, "Position")]
+        [OutputType("Position", typeof(Vector3))]
         public Vector3 pos = Vector3.zero;
 
-        [OutputType(VariableType.Vector3, "Rotation")]
+        [OutputType("Rotation", typeof(Vector3))]
         public Vector3 rot = Vector3.zero;
 
         public override void Tick(BehaviorController setup)

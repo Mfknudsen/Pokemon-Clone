@@ -88,6 +88,11 @@ namespace Mfknudsen.Battle.Systems
         {
             return inventory;
         }
+
+        public int GetSpotsToOwn()
+        {
+            return spotsToOwn; 
+        }
         #endregion
 
         #region Setters
@@ -106,6 +111,20 @@ namespace Mfknudsen.Battle.Systems
 
             hasAllSpots = (owndSpots.Count == spotsToOwn);
         }
+        #endregion
+
+        #region In
+
+        public void ForceHasAllSpots()
+        {
+            hasAllSpots = true;
+        }
+
+        public void ActivateAIBrain()
+        {
+            ai.TickBrain();
+        }
+
         #endregion
     }
 }

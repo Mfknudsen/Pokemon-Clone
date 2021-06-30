@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEditor;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
@@ -89,7 +89,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             return i;
         }
 
-        public static int DisplayInputs(BaseNodeSetting b, BaseNode node, int extra)
+        public static int DisplayInputs(BaseNodeSetting b, BaseNode node)
         {
             if (node == null)
                 return 0;
@@ -98,14 +98,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<FieldInfo> inputs = new List<FieldInfo>();
-            int height = (int) b.windowRect.height;
+            int height = 0, startY = (int) b.windowRect.height;
             foreach (FieldInfo f in fields)
             {
                 InputType attribute = Attribute.GetCustomAttribute(f, typeof(InputType)) as InputType;
 
                 if (attribute == null)
-                    continue;
-                if (attribute.varType == VariableType.Default)
                     continue;
 
                 height += 40;
@@ -115,7 +113,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
             if (inputs.Count == 0) return 0;
 
-            b.windowRect.height = height + 7.5f;
+            b.windowRect.height = startY + height + 7.5f;
 
             EditorGUILayout.BeginVertical("box");
             //All outputs
@@ -124,8 +122,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 InputType attribute = Attribute.GetCustomAttribute(field, typeof(InputType)) as InputType;
 
                 if (attribute == null)
-                    continue;
-                if (attribute.varType == VariableType.Default)
                     continue;
 
                 EditorGUILayout.BeginVertical();
@@ -139,20 +135,13 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                     BehaviorEditor.editor.MakeInformationTransition(
                         b,
                         (-1 + i),
-                        (int) attribute.varType,
-                        b.windowRect.position + new Vector2(7.5f, 25 + ((i + extra) * 40) - 12.5f),
+                        attribute.type,
+                        b.windowRect.position + new Vector2(7.5f, startY + (i * 40) - 22f),
                         true
                     );
                 }
 
-                object obj = field.GetValue(node);
-                field.SetValue(
-                    node,
-                    EditorMethods.InputField(
-                        attribute.varType,
-                        obj,
-                        attribute.scriptType)
-                );
+                DisplayType(attribute.type);
 
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
@@ -163,24 +152,22 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             return i;
         }
 
-        public static int DisplayOutputs(BaseNodeSetting b, BaseNode node, int extra)
+        public static void DisplayOutputs(BaseNodeSetting b, BaseNode node)
         {
             if (node == null)
-                return 0;
+                return;
 
             int i = 0;
 
             FieldInfo[] fields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 
             List<FieldInfo> outputs = new List<FieldInfo>();
-            int height = (int) b.windowRect.height;
+            int height = 0, startY = (int) b.windowRect.height;
             foreach (FieldInfo f in fields)
             {
                 OutputType attribute = Attribute.GetCustomAttribute(f, typeof(OutputType)) as OutputType;
 
                 if (attribute == null)
-                    continue;
-                if (attribute.varType == VariableType.Default)
                     continue;
 
                 height += 40;
@@ -188,9 +175,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 outputs.Add(f);
             }
 
-            if (outputs.Count == 0) return 0;
+            if (outputs.Count == 0) return;
 
-            b.windowRect.height = height + 7.5f;
+            b.windowRect.height = startY + height + 7.5f;
 
             EditorGUILayout.BeginVertical("box");
             //All outputs
@@ -200,8 +187,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (attribute == null)
                     continue;
-                if (attribute.varType == VariableType.Default)
-                    continue;
 
                 EditorGUILayout.BeginVertical();
                 EditorGUILayout.LabelField(attribute.name);
@@ -209,13 +194,18 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 EditorGUILayout.BeginHorizontal();
 
                 object obj = field.GetValue(node);
-                field.SetValue(
-                    node,
-                    EditorMethods.InputField(
-                        attribute.varType,
-                        obj,
-                        attribute.scriptType)
-                );
+                if (attribute.show)
+                {
+                    field.SetValue(
+                        node,
+                        EditorMethods.InputField(attribute.type, obj)
+                    );
+                }
+                else
+                {
+                    DisplayType(attribute.type);
+                    GUILayout.FlexibleSpace();
+                }
 
                 //
                 i++;
@@ -224,9 +214,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                     BehaviorEditor.editor.MakeInformationTransition(
                         b,
                         (i - 1),
-                        (int) attribute.varType,
+                        attribute.type,
                         b.windowRect.position +
-                        new Vector2(b.windowRect.width - 7.5f, 25 + 10 + ((i + extra) * 40) - 12.5f),
+                        new Vector2(b.windowRect.width - 7.5f, startY + ((i) * 40) - 11),
                         false
                     );
                 }
@@ -236,8 +226,30 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
             }
 
             EditorGUILayout.EndVertical();
+        }
 
-            return i;
+        private static void DisplayType(Type type)
+        {
+            GUIStyle style = new GUIStyle();
+            string text = "";
+
+            if (type != null)
+            {
+                string[] array = type.ToString().Split('.');
+                text = array[array.Length - 1];
+            }
+            else
+            {
+                text = "Any";
+            }
+
+            if (text.Equals("Single"))
+                text = "Float";
+
+            text = "Type: (" + text + ")";
+
+            EditorGUILayout.LabelField(text,
+                GUILayout.MaxWidth(style.CalcSize(new GUIContent(text)).x + 5));
         }
     }
 }

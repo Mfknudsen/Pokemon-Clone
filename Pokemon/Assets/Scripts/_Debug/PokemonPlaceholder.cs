@@ -1,6 +1,6 @@
 ﻿#region SDK
 
-using Mfknudsen.Monster;
+using Mfknudsen.Pokémon;
 using UnityEngine; //Custom
 
 #endregion

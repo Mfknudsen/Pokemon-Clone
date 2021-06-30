@@ -1,7 +1,8 @@
 ﻿#region SDK
 
+using System;
 using Mfknudsen.Battle.UI;
-using Mfknudsen.Monster;
+using Mfknudsen.Pokémon;
 using UnityEngine; //Custom
 
 #endregion
@@ -11,17 +12,19 @@ namespace Mfknudsen.Battle.Systems
     public class Spot : MonoBehaviour
     {
         #region Values
+
         [SerializeField] private bool active = true, needNew = true;
         [SerializeField] private Pokemon activePokemon = null;
         [SerializeField] private int spotNumber = -1;
         [SerializeField] private Spot left = null, right = null, front = null;
         [SerializeField] private Transform currentTransform = null;
         [SerializeField] private Trainer.Team teamAllowed = null;
+        [SerializeField] private BattleMember battleMember;
 
-        [Header("UI:")]
-        [SerializeField] Vector2 offset = Vector2.zero;
+        [Header("UI:")] [SerializeField] Vector2 offset = Vector2.zero;
         [SerializeField] private PokemonDisplay display = null;
         [SerializeField] private GameObject displayPrefab = null;
+
         #endregion
 
         private void Update()
@@ -37,14 +40,17 @@ namespace Mfknudsen.Battle.Systems
         }
 
         #region Getters
+
         public Spot GetLeft()
         {
             return left;
         }
+
         public Spot GetRight()
         {
             return right;
         }
+
         public Spot GetFront()
         {
             return front;
@@ -79,17 +85,26 @@ namespace Mfknudsen.Battle.Systems
         {
             return teamAllowed;
         }
+
+        public BattleMember GetBattleMember()
+        {
+            return battleMember;
+        }
+
         #endregion
 
         #region Setters
+
         public void SetLeft(Spot set)
         {
             left = set;
         }
+
         public void SetRight(Spot set)
         {
             right = set;
         }
+
         public void SetFront(Spot set)
         {
             front = set;
@@ -103,7 +118,11 @@ namespace Mfknudsen.Battle.Systems
         public void SetActivePokemon(Pokemon set)
         {
             activePokemon = set;
-
+            
+            return;
+            
+            //FIX!
+            
             if (set != null)
                 display.SetNewPokemon(set);
         }
@@ -128,9 +147,16 @@ namespace Mfknudsen.Battle.Systems
             if (t != null)
                 teamAllowed = t;
         }
+
+        public void SetBattleMember(BattleMember battleMember)
+        {
+            this.battleMember = battleMember;
+        }
+
         #endregion
 
         #region In
+
         public void Setup(Transform origin, int i)
         {
             GameObject obj = Instantiate(displayPrefab);
@@ -141,6 +167,27 @@ namespace Mfknudsen.Battle.Systems
 
             display = obj.GetComponent<PokemonDisplay>();
         }
+
         #endregion
+    }
+
+    public readonly struct SpotOversight
+    {
+        private readonly Spot[,] index;
+
+        public SpotOversight(int xSpots)
+        {
+            index = new Spot[xSpots, 2];
+        }
+
+        public void SetSpot(Spot spot, int x, int y)
+        {
+            index[x, y] = spot;
+        }
+
+        public Spot[,] GetSpots()
+        {
+            return index;
+        }
     }
 }

@@ -2,8 +2,8 @@
 
 using System.Collections.Generic;
 using Mfknudsen.Battle.Actions.Move;
-using Mfknudsen.Chat;
-using Mfknudsen.Monster;
+using Mfknudsen.Comunication;
+using Mfknudsen.Pokémon;
 using UnityEngine; //Custom
 
 #endregion
@@ -13,27 +13,27 @@ namespace Mfknudsen.Battle.Systems
     public class BattleMathf : ScriptableObject
     {
         #region Values
-        [SerializeField] private static Chat.Chat superEffective = null, notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
+        [SerializeField] private static Chat superEffective = null, notEffective = null, noEffect = null, barelyEffective = null, extremlyEffective = null;
         #endregion
 
         #region Setter
-        public static void SetSuperEffective(Chat.Chat input)
+        public static void SetSuperEffective(Chat input)
         {
             superEffective = input;
         }
-        public static void SetNotEffective(Chat.Chat input)
+        public static void SetNotEffective(Chat input)
         {
             notEffective = input;
         }
-        public static void SetNoEffect(Chat.Chat input)
+        public static void SetNoEffect(Chat input)
         {
             noEffect = input;
         }
-        public static void SetBarelyEffective(Chat.Chat input)
+        public static void SetBarelyEffective(Chat input)
         {
             barelyEffective = input;
         }
-        public static void SetExtremlyEffective(Chat.Chat input)
+        public static void SetExtremlyEffective(Chat input)
         {
             extremlyEffective = input;
         }

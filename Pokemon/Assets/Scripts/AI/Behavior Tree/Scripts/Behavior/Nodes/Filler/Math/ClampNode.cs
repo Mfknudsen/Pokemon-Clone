@@ -10,16 +10,16 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
     [Node("Math/Clamp", "Clamp")]
     public class ClampNode : BaseNode
     {
-        [InputType(VariableType.Float, "To Check")]
+        [InputType("To Check", typeof(float))]
         public float toCheck = 0.0f;
 
-        [InputType(VariableType.Float, "Min"), SerializeReference]
+        [InputType("Min", typeof(float)), SerializeReference]
         public float min = 0.0f;
 
-        [InputType(VariableType.Float, "Max"), SerializeReference]
+        [InputType("Max", typeof(float)), SerializeReference]
         public float max = 0.0f;
 
-        [OutputType(VariableType.Float, "Result"), SerializeReference]
+        [OutputType("Result", typeof(float)), SerializeReference]
         public float result = 0.0f;
 
         public override void Tick(BehaviorController setup)

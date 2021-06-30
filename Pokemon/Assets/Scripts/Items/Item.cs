@@ -2,7 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Monster;
+using Mfknudsen.Pokémon;
 using UnityEngine;
 
 namespace Mfknudsen.Items

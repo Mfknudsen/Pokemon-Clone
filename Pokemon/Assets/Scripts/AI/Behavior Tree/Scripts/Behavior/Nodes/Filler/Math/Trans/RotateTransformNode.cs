@@ -9,10 +9,10 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans
     {
         [OutCaller("")] public List<Transition> outCalls;
 
-        [InputType(VariableType.Transform, "Target"), OutputType(VariableType.Transform, "Result")]
+        [InputType("Target", typeof(Transform)), OutputType("Result", typeof(Transform))]
         public Transform target = null;
 
-        [InputType(VariableType.Vector3, "Amount")]
+        [InputType("Amount", typeof(Vector3))]
         public Vector3 amount = Vector3.zero;
  
         public RotateTransformNode()

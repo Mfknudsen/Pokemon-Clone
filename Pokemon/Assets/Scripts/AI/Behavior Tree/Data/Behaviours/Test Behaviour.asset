@@ -16,6 +16,16 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
+  - id: 10
+  - id: 11
+  - id: 12
   references:
     version: 1
     00000000:
@@ -26,29 +36,320 @@ MonoBehaviour:
         ready: 0
         inCall: 0
         resetOnEnd: 0
-        transitions: []
+        transitions:
+        - id: 11
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 0
+          targetNodeID: 3
+          fromNodeID: 0
+          targetFieldID: -1
+          fromFieldID: -1
         outCalls: []
     00000001:
-      type: {class: RotateTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+      type: {class: GetVec3Node, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input,
         asm: Assembly-CSharp}
       data:
         id: 1
         ready: 0
-        inCall: 1
+        inCall: 0
         resetOnEnd: 0
-        transitions: []
-        outCalls: []
-        target: {fileID: 0}
-        amount: {x: 0, y: 0, z: 0}
+        transitions:
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: -1
+          fromNodeID: 1
+          targetFieldID: -1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: -1
+          fromNodeID: 1
+          targetFieldID: -1
+          fromFieldID: 0
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: -1
+          fromNodeID: 1
+          targetFieldID: -1
+          fromFieldID: 0
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 1
+          targetFieldID: 1
+          fromFieldID: 0
+        input: {x: 10, y: 15, z: 5}
     00000002:
-      type: {class: MoveTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+      type: {class: GetVec3Node, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input,
         asm: Assembly-CSharp}
       data:
         id: 2
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions:
+        - id: 9
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 9
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 9
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 1
+          fromFieldID: 0
+        input: {x: 1, y: -1, z: 0.3}
+    00000003:
+      type: {class: RotateTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+        asm: Assembly-CSharp}
+      data:
+        id: 3
+        ready: 1
+        inCall: 1
+        resetOnEnd: 0
+        transitions:
+        - id: 10
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 3
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 12
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 0
+          targetNodeID: 4
+          fromNodeID: 3
+          targetFieldID: -1
+          fromFieldID: -1
+        - id: 10
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 3
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 10
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 3
+          targetFieldID: 0
+          fromFieldID: 0
+        outCalls: []
+        target: {fileID: 0}
+        amount: {x: 10, y: 15, z: 5}
+    00000004:
+      type: {class: MoveTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans,
+        asm: Assembly-CSharp}
+      data:
+        id: 4
         ready: 0
         inCall: 1
         resetOnEnd: 0
         transitions: []
         outCalls: []
         input: {fileID: 0}
-        pos: {x: 0, y: 0, z: 0}
+        pos: {x: 1, y: -1, z: 0.3}
+    00000005:
+      type: {class: GetTransformNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input,
+        asm: Assembly-CSharp}
+      data:
+        id: 5
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions:
+        - id: 6
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 5
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 6
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 5
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 6
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 3
+          fromNodeID: 5
+          targetFieldID: 0
+          fromFieldID: 0
+        input: {fileID: 0}
+    00000006:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 6
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 1
+        targetNodeID: 3
+        fromNodeID: 5
+        targetFieldID: 0
+        fromFieldID: 0
+    00000007:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 7
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 1
+        targetNodeID: -1
+        fromNodeID: 1
+        targetFieldID: -1
+        fromFieldID: 0
+    00000008:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 8
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 1
+        targetNodeID: 3
+        fromNodeID: 1
+        targetFieldID: 1
+        fromFieldID: 0
+    00000009:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 9
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 1
+        targetNodeID: 4
+        fromNodeID: 2
+        targetFieldID: 1
+        fromFieldID: 0
+    0000000A:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 10
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 1
+        targetNodeID: 4
+        fromNodeID: 3
+        targetFieldID: 0
+        fromFieldID: 0
+    0000000B:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 11
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 0
+        targetNodeID: 3
+        fromNodeID: 0
+        targetFieldID: -1
+        fromFieldID: -1
+    0000000C:
+      type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
+      data:
+        id: 12
+        ready: 0
+        inCall: 0
+        resetOnEnd: 0
+        transitions: []
+        transferInformation: 0
+        targetNodeID: 4
+        fromNodeID: 3
+        targetFieldID: -1
+        fromFieldID: -1

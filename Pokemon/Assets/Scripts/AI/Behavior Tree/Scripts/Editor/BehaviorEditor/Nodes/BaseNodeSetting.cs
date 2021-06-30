@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using System;
 using System.Collections.Generic;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using UnityEngine;
@@ -22,18 +23,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
         public bool isDuplicate;
         public string comment;
         public bool isAssigned;
-        public bool showDescription;
-        public bool isOnCurrent;
-
         public bool collapse;
-        public bool showActions = true;
-        public bool showEnterExit;
-        [HideInInspector] public bool previousCollapse;
 
         [Header("Transition")] public List<int> allTransitionIDs;
 
         public int enterID = -1, exitID = -1;
-        public int varID = -1;
+        public Type type;
         public BaseNodeSetting enterDraw, exitDraw;
 
         public Vector2 preEnterPos,

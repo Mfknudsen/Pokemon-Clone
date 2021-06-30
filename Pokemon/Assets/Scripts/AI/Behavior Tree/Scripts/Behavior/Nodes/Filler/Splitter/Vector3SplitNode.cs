@@ -6,12 +6,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
     [Node("Splitter/Vector3", "Vector3 Split")]
     public class Vector3SplitNode : BaseNode
     {
-        [InputType(VariableType.Vector3, "Vector3 Input")]
+        [InputType("Vector3 Input", typeof(Vector3))]
         public Vector3 input = Vector3.zero;
 
-        [OutputType(VariableType.Float, "X")] public float x = 0.0f;
-        [OutputType(VariableType.Float, "Y")] public float y = 0.0f;
-        [OutputType(VariableType.Float, "Z")] public float z = 0.0f;
+        [OutputType("X", typeof(float))] public float x = 0.0f;
+        [OutputType("Y", typeof(float))] public float y = 0.0f;
+        [OutputType("Z", typeof(float))] public float z = 0.0f;
 
         public override void Tick(BehaviorController setup)
         {
