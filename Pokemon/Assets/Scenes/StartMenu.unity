@@ -2352,7 +2352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memberName: Bug Catcher
   isPlayer: 0
-  ai: {fileID: 0}
+  ai: {fileID: 11400000, guid: deaefd41d84cea1459da018644c3db9a, type: 2}
   inventory: {fileID: 1480210388}
   pokemonTeam: {fileID: 1480210387}
   teamNumber: 1

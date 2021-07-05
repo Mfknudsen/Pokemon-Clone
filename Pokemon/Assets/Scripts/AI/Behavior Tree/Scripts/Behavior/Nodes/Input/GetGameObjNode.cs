@@ -8,7 +8,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         [OutputType("GameObject Input", typeof(GameObject), true)]
         public GameObject input = null;
         
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

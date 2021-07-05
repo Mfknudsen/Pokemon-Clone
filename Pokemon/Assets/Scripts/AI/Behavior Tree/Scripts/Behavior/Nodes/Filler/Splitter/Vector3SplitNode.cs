@@ -13,7 +13,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
         [OutputType("Y", typeof(float))] public float y = 0.0f;
         [OutputType("Z", typeof(float))] public float z = 0.0f;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             Vector3 vec = input;
 

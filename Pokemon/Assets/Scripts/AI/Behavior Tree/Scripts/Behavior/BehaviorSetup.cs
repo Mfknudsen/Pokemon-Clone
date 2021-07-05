@@ -67,13 +67,20 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior
             }
         }
 
-        public void Tick(BehaviorController setup)
+        public void Tick(BattleAI setup)
         {
             foreach (BaseNode node in nodes.Where(node => node is InputNode))
                 node.Tick(setup);
-
+            
             foreach (BaseNode node in nodes.Where(node => node is RootNode))
                 node.Tick(setup);
+
+            while (setup.GetNodeQueue().Count > 0)
+            {
+                BaseNode node = setup.GetNodeQueue()[0];
+                node.Tick(setup);
+                setup.GetNodeQueue().RemoveAt(0);
+            }
         }
 
         #region Getters

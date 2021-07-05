@@ -27,7 +27,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             if (input == null)
                 Debug.LogError("Cannot Move Null Transform");

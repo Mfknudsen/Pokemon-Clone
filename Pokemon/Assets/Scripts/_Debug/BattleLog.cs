@@ -12,11 +12,13 @@ namespace Mfknudsen._Debug
     public class BattleLog : MonoBehaviour
     {
         #region Values
+
         public static BattleLog instance = null;
         [SerializeField] private bool active = false;
         [SerializeField] private TextMeshProUGUI textField = null;
         private List<string> textLog = new List<string>();
         [SerializeField] private Scrollbar scroller = null;
+
         #endregion
 
         private void Start()
@@ -58,22 +60,27 @@ namespace Mfknudsen._Debug
         }
 
         #region In
+
         // ReSharper disable Unity.PerformanceAnalysis
         public void AddNewLog(string script, string input)
         {
             textLog.Add(script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: " + input);
 
-            textField.text += script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: \n   " + input + "\n";
+            textField.text += script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: \n   " +
+                              input + "\n";
 
             Invoke("ScrollControl", 0.01f);
         }
+
         #endregion
 
         #region Out
+
         private void ScrollControl()
         {
             scroller.value = 0;
         }
+
         #endregion
     }
 }

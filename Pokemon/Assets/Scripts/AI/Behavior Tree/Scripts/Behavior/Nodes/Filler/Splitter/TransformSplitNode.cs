@@ -15,7 +15,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
         [OutputType("Rotation", typeof(Vector3))]
         public Vector3 rot = Vector3.zero;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             pos = input.position;
 

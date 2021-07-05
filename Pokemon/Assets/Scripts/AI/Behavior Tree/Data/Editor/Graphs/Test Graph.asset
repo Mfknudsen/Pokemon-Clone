@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Test Graph
   m_EditorClassIdentifier: 
   reset: 0
-  behaviour: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
+  behavior: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
   windows:
   - id: 0
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 332
-      y: 49
+      x: 649
+      y: 86
       width: 50
       height: 65
     windowTitle: Root
@@ -42,11 +42,11 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 71
-      y: 288
+      x: 657
+      y: 490
       width: 215
       height: 72.5
-    windowTitle: Vector3 Input
+    windowTitle: Int Input
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -65,11 +65,11 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 445
-      y: 464
+      x: 127
+      y: 122
       width: 215
       height: 72.5
-    windowTitle: Vector3 Input
+    windowTitle: Get Local Memories
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -88,11 +88,11 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 502
-      y: 144
+      x: 410
+      y: 121
       width: 215
-      height: 199.5
-    windowTitle: Rotate
+      height: 119.5
+    windowTitle: Local Memories Split
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -108,37 +108,37 @@ MonoBehaviour:
     exitStart: {x: 0, y: 0}
     mouse: {x: 0, y: 0}
   - id: 4
-    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
+    drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 824
-      y: 319
-      width: 215
-      height: 199.5
-    windowTitle: Move Transform
+      x: 366
+      y: 160
+      width: 20
+      height: 20
+    windowTitle: 
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
     comment: 
     isAssigned: 0
     collapse: 0
-    allTransitionIDs: 
-    enterID: -1
-    exitID: -1
-    preEnterPos: {x: 0, y: 0}
-    preExitPos: {x: 0, y: 0}
-    enterStart: {x: 0, y: 0}
-    exitStart: {x: 0, y: 0}
-    mouse: {x: 0, y: 0}
+    allTransitionIDs: 02000000
+    enterID: 3
+    exitID: 2
+    preEnterPos: {x: 410, y: 121}
+    preExitPos: {x: 127, y: 122}
+    enterStart: {x: 417.5, y: 164}
+    exitStart: {x: 334.5, y: 176}
+    mouse: {x: 322, y: 172}
   - id: 5
-    drawNode: {fileID: 11400000, guid: 7d03b8cb4dc7024479ef3b31c8675f1c, type: 2}
+    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 66
-      y: 154
+      x: 138
+      y: 324
       width: 215
-      height: 72.5
-    windowTitle: Transform Input
+      height: 119.5
+    windowTitle: Moves From Pokemon
     enterNode: 0
     targetNode: 0
     isDuplicate: 0
@@ -157,8 +157,54 @@ MonoBehaviour:
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 381.5
-      y: 207.5
+      x: 371.5
+      y: 284.5
+      width: 20
+      height: 20
+    windowTitle: 
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    collapse: 0
+    allTransitionIDs: 03000000
+    enterID: 5
+    exitID: 3
+    preEnterPos: {x: 138, y: 324}
+    preExitPos: {x: 410, y: 121}
+    enterStart: {x: 145.5, y: 367}
+    exitStart: {x: 617.5, y: 222}
+    mouse: {x: 145, y: 372}
+  - id: 7
+    drawNode: {fileID: 11400000, guid: e83eae62cc82e2d4cb0880449a265228, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 416
+      y: 376
+      width: 215
+      height: 119.5
+    windowTitle: Choose Random Move
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    collapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  - id: 8
+    drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 374.5
+      y: 412
       width: 20
       height: 20
     windowTitle: 
@@ -169,19 +215,42 @@ MonoBehaviour:
     isAssigned: 0
     collapse: 0
     allTransitionIDs: 05000000
-    enterID: 3
+    enterID: 7
     exitID: 5
-    preEnterPos: {x: 502, y: 144}
-    preExitPos: {x: 66, y: 154}
-    enterStart: {x: 509.5, y: 227}
-    exitStart: {x: 273.5, y: 208}
-    mouse: {x: 505, y: 225}
-  - id: 7
+    preEnterPos: {x: 416, y: 376}
+    preExitPos: {x: 138, y: 324}
+    enterStart: {x: 423.5, y: 419}
+    exitStart: {x: 345.5, y: 425}
+    mouse: {x: 658, y: 448}
+  - id: 9
+    drawNode: {fileID: 11400000, guid: 4b493d811fed61b46b4460adad61bfc5, type: 2}
+    windowRect:
+      serializedVersion: 2
+      x: 910
+      y: 334
+      width: 215
+      height: 192.5
+    windowTitle: Send Pokemon Attack
+    enterNode: 0
+    targetNode: 0
+    isDuplicate: 0
+    comment: 
+    isAssigned: 0
+    collapse: 0
+    allTransitionIDs: 
+    enterID: -1
+    exitID: -1
+    preEnterPos: {x: 0, y: 0}
+    preExitPos: {x: 0, y: 0}
+    enterStart: {x: 0, y: 0}
+    exitStart: {x: 0, y: 0}
+    mouse: {x: 0, y: 0}
+  - id: 10
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 760.5
+      y: 457
       width: 20
       height: 20
     windowTitle: 
@@ -191,20 +260,20 @@ MonoBehaviour:
     comment: 
     isAssigned: 0
     collapse: 0
-    allTransitionIDs: 
-    enterID: -1
-    exitID: 1
-    preEnterPos: {x: 0, y: 0}
-    preExitPos: {x: 235, y: 252}
-    enterStart: {x: 0, y: 0}
-    exitStart: {x: 442.5, y: 306}
-    mouse: {x: 433, y: 305}
-  - id: 8
+    allTransitionIDs: 07000000
+    enterID: 9
+    exitID: 7
+    preEnterPos: {x: 910, y: 334}
+    preExitPos: {x: 416, y: 376}
+    enterStart: {x: 917.5, y: 457}
+    exitStart: {x: 623.5, y: 477}
+    mouse: {x: 916, y: 454}
+  - id: 11
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 384
-      y: 294.5
+      x: 881
+      y: 510.5
       width: 20
       height: 20
     windowTitle: 
@@ -215,42 +284,19 @@ MonoBehaviour:
     isAssigned: 0
     collapse: 0
     allTransitionIDs: 01000000
-    enterID: 3
+    enterID: 9
     exitID: 1
-    preEnterPos: {x: 502, y: 144}
-    preExitPos: {x: 71, y: 288}
-    enterStart: {x: 509.5, y: 267}
-    exitStart: {x: 278.5, y: 342}
-    mouse: {x: 510, y: 260}
-  - id: 9
+    preEnterPos: {x: 910, y: 334}
+    preExitPos: {x: 657, y: 490}
+    enterStart: {x: 917.5, y: 497}
+    exitStart: {x: 864.5, y: 544}
+    mouse: {x: 913, y: 495}
+  - id: 12
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 732
-      y: 470
-      width: 20
-      height: 20
-    windowTitle: 
-    enterNode: 0
-    targetNode: 0
-    isDuplicate: 0
-    comment: 
-    isAssigned: 0
-    collapse: 0
-    allTransitionIDs: 02000000
-    enterID: 4
-    exitID: 2
-    preEnterPos: {x: 824, y: 319}
-    preExitPos: {x: 445, y: 464}
-    enterStart: {x: 831.5, y: 442}
-    exitStart: {x: 652.5, y: 518}
-    mouse: {x: 826, y: 429}
-  - id: 10
-    drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
-    windowRect:
-      serializedVersion: 2
-      x: 760.5
-      y: 353.5
+      x: 757.5
+      y: 309.5
       width: 20
       height: 20
     windowTitle: 
@@ -261,19 +307,19 @@ MonoBehaviour:
     isAssigned: 0
     collapse: 0
     allTransitionIDs: 03000000
-    enterID: 4
+    enterID: 9
     exitID: 3
-    preEnterPos: {x: 824, y: 319}
-    preExitPos: {x: 502, y: 144}
-    enterStart: {x: 831.5, y: 402}
-    exitStart: {x: 709.5, y: 325}
-    mouse: {x: 834, y: 395}
-  - id: 11
+    preEnterPos: {x: 910, y: 334}
+    preExitPos: {x: 410, y: 121}
+    enterStart: {x: 917.5, y: 417}
+    exitStart: {x: 617.5, y: 222}
+    mouse: {x: 915, y: 410}
+  - id: 13
     drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
     windowRect:
       serializedVersion: 2
-      x: 432
-      y: 139
+      x: 794.5
+      y: 252.5
       width: 20
       height: 20
     windowTitle: 
@@ -284,34 +330,11 @@ MonoBehaviour:
     isAssigned: 0
     collapse: 0
     allTransitionIDs: 00000000
-    enterID: 3
+    enterID: 9
     exitID: 0
-    preEnterPos: {x: 502, y: 144}
-    preExitPos: {x: 332, y: 49}
-    enterStart: {x: 509.5, y: 196.5}
-    exitStart: {x: 374.5, y: 101.5}
-    mouse: {x: 512, y: 172}
-  - id: 12
-    drawNode: {fileID: 11400000, guid: 02d1192eec6276044a75147866515bb8, type: 2}
-    windowRect:
-      serializedVersion: 2
-      x: 760.5
-      y: 274
-      width: 20
-      height: 20
-    windowTitle: 
-    enterNode: 0
-    targetNode: 0
-    isDuplicate: 0
-    comment: 
-    isAssigned: 0
-    collapse: 0
-    allTransitionIDs: 03000000
-    enterID: 4
-    exitID: 3
-    preEnterPos: {x: 824, y: 319}
-    preExitPos: {x: 502, y: 144}
-    enterStart: {x: 831.5, y: 371.5}
-    exitStart: {x: 709.5, y: 196.5}
-    mouse: {x: 829, y: 351}
-  idCount: 13
+    preEnterPos: {x: 910, y: 334}
+    preExitPos: {x: 649, y: 86}
+    enterStart: {x: 917.5, y: 386.5}
+    exitStart: {x: 691.5, y: 138.5}
+    mouse: {x: 921, y: 361}
+  idCount: 14

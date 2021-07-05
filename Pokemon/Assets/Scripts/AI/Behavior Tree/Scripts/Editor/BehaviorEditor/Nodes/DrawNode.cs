@@ -36,8 +36,12 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
             EditorGUILayout.BeginVertical(GUILayout.Width(b.windowRect.width / 2));
 
+            bool ajust = false;
             if (node.inCall)
             {
+                height += 40;
+                ajust = true;
+                
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 {
@@ -60,6 +64,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 
                 if (c == null) continue;
 
+                if (ajust)
+                {
+                    height -= 40;
+                    ajust = false;
+                }
                 height += 40;
 
                 EditorGUILayout.BeginHorizontal();

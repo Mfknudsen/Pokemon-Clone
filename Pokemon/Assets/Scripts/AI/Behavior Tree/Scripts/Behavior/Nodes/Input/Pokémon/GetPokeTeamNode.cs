@@ -9,7 +9,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.Pokémon
         [OutputType("Team Input", typeof(Team), true)]
         public Team input = null;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

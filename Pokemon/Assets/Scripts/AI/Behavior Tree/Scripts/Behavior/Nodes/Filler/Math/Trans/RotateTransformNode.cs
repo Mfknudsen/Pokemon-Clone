@@ -21,7 +21,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math.Trans
             outCalls = new List<Transition>();
         }
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             Transform transform = target;
 

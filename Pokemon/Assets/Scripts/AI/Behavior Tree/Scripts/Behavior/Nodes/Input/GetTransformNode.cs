@@ -9,7 +9,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         [OutputType("Transform Input", typeof(Transform), true)]
         public Transform input = null;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

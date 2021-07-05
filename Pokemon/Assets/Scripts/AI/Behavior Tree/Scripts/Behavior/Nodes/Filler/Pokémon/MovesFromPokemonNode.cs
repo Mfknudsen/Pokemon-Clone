@@ -1,5 +1,6 @@
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Pokémon;
+using UnityEngine;
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Pokémon
 {
@@ -12,9 +13,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Pokémon
         [OutputType("Output", typeof(PokemonMove[]))]
         public PokemonMove[] output;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             output = input.GetMoves();
+            
+            ContinueTransitions(setup);
         }
 
         protected override void Resets()

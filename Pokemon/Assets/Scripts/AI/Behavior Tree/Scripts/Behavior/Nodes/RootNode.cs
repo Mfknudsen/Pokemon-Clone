@@ -8,7 +8,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
     {
         [OutCaller("")]
         public List<Transition> outCalls;
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

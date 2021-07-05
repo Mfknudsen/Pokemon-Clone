@@ -22,7 +22,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math
         [OutputType("Result", typeof(float)), SerializeReference]
         public float result = 0.0f;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             result = Mathf.Clamp(toCheck, min, max);
 

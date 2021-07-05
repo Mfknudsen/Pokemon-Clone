@@ -9,7 +9,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         [OutputType("Int Input", typeof(int), true), SerializeReference]
         public int input = 0;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

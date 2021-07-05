@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 #endregion
 
@@ -16,11 +17,11 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
         public List<Transition> transitions;
         public Dictionary<string, bool> checkState;
 
-        public abstract void Tick(BehaviorController setup);
+        public abstract void Tick(BattleAI ai);
 
         protected abstract void Resets();
 
-        protected void ContinueTransitions(BehaviorController setup)
+        protected void ContinueTransitions(BattleAI setup)
         {
             ready = false;
 
@@ -32,6 +33,8 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes
             if (!resetOnEnd) return;
 
             Resets();
+            
+            checkState.Clear();
         }
 
         public void AddTransition(Transition transition)

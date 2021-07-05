@@ -52,6 +52,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\Pokémon\GetLocalMemoriesNode.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Pokemon.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Selector\SelectorNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\Spot.cs" />
@@ -67,6 +68,7 @@
      <Compile Include="Assets\Scripts\Menu\SettingsData.cs" />
      <Compile Include="Assets\Scripts\AI\BattleAI.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\BurnCondition.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\ActionState.cs" />
      <Compile Include="Assets\Scripts\Comunication\Chat.cs" />
      <Compile Include="Assets\Scripts\Settings\Settings.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Math\Trans\RotateTransformNode.cs" />
@@ -77,7 +79,9 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetTransformNode.cs" />
      <Compile Include="Assets\Scripts\Files\SaveInformation.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\ProgressBar.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Pokémon\LocalMemoriesSplitNode.cs" />
      <Compile Include="Assets\Scripts\Trainer\Team.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\State.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Vector3SplitNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetVec3Node.cs" />
      <Compile Include="Assets\Scripts\_Debug\PokemonPlaceholder.cs" />
@@ -99,9 +103,9 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\LeafNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\InputNode.cs" />
      <Compile Include="Assets\Scripts\PC\BoxContainer.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerTurnState.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\PoisonCondition.cs" />
      <Compile Include="Assets\Scripts\World\Overworld\TileManager.cs" />
-     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\BehaviorController.cs" />
      <Compile Include="Assets\Scripts\Pokémon\MegaStone.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\BehaviorSetup.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Math\ClampNode.cs" />
@@ -109,6 +113,7 @@
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMember.cs" />
      <Compile Include="Assets\Scripts\Items\HoldableItem.cs" />
      <Compile Include="Assets\Scripts\Player\Controller.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\RoundDoneState.cs" />
      <Compile Include="Assets\Scripts\Battle\Actions\Move\PokemonMove.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Math\Trans\MoveTransformNode.cs" />
      <Compile Include="Assets\Scripts\Player\MasterPlayer.cs" />
@@ -124,9 +129,13 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\BaseNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetIntNode.cs" />
      <Compile Include="Assets\Scripts\Files\Save Types\PokemonSave.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\BeginState.cs" />
      <Compile Include="Assets\Scripts\Files\FileMaster.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMaster.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\LostState.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Pokémon\ChooseRandomMove.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\PlayerTurnState.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\DoFaintedState.cs" />
      <Compile Include="Assets\Scripts\PC\BoxSpot.cs" />
      <Compile Include="Assets\Scripts\NPC\NPCController.cs" />
      <Compile Include="Assets\Scripts\Pokémon\HiddenAbility.cs" />
@@ -135,18 +144,10 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\InformationAttributes.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Potion.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\ConditionOversight.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\WinState.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Ability.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\State.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\WinState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\LostState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\PlayerTurnState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerTurnState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\BeginState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\RoundDoneState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\DoFaintedState.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\States\ActionState.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

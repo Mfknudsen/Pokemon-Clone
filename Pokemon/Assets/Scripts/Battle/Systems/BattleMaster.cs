@@ -241,7 +241,6 @@ namespace Mfknudsen.Battle.Systems
                         if (action != null)
                         {
                             action.SetCurrentPokemon(p);
-                            action.SetTargetIndex(0);
                             p.SetBattleAction(action);
                         }
                     }
@@ -707,7 +706,6 @@ namespace Mfknudsen.Battle.Systems
 
         public void SelectAction(int i)
         {
-            Debug.Log(i);
             if (i > 0 && i < 5)
             {
                 BattleMember battleMember = MasterPlayer.instance.GetBattleMember();
@@ -953,14 +951,10 @@ namespace Mfknudsen.Battle.Systems
         {
             itemMenu.ReceiveTarget(p);
         }
-
-        public void GetComputerAction(Decision decision)
+        
+        public SpotOversight SetupSpotOversight()
         {
-        }
-
-        public SpotOversight SetupSpotOversight(int x)
-        {
-            spotOversight = new SpotOversight(x);
+            spotOversight = new SpotOversight();
 
             return spotOversight;
         }

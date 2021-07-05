@@ -9,7 +9,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         [OutputType("Vector2 Input", typeof(Vector2), true)]
         public Vector2 input = Vector2.zero;
         
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

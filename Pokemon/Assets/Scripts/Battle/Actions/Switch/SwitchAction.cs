@@ -59,6 +59,11 @@ namespace Mfknudsen.Battle.Actions.Switch
             return Operation();
         }
 
+        protected override Spot[] SetupTargets(Vector2 targetIndex, Vector2 userIndex)
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override IEnumerator Operation()
         {
             done = false;

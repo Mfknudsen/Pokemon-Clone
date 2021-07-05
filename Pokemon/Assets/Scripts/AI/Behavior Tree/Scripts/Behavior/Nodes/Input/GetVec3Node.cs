@@ -13,7 +13,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input
         [OutputType("Vector3 Input", typeof(Vector3), true), SerializeReference]
         public Vector3 input = Vector3.zero;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }

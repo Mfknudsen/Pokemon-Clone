@@ -1,11 +1,9 @@
 ﻿#region SDK
 
+using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
-using UnityEngine; //Custom
 
 #endregion
 
@@ -14,27 +12,29 @@ namespace Mfknudsen.Battle.Actions
     public abstract class BattleAction : ScriptableObject
     {
         #region Values
-        [Header("Object Reference:")]
-        [SerializeField] protected bool active = false;
-        [SerializeField] protected bool done = false;
 
-        [Header("Move Reference:")]
-        [SerializeField] protected Pokemon currentPokemon = null;
-        [SerializeField] protected List<Pokemon> targetPokemon = new List<Pokemon>();
-        [SerializeField] protected bool moveActive = false;
+        [Header("Object Reference:")] [SerializeField]
+        protected bool active;
 
-        [Header("Priority:")]
-        [SerializeField] protected int priority = 0;
+        [SerializeField] protected bool done;
+
+        [Header("Move Reference:")] [SerializeField]
+        protected Pokemon currentPokemon;
+
+        [SerializeField] protected Pokemon targetPokemon;
+        [SerializeField] protected bool moveActive;
+
+        [Header("Priority:")] [SerializeField] protected int priority;
         [SerializeField] protected string[] priorityInteraction;
 
-        [Header("Chat:")]
-        [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
+        [Header("Chat:")] [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
 
-        [Header("Instatiation:")]
-        protected bool isInstantiated = false;
+        private bool isInstantiated = false;
+
         #endregion
 
         #region Getters
+
         public virtual BattleAction GetAction()
         {
             return this;
@@ -59,9 +59,11 @@ namespace Mfknudsen.Battle.Actions
         {
             return priority;
         }
+
         #endregion
 
         #region Setter
+
         public void SetCurrentPokemon(Pokemon pokemon)
         {
             currentPokemon = pokemon;
@@ -76,9 +78,11 @@ namespace Mfknudsen.Battle.Actions
         {
             priority = set;
         }
+
         #endregion
 
         #region Out
+
         public virtual IEnumerator Activate()
         {
             Debug.Log("Activate need Override!");
@@ -88,6 +92,7 @@ namespace Mfknudsen.Battle.Actions
         #endregion
 
         #region Internal
+
         protected void SetupChats()
         {
             for (int i = 0; i < chatOnActivation.Length; i++)
@@ -99,20 +104,17 @@ namespace Mfknudsen.Battle.Actions
             Debug.Log("Transfering");
             return new Chat[0];
         }
-
-        protected virtual Spot[] SetupTargets(int targetIndex)
-        {
-            Debug.Log("Setup Targets Need Over!");
-            return new Spot[0];
-        }
+        
         #endregion
 
         #region IEnumerator
+
         protected virtual IEnumerator Operation()
         {
             Debug.Log("Operation need Override!");
             yield return null;
         }
+
         #endregion
     }
 }

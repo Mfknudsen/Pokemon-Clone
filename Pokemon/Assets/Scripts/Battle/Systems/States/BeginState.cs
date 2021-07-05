@@ -33,7 +33,7 @@ namespace Mfknudsen.Battle.Systems.States
             int allyX = battleStarter.GetPlayerSpotCount() + battleStarter.GetAllySpotCount(),
                 enemyX = battleStarter.GetEnemiesSpotCount();
 
-            spotOversight = master.SetupSpotOversight(allyX >= enemyX ? allyX : enemyX);
+            spotOversight = master.SetupSpotOversight();
 
             int offset = 0;
             //Player
@@ -53,7 +53,7 @@ namespace Mfknudsen.Battle.Systems.States
                 spot.SetBattleMember(MasterPlayer.instance.GetBattleMember());
 
                 offset += 1;
-                spotOversight.SetSpot(spot, i, 0);
+                spotOversight.SetSpot(spot);
                 spot.transform.position = new Vector3(0 + (10 * i), 0, -10);
 
                 MasterPlayer.instance.GetBattleMember().SetOwndSpot(spot);
@@ -77,7 +77,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                     spot.SetBattleMember(battleMember);
 
-                    spotOversight.SetSpot(spot, i + offset, 0);
+                    spotOversight.SetSpot(spot);
                     spot.transform.position = new Vector3(0 + (10 * (i + offset)), 0, -10);
                     offset += 1;
                     battleMember.SetOwndSpot(spot);
@@ -104,13 +104,14 @@ namespace Mfknudsen.Battle.Systems.States
 
                     spot.SetBattleMember(battleMember);
 
-                    spotOversight.SetSpot(spot, i + offset, 1);
+                    spotOversight.SetSpot(spot);
                     spot.transform.position = new Vector3(0 + (10 * (i + offset)), 0, 10);
                     offset += 1;
                     battleMember.SetOwndSpot(spot);
                 }
             }
 
+            spotOversight.Reorganise();
             #endregion
 
             #region Start Actions

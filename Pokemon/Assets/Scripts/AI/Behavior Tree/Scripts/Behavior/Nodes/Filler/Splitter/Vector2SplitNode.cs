@@ -15,7 +15,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter
         [OutputType("X", typeof(float))] public float x = 0.0f;
         [OutputType("Y", typeof(float))] public float y = 0.0f;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             Vector2 vec = input;
 

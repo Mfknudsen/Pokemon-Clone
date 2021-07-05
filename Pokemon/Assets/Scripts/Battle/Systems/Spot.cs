@@ -1,9 +1,10 @@
 ﻿#region SDK
 
-using System;
+using System.Collections.Generic;
 using Mfknudsen.Battle.UI;
 using Mfknudsen.Pokémon;
-using UnityEngine; //Custom
+using Mfknudsen.Trainer;
+using UnityEngine;
 
 #endregion
 
@@ -14,28 +15,33 @@ namespace Mfknudsen.Battle.Systems
         #region Values
 
         [SerializeField] private bool active = true, needNew = true;
-        [SerializeField] private Pokemon activePokemon = null;
-        [SerializeField] private int spotNumber = -1;
-        [SerializeField] private Spot left = null, right = null, front = null;
-        [SerializeField] private Transform currentTransform = null;
-        [SerializeField] private Trainer.Team teamAllowed = null;
+        [SerializeField] private Pokemon activePokemon;
+        [SerializeField] private Spot left, right, front, strafeLeft, strafeRight;
+        [SerializeField] private Transform currentTransform;
         [SerializeField] private BattleMember battleMember;
 
-        [Header("UI:")] [SerializeField] Vector2 offset = Vector2.zero;
-        [SerializeField] private PokemonDisplay display = null;
-        [SerializeField] private GameObject displayPrefab = null;
+        [Header("UI:")] [SerializeField] private Vector2 offset = Vector2.zero;
+        [SerializeField] private PokemonDisplay display;
+        [SerializeField] private GameObject displayPrefab;
+
+        [SerializeField] private int id; 
 
         #endregion
 
         private void Update()
         {
             //DEBUG
+            Vector3 pos = currentTransform.position;
             if (left != null)
-                Debug.DrawRay(currentTransform.position, currentTransform.position - left.GetTransform().position);
+                Debug.DrawRay(pos, pos - left.GetTransform().position);
             if (right != null)
-                Debug.DrawRay(currentTransform.position, currentTransform.position - right.GetTransform().position);
+                Debug.DrawRay(pos, pos - right.GetTransform().position);
             if (front != null)
-                Debug.DrawRay(currentTransform.position, currentTransform.position - front.GetTransform().position);
+                Debug.DrawRay(pos, pos - front.GetTransform().position);
+            if (strafeLeft != null)
+                Debug.DrawRay(pos, pos - strafeLeft.GetTransform().position);
+            if (strafeRight != null)
+                Debug.DrawRay(pos, pos - strafeRight.GetTransform().position);
             //
         }
 
@@ -66,11 +72,6 @@ namespace Mfknudsen.Battle.Systems
             return activePokemon;
         }
 
-        public int GetSpotNumber()
-        {
-            return spotNumber;
-        }
-
         public bool GetActive()
         {
             return active;
@@ -81,14 +82,19 @@ namespace Mfknudsen.Battle.Systems
             return currentTransform;
         }
 
-        public Trainer.Team GetAllowedTeam()
-        {
-            return teamAllowed;
-        }
-
         public BattleMember GetBattleMember()
         {
             return battleMember;
+        }
+
+        public int GetTeamNumber()
+        {
+            return battleMember.GetTeamNumber();
+        }
+
+        public int GetID()
+        {
+            return id;
         }
 
         #endregion
@@ -110,6 +116,16 @@ namespace Mfknudsen.Battle.Systems
             front = set;
         }
 
+        public void SetStrafeLeft(Spot set)
+        {
+            strafeLeft = set;
+        }
+
+        public void SetStrafeRight(Spot set)
+        {
+            strafeRight = set;
+        }
+
         public void SetNeedNew(bool set)
         {
             needNew = set;
@@ -118,18 +134,13 @@ namespace Mfknudsen.Battle.Systems
         public void SetActivePokemon(Pokemon set)
         {
             activePokemon = set;
-            
+
             return;
-            
+
             //FIX!
-            
+
             if (set != null)
                 display.SetNewPokemon(set);
-        }
-
-        public void SetSpotNumber(int set)
-        {
-            spotNumber = set;
         }
 
         public void SetActive(bool set)
@@ -142,15 +153,14 @@ namespace Mfknudsen.Battle.Systems
             currentTransform = transform;
         }
 
-        public void SetAllowedTeam(Trainer.Team t)
+        public void SetBattleMember(BattleMember member)
         {
-            if (t != null)
-                teamAllowed = t;
+            battleMember = member;
         }
 
-        public void SetBattleMember(BattleMember battleMember)
+        public void SetID(int set)
         {
-            this.battleMember = battleMember;
+            id = set;
         }
 
         #endregion
@@ -171,23 +181,100 @@ namespace Mfknudsen.Battle.Systems
         #endregion
     }
 
-    public readonly struct SpotOversight
+    public struct SpotOversight
     {
-        private readonly Spot[,] index;
+        private List<Spot> list;
+        private int counts;
 
-        public SpotOversight(int xSpots)
+        public void SetSpot(Spot spot)
         {
-            index = new Spot[xSpots, 2];
+            if (list == null)
+            {
+                list = new List<Spot>();
+                counts = 0;
+            }
+
+            spot.SetID(counts);
+            counts += 1;
+            
+            list.Add(spot);
         }
 
-        public void SetSpot(Spot spot, int x, int y)
+        public List<Spot> GetSpots()
         {
-            index[x, y] = spot;
+            return list;
         }
 
-        public Spot[,] GetSpots()
+        public void Reorganise()
         {
-            return index;
+            List<Spot> enemies = new List<Spot>(), allies = new List<Spot>();
+
+            foreach (Spot spot in list)
+            {
+                if (spot.GetTeamNumber() == 0)
+                    allies = InsertByID(allies, spot);
+                else
+                    enemies = InsertByID(enemies, spot);
+            }
+
+            for (int i = 0; i < allies.Count; i++)
+            {
+                Spot spot = allies[i];
+                int count = i;
+                
+                while (spot.GetFront() == null && i >= 0)
+                {
+                    spot.SetFront(enemies[count]);
+                    count -= 1;
+                }
+
+                if (i != 0)
+                    spot.SetLeft(allies[i - 1]);
+
+                if (i != allies.Count - 1)
+                    spot.SetRight(allies[i + 1]);
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Spot spot = enemies[i];
+                int count = i;
+
+                while (spot.GetFront() == null && i >= 0)
+                {
+                    spot.SetFront(allies[count]);
+                    count -= 1;
+                }
+
+                if (i != 0)
+                    spot.SetLeft(enemies[i - 1]);
+
+                if (i != enemies.Count - 1)
+                    spot.SetRight(enemies[i + 1]);
+            }
+
+            foreach (Spot spot in list)
+            {
+                Spot s = spot.GetFront();
+
+                spot.SetStrafeLeft(s.GetRight());
+                spot.SetStrafeRight(s.GetLeft());
+            }
+        }
+
+        private List<Spot> InsertByID(List<Spot> toInsert, Spot spot)
+        {
+            for (int i = 0; i < toInsert.Count; i++)
+            {
+                if (toInsert[i].GetID() <= spot.GetID()) continue;
+                
+                toInsert.Insert(i, spot);
+                return toInsert;
+            }
+            
+            toInsert.Add(spot);
+            
+            return toInsert;
         }
     }
 }

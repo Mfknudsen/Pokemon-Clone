@@ -6,7 +6,9 @@ using Mfknudsen.Battle.Systems;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
-using UnityEngine; //Custom
+using UnityEngine;
+using Random = UnityEngine.Random;
+using Type = Mfknudsen.Pokémon.Type;
 
 #endregion
 
@@ -27,7 +29,7 @@ namespace Mfknudsen.Battle.Actions.Move
         Tough,
         Cute,
         Clever,
-        Beutiful,
+        Beautiful,
         Cool,
     }
 
@@ -37,6 +39,7 @@ namespace Mfknudsen.Battle.Actions.Move
         AllAdjacentOneSide,
         AllAdjacent,
         AllOneSide,
+        AllExceptUser,
         All,
     }
 
@@ -95,11 +98,11 @@ namespace Mfknudsen.Battle.Actions.Move
 
         #region Operation
 
-        private float[] damagePerTarget = new float[0],
-            damageApplied = new float[0],
-            damageOverTime = new float[0];
+        private Spot currentSpot;
 
-        private int targetIndex = -1;
+        private float damagePerTarget,
+            damageApplied,
+            damageOverTime;
 
         #endregion
 
@@ -117,11 +120,6 @@ namespace Mfknudsen.Battle.Actions.Move
         #endregion
 
         #region Setters
-
-        public void SetTargetIndex(int set)
-        {
-            targetIndex = set;
-        }
 
         public void SetType(Type set)
         {
@@ -346,15 +344,6 @@ namespace Mfknudsen.Battle.Actions.Move
         {
             if (!active)
             {
-                foreach (Spot s in SetupTargets(targetIndex))
-                {
-                    if (s != null)
-                    {
-                        if (s.GetActivePokemon() != null)
-                            targetPokemon.Add(s.GetActivePokemon());
-                    }
-                }
-
                 ChatMaster.instance.Add(TransferInformationToChat());
 
                 active = true;
@@ -446,145 +435,15 @@ namespace Mfknudsen.Battle.Actions.Move
 
             for (int i = 0; i < chatOnActivation.Length; i++)
             {
-                if (chatOnActivation[i] != null)
-                {
-                    result[i] = chatOnActivation[i].GetChat();
+                if (chatOnActivation[i] == null) continue;
 
-                    result[i].AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
-                    result[i].AddToOverride("<POKEMON_MOVE>", moveName);
-                }
+                result[i] = chatOnActivation[i].GetChat();
+
+                result[i].AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
+                result[i].AddToOverride("<POKEMON_MOVE>", moveName);
             }
 
             return result;
-        }
-
-        protected override Spot[] SetupTargets(int Index)
-        {
-            targetPokemon.Clear();
-            List<Spot> result = new List<Spot>();
-            Spot[] toCheck = BattleMaster.instance.GetSpots();
-
-            if (hitType == HitType.One)
-            {
-                //The Spot relativ to the index is returned
-                foreach (Spot s in toCheck)
-                {
-                    if (s == null)
-                        continue;
-
-                    if (s.GetSpotNumber() == Index)
-                    {
-                        result.Add(s);
-                        break;
-                    }
-                }
-            }
-            else if (hitType == HitType.AllOneSide)
-            {
-                bool checkDone = false;
-
-                foreach (Spot s in toCheck)
-                {
-                    if (s.GetSpotNumber() == Index)
-                        result.Add(s);
-                }
-
-                while (!checkDone)
-                {
-                    checkDone = true;
-
-                    foreach (Spot s in result)
-                    {
-                        bool allowSelfTarget = true;
-
-                        if (s.GetLeft() != null)
-                        {
-                            if (s.GetLeft().GetActivePokemon() == currentPokemon && !selfTargetable)
-                                allowSelfTarget = false;
-
-                            if (!result.Contains(s.GetLeft()) && allowSelfTarget)
-                            {
-                                result.Add(s.GetLeft());
-                                checkDone = false;
-                            }
-                        }
-
-                        allowSelfTarget = true;
-
-                        if (s.GetRight() != null)
-                        {
-                            if (s.GetRight().GetActivePokemon() == currentPokemon && !selfTargetable)
-                                allowSelfTarget = false;
-
-                            if (!result.Contains(s.GetRight()))
-                            {
-                                result.Add(s.GetRight());
-                                checkDone = false;
-                            }
-                        }
-                    }
-                }
-            }
-            else if (hitType == HitType.AllAdjacentOneSide)
-            {
-                foreach (Spot s in toCheck)
-                {
-                    if (s.GetSpotNumber() == Index)
-                    {
-                        if (s.GetActivePokemon() != currentPokemon)
-                            result.Add(s);
-
-                        result.Add(s.GetLeft());
-                        result.Add(s.GetRight());
-
-                        break;
-                    }
-                }
-            }
-            else if (hitType == HitType.AllAdjacent)
-            {
-                foreach (Spot s in toCheck)
-                {
-                    if (s.GetActivePokemon() == currentPokemon)
-                    {
-                        if (s.GetLeft() != null)
-                        {
-                            result.Add(s.GetLeft());
-                            result.Add(s.GetLeft().GetFront());
-                        }
-
-                        if (s.GetRight() != null)
-                        {
-                            result.Add(s.GetRight());
-                            result.Add(s.GetRight().GetFront());
-                        }
-
-                        if (s.GetFront() != null)
-                        {
-                            result.Add(s.GetFront());
-
-                            if (s.GetLeft() == null)
-                                result.Add(s.GetFront().GetRight());
-                            if (s.GetRight() == null)
-                                result.Add(s.GetFront().GetLeft());
-                        }
-
-                        break;
-                    }
-                }
-            }
-            else if (hitType == HitType.All)
-            {
-                foreach (Spot s in toCheck)
-                {
-                    if (s.GetActivePokemon() != currentPokemon)
-                        result.Add(s);
-                    else if (s.GetActivePokemon() == currentPokemon && selfTargetable)
-                        result.Add(s);
-                }
-            }
-
-            return result.ToArray();
         }
 
         #endregion

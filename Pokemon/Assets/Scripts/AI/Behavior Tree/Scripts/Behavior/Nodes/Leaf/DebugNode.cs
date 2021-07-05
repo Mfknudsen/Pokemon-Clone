@@ -11,7 +11,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf
         public object toLog;
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             if (toLog == null)
                 throw new Exception("Cant Debug Null Object");

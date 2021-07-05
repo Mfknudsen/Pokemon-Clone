@@ -11,7 +11,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
     public class Transition : BaseNode
     {
         public bool transferInformation;
-        
+
         [SerializeReference] public int targetNodeID = -1,
             fromNodeID = -1,
             targetFieldID = -1,
@@ -24,9 +24,9 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
         public void Set(BaseNode node, int infoID, bool isTarget)
         {
-            if(node == null)
+            if (node == null)
                 return;
-            
+
             if (isTarget)
             {
                 targetFieldID = infoID;
@@ -41,7 +41,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
         public void Set(BaseNode node, bool isTarget)
         {
-            if(node == null)
+            if (node == null)
                 return;
 
             if (isTarget)
@@ -50,7 +50,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
                 fromNodeID = node.id;
         }
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             if (transferInformation)
             {
@@ -62,7 +62,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
                     targetNode = n;
                 foreach (BaseNode n in setup.GetNodes().Where(n => n.id == fromNodeID))
                     fromNode = n;
-                
+
                 //Get the FieldInfos
                 try
                 {
@@ -109,7 +109,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
 
                 //Set Info Received
                 targetNode.AddCheckState(targetField.Name, true);
-
+                
                 if (CheckNodeReady(targetNode))
                     setup.AddNodeToQueue(targetNode);
             }
@@ -129,7 +129,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts
         {
             if (o == null)
                 return null;
-            
+
             String s = o.ToString();
             if (type == VariableType.Float)
                 return float.Parse(s);

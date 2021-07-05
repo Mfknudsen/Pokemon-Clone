@@ -7,7 +7,7 @@
         [OutputType("Float Input", typeof(float), true)]
         public float input = 0.0f;
 
-        public override void Tick(BehaviorController setup)
+        public override void Tick(BattleAI setup)
         {
             ContinueTransitions(setup);
         }
