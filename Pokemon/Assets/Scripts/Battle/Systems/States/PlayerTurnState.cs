@@ -1,9 +1,11 @@
+#region SDK
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 using Mfknudsen.Player;
+
+#endregion
 
 namespace Mfknudsen.Battle.Systems.States
 {
@@ -15,34 +17,23 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            List<Pokemon> playerPokemon = new List<Pokemon>();
             Team team = MasterPlayer.instance.GetTeam();
             SpotOversight spotOversight = master.GetSpotOversight();
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (Spot spot in spotOversight.GetSpots())
             {
                 Pokemon pokemon = spot.GetActivePokemon();
-                
-                if (pokemon == null) continue;
 
-                if (team.PartOfTeam(pokemon))
-                    playerPokemon.Add(pokemon);
-            }
-            
-            while (playerPokemon.Count > 0)
-            {
-                Pokemon pokemon = playerPokemon[0];
+                if (pokemon is null || !team.PartOfTeam(pokemon)) continue;
 
                 master.DisplayMoves(pokemon);
-                
-                while (pokemon.GetBattleAction() == null)
-                    yield return 0;
 
-                playerPokemon.RemoveAt(0);
+                while (pokemon.GetBattleAction() is null)
+                    yield return null;
             }
 
-            master.DisableMovesDisplay();
+            master.GetSelectionMenu().DisableDisplaySelection();
             
             master.SetState(new ComputerTurnState(master));
         }

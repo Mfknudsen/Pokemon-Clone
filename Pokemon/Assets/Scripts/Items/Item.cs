@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using Mfknudsen.Pokémon;
 using UnityEngine;
 
+#endregion
+
 namespace Mfknudsen.Items
 {
-
-    #endregion
-
     #region Enums
     public enum ItemType { Berry, MegaStone, Revive, Potion, }
     #endregion
@@ -110,5 +109,9 @@ namespace Mfknudsen.Items
             done = true;
         }
         #endregion
+    }
+
+    public interface IBattleItem
+    {
     }
 }

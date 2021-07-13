@@ -11,19 +11,17 @@ using UnityEngine;
 
 namespace Mfknudsen.Pokémon.Conditions
 {
-    [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Fainted", order = 0)]
-    public class FaintedCondition : Condition
+    [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Fainted",
+        order = 0)]
+    public class FaintedCondition : Condition, INonVolatile
     {
         #region Values
-        [SerializeField] private NonVolatile conditionName = NonVolatile.Fainted;
-        [SerializeField] private Chat onEffectChat = null;
+
+        [SerializeField] private Chat onEffectChat;
+
         #endregion
 
         #region Getters
-        public override string GetConditionName()
-        {
-            return conditionName.ToString();
-        }
 
         public override Condition GetCondition()
         {
@@ -37,12 +35,13 @@ namespace Mfknudsen.Pokémon.Conditions
 
             return result;
         }
+
         #endregion
 
         #region In
+
         public override void Reset()
         {
-            active = false;
             done = false;
         }
 
@@ -68,6 +67,7 @@ namespace Mfknudsen.Pokémon.Conditions
 
             done = true;
         }
+
         #endregion
     }
 }

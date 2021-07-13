@@ -12,10 +12,10 @@ namespace Mfknudsen.Trainer
     public class Team : MonoBehaviour
     {
         #region Values
-        [SerializeField] private bool CLEARLIST = false;
-        [Space]
+
+        [SerializeField] private bool CLEARLIST;
         [SerializeField] private Pokemon[] pokemons = new Pokemon[6];
-        private bool ready = false;
+        private bool ready;
 
         private void OnValidate()
         {
@@ -59,9 +59,11 @@ namespace Mfknudsen.Trainer
                 CLEARLIST = false;
             }
         }
+
         #endregion
 
         #region Getters
+
         public bool GetReady()
         {
             return ready;
@@ -69,19 +71,18 @@ namespace Mfknudsen.Trainer
 
         public bool HasMorePokemon()
         {
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Pokemon pokemon in pokemons)
             {
-                if (pokemon != null)
-                {
-                    Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
-                    if (c != null)
-                    {
-                        if (c.GetConditionName() != NonVolatile.Fainted.ToString())
-                            return true;
-                    }
-                    else
-                        return true;
-                }
+                if (pokemon is null) continue;
+
+                Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
+
+                if (c is FaintedCondition) continue;
+
+                Debug.Log(pokemon.GetName());
+                
+                return true;
             }
 
             return false;
@@ -91,16 +92,15 @@ namespace Mfknudsen.Trainer
         {
             foreach (Pokemon pokemon in pokemons)
             {
-                if (pokemon != null)
-                {
-                    if (!pokemon.GetInBattle() && !pokemon.GetGettingSwitched())
-                    {
-                        if (pokemon.GetConditionOversight().GetNonVolatileStatus() == null)
-                            return true;
-                        else if (pokemon.GetConditionOversight().GetNonVolatileStatus().GetConditionName() != NonVolatile.Fainted.ToString())
-                            return true;
-                    }
-                }
+                if (pokemon is null) continue;
+
+                if (pokemon.GetInBattle() || pokemon.GetGettingSwitched()) continue;
+
+                if (pokemon.GetConditionOversight().GetNonVolatileStatus() is null)
+                    return true;
+
+                if (!(pokemon.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition))
+                    return true;
             }
 
             return false;
@@ -130,9 +130,11 @@ namespace Mfknudsen.Trainer
 
             return null;
         }
+
         #endregion
 
         #region In
+
         public void Setup()
         {
             for (int i = 0; i < pokemons.Length; i++)
@@ -154,7 +156,9 @@ namespace Mfknudsen.Trainer
 
             return null;
         }
+
         #region SwitchingPokemon
+
         public void SwitchTeamPlaces(int from, int to)
         {
             Pokemon toStore = pokemons[to];
@@ -188,7 +192,9 @@ namespace Mfknudsen.Trainer
             pokemons[j] = pokemons[i];
             pokemons[i] = toStore;
         }
+
         #endregion
+
         #endregion
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
 {
-    [System.Serializable]
+    [Serializable]
     public class BaseNodeSetting
     {
         //Base

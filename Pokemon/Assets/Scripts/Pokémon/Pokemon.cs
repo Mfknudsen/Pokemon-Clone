@@ -7,97 +7,146 @@ using Mfknudsen.Items;
 using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 
-//Custom
-
 #endregion
 
 namespace Mfknudsen.Pokémon
 {
     #region Enums
-    public enum Stat { HP, Attack, Defence, SpAtk, SpDef, Speed }
-    public enum EvolutionMethod { None, Level, Item, Trade, LearnedMove }
-    public enum EggGroup { Monster, Water1 }
-    public enum LevelRate { Slow, MediumSlow }
-    public enum Shape { }
-    public enum Footprint { }
+
+    public enum Stat
+    {
+        // ReSharper disable once InconsistentNaming
+        HP,
+        Attack,
+        Defence,
+        SpAtk,
+        SpDef,
+        Speed
+    }
+
+    public enum EvolutionMethod
+    {
+        None,
+        Level,
+        Item,
+        Trade,
+        LearnedMove
+    }
+
+    public enum EggGroup
+    {
+        Monster,
+        Water1
+    }
+
+    public enum LevelRate
+    {
+        Slow,
+        MediumSlow
+    }
+
+    public enum Shape
+    {
+    }
+
+    public enum Footprint
+    {
+    }
+
     #endregion
 
     [CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Create new Pokemon", order = 0)]
     public class Pokemon : ScriptableObject
     {
         #region Values:
+
         #region Pokemon
-        [Header("Object Reference:")]
-        [SerializeField] private bool isInstantiated = false;
-        [SerializeField] private string pokemonName = "";
-        [SerializeField] private int pokedexIndex = 0;
-        [SerializeField] private string pokemonCategory = "";
+
+        [Header("Object Reference:")] [SerializeField]
+        private bool isInstantiated;
+
+        [SerializeField] private string pokemonName;
+
+        // ReSharper disable once IdentifierTypo
+        [SerializeField] private int pokedexIndex;
+        [SerializeField] private string pokemonCategory;
         [SerializeField] private Type[] types = new Type[1];
-        [SerializeField] private Ability ability = null;
-        [SerializeField] private HoldableItem itemInHand = null;
-        [SerializeField, TextArea] private string description = "";
+        [SerializeField] private Ability ability;
+        [SerializeField] private HoldableItem itemInHand;
+        [SerializeField, TextArea] private string description;
 
-        [Header("Conditions:")]
-        [SerializeField] private ConditionOversight oversight = null;
+        [Header("Conditions:")] [SerializeField]
+        private ConditionOversight oversight;
 
-        [Header("Stats:")]
-        [SerializeField] private float currentHealth = 0;
+        [Header("Stats:")] [SerializeField] private float currentHealth;
         [SerializeField] private int[] stats = new int[6];
         [SerializeField] private int[] iv = new int[6];
         [SerializeField] private int[] ev = new int[6];
-        [SerializeField] private int level = 0, maxExp = 0;
-        [SerializeField] private int currentExp = 0;
+        [SerializeField] private int level, maxExp;
+        [SerializeField] private int currentExp;
 
-        [Header("Evolotion:")]
-        [SerializeField] private EvolutionMethod method = 0;
-        [SerializeField] Pokemon evolveTo = null;
-        [SerializeField] int evolutionLevel = 0;
+        [Header("Evolution:")] [SerializeField]
+        private EvolutionMethod method;
 
-        [Header("Moves:")]
-        [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
+        [SerializeField] Pokemon evolveTo;
+        [SerializeField] int evolutionLevel;
+
+        [Header("Moves:")] [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
+
         [Header(" -- Learnable:")]
         //Level
-        [SerializeField] private int[] levelLearnableMoveKeys = new int[0];
+        [SerializeField]
+        private int[] levelLearnableMoveKeys = new int[0];
+
         [SerializeField] private PokemonMove[] levelLearnableMoveValue = new PokemonMove[0];
+
         //TM/TR
         [SerializeField] private PokemonMove[] tmLearnableMoveValue = new PokemonMove[0];
+
         //Breeding
         [SerializeField] private Pokemon[] breedingLearnedMoveKeys = new Pokemon[0];
+
         [SerializeField] private PokemonMove[] breedingLearnedMoveValue = new PokemonMove[0];
+
         //Tutor
         [SerializeField] private PokemonMove[] tutorLearnableMoveValue = new PokemonMove[0];
 
-        [Header("Breeding:")]
-        [SerializeField] private EggGroup eggGroup = 0;
-        [SerializeField] private int hatchTimeMin = 0, hatchTimeMax = 0;
-        [SerializeField] private float height = 0, weight = 0;
-        [SerializeField] private float genderRate = 0, catchRate = 0;
+        [Header("Breeding:")] [SerializeField] private EggGroup eggGroup;
+        [SerializeField] private int hatchTimeMin, hatchTimeMax;
+        [SerializeField] private float height, weight;
+        [SerializeField] private float genderRate, catchRate;
 
-        [Header("Mich")]
-        // ---Mega
-        [SerializeField] private int expYield = 0;
-        [SerializeField] private LevelRate levelRate = 0;
+        [Header("Miscellaneous")] [SerializeField]
+        private int expYield;
+
+        [SerializeField] private LevelRate levelRate;
         [SerializeField] private int[] evYield = new int[6];
-        [SerializeField] private Shape shape = 0;
-        [SerializeField] private Footprint footprint = 0;
+        [SerializeField] private Shape shape;
+        [SerializeField] private Footprint footprint;
+        // ReSharper disable once IdentifierTypo
         [SerializeField] private Color pokedexColor = Color.green;
-        [SerializeField] private int baseFriendship = 0;
+        [SerializeField] private int baseFriendship;
+
         #endregion
 
         #region In Battle
-        [Header("Battle:")]
-        [SerializeField] private int spotIndex = 0;
+
+        [Header("Battle:")] [SerializeField] private int spotIndex = 0;
         [SerializeField] private GameObject prefab = null;
         [SerializeField] private GameObject spawnedObject = null;
         [SerializeField] private Animator anim = null;
         [SerializeField] private bool gettingSwitched = false, inBattle = false;
         [SerializeField] private BattleAction battleAction = null;
         [SerializeField] private bool gettingRevived = false;
+
         #endregion
+
         #endregion
 
         #region Getters
+
         #region - Pokemon
+
         public Pokemon GetPokemon()
         {
             Pokemon result = this;
@@ -123,17 +172,19 @@ namespace Mfknudsen.Pokémon
 
         public int GetStatRaw(Stat target)
         {
-            return stats[(int)target];
+            return stats[(int) target];
         }
 
+        // ReSharper disable once InconsistentNaming
         public int GetIV(Stat target)
         {
-            return iv[(int)target];
+            return iv[(int) target];
         }
 
+        // ReSharper disable once InconsistentNaming
         public int GetEV(Stat target)
         {
-            return ev[(int)target];
+            return ev[(int) target];
         }
 
         public int GetLevel()
@@ -171,6 +222,7 @@ namespace Mfknudsen.Pokémon
             return weight;
         }
 
+        // ReSharper disable once IdentifierTypo
         public int GetPokedexIndex()
         {
             return pokedexIndex;
@@ -181,9 +233,10 @@ namespace Mfknudsen.Pokémon
             return pokemonCategory;
         }
 
+        // ReSharper disable once InconsistentNaming
         public int GetEVYield(Stat target)
         {
-            return evYield[(int)target];
+            return evYield[(int) target];
         }
 
         public int GetExpYield()
@@ -235,27 +288,25 @@ namespace Mfknudsen.Pokémon
         {
             return tutorLearnableMoveValue;
         }
+
         #endregion
 
         #region - In Battle
+
         public int GetStat(Stat stat)
         {
-            int baseStat = stats[(int)stat];
-            int baseIV = iv[(int)stat];
-            int baseEV = ev[(int)stat];
+            int baseStat = stats[(int) stat];
+            // ReSharper disable once InconsistentNaming
+            int baseIV = iv[(int) stat];
+            // ReSharper disable once InconsistentNaming
+            int baseEV = ev[(int) stat];
 
             return BattleMathf.CalculateOtherStat(baseStat, baseIV, baseEV, level);
         }
 
         public ConditionOversight GetConditionOversight()
         {
-            if (oversight == null)
-            {
-                oversight = CreateInstance("ConditionOversight") as ConditionOversight;
-                oversight.SetIsInstantiated(true);
-            }
-
-            return oversight;
+            return oversight ? oversight : oversight = CreateInstance<ConditionOversight>();
         }
 
         public float GetCurrentHealth()
@@ -319,39 +370,35 @@ namespace Mfknudsen.Pokémon
         {
             return gettingRevived;
         }
+
         #endregion
+
         #endregion
 
         #region Setters
+
         #region Pokemon
+
         public void SetAbility(Ability toSet)
         {
             ability = toSet;
         }
 
-        public void SetIsInstantiated(bool set)
-        {
-            isInstantiated = set;
-        }
-
-        public void SetCurrentHP(int set)
-        {
-            currentHealth = set;
-        }
-
         public void SetStat(Stat targetStat, int set)
         {
-            stats[(int)targetStat] = set;
+            stats[(int) targetStat] = set;
         }
 
+        // ReSharper disable once InconsistentNaming
         public void SetIV(Stat targetStat, int set)
         {
-            iv[(int)targetStat] = set;
+            iv[(int) targetStat] = set;
         }
 
+        // ReSharper disable once InconsistentNaming
         public void SetEV(Stat targetStat, int set)
         {
-            ev[(int)targetStat] = set;
+            ev[(int) targetStat] = set;
         }
 
         public void SetEggGroup(EggGroup egg)
@@ -399,9 +446,10 @@ namespace Mfknudsen.Pokémon
             pokemonCategory = set;
         }
 
+        // ReSharper disable once InconsistentNaming
         public void SetEVYield(Stat target, int set)
         {
-            evYield[(int)target] = set;
+            evYield[(int) target] = set;
         }
 
         public void SetExpYield(int set)
@@ -453,9 +501,11 @@ namespace Mfknudsen.Pokémon
         {
             tutorLearnableMoveValue = set;
         }
+
         #endregion
 
         #region Battle
+
         public void SetSpotIndex(int set)
         {
             spotIndex = set;
@@ -485,10 +535,13 @@ namespace Mfknudsen.Pokémon
         {
             gettingRevived = set;
         }
+
         #endregion
+
         #endregion
 
         #region Out
+
         public bool IsSameType(TypeName typeName)
         {
             if (types[0].GetTypeName() == typeName)
@@ -502,9 +555,11 @@ namespace Mfknudsen.Pokémon
 
             return false;
         }
+
         #endregion
 
         #region In
+
         public void DespawnPokemon()
         {
             Destroy(spawnedObject);
@@ -529,7 +584,6 @@ namespace Mfknudsen.Pokémon
 
                 if (expNeeded <= points)
                 {
-
                 }
                 else
                 {
@@ -541,13 +595,21 @@ namespace Mfknudsen.Pokémon
                 }
             }
         }
+
         #endregion
 
         #region Internal
+
+        private void SetIsInstantiated(bool set)
+        {
+            isInstantiated = set;
+        }
+
         private void LevelUp()
         {
             level++;
         }
+
         #endregion
     }
 }

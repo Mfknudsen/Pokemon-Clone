@@ -5,16 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Math;
-using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static UnityEngine.Screen;
-using EditorSettings = Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.EditorSettings;
 
 #endregion
 
@@ -44,7 +40,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor
         private GUIStyle style;
         private Vector2 scrollPos;
         private Vector2 scrollStartPos;
-        private int nodesToDelete;
 
         //Transition
         private BaseNodeSetting drawTrans;

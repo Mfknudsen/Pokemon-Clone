@@ -1,16 +1,16 @@
 ﻿#region SDK
 
 using System.Collections;
-using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Type = Mfknudsen.Pokémon.Type;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace Mfknudsen.Battle.Actions.Move
 {
@@ -39,13 +39,14 @@ namespace Mfknudsen.Battle.Actions.Move
         AllAdjacentOneSide,
         AllAdjacent,
         AllOneSide,
+        AllOneSideExceptUser,
         AllExceptUser,
         All,
     }
 
     #endregion
 
-    [CreateAssetMenu(fileName = "Move", menuName = "Pokemon/Create new Move", order = 1)]
+    [CreateAssetMenu(fileName = "New Pokemon Move", menuName = "Pokemon/Create new Move", order = 1)]
     public class PokemonMove : BattleAction
     {
         #region Values
@@ -94,7 +95,7 @@ namespace Mfknudsen.Battle.Actions.Move
         [SerializeField] protected Condition statusCondition;
         [SerializeField] protected float applyChange;
         [SerializeField] protected bool statusHit;
-        [SerializeField] Chat statusHitChat, statusFailedChat;
+        [SerializeField] private Chat statusHitChat, statusFailedChat;
 
         #region Operation
 
@@ -131,6 +132,7 @@ namespace Mfknudsen.Battle.Actions.Move
             category = set;
         }
 
+        // ReSharper disable once InconsistentNaming
         public void SetStartPP(int set)
         {
             startPP = set;
@@ -209,6 +211,7 @@ namespace Mfknudsen.Battle.Actions.Move
             applyChange = set;
         }
 
+        // ReSharper disable once InconsistentNaming
         public void SetMaxPP(int set)
         {
             maxPP = set;
@@ -222,11 +225,10 @@ namespace Mfknudsen.Battle.Actions.Move
         {
             BattleAction result = this;
 
-            if (!result.GetIsInstantiated())
-            {
-                result = Instantiate(this);
-                result.SetIsInstantiated(true);
-            }
+            if (result.GetIsInstantiated()) return result;
+
+            result = Instantiate(this);
+            result.SetIsInstantiated(true);
 
             return result;
         }
@@ -251,6 +253,7 @@ namespace Mfknudsen.Battle.Actions.Move
             return category;
         }
 
+        // ReSharper disable once InconsistentNaming
         public int GetStartPP()
         {
             return startPP;
@@ -298,17 +301,17 @@ namespace Mfknudsen.Battle.Actions.Move
 
         public int[] GetNormalContests()
         {
-            return new int[] {(int) normalCondition, normalAppeal, normalJam};
+            return new[] {(int) normalCondition, normalAppeal, normalJam};
         }
 
         public int[] GetSuperContests()
         {
-            return new int[] {(int) superCondition, superAppeal, superJam};
+            return new[] {(int) superCondition, superAppeal, superJam};
         }
 
         public int[] GetSpectacularContests()
         {
-            return new int[] {(int) spectacularCondition, spectacularAppeal, spectacularJam};
+            return new[] {(int) spectacularCondition, spectacularAppeal, spectacularJam};
         }
 
         public HitType GetHitType()
@@ -331,6 +334,7 @@ namespace Mfknudsen.Battle.Actions.Move
             return applyChange;
         }
 
+        // ReSharper disable once InconsistentNaming
         public int GetMaxPP()
         {
             return maxPP;
@@ -342,6 +346,7 @@ namespace Mfknudsen.Battle.Actions.Move
 
         public override IEnumerator Activate()
         {
+            // ReSharper disable once InvertIf
             if (!active)
             {
                 ChatMaster.instance.Add(TransferInformationToChat());
@@ -349,7 +354,7 @@ namespace Mfknudsen.Battle.Actions.Move
                 active = true;
                 done = false;
             }
-
+            /*
             if (category != Category.Status)
             {
                 if (targetPokemon.Count > 0)
@@ -421,12 +426,13 @@ namespace Mfknudsen.Battle.Actions.Move
                         Debug.Log("Temp Miss");
                 }
             }
+            */
 
             return Operation();
         }
 
         #endregion
-
+        
         #region Internal
 
         protected override Chat[] TransferInformationToChat()
@@ -435,7 +441,7 @@ namespace Mfknudsen.Battle.Actions.Move
 
             for (int i = 0; i < chatOnActivation.Length; i++)
             {
-                if (chatOnActivation[i] == null) continue;
+                if (chatOnActivation[i] is null) continue;
 
                 result[i] = chatOnActivation[i].GetChat();
 
@@ -446,47 +452,50 @@ namespace Mfknudsen.Battle.Actions.Move
             return result;
         }
 
+        private float GetDamageForTarget(Pokemon user, Pokemon target)
+        {
+            float attackPower = currentPokemon.GetStat(category == Category.Physical ? Stat.Attack : Stat.SpAtk);
+
+            float defencePower = currentPokemon.GetStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
+
+            return BattleMathf.CalculateDamage(user.GetLevel(), attackPower, defencePower, power,
+                BattleMathf.CalculateModifiers(user, target, this, (targetPokemon.Count == 1)));
+        }
+
         #endregion
 
         #region IEnumerator
 
         protected override IEnumerator Operation()
         {
+            float secPerPokeMove = 200 * BattleMaster.instance.GetSecPerPokeMove();
+
             if (category != Category.Status)
             {
-                if (damagePerTarget.Length > 0)
+                while (targetPokemon.Count > 0)
                 {
-                    float divide = 200 * BattleMaster.instance.GetSecPerPokeMove();
+                    Pokemon pokemon = targetPokemon[0];
+                    damagePerTarget = GetDamageForTarget(currentPokemon, pokemon);
+                    damageOverTime = damagePerTarget / secPerPokeMove;
 
-                    float[] damageApplied = new float[targetPokemon.Count];
-                    float[] damageOverTime = new float[targetPokemon.Count];
-
-                    for (int i = 0; i < targetPokemon.Count; i++)
-                        damageOverTime[i] = damagePerTarget[i] / divide;
-
-                    while (damageApplied[0] < damagePerTarget[0])
+                    while (damageApplied < damagePerTarget)
                     {
-                        for (int i = 0; i < targetPokemon.Count; i++)
-                        {
-                            if (Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]) ==
-                                damagePerTarget[i])
-                                damageOverTime[i] = damagePerTarget[i] - damageApplied[i];
+                        if (damageApplied + damageOverTime >= damagePerTarget)
+                            damageOverTime = damagePerTarget - damageApplied;
 
-                            damageApplied[i] = Mathf.Clamp(damageApplied[i] + damageOverTime[i], 0, damagePerTarget[i]);
+                        damageApplied += damageOverTime;
 
-                            targetPokemon[i].RecieveDamage(damageOverTime[i]);
-                        }
+                        pokemon.RecieveDamage(damageOverTime);
 
-                        if (damageApplied[0] == damagePerTarget[0])
-                            yield return null;
-                        else
-                            yield return new WaitForSeconds(BattleMaster.instance.GetSecPerPokeMove() / divide);
+                        yield return new WaitForSeconds(1 / secPerPokeMove);
                     }
+
+                    targetPokemon.Remove(pokemon);
                 }
             }
             else if (statusHit)
             {
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(secPerPokeMove);
             }
 
             done = true;

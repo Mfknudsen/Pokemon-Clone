@@ -1,4 +1,8 @@
+#region SDK
+
 using System.Collections;
+
+#endregion
 
 namespace Mfknudsen.Battle.Systems.States
 {
@@ -10,7 +14,9 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            throw new System.NotImplementedException();
+            yield break;
+
+            master.EndBattle(true);
         }
     }
 }

@@ -10,20 +10,23 @@ using UnityEngine;
 
 namespace Mfknudsen.Pokémon.Conditions
 {
-    [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Freeze", order = 1)]
-    public class FreezeCondition : Condition
+    [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Freeze",
+        order = 1)]
+    public class FreezeCondition : Condition, INonVolatile
     {
         #region Values
-        [SerializeField] private NonVolatile conditionName = NonVolatile.Freeze;
+
         [SerializeField] private int n;
-        [SerializeField] private Chat onEffectChat = null, onContinuousEffectChat = null, abruptEndChat = null, endEffectChat = null;
+
+        [SerializeField] private Chat onEffectChat,
+            onContinuousEffectChat,
+            abruptEndChat,
+            endEffectChat;
+
         #endregion
 
         #region Getters
-        public override string GetConditionName()
-        {
-            return conditionName.ToString();
-        }
+
         public override Condition GetCondition()
         {
             Condition result = this;
@@ -36,9 +39,11 @@ namespace Mfknudsen.Pokémon.Conditions
 
             return result;
         }
+
         #endregion
 
         #region In
+
         public override void Reset()
         {
             done = false;
@@ -72,10 +77,12 @@ namespace Mfknudsen.Pokémon.Conditions
 
                 activator.RemoveFromCondition(this);
             }
+
             yield return null;
 
             done = true;
         }
+
         #endregion
     }
 }

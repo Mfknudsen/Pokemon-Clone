@@ -10,6 +10,7 @@ using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.Pokémon;
 using Mfknudsen.Battle.Actions;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 
@@ -166,6 +167,7 @@ namespace Mfknudsen.AI
     public struct LocalMemories
     {
         public Pokemon currentPokemon;
+        public Spot currentSpot;
     }
 
     public struct EnemiesMemories

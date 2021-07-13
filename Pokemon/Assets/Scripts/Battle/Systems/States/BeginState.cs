@@ -20,6 +20,8 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
+            master.GetSelectionMenu().Setup();
+            
             #region Setup Spots
 
             BattleStarter battleStarter = null;
@@ -37,14 +39,16 @@ namespace Mfknudsen.Battle.Systems.States
 
             int offset = 0;
             //Player
-            Team team = MasterPlayer.instance.GetTeam();
+            MasterPlayer player = MasterPlayer.instance;
+            ;
+            Team team = player.GetTeam();
 
             for (int i = 0; i < battleStarter.GetPlayerSpotCount(); i++)
             {
                 Pokemon pokemon = team.GetPokemonByIndex(i);
-                if (pokemon == null)
+                if (pokemon is null)
                 {
-                    MasterPlayer.instance.GetBattleMember().ForceHasAllSpots();
+                    player.GetBattleMember().ForceHasAllSpots();
                     break;
                 }
 
@@ -56,7 +60,7 @@ namespace Mfknudsen.Battle.Systems.States
                 spotOversight.SetSpot(spot);
                 spot.transform.position = new Vector3(0 + (10 * i), 0, -10);
 
-                MasterPlayer.instance.GetBattleMember().SetOwndSpot(spot);
+                player.GetBattleMember().SetOwndSpot(spot);
             }
 
             //Allies
@@ -111,7 +115,8 @@ namespace Mfknudsen.Battle.Systems.States
                 }
             }
 
-            spotOversight.Reorganise();
+            spotOversight.Reorganise(false);
+
             #endregion
 
             #region Start Actions
@@ -146,7 +151,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 while (!action.GetDone())
                     yield return 0;
-                
+
                 list.RemoveAt(0);
             }
 
@@ -154,7 +159,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             while (!ChatMaster.instance.GetIsClear())
                 yield return 0;
-
+            
             master.SetState(new PlayerTurnState(master));
         }
     }

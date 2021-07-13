@@ -14,9 +14,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf.Pokémon
         [InputType("Move", typeof(PokemonMove))]
         public PokemonMove move;
 
-        [InputType("Target Spot Index", typeof(Vector2))]
-        public Vector2 targetSpotIndex;
-
         public SendAttackNode()
         {
             inCall = true;
@@ -24,9 +21,6 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Leaf.Pokémon
 
         public override void Tick(BattleAI setup)
         {
-            move.SetTargetIndex(targetSpotIndex);
-            move.SetCurrentPokemon(pokemon);
-            
             pokemon.SetBattleAction(move);
 
             ContinueTransitions(setup);

@@ -1,4 +1,7 @@
+#region SDK
+
 using System.Collections;
+using System.Collections.Generic;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
@@ -6,28 +9,32 @@ using Mfknudsen._Debug;
 using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 
+#endregion
+
 namespace Mfknudsen.Battle.Systems.States
 {
     public class ActionState : State
     {
-        public ActionState(BattleMaster master) : base(master)
+        // ReSharper disable once IdentifierTypo
+        private readonly List<Pokemon> pokemonsWithAction;
+
+        // ReSharper disable once IdentifierTypo
+        public ActionState(BattleMaster master, List<Pokemon> pokemonsWithAction) : base(master)
         {
+            this.pokemonsWithAction = pokemonsWithAction;
         }
 
         public override IEnumerator Tick()
         {
             bool faintedCheck = false;
-            Debug.Log("Start");
 
             SpotOversight spotOversight = master.GetSpotOversight();
 
-            foreach (Spot spot in spotOversight.GetSpots())
+            foreach (Pokemon pokemon in pokemonsWithAction)
             {
-                if (spot == null || spot.GetActivePokemon() == null ||
-                    spot.GetActivePokemon().GetBattleAction() == null)
+                // ReSharper disable once MergeSequentialChecks
+                if (pokemon is null || pokemon.GetBattleAction() is null)
                     continue;
-
-                Pokemon pokemon = spot.GetActivePokemon();
 
                 BattleAction action = pokemon.GetBattleAction();
 
@@ -35,32 +42,45 @@ namespace Mfknudsen.Battle.Systems.States
 
                 master.StartCoroutine(action.Activate());
 
-                while (action.GetDone() && !ChatMaster.instance.GetIsClear())
-                    yield return 0;
+                while (!action.GetDone() || !ChatMaster.instance.GetIsClear())
+                    yield return null;
+
+                yield return new WaitForSeconds(1);
 
                 pokemon.SetBattleAction(null);
 
+                // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                 foreach (Spot sCheck in spotOversight.GetSpots())
                 {
-                    if (sCheck == null || sCheck.GetActivePokemon() == null ||
-                        sCheck.GetActivePokemon().GetConditionOversight().GetNonVolatileStatus().GetType() ==
-                        typeof(FaintedCondition))
-                        continue;
+                    // ReSharper disable once Unity.NoNullPropagation
+                    Pokemon p = sCheck?.GetActivePokemon();
+
+                    if (p is null) continue;
+
+                    if (p.GetCurrentHealth() == 0)
+                        master.SetPokemonFainted(p);
 
                     faintedCheck = true;
-                    break;
                 }
 
-                if (faintedCheck)
-                    break;
+                pokemonsWithAction.Remove(pokemon);
+
+                if (!faintedCheck) continue;
+
+                // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+                foreach (Spot spot in spotOversight.GetSpots())
+                {
+                    if (spot.GetActivePokemon().GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)
+                        pokemonsWithAction.Remove(spot.GetActivePokemon());
+                }
+
+                break;
             }
 
-            Debug.Log("Done");
-
             if (faintedCheck)
-                master.SetState(new DoFaintedState(master, this));
+                master.SetState(new DoFaintedState(master, pokemonsWithAction));
             else
-                master.SetState(new RoundDoneState(master));
+                master.SetState(new PlayerSelectNewState(master));
         }
     }
 }

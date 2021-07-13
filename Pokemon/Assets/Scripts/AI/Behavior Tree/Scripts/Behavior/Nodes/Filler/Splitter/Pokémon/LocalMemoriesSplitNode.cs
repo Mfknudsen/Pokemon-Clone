@@ -1,5 +1,9 @@
+#region SDK
+
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Pokémon;
-using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter.Pokémon
 {
@@ -8,15 +12,19 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter.Pok�
     public class LocalMemoriesSplitNode : BaseNode
     {
         [InputType("Input", typeof(LocalMemories))]
+        // ReSharper disable once UnassignedField.Global
         public LocalMemories input;
 
         [OutputType("Pokemon", typeof(Pokemon))]
         public Pokemon pokemon;
-        
+
+        [OutputType("Spot", typeof(Spot))] public Spot spot;
+
         public override void Tick(BattleAI setup)
         {
             pokemon = input.currentPokemon;
-            
+            spot = input.currentSpot;
+
             ContinueTransitions(setup);
         }
 

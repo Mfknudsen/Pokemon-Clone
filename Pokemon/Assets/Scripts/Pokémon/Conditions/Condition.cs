@@ -10,30 +10,23 @@ using UnityEngine;
 
 namespace Mfknudsen.Pokémon.Conditions
 {
-    #region Enums
-    public enum NonVolatile { Poison, Sleep, Freeze, Paralysis, Burn, Fainted }
-    public enum Volatile { Confusion }
-    #endregion
-
     public abstract class Condition : ScriptableObject
     {
         #region Values
-        [SerializeField] protected bool isInstantiated = false;
-        [SerializeField] protected Pokemon affectedPokemon = null;
-        [SerializeField] protected string conditionEffect = "";
-        [SerializeField] protected bool active = false, done = false;
+
+        private bool isInstantiated;
+        protected bool done;
+        [SerializeField] protected string conditionName;
+        [SerializeField] protected Pokemon affectedPokemon;
+        [SerializeField] protected bool beforeAttack;
+
         #endregion
 
         #region Getters
-        public Pokemon GetAffectedPokemon()
+        
+        public string GetConditionName()
         {
-            return affectedPokemon;
-        }
-
-        public virtual string GetConditionName()
-        {
-            Debug.Log(name + "\nGet Condition Name Need Override!");
-            return "";
+            return conditionName;
         }
 
         public virtual Condition GetCondition()
@@ -46,33 +39,42 @@ namespace Mfknudsen.Pokémon.Conditions
         {
             return isInstantiated;
         }
-
-        public string GetConditionEffect()
-        {
-            return conditionEffect;
-        }
-
+        
         public bool GetDone()
         {
             return done;
         }
+
+        public bool GetBeforeAttack()
+        {
+            return beforeAttack;
+        }
+        
         #endregion
 
         #region Setters
+
         public void SetIsInstantiated(bool set)
         {
             isInstantiated = set;
         }
+
         public void SetAffectedPokemon(Pokemon pokemon)
         {
             affectedPokemon = pokemon;
         }
+
+        public void SetBeforeAttack(bool set)
+        {
+            beforeAttack = set;
+        }
+
         #endregion
 
         #region In
+
         public virtual void Reset()
         {
-
         }
 
         public virtual IEnumerator ActivateCondition(ConditionOversight activator)
@@ -80,6 +82,15 @@ namespace Mfknudsen.Pokémon.Conditions
             Debug.Log("Activation of Condition needs override!");
             yield return null;
         }
+
         #endregion
+    }
+
+    public interface INonVolatile
+    {
+    }
+
+    public interface IVolatile
+    {
     }
 }

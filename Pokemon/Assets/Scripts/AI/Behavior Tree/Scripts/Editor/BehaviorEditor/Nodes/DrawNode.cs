@@ -46,9 +46,7 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Editor.BehaviorEditor.Nodes
                 if (GUILayout.Button("", GUILayout.Width(20)))
                 {
                     //Only activate once
-                    Debug.Log(new Vector2(xLeftOffset, yStart + 40 - 12.5f));
                     BehaviorEditor.editor.MakeActionTransition(b, true, new Vector2(xLeftOffset, yStart + 40 - 12.5f));
-                    Debug.Log("Done");
                 }
 
                 EditorGUILayout.EndHorizontal();

@@ -617,7 +617,6 @@ GameObject:
   m_Component:
   - component: {fileID: 128552533}
   - component: {fileID: 128552532}
-  - component: {fileID: 128552531}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -625,14 +624,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &128552531
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128552530}
-  m_Enabled: 0
 --- !u!20 &128552532
 Camera:
   m_ObjectHideFlags: 0
@@ -765,6 +756,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 175297892}
   m_CullTransparentMesh: 0
+--- !u!114 &253307090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
+  m_Name: Grottle(Clone)
+  m_EditorClassIdentifier: 
+  isInstantiated: 1
+  pokemonName: Grottle
+  pokedexIndex: 0
+  pokemonCategory: 
+  types:
+  - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
+  - {fileID: 0}
+  ability: {fileID: 0}
+  itemInHand: {fileID: 0}
+  description: 
+  oversight: {fileID: 0}
+  currentHealth: 5
+  stats: 000000000000000000000000000000000000000000000000
+  iv: 000000000000000000000000000000000000000000000000
+  ev: 000000000000000000000000000000000000000000000000
+  level: 0
+  maxExp: 0
+  currentExp: 0
+  method: 0
+  evolveTo: {fileID: 0}
+  evolutionLevel: 0
+  learnedMoves:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  levelLearnableMoveKeys: 
+  levelLearnableMoveValue: []
+  tmLearnableMoveValue: []
+  breedingLearnedMoveKeys: []
+  breedingLearnedMoveValue: []
+  tutorLearnableMoveValue: []
+  eggGroup: 0
+  hatchTimeMin: 0
+  hatchTimeMax: 0
+  height: 0
+  weight: 0
+  genderRate: 0
+  catchRate: 11.9
+  expYield: 0
+  levelRate: 0
+  evYield: 000000000000000000000000000000000000000000000000
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  baseFriendship: 0
+  spotIndex: 0
+  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  spawnedObject: {fileID: 0}
+  anim: {fileID: 0}
+  gettingSwitched: 0
+  inBattle: 0
+  battleAction: {fileID: 0}
+  gettingRevived: 0
 --- !u!1 &318674755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,32 +1089,13 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344424578}
   m_CullTransparentMesh: 0
---- !u!1 &441135806 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5921889010027575710, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-    type: 3}
-  m_PrefabInstance: {fileID: 5921889009356311267}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &441135807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441135806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ec0c303ab0e9f3468a837323ced2e76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behavior: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
 --- !u!114 &441135809 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5921889010027575709, guid: 9c1c0472f7738bc4b9c74f4921470b35,
     type: 3}
   m_PrefabInstance: {fileID: 5921889009356311267}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441135806}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
@@ -1632,7 +1670,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Tyranitar(Clone)
+  m_Name: Tyranitar
   m_EditorClassIdentifier: 
   isInstantiated: 1
   pokemonName: Tyranitar
@@ -4274,6 +4312,11 @@ PrefabInstance:
       propertyPath: pokemons.Array.data[0]
       value: 
       objectReference: {fileID: 1884375043}
+    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35,
+        type: 3}
+      propertyPath: pokemons.Array.data[1]
+      value: 
+      objectReference: {fileID: 253307090}
     - target: {fileID: 5921889010027575710, guid: 9c1c0472f7738bc4b9c74f4921470b35,
         type: 3}
       propertyPath: m_Name

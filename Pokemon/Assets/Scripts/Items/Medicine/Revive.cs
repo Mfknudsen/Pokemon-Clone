@@ -11,15 +11,17 @@ using UnityEngine; //Custom
 namespace Mfknudsen.Items.Medicine
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Revive")]
-    public class Revive : Item
+    public class Revive : Item, IBattleItem
     {
         #region Values
-        [Header("Revive:")]
-        [SerializeField] private bool toFull = false;
-        [SerializeField] private Chat onActivation = null;
+
+        [SerializeField] private bool toFull;
+        [SerializeField] private Chat onActivation;
+
         #endregion
 
         #region Override
+
         public override void SetTarget(Pokemon set)
         {
             base.SetTarget(set);
@@ -29,13 +31,9 @@ namespace Mfknudsen.Items.Medicine
 
         public override bool IsUsableTarget(Pokemon p)
         {
-            if (p.GetConditionOversight().GetNonVolatileStatus() != null)
-            {
-                if (p.GetConditionOversight().GetNonVolatileStatus().GetConditionName() == NonVolatile.Fainted.ToString() && !p.GetRevived())
-                    return true;
-            }
+            if (p.GetConditionOversight().GetNonVolatileStatus() is null) return false;
 
-            return false;
+            return p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition && !p.GetRevived();
         }
 
         public override IEnumerator Activate()
@@ -47,6 +45,7 @@ namespace Mfknudsen.Items.Medicine
             ChatMaster.instance.Add(toSend);
 
             target.GetConditionOversight().TryApplyNonVolatileCondition(null);
+
             if (toFull)
                 target.RecieveDamage(-Mathf.Infinity);
             else
@@ -55,9 +54,9 @@ namespace Mfknudsen.Items.Medicine
             while (!ChatMaster.instance.GetIsClear())
                 yield return null;
 
-            yield return null;
             done = true;
         }
+
         #endregion
     }
 }

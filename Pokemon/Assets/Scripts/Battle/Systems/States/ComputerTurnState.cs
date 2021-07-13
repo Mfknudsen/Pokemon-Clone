@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using Mfknudsen.AI;
+using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Pokémon;
 using UnityEngine;
 
@@ -32,7 +34,8 @@ namespace Mfknudsen.Battle.Systems.States
 
                 LocalMemories local = new LocalMemories
                 {
-                    currentPokemon = pokemon
+                    currentPokemon = pokemon,
+                    currentSpot = spot
                 };
 
                 ai.SetLocalMemories(local);
@@ -58,14 +61,24 @@ namespace Mfknudsen.Battle.Systems.States
 
                 #endregion
 
-
                 battleMember.ActivateAIBrain();
 
                 while (pokemon.GetBattleAction() == null)
                     yield return 0;
             }
-            
-            master.SetState(new ActionState(master));
+
+            // ReSharper disable once IdentifierTypo
+            List<Pokemon> pokemonsWithAction = new List<Pokemon>();
+
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (Spot spot in spotOversight.GetSpots())
+            {
+                if (spot.GetActivePokemon().GetBattleAction() is null) continue;
+
+                pokemonsWithAction.Add(spot.GetActivePokemon());
+            }
+
+            master.SetState(new ActionState(master, pokemonsWithAction));
         }
     }
 }

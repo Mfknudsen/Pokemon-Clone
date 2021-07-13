@@ -65,3 +65,4 @@ MonoBehaviour:
   gettingSwitched: 0
   inBattle: 0
   battleAction: {fileID: 0}
+  gettingRevived: 0

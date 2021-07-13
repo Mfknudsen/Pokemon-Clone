@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Pokémon\Pokemon.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Selector\SelectorNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\Spot.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerSelectNewState.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Pokémon\MovesFromPokemonNode.cs" />
      <Compile Include="Assets\Scripts\Comunication\TextField.cs" />
      <Compile Include="Assets\Scripts\Items\Item.cs" />
@@ -65,6 +66,7 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetFloatNode.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\PokemonDisplay.cs" />
      <Compile Include="Assets\Scripts\World\Overworld\InteractableInterface.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\TargetSelection.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsData.cs" />
      <Compile Include="Assets\Scripts\AI\BattleAI.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\BurnCondition.cs" />
@@ -82,11 +84,12 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Pokémon\LocalMemoriesSplitNode.cs" />
      <Compile Include="Assets\Scripts\Trainer\Team.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\States\State.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\States\PlayerSelectNewState.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Vector3SplitNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetVec3Node.cs" />
      <Compile Include="Assets\Scripts\_Debug\PokemonPlaceholder.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Transition.cs" />
-     <Compile Include="Assets\Scripts\Battle\UI\ItemSelection.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\ItemSelection.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\Pokémon\GetPokeTeamNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\Vector2SplitNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Splitter\TransformSplitNode.cs" />
@@ -94,6 +97,7 @@
      <Compile Include="Assets\Scripts\Files\Save Types\NPCSave.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\DebugNode.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\BattleMathf.cs" />
+     <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Selector\SelectBestAttackNode.cs" />
      <Compile Include="Assets\Scripts\Items\Inventory.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\FaintedCondition.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Leaf\Pokémon\SendAttackNode.cs" />
@@ -104,6 +108,7 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\InputNode.cs" />
      <Compile Include="Assets\Scripts\PC\BoxContainer.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerTurnState.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\PokemonSelection.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\Non-Volatile\PoisonCondition.cs" />
      <Compile Include="Assets\Scripts\World\Overworld\TileManager.cs" />
      <Compile Include="Assets\Scripts\Pokémon\MegaStone.cs" />
@@ -139,34 +144,35 @@
      <Compile Include="Assets\Scripts\PC\BoxSpot.cs" />
      <Compile Include="Assets\Scripts\NPC\NPCController.cs" />
      <Compile Include="Assets\Scripts\Pokémon\HiddenAbility.cs" />
-     <Compile Include="Assets\Scripts\Battle\UI\SelectionMenu.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\SelectionMenu.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\GetGameObjNode.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\InformationAttributes.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Potion.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Conditions\ConditionOversight.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\TargetSlot.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\States\WinState.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Ability.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\Shaders\3D_Text.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -390,7 +396,7 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -738,34 +744,34 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
  <Reference Include="Cinemachine">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.cinemachine.editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

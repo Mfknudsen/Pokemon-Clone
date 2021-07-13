@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 
@@ -21,7 +22,7 @@ namespace Mfknudsen.Battle.Actions
         [Header("Move Reference:")] [SerializeField]
         protected Pokemon currentPokemon;
 
-        [SerializeField] protected Pokemon targetPokemon;
+        [SerializeField] protected List<Pokemon> targetPokemon;
         [SerializeField] protected bool moveActive;
 
         [Header("Priority:")] [SerializeField] protected int priority;
@@ -64,6 +65,13 @@ namespace Mfknudsen.Battle.Actions
 
         #region Setter
 
+        public void SetTargets(Pokemon pokemon)
+        {
+            targetPokemon ??= new List<Pokemon>();
+
+            targetPokemon.Add(pokemon);
+        }
+
         public void SetCurrentPokemon(Pokemon pokemon)
         {
             currentPokemon = pokemon;
@@ -104,7 +112,7 @@ namespace Mfknudsen.Battle.Actions
             Debug.Log("Transfering");
             return new Chat[0];
         }
-        
+
         #endregion
 
         #region IEnumerator

@@ -12,24 +12,27 @@ using UnityEngine; //Custom
 namespace Mfknudsen.Items.Medicine
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Item/Create new Potion")]
-    public class Potion : Item
+    public class Potion : Item, IBattleItem
     {
         #region Values
-        [Header("Potion:")]
-        [SerializeField] private float healAmount = 0;
-        [SerializeField] private Chat onActivation = null;
+
+        [SerializeField] private float healAmount;
+        [SerializeField] private Chat onActivation;
+
         #endregion
 
         #region Overrides
+
         public override bool IsUsableTarget(Pokemon p)
         {
             if (p.GetConditionOversight().GetNonVolatileStatus() != null)
             {
-                if (p.GetConditionOversight().GetNonVolatileStatus().GetConditionName() != NonVolatile.Fainted.ToString())
+                if (!(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition))
                     return true;
             }
             else
                 return true;
+
             Debug.Log("Error");
             return false;
         }
@@ -37,20 +40,21 @@ namespace Mfknudsen.Items.Medicine
         public override IEnumerator Activate()
         {
             done = false;
-            float curheal = 0, healSpeed = healAmount / 200 * BattleMaster.instance.GetSecPerPokeMove();
+            float curHeal = 0, healSpeed = healAmount / 200 * BattleMaster.instance.GetSecPerPokeMove();
 
-            while (curheal < healAmount)
+            while (curHeal < healAmount)
             {
-                if (curheal + healSpeed < healAmount)
+                if (curHeal + healSpeed < healAmount)
                 {
                     target.RecieveDamage(-healSpeed);
-                    curheal += healSpeed;
-                    yield return new WaitForSeconds(BattleMaster.instance.GetSecPerPokeMove() / (200 * BattleMaster.instance.GetSecPerPokeMove()));
+                    curHeal += healSpeed;
+                    yield return new WaitForSeconds(BattleMaster.instance.GetSecPerPokeMove() /
+                                                    (200 * BattleMaster.instance.GetSecPerPokeMove()));
                 }
                 else
                 {
-                    target.RecieveDamage(-(healAmount - curheal));
-                    curheal += healSpeed;
+                    target.RecieveDamage(-(healAmount - curHeal));
+                    curHeal += healSpeed;
                     yield return null;
                 }
             }
@@ -64,6 +68,7 @@ namespace Mfknudsen.Items.Medicine
 
             done = true;
         }
+
         #endregion
     }
 }

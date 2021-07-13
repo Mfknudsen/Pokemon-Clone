@@ -82,10 +82,7 @@ namespace Mfknudsen.Battle.Systems
             foreach (GameObject key in checkList.Keys)
                 key.SetActive(checkList[key]);
 
-            if (playerVictory)
-                Debug.Log("You Win!");
-            else
-                Debug.Log("You Lose!");
+            Debug.Log(playerVictory ? "You Win!" : "You Lose!");
         }
 
         IEnumerator WaitForRespons()

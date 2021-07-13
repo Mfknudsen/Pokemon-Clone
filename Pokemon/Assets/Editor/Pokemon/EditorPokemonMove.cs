@@ -216,10 +216,7 @@ public class EditorPokemonMove : Editor
         EditorGUILayout.BeginHorizontal();
         for (int i = 0; i < 3; i++)
         {
-            if (targetable[i])
-                GUI.backgroundColor = Color.green;
-            else
-                GUI.backgroundColor = Color.red;
+            GUI.backgroundColor = targetable[i] ? Color.green : Color.red;
 
             EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
             GUI.backgroundColor = standard;
@@ -236,10 +233,7 @@ public class EditorPokemonMove : Editor
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        if (targetable[5])
-            GUI.backgroundColor = Color.green;
-        else
-            GUI.backgroundColor = Color.red;
+        GUI.backgroundColor = targetable[5] ? Color.green : Color.red;
 
         EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
         GUI.backgroundColor = standard;
@@ -255,10 +249,7 @@ public class EditorPokemonMove : Editor
 
         for (int i = 3; i < 5; i++)
         {
-            if (targetable[i])
-                GUI.backgroundColor = Color.green;
-            else
-                GUI.backgroundColor = Color.red;
+            GUI.backgroundColor = targetable[i] ? Color.green : Color.red;
 
             EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
             GUI.backgroundColor = standard;
