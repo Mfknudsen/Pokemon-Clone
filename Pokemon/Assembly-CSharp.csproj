@@ -154,6 +154,7 @@
      <Compile Include="Assets\Scripts\Pokémon\Ability.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
+     <Compile Include="Assets\Scripts\Battle\UI\Selection\PokemonSlot.cs" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

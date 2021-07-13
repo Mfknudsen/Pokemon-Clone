@@ -15,7 +15,7 @@ namespace Mfknudsen.Battle.UI.Selection
         #region Values
 
         [SerializeField] private GameObject background;
-        [SerializeField] private TextMeshProUGUI[] fields = new TextMeshProUGUI[6];
+        [SerializeField] private PokemonSlot[] pokemonSlots;
         private Team playerTeam;
 
         #endregion
@@ -35,19 +35,16 @@ namespace Mfknudsen.Battle.UI.Selection
             {
                 Pokemon pokemon = playerTeam.GetPokemonByIndex(i);
 
-                fields[i].text = pokemon is null ? "Empty" : pokemon.GetName() + " (" + pokemon.GetLevel() + ")";
+                pokemonSlots[i].SetPokemon(this, pokemon);
             }
         }
 
         public void DisableDisplaySelection()
         {
             background.SetActive(false);
-
-            foreach (TextMeshProUGUI gui in fields)
-                gui.gameObject.SetActive(false);
         }
 
-        public void SendPokemon(int index)
+        public void SendPokemon(Pokemon pokemon)
         {
         }
 

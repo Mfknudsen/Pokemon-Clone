@@ -58,6 +58,7 @@ namespace Mfknudsen.Battle.UI.Selection
             }
 
             float aY = allies[0].transform.position.y, eY = enemies[0].transform.position.y;
+            
             switch (aSpots.Count)
             {
                 case 1:
@@ -76,7 +77,7 @@ namespace Mfknudsen.Battle.UI.Selection
                     break;
             }
 
-            switch (aSpots.Count)
+            switch (eSpots.Count)
             {
                 case 1:
                     enemies[0].transform.position = new Vector3(800, eY, 0);
