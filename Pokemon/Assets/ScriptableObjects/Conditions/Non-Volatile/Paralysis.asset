@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4062cf99c9d9d8946996170804a01fdb, type: 3}
   m_Name: Paralysis
   m_EditorClassIdentifier: 
-  conditionName: 3
+  conditionName: Paralysis
   affectedPokemon: {fileID: 0}
   beforeAttack: 1
   onEffectChat: {fileID: 0}

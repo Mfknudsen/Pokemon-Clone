@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using System;
 using Mfknudsen.Battle.Actions;
 using UnityEngine;
 
@@ -8,37 +9,61 @@ using UnityEngine;
 namespace Mfknudsen.Pokémon
 {
     #region Enums
-    public enum AbilityName { Test }
+
+    public enum AbilityTrigger
+    {
+        OnEnterBattle,
+        OnExitBattle,
+        OnFaint,
+        OnDamageCalculation,
+        OnAfterAttack,
+        OnEndTurn
+    }
+
     #endregion
 
-    [CreateAssetMenu(fileName = "Ability", menuName = "Pokemon/Create New Ablility", order = 2)]
-    public class Ability : ScriptableObject
+    [CreateAssetMenu(fileName = "Ability", menuName = "Pokemon/Create New Ability", order = 2)]
+    public abstract class Ability : ScriptableObject
     {
         #region Values
-        [Header("Ability Reference:")]
-        [SerializeField] private AbilityName abilityName = 0;
-        [SerializeField, TextArea] private string description = "";
 
-        [Header("Move:")]
-        [SerializeField] private bool effectsMovePriority = false;
-        [SerializeField] private int effectCount = 0;
+        [SerializeField] private int index;
+        [SerializeField] private string abilityName;
+        [SerializeField, TextArea] private string description;
+        [SerializeField] protected AbilityTrigger abilityTrigger;
+
+        #region Battle
+
+        private bool active;
+
+        #endregion
+
         #endregion
 
         #region Getters
-        public bool GetEffectsMovePriority()
+
+        public bool GetActive()
         {
-            return effectsMovePriority;
+            return active;
         }
+
         #endregion
 
         #region Setters
+
+        public void SetActive(bool set)
+        {
+            active = set;
+        }
+
         #endregion
 
         #region In
-        public virtual int PriorityEffect(BattleAction action)
-        {
-            return 0;
-        }
+
+        public abstract void ReceiveInfo(object info);
+
+        public abstract void Trigger(AbilityTrigger abilityTrigger);
+
         #endregion
     }
 }

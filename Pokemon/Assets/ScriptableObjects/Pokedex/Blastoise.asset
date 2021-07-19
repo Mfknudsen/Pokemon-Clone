@@ -19,7 +19,9 @@ MonoBehaviour:
   types:
   - {fileID: 11400000, guid: c4af5f10f19573447bbe6a49504eb1b7, type: 2}
   - {fileID: 0}
-  ability: {fileID: 11400000, guid: e64e1a76aa56a4348b987b30c26ee8f4, type: 2}
+  firstAbility: {fileID: 0}
+  secondAbility: {fileID: 0}
+  hiddenAbility: {fileID: 0}
   itemInHand: {fileID: 0}
   description: 
   oversight: {fileID: 0}

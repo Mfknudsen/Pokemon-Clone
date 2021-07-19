@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Actions.Move;
+using Mfknudsen.Battle.Systems.States;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 using UnityEngine;
@@ -11,9 +12,9 @@ using Type = Mfknudsen.Pokémon.Type;
 
 #endregion
 
+// ReSharper disable InconsistentNaming
 // ReSharper disable once ParameterTypeCanBeEnumerable.Global
 // ReSharper disable once MemberCanBePrivate.Global
-
 namespace Mfknudsen.Battle.Systems
 {
     public class BattleMathf : ScriptableObject
@@ -70,7 +71,7 @@ namespace Mfknudsen.Battle.Systems
             if ((type == HitType.AllAdjacent || type == HitType.AllAdjacentOneSide || type == HitType.One) &&
                 user.GetAllAdjacentSpots().Contains(target))
                 return true;
-            
+
             if ((type == HitType.AllExceptUser || type == HitType.AllOneSideExceptUser) && target == user)
                 return false;
 
@@ -79,6 +80,66 @@ namespace Mfknudsen.Battle.Systems
                 return true;
 
             return false;
+        }
+
+        public static bool MultiTargets(Spot target, Spot user, PokemonMove move)
+        {
+            HitType type = move.GetHitType();
+            List<Spot> totals = new List<Spot>();
+
+            switch (type)
+            {
+                case HitType.One:
+                    return false;
+
+                case HitType.AllAdjacent:
+                    totals = user.GetAllAdjacentSpots();
+
+                    return totals.Count > 1;
+
+                case HitType.AllAdjacentOneSide:
+                    totals.Add(target);
+                    totals.Add(target.GetLeft());
+                    totals.Add(target.GetRight());
+
+                    List<Spot> checks = user.GetAllAdjacentOneSideSpots(target.GetBattleMember().GetTeamNumber() ==
+                                                                        user.GetBattleMember().GetTeamNumber());
+
+                    foreach (Spot total in totals.Where(total => total != target)
+                        .Where(total => !checks.Contains(total)))
+                        totals.Remove(total);
+
+                    return totals.Count > 1;
+
+                case HitType.AllOneSideExceptUser:
+                    totals = GetAllOneSide(target);
+
+                    if (totals.Contains(user))
+                        totals.Remove(user);
+
+                    return totals.Count > 1;
+
+                case HitType.AllOneSide:
+                    totals = GetAllOneSide(target);
+
+                    return totals.Count > 1;
+
+                case HitType.AllExceptUser:
+                    totals = BattleMaster.instance.GetSpotOversight().GetSpots();
+
+                    if (totals.Contains(user))
+                        totals.Remove(user);
+
+                    return totals.Count > 1;
+
+                case HitType.All:
+                    totals = BattleMaster.instance.GetSpotOversight().GetSpots();
+
+                    return totals.Count > 1;
+
+                default:
+                    return false;
+            }
         }
 
         #region Calculations
@@ -293,7 +354,6 @@ namespace Mfknudsen.Battle.Systems
             return (int) Mathf.Floor(result);
         }
 
-        // ReSharper disable once InconsistentNaming
         public static int CalculateHPStat(int baseStat, int iv, int ev, int level)
         {
             float result = (baseStat + iv) * 2;
@@ -320,66 +380,11 @@ namespace Mfknudsen.Battle.Systems
             return (r <= t);
         }
 
-        public static bool MultiTargets(Spot target, Spot user, PokemonMove move)
+        public static bool CalculateStatusHit()
         {
-            HitType type = move.GetHitType();
-            List<Spot> totals = new List<Spot>();
-
-            switch (type)
-            {
-                case HitType.One:
-                    return false;
-
-                case HitType.AllAdjacent:
-                    totals = user.GetAllAdjacentSpots();
-
-                    return totals.Count > 1;
-
-                case HitType.AllAdjacentOneSide:
-                    totals.Add(target);
-                    totals.Add(target.GetLeft());
-                    totals.Add(target.GetRight());
-
-                    List<Spot> checks = user.GetAllAdjacentOneSideSpots(target.GetBattleMember().GetTeamNumber() ==
-                                                                        user.GetBattleMember().GetTeamNumber());
-
-                    foreach (Spot total in totals.Where(total => total != target)
-                        .Where(total => !checks.Contains(total)))
-                        totals.Remove(total);
-
-                    return totals.Count > 1;
-
-                case HitType.AllOneSideExceptUser:
-                    totals = GetAllOneSide(target);
-
-                    if (totals.Contains(user))
-                        totals.Remove(user);
-
-                    return totals.Count > 1;
-
-                case HitType.AllOneSide:
-                    totals = GetAllOneSide(target);
-
-                    return totals.Count > 1;
-
-                case HitType.AllExceptUser:
-                    totals = BattleMaster.instance.GetSpotOversight().GetSpots();
-
-                    if (totals.Contains(user))
-                        totals.Remove(user);
-
-                    return totals.Count > 1;
-
-                case HitType.All:
-                    totals = BattleMaster.instance.GetSpotOversight().GetSpots();
-
-                    return totals.Count > 1;
-
-                default:
-                    return false;
-            }
+            return true;
         }
-
+        
         #endregion
 
         #endregion

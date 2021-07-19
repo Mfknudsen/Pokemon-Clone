@@ -47,9 +47,9 @@ namespace Mfknudsen.Items.Medicine
             target.GetConditionOversight().TryApplyNonVolatileCondition(null);
 
             if (toFull)
-                target.RecieveDamage(-Mathf.Infinity);
+                target.ReceiveDamage(-Mathf.Infinity);
             else
-                target.RecieveDamage(-(target.GetStat(Stat.HP) / 2));
+                target.ReceiveDamage(-(target.GetStat(Stat.HP) / 2));
 
             while (!ChatMaster.instance.GetIsClear())
                 yield return null;

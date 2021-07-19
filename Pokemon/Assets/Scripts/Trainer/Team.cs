@@ -3,23 +3,23 @@
 using System.Collections.Generic;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
+// ReSharper disable IdentifierTypo
 namespace Mfknudsen.Trainer
 {
     public class Team : MonoBehaviour
     {
         #region Values
 
-        [SerializeField] private bool CLEARLIST;
-        [SerializeField] private Pokemon[] pokemons = new Pokemon[6];
+        [SerializeField] private List<Pokemon> pokemons = new List<Pokemon>(6);
         private bool ready;
 
         private void OnValidate()
         {
-            if (pokemons.Length != 6)
+            if (pokemons.Count != 6)
             {
                 List<Pokemon> tempList = new List<Pokemon>();
 
@@ -31,32 +31,17 @@ namespace Mfknudsen.Trainer
                         break;
                 }
 
-                pokemons = new Pokemon[6];
-
                 for (int i = 0; i < tempList.Count; i++)
                     pokemons[i] = tempList[i];
             }
 
-            for (int i = 0; i < pokemons.Length; i++)
+            for (int i = 0; i < pokemons.Count; i++)
             {
                 if (pokemons[i] != null)
                 {
                     if (!pokemons[i].GetIsInstantiated())
                         pokemons[i] = pokemons[i].GetPokemon();
                 }
-            }
-
-            if (CLEARLIST)
-            {
-                foreach (Pokemon p in pokemons)
-                {
-                    if (p != null)
-                        Destroy(p);
-                }
-
-                pokemons = new Pokemon[6];
-
-                CLEARLIST = false;
             }
         }
 
@@ -80,8 +65,6 @@ namespace Mfknudsen.Trainer
 
                 if (c is FaintedCondition) continue;
 
-                Debug.Log(pokemon.GetName());
-                
                 return true;
             }
 
@@ -119,13 +102,12 @@ namespace Mfknudsen.Trainer
 
         public Pokemon GetFirstOut()
         {
-            foreach (Pokemon p in pokemons)
+            foreach (Pokemon pokemon in pokemons)
             {
-                if (p != null)
-                {
-                    if (!p.GetInBattle() && !p.GetGettingSwitched())
-                        return p;
-                }
+                if (pokemon is null) continue;
+
+                if (!pokemon.GetInBattle() && !pokemon.GetGettingSwitched())
+                    return pokemon;
             }
 
             return null;
@@ -137,7 +119,7 @@ namespace Mfknudsen.Trainer
 
         public void Setup()
         {
-            for (int i = 0; i < pokemons.Length; i++)
+            for (int i = 0; i < pokemons.Count; i++)
             {
                 if (pokemons[i] != null)
                     pokemons[i] = pokemons[i].GetPokemon();
@@ -148,52 +130,19 @@ namespace Mfknudsen.Trainer
 
         public Pokemon GetPokemonByIndex(int index)
         {
-            if (index >= 0 && index <= 5)
-            {
-                if (pokemons[index] != null)
-                    return pokemons[index].GetPokemon();
-            }
+            if (index < 0 || index > 5 || pokemons[index] is null) return null;
 
-            return null;
-        }
-
-        #region SwitchingPokemon
-
-        public void SwitchTeamPlaces(int from, int to)
-        {
-            Pokemon toStore = pokemons[to];
-            pokemons[to] = pokemons[from];
-            pokemons[from] = toStore;
+            return pokemons[index].GetPokemon();
         }
 
         public void SwitchTeamPlaces(Pokemon from, Pokemon to)
         {
-            int i = 0, j = 1;
+            int fromIndex = pokemons.IndexOf(from), toIndex = pokemons.IndexOf(to);
 
-            for (i = 0; i < pokemons.Length; i++)
-            {
-                if (pokemons[i] != null)
-                {
-                    if (pokemons[i] == from)
-                        break;
-                }
-            }
-
-            for (j = 0; j < pokemons.Length; j++)
-            {
-                if (pokemons[j] != null)
-                {
-                    if (pokemons[j] == to)
-                        break;
-                }
-            }
-
-            Pokemon toStore = pokemons[j];
-            pokemons[j] = pokemons[i];
-            pokemons[i] = toStore;
+            Pokemon toStore = pokemons[toIndex];
+            pokemons[toIndex] = pokemons[fromIndex];
+            pokemons[fromIndex] = toStore;
         }
-
-        #endregion
 
         #endregion
     }

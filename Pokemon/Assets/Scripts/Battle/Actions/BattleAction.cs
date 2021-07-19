@@ -14,21 +14,17 @@ namespace Mfknudsen.Battle.Actions
     {
         #region Values
 
-        [Header("Object Reference:")] [SerializeField]
-        protected bool active;
+        [SerializeField] protected bool active, done;
+        [SerializeField]private bool defaultTargetEnemy = true;
 
-        [SerializeField] protected bool done;
-
-        [Header("Move Reference:")] [SerializeField]
-        protected Pokemon currentPokemon;
+        [SerializeField] protected Pokemon currentPokemon;
 
         [SerializeField] protected List<Pokemon> targetPokemon;
         [SerializeField] protected bool moveActive;
 
-        [Header("Priority:")] [SerializeField] protected int priority;
+        [SerializeField] protected int priority;
         [SerializeField] protected string[] priorityInteraction;
-
-        [Header("Chat:")] [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
+        [SerializeField] protected Chat[] chatOnActivation = new Chat[0];
 
         private bool isInstantiated = false;
 
@@ -59,6 +55,11 @@ namespace Mfknudsen.Battle.Actions
         public int GetPriority()
         {
             return priority;
+        }
+
+        public bool GetDefaultTargetEnemy()
+        {
+            return defaultTargetEnemy;
         }
 
         #endregion

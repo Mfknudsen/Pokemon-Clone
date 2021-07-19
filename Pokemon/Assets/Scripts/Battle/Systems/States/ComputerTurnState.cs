@@ -1,9 +1,11 @@
+#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.AI;
-using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Pokémon;
-using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.Battle.Systems.States
 {
@@ -32,14 +34,12 @@ namespace Mfknudsen.Battle.Systems.States
 
                 BattleAI ai = battleMember.GetBattleAI();
 
-                LocalMemories local = new LocalMemories
-                {
-                    currentPokemon = pokemon,
-                    currentSpot = spot
-                };
+                LocalMemories local = ai.GetLocalMemories();
+                local.currentPokemon = pokemon;
+                local.currentSpot = spot;
+                local.switchInNew = false;
 
                 ai.SetLocalMemories(local);
-
 
                 if (ai.GetRememberEnemies())
                 {
@@ -63,22 +63,11 @@ namespace Mfknudsen.Battle.Systems.States
 
                 battleMember.ActivateAIBrain();
 
-                while (pokemon.GetBattleAction() == null)
-                    yield return 0;
+                while (pokemon.GetBattleAction() is null)
+                    yield return null;
             }
-
-            // ReSharper disable once IdentifierTypo
-            List<Pokemon> pokemonsWithAction = new List<Pokemon>();
-
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (Spot spot in spotOversight.GetSpots())
-            {
-                if (spot.GetActivePokemon().GetBattleAction() is null) continue;
-
-                pokemonsWithAction.Add(spot.GetActivePokemon());
-            }
-
-            master.SetState(new ActionState(master, pokemonsWithAction));
+            
+            master.SetState(new ActionState(master));
         }
     }
 }

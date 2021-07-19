@@ -8,6 +8,7 @@ using UnityEngine;
 
 #endregion
 
+// ReSharper disable ParameterHidesMember
 namespace Mfknudsen.Pokémon.Conditions
 {
     [CreateAssetMenu(fileName = "ConditionOversight", menuName = "Condition/Create new Condition Oversight")]
@@ -22,6 +23,8 @@ namespace Mfknudsen.Pokémon.Conditions
         private List<Condition> volatileStatus = new List<Condition>(); //Bound, CantEscape, Confusion, Curse...
 
         [SerializeField] private bool done, isStunned;
+
+        private Pokemon pokemon;
 
         #endregion
 
@@ -55,27 +58,56 @@ namespace Mfknudsen.Pokémon.Conditions
 
         #region In
 
-        public bool TryApplyVolatileCondition(IVolatile iVolatile)
+        public void Setup(Pokemon pokemon)
+        {
+            volatileStatus = new List<Condition>();
+            this.pokemon = pokemon;
+        }
+
+        public void Reset()
+        {
+            done = false;
+        }
+
+        public void TryApplyVolatileCondition(IVolatile iVolatile)
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             Condition condition = (Condition) iVolatile;
+
+            bool canApply = true;
+
             foreach (Condition v in volatileStatus)
             {
-                if (v.GetConditionName() == condition.GetConditionName())
-                    return false;
+                if (v.GetConditionName() != condition.GetConditionName()) continue;
+
+                canApply = false;
+                break;
             }
 
-            volatileStatus.Add(condition.GetCondition());
-            return true;
+            if (canApply)
+                volatileStatus.Add(condition.GetCondition());
         }
 
         public void TryApplyNonVolatileCondition(INonVolatile iNonVolatile)
         {
             Condition condition = (Condition) iNonVolatile;
+
+            if (condition is FaintedCondition)
+            {
+                Destroy(nonVolatileStatus);
+
+                nonVolatileStatus = condition;
+
+                nonVolatileStatus.SetAffectedPokemon(pokemon);
+
+                return;
+            }
+
             if (!(condition is null) && nonVolatileStatus is null)
             {
                 Destroy(nonVolatileStatus);
                 nonVolatileStatus = condition.GetCondition();
+                nonVolatileStatus.SetAffectedPokemon(pokemon);
             }
             else if (condition is null && !(nonVolatileStatus is null))
             {
@@ -84,12 +116,6 @@ namespace Mfknudsen.Pokémon.Conditions
                 Destroy(nonVolatileStatus);
                 nonVolatileStatus = null;
             }
-        }
-
-        public void Reset()
-        {
-            done = false;
-            isStunned = false;
         }
 
         public void RemoveFromCondition(Condition condition)
@@ -166,29 +192,23 @@ namespace Mfknudsen.Pokémon.Conditions
 
             List<Condition> toPlay = new List<Condition>();
 
-            /*
             #region Check To Play
 
-            if (nonVolatileStatus != null)
+            if (!(nonVolatileStatus is null))
             {
-                foreach (INonVolatile v in endNonVolatile)
-                {
-                    if (nonVolatileStatus.GetConditionName() == v.ToString())
-                        toPlay.Add(nonVolatileStatus.GetCondition());
-                }
+                if (!nonVolatileStatus.GetBeforeAttack())
+                    toPlay.Add(nonVolatileStatus.GetCondition());
             }
 
-            foreach (IVolatile v in endVolatile)
+            foreach (Condition condition in volatileStatus)
             {
-                foreach (Condition c in volatileStatus)
-                {
-                    if (c.GetConditionName() == v.ToString())
-                        toPlay.Add(c.GetCondition());
-                }
+                if (!(condition is IVolatile)) continue;
+
+                if (!toPlay.Contains(condition))
+                    toPlay.Add(condition);
             }
 
             #endregion
-*/
 
             #region Play All
 

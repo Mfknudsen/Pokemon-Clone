@@ -191,5 +191,10 @@ namespace Mfknudsen.Comunication
             AddToOverride("P_TWO", pronouns[1]);
         }
         #endregion
+
+        public string[] getText()
+        {
+            return textList;
+        }
     }
 }

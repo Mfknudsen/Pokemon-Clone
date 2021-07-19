@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5921889008907626362
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +137,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -159,6 +162,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5921889009339220266
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcfce0a885267e34384246d5e4a3c7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closestInteractable: {fileID: 0}
+  interactableInRange: []
 --- !u!1 &5921889010027575710
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: {fileID: 5921889010027575708}
   controller: {fileID: 5921889010023028678}
+  battleMember: {fileID: 5921889010027575709}
   bagdeCount: 0
   pronouns:
   - They

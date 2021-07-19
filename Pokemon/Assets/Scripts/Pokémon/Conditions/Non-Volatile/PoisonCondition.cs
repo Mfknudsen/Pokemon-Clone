@@ -17,10 +17,10 @@ namespace Mfknudsen.Pokémon.Conditions
     {
         #region Values
 
-        [SerializeField] private bool badlyPoison = false;
-        [SerializeField] private float damage = 0;
-        [SerializeField] private float n = 0, increaseN = 1;
-        [SerializeField] private Chat onEffectChat = null;
+        [SerializeField] private bool badlyPoison;
+        [SerializeField] private float damage;
+        [SerializeField] private float n, increaseN = 1;
+        [SerializeField] private Chat onEffectChat;
 
         #endregion
 
@@ -91,7 +91,7 @@ namespace Mfknudsen.Pokémon.Conditions
             {
                 appliedDamage += relativeDamage;
 
-                affectedPokemon.RecieveDamage(relativeDamage);
+                affectedPokemon.ReceiveDamage(relativeDamage);
 
                 yield return new WaitForSeconds(reletivSpeed);
             }

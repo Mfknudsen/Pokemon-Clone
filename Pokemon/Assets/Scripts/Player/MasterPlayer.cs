@@ -1,13 +1,15 @@
 ﻿using System;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Items;
 using Mfknudsen.Trainer;
 using UnityEngine;
 
 namespace Mfknudsen.Player
 {
+    [RequireComponent(typeof(BattleMember), typeof(Team), typeof(Inventory))]
     public class MasterPlayer : MonoBehaviour
     {
-        public static MasterPlayer instance = null;
+        public static MasterPlayer instance;
 
         #region Values
 
@@ -17,7 +19,7 @@ namespace Mfknudsen.Player
         [SerializeField] private Controller controller;
 
         [SerializeField] private BattleMember battleMember;
-        
+
         [Header("Character Sheet:")] [SerializeField]
         private int bagdeCount = 0;
 

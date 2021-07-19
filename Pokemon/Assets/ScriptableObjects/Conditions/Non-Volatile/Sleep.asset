@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0715bf39a88884c478edc3f86bf9951f, type: 3}
   m_Name: Sleep
   m_EditorClassIdentifier: 
-  conditionName: 1
+  conditionName: Sleep
   affectedPokemon: {fileID: 0}
   beforeAttack: 1
   onEffectChat: {fileID: 0}

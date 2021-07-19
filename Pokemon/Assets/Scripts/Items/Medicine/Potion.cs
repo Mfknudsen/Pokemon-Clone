@@ -46,14 +46,14 @@ namespace Mfknudsen.Items.Medicine
             {
                 if (curHeal + healSpeed < healAmount)
                 {
-                    target.RecieveDamage(-healSpeed);
+                    target.ReceiveDamage(-healSpeed);
                     curHeal += healSpeed;
                     yield return new WaitForSeconds(BattleMaster.instance.GetSecPerPokeMove() /
                                                     (200 * BattleMaster.instance.GetSecPerPokeMove()));
                 }
                 else
                 {
-                    target.RecieveDamage(-(healAmount - curHeal));
+                    target.ReceiveDamage(-(healAmount - curHeal));
                     curHeal += healSpeed;
                     yield return null;
                 }

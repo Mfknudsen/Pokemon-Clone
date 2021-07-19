@@ -3,10 +3,7 @@
 using System.Collections;
 using UnityEngine;
 
-//Custom
-
 #endregion
-
 
 namespace Mfknudsen.Pokémon.Conditions
 {
@@ -23,7 +20,7 @@ namespace Mfknudsen.Pokémon.Conditions
         #endregion
 
         #region Getters
-        
+
         public string GetConditionName()
         {
             return conditionName;
@@ -39,7 +36,7 @@ namespace Mfknudsen.Pokémon.Conditions
         {
             return isInstantiated;
         }
-        
+
         public bool GetDone()
         {
             return done;
@@ -49,7 +46,7 @@ namespace Mfknudsen.Pokémon.Conditions
         {
             return beforeAttack;
         }
-        
+
         #endregion
 
         #region Setters
@@ -64,24 +61,13 @@ namespace Mfknudsen.Pokémon.Conditions
             affectedPokemon = pokemon;
         }
 
-        public void SetBeforeAttack(bool set)
-        {
-            beforeAttack = set;
-        }
-
         #endregion
 
         #region In
 
-        public virtual void Reset()
-        {
-        }
+        public abstract void Reset();
 
-        public virtual IEnumerator ActivateCondition(ConditionOversight activator)
-        {
-            Debug.Log("Activation of Condition needs override!");
-            yield return null;
-        }
+        public abstract IEnumerator ActivateCondition(ConditionOversight activator);
 
         #endregion
     }
@@ -92,5 +78,7 @@ namespace Mfknudsen.Pokémon.Conditions
 
     public interface IVolatile
     {
+        public bool CanIncrease();
+        public void Increase(Condition condition);
     }
 }

@@ -20,10 +20,14 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Splitter.Pok√
 
         [OutputType("Spot", typeof(Spot))] public Spot spot;
 
+        [OutputType("Select New", typeof(bool))]
+        public bool selectNew;
+        
         public override void Tick(BattleAI setup)
         {
             pokemon = input.currentPokemon;
             spot = input.currentSpot;
+            selectNew = input.switchInNew;      
 
             ContinueTransitions(setup);
         }

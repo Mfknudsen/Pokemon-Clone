@@ -4,9 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI;
+using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
@@ -17,11 +18,11 @@ namespace Mfknudsen.Battle.Actions.Switch
     {
         #region Values
         [Header("Switch Specific Values:")]
-        [SerializeField] private Trainer.Team team = null;
-        [SerializeField] private PokemonDisplay display = null;
-        [SerializeField] private Pokemon nextPokemon = null;
-        [SerializeField] private Chat[] nextChat = new Chat[0];
-        [SerializeField] private Spot spot = null;
+        [SerializeField] private Trainer.Team team;
+        [SerializeField] private PokemonDisplaySlot displaySlot;
+        [SerializeField] private Pokemon nextPokemon;
+        [SerializeField] private Chat[] nextChat;
+        [SerializeField] private Spot spot;
         #endregion
 
         #region Getters
@@ -32,14 +33,16 @@ namespace Mfknudsen.Battle.Actions.Switch
         #endregion
 
         #region Setters
-        public void SetDisplay(PokemonDisplay input)
+        public void SetDisplay(PokemonDisplaySlot input)
         {
-            display = input;
+            displaySlot = input;
         }
 
         public void SetNextPokemon(Pokemon next)
         {
             nextPokemon = next;
+            
+            next.SetGettingSwitched(true);
         }
 
         public void SetTeam(Trainer.Team set)
@@ -115,8 +118,9 @@ namespace Mfknudsen.Battle.Actions.Switch
             }
 
             yield return new WaitForSeconds(1);
-            //End
 
+            nextPokemon.Setup();
+            
             done = true;
         }
         #endregion

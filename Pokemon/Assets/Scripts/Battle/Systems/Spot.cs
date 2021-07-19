@@ -1,13 +1,12 @@
 ﻿#region SDK
 
 using System.Collections.Generic;
-using Mfknudsen.Battle.UI;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Trainer;
 using UnityEngine;
 
 #endregion
 
+// ReSharper disable ConvertIfStatementToSwitchStatement
 namespace Mfknudsen.Battle.Systems
 {
     public class Spot : MonoBehaviour
@@ -20,34 +19,9 @@ namespace Mfknudsen.Battle.Systems
         [SerializeField] private Transform currentTransform;
         [SerializeField] private BattleMember battleMember;
 
-        [Header("UI:")] [SerializeField] private Vector2 offset = Vector2.zero;
-        [SerializeField] private PokemonDisplay display;
-        [SerializeField] private GameObject displayPrefab;
-
         [SerializeField] private int id;
 
         #endregion
-
-        private void Update()
-        {
-            #region DEBUG
-
-            return;
-
-            Vector3 pos = currentTransform.position;
-            if (left != null)
-                Debug.DrawRay(pos, left.GetTransform().position - pos, Color.white);
-            if (right != null)
-                Debug.DrawRay(pos, right.GetTransform().position - pos, Color.black);
-            if (front != null)
-                Debug.DrawRay(pos, front.GetTransform().position - pos, Color.red);
-            if (strafeLeft != null)
-                Debug.DrawRay(pos, strafeLeft.GetTransform().position - pos, Color.blue);
-            if (strafeRight != null)
-                Debug.DrawRay(pos, strafeRight.GetTransform().position - pos, Color.green);
-
-            #endregion
-        }
 
         #region Getters
 
@@ -205,14 +179,69 @@ namespace Mfknudsen.Battle.Systems
 
         #region In
 
-        public void Setup(Transform origin, int i)
+        public void SetRelations(int selfIndex, int allyCount, List<Spot> opponentSpots)
         {
-            GameObject obj = Instantiate(displayPrefab, origin, true);
-            Vector2 v2 = origin.position;
-            obj.transform.position = v2 + offset * i;
-            obj.transform.localScale = Vector3.one;
+            if (opponentSpots.Count == 1)
+                SetFront(opponentSpots[0]);
+            else if (opponentSpots.Count == 2)
+            {
+                if (selfIndex > 1)
+                {
+                    SetFront(opponentSpots[0]);
+                    SetStrafeLeft(opponentSpots[1]);
+                }
+                else
+                {
+                    SetFront(opponentSpots[1]);
+                    SetStrafeRight(opponentSpots[0]);
+                }
+            }
+            else
+            {
+                if (allyCount == 3)
+                {
+                    if (selfIndex == 1)
+                    {
+                        SetFront(opponentSpots[2]);
+                        SetStrafeRight(opponentSpots[1]);
+                    }
+                    else if (selfIndex == 2)
+                    {
+                        SetFront(opponentSpots[1]);
+                        SetStrafeLeft(opponentSpots[2]);
+                        SetStrafeRight(opponentSpots[0]);
+                    }
+                    else
+                    {
+                        SetFront(opponentSpots[0]);
+                        SetStrafeLeft(opponentSpots[1]);
+                    }
+                }
+                else if (allyCount == 2)
+                {
+                    if (selfIndex == 1)
+                    {
+                        SetFront(opponentSpots[2]);
+                        SetStrafeRight(opponentSpots[1]);
+                    }
+                    else
+                    {
+                        SetFront(opponentSpots[0]);
+                        SetStrafeLeft(opponentSpots[1]);
+                    }
+                }
+                else
+                {
+                    SetFront(opponentSpots[1]);
+                    SetStrafeLeft(opponentSpots[2]);
+                    SetStrafeRight(opponentSpots[0]);
+                }
+            }
+        }
 
-            display = obj.GetComponent<PokemonDisplay>();
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
         }
 
         #endregion
@@ -220,14 +249,36 @@ namespace Mfknudsen.Battle.Systems
 
     public class SpotOversight
     {
+        #region Values
+
         private readonly List<Spot> list;
         private int counts;
+        private bool defaultTargets;
+
+        #endregion
+
+        #region Getters
 
         public SpotOversight()
         {
             list = new List<Spot>();
             counts = 0;
         }
+
+        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+        public List<Spot> GetSpots()
+        {
+            return list;
+        }
+
+        public bool GetToDefaultTargeting()
+        {
+            return defaultTargets;
+        }
+
+        #endregion
+
+        #region Setters
 
         public void SetSpot(Spot spot)
         {
@@ -237,11 +288,9 @@ namespace Mfknudsen.Battle.Systems
             list.Add(spot);
         }
 
-        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-        public List<Spot> GetSpots()
-        {
-            return list;
-        }
+        #endregion
+
+        #region In
 
         public void Reorganise(bool removeEmpty)
         {
@@ -256,90 +305,49 @@ namespace Mfknudsen.Battle.Systems
                 else
                 {
                     if (spot.GetTeamNumber() == 0)
-                        allies = InsertByID(allies, spot);
+                        allies.Add(spot);
                     else
-                        enemies = InsertByID(enemies, spot);
+                        enemies.Add(spot);
                 }
             }
 
             if (removeEmpty)
             {
                 foreach (Spot spot in toRemove)
+                {
                     list.Remove(spot);
+
+                    if (allies.Contains(spot))
+                        allies.Remove(spot);
+                    else if (enemies.Contains(spot))
+                        enemies.Remove(spot);
+
+                    spot.DestroySelf();
+                }
             }
 
-            #region Set Front, Left and Right
+            #region Set Relations
 
             for (int i = 0; i < allies.Count; i++)
             {
-                Spot spot = allies[i];
-                int count = i;
-
-                while (spot.GetFront() is null && i >= 0)
-                {
-                    spot.SetFront(enemies[count]);
-                    count -= 1;
-                }
-
-                if (i != 0)
-                    spot.SetLeft(allies[i - 1]);
-
-                if (i != allies.Count - 1)
-                    spot.SetRight(allies[i + 1]);
+                if(i > 0)
+                    allies[i].SetLeft(allies[i - 1]);
+                if(i < allies.Count - 1)
+                    allies[i].SetRight(allies[i + 1]);
+                
+                allies[i].SetRelations(i + 1, allies.Count, enemies);
             }
 
             for (int i = 0; i < enemies.Count; i++)
             {
-                Spot spot = enemies[i];
-                int count = i;
-
-                while (spot.GetFront() is null && i >= 0)
-                {
-                    spot.SetFront(allies[count]);
-                    count -= 1;
-                }
-
-                if (i != 0)
-                    spot.SetLeft(enemies[i - 1]);
-
-                if (i != enemies.Count - 1)
-                    spot.SetRight(enemies[i + 1]);
+                enemies[i].SetRelations(i + 1, enemies.Count, allies);
             }
 
             #endregion
 
-            #region Set StrafeRight and StrafeLeft
-
-            foreach (Spot spot in list)
-            {
-                // ReSharper disable once Unity.NoNullPropagation
-                if (spot?.GetFront() is null) continue;
-
-                Spot s = spot.GetFront();
-
-                if (s.GetRight() != null)
-                    spot.SetStrafeLeft(s.GetRight());
-                
-                if (s.GetLeft() != null)
-                    spot.SetStrafeRight(s.GetLeft());
-            }
-
-            #endregion
+            defaultTargets = list.Count == 2;
         }
 
-        private List<Spot> InsertByID(List<Spot> toInsert, Spot spot)
-        {
-            for (int i = 0; i < toInsert.Count; i++)
-            {
-                if (toInsert[i].GetID() <= spot.GetID()) continue;
-
-                toInsert.Insert(i, spot);
-                return toInsert;
-            }
-
-            toInsert.Add(spot);
-
-            return toInsert;
-        }
+        #endregion
     }
 }

@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Linq;
 using Mfknudsen.Player;
+using Mfknudsen.Trainer;
 using UnityEngine;
 
 #endregion
@@ -11,8 +12,11 @@ namespace Mfknudsen.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
+        private readonly Team playerTeam;
+
         public RoundDoneState(BattleMaster master) : base(master)
         {
+            playerTeam = MasterPlayer.instance.GetTeam();
         }
 
         public override IEnumerator Tick()
@@ -20,9 +24,13 @@ namespace Mfknudsen.Battle.Systems.States
             SpotOversight spotOversight = master.GetSpotOversight();
             bool endBattle = true;
 
+            // ReSharper disable once Unity.NoNullPropagation
+            foreach (Spot spot in spotOversight.GetSpots().Where(spot => !(spot?.GetActivePokemon() is null) && spot.GetActivePokemon().GetTurnDone()))
+                spot.GetActivePokemon().SetTurnDone(false);
+
             spotOversight.Reorganise(true);
 
-            if (spotOversight.GetSpots().Count >= 2)
+            if (spotOversight.GetSpots().Count > 1)
             {
                 Spot spotA = spotOversight.GetSpots()[0];
 
@@ -40,7 +48,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             if (endBattle)
             {
-                bool playerVictory = MasterPlayer.instance.GetTeam().HasMorePokemon();
+                bool playerVictory = playerTeam.HasMorePokemon();
                 Debug.Log("Victory: " + playerVictory);
                 if (playerVictory)
                     master.SetState(new WinState(master));

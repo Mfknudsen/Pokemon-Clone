@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,17 @@ namespace Mfknudsen.Battle.Systems
         private string battleSceneName = "";
 
         [SerializeField] private int playerSpotCount = 1;
-        [SerializeField] private BattleMember[] allies = new BattleMember[0];
-        [SerializeField] private BattleMember[] enemies = new BattleMember[0];
-        [SerializeField] private Chat onStartChat = null;
+        [SerializeField] private BattleMember[] allies;
+        [SerializeField] private BattleMember[] enemies;
+        [SerializeField] private Chat onStartChat;
 
-        [Header("Before/After:")] [SerializeField]
+        [Header("Before/After:")]
         private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
+
+        private void OnValidate()
+        {
+            playerSpotCount = Mathf.Clamp(playerSpotCount, 1, 3);
+        }
 
         #endregion
 

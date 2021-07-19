@@ -1,18 +1,19 @@
+#region SDK
+
 using System.Collections.Generic;
+
+#endregion
 
 namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector
 {
     [System.Serializable]
-    [Node("Filler/Selection/Selector", "Selector")]
+    [Node("Select/Selector", "Selector")]
     public class SelectorNode : BaseNode
     {
-        [InputType("State", typeof(bool))]
-        public bool state;
+        [InputType("State", typeof(bool))] public bool state;
 
-        [OutCaller("True")]
-        public List<Transition> outOne;
-        [OutCaller("False")]
-        public List<Transition> outTwo;
+        [OutCaller("True")] public List<Transition> outOne;
+        [OutCaller("False")] public List<Transition> outTwo;
 
         public SelectorNode()
         {

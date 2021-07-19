@@ -58,12 +58,11 @@ namespace Mfknudsen.Pokémon
     [CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Create new Pokemon", order = 0)]
     public class Pokemon : ScriptableObject
     {
-        #region Values:
+        #region Values
 
         #region Pokemon
 
-        [Header("Object Reference:")] [SerializeField]
-        private bool isInstantiated;
+        [SerializeField] private bool isInstantiated;
 
         [SerializeField] private string pokemonName;
 
@@ -71,32 +70,28 @@ namespace Mfknudsen.Pokémon
         [SerializeField] private int pokedexIndex;
         [SerializeField] private string pokemonCategory;
         [SerializeField] private Type[] types = new Type[1];
-        [SerializeField] private Ability ability;
+        [SerializeField] private Ability firstAbility, secondAbility, hiddenAbility;
         [SerializeField] private HoldableItem itemInHand;
         [SerializeField, TextArea] private string description;
 
-        [Header("Conditions:")] [SerializeField]
-        private ConditionOversight oversight;
+        [SerializeField] private ConditionOversight oversight;
 
-        [Header("Stats:")] [SerializeField] private float currentHealth;
+        [SerializeField] private float currentHealth;
         [SerializeField] private int[] stats = new int[6];
         [SerializeField] private int[] iv = new int[6];
         [SerializeField] private int[] ev = new int[6];
+        [SerializeField] private float[] multipliers = new float[6];
         [SerializeField] private int level, maxExp;
         [SerializeField] private int currentExp;
 
-        [Header("Evolution:")] [SerializeField]
-        private EvolutionMethod method;
+        [SerializeField] private EvolutionMethod method;
 
         [SerializeField] Pokemon evolveTo;
         [SerializeField] int evolutionLevel;
+        [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
 
-        [Header("Moves:")] [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
-
-        [Header(" -- Learnable:")]
         //Level
-        [SerializeField]
-        private int[] levelLearnableMoveKeys = new int[0];
+        [SerializeField] private int[] levelLearnableMoveKeys = new int[0];
 
         [SerializeField] private PokemonMove[] levelLearnableMoveValue = new PokemonMove[0];
 
@@ -111,18 +106,19 @@ namespace Mfknudsen.Pokémon
         //Tutor
         [SerializeField] private PokemonMove[] tutorLearnableMoveValue = new PokemonMove[0];
 
-        [Header("Breeding:")] [SerializeField] private EggGroup eggGroup;
+        [SerializeField] private EggGroup eggGroup;
         [SerializeField] private int hatchTimeMin, hatchTimeMax;
         [SerializeField] private float height, weight;
         [SerializeField] private float genderRate, catchRate;
 
-        [Header("Miscellaneous")] [SerializeField]
+        [SerializeField]
         private int expYield;
 
         [SerializeField] private LevelRate levelRate;
         [SerializeField] private int[] evYield = new int[6];
         [SerializeField] private Shape shape;
         [SerializeField] private Footprint footprint;
+
         // ReSharper disable once IdentifierTypo
         [SerializeField] private Color pokedexColor = Color.green;
         [SerializeField] private int baseFriendship;
@@ -131,13 +127,15 @@ namespace Mfknudsen.Pokémon
 
         #region In Battle
 
-        [Header("Battle:")] [SerializeField] private int spotIndex = 0;
-        [SerializeField] private GameObject prefab = null;
-        [SerializeField] private GameObject spawnedObject = null;
-        [SerializeField] private Animator anim = null;
-        [SerializeField] private bool gettingSwitched = false, inBattle = false;
-        [SerializeField] private BattleAction battleAction = null;
-        [SerializeField] private bool gettingRevived = false;
+        private bool ready, turnDone;
+
+        [Header("Battle:"), SerializeField] private int spotIndex;
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private GameObject spawnedObject;
+        [SerializeField] private Animator anim;
+        [SerializeField] private bool gettingSwitched, inBattle;
+        [SerializeField] private BattleAction battleAction;
+        [SerializeField] private bool gettingRevived;
 
         #endregion
 
@@ -145,7 +143,7 @@ namespace Mfknudsen.Pokémon
 
         #region Getters
 
-        #region - Pokemon
+        #region Pokemon
 
         public Pokemon GetPokemon()
         {
@@ -331,11 +329,6 @@ namespace Mfknudsen.Pokémon
             return result;
         }
 
-        public int GetSpotIndex()
-        {
-            return spotIndex;
-        }
-
         public GameObject GetPokemonPrefab()
         {
             return prefab;
@@ -351,9 +344,14 @@ namespace Mfknudsen.Pokémon
             return battleAction;
         }
 
-        public Ability GetAbility()
+        public Ability GetFirstAbility()
         {
-            return ability;
+            return firstAbility;
+        }
+
+        public Ability GetSecondAbility()
+        {
+            return secondAbility;
         }
 
         public bool GetGettingSwitched()
@@ -371,6 +369,11 @@ namespace Mfknudsen.Pokémon
             return gettingRevived;
         }
 
+        public bool GetTurnDone()
+        {
+            return turnDone;
+        }
+
         #endregion
 
         #endregion
@@ -381,7 +384,7 @@ namespace Mfknudsen.Pokémon
 
         public void SetAbility(Ability toSet)
         {
-            ability = toSet;
+            firstAbility = toSet;
         }
 
         public void SetStat(Stat targetStat, int set)
@@ -506,11 +509,6 @@ namespace Mfknudsen.Pokémon
 
         #region Battle
 
-        public void SetSpotIndex(int set)
-        {
-            spotIndex = set;
-        }
-
         public void SetSpawnedObject(GameObject set)
         {
             spawnedObject = set;
@@ -534,6 +532,21 @@ namespace Mfknudsen.Pokémon
         public void SetRevived(bool set)
         {
             gettingRevived = set;
+        }
+
+        public void SetTurnDone(bool set)
+        {
+            turnDone = set;
+        }
+
+        public void SetFirstAbility(Ability set)
+        {
+            firstAbility = set;
+        }
+
+        public void SetSecondAbility(Ability set)
+        {
+            secondAbility = set;
         }
 
         #endregion
@@ -560,6 +573,16 @@ namespace Mfknudsen.Pokémon
 
         #region In
 
+        public void Setup()
+        {
+            if (ready) return;
+
+            oversight ??= CreateInstance<ConditionOversight>();
+            oversight.Setup(this);
+
+            ready = true;
+        }
+
         public void DespawnPokemon()
         {
             Destroy(spawnedObject);
@@ -571,7 +594,7 @@ namespace Mfknudsen.Pokémon
             oversight.ResetConditionList();
         }
 
-        public void RecieveDamage(float damage)
+        public void ReceiveDamage(float damage)
         {
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, GetStat(Stat.HP));
         }

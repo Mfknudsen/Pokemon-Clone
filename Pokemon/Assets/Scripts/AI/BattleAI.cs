@@ -22,9 +22,9 @@ namespace Mfknudsen.AI
 
     public enum MacroState
     {
-        Aggresor,
-        Defensiv,
-        Recorver,
+        Aggressor,
+        Defensively,
+        Recovery,
         Support
     }
 
@@ -106,6 +106,11 @@ namespace Mfknudsen.AI
             return canRememberAlly;
         }
 
+        public LocalMemories GetLocalMemories()
+        {
+            return localMemories;
+        }
+
         #endregion
 
         #region Setters
@@ -150,7 +155,7 @@ namespace Mfknudsen.AI
 
                     if (type == null || type.type != typeof(LocalMemories))
                         continue;
-                    
+
                     fieldInfo.SetValue(baseNode, localMemories);
                 }
             }
@@ -164,10 +169,14 @@ namespace Mfknudsen.AI
 
         #endregion
     }
+
+    #region Structs
+
     public struct LocalMemories
     {
         public Pokemon currentPokemon;
         public Spot currentSpot;
+        public bool switchInNew;
     }
 
     public struct EnemiesMemories
@@ -179,4 +188,6 @@ namespace Mfknudsen.AI
     {
         public Dictionary<string, Team> teams;
     }
+
+    #endregion
 }

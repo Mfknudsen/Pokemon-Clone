@@ -1,6 +1,7 @@
 #region SDK
 
 using System.Collections;
+using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 using Mfknudsen.Player;
@@ -17,7 +18,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            Team team = MasterPlayer.instance.GetTeam();
+            Team playerTeam = MasterPlayer.instance.GetTeam();
             SpotOversight spotOversight = master.GetSpotOversight();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
@@ -25,9 +26,9 @@ namespace Mfknudsen.Battle.Systems.States
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (pokemon is null || !team.PartOfTeam(pokemon)) continue;
+                if (pokemon is null || !playerTeam.PartOfTeam(pokemon)) continue;
 
-                master.DisplayMoves(pokemon);
+                master.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;

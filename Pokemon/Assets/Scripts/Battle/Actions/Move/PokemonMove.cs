@@ -94,12 +94,10 @@ namespace Mfknudsen.Battle.Actions.Move
         [Header("Status:")] [SerializeField] protected bool hasStatus;
         [SerializeField] protected Condition statusCondition;
         [SerializeField] protected float applyChange;
-        [SerializeField] protected bool statusHit;
+        [SerializeField] protected bool statusHit = true;
         [SerializeField] private Chat statusHitChat, statusFailedChat;
 
         #region Operation
-
-        private Spot currentSpot;
 
         private float damagePerTarget,
             damageApplied,
@@ -354,85 +352,12 @@ namespace Mfknudsen.Battle.Actions.Move
                 active = true;
                 done = false;
             }
-            /*
-            if (category != Category.Status)
-            {
-                if (targetPokemon.Count > 0)
-                {
-                    if (category == Category.Physical || category == Category.Special)
-                    {
-                        float attack = currentPokemon.GetStat(Stat.SpAtk);
-
-                        if (category == Category.Physical)
-                            attack = currentPokemon.GetStat(Stat.Attack);
-
-                        damagePerTarget = new float[targetPokemon.Count];
-
-
-                        for (int i = 0; i < targetPokemon.Count; i++)
-                        {
-                            Pokemon p = targetPokemon[i];
-                            float defence = p.GetStat(Stat.SpDef);
-
-                            if (category == Category.Physical)
-                                defence = p.GetStat(Stat.Defence);
-
-                            int damage = BattleMathf.CalculateDamage(
-                                currentPokemon.GetLevel(),
-                                attack,
-                                defence,
-                                power,
-                                BattleMathf.CalculateModifiers(
-                                    currentPokemon, p, this, (targetPokemon.Count == 1)));
-
-                            damagePerTarget[i] = damage;
-                        }
-                    }
-                }
-                else
-                    Debug.Log("No targets to hit");
-            }
-            else
-            {
-                if (statusCondition != null)
-                {
-                    if (Random.Range(0.0f, 1.0f) <= (applyChange / 100))
-                    {
-                        foreach (Pokemon target in targetPokemon)
-                        {
-                            Condition toApply = statusCondition.GetCondition();
-                            toApply.SetAffectedPokemon(target);
-
-                            if (target.GetConditionOversight().TryApplyNonVolatileCondition(toApply))
-                            {
-                                statusHit = true;
-                                if (statusHitChat != null)
-                                {
-                                    Chat toSend = statusHitChat.GetChat();
-                                    toSend.AddToOverride("<TARGET_NAME>", target.GetName());
-                                    ChatMaster.instance.Add(toSend);
-                                }
-                            }
-                            else if (statusFailedChat != null)
-                            {
-                                Chat toSend = statusFailedChat.GetChat();
-                                toSend.AddToOverride("<TARGET_NAME>", target.GetName());
-                                toSend.AddToOverride("<CONDITION_EFFECT>", toApply.GetConditionEffect());
-                                ChatMaster.instance.Add(toSend);
-                            }
-                        }
-                    }
-                    else
-                        Debug.Log("Temp Miss");
-                }
-            }
-            */
 
             return Operation();
         }
 
         #endregion
-        
+
         #region Internal
 
         protected override Chat[] TransferInformationToChat()
@@ -472,9 +397,8 @@ namespace Mfknudsen.Battle.Actions.Move
 
             if (category != Category.Status)
             {
-                while (targetPokemon.Count > 0)
+                foreach (Pokemon pokemon in targetPokemon)
                 {
-                    Pokemon pokemon = targetPokemon[0];
                     damagePerTarget = GetDamageForTarget(currentPokemon, pokemon);
                     damageOverTime = damagePerTarget / secPerPokeMove;
 
@@ -485,17 +409,34 @@ namespace Mfknudsen.Battle.Actions.Move
 
                         damageApplied += damageOverTime;
 
-                        pokemon.RecieveDamage(damageOverTime);
+                        pokemon.ReceiveDamage(damageOverTime);
 
-                        yield return new WaitForSeconds(1 / secPerPokeMove);
+                        yield return new WaitForSeconds(BattleMaster.instance.GetSecPerPokeMove() / secPerPokeMove);
                     }
-
-                    targetPokemon.Remove(pokemon);
                 }
             }
-            else if (statusHit)
+
+            if (!(statusCondition is null))
             {
-                yield return new WaitForSeconds(secPerPokeMove);
+                foreach (Pokemon pokemon in targetPokemon)
+                {
+                    if (!BattleMathf.CalculateStatusHit()) continue;
+
+                    Chat chat = statusHitChat.GetChat();
+
+                    chat.AddToOverride("<TARGET_NAME>", pokemon.GetName());
+
+                    ChatMaster.instance.Add(chat);
+
+                    // ReSharper disable once MergeCastWithTypeCheck
+                    if (statusCondition is INonVolatile)
+                        pokemon.GetConditionOversight().TryApplyNonVolatileCondition((INonVolatile) statusCondition);
+                    else
+                        pokemon.GetConditionOversight().TryApplyVolatileCondition((IVolatile) statusCondition);
+
+                    while (ChatMaster.instance.GetIsClear())
+                        yield return null;
+                }
             }
 
             done = true;

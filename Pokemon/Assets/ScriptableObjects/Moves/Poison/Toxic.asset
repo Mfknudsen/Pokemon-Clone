@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   done: 0
+  defaultTargetEnemy: 1
   currentPokemon: {fileID: 0}
   targetPokemon: []
   moveActive: 0
@@ -27,7 +28,7 @@ MonoBehaviour:
   category: 2
   startPP: 0
   maxPP: 10
-  power: -1
+  power: 0
   accuracy: 90
   makesContact: 0
   affectByProtect: 1
@@ -35,7 +36,6 @@ MonoBehaviour:
   affectBySnatch: 0
   affectByMirrorMove: 1
   affectByKingsRock: 0
-  targetIndex: -1
   hitType: 0
   selfTargetable: 0
   enemyTargetable: 010100
@@ -50,8 +50,8 @@ MonoBehaviour:
   spectacularAppeal: 0
   spectacularJam: 0
   hasStatus: 1
-  statusCondition: {fileID: 11400000, guid: 5c384040ea1072c4bbceab18450d8a22, type: 2}
+  statusCondition: {fileID: 11400000, guid: 2c8651226be24f24bb26d8a51575b846, type: 2}
   applyChange: 100
-  statusHit: 0
+  statusHit: 1
   statusHitChat: {fileID: 11400000, guid: a384d5220b83ab64eb0ad2f6690b9079, type: 2}
   statusFailedChat: {fileID: 11400000, guid: 0fe2bc316a711e5469fc63ff65d1b016, type: 2}

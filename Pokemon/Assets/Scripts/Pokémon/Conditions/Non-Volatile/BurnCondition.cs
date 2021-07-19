@@ -21,11 +21,10 @@ namespace Mfknudsen.Pokémon.Conditions
         {
             Condition result = this;
 
-            if (!result.GetIsInstantiated())
-            {
-                result = Instantiate(this);
-                result.SetIsInstantiated(true);
-            }
+            if (result.GetIsInstantiated()) return result;
+            
+            result = Instantiate(this);
+            result.SetIsInstantiated(true);
 
             return result;
         }
@@ -45,6 +44,12 @@ namespace Mfknudsen.Pokémon.Conditions
         #endregion
 
         #region In
+
+        public override void Reset()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override IEnumerator ActivateCondition(ConditionOversight activator)
         {
             yield return null;

@@ -1,5 +1,8 @@
 ﻿#region SDK
 
+using Mfknudsen.Battle.Actions;
+using Mfknudsen.Battle.Actions.Item;
+using Mfknudsen.Battle.Actions.Switch;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
 using Mfknudsen.Pokémon;
@@ -18,7 +21,8 @@ namespace Mfknudsen.Battle.UI.Selection
     {
         Switch,
         Item,
-        Target
+        Target,
+        Turn
     }
 
     #endregion
@@ -30,6 +34,7 @@ namespace Mfknudsen.Battle.UI.Selection
         [SerializeField] private PokemonSelection pokemonSelection;
         [SerializeField] private ItemSelection itemSelection;
         [SerializeField] private TargetSelection targetSelection;
+        [SerializeField] private TurnSelection turnSelection;
 
         #endregion
 
@@ -40,9 +45,10 @@ namespace Mfknudsen.Battle.UI.Selection
             pokemonSelection.Setup();
             itemSelection.Setup();
             targetSelection.Setup();
+            turnSelection.Setup();
         }
-        
-        public void DisplaySelection(SelectorGoal goal)
+
+        public void DisplaySelection(SelectorGoal goal, object parse)
         {
             DisableDisplaySelection();
 
@@ -50,15 +56,19 @@ namespace Mfknudsen.Battle.UI.Selection
             switch (goal)
             {
                 case SelectorGoal.Switch:
-                    pokemonSelection.DisplaySelection();
+                    pokemonSelection.DisplaySelection((SwitchAction) parse);
                     break;
-                
+
                 case SelectorGoal.Item:
-                    itemSelection.DisplaySelection();
+                    itemSelection.DisplaySelection((ItemAction) parse);
                     break;
-                
+
                 case SelectorGoal.Target:
-                    targetSelection.DisplaySelection();
+                    targetSelection.DisplaySelection((BattleAction) parse);
+                    break;
+
+                case SelectorGoal.Turn:
+                    turnSelection.DisplaySelection((Pokemon) parse);
                     break;
             }
         }
@@ -68,6 +78,7 @@ namespace Mfknudsen.Battle.UI.Selection
             pokemonSelection.DisableDisplaySelection();
             itemSelection.DisableDisplaySelection();
             targetSelection.DisableDisplaySelection();
+            turnSelection.DisableDisplaySelection();
         }
 
         #endregion

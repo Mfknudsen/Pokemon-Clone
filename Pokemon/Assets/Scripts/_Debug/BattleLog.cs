@@ -13,24 +13,22 @@ namespace Mfknudsen._Debug
     {
         #region Values
 
-        public static BattleLog instance = null;
-        [SerializeField] private bool active = false;
-        [SerializeField] private TextMeshProUGUI textField = null;
-        private List<string> textLog = new List<string>();
-        [SerializeField] private Scrollbar scroller = null;
+        public static BattleLog instance ;
+        [SerializeField] private bool active;
+        [SerializeField] private TextMeshProUGUI textField;
+
+        // ReSharper disable once CollectionNeverQueried.Local
+        private readonly List<string> textLog = new List<string>();
+        [SerializeField] private Scrollbar scroller;
 
         #endregion
 
         private void Start()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(this);
-                textField.text = "";
-            }
-            else
-                Destroy(gameObject);
+            if (instance != null) return;
+            
+            instance = this;
+            textField.text = "";
         }
 
         private void Awake()
@@ -64,13 +62,22 @@ namespace Mfknudsen._Debug
         // ReSharper disable Unity.PerformanceAnalysis
         public void AddNewLog(string script, string input)
         {
-            textLog.Add(script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: " + input);
+            string scriptText = script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: ";
+            textLog.Add(scriptText + input);
 
-            textField.text += script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: \n   " +
-                              input + "\n";
+            textField.text += scriptText + "\n" + input + "\n";
 
-            Invoke("ScrollControl", 0.01f);
+            Invoke(nameof(ScrollControl), 0.01f);
         }
+
+        #region Statics
+
+        public static void AddLog(string script, string input)
+        {
+            instance.AddNewLog(script, input);
+        }
+
+        #endregion
 
         #endregion
 

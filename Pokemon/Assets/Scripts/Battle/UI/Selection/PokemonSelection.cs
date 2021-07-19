@@ -1,13 +1,14 @@
 #region SDK
 
+using Mfknudsen.Battle.Actions.Switch;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
-using TMPro;
 using UnityEngine;
 
 #endregion
 
+// ReSharper disable ParameterHidesMember
 namespace Mfknudsen.Battle.UI.Selection
 {
     public class PokemonSelection : MonoBehaviour
@@ -17,6 +18,7 @@ namespace Mfknudsen.Battle.UI.Selection
         [SerializeField] private GameObject background;
         [SerializeField] private PokemonSlot[] pokemonSlots;
         private Team playerTeam;
+        private SwitchAction switchAction;
 
         #endregion
 
@@ -27,16 +29,14 @@ namespace Mfknudsen.Battle.UI.Selection
             playerTeam = MasterPlayer.instance.GetTeam();
         }
 
-        public void DisplaySelection()
+        public void DisplaySelection(SwitchAction switchAction)
         {
+            this.switchAction = switchAction;
+
             background.SetActive(true);
 
             for (int i = 0; i < 6; i++)
-            {
-                Pokemon pokemon = playerTeam.GetPokemonByIndex(i);
-
-                pokemonSlots[i].SetPokemon(this, pokemon);
-            }
+                pokemonSlots[i].SetPokemon(this, playerTeam.GetPokemonByIndex(i));
         }
 
         public void DisableDisplaySelection()
@@ -46,6 +46,13 @@ namespace Mfknudsen.Battle.UI.Selection
 
         public void SendPokemon(Pokemon pokemon)
         {
+            if (pokemon is null) return;
+
+            switchAction.SetNextPokemon(pokemon);
+
+            pokemon.SetGettingSwitched(true);
+
+            switchAction = null;
         }
 
         #endregion

@@ -1,6 +1,9 @@
 #region SDK
 
 using System.Collections;
+using System.Collections.Generic;
+using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Comunication;
 using Mfknudsen.Player;
 using UnityEngine;
@@ -17,25 +20,31 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
+            List<SwitchAction> switchActions = new List<SwitchAction>();
             SpotOversight oversight = master.GetSpotOversight();
             BattleMember playerTeam = MasterPlayer.instance.GetBattleMember();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (Spot spot in oversight.GetSpots())
             {
-                if(spot.GetBattleMember() != playerTeam || !playerTeam.GetTeam().CanSendMorePokemon() || !(spot.GetActivePokemon() is null)) continue;
-                
-                spot.SetNeedNew(true);
+                if (spot.GetBattleMember() != playerTeam || !playerTeam.GetTeam().CanSendMorePokemon() ||
+                    !(spot.GetActivePokemon() is null)) continue;
 
-                master.DisplayPokemonSelect();
+                SwitchAction switchAction = master.InstantiateSwitchAction();
 
-                while (spot.GetNeedNew() || !ChatMaster.instance.GetIsClear())
+                switchAction.SetSpot(spot);
+
+                master.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
+
+                while (switchAction.GetNextPokemon() is null || !ChatMaster.instance.GetIsClear())
                     yield return null;
+
+                switchActions.Add(switchAction);
             }
             
             master.GetSelectionMenu().DisableDisplaySelection();
 
-            master.SetState(new ComputerSelectNewState(master));
+            master.SetState(new ComputerSelectNewState(master, switchActions));
         }
     }
 }

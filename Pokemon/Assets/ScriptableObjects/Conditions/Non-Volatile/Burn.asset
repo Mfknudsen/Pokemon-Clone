@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214a3402fce467842968ec1f7341248a, type: 3}
   m_Name: Burn
   m_EditorClassIdentifier: 
-  isInstantiated: 0
+  conditionName: Burn
   affectedPokemon: {fileID: 0}
-  conditionEffect: Burn
-  active: 0
-  done: 0
-  conditionName: 4
+  beforeAttack: 0
   damage: 0
   n: 0
   increaseN: 1

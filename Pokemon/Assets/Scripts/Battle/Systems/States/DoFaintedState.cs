@@ -15,12 +15,8 @@ namespace Mfknudsen.Battle.Systems.States
     public class DoFaintedState : State
     {
         // ReSharper disable once IdentifierTypo
-        private readonly List<Pokemon> pokemonsWithAction;
-
-        // ReSharper disable once IdentifierTypo
-        public DoFaintedState(BattleMaster master, List<Pokemon> pokemonsWithAction) : base(master)
+        public DoFaintedState(BattleMaster master) : base(master)
         {
-            this.pokemonsWithAction = pokemonsWithAction;
         }
 
         public override IEnumerator Tick()
@@ -47,7 +43,7 @@ namespace Mfknudsen.Battle.Systems.States
                 pokemons.RemoveAt(0);
             }
 
-            master.SetState(new ActionState(master, pokemonsWithAction));
+            master.SetState(new ActionState(master));
         }
     }
 }

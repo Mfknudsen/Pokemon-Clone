@@ -23,6 +23,7 @@ MonoBehaviour:
   - id: 7
   - id: 8
   - id: 9
+  - id: 10
   references:
     version: 1
     00000000:
@@ -54,6 +55,126 @@ MonoBehaviour:
         inCall: 0
         resetOnEnd: 0
         transitions:
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 3
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 2
+          fromNodeID: 1
+          targetFieldID: 0
+          fromFieldID: 0
         - id: 3
           ready: 0
           inCall: 0
@@ -1233,8 +1354,249 @@ MonoBehaviour:
           fromNodeID: 2
           targetFieldID: 0
           fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
+        - id: 5
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 4
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 1
+        - id: 8
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 2
+          targetFieldID: 0
+          fromFieldID: 0
         pokemon: {fileID: 0}
         spot: {fileID: 0}
+        selectNew: 1
     00000003:
       type: {class: Transition, ns: Mfknudsen.AI.Behavior_Tree.Scripts, asm: Assembly-CSharp}
       data:
@@ -1647,6 +2009,126 @@ MonoBehaviour:
           fromNodeID: 4
           targetFieldID: 1
           fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
+        - id: 7
+          ready: 0
+          inCall: 0
+          resetOnEnd: 0
+          transitions: []
+          transferInformation: 1
+          targetNodeID: 6
+          fromNodeID: 4
+          targetFieldID: 1
+          fromFieldID: 0
         userSpot: {fileID: 0}
         selection: {fileID: 0}
     00000005:
@@ -1667,7 +2149,7 @@ MonoBehaviour:
         asm: Assembly-CSharp}
       data:
         id: 6
-        ready: 0
+        ready: 1
         inCall: 1
         resetOnEnd: 0
         transitions: []
@@ -1712,3 +2194,15 @@ MonoBehaviour:
         fromNodeID: 0
         targetFieldID: -1
         fromFieldID: -1
+    0000000A:
+      type: {class: SelectorNode, ns: Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector,
+        asm: Assembly-CSharp}
+      data:
+        id: 10
+        ready: 0
+        inCall: 1
+        resetOnEnd: 0
+        transitions: []
+        state: 0
+        outOne: []
+        outTwo: []

@@ -53,7 +53,7 @@ namespace Mfknudsen.Pokémon.Conditions
 
             GameObject obj = affectedPokemon.GetSpawnedObject();
 
-            while (!ChatMaster.instance.GetIsClear() && obj != null)
+            while (!ChatMaster.instance.GetIsClear() && !(obj is null))
             {
                 if (obj.transform.localScale.y > 0.01f)
                     obj.transform.localScale += -Vector3.one * Time.deltaTime;

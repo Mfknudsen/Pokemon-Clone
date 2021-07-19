@@ -34,7 +34,7 @@ MonoBehaviour:
   evolveTo: {fileID: 0}
   evolutionLevel: 0
   learnedMoves:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -58,7 +58,11 @@ MonoBehaviour:
   footprint: 0
   pokedexColor: {r: 0, g: 1, b: 0, a: 1}
   baseFriendship: 0
+  spotIndex: 0
   prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
-  stunned: 0
+  gettingSwitched: 0
+  inBattle: 0
+  battleAction: {fileID: 0}
+  gettingRevived: 0

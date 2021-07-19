@@ -1,5 +1,8 @@
+#region SDK
+
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen._Debug;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Switch;
 using Mfknudsen.Comunication;
@@ -7,6 +10,8 @@ using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.Battle.Systems.States
 {
@@ -20,40 +25,33 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            master.GetSelectionMenu().Setup();
-            
             #region Setup Spots
 
             BattleStarter battleStarter = null;
 
-            while (battleStarter == null)
+            while (battleStarter is null)
             {
                 battleStarter = master.GetStarter();
                 yield return 0;
             }
-
-            int allyX = battleStarter.GetPlayerSpotCount() + battleStarter.GetAllySpotCount(),
-                enemyX = battleStarter.GetEnemiesSpotCount();
 
             spotOversight = master.SetupSpotOversight();
 
             int offset = 0;
             //Player
             MasterPlayer player = MasterPlayer.instance;
-            ;
+
             Team team = player.GetTeam();
 
             for (int i = 0; i < battleStarter.GetPlayerSpotCount(); i++)
             {
-                Pokemon pokemon = team.GetPokemonByIndex(i);
-                if (pokemon is null)
+                if (!team.CanSendMorePokemon())
                 {
                     player.GetBattleMember().ForceHasAllSpots();
                     break;
                 }
 
                 Spot spot = master.CreateSpot().GetComponent<Spot>();
-
                 spot.SetBattleMember(MasterPlayer.instance.GetBattleMember());
 
                 offset += 1;
@@ -70,8 +68,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
                 {
-                    Pokemon pokemon = team.GetPokemonByIndex(i);
-                    if (pokemon == null)
+                    if (!team.CanSendMorePokemon())
                     {
                         battleMember.ForceHasAllSpots();
                         break;
@@ -97,8 +94,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
                 {
-                    Pokemon pokemon = team.GetPokemonByIndex(i);
-                    if (pokemon == null)
+                    if (!team.CanSendMorePokemon())
                     {
                         battleMember.ForceHasAllSpots();
                         break;
@@ -119,6 +115,43 @@ namespace Mfknudsen.Battle.Systems.States
 
             #endregion
 
+            master.GetDisplayManager().Setup();
+            master.GetSelectionMenu().Setup();
+
+            #region Start Log
+
+            string playersMsg = "Starting Battle Between:";
+            string alliesMsg = " - " + player.GetBattleMember().GetName(), enemiesMsg = "";
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (Spot spot in master.GetSpotOversight().GetSpots())
+            {
+                BattleMember battleMember = spot.GetBattleMember();
+
+                if (battleMember is null || battleMember == player.GetBattleMember()) continue;
+
+                if (battleMember.GetTeamNumber() == player.GetBattleMember().GetTeamNumber())
+                    alliesMsg += ", " + battleMember.GetName();
+                else
+                {
+                    if (!enemiesMsg.Equals(""))
+                        enemiesMsg += ", ";
+                    else
+                        enemiesMsg += " - ";
+
+                    enemiesMsg += battleMember.GetName();
+                }
+            }
+
+            playersMsg += "\n" + alliesMsg + "\n" + enemiesMsg;
+
+            while (BattleLog.instance is null)
+                yield return null;
+
+            BattleLog.AddLog("Begin State", playersMsg);
+
+            #endregion
+
             #region Start Actions
 
             List<BattleAction> list = new List<BattleAction>();
@@ -127,11 +160,14 @@ namespace Mfknudsen.Battle.Systems.States
             {
                 spot.SetTransform();
 
-                if (spot == null || spot.GetBattleMember() == null)
+                if (spot.GetBattleMember() is null)
                     continue;
 
                 BattleMember battleMember = spot.GetBattleMember();
-
+                Pokemon pokemon = battleMember.GetTeam().GetFirstOut();
+                
+                if(pokemon is null) continue;
+                
                 SwitchAction action = master.InstantiateSwitchAction();
 
                 action.SetNextPokemon(battleMember.GetTeam().GetFirstOut());
@@ -143,22 +179,20 @@ namespace Mfknudsen.Battle.Systems.States
             while (!ChatMaster.instance.GetIsClear())
                 yield return 0;
 
-            while (list.Count > 0)
+            foreach (BattleAction action in list)
             {
-                BattleAction action = list[0];
-
                 master.StartCoroutine(action.Activate());
 
                 while (!action.GetDone())
-                    yield return 0;
-
-                list.RemoveAt(0);
+                    yield return null;
             }
 
             #endregion
 
             while (!ChatMaster.instance.GetIsClear())
                 yield return 0;
+
+            spotOversight.Reorganise(true);
             
             master.SetState(new PlayerTurnState(master));
         }

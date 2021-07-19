@@ -1,11 +1,13 @@
 ﻿#region SDK
 
 using System.Collections.Generic;
+using Mfknudsen.Battle.Actions.Item;
 using Mfknudsen.Items;
 using UnityEngine;
 
 #endregion
 
+// ReSharper disable ParameterHidesMember
 namespace Mfknudsen.Battle.UI.Selection
 {
     public class ItemSelection : MonoBehaviour
@@ -17,6 +19,8 @@ namespace Mfknudsen.Battle.UI.Selection
         [SerializeField] private List<ItemDisplay> displays = new List<ItemDisplay>();
         [SerializeField] private Item[] list = new Item[0];
 
+        private ItemAction itemAction;
+
         #endregion
 
         #region In
@@ -25,8 +29,9 @@ namespace Mfknudsen.Battle.UI.Selection
         {
         }
 
-        public void DisplaySelection()
+        public void DisplaySelection(ItemAction itemAction)
         {
+            this.itemAction = itemAction;
         }
 
         public void DisableDisplaySelection()
