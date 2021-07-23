@@ -1,20 +1,28 @@
 #region SDK
 
+using Mfknudsen.Battle.Systems.Interfaces;
+using UnityEngine;
 
 #endregion
 
 namespace Mfknudsen.Pokémon.Abilities
 {
-    public class Levitate : Ability
+    [CreateAssetMenu(menuName = "Ability/Levitate")]
+    public class Levitate : Ability, IImmuneAttackType
     {
-        public override void ReceiveInfo(object info)
+        [SerializeField] private TypeName immuneType;
+        
+        public bool MatchType(TypeName type)
         {
-            throw new System.NotImplementedException();
+            return type == immuneType;
         }
 
-        public override void Trigger(AbilityTrigger abilityTrigger)
+        public override void TriggerEnable(AbilityTrigger trigger, Pokemon currentPokemon)
         {
-            throw new System.NotImplementedException();
+        }
+
+        public override void TriggerDisable(AbilityTrigger trigger, Pokemon currentPokemon)
+        {
         }
     }
 }

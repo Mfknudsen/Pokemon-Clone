@@ -103,6 +103,8 @@ namespace Mfknudsen.Battle.Actions.Move
             damageApplied,
             damageOverTime;
 
+        private bool isCritical;
+
         #endregion
 
         private void OnValidate()
@@ -383,8 +385,18 @@ namespace Mfknudsen.Battle.Actions.Move
 
             float defencePower = currentPokemon.GetStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
 
-            return BattleMathf.CalculateDamage(user.GetLevel(), attackPower, defencePower, power,
-                BattleMathf.CalculateModifiers(user, target, this, (targetPokemon.Count == 1)));
+            isCritical = BattleMathf.CalculateCriticalRoll();
+
+            return BattleMathf.CalculateDamage(user.GetLevel(),
+                attackPower,
+                defencePower,
+                power,
+                BattleMathf.CalculateModifiers(
+                    user,
+                    target,
+                    this,
+                    targetPokemon.Count == 1,
+                    isCritical));
         }
 
         #endregion

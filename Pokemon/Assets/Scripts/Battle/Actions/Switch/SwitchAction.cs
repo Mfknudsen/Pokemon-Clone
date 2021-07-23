@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Comunication;

@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.AI;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon;
 
 #endregion

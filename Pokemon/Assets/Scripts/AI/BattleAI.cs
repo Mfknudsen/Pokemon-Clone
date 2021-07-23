@@ -11,6 +11,7 @@ using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input;
 using Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Input.Pokémon;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 

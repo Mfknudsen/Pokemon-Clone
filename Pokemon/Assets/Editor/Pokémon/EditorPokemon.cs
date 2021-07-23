@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Mfknudsen.Editor.Pokémon
 {
-    [CustomEditor(typeof(Mfknudsen.Pokémon.Pokemon))]
+    [CustomEditor(typeof(Pokemon))]
     public class EditorPokemon : UnityEditor.Editor
     {
         private Pokemon script;
@@ -23,7 +23,7 @@ namespace Mfknudsen.Editor.Pokémon
         private  string[] moveNames;
         private  List<Type> types;
         private   string[] typeNames;
-        private  List<Mfknudsen.Pokémon.Pokemon> pokemons;
+        private  List<Pokemon> pokemons;
         private   string[] pokemonNames;
 
         private void OnEnable()
@@ -304,27 +304,26 @@ namespace Mfknudsen.Editor.Pokémon
             EditorGUILayout.BeginHorizontal();
             for (int i = 0; i < 4; i++)
             {
-                if (toDisplay[i] != null)
-                {
-                    GUI.backgroundColor = toDisplay[i].GetMoveType().GetTypeColor();
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                    GUI.backgroundColor = standard;
+                if (toDisplay[i] is null) continue;
+                
+                GUI.backgroundColor = toDisplay[i].GetMoveType().GetTypeColor();
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                GUI.backgroundColor = standard;
 
-                    int choice = EditorGUILayout.Popup(
-                        moves.IndexOf(toDisplay[i]),
-                        moveNames,
-                        textStyle,
-                        GUILayout.Height(50));
-                    EditorGUILayout.EndVertical();
+                int choice = EditorGUILayout.Popup(
+                    moves.IndexOf(toDisplay[i]),
+                    moveNames,
+                    textStyle,
+                    GUILayout.Height(50));
+                EditorGUILayout.EndVertical();
 
 
-                    script.SetLearnedMove(i, moves[choice]);
-                }
+                script.SetLearnedMove(i, moves[choice]);
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
-            if (toDisplay[0] == null || toDisplay[1] == null || toDisplay[2] == null || toDisplay[3] == null)
+            if (toDisplay[0] is null || toDisplay[1] is null || toDisplay[2] is null || toDisplay[3] is null)
             {
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(50));
                 EditorGUILayout.BeginHorizontal();

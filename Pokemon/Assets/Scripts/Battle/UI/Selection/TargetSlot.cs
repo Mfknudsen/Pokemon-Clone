@@ -1,6 +1,7 @@
 #region SDK
 
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon;
 using TMPro;
 using UnityEngine;

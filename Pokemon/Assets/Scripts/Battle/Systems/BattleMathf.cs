@@ -3,15 +3,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Actions.Move;
-using Mfknudsen.Battle.Systems.States;
+using Mfknudsen.Battle.Systems.Interfaces;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Type = Mfknudsen.Pokémon.Type;
 
 #endregion
 
+// ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
 // ReSharper disable once ParameterTypeCanBeEnumerable.Global
 // ReSharper disable once MemberCanBePrivate.Global
@@ -59,6 +62,23 @@ namespace Mfknudsen.Battle.Systems
         #endregion
 
         #region Out
+
+        public static float GetMultiplierValue(int index, bool baseStat)
+        {
+            if (index > 0)
+                return 1 + index * (baseStat ? 0.5f : 0.33f);
+
+            return index switch
+            {
+                -1 => baseStat ? 0.666f : 0.75f,
+                -2 => baseStat ? 0.5f : 0.6f,
+                -3 => baseStat ? 0.4f : 0.5f,
+                -4 => baseStat ? 0.333f : 0.428f,
+                -5 => baseStat ? 0.285f : 0.375f,
+                -6 => baseStat ? 0.25f : 0.33f,
+                _ => 1
+            };
+        }
 
         public static bool CanHit(Spot user, Spot target, PokemonMove pokemonMove)
         {
@@ -160,15 +180,15 @@ namespace Mfknudsen.Battle.Systems
             result *= power * (attack / defense);
             result /= 50;
             result += 2;
-            foreach (float modifier in modifiers)
-                result *= modifier;
+
+            result = modifiers.Aggregate(result, (current, modifier) => current * modifier);
 
             return (int) result;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
         public static float[] CalculateModifiers(Pokemon attacker, Pokemon target, PokemonMove attackMove,
-            bool multiTarget)
+            bool multiTarget, bool isCritical)
         {
             TypeName attackType = attackMove.GetMoveType().GetTypeName();
 
@@ -222,8 +242,8 @@ namespace Mfknudsen.Battle.Systems
 
             float critical = 1;
 
-            if (CalculateCriticalRoll())
-                critical = 2;
+            if (isCritical)
+                critical = 1.5f;
 
             result.Add(critical);
 
@@ -259,6 +279,16 @@ namespace Mfknudsen.Battle.Systems
                     type = 0;
             }
 
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (IImmuneAttackType immuneAttackType in BattleMaster.instance.GetAbilityOversight().ListOfSpecific<IImmuneAttackType>())
+            {
+                if(!immuneAttackType.MatchType(attackType)) continue;
+
+                type = 0;
+                
+                break;
+            }
+            
             if (type != 0)
             {
                 type += toCheck[0].GetWeakness(attackType) - toCheck[0].GetResistance(attackType);
@@ -301,17 +331,19 @@ namespace Mfknudsen.Battle.Systems
             #region Burn
 
             float burn = 1;
-            if (attackMove.GetCategory() == Category.Physical)
+            if (attackMove.GetCategory() == Category.Physical &&
+                attacker.GetConditionOversight()?.GetNonVolatileStatus() is BurnCondition)
             {
                 // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
-                if (attacker.GetConditionOversight() != null)
+                burn = 0.5f;
+
+                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                foreach (IBurnStop ability in BattleMaster.instance.GetAbilityOversight().ListOfSpecific<IBurnStop>())
                 {
-                    // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
-                    if (attacker.GetConditionOversight().GetNonVolatileStatus() != null)
-                    {
-                        if (attacker.GetConditionOversight().GetNonVolatileStatus().GetConditionName() == "Burn")
-                            burn = 0.5f;
-                    }
+                    if(!ability.CanStopBurn(attacker)) continue;
+
+                    burn = 1;
+                    break;
                 }
             }
 
@@ -384,7 +416,7 @@ namespace Mfknudsen.Battle.Systems
         {
             return true;
         }
-        
+
         #endregion
 
         #endregion

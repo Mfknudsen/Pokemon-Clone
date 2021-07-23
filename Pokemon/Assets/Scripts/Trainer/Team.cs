@@ -34,15 +34,6 @@ namespace Mfknudsen.Trainer
                 for (int i = 0; i < tempList.Count; i++)
                     pokemons[i] = tempList[i];
             }
-
-            for (int i = 0; i < pokemons.Count; i++)
-            {
-                if (pokemons[i] != null)
-                {
-                    if (!pokemons[i].GetIsInstantiated())
-                        pokemons[i] = pokemons[i].GetPokemon();
-                }
-            }
         }
 
         #endregion
@@ -122,7 +113,16 @@ namespace Mfknudsen.Trainer
             for (int i = 0; i < pokemons.Count; i++)
             {
                 if (pokemons[i] != null)
-                    pokemons[i] = pokemons[i].GetPokemon();
+                    pokemons[i] = pokemons[i];
+            }
+
+            for (int i = 0; i < pokemons.Count; i++)
+            {
+                if (pokemons[i].GetIsInstantiated()) continue;
+                
+                pokemons[i] = Instantiate(pokemons[i]);
+                    
+                pokemons[i].SetIsInstantiated(true);
             }
 
             ready = true;
@@ -132,7 +132,7 @@ namespace Mfknudsen.Trainer
         {
             if (index < 0 || index > 5 || pokemons[index] is null) return null;
 
-            return pokemons[index].GetPokemon();
+            return pokemons[index];
         }
 
         public void SwitchTeamPlaces(Pokemon from, Pokemon to)

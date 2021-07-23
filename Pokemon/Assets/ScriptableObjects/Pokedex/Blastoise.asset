@@ -38,8 +38,8 @@ MonoBehaviour:
   learnedMoves:
   - {fileID: 11400000, guid: 0203266f585a4094494e9b98a34ea9ae, type: 2}
   - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
+  - {fileID: 11400000, guid: 631a5d7eba664934d973917dcb7ba22f, type: 2}
   - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
-  - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
   levelLearnableMoveKeys: 
   levelLearnableMoveValue: []
   tmLearnableMoveValue: []
@@ -65,6 +65,7 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
-  inBattle: 0
+  inBattle: 1
   battleAction: {fileID: 0}
   gettingRevived: 0
+  multipliers: 000000000000000000000000000000000000000000000000

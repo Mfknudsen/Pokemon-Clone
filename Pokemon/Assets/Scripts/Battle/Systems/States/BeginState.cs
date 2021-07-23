@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Mfknudsen._Debug;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Comunication;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
@@ -117,6 +118,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             master.GetDisplayManager().Setup();
             master.GetSelectionMenu().Setup();
+            master.SetupAbilityOversight();
 
             #region Start Log
 

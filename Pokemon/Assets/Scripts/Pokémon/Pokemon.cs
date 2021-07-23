@@ -3,12 +3,14 @@
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Items;
 using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Mfknudsen.Pokémon
 {
     #region Enums
@@ -21,7 +23,9 @@ namespace Mfknudsen.Pokémon
         Defence,
         SpAtk,
         SpDef,
-        Speed
+        Speed,
+        Accuracy,
+        Evasion
     }
 
     public enum EvolutionMethod
@@ -80,7 +84,6 @@ namespace Mfknudsen.Pokémon
         [SerializeField] private int[] stats = new int[6];
         [SerializeField] private int[] iv = new int[6];
         [SerializeField] private int[] ev = new int[6];
-        [SerializeField] private float[] multipliers = new float[6];
         [SerializeField] private int level, maxExp;
         [SerializeField] private int currentExp;
 
@@ -111,8 +114,7 @@ namespace Mfknudsen.Pokémon
         [SerializeField] private float height, weight;
         [SerializeField] private float genderRate, catchRate;
 
-        [SerializeField]
-        private int expYield;
+        [SerializeField] private int expYield;
 
         [SerializeField] private LevelRate levelRate;
         [SerializeField] private int[] evYield = new int[6];
@@ -137,6 +139,8 @@ namespace Mfknudsen.Pokémon
         [SerializeField] private BattleAction battleAction;
         [SerializeField] private bool gettingRevived;
 
+        [SerializeField] private int[] multipliers = new int[6];
+
         #endregion
 
         #endregion
@@ -144,19 +148,6 @@ namespace Mfknudsen.Pokémon
         #region Getters
 
         #region Pokemon
-
-        public Pokemon GetPokemon()
-        {
-            Pokemon result = this;
-
-            if (!result.GetIsInstantiated())
-            {
-                result = Instantiate(result);
-                result.SetIsInstantiated(true);
-            }
-
-            return result;
-        }
 
         public bool GetIsInstantiated()
         {
@@ -294,12 +285,32 @@ namespace Mfknudsen.Pokémon
         public int GetStat(Stat stat)
         {
             int baseStat = stats[(int) stat];
-            // ReSharper disable once InconsistentNaming
+
             int baseIV = iv[(int) stat];
-            // ReSharper disable once InconsistentNaming
+
             int baseEV = ev[(int) stat];
 
-            return BattleMathf.CalculateOtherStat(baseStat, baseIV, baseEV, level);
+            float result = BattleMathf.CalculateOtherStat(
+                baseStat,
+                baseIV,
+                baseEV,
+                level);
+
+            result *= BattleMathf.GetMultiplierValue(multipliers[(int) stat],
+                !(stat == Stat.Accuracy || stat == Stat.Evasion));
+
+            if (stat != Stat.HP)
+            {
+                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                foreach (IStatModifier statModifier in BattleMaster.instance.GetAbilityOversight()
+                    .ListOfSpecific<IStatModifier>())
+                {
+                    if (statModifier.CanModify(this, stat))
+                        result *= statModifier.Modification();
+                }
+            }
+
+            return Mathf.FloorToInt(result);
         }
 
         public ConditionOversight GetConditionOversight()
@@ -509,6 +520,11 @@ namespace Mfknudsen.Pokémon
 
         #region Battle
 
+        public void SetIsInstantiated(bool set)
+        {
+            isInstantiated = set;
+        }
+        
         public void SetSpawnedObject(GameObject set)
         {
             spawnedObject = set;
@@ -580,6 +596,20 @@ namespace Mfknudsen.Pokémon
             oversight ??= CreateInstance<ConditionOversight>();
             oversight.Setup(this);
 
+            AbilityOversight abilityOversight = BattleMaster.instance.GetAbilityOversight();
+
+            Ability[] toSetup = { firstAbility, secondAbility, hiddenAbility };
+
+            foreach (Ability a in toSetup)
+            {
+                if(a is null) continue;
+
+                Ability ability = Instantiate(a);
+                
+                ability.SetAffectedPokemon(this);
+                abilityOversight.AddAbility(ability);
+            }
+
             ready = true;
         }
 
@@ -622,11 +652,6 @@ namespace Mfknudsen.Pokémon
         #endregion
 
         #region Internal
-
-        private void SetIsInstantiated(bool set)
-        {
-            isInstantiated = set;
-        }
 
         private void LevelUp()
         {

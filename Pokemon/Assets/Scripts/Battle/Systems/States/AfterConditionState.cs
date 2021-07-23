@@ -1,6 +1,7 @@
 #region SDK
 
 using System.Collections;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;

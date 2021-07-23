@@ -6,6 +6,7 @@ using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Item;
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.Systems.States;
 using Mfknudsen.Battle.UI;
 using Mfknudsen.Battle.UI.Information_Display;
@@ -25,18 +26,6 @@ using UnityEngine.UI;
 namespace Mfknudsen.Battle.Systems
 {
     #region Enums
-
-    public enum MasterState
-    {
-        Setup,
-        Starting,
-        ChoosingMove,
-        AI,
-        Checking,
-        Action,
-        RoundDone,
-        SelectNew
-    }
 
     public enum Weather
     {
@@ -63,6 +52,8 @@ namespace Mfknudsen.Battle.Systems
         [SerializeField] private GameObject spotPrefab;
 
         private SpotOversight spotOversight;
+
+        private AbilityOversight abilityOversight;
 
         // ReSharper disable once NotAccessedField.Local
         private State stateManage;
@@ -119,6 +110,11 @@ namespace Mfknudsen.Battle.Systems
         public SpotOversight GetSpotOversight()
         {
             return spotOversight;
+        }
+
+        public AbilityOversight GetAbilityOversight()
+        {
+            return abilityOversight;
         }
 
         public DisplayManager GetDisplayManager()
@@ -189,6 +185,13 @@ namespace Mfknudsen.Battle.Systems
             spotOversight = new SpotOversight();
 
             return spotOversight;
+        }
+
+        public void SetupAbilityOversight()
+        {
+            abilityOversight = new AbilityOversight();
+            
+            abilityOversight.Setup();
         }
 
         public void SetState(State s)

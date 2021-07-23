@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Actions.Switch;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Comunication;
 using Mfknudsen.Player;

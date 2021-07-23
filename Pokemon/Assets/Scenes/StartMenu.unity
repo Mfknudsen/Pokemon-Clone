@@ -97,10 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 5fca09a22c22bc04394874497a95cf3d,
-    type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 14dcf98e87ae2444eb67673b06f948cf,
-    type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 5fca09a22c22bc04394874497a95cf3d, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 14dcf98e87ae2444eb67673b06f948cf, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1110,74 +1108,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
---- !u!114 &666357601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Grottle(Clone)
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Grottle
-  pokedexIndex: 0
-  pokemonCategory: 
-  types:
-  - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
-  - {fileID: 0}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 5
-  stats: 000000000000000000000000000000000000000000000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 0
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 0
-  learnedMoves:
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 0
-  hatchTimeMax: 0
-  height: 0
-  weight: 0
-  genderRate: 0
-  catchRate: 11.9
-  expYield: 0
-  levelRate: 0
-  evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
 --- !u!1 &706946970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,74 +1296,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &857257235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Blastoise(Clone)
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Blastoise
-  pokedexIndex: 9
-  pokemonCategory: Shellfish
-  types:
-  - {fileID: 11400000, guid: c4af5f10f19573447bbe6a49504eb1b7, type: 2}
-  - {fileID: 0}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 84
-  stats: 4f000000530000006400000055000000690000004e000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 16
-  learnedMoves:
-  - {fileID: 11400000, guid: 0203266f585a4094494e9b98a34ea9ae, type: 2}
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
-  - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 5140
-  hatchTimeMax: 5396
-  height: 1.6
-  weight: 85
-  genderRate: 87.5
-  catchRate: 11.9
-  expYield: 239
-  levelRate: 1
-  evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
 --- !u!1 &975961447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,142 +1580,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187951758}
   m_CullTransparentMesh: 0
---- !u!114 &1205928823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Tyranitar
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Tyranitar
-  pokedexIndex: 248
-  pokemonCategory: Armor
-  types:
-  - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
-  - {fileID: 11400000, guid: d2fd45596b5c63c41ab3086aec62892c, type: 2}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 105
-  stats: 64000000860000006e0000005f000000640000003d000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 0
-  learnedMoves:
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 10280
-  hatchTimeMax: 10536
-  height: 2
-  weight: 202
-  genderRate: 50
-  catchRate: 0
-  expYield: 270
-  levelRate: 0
-  evYield: 000000000300000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
---- !u!114 &1249848386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Blastoise(Clone)
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Blastoise
-  pokedexIndex: 9
-  pokemonCategory: Shellfish
-  types:
-  - {fileID: 11400000, guid: c4af5f10f19573447bbe6a49504eb1b7, type: 2}
-  - {fileID: 0}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 84
-  stats: 4f000000530000006400000055000000690000004e000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 16
-  learnedMoves:
-  - {fileID: 11400000, guid: 0203266f585a4094494e9b98a34ea9ae, type: 2}
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
-  - {fileID: 11400000, guid: a7b88407cee64724196043e0c6caeccc, type: 2}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 5140
-  hatchTimeMax: 5396
-  height: 1.6
-  weight: 85
-  genderRate: 87.5
-  catchRate: 11.9
-  expYield: 239
-  levelRate: 1
-  evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
 --- !u!1 &1258131553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2540,9 +2266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemons:
-  - {fileID: 1205928823}
-  - {fileID: 1249848386}
-  - {fileID: 1605701799}
+  - {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+  - {fileID: 11400000, guid: 4942676ec070f214cb3a7b2f5c40b31a, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3230,74 +2956,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1605701799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Grottle(Clone)
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Grottle
-  pokedexIndex: 0
-  pokemonCategory: 
-  types:
-  - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
-  - {fileID: 0}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 5
-  stats: 000000000000000000000000000000000000000000000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 0
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 0
-  learnedMoves:
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 0
-  hatchTimeMax: 0
-  height: 0
-  weight: 0
-  genderRate: 0
-  catchRate: 11.9
-  expYield: 0
-  levelRate: 0
-  evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
 --- !u!1 &1615072207
 GameObject:
   m_ObjectHideFlags: 0
@@ -3782,74 +3440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!114 &1898420704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
-  m_Name: Tyranitar(Clone)
-  m_EditorClassIdentifier: 
-  isInstantiated: 1
-  pokemonName: Tyranitar
-  pokedexIndex: 248
-  pokemonCategory: Armor
-  types:
-  - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
-  - {fileID: 11400000, guid: d2fd45596b5c63c41ab3086aec62892c, type: 2}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
-  hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 105
-  stats: 64000000860000006e0000005f000000640000003d000000
-  iv: 000000000000000000000000000000000000000000000000
-  ev: 000000000000000000000000000000000000000000000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 0
-  learnedMoves:
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
-  eggGroup: 0
-  hatchTimeMin: 10280
-  hatchTimeMax: 10536
-  height: 2
-  weight: 202
-  genderRate: 50
-  catchRate: 0
-  expYield: 270
-  levelRate: 0
-  evYield: 000000000300000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  baseFriendship: 0
-  spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  spawnedObject: {fileID: 0}
-  anim: {fileID: 0}
-  gettingSwitched: 0
-  inBattle: 0
-  battleAction: {fileID: 0}
-  gettingRevived: 0
 --- !u!1 &1907067512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4444,78 +4034,63 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[0]
       value: 
-      objectReference: {fileID: 857257235}
-    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 4942676ec070f214cb3a7b2f5c40b31a, type: 2}
+    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[1]
       value: 
-      objectReference: {fileID: 666357601}
-    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: bb24c920ad7a4b648ad1697c6123ae90, type: 2}
+    - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[2]
       value: 
-      objectReference: {fileID: 1898420704}
-    - target: {fileID: 5921889010027575710, guid: 9c1c0472f7738bc4b9c74f4921470b35,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+    - target: {fileID: 5921889010027575710, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}

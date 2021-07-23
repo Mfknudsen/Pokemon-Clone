@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   abilityName: Guts
+  enableTrigger: 8
+  disableTrigger: 8
   description: 
-  abilityTrigger: 0
+  active: 0
+  damageModification: 1.5

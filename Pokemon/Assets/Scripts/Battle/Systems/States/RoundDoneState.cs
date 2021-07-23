@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Linq;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Player;
 using Mfknudsen.Trainer;
 using UnityEngine;

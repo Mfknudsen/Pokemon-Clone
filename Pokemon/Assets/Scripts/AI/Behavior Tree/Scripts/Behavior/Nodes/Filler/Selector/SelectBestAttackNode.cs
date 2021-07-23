@@ -2,6 +2,7 @@
 
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon;
 
 #endregion
@@ -38,10 +39,20 @@ namespace Mfknudsen.AI.Behavior_Tree.Scripts.Behavior.Nodes.Filler.Selector
 
                     float defencePower = user.GetStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
 
-                    float damage = BattleMathf.CalculateDamage(user.GetLevel(), attackPower, defencePower,
+                    float damage = BattleMathf.CalculateDamage(
+                        user.GetLevel(),
+                        attackPower,
+                        defencePower,
                         pokemonMove.GetPower(),
-                        BattleMathf.CalculateModifiers(user, pokemon, pokemonMove,
-                            BattleMathf.MultiTargets(target, userSpot, pokemonMove)));
+                        BattleMathf.CalculateModifiers(
+                            user,
+                            pokemon,
+                            pokemonMove,
+                            BattleMathf.MultiTargets(
+                                target,
+                                userSpot,
+                                pokemonMove),
+                            false));
 
                     if (damage <= highestDamage) continue;
 

@@ -1,7 +1,5 @@
 ﻿#region SDK
 
-using System;
-using Mfknudsen.Battle.Actions;
 using UnityEngine;
 
 #endregion
@@ -14,10 +12,13 @@ namespace Mfknudsen.Pokémon
     {
         OnEnterBattle,
         OnExitBattle,
-        OnFaint,
-        OnDamageCalculation,
-        OnAfterAttack,
-        OnEndTurn
+        OnFainted,
+        OnHitSelf,
+        OnHitEnemy,
+        OnHitAny,
+        OnStatusEnable,
+        OnStatusDisable,
+        OnStatusChange
     }
 
     #endregion
@@ -29,12 +30,14 @@ namespace Mfknudsen.Pokémon
 
         [SerializeField] private int index;
         [SerializeField] private string abilityName;
+        [SerializeField] protected AbilityTrigger enableTrigger, disableTrigger;
         [SerializeField, TextArea] private string description;
-        [SerializeField] protected AbilityTrigger abilityTrigger;
+
+        protected Pokemon affectedPokemon;
 
         #region Battle
 
-        private bool active;
+      [SerializeField]  private bool active;
 
         #endregion
 
@@ -51,6 +54,11 @@ namespace Mfknudsen.Pokémon
 
         #region Setters
 
+        public void SetAffectedPokemon(Pokemon pokemon)
+        {
+            affectedPokemon = pokemon;
+        }
+
         public void SetActive(bool set)
         {
             active = set;
@@ -60,9 +68,9 @@ namespace Mfknudsen.Pokémon
 
         #region In
 
-        public abstract void ReceiveInfo(object info);
+        public abstract void TriggerEnable(AbilityTrigger trigger, Pokemon currentPokemon);
 
-        public abstract void Trigger(AbilityTrigger abilityTrigger);
+        public abstract void TriggerDisable(AbilityTrigger trigger, Pokemon currentPokemon);
 
         #endregion
     }

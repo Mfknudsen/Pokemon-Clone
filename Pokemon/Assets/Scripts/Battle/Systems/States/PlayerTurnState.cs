@@ -1,6 +1,7 @@
 #region SDK
 
 using System.Collections;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Player;
 using Mfknudsen.Trainer;
 using UnityEngine;

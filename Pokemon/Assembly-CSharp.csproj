@@ -55,7 +55,7 @@
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Input\Pokémon\GetLocalMemoriesNode.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Pokemon.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Selector\SelectorNode.cs" />
-     <Compile Include="Assets\Scripts\Battle\Systems\Spot.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Spots\Spot.cs" />
      <Compile Include="Assets\Scripts\Battle\Systems\States\ComputerSelectNewState.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\Information Display\DisplayManager.cs" />
      <Compile Include="Assets\Scripts\AI\Behavior Tree\Scripts\Behavior\Nodes\Filler\Pokémon\MovesFromPokemonNode.cs" />
@@ -129,6 +129,7 @@
      <Compile Include="Assets\Scripts\Player\MasterPlayer.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\Selection\TurnSelection.cs" />
      <Compile Include="Assets\Scripts\_Debug\BattleLog.cs" />
+     <Compile Include="Assets\Scripts\Pokémon\Nature.cs" />
      <Compile Include="Assets\Scripts\Items\ItemDisplay.cs" />
      <Compile Include="Assets\Scripts\Battle\UI\Information Display\BattleDisplay.cs" />
      <Compile Include="Assets\Scripts\Pokémon\Type.cs" />
@@ -162,7 +163,12 @@
      <Compile Include="Assets\Scripts\Battle\UI\Selection\PokemonSlot.cs" />
      <Compile Include="Assets\Scripts\Items\Medicine\Revive.cs" />
      <Compile Include="Assets\Scripts\Menu\SettingsMaster.cs" />
-     <Compile Include="Assets\Scripts\Pokémon\Nature.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Interfaces\IBurnStop.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Interfaces\IStatModifier.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Interfaces\IPowerModify.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Spots\SpotOversight.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\Interfaces\IImmuneAttackType.cs" />
+     <Compile Include="Assets\Scripts\Battle\Systems\AbilityOversight.cs" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Packages\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -405,7 +411,7 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -753,34 +759,34 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
  <Reference Include="Cinemachine">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.cinemachine.editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/Mads/Documents/GitHub/Pokemon-Clone/Pokemon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

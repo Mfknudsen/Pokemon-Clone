@@ -76,16 +76,27 @@ namespace Mfknudsen.Pokémon.Conditions
 
             bool canApply = true;
 
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (Condition v in volatileStatus)
             {
                 if (v.GetConditionName() != condition.GetConditionName()) continue;
 
                 canApply = false;
+                
                 break;
             }
 
-            if (canApply)
-                volatileStatus.Add(condition.GetCondition());
+            if (!canApply) return;
+            
+            volatileStatus.Add(condition.GetCondition());
+
+            foreach (Ability ability in BattleMaster.instance.GetAbilityOversight().GetAbilities())
+            {
+                if (ability.GetActive())
+                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, pokemon);
+                else
+                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, pokemon);
+            }
         }
 
         public void TryApplyNonVolatileCondition(INonVolatile iNonVolatile)
@@ -99,22 +110,30 @@ namespace Mfknudsen.Pokémon.Conditions
                 nonVolatileStatus = condition;
 
                 nonVolatileStatus.SetAffectedPokemon(pokemon);
+            }
+            else
+            {
+                if (!(condition is null) && nonVolatileStatus is null)
+                {
+                    Destroy(nonVolatileStatus);
+                    nonVolatileStatus = condition.GetCondition();
+                    nonVolatileStatus.SetAffectedPokemon(pokemon);
+                }
+                else if (condition is null && !(nonVolatileStatus is null))
+                {
+                    if (!(nonVolatileStatus is FaintedCondition)) return;
 
-                return;
+                    Destroy(nonVolatileStatus);
+                    nonVolatileStatus = null;
+                }
             }
 
-            if (!(condition is null) && nonVolatileStatus is null)
+            foreach (Ability ability in BattleMaster.instance.GetAbilityOversight().GetAbilities())
             {
-                Destroy(nonVolatileStatus);
-                nonVolatileStatus = condition.GetCondition();
-                nonVolatileStatus.SetAffectedPokemon(pokemon);
-            }
-            else if (condition is null && !(nonVolatileStatus is null))
-            {
-                if (!(nonVolatileStatus is FaintedCondition)) return;
-
-                Destroy(nonVolatileStatus);
-                nonVolatileStatus = null;
+                if (ability.GetActive())
+                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, pokemon);
+                else
+                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, pokemon);
             }
         }
 

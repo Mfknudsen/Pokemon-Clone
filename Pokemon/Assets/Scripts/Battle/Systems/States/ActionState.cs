@@ -6,6 +6,7 @@ using Mfknudsen.Battle.Actions;
 using Mfknudsen.Comunication;
 using Mfknudsen.Pokémon;
 using Mfknudsen._Debug;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 

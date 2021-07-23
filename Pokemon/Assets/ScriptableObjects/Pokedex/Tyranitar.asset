@@ -19,8 +19,8 @@ MonoBehaviour:
   types:
   - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
   - {fileID: 11400000, guid: d2fd45596b5c63c41ab3086aec62892c, type: 2}
-  firstAbility: {fileID: 0}
-  secondAbility: {fileID: 0}
+  firstAbility: {fileID: 11400000, guid: 086c845accb275f4180d7c33c68adf34, type: 2}
+  secondAbility: {fileID: 11400000, guid: 59ebbb322c4665342a49a09af4bbe7b0, type: 2}
   hiddenAbility: {fileID: 0}
   itemInHand: {fileID: 0}
   description: 
@@ -65,6 +65,7 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
-  inBattle: 0
+  inBattle: 1
   battleAction: {fileID: 0}
   gettingRevived: 0
+  multipliers: 000000000000000000000000000000000000000000000000

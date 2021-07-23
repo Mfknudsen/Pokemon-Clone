@@ -1,5 +1,7 @@
 #region SDK
 
+using Mfknudsen.Battle.Systems.Interfaces;
+using Mfknudsen.Pokémon.Conditions;
 using UnityEngine;
 
 #endregion
@@ -7,28 +9,57 @@ using UnityEngine;
 namespace Mfknudsen.Pokémon.Abilities
 {
     [CreateAssetMenu(menuName = "Ability/Guts")]
-    public class Guts : Ability
+    public class Guts : Ability, IBurnStop, IStatModifier
     {
         #region Values
 
-        private Pokemon affectedPokemon;
+        [SerializeField] private float damageModification;
 
         #endregion
 
         #region In
 
-        public override void ReceiveInfo(object info)
+        public override void TriggerEnable(AbilityTrigger trigger, Pokemon currentPokemon)
         {
-            if (info is Pokemon pokemon)
-                affectedPokemon = pokemon;
+            if (trigger != enableTrigger) return;
+
+            Condition condition = affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
+
+            if (!(condition is null) && !(condition is FaintedCondition))
+            {
+                Debug.Log("Trigger");
+                SetActive(true);
+            }
         }
 
-        // ReSharper disable once ParameterHidesMember
-        public override void Trigger(AbilityTrigger abilityTrigger)
+        public override void TriggerDisable(AbilityTrigger trigger, Pokemon currentPokemon)
         {
-            if(this.abilityTrigger != abilityTrigger) return;
-            
-            
+            if (trigger != enableTrigger) return;
+
+            Condition condition = affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
+
+            if (condition is null || condition is FaintedCondition)
+                SetActive(false);
+        }
+
+        #endregion
+
+        #region Out
+
+        public bool CanStopBurn(Pokemon pokemon)
+        {
+            return pokemon == affectedPokemon;
+        }
+
+        public bool CanModify(Pokemon pokemon, Stat stat)
+        {
+            return pokemon == affectedPokemon && stat == Stat.Attack && GetActive();
+        }
+
+        public float Modification()
+        {
+            Debug.Log("Modif");
+            return damageModification;
         }
 
         #endregion
