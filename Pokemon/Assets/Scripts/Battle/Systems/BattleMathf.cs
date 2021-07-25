@@ -279,16 +279,20 @@ namespace Mfknudsen.Battle.Systems
                     type = 0;
             }
 
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (IImmuneAttackType immuneAttackType in BattleMaster.instance.GetAbilityOversight().ListOfSpecific<IImmuneAttackType>())
+            if (!attacker.AbilitiesContainType<IIgnoreAbilities>())
             {
-                if(!immuneAttackType.MatchType(attackType)) continue;
+                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                foreach (IImmuneAttackType immuneAttackType in BattleMaster.instance.GetAbilityOversight()
+                    .ListOfSpecific<IImmuneAttackType>())
+                {
+                    if (!immuneAttackType.MatchType(attackType)) continue;
 
-                type = 0;
-                
-                break;
+                    type = 0;
+
+                    break;
+                }
             }
-            
+
             if (type != 0)
             {
                 type += toCheck[0].GetWeakness(attackType) - toCheck[0].GetResistance(attackType);
@@ -340,7 +344,7 @@ namespace Mfknudsen.Battle.Systems
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
                 foreach (IBurnStop ability in BattleMaster.instance.GetAbilityOversight().ListOfSpecific<IBurnStop>())
                 {
-                    if(!ability.CanStopBurn(attacker)) continue;
+                    if (!ability.CanStopBurn(attacker)) continue;
 
                     burn = 1;
                     break;

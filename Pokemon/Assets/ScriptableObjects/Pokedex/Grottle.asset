@@ -37,7 +37,7 @@ MonoBehaviour:
   evolutionLevel: 0
   learnedMoves:
   - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   levelLearnableMoveKeys: 
@@ -65,7 +65,8 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
-  inBattle: 1
+  inBattle: 0
   battleAction: {fileID: 0}
   gettingRevived: 0
   multipliers: 000000000000000000000000000000000000000000000000
+  instantiatedAbilities: []

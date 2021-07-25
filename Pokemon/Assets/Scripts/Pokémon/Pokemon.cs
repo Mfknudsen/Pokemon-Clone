@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using System.Collections.Generic;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Actions.Move;
 using Mfknudsen.Battle.Systems;
@@ -138,8 +139,8 @@ namespace Mfknudsen.Pokémon
         [SerializeField] private bool gettingSwitched, inBattle;
         [SerializeField] private BattleAction battleAction;
         [SerializeField] private bool gettingRevived;
-
         [SerializeField] private int[] multipliers = new int[6];
+        [SerializeField] private List<Ability> instantiatedAbilities;
 
         #endregion
 
@@ -334,7 +335,7 @@ namespace Mfknudsen.Pokémon
             if (learnedMoves.Length > 0 && index >= 0 && index < learnedMoves.Length)
             {
                 if (learnedMoves[index] != null)
-                    result = (learnedMoves[index].GetAction() as PokemonMove);
+                    result = learnedMoves[index].GetAction() as PokemonMove;
             }
 
             return result;
@@ -353,16 +354,6 @@ namespace Mfknudsen.Pokémon
         public BattleAction GetBattleAction()
         {
             return battleAction;
-        }
-
-        public Ability GetFirstAbility()
-        {
-            return firstAbility;
-        }
-
-        public Ability GetSecondAbility()
-        {
-            return secondAbility;
         }
 
         public bool GetGettingSwitched()
@@ -385,6 +376,20 @@ namespace Mfknudsen.Pokémon
             return turnDone;
         }
 
+        public List<Ability> GetInstantiatedAbilities()
+        {
+            return instantiatedAbilities;
+        }
+
+        public bool AbilitiesContainType<T>()
+        {
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (Ability instantiatedAbility in instantiatedAbilities)
+                if (instantiatedAbility is T) return true;
+
+            return false;
+        }
+        
         #endregion
 
         #endregion
@@ -524,7 +529,7 @@ namespace Mfknudsen.Pokémon
         {
             isInstantiated = set;
         }
-        
+
         public void SetSpawnedObject(GameObject set)
         {
             spawnedObject = set;
@@ -598,16 +603,18 @@ namespace Mfknudsen.Pokémon
 
             AbilityOversight abilityOversight = BattleMaster.instance.GetAbilityOversight();
 
-            Ability[] toSetup = { firstAbility, secondAbility, hiddenAbility };
-
-            foreach (Ability a in toSetup)
+            instantiatedAbilities = new List<Ability> {firstAbility, secondAbility, hiddenAbility};
+            
+            for (int i = 0; i < instantiatedAbilities.Count; i++)
             {
-                if(a is null) continue;
-
-                Ability ability = Instantiate(a);
+                if(instantiatedAbilities[i] is null) continue;
                 
+                Ability ability = Instantiate(instantiatedAbilities[i]);
+
                 ability.SetAffectedPokemon(this);
                 abilityOversight.AddAbility(ability);
+
+                instantiatedAbilities[i] = ability;
             }
 
             ready = true;
@@ -616,11 +623,9 @@ namespace Mfknudsen.Pokémon
         public void DespawnPokemon()
         {
             Destroy(spawnedObject);
-
             inBattle = false;
             gettingSwitched = false;
             spawnedObject = null;
-
             oversight.ResetConditionList();
         }
 
@@ -634,16 +639,13 @@ namespace Mfknudsen.Pokémon
             if (level != 100)
             {
                 int expNeeded = maxExp - currentExp;
-
                 if (expNeeded <= points)
                 {
                 }
                 else
                 {
                     points -= expNeeded;
-
                     LevelUp();
-
                     currentExp = points;
                 }
             }

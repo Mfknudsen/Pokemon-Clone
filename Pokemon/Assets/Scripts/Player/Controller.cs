@@ -14,10 +14,6 @@ namespace Mfknudsen.Player
         [SerializeField] private NavMeshAgent agent = null;
         [SerializeField] private Rigidbody rb = null;
 
-        [Header("World Condtions:")]
-        [SerializeField] private bool onBoat = false;
-        [SerializeField] private bool inSandstorm = false, inWater = false, climbStone = false, climbIce = false;
-
         [Header("Movement:")]
         [SerializeField] private Transform moveOrigin = null;
         [SerializeField] private float speed = 0;

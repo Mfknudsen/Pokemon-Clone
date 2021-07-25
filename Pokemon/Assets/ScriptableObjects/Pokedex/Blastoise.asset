@@ -19,7 +19,7 @@ MonoBehaviour:
   types:
   - {fileID: 11400000, guid: c4af5f10f19573447bbe6a49504eb1b7, type: 2}
   - {fileID: 0}
-  firstAbility: {fileID: 0}
+  firstAbility: {fileID: 11400000, guid: efcc600525f2faa438b47ca708e6a7cc, type: 2}
   secondAbility: {fileID: 0}
   hiddenAbility: {fileID: 0}
   itemInHand: {fileID: 0}
@@ -65,7 +65,8 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
-  inBattle: 1
+  inBattle: 0
   battleAction: {fileID: 0}
   gettingRevived: 0
   multipliers: 000000000000000000000000000000000000000000000000
+  instantiatedAbilities: []

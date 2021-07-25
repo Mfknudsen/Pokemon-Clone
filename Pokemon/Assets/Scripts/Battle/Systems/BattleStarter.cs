@@ -25,8 +25,7 @@ namespace Mfknudsen.Battle.Systems
         [SerializeField] private BattleMember[] enemies;
         [SerializeField] private Chat onStartChat;
 
-        [Header("Before/After:")]
-        private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
+        [Header("Before/After:")] private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
 
         private void OnValidate()
         {
@@ -60,6 +59,14 @@ namespace Mfknudsen.Battle.Systems
         public BattleMember[] GetEnemies()
         {
             return enemies;
+        }
+
+        public List<BattleMember> GetAllBattleMembers()
+        {
+            List<BattleMember> result = new List<BattleMember> {MasterPlayer.instance.GetBattleMember()};
+            result.AddRange(allies);
+            result.AddRange(enemies);
+            return result;
         }
 
         #endregion

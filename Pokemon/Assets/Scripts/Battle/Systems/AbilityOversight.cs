@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using Mfknudsen.Pokémon;
-using UnityEngine;
 
 #endregion
 
@@ -21,7 +20,7 @@ namespace Mfknudsen.Battle.Systems
         }
 
         #endregion
-        
+
         #region In
 
         public void Setup()

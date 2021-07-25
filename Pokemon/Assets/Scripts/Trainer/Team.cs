@@ -112,17 +112,14 @@ namespace Mfknudsen.Trainer
         {
             for (int i = 0; i < pokemons.Count; i++)
             {
-                if (pokemons[i] != null)
-                    pokemons[i] = pokemons[i];
-            }
-
-            for (int i = 0; i < pokemons.Count; i++)
-            {
-                if (pokemons[i].GetIsInstantiated()) continue;
+                Pokemon pokemon = pokemons[i];
+                if (pokemon is null || pokemon.GetIsInstantiated()) continue;
                 
-                pokemons[i] = Instantiate(pokemons[i]);
+                pokemon = Instantiate(pokemon);
                     
-                pokemons[i].SetIsInstantiated(true);
+                pokemon.SetIsInstantiated(true);
+
+                pokemons[i] = pokemon;
             }
 
             ready = true;

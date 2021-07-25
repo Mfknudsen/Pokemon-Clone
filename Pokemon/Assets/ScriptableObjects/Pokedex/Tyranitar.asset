@@ -65,7 +65,8 @@ MonoBehaviour:
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
-  inBattle: 1
+  inBattle: 0
   battleAction: {fileID: 0}
   gettingRevived: 0
   multipliers: 000000000000000000000000000000000000000000000000
+  instantiatedAbilities: []

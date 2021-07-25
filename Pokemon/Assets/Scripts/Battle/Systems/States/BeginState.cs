@@ -33,9 +33,12 @@ namespace Mfknudsen.Battle.Systems.States
             while (battleStarter is null)
             {
                 battleStarter = master.GetStarter();
-                yield return 0;
+                yield return null;
             }
-
+            
+            foreach (BattleMember battleMember in battleStarter.GetAllBattleMembers())
+                battleMember.GetTeam().Setup();
+            
             spotOversight = master.SetupSpotOversight();
 
             int offset = 0;
@@ -119,7 +122,7 @@ namespace Mfknudsen.Battle.Systems.States
             master.GetDisplayManager().Setup();
             master.GetSelectionMenu().Setup();
             master.SetupAbilityOversight();
-
+            
             #region Start Log
 
             string playersMsg = "Starting Battle Between:";
