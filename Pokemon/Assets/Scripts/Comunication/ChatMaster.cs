@@ -1,8 +1,10 @@
 ﻿#region SDK
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 #endregion
 
@@ -22,7 +24,9 @@ namespace Mfknudsen.Comunication
         [SerializeField] private bool waitForInput = true;
 
         [Header("Chat Settings:")] [SerializeField]
-        private float textPerSecond = 30;
+        private int textPerSecond = 30;
+
+        private int defaultTextSpeed;
 
         #endregion
 
@@ -32,6 +36,7 @@ namespace Mfknudsen.Comunication
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
+                defaultTextSpeed = textPerSecond;
             }
             else
                 Destroy(gameObject);
@@ -39,28 +44,27 @@ namespace Mfknudsen.Comunication
 
         private void Update()
         {
-            if (textField == null)
-                textField = TextField.instance;
-
-            if (running != null && waitForInput)
+            if (textField is null)
             {
-                if ((Input.GetKeyDown(continueKey) || Input.GetKeyDown(KeyCode.Mouse0)) || !running.GetNeedInput())
-                {
-                    if (running != null)
-                    {
-                        if (running.GetDone())
-                        {
-                            running = null;
-                            chatCoroutine = null;
-                        }
-                        else
-                            chatCoroutine = StartCoroutine(running.PlayNext());
-                    }
-
-                    waitForInput = false;
-                }
+                textField = TextField.instance;
+                return;
             }
-            else if (running == null && waitlist.Count > 0)
+
+            if (!(running is null) && waitForInput)
+            {
+                if (running.GetNeedInput()) return;
+
+                if (running.GetDone())
+                {
+                    running = null;
+                    chatCoroutine = null;
+                }
+                else
+                    chatCoroutine = StartCoroutine(running.PlayNext());
+
+                waitForInput = false;
+            }
+            else if (running is null && waitlist.Count > 0)
             {
                 PlayNextInLine();
             }
@@ -70,7 +74,7 @@ namespace Mfknudsen.Comunication
 
         public void DefaultTextSpeed()
         {
-            textPerSecond = 20;
+            textPerSecond = defaultTextSpeed;
         }
 
         #endregion
@@ -79,13 +83,10 @@ namespace Mfknudsen.Comunication
 
         public bool GetIsClear()
         {
-            if (running == null && waitlist.Count == 0)
-            {
-                textField.gameObject.SetActive(false);
-                return true;
-            }
+            if (running != null || waitlist.Count != 0) return false;
 
-            return false;
+            textField.gameObject.SetActive(false);
+            return true;
         }
 
         public float GetTextSpeed()
@@ -109,7 +110,7 @@ namespace Mfknudsen.Comunication
             textField.text = currentText;
         }
 
-        public void SetTextSpeed(float speed)
+        public void SetTextSpeed(int speed)
         {
             textPerSecond = speed;
         }
@@ -127,6 +128,24 @@ namespace Mfknudsen.Comunication
         public void Add(Chat toAdd)
         {
             waitlist.Add(toAdd.GetChat());
+        }
+
+        [UsedImplicitly]
+        public void OnNextChatChange(InputAction.CallbackContext value)
+        {
+            if (!value.performed || running == null) return;
+
+            if (!running.GetNeedInput() || !waitForInput) return;
+
+            if (running.GetDone())
+            {
+                running = null;
+                chatCoroutine = null;
+            }
+            else
+                chatCoroutine = StartCoroutine(running.PlayNext());
+
+            waitForInput = false;
         }
 
         #endregion

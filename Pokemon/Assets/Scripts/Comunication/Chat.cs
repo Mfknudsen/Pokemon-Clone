@@ -185,7 +185,7 @@ namespace Mfknudsen.Comunication
 
         private void AddPronounsToOverride()
         {
-            string[] pronouns = Player.MasterPlayer.instance.GetPronouns();
+            string[] pronouns = Player.PlayerManager.instance.GetPronouns();
 
             AddToOverride("P_ONE", pronouns[0]);
             AddToOverride("P_TWO", pronouns[1]);

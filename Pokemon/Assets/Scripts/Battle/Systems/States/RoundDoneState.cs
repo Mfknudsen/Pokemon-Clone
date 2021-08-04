@@ -17,7 +17,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public RoundDoneState(BattleMaster master) : base(master)
         {
-            playerTeam = MasterPlayer.instance.GetTeam();
+            playerTeam = PlayerManager.instance.GetTeam();
         }
 
         public override IEnumerator Tick()

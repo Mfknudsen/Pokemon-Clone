@@ -23,7 +23,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            BattleMember playerBattleMember = MasterPlayer.instance.GetBattleMember();
+            BattleMember playerBattleMember = PlayerManager.instance.GetBattleMember();
 
             foreach (Spot spot in master.GetSpotOversight().GetSpots())
             {

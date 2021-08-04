@@ -33,7 +33,7 @@ namespace Mfknudsen.Battle.UI.Selection
         public void Setup()
         {
             oversight = BattleMaster.instance.GetSpotOversight();
-            playerTeamNumber = MasterPlayer.instance.GetBattleMember().GetTeamNumber();
+            playerTeamNumber = PlayerManager.instance.GetBattleMember().GetTeamNumber();
         }
 
         public void DisplaySelection(BattleAction action)

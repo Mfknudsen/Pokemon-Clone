@@ -1,66 +1,51 @@
 ﻿#region SDK
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
+using Mfknudsen.UI;
 using Mfknudsen.World.Overworld;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
 namespace Mfknudsen.PC
 {
     [RequireComponent(typeof(SphereCollider))]
-    public class Box : MonoBehaviour, InteractableInterface
+    public class Box : MonoBehaviour, IInteractable
     {
-        #region Values
-        [SerializeField] private GameObject uiPrefab = null, uiInstance = null;
-        [SerializeField] private Dictionary<int, Pokemon> inBox = new Dictionary<int, Pokemon>();
-
-        private void OnValidate()
-        {
-            for (int i = 0; i < (6 * 10 * 5); i++)
-            {
-                if (!inBox.ContainsKey(i))
-                    inBox.Add(i, null);
-            }
-        }
-        #endregion
-
         #region In
+
         public void ShowNextBox()
         {
-
         }
 
         public void ShowPreviousBox()
         {
-
         }
 
-        public void InteractNow()
-        {
-            StartCoroutine(StartConsole());
-        }
         #endregion
 
-        #region IEnumerator
-        private IEnumerator StartConsole()
+        public void Trigger()
         {
-            Debug.Log("Starting Console");
-
-            if(uiInstance == null)
-            {
-                uiInstance = Instantiate(uiPrefab);
-                uiInstance.transform.parent = GameObject.FindGameObjectWithTag("UI Canvas").transform;
-            }
-
-            yield return 0;
-
-            Debug.Log("Console is Started");
-
-            uiInstance.SetActive(true);
+            Debug.Log("Trigger Box");
+            //UIManager.instance.SwitchUI(UISelection.Box);
         }
+
+        #region Collider
+
+        private void OnTriggerEnter(Collider other)
+        {
+            PlayerManager.instance.GetInteractions().OnEnter(this, transform);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            PlayerManager.instance.GetInteractions().OnExit(this);
+        }
+
         #endregion
     }
 }

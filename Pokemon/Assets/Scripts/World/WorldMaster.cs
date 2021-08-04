@@ -11,15 +11,15 @@ namespace Mfknudsen.World
     public class WorldMaster : MonoBehaviour
     {
         #region Values
-        [Header("Object Reference:")]
-        public static WorldMaster instance;
+
+        [Header("Object Reference:")] public static WorldMaster instance;
         private Coroutine currentOperation;
 
-        [Header("Loading:")]
-        [SerializeField] private float progressMeter = 0;
+        [Header("Loading:")] [SerializeField] private float progressMeter = 0;
 
-        [Header("Battle Scene:")]
-        [SerializeField] private string currentLoadedBattleScene = "";
+        [Header("Battle Scene:")] [SerializeField]
+        private string currentLoadedBattleScene = "";
+
         #endregion
 
         private void Start()
@@ -34,6 +34,7 @@ namespace Mfknudsen.World
         }
 
         #region Getters
+
         public float GetLoadMeter()
         {
             return progressMeter;
@@ -43,41 +44,44 @@ namespace Mfknudsen.World
         {
             return (currentOperation == null);
         }
+
         #endregion
 
         #region In
+
         public void SpawnWorld()
         {
-
         }
 
-        public void LoadScene(string sceneName)
+        public void LoadSceneAsync(string sceneName)
         {
-            currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, false));
+            currentOperation = StartCoroutine(LoadWorldSceneAsync(sceneName));
+        }
+
+        public void UnloadSceneAsync(string sceneName)
+        {
+            StartCoroutine(UnloadWorldSceneAsync(sceneName));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            currentLoadedBattleScene = sceneName;
-            currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName, true));
+            currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName));
         }
 
         public void UnloadCurrentBattleScene()
         {
             currentOperation = StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene));
         }
+
         #endregion
 
         #region IEnumerator
-        #region Load/Unload Battle Scenes
-        private IEnumerator LoadBattleSceneAsync(string sceneName, bool additive)
-        {
-            AsyncOperation asyncLoad;
 
-            if (additive)
-                asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            else
-                asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        #region Load/Unload Battle Scenes
+
+        private IEnumerator LoadBattleSceneAsync(string sceneName)
+        {
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             progressMeter = 0;
 
@@ -98,30 +102,48 @@ namespace Mfknudsen.World
 
             while (!asyncUnload.isDone)
             {
-                progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
+                progressMeter = (int) (asyncUnload.progress + 0.1f) * 100;
                 yield return null;
             }
 
             currentOperation = null;
         }
+
         #endregion
 
         #region Load/Unload World Scenes
+
         private IEnumerator SpawnWorldAsync()
         {
             yield return null;
         }
 
-        private IEnumerator LoadWorldSceneAsync()
+        private IEnumerator LoadWorldSceneAsync(string sceneName)
         {
-            yield return null;
+            
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+            progressMeter = 0;
+
+            while (!asyncLoad.isDone)
+            {
+                progressMeter = asyncLoad.progress + 0.1f;
+                yield return null;
+            }
+
+            currentOperation = null;
         }
 
-        private IEnumerator DeloadWorldSceneAsync()
+        private IEnumerator UnloadWorldSceneAsync(string sceneName)
         {
-            yield return null;
+            AsyncOperation asyncOperation = SceneManager.UnloadSceneAsync(sceneName);
+
+            while (!asyncOperation.isDone)
+                yield return null;
         }
+
         #endregion
+
         #endregion
     }
 }

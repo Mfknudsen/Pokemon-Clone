@@ -35,8 +35,6 @@ namespace Mfknudsen.Player
 
             rb ??= moveOrigin.GetComponent<Rigidbody>();
             rb.useGravity = false;
-
-            playerInput = new PlayerInput();
         }
 
         private void Update()
@@ -67,13 +65,6 @@ namespace Mfknudsen.Player
         public void OnMoveAxisChange(InputAction.CallbackContext value)
         {
             playerInput.SetMoveDirection(value.ReadValue<Vector2>());
-        }
-
-        public void OnInteractionChange(InputAction.CallbackContext value)
-        {
-            if (!value.performed) return;
-
-            Debug.Log("Interaction Trigger");
         }
 
         public void OnMouseAxisChange(InputAction.CallbackContext value)

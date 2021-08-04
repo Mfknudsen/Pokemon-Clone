@@ -196,9 +196,8 @@ namespace Mfknudsen.Battle.Systems
 
             #region Targets
 
-            float targets = 1;
-            if (multiTarget)
-                targets = 0.75f;
+            float targets = multiTarget ? 0.75f : 1;
+
             result.Add(targets);
 
             #endregion
@@ -240,10 +239,7 @@ namespace Mfknudsen.Battle.Systems
 
             #region Critical
 
-            float critical = 1;
-
-            if (isCritical)
-                critical = 1.5f;
+            float critical = isCritical ? 1.5f : 1;
 
             result.Add(critical);
 
@@ -258,9 +254,7 @@ namespace Mfknudsen.Battle.Systems
 
             #region Stab
 
-            float stab = 1;
-            if (attacker.IsSameType(attackType))
-                stab = 1.5f;
+            float stab = attacker.IsSameType(attackType) ? 1.5f : 1;
             result.Add(stab);
 
             #endregion

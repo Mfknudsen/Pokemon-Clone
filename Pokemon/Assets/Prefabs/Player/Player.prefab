@@ -322,14 +322,13 @@ GameObject:
   - component: {fileID: 5921889010023028672}
   - component: {fileID: 5921889010023028678}
   - component: {fileID: 5921889010023028679}
-  - component: {fileID: 5984838943680427244}
   m_Layer: 0
   m_Name: Overworld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5921889010023028672
 Transform:
   m_ObjectHideFlags: 0
@@ -360,14 +359,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 5921889009808195023}
   rb: {fileID: 5921889009808195021}
-  onBoat: 0
-  inSandstorm: 0
-  inWater: 0
-  climbStone: 0
-  climbIce: 0
   moveOrigin: {fileID: 5921889009808195016}
-  speed: 5
-  moveDir: {x: 0, y: 0, z: 0}
+  moveSpeed: 10
+  rotateSpeed: 7.5
   turnPoint: {fileID: 5921889009339220265}
   oldRot: {x: 0, y: 0, z: 0}
 --- !u!114 &5921889010023028679
@@ -384,20 +378,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holder: {fileID: 0}
   camTransform: {fileID: 0}
---- !u!114 &5984838943680427244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5921889010023028673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcfce0a885267e34384246d5e4a3c7e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closestInteractable: {fileID: 0}
-  interactableInRange: []
 --- !u!1 &5921889010027575710
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +391,7 @@ GameObject:
   - component: {fileID: 5921889010027575708}
   - component: {fileID: 5921889010027575709}
   - component: {fileID: 5921889010027575649}
+  - component: {fileID: 283798290}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -445,9 +426,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca8cc52cad8d0f49bef4bdae8f6b1ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closestBattleStarter: {fileID: 0}
   team: {fileID: 5921889010027575708}
   controller: {fileID: 5921889010023028678}
   battleMember: {fileID: 5921889010027575709}
+  interactions: {fileID: 0}
   bagdeCount: 0
   pronouns:
   - They
@@ -464,11 +447,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88c51db965b60240944fc90082bb8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CLEARLIST: 0
   pokemons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4942676ec070f214cb3a7b2f5c40b31a, type: 2}
+  - {fileID: 11400000, guid: bb24c920ad7a4b648ad1697c6123ae90, type: 2}
+  - {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -521,6 +503,100 @@ MonoBehaviour:
   tm: 
   treasure: 01000000
   key: 
+--- !u!114 &283798290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921889010027575710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: cb0efd68321d2b34088e9c6ea82de189, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5921889010023028678}
+        m_TargetAssemblyTypeName: Mfknudsen.Player.Controller, Assembly-CSharp
+        m_MethodName: OnMoveAxisChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a9739c69-c5ec-4cdb-bdae-2ac6178c241e
+    m_ActionName: Player/Move Axis[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Mfknudsen.Player.Interactions, Assembly-CSharp
+        m_MethodName: OnInteractionTrigger
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f1011942-2938-424c-93be-6d5a3fd35b10
+    m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5921889010023028678}
+        m_TargetAssemblyTypeName: Mfknudsen.Player.Controller, Assembly-CSharp
+        m_MethodName: OnMouseAxisChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2d842ed9-e396-4c7d-a333-ff34af5e5f38
+    m_ActionName: Player/Turn Axis[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Mfknudsen.Comunication.ChatMaster, Assembly-CSharp
+        m_MethodName: OnNextChatChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 67ac8333-9213-4716-b963-975a185d7a3a
+    m_ActionName: Player/NextChat[/Keyboard/space,/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard and Mouse
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &5921889010355974917
 GameObject:
   m_ObjectHideFlags: 0

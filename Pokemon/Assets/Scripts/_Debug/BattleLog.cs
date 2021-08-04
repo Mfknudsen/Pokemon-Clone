@@ -41,22 +41,6 @@ namespace Mfknudsen._Debug
             }
         }
 
-        private void Update()
-        {
-            // ReSharper disable once InvertIf
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                active = (active == false);
-
-                for (int i = 0; i < transform.childCount; i++)
-                {
-                    GameObject obj = transform.GetChild(i).gameObject;
-
-                    obj.SetActive(active);
-                }
-            }
-        }
-
         #region In
 
         // ReSharper disable Unity.PerformanceAnalysis

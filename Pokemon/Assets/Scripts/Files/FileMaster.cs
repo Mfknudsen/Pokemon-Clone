@@ -25,12 +25,12 @@ namespace Mfknudsen.Files
         }
 
         #region Player
-        public static void SavePlayerData(Player.MasterPlayer player)
+        public static void SavePlayerData(Player.PlayerManager playerManager)
         {
 
         }
 
-        public static void LoadDataToPlayer(Player.MasterPlayer player)
+        public static void LoadDataToPlayer(Player.PlayerManager playerManager)
         {
 
         }

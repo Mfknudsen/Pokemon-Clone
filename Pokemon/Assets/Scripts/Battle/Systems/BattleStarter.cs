@@ -63,7 +63,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> {MasterPlayer.instance.GetBattleMember()};
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -75,14 +75,6 @@ namespace Mfknudsen.Battle.Systems
 
         public void StartBattleNow()
         {
-            GameObject obj = GameObject.FindGameObjectWithTag("UI Canvas");
-            for (int i = 0; i < obj.transform.childCount; i++)
-            {
-                GameObject o = obj.transform.GetChild(i).gameObject;
-                checkList.Add(o, o.activeSelf);
-                o.SetActive(false);
-            }
-
             WorldMaster.instance.LoadBattleScene(battleSceneName);
 
             StartCoroutine(WaitForRespons());
@@ -104,7 +96,7 @@ namespace Mfknudsen.Battle.Systems
                 yield return null;
 
             List<BattleMember> result = new List<BattleMember>();
-            result.Add(MasterPlayer.instance.GetComponent<BattleMember>());
+            result.Add(PlayerManager.instance.GetComponent<BattleMember>());
             result[0].SetTeamNumber(0);
             foreach (BattleMember m in allies)
             {

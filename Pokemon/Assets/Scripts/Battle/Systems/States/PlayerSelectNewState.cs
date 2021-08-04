@@ -23,7 +23,7 @@ namespace Mfknudsen.Battle.Systems.States
         {
             List<SwitchAction> switchActions = new List<SwitchAction>();
             SpotOversight oversight = master.GetSpotOversight();
-            BattleMember playerTeam = MasterPlayer.instance.GetBattleMember();
+            BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (Spot spot in oversight.GetSpots())

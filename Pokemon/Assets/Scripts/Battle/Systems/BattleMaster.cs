@@ -124,6 +124,20 @@ namespace Mfknudsen.Battle.Systems
 
         #endregion
 
+        #region Setters
+
+        public void SetDisplayManager(DisplayManager set)
+        {
+            displayManager = set;
+        }
+
+        public void SetSelectionMenu(SelectionMenu set)
+        {
+            selectionMenu = set;
+        }
+
+        #endregion
+        
         #region In
 
         public void StartBattle(BattleStarter bs, BattleMember[] players)
@@ -221,7 +235,7 @@ namespace Mfknudsen.Battle.Systems
         {
             if (i > 0 && i < 5)
             {
-                BattleMember battleMember = MasterPlayer.instance.GetBattleMember();
+                BattleMember battleMember = PlayerManager.instance.GetBattleMember();
 
                 foreach (Spot spot in spotOversight.GetSpots())
                 {

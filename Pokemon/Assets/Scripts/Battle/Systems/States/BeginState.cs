@@ -10,6 +10,7 @@ using Mfknudsen.Comunication;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
+using Mfknudsen.UI;
 using UnityEngine;
 
 #endregion
@@ -26,6 +27,12 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
+            UIManager uiManager = UIManager.instance;
+            uiManager.SwitchUI(UISelection.Battle);
+
+            master.SetSelectionMenu(uiManager.GetSelectionMenu());
+            master.SetDisplayManager(uiManager.GetDisplayManager());
+            
             #region Setup Spots
 
             BattleStarter battleStarter = null;
@@ -35,34 +42,34 @@ namespace Mfknudsen.Battle.Systems.States
                 battleStarter = master.GetStarter();
                 yield return null;
             }
-            
+
             foreach (BattleMember battleMember in battleStarter.GetAllBattleMembers())
                 battleMember.GetTeam().Setup();
-            
+
             spotOversight = master.SetupSpotOversight();
 
             int offset = 0;
             //Player
-            MasterPlayer player = MasterPlayer.instance;
+            PlayerManager playerManager = PlayerManager.instance;
 
-            Team team = player.GetTeam();
+            Team team = playerManager.GetTeam();
 
             for (int i = 0; i < battleStarter.GetPlayerSpotCount(); i++)
             {
                 if (!team.CanSendMorePokemon())
                 {
-                    player.GetBattleMember().ForceHasAllSpots();
+                    playerManager.GetBattleMember().ForceHasAllSpots();
                     break;
                 }
 
                 Spot spot = master.CreateSpot().GetComponent<Spot>();
-                spot.SetBattleMember(MasterPlayer.instance.GetBattleMember());
+                spot.SetBattleMember(PlayerManager.instance.GetBattleMember());
 
                 offset += 1;
                 spotOversight.SetSpot(spot);
                 spot.transform.position = new Vector3(0 + (10 * i), 0, -10);
 
-                player.GetBattleMember().SetOwndSpot(spot);
+                playerManager.GetBattleMember().SetOwndSpot(spot);
             }
 
             //Allies
@@ -122,20 +129,20 @@ namespace Mfknudsen.Battle.Systems.States
             master.GetDisplayManager().Setup();
             master.GetSelectionMenu().Setup();
             master.SetupAbilityOversight();
-            
+
             #region Start Log
 
             string playersMsg = "Starting Battle Between:";
-            string alliesMsg = " - " + player.GetBattleMember().GetName(), enemiesMsg = "";
+            string alliesMsg = " - " + playerManager.GetBattleMember().GetName(), enemiesMsg = "";
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (Spot spot in master.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
-                if (battleMember is null || battleMember == player.GetBattleMember()) continue;
+                if (battleMember is null || battleMember == playerManager.GetBattleMember()) continue;
 
-                if (battleMember.GetTeamNumber() == player.GetBattleMember().GetTeamNumber())
+                if (battleMember.GetTeamNumber() == playerManager.GetBattleMember().GetTeamNumber())
                     alliesMsg += ", " + battleMember.GetName();
                 else
                 {
@@ -170,9 +177,9 @@ namespace Mfknudsen.Battle.Systems.States
 
                 BattleMember battleMember = spot.GetBattleMember();
                 Pokemon pokemon = battleMember.GetTeam().GetFirstOut();
-                
-                if(pokemon is null) continue;
-                
+
+                if (pokemon is null) continue;
+
                 SwitchAction action = master.InstantiateSwitchAction();
 
                 action.SetNextPokemon(battleMember.GetTeam().GetFirstOut());
@@ -195,10 +202,10 @@ namespace Mfknudsen.Battle.Systems.States
             #endregion
 
             while (!ChatMaster.instance.GetIsClear())
-                yield return 0;
+                yield return null;
 
             spotOversight.Reorganise(true);
-            
+
             master.SetState(new PlayerTurnState(master));
         }
     }

@@ -44,7 +44,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
         public void Setup()
         {
             spotOversight = BattleMaster.instance.GetSpotOversight();
-            playerTeamNumber = MasterPlayer.instance.GetBattleMember().GetTeamNumber();
+            playerTeamNumber = PlayerManager.instance.GetBattleMember().GetTeamNumber();
 
             ready = true;
         }
