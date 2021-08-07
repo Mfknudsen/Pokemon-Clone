@@ -1,5 +1,6 @@
 ﻿#region SDK
 
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -16,6 +17,7 @@ namespace Mfknudsen.Player
 
         [SerializeField] private NavMeshAgent agent;
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private Animator animController;
 
         [SerializeField] private Transform moveOrigin;
         [SerializeField] private float moveSpeed, rotateSpeed;
@@ -23,6 +25,9 @@ namespace Mfknudsen.Player
         [SerializeField] private Transform turnPoint;
 
         [SerializeField] private Vector3 oldRot;
+        private static readonly int Walking = Animator.StringToHash("Walking");
+        private static readonly int XMove = Animator.StringToHash("X Move");
+        private static readonly int YMove = Animator.StringToHash("Y Move");
 
         #endregion
 
@@ -91,8 +96,18 @@ namespace Mfknudsen.Player
         {
             Vector3 forwardMove = transform.forward * playerInput.GetMoveDirection().z;
             Vector3 sideMove = transform.right * playerInput.GetMoveDirection().x;
-            
-            transform.position += (forwardMove + sideMove).normalized * (moveSpeed * Time.deltaTime);
+            Vector3 moveVector = forwardMove + sideMove;
+
+            transform.position += moveVector.normalized * (moveSpeed * Time.deltaTime);
+
+            if (moveVector.magnitude != 0)
+            {
+                animController.SetBool(Walking, true);
+                animController.SetFloat(XMove, playerInput.GetMoveDirection().x, 0.1f, Time.deltaTime);
+                animController.SetFloat(YMove, playerInput.GetMoveDirection().z, 0.1f, Time.deltaTime);
+            }
+            else
+                animController.SetBool(Walking, false);
         }
 
         private void Turn()
