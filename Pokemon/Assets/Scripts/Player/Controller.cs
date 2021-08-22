@@ -1,6 +1,5 @@
 ﻿#region SDK
 
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -19,15 +18,16 @@ namespace Mfknudsen.Player
         [SerializeField] private Rigidbody rb;
         [SerializeField] private Animator animController;
 
-        [SerializeField] private Transform moveOrigin;
+        [SerializeField] private Transform playerTransform, moveTransform;
         [SerializeField] private float moveSpeed, rotateSpeed;
 
-        [SerializeField] private Transform turnPoint;
+        #region AnimatorHashs
 
-        [SerializeField] private Vector3 oldRot;
         private static readonly int Walking = Animator.StringToHash("Walking");
         private static readonly int XMove = Animator.StringToHash("X Move");
         private static readonly int YMove = Animator.StringToHash("Y Move");
+
+        #endregion
 
         #endregion
 
@@ -35,10 +35,12 @@ namespace Mfknudsen.Player
 
         private void Start()
         {
-            agent ??= moveOrigin.GetComponent<NavMeshAgent>();
+            playerTransform = transform;
+
+            agent ??= playerTransform.GetComponent<NavMeshAgent>();
             agent.enabled = false;
 
-            rb ??= moveOrigin.GetComponent<Rigidbody>();
+            rb ??= playerTransform.GetComponent<Rigidbody>();
             rb.useGravity = false;
         }
 
@@ -94,27 +96,29 @@ namespace Mfknudsen.Player
 
         private void Move()
         {
-            Vector3 forwardMove = transform.forward * playerInput.GetMoveDirection().z;
-            Vector3 sideMove = transform.right * playerInput.GetMoveDirection().x;
-            Vector3 moveVector = forwardMove + sideMove;
+            Transform camTransform = Camera.main.transform;
 
-            transform.position += moveVector.normalized * (moveSpeed * Time.deltaTime);
+            moveTransform.rotation = Quaternion.Euler(0, camTransform.localRotation.eulerAngles.y, 0);
 
-            if (moveVector.magnitude != 0)
-            {
-                animController.SetBool(Walking, true);
-                animController.SetFloat(XMove, playerInput.GetMoveDirection().x, 0.1f, Time.deltaTime);
-                animController.SetFloat(YMove, playerInput.GetMoveDirection().z, 0.1f, Time.deltaTime);
-            }
-            else
-                animController.SetBool(Walking, false);
+            Vector3 playerInputDirection = playerInput.GetMoveDirection();
+
+            Vector3 forwardMove = moveTransform.forward * playerInputDirection.z;
+            Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+
+            playerTransform.position += (forwardMove + sideMove) .normalized * (moveSpeed * Time.deltaTime);
+
+            animController.SetBool(Walking, playerInputDirection.x != 0 || playerInputDirection.y != 0);
+            animController.SetFloat(XMove, playerInputDirection.x, 0.1f, Time.deltaTime);
+            animController.SetFloat(YMove, playerInputDirection.z, 0.1f, Time.deltaTime);
         }
 
         private void Turn()
         {
-            float angel = playerInput.GetTargetRotation().x - transform.rotation.eulerAngles.x;
+            Vector3 targetVector = Quaternion.LookRotation(playerInput.GetMoveDirection().normalized).eulerAngles;
 
-            transform.Rotate(Vector3.up, angel * rotateSpeed * Time.deltaTime);
+            float angel = playerInput.GetTargetRotation().x - targetVector.x;
+
+            playerTransform.Rotate(Vector3.up, angel * rotateSpeed * Time.deltaTime);
         }
 
         #endregion
