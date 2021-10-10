@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71ab0d28f164634f9ef382226e13dab, type: 3}
+  m_Name: Tyranitar
+  m_EditorClassIdentifier: 
+  isInstantiated: 0
+  pokemonName: Tyranitar
+  pokedexIndex: 248
+  pokemonCategory: Armor
+  types:
+  - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
+  - {fileID: 11400000, guid: d2fd45596b5c63c41ab3086aec62892c, type: 2}
+  firstAbility: {fileID: 11400000, guid: 086c845accb275f4180d7c33c68adf34, type: 2}
+  secondAbility: {fileID: 11400000, guid: 59ebbb322c4665342a49a09af4bbe7b0, type: 2}
+  hiddenAbility: {fileID: 0}
+  itemInHand: {fileID: 0}
+  description: 
+  oversight: {fileID: 0}
+  currentHealth: 289
+  stats: 6c000000820000005f000000500000005500000066000000
+  iv: 180000000c0000001e000000100000001700000005000000
+  ev: 4a000000be0000005b000000300000005400000017000000
+  level: 78
+  maxExp: 0
+  currentExp: 0
+  method: 0
+  evolveTo: {fileID: 0}
+  evolutionLevel: 0
+  learnedMoves:
+  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  levelLearnableMoveKeys: 
+  levelLearnableMoveValue: []
+  tmLearnableMoveValue: []
+  breedingLearnedMoveKeys: []
+  breedingLearnedMoveValue: []
+  tutorLearnableMoveValue: []
+  eggGroup: 0
+  hatchTimeMin: 10280
+  hatchTimeMax: 10536
+  height: 2
+  weight: 202
+  genderRate: 50
+  catchRate: 45
+  expYield: 270
+  levelRate: 0
+  evYield: 000000000300000000000000000000000000000000000000
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  baseFriendship: 0
+  spotIndex: 0
+  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  spawnedObject: {fileID: 0}
+  anim: {fileID: 0}
+  gettingSwitched: 0
+  inBattle: 0
+  battleAction: {fileID: 0}
+  gettingRevived: 0
+  multipliers: 000000000000000000000000000000000000000000000000
+  instantiatedAbilities: []

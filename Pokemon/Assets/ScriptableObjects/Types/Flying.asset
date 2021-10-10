@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d019de2411f5142ac2ac511c8d500e, type: 3}
+  m_Name: Flying
+  m_EditorClassIdentifier: 
+  typeName: 9
+  typeColor: {r: 0.53333336, g: 0.6, b: 1, a: 1}
+  noEffect:
+  - {fileID: 11400000, guid: 38567af638dd2c04eb5bf1cb436fa9d0, type: 2}
+  resistances:
+  - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
+  - {fileID: 11400000, guid: 0b95b520435267647b230846d0eefffb, type: 2}
+  - {fileID: 11400000, guid: 41241754bd40f524d878dbae75d64268, type: 2}
+  weakness:
+  - {fileID: 11400000, guid: 103bb39c7cd539b4eb5b8145002bd8d8, type: 2}
+  - {fileID: 11400000, guid: 008c41a23be2b3a468ebde363e65e64c, type: 2}
+  - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
