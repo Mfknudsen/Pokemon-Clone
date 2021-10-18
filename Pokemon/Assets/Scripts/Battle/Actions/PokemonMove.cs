@@ -372,7 +372,7 @@ namespace Mfknudsen.Battle.Actions
 
             return Operation();
         }
-
+        
         #endregion
 
         #region Internal

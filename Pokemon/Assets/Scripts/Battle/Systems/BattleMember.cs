@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using Mfknudsen.AI;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Items;
 using Mfknudsen.Trainer;
@@ -20,9 +19,7 @@ namespace Mfknudsen.Battle.Systems
         private string memberName;
 
         [SerializeField] private bool isPlayer, isWild;
-
-        [Header("AI")] [SerializeField] private BattleAI ai;
-
+        
         [Header("Inventory:")] [SerializeField]
         private Inventory inventory;
 
@@ -99,11 +96,6 @@ namespace Mfknudsen.Battle.Systems
             return spotsToOwn;
         }
 
-        public BattleAI GetBattleAI()
-        {
-            return ai;
-        }
-
         #endregion
 
         #region Setters
@@ -135,7 +127,6 @@ namespace Mfknudsen.Battle.Systems
 
         public void ActivateAIBrain()
         {
-            ai.TickBrain();
         }
 
         #endregion

@@ -1,12 +1,10 @@
-#region SDK
+#region Packages
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.AI;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Player;
-using UnityEngine;
 
 #endregion
 
@@ -34,34 +32,7 @@ namespace Mfknudsen.Battle.Systems.States
                       !battleMember.GetTeam().CanSendMorePokemon()) continue;
 
                 #region Send Information
-
-                BattleAI ai = battleMember.GetBattleAI();
-
-                LocalMemories local = ai.GetLocalMemories();
-
-                local.currentPokemon = null;
-                local.currentSpot = spot;
-                local.switchInNew = true;
-
-                ai.SetLocalMemories(local);
-
-                if (ai.GetRememberEnemies())
-                {
-                    EnemiesMemories enemies = new EnemiesMemories()
-                    {
-                    };
-
-                    ai.SetEnemiesMemories(enemies);
-                }
-
-                if (ai.GetRememberAllies())
-                {
-                    AlliesMemories allies = new AlliesMemories()
-                    {
-                    };
-
-                    ai.SetAlliesMemories(allies);
-                }
+                
 
                 #endregion
 

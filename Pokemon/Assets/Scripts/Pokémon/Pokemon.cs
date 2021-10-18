@@ -1,6 +1,5 @@
-﻿#region SDK
+﻿#region Packages
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Actions;
@@ -648,7 +647,7 @@ namespace Mfknudsen.Pokémon
 
             int expNeeded = maxExp - currentExp;
 
-            if (expNeeded <= points)
+            if (expNeeded < points)
             {
             }
             else
@@ -680,6 +679,24 @@ namespace Mfknudsen.Pokémon
         public void AffectCritical(int affect)
         {
             critical = Mathf.Clamp(critical + affect, 0, 6);
+        }
+
+        public void ResetForAIMemory()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                iv[i] = 0;
+                ev[i] = 0;
+            }
+
+            firstAbility = null;
+            secondAbility = null;
+            hiddenAbility = null;
+
+            baseFriendship = 0;
+
+            oversight = Instantiate(oversight);
+            oversight.Setup(this);
         }
 
         #endregion

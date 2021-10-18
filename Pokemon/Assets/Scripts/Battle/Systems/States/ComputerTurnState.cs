@@ -1,12 +1,9 @@
-#region SDK
+#region Packages
 
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Mfknudsen.AI;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Pokémon;
-using UnityEngine;
 
 #endregion
 
@@ -30,33 +27,6 @@ namespace Mfknudsen.Battle.Systems.States
                 Pokemon pokemon = spot.GetActivePokemon();
 
                 #region Send Information
-
-                BattleAI ai = battleMember.GetBattleAI();
-
-                LocalMemories local = ai.GetLocalMemories();
-                local.currentPokemon = pokemon;
-                local.currentSpot = spot;
-                local.switchInNew = false;
-
-                ai.SetLocalMemories(local);
-
-                if (ai.GetRememberEnemies())
-                {
-                    EnemiesMemories enemies = new EnemiesMemories()
-                    {
-                    };
-
-                    ai.SetEnemiesMemories(enemies);
-                }
-
-                if (ai.GetRememberAllies())
-                {
-                    AlliesMemories allies = new AlliesMemories()
-                    {
-                    };
-
-                    ai.SetAlliesMemories(allies);
-                }
 
                 #endregion
 

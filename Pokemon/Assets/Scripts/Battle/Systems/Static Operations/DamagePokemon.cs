@@ -1,5 +1,4 @@
 using System.Collections;
-using DG.Tweening;
 using Mfknudsen.Pokémon;
 using UnityEngine;
 
@@ -7,8 +6,9 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
 {
     public class DamagePokemon : IOperation
     {
-        private bool done = false;
-        private readonly float damage, totalTime, splitTime = 200;
+        private bool done;
+        private readonly float damage, totalTime;
+        private const float SplitTime = 200;
         private readonly Pokemon target;
 
         public DamagePokemon(Pokemon target, float damage, float totalTime)
@@ -25,9 +25,8 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
 
         public IEnumerator Operation()
         {
-            done = false;
-            
-            float damageApplied = 0, damageOverTime = damage / splitTime;
+           
+            float damageApplied = 0, damageOverTime = damage / SplitTime;
 
             while (damageApplied < damage)
             {
@@ -38,7 +37,7 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
 
                 target.ReceiveDamage(damageOverTime);
 
-                yield return new WaitForSeconds(totalTime / splitTime);
+                yield return new WaitForSeconds(totalTime / SplitTime);
             }
 
             done = true;
