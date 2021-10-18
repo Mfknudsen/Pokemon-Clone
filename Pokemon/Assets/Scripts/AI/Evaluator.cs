@@ -1,10 +1,8 @@
 #region Packages
 
-using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Actions;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 
@@ -14,60 +12,53 @@ namespace Mfknudsen.AI
 {
     public class Evaluator
     {
-        private int depth;
-        private VirtualTeam ownTeam;
-        private List<VirtualTeam> allies, enemies;
-        private List<VirtualMove> moves;
+        private readonly int depth;
+        private readonly BattleAction[] actions;
+        private VirtualPokemon user;
 
-        public Evaluator(int depth, Team team, int teamNumber)
+        public Evaluator(int depth, BattleAction[] actions)
         {
             this.depth = depth;
-            ownTeam = new VirtualTeam(team);
-
-            allies = new List<VirtualTeam>();
-            enemies = new List<VirtualTeam>();
-
-            List<Team> a = new List<Team>(), e = new List<Team>();
-
-            foreach (BattleMember battleMember in BattleManager.instance.GetSpotOversight().GetSpots()
-                .Select(spot => spot.GetBattleMember()))
-            {
-                Team t = battleMember.GetTeam();
-
-                if (battleMember.GetTeamNumber() == teamNumber && !a.Contains(t))
-                {
-                    a.Add(t);
-                    allies.Add(new VirtualTeam(t));
-                }
-                else if (!e.Contains(t))
-                {
-                    e.Add(t);
-                    enemies.Add(new VirtualTeam(t));
-                }
-            }
+            this.actions = actions;
         }
 
         public void TickForPokemon(Pokemon pokemon)
         {
-            foreach (PokemonMove move in pokemon.GetMoves())
-            {
-                moves.Add(new VirtualMove(null, move, pokemon, ));
-            }
+            user = new VirtualPokemon(pokemon);
 
-            Evaluate(depth);
+            VirtualBattle virtualBattle = new VirtualBattle();
+
+            Evaluate(depth,
+                (from move in actions
+                    from spot in virtualBattle.spotOversight.spots
+                    select new VirtualMove(null, move, user.GetFakePokemon(), spot.virtualPokemon.GetFakePokemon(),
+                        virtualBattle))
+                .ToArray()
+            );
         }
 
-        private void Evaluate(int depth, List<VirtualMove> toCheck)
+        // ReSharper disable once ParameterHidesMember
+        // ReSharper disable once SuggestBaseTypeForParameter
+        private void Evaluate(int depth, VirtualMove[] toCheck)
         {
-            if (this.depth == 0)
+            if (depth == 0)
             {
+                VirtualMove highest = toCheck[0];
+                for (int i = 1; i < toCheck.Length; i++)
+                {
+                    if (toCheck[i].value <= highest.value)
+                        continue;
+                }
+
                 return;
             }
 
-            foreach (VirtualMove virtualMove in toCheck)
-            {
-                
-            }
+            Evaluate(depth - 1,
+                (from virtualMove in toCheck
+                    from spot in virtualMove.virtualBattle.spotOversight.spots
+                    from battleAction in actions
+                    select new VirtualMove(virtualMove, battleAction, user.GetFakePokemon(),
+                        spot.virtualPokemon.GetFakePokemon(), virtualMove.virtualBattle)).ToArray());
         }
     }
 }

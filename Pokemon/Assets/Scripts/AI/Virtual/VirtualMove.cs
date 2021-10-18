@@ -10,32 +10,31 @@ namespace Mfknudsen.AI.Virtual
 {
     public class VirtualMove
     {
-        public int value;
+        public readonly int value;
 
-        private readonly PokemonMove move;
+        private readonly BattleAction move;
         private readonly VirtualMove preValue;
+        public readonly VirtualBattle virtualBattle;
 
-        public VirtualMove(VirtualMove preValue, PokemonMove move, Pokemon user, Pokemon target)
+        public VirtualMove(VirtualMove preValue, BattleAction move, Pokemon user, Pokemon target,
+            VirtualBattle virtualBattle)
         {
             this.preValue = preValue;
             this.move = move;
+            this.virtualBattle = new VirtualBattle(virtualBattle);
 
-            if (move.GetCategory() == Category.Physical || move.GetCategory() == Category.Special)
-            {
-                int attack = move.GetCategory() == Category.Physical
-                        ? user.GetStat(Stat.Attack)
-                        : user.GetStat(Stat.SpAtk),
-                    defence = move.GetCategory() == Category.Physical
-                        ? user.GetStat(Stat.Defence)
-                        : user.GetStat(Stat.SpDef);
+            if (preValue != null)
+                value = preValue.value;
 
-                if (move.GetCategory() == Category.Physical)
-                    value = BattleMathf.CalculateDamage(user.GetLevel(), attack, defence, move.GetPower(),
-                        BattleMathf.CalculateModifiers(user, target, move, false, false));
-            }
-            else
+            if (move is PokemonMove pokemonMove)
             {
-                
+                if (pokemonMove.GetCategory() == Category.Status)
+                {
+                }
+                else
+                {
+                    value += VirtualMathf.CalculateVirtualDamage(pokemonMove, user, target, virtualBattle);
+                }
             }
         }
     }

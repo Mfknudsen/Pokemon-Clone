@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Mfknudsen.AI.Virtual
 {
-    public class VirtualPokemon : MonoBehaviour
+    public class VirtualPokemon
     {
         private readonly Pokemon pokemon;
         private readonly Pokemon fakePokemon;
