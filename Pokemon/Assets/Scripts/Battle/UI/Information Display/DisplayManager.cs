@@ -17,7 +17,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
         private readonly Vector3[] allyPositions = new Vector3[3];
         private bool ready;
-        private int playerTeamNumber;
+        private bool isAlly;
         private SpotOversight spotOversight;
 
         private void Start()
@@ -42,7 +42,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
         public void Setup()
         {
             spotOversight = BattleManager.instance.GetSpotOversight();
-            playerTeamNumber = PlayerManager.instance.GetBattleMember().GetTeamNumber();
+            isAlly = PlayerManager.instance.GetBattleMember().GetTeamAffiliation();
 
             ready = true;
         }
@@ -82,7 +82,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
             foreach (Spot spot in spotOversight.GetSpots())
             {
-                if (spot.GetTeamNumber() == playerTeamNumber && !(spot.GetActivePokemon() is null))
+                if (spot.GetIsAlly() == isAlly && !(spot.GetActivePokemon() is null))
                     allyOffset++;
             }
 
@@ -91,7 +91,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
             foreach (Spot spot in spotOversight.GetSpots())
             {
-                if (spot.GetTeamNumber() == playerTeamNumber)
+                if (spot.GetIsAlly() == isAlly)
                 {
                     PokemonDisplaySlot slot = allyDisplays[allyIndex];
 

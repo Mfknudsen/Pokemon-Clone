@@ -1,6 +1,8 @@
 ﻿#region Packages
 
 using System.Collections;
+using Mfknudsen.AI;
+using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Static_Operations;
 using Mfknudsen.Communication;
@@ -82,10 +84,13 @@ namespace Mfknudsen.Battle.Actions
         [SerializeField] protected SpecialAddons[] specialAddons;
 
         [Header("Target:")] [SerializeField] protected HitType hitType = 0;
+
         // ReSharper disable once IdentifierTypo
         [SerializeField] protected bool selfTargetable;
+
         // ReSharper disable once IdentifierTypo
         [SerializeField] protected bool[] enemyTargetable = new bool[3];
+
         // ReSharper disable once IdentifierTypo
         [SerializeField] protected bool[] allyTargetable = new bool[2];
 
@@ -359,20 +364,13 @@ namespace Mfknudsen.Battle.Actions
 
         #region Out
 
-        public override IEnumerator Activate()
+        public override float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
+            PersonalitySetting personalitySetting)
         {
-            // ReSharper disable once InvertIf
-            if (!active)
-            {
-                ChatManager.instance.Add(TransferInformationToChat());
-
-                active = true;
-                done = false;
-            }
-
-            return Operation();
+            return VirtualMathf.CalculateVirtualDamage(this, user, target, virtualBattle) *
+                   personalitySetting.aggressionLevel;
         }
-        
+
         #endregion
 
         #region Internal
@@ -383,7 +381,7 @@ namespace Mfknudsen.Battle.Actions
 
             for (int i = 0; i < chatOnActivation.Length; i++)
             {
-                if (chatOnActivation[i] is null) continue;
+                if (chatOnActivation[i] == null) continue;
 
                 result[i] = chatOnActivation[i].GetChat();
 

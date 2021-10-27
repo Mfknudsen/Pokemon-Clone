@@ -1,7 +1,6 @@
 #region Packages
 
 using Mfknudsen.Battle.Actions;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Pokémon;
 
 #endregion
@@ -10,32 +9,17 @@ namespace Mfknudsen.AI.Virtual
 {
     public class VirtualMove
     {
-        public readonly int value;
-
-        private readonly BattleAction move;
-        private readonly VirtualMove preValue;
+        public readonly float value;
         public readonly VirtualBattle virtualBattle;
+        public readonly BattleAction rootAction;
 
-        public VirtualMove(VirtualMove preValue, BattleAction move, Pokemon user, Pokemon target,
-            VirtualBattle virtualBattle)
+        public VirtualMove(BattleAction rootAction, float preValue,
+            BattleAction action, Pokemon user, Pokemon target,
+            VirtualBattle virtualBattle, PersonalitySetting personalitySetting)
         {
-            this.preValue = preValue;
-            this.move = move;
+            this.rootAction = rootAction;
             this.virtualBattle = new VirtualBattle(virtualBattle);
-
-            if (preValue != null)
-                value = preValue.value;
-
-            if (move is PokemonMove pokemonMove)
-            {
-                if (pokemonMove.GetCategory() == Category.Status)
-                {
-                }
-                else
-                {
-                    value += VirtualMathf.CalculateVirtualDamage(pokemonMove, user, target, virtualBattle);
-                }
-            }
+            value = preValue + action.Evaluate(user, target, this.virtualBattle, personalitySetting);
         }
     }
 }

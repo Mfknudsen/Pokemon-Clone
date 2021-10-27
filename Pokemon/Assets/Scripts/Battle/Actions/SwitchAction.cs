@@ -2,6 +2,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.AI;
+using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
@@ -56,11 +58,14 @@ namespace Mfknudsen.Battle.Actions
 
         #endregion
 
-        #region Overrides
+        #region Out
 
-        public override IEnumerator Activate()
+        public override float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
+            PersonalitySetting personalitySetting)
         {
-            return Operation();
+            Debug.LogError("Evaluate Switch");
+
+            return 0;
         }
 
         public override IEnumerator Operation()

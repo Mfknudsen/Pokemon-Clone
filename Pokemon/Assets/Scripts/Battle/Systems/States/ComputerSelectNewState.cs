@@ -27,7 +27,7 @@ namespace Mfknudsen.Battle.Systems.States
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
-                if (!(spot.GetActivePokemon() is null) ||
+                if (spot.GetActivePokemon() == null ||
                       battleMember == playerBattleMember ||
                       !battleMember.GetTeam().CanSendMorePokemon()) continue;
 
@@ -36,7 +36,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 #endregion
 
-                battleMember.ActivateAIBrain();
+                battleMember.ActivateAIBrain(spot.GetActivePokemon());
             }
 
             manager.SetState(new SwitchNewInState(manager, switchActions));

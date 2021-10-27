@@ -2,9 +2,12 @@
 
 using System.Collections;
 using System.Linq;
+using Mfknudsen.AI;
+using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Items;
+using Mfknudsen.Pokémon;
 using UnityEngine;
 
 #endregion
@@ -47,6 +50,15 @@ namespace Mfknudsen.Battle.Actions
         #endregion
 
         #region Overrides
+
+        public override float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
+            PersonalitySetting personalitySetting)
+        {
+            Debug.LogError("Evaluate Items");
+
+            return 0;
+        }
+
 
         public override IEnumerator Operation()
         {

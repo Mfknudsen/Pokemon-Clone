@@ -448,8 +448,6 @@ GameObject:
   - component: {fileID: 1480210387}
   - component: {fileID: 1480210385}
   - component: {fileID: 1480210388}
-  - component: {fileID: 1480210391}
-  - component: {fileID: 1480210390}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -487,16 +485,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberName: Bug Catcher
-  isPlayer: 0
-  isWild: 1
-  ai: {fileID: 11400000, guid: deaefd41d84cea1459da018644c3db9a, type: 2}
-  inventory: {fileID: 1480210388}
-  pokemonTeam: {fileID: 1480210387}
-  teamNumber: 1
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  memberName: 
+  isAlly: 0
   spotsToOwn: 1
-  hasAllSpots: 0
-  ownedSpots: []
+  isPlayer: 0
+  isWild: 0
+  evaluatorSettings:
+  - depth: 0
+    continuesIncrease: 0
+    canSwitchOut: 0
+    canUseItems: 0
+  useDefaultPersonalitySetting: 1
+  personalitySetting:
+    aggressionLevel: 1
+    aggressionIncrease: 0
+    setupLevel: 1
+    setupIncrease: 0
+    survivalLevel: 1
+    survivalIncrease: 0
 --- !u!114 &1480210387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,51 +565,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1480210390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480210384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _parentBlackboard: {fileID: 0}
-  _serializedBlackboard: '{"_variables":{}}'
-  _objectReferences: []
-  _serializedVariables: []
---- !u!114 &1480210391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480210384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aad115aca74ce3c4891b3f6de0b4aae8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _serializedExposedParameters: []
-  _boundGraphSerialization: 
-  _boundGraphObjectReferences: []
-  _boundGraphSource:
-    _version: 0
-    _category: 
-    _comments: 
-    _translation: {x: 0, y: 0}
-    _zoomFactor: 1
-  _firstActivation: 0
-  _enableAction: 0
-  _disableAction: 0
-  _lockBoundGraphPrefabOverrides: 1
-  _preInitializeSubGraphs: 0
-  _updateMode: 0
-  _graph: {fileID: 0}
-  _blackboard: {fileID: 1480210390}
 --- !u!1 &1642143089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5921889010023028673, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
@@ -734,6 +704,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5921889010023028678, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5921889010023028678, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: moveSpeed
       value: 4
       objectReference: {fileID: 0}
@@ -814,6 +788,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5921889010027575651, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5921889010027575651, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: interactions
       value: 
       objectReference: {fileID: 1642143092}
@@ -828,15 +806,19 @@ PrefabInstance:
     - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+      objectReference: {fileID: 11400000, guid: 4942676ec070f214cb3a7b2f5c40b31a, type: 2}
     - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
     - target: {fileID: 5921889010027575708, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: pokemons.Array.data[2]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5921889010027575709, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5921889010027575709, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
     - target: {fileID: 5921889010027575710, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_Name
       value: Player

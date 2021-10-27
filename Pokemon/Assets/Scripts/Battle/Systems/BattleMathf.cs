@@ -141,8 +141,8 @@ namespace Mfknudsen.Battle.Systems
                     totals.Add(target.GetLeft());
                     totals.Add(target.GetRight());
 
-                    List<Spot> checks = user.GetAllAdjacentOneSideSpots(target.GetBattleMember().GetTeamNumber() ==
-                                                                        user.GetBattleMember().GetTeamNumber());
+                    List<Spot> checks = user.GetAllAdjacentOneSideSpots(target.GetBattleMember().GetTeamAffiliation() ==
+                                                                        user.GetBattleMember().GetTeamAffiliation());
 
                     foreach (Spot total in totals.Where(total => total != target)
                         .Where(total => !checks.Contains(total)))
@@ -221,7 +221,7 @@ namespace Mfknudsen.Battle.Systems
 
                 shakeCheck++;
             }
-            
+
             return shakeCheck;
         }
 
@@ -288,20 +288,34 @@ namespace Mfknudsen.Battle.Systems
             float type = 1;
 
             Type[] toCheck = target.GetTypes();
-            if (!abilityOversight.ListOfSpecific<IBypassImmune>()
-                .Concat(weatherManager.GetWeatherWithInterface<IBypassImmune>())
-                .Any(bypassImmune =>
-                    bypassImmune.CanEffect(attackType, toCheck[0].GetTypeName()) ||
-                    (toCheck.Length != 1 && bypassImmune.CanEffect(attackType, toCheck[1].GetTypeName()))))
+            List<IBypassImmune> bypassImmune = new List<IBypassImmune>();
+            List<IImmuneAttackType> immuneAttackType = new List<IImmuneAttackType>();
+
+            foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
+                .Select(spot => spot.GetActivePokemon()).Where(pokemon => pokemon != null))
             {
-                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                if (toCheck[0].GetNoEffect(attackType) ||
-                    (toCheck.Length != 1 && toCheck[1].GetNoEffect(attackType)) ||
-                    abilityOversight.ListOfSpecific<IImmuneAttackType>()
-                        .Concat(weatherManager.GetWeatherWithInterface<IImmuneAttackType>())
-                        .Any(immuneAttackType => immuneAttackType.MatchType(attackType)))
-                {
+                bypassImmune.AddRange(pokemon.GetAbilitiesOfType<IBypassImmune>());
+                immuneAttackType.AddRange(pokemon.GetAbilitiesOfType<IImmuneAttackType>());
+            }
+
+            bypassImmune.AddRange(BattleManager.instance.GetWeatherManager()
+                .GetWeatherWithInterface<IBypassImmune>());
+            immuneAttackType.AddRange(BattleManager.instance.GetWeatherManager()
+                .GetWeatherWithInterface<IImmuneAttackType>());
+
+            if (target.GetTypes().Where(t => t != null)
+                    .Any(t => t.GetNoEffect(attackMove.GetMoveType().GetTypeName())) ||
+                immuneAttackType.Any(i => i.MatchType(attackMove.GetMoveType().GetTypeName())))
+            {
+                if (bypassImmune.Any(b =>
+                    b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[0].GetTypeName())))
                     type = 0;
+
+                if (toCheck.Length > 1)
+                {
+                    if (bypassImmune.Any(b =>
+                        b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[1].GetTypeName())))
+                        type = 0;
                 }
             }
 

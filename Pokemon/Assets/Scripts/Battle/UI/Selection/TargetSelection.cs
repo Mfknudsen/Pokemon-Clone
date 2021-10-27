@@ -22,7 +22,7 @@ namespace Mfknudsen.Battle.UI.Selection
         [SerializeField] private GameObject background;
         [SerializeField] private TargetSlot[] enemies, allies;
         private SpotOversight oversight;
-        private int playerTeamNumber;
+        private bool isAlly;
         private BattleAction action;
 
         #endregion
@@ -32,7 +32,7 @@ namespace Mfknudsen.Battle.UI.Selection
         public void Setup()
         {
             oversight = BattleManager.instance.GetSpotOversight();
-            playerTeamNumber = PlayerManager.instance.GetBattleMember().GetTeamNumber();
+            isAlly = PlayerManager.instance.GetBattleMember().GetTeamAffiliation();
         }
 
         public void DisplaySelection(BattleAction action)
@@ -50,7 +50,7 @@ namespace Mfknudsen.Battle.UI.Selection
                 if (spot.GetActivePokemon() == action.GetCurrentPokemon())
                     currentSpot = spot;
 
-                if (spot.GetTeamNumber() == playerTeamNumber)
+                if (spot.GetIsAlly() == isAlly)
                     aSpots.Add(spot);
                 else
                     eSpots.Add(spot);

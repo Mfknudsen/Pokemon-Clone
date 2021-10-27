@@ -112,9 +112,9 @@ namespace Mfknudsen.Battle.Systems.Spots
             return battleMember;
         }
 
-        public int GetTeamNumber()
+        public bool GetIsAlly()
         {
-            return battleMember.GetTeamNumber();
+            return battleMember.GetTeamAffiliation();
         }
 
         public int GetID()

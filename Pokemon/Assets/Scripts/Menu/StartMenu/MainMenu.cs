@@ -1,7 +1,5 @@
-﻿#region SDK
+﻿#region Packages
 
-using Mfknudsen.Battle.Systems;
-using Mfknudsen.Player;
 using Mfknudsen.UI;
 using Mfknudsen.World;
 using UnityEngine;
@@ -30,11 +28,6 @@ namespace Mfknudsen.Menu.StartMenu
             UIManager.instance.SwitchUI(UISelection.Battle);
         }
 
-        public void LoadTestBattle()
-        {
-           PlayerManager.instance.closestBattleStarter.StartBattleNow();
-        }
-        
         #endregion
     }
 }

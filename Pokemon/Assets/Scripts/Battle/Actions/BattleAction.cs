@@ -4,6 +4,8 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.AI;
+using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon;
@@ -89,11 +91,8 @@ namespace Mfknudsen.Battle.Actions
 
         #region Out
 
-        public virtual IEnumerator Activate()
-        {
-            Debug.Log("Activate need Override!");
-            return Operation();
-        }
+        public abstract float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
+            PersonalitySetting personalitySetting);
 
         #endregion
 

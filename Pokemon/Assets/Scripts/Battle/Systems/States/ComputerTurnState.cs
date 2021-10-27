@@ -30,7 +30,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 #endregion
 
-                battleMember.ActivateAIBrain();
+                battleMember.ActivateAIBrain(pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;

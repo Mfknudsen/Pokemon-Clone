@@ -1,9 +1,9 @@
-﻿#region SDK
+﻿#region Packages
 
-using System;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
 using Mfknudsen.Trainer;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -13,25 +13,40 @@ namespace Mfknudsen.Player
     [RequireComponent(typeof(BattleMember), typeof(Team), typeof(Inventory))]
     public class PlayerManager : MonoBehaviour
     {
-        public static PlayerManager instance;
-
         #region Values
 
-        public BattleStarter closestBattleStarter;
-        
-        [Header("Object Reference:")] [SerializeField]
+        public static PlayerManager instance;
+
+        [FoldoutGroup("References")] [SerializeField]
         private Team team;
 
-        [SerializeField] private Controller controller;
+        [FoldoutGroup("References")] [SerializeField]
+        private Controller controller;
 
-        [SerializeField] private BattleMember battleMember;
+        [FoldoutGroup("References")] [SerializeField]
+        private BattleMember battleMember;
 
-        [SerializeField] private Interactions interactions;
-        
-        [Header("Character Sheet:")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField]
+        private Interactions interactions;
+
+        #region Character Sheet
+
+        [FoldoutGroup("Character Sheet"), SerializeField]
         private int bagdeCount = 0;
 
-        [SerializeField] private string[] pronouns = new string[2] {"They", "Them"}; //Inspired by Temtem
+        [FoldoutGroup("Character Sheet/Pronouns")]
+        [HorizontalGroup("Character Sheet/Pronouns/Horizontal")]
+        [HideLabel]
+        [BoxGroup("Character Sheet/Pronouns/Horizontal/1", false), SerializeField]
+        private string pronoun1 = "They";
+
+        [HideLabel] [BoxGroup("Character Sheet/Pronouns/Horizontal/2", false), SerializeField]
+        private string pronoun2 = "Them";
+
+        [HideLabel] [BoxGroup("Character Sheet/Pronouns/Horizontal/3", false), SerializeField]
+        private string pronoun3 = "Theirs";
+
+        #endregion
 
         #endregion
 
@@ -50,7 +65,7 @@ namespace Mfknudsen.Player
 
         public string[] GetPronouns()
         {
-            return pronouns;
+            return new[] { pronoun1, pronoun2, pronoun3 };
         }
 
         public Team GetTeam()
@@ -72,12 +87,14 @@ namespace Mfknudsen.Player
 
         #region Setters
 
-        public void SetPronous(string one, string two)
+        public void SetPronouns(string one, string two, string three)
         {
-            if (one != "")
-                pronouns[0] = one;
-            else if (two != "")
-                pronouns[1] = two;
+            if (!one.Equals(""))
+                pronoun1 = one;
+            if (!two.Equals(""))
+                pronoun2 = two;
+            if (!three.Equals(""))
+                pronoun3 = three;
         }
 
         #endregion

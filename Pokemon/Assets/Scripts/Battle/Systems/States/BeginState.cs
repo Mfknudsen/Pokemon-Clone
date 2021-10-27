@@ -42,7 +42,10 @@ namespace Mfknudsen.Battle.Systems.States
             }
 
             foreach (BattleMember battleMember in battleStarter.GetAllBattleMembers())
+            {
                 battleMember.GetTeam().Setup();
+                battleMember.Setup();
+            }
 
             spotOversight = manager.GetSpotOversight();
 
@@ -140,7 +143,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 if (battleMember is null || battleMember == playerManager.GetBattleMember()) continue;
 
-                if (battleMember.GetTeamNumber() == playerManager.GetBattleMember().GetTeamNumber())
+                if (battleMember.GetTeamAffiliation() == playerManager.GetBattleMember().GetTeamAffiliation())
                     alliesMsg += ", " + battleMember.GetName();
                 else
                 {

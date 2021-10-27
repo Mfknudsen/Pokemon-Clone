@@ -1,5 +1,6 @@
 using Mfknudsen.Pokémon;
-using UnityEngine;
+using Object = UnityEngine.Object;
+using Type = System.Type;
 
 namespace Mfknudsen.AI.Virtual
 {
@@ -8,6 +9,7 @@ namespace Mfknudsen.AI.Virtual
         private readonly Pokemon pokemon;
         private readonly Pokemon fakePokemon;
         private bool isKnown;
+        public bool isAlly;
 
 
         public VirtualPokemon(Pokemon pokemon)
@@ -23,6 +25,11 @@ namespace Mfknudsen.AI.Virtual
         public Pokemon GetFakePokemon()
         {
             return fakePokemon;
+        }
+
+        public Pokemon GetActualPokemon()
+        {
+            return pokemon;
         }
 
         public bool GetKnown()
@@ -42,10 +49,26 @@ namespace Mfknudsen.AI.Virtual
             isKnown = true;
         }
 
-        public void OnAbilityCheck(Pokemon toCheck)
+        public void OnAbilityTrigger(Pokemon toCheck, Ability ability)
         {
             if (pokemon != toCheck)
                 return;
+
+            try
+            {
+                Ability[] abilities = toCheck.GetAbilities();
+                Type type = ability.GetType();
+                if (abilities[0].GetType() == type)
+                    fakePokemon.SetFirstAbility(ability);
+                else if (abilities[1].GetType() == type)
+                    fakePokemon.SetSecondAbility(ability);
+                else if (abilities[2].GetType() == type)
+                    fakePokemon.SetHiddenAbility(ability);
+            }
+            catch
+            {
+                //Ignore
+            }
         }
 
         #endregion

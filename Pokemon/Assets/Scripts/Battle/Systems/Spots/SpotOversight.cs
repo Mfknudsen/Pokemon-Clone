@@ -63,7 +63,7 @@ namespace Mfknudsen.Battle.Systems.Spots
                     toRemove.Add(spot);
                 else
                 {
-                    if (spot.GetTeamNumber() == 0)
+                    if (spot.GetIsAlly())
                         allies.Add(spot);
                     else
                         enemies.Add(spot);
@@ -89,11 +89,11 @@ namespace Mfknudsen.Battle.Systems.Spots
 
             for (int i = 0; i < allies.Count; i++)
             {
-                if(i > 0)
+                if (i > 0)
                     allies[i].SetLeft(allies[i - 1]);
-                if(i < allies.Count - 1)
+                if (i < allies.Count - 1)
                     allies[i].SetRight(allies[i + 1]);
-                
+
                 allies[i].SetRelations(i + 1, allies.Count, enemies);
             }
 

@@ -1,5 +1,6 @@
-#region SDK
+#region Packages
 
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
 using UnityEngine;
@@ -88,10 +89,15 @@ namespace Mfknudsen.UI
                 case UISelection.Pause:
                     pauseUI.SetActive(true);
                     break;
-                
+
                 case UISelection.Box:
                     break;
             }
+        }
+
+        public void StartTestBattle()
+        {
+            FindObjectOfType<BattleStarter>().StartBattleNow();
         }
 
         #endregion

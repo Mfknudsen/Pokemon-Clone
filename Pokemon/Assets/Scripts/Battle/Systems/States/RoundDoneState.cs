@@ -58,7 +58,7 @@ namespace Mfknudsen.Battle.Systems.States
                 {
                     Spot spotB = spotOversight.GetSpots()[i];
 
-                    if (spotA.GetTeamNumber() == spotB.GetTeamNumber()) continue;
+                    if (spotA.GetIsAlly() == spotB.GetIsAlly()) continue;
 
                     endBattle = false;
 

@@ -1,7 +1,11 @@
+#region Packages
+
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
+
+#endregion
 
 namespace Mfknudsen.AI.Virtual
 {

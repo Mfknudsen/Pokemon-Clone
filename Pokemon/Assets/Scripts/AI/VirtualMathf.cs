@@ -8,6 +8,7 @@ using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
 using Mfknudsen.Weathers;
+using UnityEngine;
 
 #endregion
 
@@ -16,6 +17,32 @@ namespace Mfknudsen.AI
 {
     public static class VirtualMathf
     {
+        public static bool MoveCanHit(BattleAction move, VirtualSpot user, VirtualSpot target)
+        {
+            if (move is PokemonMove pokemonMove)
+            {
+                HitType hitType = pokemonMove.GetHitType();
+                if (hitType == HitType.All)
+                    return true;
+
+                if ((hitType == HitType.One || hitType == HitType.AllAdjacent))
+                {
+                    bool[] targets = pokemonMove.GetTargetable();
+
+                    Pokemon actual = target.virtualPokemon.GetActualPokemon();
+                    if (targets[0] && user.front == actual)
+                        return true;
+                }
+
+                if (hitType == HitType.AllExceptUser && user != target)
+                    return true;
+
+                //TODO Add All
+            }
+
+            return false;
+        }
+
         public static int CalculateVirtualDamage(PokemonMove move, Pokemon user, Pokemon target,
             VirtualBattle virtualBattle)
         {
@@ -35,7 +62,7 @@ namespace Mfknudsen.AI
             result = CalculateVirtualModifiers(user, target, move, virtualBattle)
                 .Aggregate(result, (current, modifier) => current * modifier);
 
-            return (int) result;
+            return (int)result;
         }
 
         // ReSharper disable once ReturnTypeCanBeEnumerable.Local
@@ -60,7 +87,7 @@ namespace Mfknudsen.AI
                 finalModifier.AddRange(pokemon.GetAbilitiesOfType<IFinalModifier>());
             }
 
-            foreach (Weather virtualBattleWeather in virtualBattle.weathers)
+            foreach (Weather virtualBattleWeather in virtualBattle.weathers.Where(virtualBattleWeather => virtualBattleWeather != null))
             {
                 bypassImmune.Add(virtualBattleWeather as IBypassImmune);
                 immuneAttackType.Add(virtualBattleWeather as IImmuneAttackType);
@@ -71,13 +98,17 @@ namespace Mfknudsen.AI
 
             #region Immune
 
-            if ((target.GetTypes().Any(t => t.GetNoEffect(move.GetMoveType().GetTypeName())) ||
-                 immuneAttackType.Any(i => i.MatchType(move.GetMoveType().GetTypeName()))) &&
-                (bypassImmune.Any(b => b.CanEffect(move.GetMoveType().GetTypeName(), defTypes[0].GetTypeName())) ||
-                 (defTypes.Length == 2 &&
-                  bypassImmune.Any(b => b.CanEffect(move.GetMoveType().GetTypeName(), defTypes[1].GetTypeName())))))
+            if (target.GetTypes().Where(t => t != null).Any(t => t.GetNoEffect(move.GetMoveType().GetTypeName())) ||
+                immuneAttackType.Any(i => i.MatchType(move.GetMoveType().GetTypeName())))
             {
-                return new[] {0f};
+                if (bypassImmune.Any(b => b.CanEffect(move.GetMoveType().GetTypeName(), defTypes[0].GetTypeName())))
+                    return new[] { 0f };
+
+                if (defTypes.Length > 1)
+                {
+                    if (bypassImmune.Any(b => b.CanEffect(move.GetMoveType().GetTypeName(), defTypes[1].GetTypeName())))
+                        return new[] { 0f };
+                }
             }
 
             #endregion

@@ -289,6 +289,11 @@ namespace Mfknudsen.Pokémon
             return tutorLearnableMoveValue;
         }
 
+        public Ability[] GetAbilities()
+        {
+            return new[] { firstAbility, secondAbility, hiddenAbility };
+        }
+
         #endregion
 
         #region - In Battle
@@ -405,11 +410,6 @@ namespace Mfknudsen.Pokémon
         #region Setters
 
         #region Pokemon
-
-        public void SetAbility(Ability toSet)
-        {
-            firstAbility = toSet;
-        }
 
         public void SetStat(Stat targetStat, int set)
         {
@@ -571,6 +571,11 @@ namespace Mfknudsen.Pokémon
         public void SetSecondAbility(Ability set)
         {
             secondAbility = set;
+        }
+
+        public void SetHiddenAbility(Ability set)
+        {
+            hiddenAbility = set;
         }
 
         #endregion

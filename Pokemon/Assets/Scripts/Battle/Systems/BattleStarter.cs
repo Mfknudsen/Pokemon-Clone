@@ -6,7 +6,6 @@ using System.Linq;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
-using Mfknudsen.Pokémon;
 using Mfknudsen.World;
 
 #endregion
@@ -96,12 +95,12 @@ namespace Mfknudsen.Battle.Systems
                 yield return null;
 
             List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
-            result[0].SetTeamNumber(0);
+            result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies)
             {
                 if (m == null) continue;
 
-                m.SetTeamNumber(0);
+                m.SetTeamNumber(true);
                 if (!result.Contains(m))
                     result.Add(m);
             }
@@ -110,21 +109,9 @@ namespace Mfknudsen.Battle.Systems
             {
                 if (m == null) continue;
 
-                m.SetTeamNumber(1);
+                m.SetTeamNumber(false);
                 if (!result.Contains(m))
                     result.Add(m);
-            }
-
-            foreach (BattleMember battleMember in result)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    Pokemon pokemon = battleMember.GetTeam().GetPokemonByIndex(i);
-                    
-                    if(pokemon == null) continue;
-                    
-                    //pokemon.ReceiveDamage(Mathf.Infinity);
-                }
             }
 
             BattleManager.instance.StartBattle(this);

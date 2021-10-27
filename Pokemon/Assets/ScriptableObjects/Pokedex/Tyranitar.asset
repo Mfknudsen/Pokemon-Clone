@@ -37,7 +37,7 @@ MonoBehaviour:
   evolutionLevel: 0
   learnedMoves:
   - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 9b5925b9daf5f7340b656f336b0b7bcf, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   levelLearnableMoveKeys: 

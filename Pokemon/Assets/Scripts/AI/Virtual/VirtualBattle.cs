@@ -21,11 +21,10 @@ namespace Mfknudsen.AI.Virtual
             spotOversight = new VirtualSpotOversight();
             BattleManager battleManager = BattleManager.instance;
 
-            foreach (Spot spot in battleManager.GetSpotOversight().GetSpots())
-                spotOversight.spots.Add(new VirtualSpot(spot.GetActivePokemon()));
-
             weathers = new List<Weather>();
-            weathers.AddRange(battleManager.GetWeatherManager().GetAll().Select(Object.Instantiate));
+            weathers.AddRange(battleManager.GetWeatherManager().GetAll()
+                .Where(o => o != null)
+                .Select(Object.Instantiate));
         }
 
         public VirtualBattle(VirtualBattle oldBattle)
@@ -39,10 +38,10 @@ namespace Mfknudsen.AI.Virtual
             foreach (Weather w in oldBattle.weathers.Select(Object.Instantiate))
             {
                 w.TickTurn();
-                
+
                 if (w.EffectDone())
                     continue;
-                
+
                 weathers.Add(w);
             }
         }
