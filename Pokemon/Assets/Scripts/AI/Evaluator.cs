@@ -35,7 +35,7 @@ namespace Mfknudsen.AI
             preValue = 0;
             actions = new List<BattleAction>();
 
-            actions.AddRange(pokemon.GetMoves().Where(a => a != null));
+            actions.AddRange(pokemon.GetMoves().Where(move => move != null));
 
             if (setting.canSwitchOut)
                 actions.Add(BattleManager.instance.InstantiateSwitchAction());
@@ -53,7 +53,7 @@ namespace Mfknudsen.AI
             VirtualPokemon user = userSpot.virtualPokemon;
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (BattleAction battleAction in actions.Where(m => m != null))
+            foreach (BattleAction battleAction in actions.Where(action => action != null))
             {
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (VirtualSpot spot in spotOversight.spots.Where(s =>

@@ -181,21 +181,21 @@ namespace Mfknudsen.Battle.Actions
 
         public void SetNormalContests(int[] set)
         {
-            normalCondition = (Contest)set[0];
+            normalCondition = (Contest) set[0];
             normalAppeal = set[1];
             normalJam = set[2];
         }
 
         public void SetSuperContests(int[] set)
         {
-            superCondition = (Contest)set[0];
+            superCondition = (Contest) set[0];
             superAppeal = set[1];
             superJam = set[2];
         }
 
         public void SetSpectacularContests(int[] set)
         {
-            spectacularCondition = (Contest)set[0];
+            spectacularCondition = (Contest) set[0];
             spectacularAppeal = set[1];
             spectacularJam = set[2];
         }
@@ -316,17 +316,17 @@ namespace Mfknudsen.Battle.Actions
 
         public int[] GetNormalContests()
         {
-            return new[] { (int)normalCondition, normalAppeal, normalJam };
+            return new[] {(int) normalCondition, normalAppeal, normalJam};
         }
 
         public int[] GetSuperContests()
         {
-            return new[] { (int)superCondition, superAppeal, superJam };
+            return new[] {(int) superCondition, superAppeal, superJam};
         }
 
         public int[] GetSpectacularContests()
         {
-            return new[] { (int)spectacularCondition, spectacularAppeal, spectacularJam };
+            return new[] {(int) spectacularCondition, spectacularAppeal, spectacularJam};
         }
 
         public HitType GetHitType()

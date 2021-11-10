@@ -11,13 +11,13 @@ namespace Mfknudsen.AI
     public class PersonalitySetting
     {
         public float aggressionLevel = 1;
-        [SerializeField] private float aggressionIncrease = 0;
+        [SerializeField] private float aggressionIncrease;
 
         public float setupLevel = 1;
-        [SerializeField] private float setupIncrease = 0;
+        [SerializeField] private float setupIncrease;
 
         public float survivalLevel = 1;
-        [SerializeField] private float survivalIncrease = 0;
+        [SerializeField] private float survivalIncrease;
 
         public void Tick()
         {
