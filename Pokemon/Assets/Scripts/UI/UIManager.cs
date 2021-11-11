@@ -3,12 +3,15 @@
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
+using Mfknudsen.UI.Overworld;
 using UnityEngine;
 
 #endregion
 
 namespace Mfknudsen.UI
 {
+    #region Enums
+
     public enum UISelection
     {
         Start,
@@ -18,11 +21,14 @@ namespace Mfknudsen.UI
         Box
     }
 
+    #endregion
+
     public class UIManager : MonoBehaviour
     {
         #region Values
 
         public static UIManager instance;
+        public readonly SightAlertUI SightAlertUI;
 
         [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI;
 
@@ -32,6 +38,8 @@ namespace Mfknudsen.UI
         [SerializeField] private DisplayManager displayManager;
 
         #endregion
+
+        #region Build In States
 
         private void Start()
         {
@@ -43,6 +51,8 @@ namespace Mfknudsen.UI
             else
                 Destroy(this);
         }
+
+        #endregion
 
         #region Getters
 

@@ -14,10 +14,12 @@ namespace Mfknudsen.Battle.Systems
 
         public static OperationManager instance;
         private bool done;
-        
+
         private Queue<OperationsContainer> operationsContainers;
 
         #endregion
+
+        #region Build In State
 
         private void Start()
         {
@@ -26,12 +28,14 @@ namespace Mfknudsen.Battle.Systems
                 instance = this;
 
                 operationsContainers = new Queue<OperationsContainer>();
-                
+
                 StartCoroutine(QueueManager());
             }
             else
                 Destroy(gameObject);
         }
+
+        #endregion
 
         #region Getters
 
@@ -49,6 +53,12 @@ namespace Mfknudsen.Battle.Systems
             done = false;
 
             operationsContainers.Enqueue(set);
+        }
+
+        public void AddAsyncOperationsContainer(OperationsContainer container)
+        {
+            foreach (IEnumerator i in container.GetOperations())
+                StartCoroutine(i);
         }
 
         public void InsertFront(OperationsContainer set)
@@ -77,13 +87,10 @@ namespace Mfknudsen.Battle.Systems
                     done = false;
                     OperationsContainer container = operationsContainers.Dequeue();
 
-                    IEnumerable<IEnumerator> operations = container.GetOperations();
-                    IEnumerable<IOperation> interfaces = container.GetInterfaces();
-
-                    foreach (IEnumerator i in operations)
+                    foreach (IEnumerator i in container.GetOperations())
                         StartCoroutine(i);
 
-                    foreach (IOperation i in interfaces)
+                    foreach (IOperation i in container.GetInterfaces())
                     {
                         while (!i.Done())
                             yield return null;

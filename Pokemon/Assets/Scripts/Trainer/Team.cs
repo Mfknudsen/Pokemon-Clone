@@ -48,6 +48,11 @@ namespace Mfknudsen.Trainer
             return ready;
         }
 
+        public int GetTeamCount()
+        {
+            return pokemons.Count(p => p != null);
+        }
+
         public bool HasMorePokemon()
         {
             // ReSharper disable once LoopCanBeConvertedToQuery

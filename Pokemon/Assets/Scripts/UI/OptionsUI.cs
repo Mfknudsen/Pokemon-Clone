@@ -13,14 +13,6 @@ namespace Mfknudsen.UI
 
         #endregion
 
-        #region Build In State
-
-        private void Awake()
-        {
-        }
-
-        #endregion
-
         #region In
 
         public void ApplySettings()
@@ -51,10 +43,6 @@ namespace Mfknudsen.UI
         }
 
         #endregion
-
-        #endregion
-
-        #region Internal
 
         #endregion
     }

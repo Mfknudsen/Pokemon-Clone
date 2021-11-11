@@ -16,15 +16,16 @@ namespace Mfknudsen.Battle.Systems
     {
         #region Values
 
-        [Header("Battle Reference:")] [SerializeField]
-        private string battleSceneName = "";
+        public delegate void OnBattleEnd();
+
+        public OnBattleEnd onBattleEnd;
+
+        [SerializeField] private string battleSceneName = "";
 
         [SerializeField] private int playerSpotCount = 1;
         [SerializeField] private BattleMember[] allies;
         [SerializeField] private BattleMember[] enemies;
         [SerializeField] private Chat onStartChat;
-
-        [Header("Before/After:")] private Dictionary<GameObject, bool> checkList = new Dictionary<GameObject, bool>();
 
         private void OnValidate()
         {
@@ -83,10 +84,9 @@ namespace Mfknudsen.Battle.Systems
         {
             WorldManager.instance.UnloadCurrentBattleScene();
 
-            foreach (GameObject key in checkList.Keys)
-                key.SetActive(checkList[key]);
-
             Debug.Log(playerVictory ? "You Win!" : "You Lose!");
+
+            onBattleEnd?.Invoke();
         }
 
         private IEnumerator WaitForResponse()

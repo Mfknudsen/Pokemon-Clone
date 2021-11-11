@@ -123,6 +123,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: bc97d27167a530842afad0ea83248c58, type: 2}
+--- !u!1 &174299618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174299619}
+  m_Layer: 0
+  m_Name: Interactables
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &174299619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174299618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &260882554
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +479,8 @@ GameObject:
   - component: {fileID: 1084440607}
   - component: {fileID: 1084440606}
   - component: {fileID: 1084440605}
+  - component: {fileID: 1084440609}
+  - component: {fileID: 1084440610}
   m_Layer: 0
   m_Name: NPC_Base
   m_TagString: Untagged
@@ -483,17 +515,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberName: 
-  isPlayer: 0
-  ai: {fileID: 0}
-  inventory: {fileID: 1084440606}
-  pokemonTeam: {fileID: 1084440607}
-  teamNumber: 1
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  memberName: Test Enemy
+  isAlly: 0
   spotsToOwn: 1
-  hasAllSpots: 0
-  owndSpots: []
-  selectMove: 0
-  hasSelectedMove: 0
+  isPlayer: 0
+  isWild: 0
+  evaluatorSettings: []
+  useDefaultPersonalitySetting: 1
+  personalitySetting:
+    aggressionLevel: 1
+    aggressionIncrease: 0
+    setupLevel: 1
+    setupIncrease: 0
+    survivalLevel: 1
+    survivalIncrease: 0
 --- !u!114 &1084440606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6215533ab38fb242aa22af8907bbf21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
   medicine: 
   balls: 
   battle: 
@@ -551,6 +594,44 @@ MonoBehaviour:
   allies: []
   enemies: []
   onStartChat: {fileID: 0}
+--- !u!114 &1084440609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084440603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8781e59f46dce0141afaf0339909c1f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  state: {fileID: 0}
+--- !u!114 &1084440610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084440603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a70e41d8ca74b84c87efcc244d5ee65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertType: {fileID: 0}
+  povAngel: 60
+  origin: {fileID: 0}
+  distance: 5
 --- !u!1 &1093493497
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +728,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093493497}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1256295524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1256295525}
+  m_Layer: 0
+  m_Name: NPCs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1256295525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256295524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1301770412
 GameObject:
   m_ObjectHideFlags: 0
