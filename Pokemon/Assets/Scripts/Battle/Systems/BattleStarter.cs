@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,10 @@ namespace Mfknudsen.Battle.Systems
 
         private void OnValidate()
         {
-            playerSpotCount = Mathf.Clamp(playerSpotCount, 1, 3);
+#if UNITY_EDITOR
+            if (!(playerSpotCount >= 1 && playerSpotCount <= 3))
+                Debug.LogError("Player Spot Count Must Be Between 1 and 3");
+#endif
         }
 
         #endregion
@@ -63,7 +67,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetBattleMember() };
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -75,6 +79,8 @@ namespace Mfknudsen.Battle.Systems
 
         public void StartBattleNow()
         {
+            
+            
             WorldManager.instance.LoadBattleScene(battleSceneName);
 
             StartCoroutine(WaitForResponse());
@@ -94,21 +100,17 @@ namespace Mfknudsen.Battle.Systems
             while (BattleManager.instance == null)
                 yield return null;
 
-            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetComponent<BattleMember>()};
             result[0].SetTeamNumber(true);
-            foreach (BattleMember m in allies)
+            foreach (BattleMember m in allies.Where(m => m != null))
             {
-                if (m == null) continue;
-
                 m.SetTeamNumber(true);
                 if (!result.Contains(m))
                     result.Add(m);
             }
 
-            foreach (BattleMember m in enemies)
+            foreach (BattleMember m in enemies.Where(m => m != null))
             {
-                if (m == null) continue;
-
                 m.SetTeamNumber(false);
                 if (!result.Contains(m))
                     result.Add(m);
@@ -118,7 +120,7 @@ namespace Mfknudsen.Battle.Systems
 
             Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatManager.instance.Add(new[] { toSend });
+            ChatManager.instance.Add(new[] {toSend});
         }
 
         #endregion

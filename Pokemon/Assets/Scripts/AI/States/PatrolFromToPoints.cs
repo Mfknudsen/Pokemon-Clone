@@ -3,7 +3,6 @@
 using System;
 using System.Linq;
 using Mfknudsen.AI.States.Required;
-using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
