@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player;
-using Mfknudsen.UI;
+using Mfknudsen.UI.Overworld;
 using Mfknudsen.UI.Overworld.Sight_Alerts;
 using UnityEngine;
 
@@ -48,14 +48,14 @@ namespace Mfknudsen.AI
         {
             if (!other.CompareTag("Player")) return;
 
-            UIManager.instance.SightAlertUI.EnableAlert(alertType);
+            SightAlertUI.instance.EnableAlert(alertType);
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
 
-            UIManager.instance.SightAlertUI.DisableAlert(alertType);
+            SightAlertUI.instance.DisableAlert(alertType);
         }
 
         #endregion

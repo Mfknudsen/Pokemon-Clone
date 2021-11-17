@@ -1,10 +1,23 @@
-using System.Collections;
-using Mfknudsen.Battle.Systems;
+using System;
 using UnityEngine;
 
-namespace Mfknudsen.UI
+namespace Mfknudsen.UI.Scene_Transitions
 {
     public class SceneTransitionUI : MonoBehaviour
     {
+        public static SceneTransitionUI instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            else
+                Destroy(gameObject);
+        }
+
+        public GameObject InstantiateObject(GameObject obj)
+        {
+            return Instantiate(obj, transform);
+        }
     }
 }

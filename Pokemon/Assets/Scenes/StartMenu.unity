@@ -197,6 +197,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &463808094 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4202385408638310853, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
+  m_PrefabInstance: {fileID: 5921889009356311267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &618627350 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5921889009668143755, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
@@ -526,6 +531,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 1480210386}
   onStartChat: {fileID: 11400000, guid: 6a86379a12a16e440bb6102f612ce7d3, type: 2}
+  transition: {fileID: 11400000, guid: 448d565c65325c54a9892543f221932f, type: 2}
 --- !u!114 &1480210386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +553,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  memberName: 
+  memberName: Test Trainer
   isAlly: 0
   spotsToOwn: 1
   isPlayer: 0
@@ -775,7 +781,7 @@ PrefabInstance:
     - target: {fileID: 5921889010023028678, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: animController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 463808094}
     - target: {fileID: 5921889010023028678, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: playerTransform
       value: 

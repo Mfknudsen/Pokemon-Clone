@@ -1,71 +1,50 @@
 #region Packages
 
 using System.Collections;
-using System.Linq;
-using Mfknudsen.Battle.Systems;
 using UnityEngine;
 
+// ReSharper disable Unity.PreferAddressByIdToGraphicsParams
 // ReSharper disable ParameterHidesMember
 
 #endregion
 
 namespace Mfknudsen.UI.Scene_Transitions.Transitions
 {
-    public abstract class Transition : ScriptableObject, IOperation
+    public abstract class Transition : ScriptableObject
     {
         #region Values
 
-        private SceneTransitionUI transitionUI;
-        protected bool toCover;
-        protected bool done;
+        protected SceneTransitionUI transitionUI;
+
+        #endregion
+
+        #region Setters
+
+        public void SetTransitionParent(SceneTransitionUI transitionUI)
+        {
+            this.transitionUI = transitionUI;
+        }
 
         #endregion
 
         #region In
 
-        public virtual void Trigger(SceneTransitionUI transitionUI, bool toCover)
+        // ReSharper disable once IdentifierTypo
+        public static void SetAnimationBools(Animator animator, bool start)
         {
-            this.transitionUI = transitionUI;
-            this.toCover = toCover;
-            done = false;
-        }
-
-        #region IOperation
-
-        public bool Done()
-        {
-            return done;
-        }
-
-        public abstract IEnumerator Operation();
-
-        public virtual void End()
-        {
+            animator.SetBool("Start", start);
+            animator.SetBool("End", !start);
         }
 
         #endregion
 
-        #endregion
+        #region Out
 
-        #region Internal
+        public abstract IEnumerator Trigger(bool start);
 
-        public static float GetTimeOfClipByName(Animator anim, string name)
+        public static float GetTimeOfClipByName(Animator anim)
         {
-            try
-            {
-                return anim.runtimeAnimatorController.animationClips
-                    .First(clip => clip.name == name).length;
-            }
-            catch
-            {
-                Debug.LogError("Animator Doesnt Contain Clip Of Name: " + name);
-                return 0;
-            }
-        }
-
-        protected GameObject SpawnGameObject(GameObject gameObject)
-        {
-            return Instantiate(gameObject, transitionUI.transform);
+            return anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         }
 
         #endregion

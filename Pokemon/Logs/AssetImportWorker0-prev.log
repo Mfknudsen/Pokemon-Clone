@@ -1,125 +1,125 @@
 Using pre-set license
 Built from '2020.3/staging' branch; Version is '2020.3.20f1 (41c4e627c95f) revision 4310246'; Using compiler version '192528614'; Build Type 'Release'
-OS: 'Windows 10 Pro; OS build 19043.1288; Version 2009; 64bit' Language: 'en' Physical Memory: 32686 MB
+OS: 'Windows 10 Home; OS build 19042.1288; Version 2009; 64bit' Language: 'da' Physical Memory: 15741 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
 
 COMMAND LINE ARGUMENTS:
-D:\Unity\Editor\2020.3.20f1\Editor\Unity.exe
+C:\Program Files\Unity\Hub\Editor\2020.3.20f1\Editor\Unity.exe
 -adb2
 -batchMode
 -noUpm
 -name
 AssetImportWorker0
 -projectPath
-D:/GitHub/Pokemon-Clone/Pokemon
+C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-53783
-Successfully changed project path to: D:/GitHub/Pokemon-Clone/Pokemon
-D:/GitHub/Pokemon-Clone/Pokemon
+58411
+Successfully changed project path to: C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon
+C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 55.94 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 84.62 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.3.20f1 (41c4e627c95f)
-[Subsystems] Discovering subsystems at path D:/Unity/Editor/2020.3.20f1/Editor/Data/Resources/UnitySubsystems
-[Subsystems] Discovering subsystems at path D:/GitHub/Pokemon-Clone/Pokemon/Assets
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Mads T.F. Knudsen/Documents/GitHub/Pokemon-Clone/Pokemon/Assets
 GfxDevice: creating device client; threaded=0
 Direct3D:
     Version:  Direct3D 11.0 [level 11.1]
-    Renderer: NVIDIA GeForce RTX 2080 SUPER (ID=0x1e81)
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1f15)
     Vendor:   
-    VRAM:     8010 MB
-    Driver:   27.21.14.5671
+    VRAM:     5980 MB
+    Driver:   30.0.14.7111
 Initialize mono
-Mono path[0] = 'D:/Unity/Editor/2020.3.20f1/Editor/Data/Managed'
-Mono path[1] = 'D:/Unity/Editor/2020.3.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
-Mono config path = 'D:/Unity/Editor/2020.3.20f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56252
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56936
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
-Register platform support module: D:/Unity/Editor/2020.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.000830 seconds.
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001604 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 53.19 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 87.34 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.673 seconds
+- Completed reload, in  0.974 seconds
 Domain Reload Profiling:
-	ReloadAssembly (673ms)
-		BeginReloadAssembly (42ms)
+	ReloadAssembly (974ms)
+		BeginReloadAssembly (44ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
-		EndReloadAssembly (335ms)
-			LoadAssemblies (41ms)
+		EndReloadAssembly (420ms)
+			LoadAssemblies (43ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (123ms)
+			SetupTypeCache (135ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (22ms)
-			SetupLoadedEditorAssemblies (143ms)
+			RebuildScriptCaches (27ms)
+			SetupLoadedEditorAssemblies (196ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (53ms)
-				BeforeProcessingInitializeOnLoad (9ms)
-				ProcessInitializeOnLoadAttributes (58ms)
-				ProcessInitializeOnLoadMethodAttributes (20ms)
+				RefreshPlugins (87ms)
+				BeforeProcessingInitializeOnLoad (11ms)
+				ProcessInitializeOnLoadAttributes (69ms)
+				ProcessInitializeOnLoadMethodAttributes (24ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.003884 seconds.
+Registered in 0.008579 seconds.
 Begin MonoManager ReloadAssembly
 Script error (PatrolFromToPoints): Start() can not take parameters.
 Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 52.83 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 89.81 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.408 seconds
+- Completed reload, in  3.068 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1409ms)
-		BeginReloadAssembly (104ms)
+	ReloadAssembly (3069ms)
+		BeginReloadAssembly (137ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (12ms)
-		EndReloadAssembly (1263ms)
-			LoadAssemblies (68ms)
+			CreateAndSetChildDomain (23ms)
+		EndReloadAssembly (2869ms)
+			LoadAssemblies (103ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (282ms)
+			SetupTypeCache (375ms)
 			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (49ms)
-			SetupLoadedEditorAssemblies (781ms)
+			RebuildScriptCaches (67ms)
+			SetupLoadedEditorAssemblies (2200ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (3ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (53ms)
-				BeforeProcessingInitializeOnLoad (56ms)
-				ProcessInitializeOnLoadAttributes (601ms)
-				ProcessInitializeOnLoadMethodAttributes (67ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				RefreshPlugins (90ms)
+				BeforeProcessingInitializeOnLoad (77ms)
+				ProcessInitializeOnLoadAttributes (936ms)
+				ProcessInitializeOnLoadMethodAttributes (1088ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3769 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 169.8 MB.
-System memory in use after: 169.9 MB.
+Unloading 3817 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 172.8 MB.
+System memory in use after: 172.8 MB.
 
-Unloading 32 unused Assets to reduce memory usage. Loaded Objects now: 4279.
-Total: 20.912400 ms (FindLiveObjects: 0.322400 ms CreateObjectMapping: 0.152400 ms MarkObjects: 20.366700 ms  DeleteObjects: 0.069900 ms)
+Unloading 34 unused Assets to reduce memory usage. Loaded Objects now: 4354.
+Total: 31.981900 ms (FindLiveObjects: 0.547400 ms CreateObjectMapping: 0.245000 ms MarkObjects: 31.082300 ms  DeleteObjects: 0.104600 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -128,121 +128,306 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  path: Assets/InteractIcon.cs
-  artifactKey: Guid(0170b3d9e1265e84aa689b493cd0b0cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/InteractIcon.cs using Guid(0170b3d9e1265e84aa689b493cd0b0cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e0872d75d9a0b8b783d45053df5b6b97') in 0.023513 seconds 
-  Import took 0.028000 seconds .
+  path: Assets/ScriptableObjects/UI/Standard Alert.asset
+  artifactKey: Guid(8a1c89a66424b8b4f9e857473ecb1500) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Standard Alert.asset using Guid(8a1c89a66424b8b4f9e857473ecb1500) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71b1e4f2e4fcfd944bf5e8dd80ed5a06') in 0.037074 seconds 
+  Import took 0.043785 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000356 seconds.
+  path: Assets/ScriptableObjects/UI
+  artifactKey: Guid(cadeb1ee22f3b664aba5212209463b3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI using Guid(cadeb1ee22f3b664aba5212209463b3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1b19d71e09324cae54ae28fba79da76f') in 0.006636 seconds 
+  Import took 0.013381 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 20.809106 seconds.
+  path: Assets/ScriptableObjects/UI/Alerts
+  artifactKey: Guid(8423ab2ab45a7ac47addb0f4e9fcbce7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Alerts using Guid(8423ab2ab45a7ac47addb0f4e9fcbce7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1540e1ebfb4aa407a11f6dfa0900ae2d') in 0.009264 seconds 
+  Import took 0.018003 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.960746 seconds.
+  path: Assets/ScriptableObjects/UI/Transitions
+  artifactKey: Guid(aeee89e6122b3a74ca1ac00feaef9b71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Transitions using Guid(aeee89e6122b3a74ca1ac00feaef9b71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46682f26a1c09901a31f62e64b97aff5') in 0.008953 seconds 
+  Import took 0.015843 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 29.525869 seconds.
+  path: Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset
+  artifactKey: Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset using Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '99a33bd1074461cd9f3efd4684119f20') in 0.006709 seconds 
+  Import took 0.013570 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.723399 seconds.
+  path: Assets/Prefabs/UI
+  artifactKey: Guid(33784b9fa37e95841a6b2d0648a5a95b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI using Guid(33784b9fa37e95841a6b2d0648a5a95b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '710cae320da4188c171180a8d275df4c') in 0.007458 seconds 
+  Import took 0.014393 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.230553 seconds.
+  path: Assets/Prefabs/UI/Transition
+  artifactKey: Guid(dc8baeb09409e3940b9254594b8c1937) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transition using Guid(dc8baeb09409e3940b9254594b8c1937) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c87e71e58a925505f71931ec6f47808') in 0.007458 seconds 
+  Import took 0.015038 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.476577 seconds.
+  path: Assets/Prefabs/UI/Transitions
+  artifactKey: Guid(dc8baeb09409e3940b9254594b8c1937) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions using Guid(dc8baeb09409e3940b9254594b8c1937) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a79f7031437290dc4cceeb760fa1baef') in 0.002648 seconds 
+  Import took 0.009766 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.273852 seconds.
+  path: Assets/Prefabs/UI/Transitions/Basic Transition.prefab
+  artifactKey: Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions/Basic Transition.prefab using Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a829085f9bdea3065965a4f49fc161bc') in 0.019349 seconds 
+  Import took 0.027210 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 19.904977 seconds.
+  path: Assets/Animation
+  artifactKey: Guid(baca1bdbf9cff154da91dea53a89e49e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation using Guid(baca1bdbf9cff154da91dea53a89e49e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c2435ef0a5b59df1c21c3220c5d553d') in 0.006633 seconds 
+  Import took 0.025388 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.672258 seconds.
+  path: Assets/Animation/UI
+  artifactKey: Guid(4dbac5eaec6b53249a6f6e91eae42416) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI using Guid(4dbac5eaec6b53249a6f6e91eae42416) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd84c91c9f16a3d8ab751ca3e48b24edd') in 0.002748 seconds 
+  Import took 0.009166 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.525082 seconds.
+  path: Assets/Animation/UI/Transitions
+  artifactKey: Guid(c4c07a82449f5ac4ca0c4d83c3fdbf17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions using Guid(c4c07a82449f5ac4ca0c4d83c3fdbf17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '73a3759a39bf9f5b7976503d3b5ff7a1') in 0.002654 seconds 
+  Import took 0.009520 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 13.779441 seconds.
+  path: Assets/Animation/UI/Transitions/Basic Transition.controller
+  artifactKey: Guid(ebf5390039c525545b322f10c1ab9f24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions/Basic Transition.controller using Guid(ebf5390039c525545b322f10c1ab9f24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '38982c7f4c82db5a6f6dc7b7763e56df') in 0.005539 seconds 
+  Import took 0.012396 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 502.841175 seconds.
+  path: Assets/Animation/UI/Transitions/Basic Crossfade Transition.controller
+  artifactKey: Guid(ebf5390039c525545b322f10c1ab9f24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions/Basic Crossfade Transition.controller using Guid(ebf5390039c525545b322f10c1ab9f24) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '888b6a30146bfca9c83d8525fd37babe') in 0.007796 seconds 
+  Import took 0.017367 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 32.621849 seconds.
+  path: Assets/_Packages/ParadoxNotion/NodeCanvas/Modules/DialogueTrees/DialogueGUI/@DialogueUGUI.prefab
+  artifactKey: Guid(ea4f45f1433c2404197edc445210b679) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/ParadoxNotion/NodeCanvas/Modules/DialogueTrees/DialogueGUI/@DialogueUGUI.prefab using Guid(ea4f45f1433c2404197edc445210b679) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe51bf018d1fa34b98635d559267322d') in 0.048071 seconds 
+  Import took 0.054598 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000335 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_6_Line01.prefab
+  artifactKey: Guid(697a661b4806e483caf1b07ed818eceb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_6_Line01.prefab using Guid(697a661b4806e483caf1b07ed818eceb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '117204aea0beef54f7ad8af0ca02673d') in 0.114027 seconds 
+  Import took 0.121102 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000271 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_5_Table.prefab
+  artifactKey: Guid(57bd77045f75944639dc1955e2731201) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_5_Table.prefab using Guid(57bd77045f75944639dc1955e2731201) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd15a7f4838cb96efd50374ad619bea23') in 0.052769 seconds 
+  Import took 0.059328 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.428610 seconds.
+  path: Assets/Prefabs/UI/Transitions/Basic Transition.prefab
+  artifactKey: Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions/Basic Transition.prefab using Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '378cbb535423163325efa0b0fc82e295') in 0.005604 seconds 
+  Import took 0.011290 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000256 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Idles/BasicMotions@Idle01.fbx
+  artifactKey: Guid(a3422ad278cd9a94aa3da8e6bff9deea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Idles/BasicMotions@Idle01.fbx using Guid(a3422ad278cd9a94aa3da8e6bff9deea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ead64685bec5720ea15a694562620ae8') in 0.061110 seconds 
+  Import took 0.068132 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000343 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Idles/BasicMotions@Idle02.fbx
+  artifactKey: Guid(69d59c13a83a7c74a8cc0607ded391ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Idles/BasicMotions@Idle02.fbx using Guid(69d59c13a83a7c74a8cc0607ded391ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3dc3c12b903080a618aa35e9b66a22c6') in 0.018338 seconds 
+  Import took 0.025042 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000290 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Jump01.fbx
+  artifactKey: Guid(067cc188e25b78b4a940a9fa67cd6ee7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Jump01.fbx using Guid(067cc188e25b78b4a940a9fa67cd6ee7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87c7a5aba59bdb0a975c10521ccd18d6') in 0.018102 seconds 
+  Import took 0.026047 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000304 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Run01 [RM].fbx
+  artifactKey: Guid(154a724602422044c91070a5f3c67c11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Run01 [RM].fbx using Guid(154a724602422044c91070a5f3c67c11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f00ec9cf88ef01dea382cd1107f6c1e9') in 0.021050 seconds 
+  Import took 0.028819 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000283 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Sprint01 [RM].fbx
+  artifactKey: Guid(7eebd174ff53112419b27f9d903573d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Sprint01 [RM].fbx using Guid(7eebd174ff53112419b27f9d903573d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2fe562bce5adf2df85b76d5a369d43a9') in 0.019064 seconds 
+  Import took 0.025782 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000310 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Sprint01.fbx
+  artifactKey: Guid(98d8219075968bd43b75fdba6b4463d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Sprint01.fbx using Guid(98d8219075968bd43b75fdba6b4463d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f92184e94fb231b62f5e2c610edbd9da') in 0.021575 seconds 
+  Import took 0.029055 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000296 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Run01.fbx
+  artifactKey: Guid(46d5b47e60163f148ada32ff97c7aa32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Run01.fbx using Guid(46d5b47e60163f148ada32ff97c7aa32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39cc96b43eb47172d1d917299cdd0c58') in 0.021994 seconds 
+  Import took 0.029720 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 24.892236 seconds.
+  path: Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab
+  artifactKey: Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab using Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '161635974f3d46b8017ee824f592e418') in 0.005567 seconds 
+  Import took 0.013973 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 29.098617 seconds.
+  path: Assets/Scenes/UI.unity
+  artifactKey: Guid(22a90c416a0f29f4da546e6b3fe2dafa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/UI.unity using Guid(22a90c416a0f29f4da546e6b3fe2dafa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fa31adb25b198425e59deef8cf1c8c33') in 0.007551 seconds 
+  Import took 0.026550 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 289.178669 seconds.
+  path: Assets/Animation/UI/Transitions/Basic Crossfade Transition.anim
+  artifactKey: Guid(76db6124c9a83344ca56342baf13e89e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions/Basic Crossfade Transition.anim using Guid(76db6124c9a83344ca56342baf13e89e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb1f477db9c38e396c9a4540466c483f') in 0.006248 seconds 
+  Import took 0.013782 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 15.165951 seconds.
+  path: Assets/Animation/UI/Transitions/Basic Crossfade Transition End.anim
+  artifactKey: Guid(76db6124c9a83344ca56342baf13e89e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions/Basic Crossfade Transition End.anim using Guid(76db6124c9a83344ca56342baf13e89e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '49c5a1afdd98b58fae97f10adae536e0') in 0.008107 seconds 
+  Import took 0.015130 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 273.271123 seconds.
+  path: Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab
+  artifactKey: Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab using Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e7a507a12ceb9bea9fdff2c8be44b62a') in 0.006256 seconds 
+  Import took 0.025023 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 34.316822 seconds.
+  path: Assets/Animation/UI/Transitions/Basic Crossfade Transition Start.anim
+  artifactKey: Guid(63b3c045ff8e5f24ebff32559598a73d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animation/UI/Transitions/Basic Crossfade Transition Start.anim using Guid(63b3c045ff8e5f24ebff32559598a73d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b6404df7e41c05df02e3cdff3f4a3c4d') in 0.009212 seconds 
+  Import took 0.016112 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003702 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.278 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1279ms)
-		BeginReloadAssembly (99ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (4ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (40ms)
-		EndReloadAssembly (1139ms)
-			LoadAssemblies (69ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (278ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (681ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (540ms)
-				ProcessInitializeOnLoadMethodAttributes (81ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
-Platform modules already initialized, skipping
+Registered in 0.012731 seconds.
 Script error (PatrolFromToPoints): Start() can not take parameters.
 Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3672 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.0 MB.
-System memory in use after: 180.3 MB.
-
-Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 4263.
-Total: 20.649700 ms (FindLiveObjects: 0.281900 ms CreateObjectMapping: 0.136000 ms MarkObjects: 20.109500 ms  DeleteObjects: 0.121100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003749 seconds.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.07 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.280 seconds
+- Completed reload, in  2.867 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1281ms)
-		BeginReloadAssembly (99ms)
+	ReloadAssembly (2867ms)
+		BeginReloadAssembly (145ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (4ms)
+			DisableScriptedObjects (5ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (41ms)
-		EndReloadAssembly (1141ms)
-			LoadAssemblies (67ms)
+			CreateAndSetChildDomain (60ms)
+		EndReloadAssembly (2658ms)
+			LoadAssemblies (92ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (279ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (685ms)
+			SetupTypeCache (404ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (62ms)
+			SetupLoadedEditorAssemblies (1994ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (542ms)
-				ProcessInitializeOnLoadMethodAttributes (82ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (96ms)
+				ProcessInitializeOnLoadAttributes (919ms)
+				ProcessInitializeOnLoadMethodAttributes (967ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (4ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.8 MB.
-System memory in use after: 181.0 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.8 MB.
+System memory in use after: 193.0 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4265.
-Total: 20.804200 ms (FindLiveObjects: 0.281500 ms CreateObjectMapping: 0.156100 ms MarkObjects: 20.337400 ms  DeleteObjects: 0.028000 ms)
+Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 4358.
+Total: 31.580300 ms (FindLiveObjects: 0.413900 ms CreateObjectMapping: 0.110700 ms MarkObjects: 31.004100 ms  DeleteObjects: 0.048200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -251,346 +436,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003848 seconds.
+Registered in 0.007765 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.301 seconds
+- Completed reload, in  2.858 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1301ms)
-		BeginReloadAssembly (100ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (39ms)
-		EndReloadAssembly (1161ms)
-			LoadAssemblies (68ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (274ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (710ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (56ms)
-				ProcessInitializeOnLoadAttributes (568ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
-Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.8 MB.
-System memory in use after: 181.1 MB.
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4267.
-Total: 20.712100 ms (FindLiveObjects: 0.281500 ms CreateObjectMapping: 0.133400 ms MarkObjects: 20.268900 ms  DeleteObjects: 0.027200 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003691 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.300 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1301ms)
-		BeginReloadAssembly (98ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (40ms)
-		EndReloadAssembly (1161ms)
-			LoadAssemblies (71ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (283ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (33ms)
-			SetupLoadedEditorAssemblies (697ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (57ms)
-				ProcessInitializeOnLoadAttributes (561ms)
-				ProcessInitializeOnLoadMethodAttributes (73ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (4ms)
-Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.62 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.8 MB.
-System memory in use after: 181.1 MB.
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4269.
-Total: 20.840700 ms (FindLiveObjects: 0.260900 ms CreateObjectMapping: 0.131000 ms MarkObjects: 20.419900 ms  DeleteObjects: 0.027900 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003690 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.58 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.276 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1276ms)
-		BeginReloadAssembly (105ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (40ms)
-		EndReloadAssembly (1131ms)
-			LoadAssemblies (66ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (275ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (681ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (541ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
-Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.8 MB.
-System memory in use after: 181.1 MB.
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4271.
-Total: 20.752200 ms (FindLiveObjects: 0.300700 ms CreateObjectMapping: 0.145600 ms MarkObjects: 20.279400 ms  DeleteObjects: 0.025500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003718 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.302 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1302ms)
-		BeginReloadAssembly (106ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (39ms)
-		EndReloadAssembly (1156ms)
-			LoadAssemblies (67ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (276ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (31ms)
-			SetupLoadedEditorAssemblies (705ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (563ms)
-				ProcessInitializeOnLoadMethodAttributes (83ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (4ms)
-Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4273.
-Total: 20.751200 ms (FindLiveObjects: 0.281000 ms CreateObjectMapping: 0.142900 ms MarkObjects: 20.300700 ms  DeleteObjects: 0.025500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003715 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.250 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1250ms)
-		BeginReloadAssembly (100ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1108ms)
-			LoadAssemblies (70ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (271ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (660ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (522ms)
-				ProcessInitializeOnLoadMethodAttributes (78ms)
-				AfterProcessingInitializeOnLoad (2ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
-Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.58 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4275.
-Total: 20.572200 ms (FindLiveObjects: 0.291000 ms CreateObjectMapping: 0.146700 ms MarkObjects: 20.108100 ms  DeleteObjects: 0.025400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003784 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.293 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1293ms)
-		BeginReloadAssembly (103ms)
+	ReloadAssembly (2858ms)
+		BeginReloadAssembly (143ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (37ms)
-		EndReloadAssembly (1148ms)
-			LoadAssemblies (68ms)
+			CreateAndSetChildDomain (61ms)
+		EndReloadAssembly (2646ms)
+			LoadAssemblies (89ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (278ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (33ms)
-			SetupLoadedEditorAssemblies (692ms)
+			SetupTypeCache (343ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (60ms)
+			SetupLoadedEditorAssemblies (2057ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (552ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (92ms)
+				ProcessInitializeOnLoadAttributes (947ms)
+				ProcessInitializeOnLoadMethodAttributes (1000ms)
+				AfterProcessingInitializeOnLoad (11ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (7ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.65 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.1 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4277.
-Total: 21.528300 ms (FindLiveObjects: 0.291200 ms CreateObjectMapping: 0.159300 ms MarkObjects: 21.052700 ms  DeleteObjects: 0.023900 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4360.
+Total: 33.201400 ms (FindLiveObjects: 0.516300 ms CreateObjectMapping: 0.265100 ms MarkObjects: 32.380900 ms  DeleteObjects: 0.036800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -599,56 +497,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003798 seconds.
+Registered in 0.008152 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.267 seconds
+- Completed reload, in  2.756 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1267ms)
-		BeginReloadAssembly (95ms)
+	ReloadAssembly (2756ms)
+		BeginReloadAssembly (144ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1131ms)
-			LoadAssemblies (68ms)
+			CreateAndSetChildDomain (66ms)
+		EndReloadAssembly (2546ms)
+			LoadAssemblies (90ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (270ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (685ms)
+			SetupTypeCache (350ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (61ms)
+			SetupLoadedEditorAssemblies (1950ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (548ms)
-				ProcessInitializeOnLoadMethodAttributes (78ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (93ms)
+				ProcessInitializeOnLoadAttributes (811ms)
+				ProcessInitializeOnLoadMethodAttributes (1033ms)
+				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (7ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.1 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4279.
-Total: 20.569500 ms (FindLiveObjects: 0.298500 ms CreateObjectMapping: 0.148900 ms MarkObjects: 20.095600 ms  DeleteObjects: 0.025600 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4362.
+Total: 31.989000 ms (FindLiveObjects: 0.513100 ms CreateObjectMapping: 0.194900 ms MarkObjects: 31.241200 ms  DeleteObjects: 0.037800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -657,56 +558,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003622 seconds.
+Registered in 0.009233 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.257 seconds
+- Completed reload, in  2.744 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1257ms)
-		BeginReloadAssembly (96ms)
+	ReloadAssembly (2745ms)
+		BeginReloadAssembly (137ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1120ms)
-			LoadAssemblies (66ms)
+			CreateAndSetChildDomain (63ms)
+		EndReloadAssembly (2549ms)
+			LoadAssemblies (90ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (268ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (680ms)
+			SetupTypeCache (354ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (65ms)
+			SetupLoadedEditorAssemblies (1939ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (539ms)
-				ProcessInitializeOnLoadMethodAttributes (81ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (102ms)
+				ProcessInitializeOnLoadAttributes (855ms)
+				ProcessInitializeOnLoadMethodAttributes (969ms)
+				AfterProcessingInitializeOnLoad (6ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (4ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.16 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4281.
-Total: 19.467600 ms (FindLiveObjects: 0.277000 ms CreateObjectMapping: 0.133100 ms MarkObjects: 19.031800 ms  DeleteObjects: 0.024900 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4364.
+Total: 32.437200 ms (FindLiveObjects: 0.400500 ms CreateObjectMapping: 0.141300 ms MarkObjects: 31.845700 ms  DeleteObjects: 0.047100 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -715,56 +619,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003685 seconds.
+Registered in 0.008034 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.05 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.253 seconds
+- Completed reload, in  2.639 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1253ms)
-		BeginReloadAssembly (93ms)
+	ReloadAssembly (2640ms)
+		BeginReloadAssembly (140ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (37ms)
-		EndReloadAssembly (1119ms)
-			LoadAssemblies (66ms)
+			CreateAndSetChildDomain (61ms)
+		EndReloadAssembly (2439ms)
+			LoadAssemblies (94ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (268ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (678ms)
+			SetupTypeCache (339ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (62ms)
+			SetupLoadedEditorAssemblies (1851ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (5ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (540ms)
-				ProcessInitializeOnLoadMethodAttributes (78ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (94ms)
+				ProcessInitializeOnLoadAttributes (847ms)
+				ProcessInitializeOnLoadMethodAttributes (899ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4283.
-Total: 22.299000 ms (FindLiveObjects: 0.272600 ms CreateObjectMapping: 0.119800 ms MarkObjects: 21.877800 ms  DeleteObjects: 0.027100 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4366.
+Total: 30.896800 ms (FindLiveObjects: 0.376100 ms CreateObjectMapping: 0.123500 ms MarkObjects: 30.356000 ms  DeleteObjects: 0.039200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -773,56 +680,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003765 seconds.
+Registered in 0.007956 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.307 seconds
+- Completed reload, in  2.640 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1308ms)
-		BeginReloadAssembly (96ms)
+	ReloadAssembly (2640ms)
+		BeginReloadAssembly (124ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1168ms)
-			LoadAssemblies (68ms)
+			CreateAndSetChildDomain (55ms)
+		EndReloadAssembly (2457ms)
+			LoadAssemblies (89ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (283ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (33ms)
-			SetupLoadedEditorAssemblies (706ms)
+			SetupTypeCache (350ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (62ms)
+			SetupLoadedEditorAssemblies (1860ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (556ms)
-				ProcessInitializeOnLoadMethodAttributes (89ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (94ms)
+				ProcessInitializeOnLoadAttributes (826ms)
+				ProcessInitializeOnLoadMethodAttributes (928ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.62 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.98 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4285.
-Total: 20.847000 ms (FindLiveObjects: 0.314700 ms CreateObjectMapping: 0.140700 ms MarkObjects: 20.361700 ms  DeleteObjects: 0.029100 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4368.
+Total: 32.475800 ms (FindLiveObjects: 0.380600 ms CreateObjectMapping: 0.127200 ms MarkObjects: 31.919400 ms  DeleteObjects: 0.046300 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -831,56 +741,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003840 seconds.
+Registered in 0.007876 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.34 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.313 seconds
+- Completed reload, in  2.723 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1314ms)
-		BeginReloadAssembly (104ms)
+	ReloadAssembly (2724ms)
+		BeginReloadAssembly (139ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (37ms)
-		EndReloadAssembly (1168ms)
-			LoadAssemblies (69ms)
+			CreateAndSetChildDomain (59ms)
+		EndReloadAssembly (2527ms)
+			LoadAssemblies (91ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (294ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (33ms)
-			SetupLoadedEditorAssemblies (694ms)
+			SetupTypeCache (346ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (64ms)
+			SetupLoadedEditorAssemblies (1824ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
-				SetLoadedEditorAssemblies (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (551ms)
-				ProcessInitializeOnLoadMethodAttributes (81ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (95ms)
+				ProcessInitializeOnLoadAttributes (843ms)
+				ProcessInitializeOnLoadMethodAttributes (874ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 192.9 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4287.
-Total: 20.955500 ms (FindLiveObjects: 0.333800 ms CreateObjectMapping: 0.186900 ms MarkObjects: 20.404800 ms  DeleteObjects: 0.028800 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4370.
+Total: 33.047200 ms (FindLiveObjects: 0.377700 ms CreateObjectMapping: 0.110300 ms MarkObjects: 32.499400 ms  DeleteObjects: 0.056400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -889,56 +802,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003725 seconds.
+Registered in 0.007686 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.284 seconds
+- Completed reload, in  2.530 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1285ms)
-		BeginReloadAssembly (103ms)
+	ReloadAssembly (2530ms)
+		BeginReloadAssembly (134ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (3ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1138ms)
-			LoadAssemblies (68ms)
+			CreateAndSetChildDomain (56ms)
+		EndReloadAssembly (2339ms)
+			LoadAssemblies (79ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (274ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (687ms)
+			SetupTypeCache (345ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (60ms)
+			SetupLoadedEditorAssemblies (1760ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (543ms)
-				ProcessInitializeOnLoadMethodAttributes (85ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (91ms)
+				ProcessInitializeOnLoadAttributes (689ms)
+				ProcessInitializeOnLoadMethodAttributes (969ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (5ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.61 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.1 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4289.
-Total: 20.516200 ms (FindLiveObjects: 0.297900 ms CreateObjectMapping: 0.124000 ms MarkObjects: 20.066200 ms  DeleteObjects: 0.027100 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4372.
+Total: 31.213900 ms (FindLiveObjects: 0.572700 ms CreateObjectMapping: 0.211800 ms MarkObjects: 30.387100 ms  DeleteObjects: 0.038900 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -947,56 +863,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003744 seconds.
+Registered in 0.009035 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.250 seconds
+- Completed reload, in  2.624 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1250ms)
-		BeginReloadAssembly (93ms)
+	ReloadAssembly (2625ms)
+		BeginReloadAssembly (131ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (4ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (36ms)
-		EndReloadAssembly (1116ms)
-			LoadAssemblies (64ms)
+			CreateAndSetChildDomain (60ms)
+		EndReloadAssembly (2437ms)
+			LoadAssemblies (80ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (270ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (674ms)
+			SetupTypeCache (351ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (61ms)
+			SetupLoadedEditorAssemblies (1847ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (5ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (534ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (94ms)
+				ProcessInitializeOnLoadAttributes (831ms)
+				ProcessInitializeOnLoadMethodAttributes (911ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (5ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.2 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4291.
-Total: 21.192500 ms (FindLiveObjects: 0.279200 ms CreateObjectMapping: 0.121800 ms MarkObjects: 20.764800 ms  DeleteObjects: 0.025900 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4374.
+Total: 32.186800 ms (FindLiveObjects: 0.374100 ms CreateObjectMapping: 0.108700 ms MarkObjects: 31.661400 ms  DeleteObjects: 0.039600 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -1005,56 +924,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003725 seconds.
+Registered in 0.009038 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.58 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.286 seconds
+- Completed reload, in  2.546 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1287ms)
-		BeginReloadAssembly (97ms)
+	ReloadAssembly (2547ms)
+		BeginReloadAssembly (123ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (3ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (40ms)
-		EndReloadAssembly (1149ms)
-			LoadAssemblies (65ms)
+			CreateAndSetChildDomain (53ms)
+		EndReloadAssembly (2368ms)
+			LoadAssemblies (76ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (276ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (698ms)
+			SetupTypeCache (330ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (61ms)
+			SetupLoadedEditorAssemblies (1797ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (4ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (55ms)
-				ProcessInitializeOnLoadAttributes (562ms)
-				ProcessInitializeOnLoadMethodAttributes (75ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (92ms)
+				ProcessInitializeOnLoadAttributes (720ms)
+				ProcessInitializeOnLoadMethodAttributes (973ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (5ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.65 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.2 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4293.
-Total: 21.948900 ms (FindLiveObjects: 0.344700 ms CreateObjectMapping: 0.178100 ms MarkObjects: 21.400700 ms  DeleteObjects: 0.024300 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4376.
+Total: 30.282400 ms (FindLiveObjects: 0.611300 ms CreateObjectMapping: 0.110400 ms MarkObjects: 29.514300 ms  DeleteObjects: 0.042200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -1063,56 +985,59 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003796 seconds.
+Registered in 0.008635 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.55 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.282 seconds
+- Completed reload, in  2.507 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1282ms)
-		BeginReloadAssembly (100ms)
+	ReloadAssembly (2508ms)
+		BeginReloadAssembly (127ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
+			DisableScriptedObjects (5ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (36ms)
-		EndReloadAssembly (1137ms)
-			LoadAssemblies (64ms)
+			CreateAndSetChildDomain (56ms)
+		EndReloadAssembly (2322ms)
+			LoadAssemblies (89ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (269ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (32ms)
-			SetupLoadedEditorAssemblies (695ms)
+			SetupTypeCache (336ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (66ms)
+			SetupLoadedEditorAssemblies (1732ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (3ms)
+				InitializePlatformSupportModulesInManaged (5ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (54ms)
-				ProcessInitializeOnLoadAttributes (555ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (2ms)
+				BeforeProcessingInitializeOnLoad (93ms)
+				ProcessInitializeOnLoadAttributes (757ms)
+				ProcessInitializeOnLoadMethodAttributes (870ms)
+				AfterProcessingInitializeOnLoad (5ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (5ms)
 Platform modules already initialized, skipping
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Script error (PatrolFromToPoints): Start() can not take parameters.
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3673 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 180.9 MB.
-System memory in use after: 181.2 MB.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
 
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4295.
-Total: 20.925300 ms (FindLiveObjects: 0.276400 ms CreateObjectMapping: 0.120600 ms MarkObjects: 20.503300 ms  DeleteObjects: 0.023800 ms)
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4378.
+Total: 31.174100 ms (FindLiveObjects: 0.508100 ms CreateObjectMapping: 0.213700 ms MarkObjects: 30.410700 ms  DeleteObjects: 0.038800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
@@ -1121,7 +1046,1146 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-AssetImportWorkerClient::OnTransportError - code=2 error=End of file
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008205 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.37 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.605 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2606ms)
+		BeginReloadAssembly (129ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (56ms)
+		EndReloadAssembly (2418ms)
+			LoadAssemblies (88ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (346ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (64ms)
+			SetupLoadedEditorAssemblies (1824ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (93ms)
+				ProcessInitializeOnLoadAttributes (771ms)
+				ProcessInitializeOnLoadMethodAttributes (949ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4380.
+Total: 32.916800 ms (FindLiveObjects: 0.414800 ms CreateObjectMapping: 0.121600 ms MarkObjects: 32.341100 ms  DeleteObjects: 0.036900 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007983 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.05 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.705 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2706ms)
+		BeginReloadAssembly (133ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (55ms)
+		EndReloadAssembly (2515ms)
+			LoadAssemblies (78ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (353ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (67ms)
+			SetupLoadedEditorAssemblies (1911ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (99ms)
+				ProcessInitializeOnLoadAttributes (742ms)
+				ProcessInitializeOnLoadMethodAttributes (1058ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4382.
+Total: 32.446900 ms (FindLiveObjects: 0.389800 ms CreateObjectMapping: 0.216700 ms MarkObjects: 31.789900 ms  DeleteObjects: 0.048300 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007971 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.681 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2682ms)
+		BeginReloadAssembly (139ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (59ms)
+		EndReloadAssembly (2483ms)
+			LoadAssemblies (90ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (346ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (63ms)
+			SetupLoadedEditorAssemblies (1888ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (93ms)
+				ProcessInitializeOnLoadAttributes (865ms)
+				ProcessInitializeOnLoadMethodAttributes (918ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4384.
+Total: 32.137900 ms (FindLiveObjects: 0.631500 ms CreateObjectMapping: 0.323500 ms MarkObjects: 31.129000 ms  DeleteObjects: 0.050100 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008371 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.04 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.614 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2615ms)
+		BeginReloadAssembly (126ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (54ms)
+		EndReloadAssembly (2427ms)
+			LoadAssemblies (77ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (342ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (59ms)
+			SetupLoadedEditorAssemblies (1850ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (97ms)
+				ProcessInitializeOnLoadAttributes (830ms)
+				ProcessInitializeOnLoadMethodAttributes (911ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4386.
+Total: 30.852000 ms (FindLiveObjects: 0.477100 ms CreateObjectMapping: 0.167100 ms MarkObjects: 30.169400 ms  DeleteObjects: 0.036200 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007902 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.29 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.928 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2929ms)
+		BeginReloadAssembly (122ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (53ms)
+		EndReloadAssembly (2752ms)
+			LoadAssemblies (76ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (399ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (70ms)
+			SetupLoadedEditorAssemblies (2089ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (100ms)
+				ProcessInitializeOnLoadAttributes (950ms)
+				ProcessInitializeOnLoadMethodAttributes (1026ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4388.
+Total: 32.423000 ms (FindLiveObjects: 0.483100 ms CreateObjectMapping: 0.235900 ms MarkObjects: 31.664200 ms  DeleteObjects: 0.037500 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008311 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.52 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.593 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2594ms)
+		BeginReloadAssembly (131ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (52ms)
+		EndReloadAssembly (2401ms)
+			LoadAssemblies (82ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (346ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (63ms)
+			SetupLoadedEditorAssemblies (1808ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (97ms)
+				ProcessInitializeOnLoadAttributes (787ms)
+				ProcessInitializeOnLoadMethodAttributes (911ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.2 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4390.
+Total: 31.633200 ms (FindLiveObjects: 0.385100 ms CreateObjectMapping: 0.111100 ms MarkObjects: 31.096000 ms  DeleteObjects: 0.038600 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 2778.368427 seconds.
+  path: Assets/Scenes/StartMenu.unity
+  artifactKey: Guid(e33a0915c6d55b3408a927370345b84d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/StartMenu.unity using Guid(e33a0915c6d55b3408a927370345b84d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe2ee5b97fe4d2387c8ea1390ebadb55') in 0.135619 seconds 
+  Import took 0.145584 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.310597 seconds.
+  path: Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset
+  artifactKey: Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset using Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9cae53517f13a26dc17cb768d0aabd2a') in 0.007463 seconds 
+  Import took 0.026248 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007911 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.19 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.736 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2736ms)
+		BeginReloadAssembly (138ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (66ms)
+		EndReloadAssembly (2531ms)
+			LoadAssemblies (91ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (351ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (59ms)
+			SetupLoadedEditorAssemblies (1929ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (114ms)
+				ProcessInitializeOnLoadAttributes (894ms)
+				ProcessInitializeOnLoadMethodAttributes (907ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4392.
+Total: 37.103300 ms (FindLiveObjects: 0.549200 ms CreateObjectMapping: 0.226700 ms MarkObjects: 36.285800 ms  DeleteObjects: 0.039500 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 75.705677 seconds.
+  path: Assets/Scenes/UI.unity
+  artifactKey: Guid(22a90c416a0f29f4da546e6b3fe2dafa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/UI.unity using Guid(22a90c416a0f29f4da546e6b3fe2dafa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1b3ca2b535990d0c3982e64ca4725e4b') in 0.023103 seconds 
+  Import took 0.044096 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009426 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.00 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.593 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2593ms)
+		BeginReloadAssembly (135ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (59ms)
+		EndReloadAssembly (2401ms)
+			LoadAssemblies (92ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (342ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (60ms)
+			SetupLoadedEditorAssemblies (1806ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (95ms)
+				ProcessInitializeOnLoadAttributes (808ms)
+				ProcessInitializeOnLoadMethodAttributes (892ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.13 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4394.
+Total: 33.298300 ms (FindLiveObjects: 0.466200 ms CreateObjectMapping: 0.236000 ms MarkObjects: 32.558700 ms  DeleteObjects: 0.035100 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008506 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.12 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.702 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2702ms)
+		BeginReloadAssembly (129ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (55ms)
+		EndReloadAssembly (2513ms)
+			LoadAssemblies (93ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (384ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (67ms)
+			SetupLoadedEditorAssemblies (1864ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (106ms)
+				ProcessInitializeOnLoadAttributes (825ms)
+				ProcessInitializeOnLoadMethodAttributes (921ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4396.
+Total: 30.831600 ms (FindLiveObjects: 0.383500 ms CreateObjectMapping: 0.130300 ms MarkObjects: 30.275500 ms  DeleteObjects: 0.040200 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007950 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.07 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.643 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2644ms)
+		BeginReloadAssembly (129ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (58ms)
+		EndReloadAssembly (2455ms)
+			LoadAssemblies (91ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (349ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (60ms)
+			SetupLoadedEditorAssemblies (1860ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (96ms)
+				ProcessInitializeOnLoadAttributes (863ms)
+				ProcessInitializeOnLoadMethodAttributes (890ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4398.
+Total: 34.186100 ms (FindLiveObjects: 0.534800 ms CreateObjectMapping: 0.216500 ms MarkObjects: 33.383100 ms  DeleteObjects: 0.049200 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007822 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.36 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.597 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2597ms)
+		BeginReloadAssembly (128ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (58ms)
+		EndReloadAssembly (2405ms)
+			LoadAssemblies (89ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (356ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (64ms)
+			SetupLoadedEditorAssemblies (1792ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (94ms)
+				ProcessInitializeOnLoadAttributes (710ms)
+				ProcessInitializeOnLoadMethodAttributes (975ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (7ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4400.
+Total: 31.795100 ms (FindLiveObjects: 0.507800 ms CreateObjectMapping: 0.211600 ms MarkObjects: 31.035000 ms  DeleteObjects: 0.038400 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009050 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.01 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.570 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2570ms)
+		BeginReloadAssembly (121ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (53ms)
+		EndReloadAssembly (2392ms)
+			LoadAssemblies (85ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (358ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (61ms)
+			SetupLoadedEditorAssemblies (1792ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (94ms)
+				ProcessInitializeOnLoadAttributes (795ms)
+				ProcessInitializeOnLoadMethodAttributes (893ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.05 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.0 MB.
+System memory in use after: 193.3 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4402.
+Total: 33.457000 ms (FindLiveObjects: 0.668900 ms CreateObjectMapping: 0.250700 ms MarkObjects: 32.499000 ms  DeleteObjects: 0.035100 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 336.099537 seconds.
+  path: Assets/Scenes/StartMenu.unity
+  artifactKey: Guid(e33a0915c6d55b3408a927370345b84d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/StartMenu.unity using Guid(e33a0915c6d55b3408a927370345b84d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3dd2239c78ab99fe61a11d2e7822006f') in 0.036953 seconds 
+  Import took 0.045820 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 23.569558 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_6_Line03.prefab
+  artifactKey: Guid(f6286c1e2b6d244319feeaf1a9a36b1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Frames/_Prefabs_Component_Frames_6_Line03.prefab using Guid(f6286c1e2b6d244319feeaf1a9a36b1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a85aca67019f4b7a7ec7e500d8c564af') in 0.127290 seconds 
+  Import took 0.135429 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000269 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Label/_Prefabs_Component_Label.prefab
+  artifactKey: Guid(71be0b604d46b44cba70d69bd7ca5d9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Label/_Prefabs_Component_Label.prefab using Guid(71be0b604d46b44cba70d69bd7ca5d9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ffaa93f7cba1189d957214c9e09413c0') in 0.103298 seconds 
+  Import took 0.110354 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000333 seconds.
+  path: Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab
+  artifactKey: Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/UI/Transitions/Basic Crossfade Transition.prefab using Guid(b39f1810b7999494c924c6f5c9678699) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '48c014290e78fa33cd01e55021b69da7') in 0.010726 seconds 
+  Import took 0.017588 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.639267 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Walk01.fbx
+  artifactKey: Guid(0536f044bd409ff419dd726bc69d2676) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Walk01.fbx using Guid(0536f044bd409ff419dd726bc69d2676) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cb0a8c830ca38412b08e632de1f5c6fd') in 0.032255 seconds 
+  Import took 0.039271 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000282 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Walk01 [RM].fbx
+  artifactKey: Guid(bd1c2e9064da28e4fb0fe4a3f6ff4e33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Animations/Movement/BasicMotions@Walk01 [RM].fbx using Guid(bd1c2e9064da28e4fb0fe4a3f6ff4e33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff8b64be4e48111835a9ca298353bf24') in 0.018473 seconds 
+  Import took 0.025836 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000388 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Red.prefab
+  artifactKey: Guid(7014b5a219df84cbd97ef7bd5830de3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Red.prefab using Guid(7014b5a219df84cbd97ef7bd5830de3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ca71b1502ddf8d1a6873c1f0e4705eb') in 0.028509 seconds 
+  Import took 0.034849 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000250 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Dim.prefab
+  artifactKey: Guid(0eafc1614a0ec4e84994a74cff36db84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Dim.prefab using Guid(0eafc1614a0ec4e84994a74cff36db84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '133c0ae82e238154ba3f667d9d31321c') in 0.020231 seconds 
+  Import took 0.026600 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000271 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Mint.prefab
+  artifactKey: Guid(c7f082ce7c2dc40da9fd383bae796e6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Mint.prefab using Guid(c7f082ce7c2dc40da9fd383bae796e6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f8be949e0ef3fafc71e4d8df693dd79') in 0.020763 seconds 
+  Import took 0.027127 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000267 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Yellow.prefab
+  artifactKey: Guid(9e3dc5478531a44ea9d3d15a9f4f0690) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Yellow.prefab using Guid(9e3dc5478531a44ea9d3d15a9f4f0690) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eda1f1e7980c8f880a6e1ed30515ee04') in 0.021608 seconds 
+  Import took 0.028486 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000282 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Purple.prefab
+  artifactKey: Guid(8813307fa2c464baeaa2b0733ac11962) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Purple.prefab using Guid(8813307fa2c464baeaa2b0733ac11962) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a711a10fba2ea7a4f5f1bfba553128e2') in 0.021414 seconds 
+  Import took 0.028308 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000310 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Red.prefab
+  artifactKey: Guid(bafa083cebd8a44b3a2ea74ef38ae939) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Red.prefab using Guid(bafa083cebd8a44b3a2ea74ef38ae939) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ccff72735138a0d92bd5643883c2678') in 0.021938 seconds 
+  Import took 0.028819 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000285 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Prefabs/BasicMotionsDummy.prefab
+  artifactKey: Guid(d6d06c887a1aae94f8c6e8cc2c0c557b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Prefabs/BasicMotionsDummy.prefab using Guid(d6d06c887a1aae94f8c6e8cc2c0c557b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '361dd71782ea4654d65d210ef2f11d2f') in 0.206519 seconds 
+  Import took 0.213510 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000369 seconds.
+  path: Assets/_Packages/Wolf3D/RPM Avatar Pack/Models/Scene/BG_drop.fbx
+  artifactKey: Guid(9fc0ac94f45cca24ca4cb951a030ffd8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Wolf3D/RPM Avatar Pack/Models/Scene/BG_drop.fbx using Guid(9fc0ac94f45cca24ca4cb951a030ffd8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7c162fc308b52b86ecf57c6eb3ff035f') in 0.070684 seconds 
+  Import took 0.077434 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000387 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Dark.prefab
+  artifactKey: Guid(272bc530c5144401191ea457c9ac6e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Dark.prefab using Guid(272bc530c5144401191ea457c9ac6e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '674f8c1c1f6188fc241a5937f9e13c23') in 0.021659 seconds 
+  Import took 0.030060 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000369 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Brown.prefab
+  artifactKey: Guid(489c6aee211b44414872f7afdf05d7a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Brown.prefab using Guid(489c6aee211b44414872f7afdf05d7a5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aee44da45271c4f25b0279ef431a7169') in 0.019986 seconds 
+  Import took 0.026273 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000446 seconds.
+  path: Assets/_Packages/Kevin Iglesias/Basic Motions/Models/BasicMotionsDummyModel.fbx
+  artifactKey: Guid(5917c0e93d180a842b61d1ebc62a195c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/Kevin Iglesias/Basic Motions/Models/BasicMotionsDummyModel.fbx using Guid(5917c0e93d180a842b61d1ebc62a195c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40a1c0af68a693796a5fe7fd7f5f44bf') in 0.060336 seconds 
+  Import took 0.067529 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000293 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Purple.prefab
+  artifactKey: Guid(87f0c6aa9b85045efb55b6f6ad1df416) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Purple.prefab using Guid(87f0c6aa9b85045efb55b6f6ad1df416) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cb204742e3cb66d74093a5aa0637ed14') in 0.018079 seconds 
+  Import took 0.023958 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000213 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Gray.prefab
+  artifactKey: Guid(018947ce1abc14047b699d7e8fdcf673) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Gray.prefab using Guid(018947ce1abc14047b699d7e8fdcf673) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0bae692d2e3c3ab8706fa156e87ea77f') in 0.023859 seconds 
+  Import took 0.030065 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000253 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Blue.prefab
+  artifactKey: Guid(494d623cffdaf49938f9d0998f25c059) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Blue.prefab using Guid(494d623cffdaf49938f9d0998f25c059) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cdfeeb6892fef732e88b3a9666988c59') in 0.022391 seconds 
+  Import took 0.031432 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000222 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_White.prefab
+  artifactKey: Guid(d1391910418d64ed18f1faeb4b5ab518) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_White.prefab using Guid(d1391910418d64ed18f1faeb4b5ab518) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4cafdbb136fa2ea30a9bc34d9ebe2cf1') in 0.022032 seconds 
+  Import took 0.028824 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000835 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Green.prefab
+  artifactKey: Guid(abc2d5e23e86f4587b4e10b38c668f34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Circle01_Green.prefab using Guid(abc2d5e23e86f4587b4e10b38c668f34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '081939a39e45749cbc0cca51f10e3ea7') in 0.018226 seconds 
+  Import took 0.024796 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000209 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Green.prefab
+  artifactKey: Guid(ce66926fbee764449a9784a32e1d5033) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_Green.prefab using Guid(ce66926fbee764449a9784a32e1d5033) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9b2c4751f477e20518e68e58ed2542ec') in 0.022619 seconds 
+  Import took 0.029574 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000292 seconds.
+  path: Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_BlueGray.prefab
+  artifactKey: Guid(9769f05840cde480fa6bf1bd95e703e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Packages/GUI PRO Kit - Fantasy RPG/Prefabs/Prefabs_Component_Buttons/Button_Rectangle01_BlueGray.prefab using Guid(9769f05840cde480fa6bf1bd95e703e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '354f24f5b576ef608a2d7acecc3d1d8f') in 0.022100 seconds 
+  Import took 0.028791 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.619339 seconds.
+  path: Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset
+  artifactKey: Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ScriptableObjects/UI/Transitions/Basic Transition.asset using Guid(448d565c65325c54a9892543f221932f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bd2a1c802c9787d9f88927d7ed04af4a') in 0.006397 seconds 
+  Import took 0.013484 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008505 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.818 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2818ms)
+		BeginReloadAssembly (133ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (6ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (60ms)
+		EndReloadAssembly (2628ms)
+			LoadAssemblies (99ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (353ms)
+			ReleaseScriptCaches (3ms)
+			RebuildScriptCaches (68ms)
+			SetupLoadedEditorAssemblies (2004ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (96ms)
+				ProcessInitializeOnLoadAttributes (878ms)
+				ProcessInitializeOnLoadMethodAttributes (1018ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.32 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 207.4 MB.
+System memory in use after: 207.7 MB.
+
+Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 4446.
+Total: 35.531300 ms (FindLiveObjects: 0.445100 ms CreateObjectMapping: 0.214500 ms MarkObjects: 34.769100 ms  DeleteObjects: 0.099700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007813 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.10 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.585 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2586ms)
+		BeginReloadAssembly (137ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (64ms)
+		EndReloadAssembly (2385ms)
+			LoadAssemblies (96ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (347ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (62ms)
+			SetupLoadedEditorAssemblies (1786ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (99ms)
+				ProcessInitializeOnLoadAttributes (804ms)
+				ProcessInitializeOnLoadMethodAttributes (870ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.04 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 207.4 MB.
+System memory in use after: 207.7 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4448.
+Total: 32.839400 ms (FindLiveObjects: 0.382600 ms CreateObjectMapping: 0.118200 ms MarkObjects: 32.297400 ms  DeleteObjects: 0.038900 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007750 seconds.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Begin MonoManager ReloadAssembly
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Script error (PatrolFromToPoints): Start() can not take parameters.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.84 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.705 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2706ms)
+		BeginReloadAssembly (147ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (62ms)
+		EndReloadAssembly (2495ms)
+			LoadAssemblies (100ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (352ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (67ms)
+			SetupLoadedEditorAssemblies (1879ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (99ms)
+				ProcessInitializeOnLoadAttributes (856ms)
+				ProcessInitializeOnLoadMethodAttributes (911ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (6ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.99 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3722 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 207.4 MB.
+System memory in use after: 207.7 MB.
+
+Unloading 28 unused Assets to reduce memory usage. Loaded Objects now: 4450.
+Total: 33.384400 ms (FindLiveObjects: 0.595000 ms CreateObjectMapping: 0.256100 ms MarkObjects: 32.487100 ms  DeleteObjects: 0.043700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 

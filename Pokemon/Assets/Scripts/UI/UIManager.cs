@@ -3,7 +3,6 @@
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
-using Mfknudsen.UI.Overworld;
 using UnityEngine;
 
 #endregion
@@ -28,9 +27,9 @@ namespace Mfknudsen.UI
         #region Values
 
         public static UIManager instance;
-        public readonly SightAlertUI SightAlertUI;
 
-        [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI;
+        [Space] [SerializeField] private GameObject battleUI;
+        [SerializeField] private GameObject overworldUI, pauseUI, startUI;
 
         [Space, Header("Battle:")] [SerializeField]
         private SelectionMenu selectionMenu;

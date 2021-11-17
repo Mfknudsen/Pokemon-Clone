@@ -1,12 +1,12 @@
 ﻿#region Packages
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
+using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World;
 
 #endregion
@@ -27,6 +27,8 @@ namespace Mfknudsen.Battle.Systems
         [SerializeField] private BattleMember[] allies;
         [SerializeField] private BattleMember[] enemies;
         [SerializeField] private Chat onStartChat;
+
+        [SerializeField] private Transition transition;
 
         private void OnValidate()
         {
@@ -67,7 +69,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
+            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetBattleMember() };
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -79,10 +81,12 @@ namespace Mfknudsen.Battle.Systems
 
         public void StartBattleNow()
         {
-            
-            
-            WorldManager.instance.LoadBattleScene(battleSceneName);
+            WorldManager manager = WorldManager.instance;
 
+            manager.SetTransition(transition);
+            manager.LoadBattleScene(battleSceneName);
+
+            //Wait for the Battle Scene to load and apply settings from Battle Starter
             StartCoroutine(WaitForResponse());
         }
 
@@ -100,7 +104,7 @@ namespace Mfknudsen.Battle.Systems
             while (BattleManager.instance == null)
                 yield return null;
 
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetComponent<BattleMember>()};
+            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
             result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies.Where(m => m != null))
             {
@@ -120,7 +124,7 @@ namespace Mfknudsen.Battle.Systems
 
             Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatManager.instance.Add(new[] {toSend});
+            ChatManager.instance.Add(new[] { toSend });
         }
 
         #endregion

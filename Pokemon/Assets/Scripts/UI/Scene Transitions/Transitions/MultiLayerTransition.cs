@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Mfknudsen.Battle.Systems;
 using UnityEngine;
 
 #endregion
@@ -17,67 +15,51 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
 
         [SerializeField] private TransitionLayer[] transitionLayers;
 
-        private readonly List<GameObject> objects = new List<GameObject>();
-
         #endregion
 
-        public override IEnumerator Operation()
+        public override IEnumerator Trigger(bool start)
         {
-            OperationsContainer container = new OperationsContainer();
+            foreach (TransitionLayer layer in transitionLayers)
+                transitionUI.StartCoroutine(layer.Trigger(start, transitionUI));
 
-            foreach (TransitionLayer transitionLayer in transitionLayers)
+            foreach (TransitionLayer layer in transitionLayers)
             {
-                objects.Add(SpawnGameObject(transitionLayer.objectToAnimate));
-
-                transitionLayer.Trigger(toCover);
-
-                container.Add(transitionLayer);
+                while (!layer.Done())
+                    yield return null;
             }
-
-            OperationManager.instance.InsertFront(container);
-
-            yield break;
-        }
-
-        public override void End()
-        {
-            foreach (GameObject gameObject in objects)
-                Destroy(gameObject);
         }
     }
 
     [Serializable]
-    internal struct TransitionLayer : IOperation
+    public class TransitionLayer : MonoBehaviour
     {
         #region Values
 
-        [SerializeField] public GameObject objectToAnimate;
+        [SerializeField] private GameObject gameObjectToAnimate;
 
         [SerializeField] private float timeFromStart;
         [SerializeField] private Animator animator;
 
-        private bool toCover;
         private bool done;
 
         #endregion
 
         #region In
 
-        // ReSharper disable once ParameterHidesMember
-        public void Trigger(bool toCover)
+        public IEnumerator Trigger(bool start, SceneTransitionUI transitionUI)
         {
-            this.toCover = toCover;
             done = false;
-        }
-        
-        public IEnumerator Operation()
-        {
+
             yield return new WaitForSeconds(timeFromStart);
 
-            string toPlay = toCover ? "Start" : "End";
-            animator.SetTrigger(toPlay);
+            if (start)
+                animator = transitionUI.InstantiateObject(gameObjectToAnimate).GetComponent<Animator>();
 
-            yield return new WaitForSeconds(Transition.GetTimeOfClipByName(animator, toPlay));
+            Transition.SetAnimationBools(animator, start);
+
+            yield return null;
+
+            yield return new WaitForSeconds(Transition.GetTimeOfClipByName(animator));
 
             done = true;
         }
@@ -89,6 +71,7 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
 
         public void End()
         {
+            Destroy(animator.gameObject);
         }
 
         #endregion

@@ -1,8 +1,13 @@
-﻿#region SDK
+﻿#region Packages
 
 using System.Collections;
+using System.Collections.Generic;
+using Mfknudsen.UI.Scene_Transitions;
+using Mfknudsen.UI.Scene_Transitions.Transitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+// ReSharper disable Unity.PreferAddressByIdToGraphicsParams
 
 #endregion
 
@@ -15,10 +20,13 @@ namespace Mfknudsen.World
         [Header("Object Reference:")] public static WorldManager instance;
         private Coroutine currentOperation;
 
-        [Header("Loading:")] [SerializeField] private float progressMeter = 0;
+        [Header("Loading:")] [SerializeField] private float progressMeter;
 
         [Header("Battle Scene:")] [SerializeField]
         private string currentLoadedBattleScene = "";
+
+        private Transition transition;
+        private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
 
         #endregion
 
@@ -45,32 +53,49 @@ namespace Mfknudsen.World
             return (currentOperation == null);
         }
 
+        public bool GetActiveLoading()
+        {
+            return activeLoading.Count == 0;
+        }
+
+        public bool GetActiveUnloading()
+        {
+            return activeUnloading.Count == 0;
+        }
+
+        #endregion
+
+        #region Setters
+
+        public void SetTransition(Transition set)
+        {
+            transition = set;
+
+            transition.SetTransitionParent(SceneTransitionUI.instance);
+        }
+
         #endregion
 
         #region In
 
-        public void SpawnWorld()
-        {
-        }
-
         public void LoadSceneAsync(string sceneName)
         {
-            currentOperation = StartCoroutine(LoadWorldSceneAsync(sceneName));
+            activeLoading.Add(StartCoroutine(LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            StartCoroutine(UnloadWorldSceneAsync(sceneName));
+            activeUnloading.Add(StartCoroutine(UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            currentOperation = StartCoroutine(LoadBattleSceneAsync(sceneName));
+            activeLoading.Add(StartCoroutine(LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()
         {
-            currentOperation = StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene));
+            activeUnloading.Add(StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene)));
         }
 
         #endregion
@@ -81,6 +106,10 @@ namespace Mfknudsen.World
 
         private IEnumerator LoadBattleSceneAsync(string sceneName)
         {
+            //Start Transition
+            yield return StartTransition();
+
+            //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             progressMeter = 0;
@@ -92,8 +121,11 @@ namespace Mfknudsen.World
             }
 
             currentLoadedBattleScene = sceneName;
-            
+
             currentOperation = null;
+
+            //End Transition
+            yield return EndTransition();
         }
 
         private IEnumerator UnloadBattleSceneAsync(string sceneName)
@@ -104,7 +136,7 @@ namespace Mfknudsen.World
 
             while (!asyncUnload.isDone)
             {
-                progressMeter = (int) (asyncUnload.progress + 0.1f) * 100;
+                progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
                 yield return null;
             }
 
@@ -115,14 +147,8 @@ namespace Mfknudsen.World
 
         #region Load/Unload World Scenes
 
-        private IEnumerator SpawnWorldAsync()
-        {
-            yield return null;
-        }
-
         private IEnumerator LoadWorldSceneAsync(string sceneName)
         {
-            
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             progressMeter = 0;
@@ -142,6 +168,20 @@ namespace Mfknudsen.World
 
             while (!asyncOperation.isDone)
                 yield return null;
+        }
+
+        #endregion
+
+        #region Transitions
+
+        private IEnumerator StartTransition()
+        {
+            yield return transition.Trigger(true);
+        }
+
+        private IEnumerator EndTransition()
+        {
+            yield return transition.Trigger(false);
         }
 
         #endregion

@@ -10,6 +10,16 @@ namespace Mfknudsen.UI.Overworld
 {
     public class SightAlertUI : MonoBehaviour
     {
+        public static SightAlertUI instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            else 
+                Destroy(gameObject);
+        }
+
         #region In
 
         public void EnableAlert(AlertType alertType)

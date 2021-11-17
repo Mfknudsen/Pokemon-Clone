@@ -3,6 +3,8 @@
 using System.Collections;
 using UnityEngine;
 
+// ReSharper disable Unity.PreferAddressByIdToGraphicsParams
+
 #endregion
 
 namespace Mfknudsen.UI.Scene_Transitions.Transitions
@@ -12,36 +14,24 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
     {
         #region Values
 
-        [SerializeField] private GameObject objectToAnimate;
-        
-        private Animator animator;
-        private GameObject instantiatedObject;
+        [SerializeField] private Animator animator;
+        [SerializeField] private GameObject gameObjectToAnimate;
 
         #endregion
 
-        #region In
-
-        public override IEnumerator Operation()
+        public override IEnumerator Trigger(bool start)
         {
-            string toPlay = toCover ? "Start" : "End";
+            if (start)
+                animator = transitionUI.InstantiateObject(gameObjectToAnimate).GetComponent<Animator>();
 
-            instantiatedObject = instantiatedObject == null ? SpawnGameObject(objectToAnimate) : instantiatedObject;
-            animator = instantiatedObject.GetComponent<Animator>();
+            SetAnimationBools(animator, start);
 
-            animator.SetTrigger(toPlay);
+            yield return null;
 
-            yield return new WaitForSeconds(GetTimeOfClipByName(animator, toPlay));
+            yield return new WaitForSeconds(GetTimeOfClipByName(animator));
 
-            done = true;
+            if (!start)
+                Destroy(animator.gameObject);
         }
-
-        public override void End()
-        {
-            if(toCover) return;
-            
-            Destroy(instantiatedObject);
-        }
-
-        #endregion
     }
 }
