@@ -35,7 +35,7 @@ namespace Mfknudsen.AI
 
             sight = GetComponent<AI_Sight>();
 
-            state.Start(this);
+            state.StartState(this);
         }
 
         private void Update()

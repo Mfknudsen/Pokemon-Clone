@@ -7,7 +7,7 @@ namespace Mfknudsen.AI.States
         protected AI_Controller controller;
         
         // ReSharper disable once ParameterHidesMember
-        public virtual void Start(AI_Controller controller)
+        public virtual void StartState(AI_Controller controller)
         {
             this.controller = controller;
         }

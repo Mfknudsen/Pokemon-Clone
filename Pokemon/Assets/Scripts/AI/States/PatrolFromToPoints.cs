@@ -24,9 +24,9 @@ namespace Mfknudsen.AI.States
         #region In
 
         // ReSharper disable once ParameterHidesMember
-        public override void Start(AI_Controller controller)
+        public override void StartState(AI_Controller controller)
         {
-            base.Start(controller);
+            base.StartState(controller);
 
             agent = controller.agent;
 

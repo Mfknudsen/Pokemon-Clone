@@ -25,7 +25,8 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
                 animator = transitionUI.InstantiateObject(gameObjectToAnimate).GetComponent<Animator>();
 
             SetAnimationBools(animator, start);
-
+            
+            //Let Unity Update so we get the clip we want
             yield return null;
 
             yield return new WaitForSeconds(GetTimeOfClipByName(animator));

@@ -57,6 +57,7 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
 
             Transition.SetAnimationBools(animator, start);
 
+            //Let Unity Update so we get the clip we want
             yield return null;
 
             yield return new WaitForSeconds(Transition.GetTimeOfClipByName(animator));

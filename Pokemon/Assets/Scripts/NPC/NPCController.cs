@@ -1,22 +1,18 @@
-﻿#region SDK
+﻿#region Packages
 
 using UnityEngine;
 
-//Custom
 #endregion
 
 namespace Mfknudsen.NPC
 {
-    public class NPCController : MonoBehaviour
+    public class NpcController : MonoBehaviour
     {
         #region Values
-        [SerializeField] int id = 0;
+
         [SerializeField] private string characterName = "";
+        [SerializeField] private NpcTeam npcTeam;
 
-        private void OnValidate()
-        {
-
-        }
         #endregion
     }
 }

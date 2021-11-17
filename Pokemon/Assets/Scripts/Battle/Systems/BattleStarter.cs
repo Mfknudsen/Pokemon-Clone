@@ -17,9 +17,17 @@ namespace Mfknudsen.Battle.Systems
     {
         #region Values
 
+        #region Delegates
+
+        public delegate void OnBattleStart();
+
+        public OnBattleStart onBattleStart;
+        
         public delegate void OnBattleEnd();
 
         public OnBattleEnd onBattleEnd;
+
+        #endregion
 
         [SerializeField] private string battleSceneName = "";
 
