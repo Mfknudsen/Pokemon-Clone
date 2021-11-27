@@ -11657,10 +11657,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 200748079}
-        m_TargetAssemblyTypeName: Mfknudsen.UI.UIManager, Assembly-CSharp
-        m_MethodName: StartTestBattle
-        m_Mode: 1
+      - m_Target: {fileID: 298430197}
+        m_TargetAssemblyTypeName: Mfknudsen.Menu.StartMenu.MainMenu, Assembly-CSharp
+        m_MethodName: LoadBattleScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13031,7 +13031,7 @@ GameObject:
   - component: {fileID: 1887996824}
   - component: {fileID: 1887996823}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

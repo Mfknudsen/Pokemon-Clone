@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5158821391248318403}
   - component: {fileID: 5158821391248318401}
   - component: {fileID: 5158821391248318400}
-  - component: {fileID: 5158821391248318406}
   m_Layer: 5
   m_Name: TextDisplay
   m_TagString: Untagged
@@ -77,19 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5158821391248318406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5158821391248318402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea06c88e2f8e3c545b64b2585200764b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textField: {fileID: 5158821391312443622}
 --- !u!1 &5158821391312443616
 GameObject:
   m_ObjectHideFlags: 0

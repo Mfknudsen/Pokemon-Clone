@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Mfknudsen.Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +11,7 @@ using UnityEngine.InputSystem;
 
 namespace Mfknudsen.Communication
 {
-    public class ChatManager : MonoBehaviour
+    public class ChatManager : MonoBehaviour, ISetup
     {
         #region Values
 
@@ -28,13 +29,12 @@ namespace Mfknudsen.Communication
 
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             if (instance == null)
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                defaultTextSpeed = textPerSecond;
             }
             else
                 Destroy(gameObject);
@@ -76,6 +76,11 @@ namespace Mfknudsen.Communication
 
         #region Getters
 
+        public int Priority()
+        {
+            return 1;
+        }
+        
         public bool GetIsClear()
         {
             return running == null && waitList.Count == 0;
@@ -112,6 +117,12 @@ namespace Mfknudsen.Communication
         #endregion
 
         #region In
+
+        public void Setup()
+        {
+            defaultTextSpeed = textPerSecond;
+        }
+        
 
         public void Add(Chat[] toAdd)
         {

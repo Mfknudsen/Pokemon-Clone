@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Mfknudsen.NPC
 {
     [System.Serializable]
-    public struct NpcTeam
+    public class NpcTeam : Team
     {
         [SerializeField] private List<PossiblePokemon> allPossible;
 

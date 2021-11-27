@@ -2,6 +2,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Player;
+using Mfknudsen.Settings;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using UnityEngine;
@@ -13,7 +15,7 @@ using UnityEngine.SceneManagement;
 
 namespace Mfknudsen.World
 {
-    public class WorldManager : MonoBehaviour
+    public class WorldManager : MonoBehaviour, ISetup
     {
         #region Values
 
@@ -30,7 +32,9 @@ namespace Mfknudsen.World
 
         #endregion
 
-        private void Start()
+        #region Build In States
+
+        private void Awake()
         {
             if (instance == null)
             {
@@ -41,7 +45,14 @@ namespace Mfknudsen.World
                 Destroy(gameObject);
         }
 
+        #endregion
+
         #region Getters
+
+        public int Priority()
+        {
+            return 1;
+        }
 
         public float GetLoadMeter()
         {
@@ -78,6 +89,10 @@ namespace Mfknudsen.World
 
         #region In
 
+        public void Setup()
+        {
+        }
+
         public void LoadSceneAsync(string sceneName)
         {
             activeLoading.Add(StartCoroutine(LoadWorldSceneAsync(sceneName)));
@@ -109,6 +124,8 @@ namespace Mfknudsen.World
             //Start Transition
             yield return StartTransition();
 
+            PlayerManager.instance.DisableOverworld();
+
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
@@ -124,23 +141,34 @@ namespace Mfknudsen.World
 
             currentOperation = null;
 
+            PlayerManager.instance.EnableOverworld();
+
             //End Transition
             yield return EndTransition();
         }
 
         private IEnumerator UnloadBattleSceneAsync(string sceneName)
         {
+            //Start Transition
+            yield return StartTransition();
+
+            //Scene Unloading
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
 
             progressMeter = 0;
 
             while (!asyncUnload.isDone)
             {
-                progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
+                progressMeter = (int) (asyncUnload.progress + 0.1f) * 100;
                 yield return null;
             }
 
             currentOperation = null;
+
+            //End Transition
+            yield return EndTransition();
+
+            PlayerManager.instance.EnableOverworld();
         }
 
         #endregion

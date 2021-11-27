@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using Mfknudsen.Player;
 using Mfknudsen.UI;
 using Mfknudsen.World;
 using UnityEngine;
@@ -15,17 +16,21 @@ namespace Mfknudsen.Menu.StartMenu
         public void LoadScene(string sceneName)
         {
             WorldManager.instance.LoadSceneAsync(sceneName);
-            WorldManager.instance.UnloadSceneAsync("StartMenu");
-            
+
             UIManager.instance.SwitchUI(UISelection.Overworld);
+
+            PlayerManager.instance.EnableOverworld();
+
+            WorldManager.instance.UnloadSceneAsync("StartMenu");
         }
 
         public void LoadBattleScene(string sceneName)
         {
             WorldManager.instance.LoadBattleScene(sceneName);
-            WorldManager.instance.UnloadSceneAsync("StartMenu");
-            
+
             UIManager.instance.SwitchUI(UISelection.Battle);
+            
+            WorldManager.instance.UnloadSceneAsync("StartMenu");
         }
 
         #endregion

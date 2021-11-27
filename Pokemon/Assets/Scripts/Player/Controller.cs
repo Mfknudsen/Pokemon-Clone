@@ -1,9 +1,9 @@
-﻿#region SDK
+﻿#region Packages
 
-using JetBrains.Annotations;
+using Mfknudsen.Settings;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 #endregion
 
@@ -13,20 +13,30 @@ namespace Mfknudsen.Player
     {
         #region Values
 
-        private PlayerInput playerInput;
+        private PlayerInputContainer playerInputContainer;
 
-        [SerializeField] private NavMeshAgent agent;
-        [SerializeField] private Rigidbody rb;
-        [SerializeField] private Animator animController;
+        [SerializeField] [FoldoutGroup("Components")]
+        private NavMeshAgent agent;
 
-        [SerializeField] private Transform playerTransform, moveTransform;
-        [SerializeField] private float moveSpeed, rotateSpeed;
+        [SerializeField] [FoldoutGroup("Components")]
+        private Rigidbody rb;
+
+        [SerializeField] [FoldoutGroup("Components")]
+        private Animator animController;
+
+        [SerializeField] [FoldoutGroup("Transforms")]
+        private Transform playerTransform, moveTransform, camTransform, visualTransform;
+
+        [SerializeField] [FoldoutGroup("Speeds")]
+        private float moveSpeed, rotateSpeed;
+
+        private Vector3 toLookRotation = Vector3.forward;
 
         #region AnimatorHashs
 
-        private static readonly int Walking = Animator.StringToHash("Walking");
-        private static readonly int XMove = Animator.StringToHash("X Move");
-        private static readonly int YMove = Animator.StringToHash("Y Move");
+        private static readonly int HashWalking = Animator.StringToHash("Walking"),
+            HashXMove = Animator.StringToHash("X Move"),
+            HashYMove = Animator.StringToHash("Y Move");
 
         #endregion
 
@@ -34,30 +44,21 @@ namespace Mfknudsen.Player
 
         #region Build In States
 
-        private void Start()
-        {
-            playerTransform = transform;
-
-            agent ??= playerTransform.GetComponent<NavMeshAgent>();
-            agent.enabled = false;
-
-            rb ??= playerTransform.GetComponent<Rigidbody>();
-            rb.useGravity = false;
-        }
-
         private void Update()
         {
+            UpdateMoveTransform();
             Move();
             Turn();
+            UpdateAnimController();
         }
 
         #endregion
 
         #region Getters
 
-        public PlayerInput GetPlayerInput()
+        public PlayerInputContainer GetPlayerInput()
         {
-            return playerInput;
+            return playerInputContainer;
         }
 
         #endregion
@@ -68,66 +69,62 @@ namespace Mfknudsen.Player
 
         #region In
 
-        #region Input
-
-        [UsedImplicitly]
-        public void OnMoveAxisChange(InputAction.CallbackContext value)
+        public void Setup()
         {
-            playerInput.SetMoveDirection(value.ReadValue<Vector2>());
+            playerTransform = transform;
+
+            agent ??= playerTransform.GetComponent<NavMeshAgent>();
+
+            rb ??= playerTransform.GetComponent<Rigidbody>();
+            rb.useGravity = false;
+
+            playerInputContainer = PlayerManager.instance.GetPlayerInput();
         }
-
-        [UsedImplicitly]
-        public void OnMouseAxisChange(InputAction.CallbackContext value)
-        {
-            Vector3 vec = transform.rotation.eulerAngles;
-
-            vec.x += value.ReadValue<Vector2>().x;
-            vec.y += value.ReadValue<Vector2>().y;
-
-            playerInput.SetTargetRotation(vec);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Out
 
         #endregion
 
         #region Internal
 
+        private void UpdateMoveTransform()
+        {
+            moveTransform.rotation = Quaternion.Euler(0, camTransform.localRotation.eulerAngles.y, 0);
+        }
+
+        private void UpdateAnimController()
+        {
+            if (animController == null) return;
+
+            Vector3 playerInputDirection = playerInputContainer.GetMoveDirection();
+
+            animController.SetBool(HashWalking, playerInputDirection.x != 0 || playerInputDirection.y != 0);
+            animController.SetFloat(HashXMove, playerInputDirection.x, 0.1f, Time.deltaTime);
+            animController.SetFloat(HashYMove, playerInputDirection.z, 0.1f, Time.deltaTime);
+        }
+
         private void Move()
         {
-            Camera camObject = Camera.main;
-            
-            if (camObject == null)
-                return;
+            if (!agent.isOnNavMesh) return;
 
-            Transform camTransform = camObject.transform;
-
-            moveTransform.rotation = Quaternion.Euler(0, camTransform.localRotation.eulerAngles.y, 0);
-
-            Vector3 playerInputDirection = playerInput.GetMoveDirection();
-
-            Vector3 forwardMove = moveTransform.forward * playerInputDirection.z;
+            Vector2 playerInputDirection = playerInputContainer.GetMoveDirection();
+            Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+            Vector3 moveVector = (forwardMove + sideMove).normalized;
 
-            playerTransform.position += (forwardMove + sideMove).normalized * (moveSpeed * Time.deltaTime);
-
-            animController.SetBool(Walking, playerInputDirection.x != 0 || playerInputDirection.y != 0);
-            animController.SetFloat(XMove, playerInputDirection.x, 0.1f, Time.deltaTime);
-            animController.SetFloat(YMove, playerInputDirection.z, 0.1f, Time.deltaTime);
+            agent.Move(moveVector * (moveSpeed * Time.deltaTime));
         }
 
         private void Turn()
         {
-            if(playerInput.GetMoveDirection().normalized == Vector3.zero) return;
-            Vector3 targetVector = Quaternion.LookRotation(playerInput.GetMoveDirection().normalized).eulerAngles;
+            if (playerInputContainer.GetMoveDirection() != Vector2.zero)
+            {
+                Vector2 playerInputDirection = playerInputContainer.GetMoveDirection();
+                Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
+                Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+                toLookRotation = (forwardMove + sideMove).normalized;
+            }
 
-            float angel = playerInput.GetTargetRotation().x - targetVector.x;
-
-            playerTransform.Rotate(Vector3.up, angel * rotateSpeed * Time.deltaTime);
+            visualTransform.rotation = Quaternion.Lerp(visualTransform.rotation,
+                Quaternion.LookRotation(toLookRotation), rotateSpeed * Time.deltaTime);
         }
 
         #endregion

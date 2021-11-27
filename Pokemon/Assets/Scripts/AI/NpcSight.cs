@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Mfknudsen.AI
 {
-    public class AI_Sight : MonoBehaviour
+    public class NpcSight : MonoBehaviour
     {
         #region Values
 

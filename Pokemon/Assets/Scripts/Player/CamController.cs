@@ -1,26 +1,27 @@
-﻿using UnityEngine;
+﻿#region Packages
+
+using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.Player
 {
     public class CamController : MonoBehaviour
     {
         #region Values
-        [Header("Object Reference")]
-        [SerializeField] private Transform holder = null;
-        [SerializeField] private Transform camTransform = null;
+
+        [SerializeField] private Transform lookTransform;
+
+        private PlayerInputContainer playerInputContainer;
+
         #endregion
 
         #region Build In States
-        private void Start()
-        {
-            holder = transform;
-            camTransform = holder.GetChild(1);
-        }
 
         private void Update()
         {
-
         }
+
         #endregion
 
         #region Getters
@@ -28,27 +29,24 @@ namespace Mfknudsen.Player
         #endregion
 
         #region Setters
+
         #endregion
 
         #region In
-        public void LoadSaveString(string input)
+
+        public void Setup()
         {
-            string[] values = input.Split(';');
-            holder.localRotation = Quaternion.Euler(new Vector3(0, float.Parse(values[0]), 0));
-            camTransform.localRotation = Quaternion.Euler(new Vector3(float.Parse(values[1]), 0, 0));
+            playerInputContainer = PlayerManager.instance.GetPlayerInput();
         }
+
         #endregion
 
         #region Out
-        public string ToSaveString()
-        {
-            string result = "";
 
-            result += holder.localRotation.eulerAngles.y + ";";
-            result += camTransform.localRotation.eulerAngles.x + ";";
+        #endregion
 
-            return result;
-        }
+        #region Internal
+
         #endregion
     }
 }
