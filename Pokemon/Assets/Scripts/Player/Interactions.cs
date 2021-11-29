@@ -1,9 +1,9 @@
-﻿#region SDK
+﻿#region Packages
 
 using System.Collections.Generic;
-using Mfknudsen.World.Overworld;
+using Mfknudsen.Settings.Manager;
+using Mfknudsen.World.Overworld.Interactions;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 #endregion
 
@@ -14,11 +14,10 @@ namespace Mfknudsen.Player
     {
         #region Values
 
-        private IInteractable focusedInteractable;
-        private Transform focusedTransform;
+        private InteractItem focusedInteractable;
 
-        private readonly Dictionary<IInteractable, Transform> interactableInRange =
-            new Dictionary<IInteractable, Transform>();
+        private readonly Dictionary<InteractItem, Transform> interactableInRange =
+            new Dictionary<InteractItem, Transform>();
 
         #endregion
 
@@ -26,21 +25,19 @@ namespace Mfknudsen.Player
 
         public Vector3 GetFocusedPosition()
         {
-            return focusedTransform == null ? Vector3.zero : focusedTransform.position;
+            return focusedInteractable == null ? Vector3.zero : focusedInteractable.GetPosition();
         }
 
         #endregion
 
         #region In
 
-        public void OnInteractionTrigger(InputAction.CallbackContext value)
+        public void Setup()
         {
-            if (!value.performed) return;
-
-            focusedInteractable?.Trigger();
+            InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
         }
 
-        public void OnEnter(IInteractable interactable, Transform transform)
+        public void OnEnter(InteractItem interactable, Transform transform)
         {
             if (interactableInRange.ContainsKey(interactable)) return;
 
@@ -49,7 +46,7 @@ namespace Mfknudsen.Player
             Evaluate();
         }
 
-        public void OnExit(IInteractable interactable)
+        public void OnExit(InteractItem interactable)
         {
             if (!interactableInRange.ContainsKey(interactable)) return;
 
@@ -62,6 +59,13 @@ namespace Mfknudsen.Player
 
         #region Internal
 
+        private void TriggerClosest()
+        {
+            if(focusedInteractable == null) return;
+            
+            focusedInteractable.Trigger();
+        }
+
         private void Evaluate()
         {
             if (focusedInteractable != null)
@@ -69,7 +73,6 @@ namespace Mfknudsen.Player
                 if (!interactableInRange.ContainsKey(focusedInteractable))
                 {
                     focusedInteractable = null;
-                    focusedTransform = null;
                 }
             }
 
@@ -78,9 +81,9 @@ namespace Mfknudsen.Player
             // ReSharper disable once PossibleNullReferenceException
             float dist = focusedInteractable == null
                 ? Mathf.Infinity
-                : Vector3.Distance(playerPos, focusedTransform.position);
+                : Vector3.Distance(playerPos, focusedInteractable.GetPosition());
 
-            foreach (IInteractable interactable in interactableInRange.Keys)
+            foreach (InteractItem interactable in interactableInRange.Keys)
             {
                 if (focusedInteractable == interactable) continue;
 
@@ -90,7 +93,6 @@ namespace Mfknudsen.Player
 
                 dist = tempDist;
                 focusedInteractable = interactable;
-                focusedTransform = interactableInRange[interactable];
             }
         }
 

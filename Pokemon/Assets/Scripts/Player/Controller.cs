@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using Mfknudsen.Settings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,6 +13,7 @@ namespace Mfknudsen.Player
         #region Values
 
         private PlayerInputContainer playerInputContainer;
+        private bool ready = false;
 
         [SerializeField] [FoldoutGroup("Components")]
         private NavMeshAgent agent;
@@ -25,10 +25,14 @@ namespace Mfknudsen.Player
         private Animator animController;
 
         [SerializeField] [FoldoutGroup("Transforms")]
-        private Transform playerTransform, moveTransform, camTransform, visualTransform;
+        private Transform playerTransform,
+            moveTransform,
+            camTransform,
+            visualTransform;
 
         [SerializeField] [FoldoutGroup("Speeds")]
-        private float moveSpeed, rotateSpeed;
+        private float moveSpeed,
+            rotateSpeed;
 
         private Vector3 toLookRotation = Vector3.forward;
 
@@ -46,6 +50,8 @@ namespace Mfknudsen.Player
 
         private void Update()
         {
+            if (!ready) return;
+
             UpdateMoveTransform();
             Move();
             Turn();
@@ -79,6 +85,8 @@ namespace Mfknudsen.Player
             rb.useGravity = false;
 
             playerInputContainer = PlayerManager.instance.GetPlayerInput();
+
+            ready = true;
         }
 
         #endregion

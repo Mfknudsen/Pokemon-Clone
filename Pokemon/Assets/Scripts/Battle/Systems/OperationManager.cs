@@ -2,13 +2,14 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Settings.Manager;
 using UnityEngine;
 
 #endregion
 
 namespace Mfknudsen.Battle.Systems
 {
-    public class OperationManager : MonoBehaviour
+    public class OperationManager : Manager
     {
         #region Values
 
@@ -16,24 +17,6 @@ namespace Mfknudsen.Battle.Systems
         private bool done;
 
         private Queue<OperationsContainer> operationsContainers;
-
-        #endregion
-
-        #region Build In State
-
-        private void Start()
-        {
-            if (instance == null)
-            {
-                instance = this;
-
-                operationsContainers = new Queue<OperationsContainer>();
-
-                StartCoroutine(QueueManager());
-            }
-            else
-                Destroy(gameObject);
-        }
 
         #endregion
 
@@ -47,6 +30,21 @@ namespace Mfknudsen.Battle.Systems
         #endregion
 
         #region In
+
+        public override void Setup()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+
+            operationsContainers = new Queue<OperationsContainer>();
+
+            StartCoroutine(QueueManager());
+        }
 
         public void AddOperationsContainer(OperationsContainer set)
         {

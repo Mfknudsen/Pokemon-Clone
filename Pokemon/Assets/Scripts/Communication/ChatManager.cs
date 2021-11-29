@@ -1,8 +1,7 @@
-﻿#region SDK
+﻿#region Packages
 
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using Mfknudsen.Settings;
+using Mfknudsen.Settings.Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +10,7 @@ using UnityEngine.InputSystem;
 
 namespace Mfknudsen.Communication
 {
-    public class ChatManager : MonoBehaviour, ISetup
+    public class ChatManager : Manager
     {
         #region Values
 
@@ -29,16 +28,7 @@ namespace Mfknudsen.Communication
 
         #endregion
 
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-        }
+        #region Build In States
 
         private void Update()
         {
@@ -65,22 +55,10 @@ namespace Mfknudsen.Communication
             }
         }
 
-        #region Defaults
-
-        public void DefaultTextSpeed()
-        {
-            textPerSecond = defaultTextSpeed;
-        }
-
         #endregion
 
         #region Getters
 
-        public int Priority()
-        {
-            return 1;
-        }
-        
         public bool GetIsClear()
         {
             return running == null && waitList.Count == 0;
@@ -118,11 +96,18 @@ namespace Mfknudsen.Communication
 
         #region In
 
-        public void Setup()
+        public override void Setup()
         {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+            
             defaultTextSpeed = textPerSecond;
         }
-        
 
         public void Add(Chat[] toAdd)
         {
@@ -135,7 +120,6 @@ namespace Mfknudsen.Communication
             waitList.Add(toAdd.GetChat());
         }
 
-        [UsedImplicitly]
         public void OnNextChatChange(InputAction.CallbackContext value)
         {
             if (!value.performed || running == null) return;
@@ -149,6 +133,16 @@ namespace Mfknudsen.Communication
 
             waitForInput = false;
         }
+
+
+        #region Defaults
+
+        public void DefaultTextSpeed()
+        {
+            textPerSecond = defaultTextSpeed;
+        }
+
+        #endregion
 
         #endregion
 

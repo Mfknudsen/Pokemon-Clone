@@ -3,6 +3,7 @@
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
+using Mfknudsen.Settings.Manager;
 using UnityEngine;
 
 #endregion
@@ -22,7 +23,7 @@ namespace Mfknudsen.UI
 
     #endregion
 
-    public class UIManager : MonoBehaviour
+    public class UIManager : Manager
     {
         #region Values
 
@@ -35,21 +36,6 @@ namespace Mfknudsen.UI
         private SelectionMenu selectionMenu;
 
         [SerializeField] private DisplayManager displayManager;
-
-        #endregion
-
-        #region Build In States
-
-        private void Start()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(this);
-            }
-            else
-                Destroy(this);
-        }
 
         #endregion
 
@@ -72,6 +58,17 @@ namespace Mfknudsen.UI
         #endregion
 
         #region In
+
+        public override void Setup()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+        }
 
         public void SwitchUI(UISelection selection)
         {

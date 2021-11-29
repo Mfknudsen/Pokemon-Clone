@@ -1,11 +1,10 @@
-#region SDK
+#region Packages
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
 using Mfknudsen.Player;
-using Mfknudsen.Trainer;
+using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +24,10 @@ namespace Mfknudsen
 
         private IEnumerator Setup()
         {
+            while (SetupManager.instance == null)
+                yield return null;
+            SetupManager.instance.Trigger();
+
             Inventory inventory = null;
             while (inventory == null)
             {
@@ -41,6 +44,8 @@ namespace Mfknudsen
 
             while (!asyncOperation.isDone)
                 yield return null;
+            
+            SetupManager.instance.Trigger();
 
             while (UIManager.instance == null)
                 yield return null;

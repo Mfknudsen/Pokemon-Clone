@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 565465644}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,12 +108,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565465642}
-  m_LocalRotation: {x: 0.04704921, y: -0.0000000037211665, z: 1.7526888e-10, w: 0.9988926}
-  m_LocalPosition: {x: 0, y: 2.5, z: -6}
+  m_LocalRotation: {x: 0.45652738, y: -0.060322057, z: 0.031042807, w: 0.8871192}
+  m_LocalPosition: {x: 0.37226602, y: 5.5, z: -2.7246869}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5921889010023028672}
-  m_RootOrder: 2
+  m_Father: {fileID: 5921889010027575650}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &565465646
 Camera:
@@ -319,7 +319,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689654913}
-  m_LocalRotation: {x: 0.070307046, y: 0.000000004290951, z: -3.0243255e-10, w: 0.9975254}
+  m_LocalRotation: {x: 0.45652738, y: -0.060322065, z: 0.031042812, w: 0.8871192}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -771,7 +771,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718830933}
-  m_LocalRotation: {x: 0.047049202, y: -0.0000000037211652, z: 1.7527195e-10, w: 0.9988926}
+  m_LocalRotation: {x: 0.4357368, y: -0.061028857, z: 0.029629089, w: 0.8975138}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -845,7 +845,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745999024}
-  m_LocalRotation: {x: 0.023866544, y: -0, z: -0, w: 0.99971515}
+  m_LocalRotation: {x: 0.4148011, y: -0.061699722, z: 0.02820552, w: 0.90737957}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -906,6 +906,7 @@ GameObject:
   - component: {fileID: 1888812391}
   - component: {fileID: 1888812392}
   - component: {fileID: 1419257662}
+  - component: {fileID: 8851819869739450579}
   m_Layer: 0
   m_Name: CM FreeLook
   m_TagString: Untagged
@@ -921,7 +922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888812390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: -6}
+  m_LocalPosition: {x: 0.37226602, y: 5.5, z: -2.7246869}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 689654914}
@@ -966,10 +967,10 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.5
-    m_SpeedMode: 0
-    m_MaxSpeed: 1
-    m_AccelTime: 0.2
+    Value: 1
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.001
+    m_AccelTime: 0
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
@@ -991,9 +992,9 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
-    m_AccelTime: 0.1
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.25
+    m_AccelTime: 0
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
@@ -1020,7 +1021,7 @@ MonoBehaviour:
   m_BindingMode: 5
   m_SplineCurvature: 1
   m_Orbits:
-  - m_Height: 7
+  - m_Height: 5.5
     m_Radius: 2.75
   - m_Height: 2.5
     m_Radius: 6
@@ -1046,6 +1047,36 @@ MonoBehaviour:
   PlayerIndex: -1
   XYAxis: {fileID: -2406340867215661640, guid: cb0efd68321d2b34088e9c6ea82de189, type: 3}
   ZAxis: {fileID: 0}
+--- !u!114 &8851819869739450579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888812390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &2061206350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,14 +1180,13 @@ GameObject:
   m_Component:
   - component: {fileID: 5921889010023028672}
   - component: {fileID: 5921889010023028678}
-  - component: {fileID: 5921889010023028679}
   - component: {fileID: 1642143092}
   - component: {fileID: 70431152}
   - component: {fileID: 70431153}
   - component: {fileID: 70431154}
   m_Layer: 0
   m_Name: Overworld
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1174,9 +1204,8 @@ Transform:
   m_Children:
   - {fileID: 5921889009808195016}
   - {fileID: 1888812391}
-  - {fileID: 565465643}
   m_Father: {fileID: 5921889010027575650}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5921889010023028678
 MonoBehaviour:
@@ -1199,19 +1228,6 @@ MonoBehaviour:
   visualTransform: {fileID: 5921889009808195016}
   moveSpeed: 4
   rotateSpeed: 5
---- !u!114 &5921889010023028679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5921889010023028673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e3cf413bd158e4d8404c9da5bcdecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookTransform: {fileID: 0}
 --- !u!114 &1642143092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1289,10 +1305,9 @@ GameObject:
   - component: {fileID: 5921889010027575708}
   - component: {fileID: 5921889010027575709}
   - component: {fileID: 5921889010027575649}
-  - component: {fileID: 283798290}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1308,6 +1323,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 565465643}
   - {fileID: 5921889010023028672}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1324,13 +1340,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca8cc52cad8d0f49bef4bdae8f6b1ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 3
   team: {fileID: 5921889010027575708}
   controller: {fileID: 5921889010023028678}
   battleMember: {fileID: 5921889010027575709}
   interactions: {fileID: 1642143092}
   moveController: {fileID: 5921889010023028678}
-  camController: {fileID: 5921889010023028679}
-  bagdeCount: 0
+  badgeCount: 0
   pronoun1: They
   pronoun2: Them
   pronoun3: Theirs
@@ -1408,101 +1424,3 @@ MonoBehaviour:
   tm: 
   treasure: 01000000
   key: 
---- !u!114 &283798290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5921889010027575710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: cb0efd68321d2b34088e9c6ea82de189, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5921889010023028678}
-        m_TargetAssemblyTypeName: Mfknudsen.Player.Controller, Assembly-CSharp
-        m_MethodName: OnMoveAxisChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a9739c69-c5ec-4cdb-bdae-2ac6178c241e
-    m_ActionName: Player/Move Axis[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1642143092}
-        m_TargetAssemblyTypeName: Mfknudsen.Player.Interactions, Assembly-CSharp
-        m_MethodName: OnInteractionTrigger
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f1011942-2938-424c-93be-6d5a3fd35b10
-    m_ActionName: Player/Interact[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5921889010023028678}
-        m_TargetAssemblyTypeName: Mfknudsen.Player.Controller, Assembly-CSharp
-        m_MethodName: OnMouseAxisChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2d842ed9-e396-4c7d-a333-ff34af5e5f38
-    m_ActionName: Player/Turn Axis[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Mfknudsen.Comunication.ChatMaster, Assembly-CSharp
-        m_MethodName: OnNextChatChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 67ac8333-9213-4716-b963-975a185d7a3a
-    m_ActionName: Player/NextChat[/Keyboard/space,/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b5b84b1f-638f-40de-a296-a95a96629bc8
-    m_ActionName: Player/OpenMenu[/Keyboard/escape,/Keyboard/backspace]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard and Mouse
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}

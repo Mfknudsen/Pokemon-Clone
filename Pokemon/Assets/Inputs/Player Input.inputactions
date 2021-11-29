@@ -38,17 +38,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "OpenMenu",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "b5b84b1f-638f-40de-a296-a95a96629bc8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ShowMenu",
-                    "type": "Button",
-                    "id": "1fb5b7b3-6c61-4a42-876d-32c6ce219e4e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -326,7 +318,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "OpenMenu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -337,18 +329,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "OpenMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4ea12b1d-e6bf-431e-ab16-173c2389fc6a",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "ShowMenu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

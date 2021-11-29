@@ -1,11 +1,11 @@
-#region SDK
+#region Packages
 
 using Mfknudsen.Player;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen
+namespace Mfknudsen.UI.Overworld
 {
     public class InteractIcon : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Mfknudsen
         private RectTransform rectTransform;
         private Camera cam;
 
-        private void Start()
+        private void Awake()
         {
             interactions = PlayerManager.instance.GetInteractions();
 

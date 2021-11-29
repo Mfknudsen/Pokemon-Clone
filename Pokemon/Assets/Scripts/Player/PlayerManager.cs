@@ -2,7 +2,7 @@
 
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
-using Mfknudsen.Settings;
+using Mfknudsen.Settings.Manager;
 using Mfknudsen.Trainer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,8 +11,9 @@ using UnityEngine;
 
 namespace Mfknudsen.Player
 {
-    [RequireComponent(typeof(BattleMember), typeof(Team), typeof(Inventory))]
-    public class PlayerManager : MonoBehaviour, ISetup
+    [RequireComponent(typeof(BattleMember),
+        typeof(Team), typeof(Inventory))]
+    public class PlayerManager : Manager
     {
         #region Values
 
@@ -30,11 +31,8 @@ namespace Mfknudsen.Player
         [FoldoutGroup("References")] [SerializeField]
         private Interactions interactions;
 
-        [FoldoutGroup("References/Controllers")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField]
         private Controller moveController;
-
-        [FoldoutGroup("References/Controllers")] [SerializeField]
-        private CamController camController;
 
         // ReSharper disable once IdentifierTypo
         private GameObject overworldGameObject;
@@ -61,31 +59,11 @@ namespace Mfknudsen.Player
 
         #endregion
 
-        #region Build In State
-
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-        }
-
-        #endregion
-
         #region Getters
-
-        public int Priority()
-        {
-            return 1;
-        }
 
         public string[] GetPronouns()
         {
-            return new[] {pronoun1, pronoun2, pronoun3};
+            return new[] { pronoun1, pronoun2, pronoun3 };
         }
 
         public Team GetTeam()
@@ -126,18 +104,25 @@ namespace Mfknudsen.Player
 
         #region In
 
-        public void Setup()
+        public override void Setup()
         {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+
             overworldGameObject = controller.gameObject;
             overworldGameObject.SetActive(false);
 
             playerInputContainer = new PlayerInputContainer();
 
             moveController.Setup();
-            camController.Setup();
+            interactions.Setup();
 
-            InputManager inputManager = InputManager.instance;
-            inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
+            InputManager.instance.moveAxisInputEvent.AddListener(OnMoveAxisChange);
         }
 
         // ReSharper disable once IdentifierTypo
@@ -160,7 +145,6 @@ namespace Mfknudsen.Player
 
         private void OnMoveAxisChange(Vector2 vec)
         {
-            Debug.Log(vec);
             playerInputContainer.SetMoveDirection(vec);
         }
 

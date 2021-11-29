@@ -1154,8 +1154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3adc26d404b8541894dd2c4d4c555f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints: []
-  spawnAnimation: []
+  priority: 1
 --- !u!1 &1444644200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,6 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86faff05aedfc584880a11ab699d36b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 1
   progressMeter: 0
   currentLoadedBattleScene: 
 --- !u!1 &1710272317
@@ -1897,6 +1897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d00c1786a18bbe47a24a99290fa1075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 1
   running: {fileID: 0}
   waitList: []
   textField: {fileID: 0}
@@ -2308,3 +2309,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94ca594229798b4f83ee122de9c1a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconOffset: {x: 0, y: 1, z: 0}

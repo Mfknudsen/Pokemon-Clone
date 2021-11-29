@@ -1,12 +1,7 @@
-﻿#region SDK
+﻿#region Packages
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Mfknudsen.Player;
-using Mfknudsen.Pokémon;
-using Mfknudsen.UI;
-using Mfknudsen.World.Overworld;
+using Mfknudsen.World.Overworld.Interactions;
 using UnityEngine;
 
 #endregion
@@ -14,7 +9,8 @@ using UnityEngine;
 namespace Mfknudsen.PC
 {
     [RequireComponent(typeof(SphereCollider))]
-    public class Box : MonoBehaviour, IInteractable
+    [AddComponentMenu("Overworld/Interactions")]
+    public class Box : InteractItem
     {
         #region In
 
@@ -28,7 +24,7 @@ namespace Mfknudsen.PC
 
         #endregion
 
-        public void Trigger()
+        public override void Trigger()
         {
             Debug.Log("Trigger Box");
             //UIManager.instance.SwitchUI(UISelection.Box);

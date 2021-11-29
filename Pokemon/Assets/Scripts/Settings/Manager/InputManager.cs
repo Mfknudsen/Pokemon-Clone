@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 #endregion
 
-namespace Mfknudsen.Settings
+namespace Mfknudsen.Settings.Manager
 {
     #region Events
 
@@ -20,10 +20,25 @@ namespace Mfknudsen.Settings
     public class RotAxisInputEvent : UnityEvent<Vector2>
     {
     }
-    
+
+    [Serializable]
+    public class NextChatInputEvent : UnityEvent
+    {
+    }
+
+    [Serializable]
+    public class PauseInputEvent : UnityEvent
+    {
+    }
+
+    [Serializable]
+    public class InteractInputEvent : UnityEvent
+    {
+    }
 
     #endregion
-    public class InputManager : MonoBehaviour, ISetup
+
+    public class InputManager : Manager
     {
         #region Values
 
@@ -34,14 +49,17 @@ namespace Mfknudsen.Settings
 
         [HideInInspector] public MoveAxisInputEvent moveAxisInputEvent;
         [HideInInspector] public RotAxisInputEvent rotAxisInputEvent;
+        [HideInInspector] public NextChatInputEvent nextChatInputEvent;
+        [HideInInspector] public PauseInputEvent pauseInputEvent;
+        [HideInInspector] public InteractInputEvent interactInputEvent;
 
         #endregion
 
         #endregion
 
-        #region Build In States
+        #region In
 
-        private void Awake()
+        public override void Setup()
         {
             if (instance == null)
             {
@@ -50,40 +68,27 @@ namespace Mfknudsen.Settings
             }
             else
                 Destroy(gameObject);
-        }
-
-        #endregion
-
-        #region Getters
-
-        public int Priority()
-        {
-            return 1;
-        }
-
-        #endregion
-
-        #region In
-
-        public void Setup()
-        {
-            playerInput = new PlayerInput();
             
+            playerInput = new PlayerInput();
+
             playerInput.Player.Enable();
             playerInput.Player.MoveAxis.performed += OnMoveAxisPerformed;
             playerInput.Player.TurnAxis.performed += OnRotAxisPerformed;
+            playerInput.Player.NextChat.performed += OnNextChatPerformed;
+            playerInput.Player.Pause.performed += OnPausePerformed;
+            playerInput.Player.Interact.performed += OnInteractPerformed;
         }
 
         #endregion
-        
+
         #region Internal
+
+        #region Axis
 
         private void OnMoveAxisPerformed(InputAction.CallbackContext context)
         {
             Vector2 input = context.ReadValue<Vector2>();
             moveAxisInputEvent.Invoke(input);
-            
-            Debug.Log("move");
         }
 
         private void OnRotAxisPerformed(InputAction.CallbackContext context)
@@ -91,6 +96,33 @@ namespace Mfknudsen.Settings
             Vector2 input = context.ReadValue<Vector2>();
             rotAxisInputEvent.Invoke(input);
         }
+
+        #endregion
+
+        #region Buttons
+
+        private void OnNextChatPerformed(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+
+            nextChatInputEvent.Invoke();
+        }
+
+        private void OnPausePerformed(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+
+            pauseInputEvent.Invoke();
+        }
+
+        private void OnInteractPerformed(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+
+            interactInputEvent.Invoke();
+        }
+
+        #endregion
 
         #endregion
     }

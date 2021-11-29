@@ -91,6 +91,8 @@ namespace Mfknudsen.Battle.Systems
         {
             WorldManager manager = WorldManager.instance;
 
+            Debug.Log(manager == null);
+            
             manager.SetTransition(transition);
             manager.LoadBattleScene(battleSceneName);
 

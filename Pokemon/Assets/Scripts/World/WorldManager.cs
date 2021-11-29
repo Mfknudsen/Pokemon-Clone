@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Player;
-using Mfknudsen.Settings;
+using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using UnityEngine;
@@ -15,7 +15,7 @@ using UnityEngine.SceneManagement;
 
 namespace Mfknudsen.World
 {
-    public class WorldManager : MonoBehaviour, ISetup
+    public class WorldManager : Manager
     {
         #region Values
 
@@ -48,12 +48,7 @@ namespace Mfknudsen.World
         #endregion
 
         #region Getters
-
-        public int Priority()
-        {
-            return 1;
-        }
-
+        
         public float GetLoadMeter()
         {
             return progressMeter;
@@ -89,7 +84,7 @@ namespace Mfknudsen.World
 
         #region In
 
-        public void Setup()
+        public override void Setup()
         {
         }
 
@@ -115,7 +110,7 @@ namespace Mfknudsen.World
 
         #endregion
 
-        #region IEnumerator
+        #region Internal
 
         #region Load/Unload Battle Scenes
 
@@ -137,6 +132,8 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
+            SetupManager.instance.Trigger();
+            
             currentLoadedBattleScene = sceneName;
 
             currentOperation = null;

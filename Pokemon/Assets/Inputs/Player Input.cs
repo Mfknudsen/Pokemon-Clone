@@ -51,17 +51,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""OpenMenu"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""b5b84b1f-638f-40de-a296-a95a96629bc8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""ShowMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""1fb5b7b3-6c61-4a42-876d-32c6ce219e4e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -339,7 +331,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OpenMenu"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -350,18 +342,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OpenMenu"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4ea12b1d-e6bf-431e-ab16-173c2389fc6a"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""ShowMenu"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -404,8 +385,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_TurnAxis = m_Player.FindAction("Turn Axis", throwIfNotFound: true);
         m_Player_NextChat = m_Player.FindAction("NextChat", throwIfNotFound: true);
-        m_Player_OpenMenu = m_Player.FindAction("OpenMenu", throwIfNotFound: true);
-        m_Player_ShowMenu = m_Player.FindAction("ShowMenu", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -459,8 +439,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_TurnAxis;
     private readonly InputAction m_Player_NextChat;
-    private readonly InputAction m_Player_OpenMenu;
-    private readonly InputAction m_Player_ShowMenu;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -469,8 +448,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @TurnAxis => m_Wrapper.m_Player_TurnAxis;
         public InputAction @NextChat => m_Wrapper.m_Player_NextChat;
-        public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
-        public InputAction @ShowMenu => m_Wrapper.m_Player_ShowMenu;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -492,12 +470,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @NextChat.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextChat;
                 @NextChat.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextChat;
                 @NextChat.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextChat;
-                @OpenMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
-                @OpenMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
-                @OpenMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
-                @ShowMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowMenu;
-                @ShowMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowMenu;
-                @ShowMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowMenu;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -514,12 +489,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @NextChat.started += instance.OnNextChat;
                 @NextChat.performed += instance.OnNextChat;
                 @NextChat.canceled += instance.OnNextChat;
-                @OpenMenu.started += instance.OnOpenMenu;
-                @OpenMenu.performed += instance.OnOpenMenu;
-                @OpenMenu.canceled += instance.OnOpenMenu;
-                @ShowMenu.started += instance.OnShowMenu;
-                @ShowMenu.performed += instance.OnShowMenu;
-                @ShowMenu.canceled += instance.OnShowMenu;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -548,7 +520,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnTurnAxis(InputAction.CallbackContext context);
         void OnNextChat(InputAction.CallbackContext context);
-        void OnOpenMenu(InputAction.CallbackContext context);
-        void OnShowMenu(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
