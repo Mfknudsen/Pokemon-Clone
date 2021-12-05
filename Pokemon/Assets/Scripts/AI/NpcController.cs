@@ -1,10 +1,12 @@
 ﻿#region Packages
 
+using System;
+using Mfknudsen.NPC;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.NPC
+namespace Mfknudsen.AI
 {
     public class NpcController : MonoBehaviour
     {
@@ -12,6 +14,20 @@ namespace Mfknudsen.NPC
 
         [SerializeField] private string characterName = "";
         [SerializeField] private NpcTeam npcTeam;
+
+        #endregion
+
+        #region Build In States
+
+        private void Awake()
+        {
+            NpcManager.instance.AddController(this);
+        }
+
+        private void OnDestroy()
+        {
+            NpcManager.instance.RemoveController(this);
+        }
 
         #endregion
     }
