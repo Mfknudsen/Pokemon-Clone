@@ -26,6 +26,7 @@ namespace Mfknudsen
         {
             while (SetupManager.instance == null)
                 yield return null;
+            
             SetupManager.instance.Trigger();
 
             Inventory inventory = null;

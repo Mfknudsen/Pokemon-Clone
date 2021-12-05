@@ -6,6 +6,7 @@ using Mfknudsen.Player;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
+using Mfknudsen.World.Overworld.TileS;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,7 +26,7 @@ namespace Mfknudsen.World
         [Header("Loading:")] [SerializeField] private float progressMeter;
 
         [Header("Battle Scene:")] [SerializeField]
-        private string currentLoadedBattleScene = "";
+        private string currentLoadedBattleScene;
 
         private Transition transition;
         private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
@@ -48,7 +49,7 @@ namespace Mfknudsen.World
         #endregion
 
         #region Getters
-        
+
         public float GetLoadMeter()
         {
             return progressMeter;
@@ -133,10 +134,8 @@ namespace Mfknudsen.World
             }
 
             SetupManager.instance.Trigger();
-            
-            currentLoadedBattleScene = sceneName;
 
-            currentOperation = null;
+            currentLoadedBattleScene = sceneName;
 
             PlayerManager.instance.EnableOverworld();
 
@@ -184,15 +183,21 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
+            SetupManager.instance.Trigger();
+
             currentOperation = null;
         }
 
         private IEnumerator UnloadWorldSceneAsync(string sceneName)
         {
+            UnloadWorldInterfaces(sceneName);
+
             AsyncOperation asyncOperation = SceneManager.UnloadSceneAsync(sceneName);
 
             while (!asyncOperation.isDone)
                 yield return null;
+
+            currentOperation = null;
         }
 
         #endregion
@@ -210,6 +215,25 @@ namespace Mfknudsen.World
         }
 
         #endregion
+
+        private void UnloadWorldInterfaces(string sceneName)
+        {
+            List<GameObject> toUnload = new List<GameObject>
+                {TileManager.instance.GetSubManagerByName(sceneName).gameObject};
+
+            while (toUnload.Count > 0)
+            {
+                GameObject obj = toUnload[0];
+
+                foreach (IUnload i in obj.GetComponents<IUnload>())
+                    i.Unload();
+
+                for (int i = 0; i < obj.transform.childCount; i++)
+                    toUnload.Add(obj.transform.GetChild(i).gameObject);
+                
+                toUnload.RemoveAt(0);
+            }
+        }
 
         #endregion
     }

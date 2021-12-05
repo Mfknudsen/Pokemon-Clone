@@ -13,7 +13,7 @@ namespace Mfknudsen.Player
         #region Values
 
         private PlayerInputContainer playerInputContainer;
-        private bool ready = false;
+        private bool ready;
 
         [SerializeField] [FoldoutGroup("Components")]
         private NavMeshAgent agent;
@@ -32,7 +32,8 @@ namespace Mfknudsen.Player
 
         [SerializeField] [FoldoutGroup("Speeds")]
         private float moveSpeed,
-            rotateSpeed;
+            rotateSpeed,
+            runSpeed;
 
         private Vector3 toLookRotation = Vector3.forward;
 
@@ -117,8 +118,11 @@ namespace Mfknudsen.Player
             Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
-
-            agent.Move(moveVector * (moveSpeed * Time.deltaTime));
+            
+            agent.Move(
+                moveVector
+                * ((playerInputContainer.GetRun() ? runSpeed : moveSpeed)
+                   * Time.deltaTime));
         }
 
         private void Turn()

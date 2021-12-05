@@ -36,6 +36,11 @@ namespace Mfknudsen.Settings.Manager
     {
     }
 
+    [Serializable]
+    public class RunInputEvent : UnityEvent<bool>
+    {
+    }
+
     #endregion
 
     public class InputManager : Manager
@@ -52,6 +57,7 @@ namespace Mfknudsen.Settings.Manager
         [HideInInspector] public NextChatInputEvent nextChatInputEvent;
         [HideInInspector] public PauseInputEvent pauseInputEvent;
         [HideInInspector] public InteractInputEvent interactInputEvent;
+        [HideInInspector] public RunInputEvent runInputEvent;
 
         #endregion
 
@@ -68,15 +74,23 @@ namespace Mfknudsen.Settings.Manager
             }
             else
                 Destroy(gameObject);
-            
+
             playerInput = new PlayerInput();
 
             playerInput.Player.Enable();
+
             playerInput.Player.MoveAxis.performed += OnMoveAxisPerformed;
+            playerInput.Player.MoveAxis.canceled += OnMoveAxisPerformed;
+
             playerInput.Player.TurnAxis.performed += OnRotAxisPerformed;
+            playerInput.Player.TurnAxis.canceled += OnRotAxisPerformed;
+
             playerInput.Player.NextChat.performed += OnNextChatPerformed;
             playerInput.Player.Pause.performed += OnPausePerformed;
             playerInput.Player.Interact.performed += OnInteractPerformed;
+            
+            playerInput.Player.Run.performed += OnRunPerformed;
+            playerInput.Player.Run.canceled += OnRunPerformed;
         }
 
         #endregion
@@ -103,25 +117,24 @@ namespace Mfknudsen.Settings.Manager
 
         private void OnNextChatPerformed(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-
             nextChatInputEvent.Invoke();
         }
 
         private void OnPausePerformed(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-
             pauseInputEvent.Invoke();
         }
 
         private void OnInteractPerformed(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-
             interactInputEvent.Invoke();
         }
 
+        private void OnRunPerformed(InputAction.CallbackContext context)
+        {
+            runInputEvent.Invoke(!context.canceled);
+        }
+        
         #endregion
 
         #endregion

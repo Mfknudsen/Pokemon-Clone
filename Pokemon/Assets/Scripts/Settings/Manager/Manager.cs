@@ -11,7 +11,7 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        [FoldoutGroup("ISetup")] [SerializeField]
+        [FoldoutGroup("ISetup")] [Range(1, 10)] [SerializeField]
         protected int priority = 1;
 
         private bool ready;

@@ -10,6 +10,9 @@ namespace Mfknudsen.Settings
     {
         private static readonly EvaluatorSetting EasyEvaluatorSetting, MediumEvaluatorSetting, HardEvaluatorSetting;
 
+        private static bool invertX, invertY;
+        private static float mouseSensitivity; 
+
         static GameplaySetting()
         {
             PersonalitySetting personalitySetting = new PersonalitySetting();
@@ -32,6 +35,32 @@ namespace Mfknudsen.Settings
                 Difficultly.Medium => MediumEvaluatorSetting,
                 _ => HardEvaluatorSetting,
             };
+        }
+
+        #endregion
+
+        #region Setters
+
+        public static void SetInvert(bool set, string axis)
+        {
+            if (axis.Equals("X"))
+                invertX = set;
+            else
+                invertY = set;
+        }
+
+        public static void SetMouseSensitivity(float set)
+        {
+            mouseSensitivity = set;
+        }
+
+        #endregion
+        
+        #region In
+
+        public static void ApplySettings()
+        {
+            
         }
 
         #endregion

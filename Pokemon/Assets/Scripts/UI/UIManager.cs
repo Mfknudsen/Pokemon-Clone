@@ -1,9 +1,9 @@
 #region Packages
 
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Settings.Manager;
+using Mfknudsen.UI.Pause;
 using UnityEngine;
 
 #endregion
@@ -28,14 +28,13 @@ namespace Mfknudsen.UI
         #region Values
 
         public static UIManager instance;
+        [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI;
 
-        [Space] [SerializeField] private GameObject battleUI;
-        [SerializeField] private GameObject overworldUI, pauseUI, startUI;
-
-        [Space, Header("Battle:")] [SerializeField]
-        private SelectionMenu selectionMenu;
+        [SerializeField] private SelectionMenu selectionMenu;
 
         [SerializeField] private DisplayManager displayManager;
+
+        private UISelection currentSelection = UISelection.Start;
 
         #endregion
 
@@ -65,6 +64,8 @@ namespace Mfknudsen.UI
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
+
+                InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
@@ -94,16 +95,27 @@ namespace Mfknudsen.UI
 
                 case UISelection.Pause:
                     pauseUI.SetActive(true);
+                    pauseUI.GetComponent<PauseMenu>().OnDisplay(currentSelection);
                     break;
 
                 case UISelection.Box:
                     break;
             }
+
+            currentSelection = selection;
         }
 
-        public void StartTestBattle()
+        #endregion
+
+        public void TurnOffMenus()
         {
-            FindObjectOfType<BattleStarter>().StartBattleNow();
+        }
+
+        #region Internal
+
+        private void PauseTrigger()
+        {
+            SwitchUI(UISelection.Pause);
         }
 
         #endregion

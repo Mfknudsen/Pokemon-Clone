@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 377087687}
   - component: {fileID: 377087690}
   - component: {fileID: 377087689}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 565465646}
   - component: {fileID: 565465645}
   - component: {fileID: 565465644}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -108,13 +108,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565465642}
-  m_LocalRotation: {x: 0.45652738, y: -0.060322057, z: 0.031042807, w: 0.8871192}
-  m_LocalPosition: {x: 0.37226602, y: 5.5, z: -2.7246869}
+  m_LocalRotation: {x: 0.070307046, y: 0.000000004290951, z: -3.024323e-10, w: 0.9975254}
+  m_LocalPosition: {x: 0, y: 2.5, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5921889010027575650}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.396, y: 0, z: 0}
 --- !u!20 &565465646
 Camera:
   m_ObjectHideFlags: 0
@@ -178,14 +178,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
+  m_ShowDebugText: 1
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
+    m_Style: 6
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 607573926}
   - component: {fileID: 607573925}
   - component: {fileID: 607573924}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 689654914}
   - component: {fileID: 689654915}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689654913}
-  m_LocalRotation: {x: 0.45652738, y: -0.060322065, z: 0.031042812, w: 0.8871192}
+  m_LocalRotation: {x: 0.07030705, y: 0.0000000042909503, z: -3.0243252e-10, w: 0.9975254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 2924751644339943863}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 50
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 1171602541}
   - component: {fileID: 1171602540}
   - component: {fileID: 1171602539}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,11 +426,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_BindingMode: 0
+  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 1421210455}
   - component: {fileID: 1421210454}
   - component: {fileID: 1421210453}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,11 +552,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_BindingMode: 0
+  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -609,16 +609,16 @@ MonoBehaviour:
   m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
-  m_LookaheadIgnoreY: 0
+  m_LookaheadIgnoreY: 1
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.55
+  m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
-  m_BiasX: 0
+  m_BiasX: 0.00000037252903
   m_BiasY: 0
   m_CenterOnActivate: 1
 --- !u!1 &1480587299
@@ -632,8 +632,8 @@ GameObject:
   - component: {fileID: 1480587300}
   - component: {fileID: 1480587303}
   - component: {fileID: 1480587302}
-  - component: {fileID: 1480587301}
-  m_Layer: 0
+  - component: {fileID: 1168154761}
+  m_Layer: 3
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,11 +678,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 5.5, z: -2.75}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_BindingMode: 0
+  m_FollowOffset: {x: 0, y: 2.5, z: -6}
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -720,7 +720,7 @@ MonoBehaviour:
   m_LegacyHeightOffset: 3.4028235e+38
   m_LegacyHeadingBias: 3.4028235e+38
   m_HeadingIsSlave: 1
---- !u!114 &1480587301
+--- !u!114 &1168154761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -735,9 +735,9 @@ MonoBehaviour:
   m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
-  m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0
-  m_VerticalDamping: 0
+  m_LookaheadIgnoreY: 1
+  m_HorizontalDamping: 0.5
+  m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
@@ -757,7 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718830934}
   - component: {fileID: 1718830935}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MiddleRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,7 +771,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718830933}
-  m_LocalRotation: {x: 0.4357368, y: -0.061028857, z: 0.029629089, w: 0.8975138}
+  m_LocalRotation: {x: 0.070307046, y: 0.000000004290951, z: -3.0243255e-10, w: 0.9975254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -831,7 +831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1745999025}
   - component: {fileID: 1745999026}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,7 +845,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745999024}
-  m_LocalRotation: {x: 0.4148011, y: -0.061699722, z: 0.02820552, w: 0.90737957}
+  m_LocalRotation: {x: 0.023866544, y: -1e-45, z: -0, w: 0.99971515}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -907,8 +907,8 @@ GameObject:
   - component: {fileID: 1888812392}
   - component: {fileID: 1419257662}
   - component: {fileID: 8851819869739450579}
-  m_Layer: 0
-  m_Name: CM FreeLook
+  m_Layer: 3
+  m_Name: Player Third Person Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -922,7 +922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888812390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.37226602, y: 5.5, z: -2.7246869}
+  m_LocalPosition: {x: 0, y: 2.5, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 689654914}
@@ -967,14 +967,14 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 1
+    Value: 0.5
     m_SpeedMode: 1
     m_MaxSpeed: 0.001
     m_AccelTime: 0
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: 0
     m_MaxValue: 1
     m_Wrap: 0
@@ -993,12 +993,12 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 0.25
+    m_MaxSpeed: 0.05
     m_AccelTime: 0
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
-    m_InvertInput: 1
+    m_InvertInput: 0
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
@@ -1018,7 +1018,7 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
-  m_BindingMode: 5
+  m_BindingMode: 0
   m_SplineCurvature: 1
   m_Orbits:
   - m_Height: 5.5
@@ -1068,7 +1068,7 @@ MonoBehaviour:
     m_Bits: 0
   m_MinimumDistanceFromTarget: 0.1
   m_AvoidObstacles: 1
-  m_DistanceLimit: 0
+  m_DistanceLimit: 1
   m_MinimumOcclusionTime: 0
   m_CameraRadius: 0.1
   m_Strategy: 1
@@ -1086,7 +1086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2061206351}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MoveTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1116,7 +1116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2924751644339943863}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LookAtTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1146,9 +1146,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5921889009808195016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: OverworldVisual
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1184,7 +1184,7 @@ GameObject:
   - component: {fileID: 70431152}
   - component: {fileID: 70431153}
   - component: {fileID: 70431154}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Overworld
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1228,6 +1228,7 @@ MonoBehaviour:
   visualTransform: {fileID: 5921889009808195016}
   moveSpeed: 4
   rotateSpeed: 5
+  runSpeed: 8
 --- !u!114 &1642143092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,7 +1306,7 @@ GameObject:
   - component: {fileID: 5921889010027575708}
   - component: {fileID: 5921889010027575709}
   - component: {fileID: 5921889010027575649}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1343,13 +1344,15 @@ MonoBehaviour:
   priority: 3
   team: {fileID: 5921889010027575708}
   controller: {fileID: 5921889010023028678}
+  agent: {fileID: 70431154}
   battleMember: {fileID: 5921889010027575709}
   interactions: {fileID: 1642143092}
   moveController: {fileID: 5921889010023028678}
-  badgeCount: 0
-  pronoun1: They
-  pronoun2: Them
-  pronoun3: Theirs
+  characterSheet:
+    badgeCount: 0
+    pronoun1: They
+    pronoun2: Them
+    pronoun3: Theirs
 --- !u!114 &5921889010027575708
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using Mfknudsen.Settings.Manager;
 using Mfknudsen.Trainer;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 
 #endregion
 
@@ -26,6 +27,9 @@ namespace Mfknudsen.Player
         private Controller controller;
 
         [FoldoutGroup("References")] [SerializeField]
+        private NavMeshAgent agent;
+
+        [FoldoutGroup("References")] [SerializeField]
         private BattleMember battleMember;
 
         [FoldoutGroup("References")] [SerializeField]
@@ -38,32 +42,20 @@ namespace Mfknudsen.Player
         private GameObject overworldGameObject;
         private PlayerInputContainer playerInputContainer;
 
-        #region Character Sheet
-
-        [FoldoutGroup("Character Sheet"), SerializeField]
-        private int badgeCount;
-
-        [FoldoutGroup("Character Sheet/Pronouns")]
-        [HorizontalGroup("Character Sheet/Pronouns/Horizontal")]
-        [HideLabel]
-        [BoxGroup("Character Sheet/Pronouns/Horizontal/1", false), SerializeField]
-        private string pronoun1 = "They";
-
-        [HideLabel] [BoxGroup("Character Sheet/Pronouns/Horizontal/2", false), SerializeField]
-        private string pronoun2 = "Them";
-
-        [HideLabel] [BoxGroup("Character Sheet/Pronouns/Horizontal/3", false), SerializeField]
-        private string pronoun3 = "Theirs";
-
-        #endregion
+        [SerializeField] private CharacterSheet characterSheet;
 
         #endregion
 
         #region Getters
 
+        public CharacterSheet GetCharacterSheet()
+        {
+            return characterSheet;
+        }
+
         public string[] GetPronouns()
         {
-            return new[] { pronoun1, pronoun2, pronoun3 };
+            return new[] {characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3};
         }
 
         public Team GetTeam()
@@ -86,18 +78,9 @@ namespace Mfknudsen.Player
             return playerInputContainer;
         }
 
-        #endregion
-
-        #region Setters
-
-        public void SetPronouns(string one, string two, string three)
+        public NavMeshAgent GetAgent()
         {
-            if (!one.Equals(""))
-                pronoun1 = one;
-            if (!two.Equals(""))
-                pronoun2 = two;
-            if (!three.Equals(""))
-                pronoun3 = three;
+            return agent;
         }
 
         #endregion
@@ -122,7 +105,9 @@ namespace Mfknudsen.Player
             moveController.Setup();
             interactions.Setup();
 
-            InputManager.instance.moveAxisInputEvent.AddListener(OnMoveAxisChange);
+            InputManager inputManager = InputManager.instance;
+            inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
+            inputManager.runInputEvent.AddListener(OnRunChange);
         }
 
         // ReSharper disable once IdentifierTypo
@@ -146,6 +131,11 @@ namespace Mfknudsen.Player
         private void OnMoveAxisChange(Vector2 vec)
         {
             playerInputContainer.SetMoveDirection(vec);
+        }
+
+        private void OnRunChange(bool set)
+        {
+            playerInputContainer.SetRun(set);
         }
 
         #endregion

@@ -9,6 +9,7 @@ namespace Mfknudsen.Player
     public class PlayerInputContainer
     {
         private Vector2 moveDir;
+        private bool run;
 
         #region Getters
 
@@ -17,6 +18,11 @@ namespace Mfknudsen.Player
             return moveDir;
         }
 
+        public bool GetRun()
+        {
+            return run;
+        }
+        
         #endregion
 
         #region Setters
@@ -26,6 +32,11 @@ namespace Mfknudsen.Player
             moveDir = set;
         }
 
+        public void SetRun(bool set)
+        {
+            run = set;
+        }
+        
         #endregion
     }
 }
