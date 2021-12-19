@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using Cinemachine;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
 using Mfknudsen.Settings.Manager;
@@ -37,6 +38,9 @@ namespace Mfknudsen.Player
 
         [FoldoutGroup("References")] [SerializeField]
         private Controller moveController;
+
+        [FoldoutGroup("References")] [SerializeField]
+        private CinemachineFreeLook overworldCameraRig;
 
         // ReSharper disable once IdentifierTypo
         private GameObject overworldGameObject;
@@ -83,6 +87,16 @@ namespace Mfknudsen.Player
             return agent;
         }
 
+        public CinemachineFreeLook GetOverworldCameraRig()
+        {
+            return overworldCameraRig;
+        }
+
+        public Controller GetController()
+        {
+            return controller;
+        }
+        
         #endregion
 
         #region In
@@ -97,8 +111,10 @@ namespace Mfknudsen.Player
             else
                 Destroy(gameObject);
 
+            overworldCameraRig.enabled = false;
+            
             overworldGameObject = controller.gameObject;
-            overworldGameObject.SetActive(false);
+            //overworldGameObject.SetActive(false);
 
             playerInputContainer = new PlayerInputContainer();
 
@@ -108,6 +124,16 @@ namespace Mfknudsen.Player
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
+        }
+
+        public void EnablePlayerControl()
+        {
+            controller.Enable();
+        }
+
+        public void DisablePlayerControl()
+        {
+            controller.Disable();
         }
 
         // ReSharper disable once IdentifierTypo

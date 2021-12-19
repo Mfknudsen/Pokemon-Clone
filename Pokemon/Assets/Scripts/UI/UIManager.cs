@@ -2,9 +2,12 @@
 
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
+using Mfknudsen.Player;
+using Mfknudsen.Player.UI_Book;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI.Pause;
 using UnityEngine;
+using UnityEngine.UI;
 
 #endregion
 
@@ -26,9 +29,10 @@ namespace Mfknudsen.UI
     public class UIManager : Manager
     {
         #region Values
-
+        
         public static UIManager instance;
-        [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI;
+        
+        [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
         [SerializeField] private SelectionMenu selectionMenu;
 
@@ -103,19 +107,27 @@ namespace Mfknudsen.UI
             }
 
             currentSelection = selection;
+            
+            if(selection == UISelection.Overworld)
+                PlayerManager.instance.EnablePlayerControl();
+            else 
+                PlayerManager.instance.DisablePlayerControl();
         }
 
-        #endregion
-
-        public void TurnOffMenus()
+        public void ActivateLoadingUI(bool set)
         {
+            loadingUI.SetActive(set);
         }
+        
+        #endregion
 
         #region Internal
 
         private void PauseTrigger()
         {
             SwitchUI(UISelection.Pause);
+            
+            UIBook.instance.Effect(BookTurn.Open);
         }
 
         #endregion

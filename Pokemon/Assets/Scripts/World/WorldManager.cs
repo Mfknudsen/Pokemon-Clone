@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Player;
 using Mfknudsen.Settings.Manager;
+using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World.Overworld.TileS;
@@ -20,15 +21,16 @@ namespace Mfknudsen.World
     {
         #region Values
 
-        [Header("Object Reference:")] public static WorldManager instance;
+        public static WorldManager instance;
+
         private Coroutine currentOperation;
 
-        [Header("Loading:")] [SerializeField] private float progressMeter;
+        [SerializeField] private float progressMeter;
 
-        [Header("Battle Scene:")] [SerializeField]
-        private string currentLoadedBattleScene;
+        [SerializeField] private string currentLoadedBattleScene;
 
         private Transition transition;
+
         private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
 
         #endregion
@@ -177,6 +179,8 @@ namespace Mfknudsen.World
 
             progressMeter = 0;
 
+            UIManager.instance.ActivateLoadingUI(true);
+
             while (!asyncLoad.isDone)
             {
                 progressMeter = asyncLoad.progress + 0.1f;
@@ -184,6 +188,8 @@ namespace Mfknudsen.World
             }
 
             SetupManager.instance.Trigger();
+
+            UIManager.instance.ActivateLoadingUI(false);
 
             currentOperation = null;
         }
@@ -218,8 +224,11 @@ namespace Mfknudsen.World
 
         private void UnloadWorldInterfaces(string sceneName)
         {
-            List<GameObject> toUnload = new List<GameObject>
-                {TileManager.instance.GetSubManagerByName(sceneName).gameObject};
+            List<GameObject> toUnload = new List<GameObject>();
+
+            TileSubManager subManager = TileManager.instance.GetSubManagerByName(sceneName);
+            if (subManager != null)
+                toUnload.Add(subManager.gameObject);
 
             while (toUnload.Count > 0)
             {
@@ -230,7 +239,7 @@ namespace Mfknudsen.World
 
                 for (int i = 0; i < obj.transform.childCount; i++)
                     toUnload.Add(obj.transform.GetChild(i).gameObject);
-                
+
                 toUnload.RemoveAt(0);
             }
         }

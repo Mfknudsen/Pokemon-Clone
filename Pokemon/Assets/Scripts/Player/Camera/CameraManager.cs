@@ -27,6 +27,15 @@ namespace Mfknudsen.Player.Camera
 
         #endregion
 
+        #region Getters
+
+        public CinemachineFreeLook GetDefaultRig()
+        {
+            return defaultCameraRig;
+        }
+
+        #endregion
+
         #region In
 
         public override void Setup()
@@ -37,6 +46,13 @@ namespace Mfknudsen.Player.Camera
                 mainCam = UnityEngine.Camera.main;
             currentRig = defaultCameraRig;
             defaultCameraRig.enabled = true;
+        }
+
+        public void SetCurrentRigToDefault()
+        {
+            currentRig.enabled = false;
+            defaultCameraRig.enabled = true;
+            currentRig = defaultCameraRig;
         }
 
         public void SetCurrentRig(CinemachineVirtualCameraBase set)

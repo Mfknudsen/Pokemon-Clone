@@ -13,7 +13,7 @@ namespace Mfknudsen.Player
         #region Values
 
         private PlayerInputContainer playerInputContainer;
-        private bool ready;
+        private bool ready, allowed;
 
         [SerializeField] [FoldoutGroup("Components")]
         private NavMeshAgent agent;
@@ -51,7 +51,7 @@ namespace Mfknudsen.Player
 
         private void Update()
         {
-            if (!ready) return;
+            if (!ready || !allowed) return;
 
             UpdateMoveTransform();
             Move();
@@ -90,6 +90,21 @@ namespace Mfknudsen.Player
             ready = true;
         }
 
+        public void Enable()
+        {
+            allowed = true;
+        }
+
+        public void Disable()
+        {
+            allowed = false;
+        }
+
+        public void TriggerAnimator(string triggerName)
+        {
+            animController.SetTrigger(triggerName);
+        }
+        
         #endregion
 
         #region Internal
@@ -118,7 +133,7 @@ namespace Mfknudsen.Player
             Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
-            
+
             agent.Move(
                 moveVector
                 * ((playerInputContainer.GetRun() ? runSpeed : moveSpeed)

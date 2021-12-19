@@ -170,7 +170,6 @@ MonoBehaviour:
   faintCondition: {fileID: 11400000, guid: d801e3dd745c6cf41acbf0755efe1204, type: 2}
   switchAction: {fileID: 11400000, guid: b4b2eb28d8602f14f896b1a7f3eda8cc, type: 2}
   itemAction: {fileID: 11400000, guid: 868e3e349ccca6643930e5406d5c13b4, type: 2}
-  members: []
   spotPrefab: {fileID: 3884101678243918423, guid: 918a31644b7793148bd783bc27a7ff71, type: 3}
   secondsPerPokemonMove: 1
   selectionMenu: {fileID: 0}
@@ -247,7 +246,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6fe8c9ea90f13e6448f4fb7b4c8444ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -500,7 +499,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6fe8c9ea90f13e6448f4fb7b4c8444ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
