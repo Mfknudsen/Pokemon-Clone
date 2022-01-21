@@ -17,9 +17,9 @@ namespace Mfknudsen.Menu.StartMenu
         {
             WorldManager.instance.LoadSceneAsync(sceneName);
 
-            UIManager.instance.SwitchUI(UISelection.Overworld);
+            UIManager.Instance.SwitchUI(UISelection.Overworld);
 
-            PlayerManager.instance.EnableOverworld();
+            PlayerManager.Instance.EnableOverworld();
 
             WorldManager.instance.UnloadSceneAsync("StartMenu");
         }
@@ -28,7 +28,7 @@ namespace Mfknudsen.Menu.StartMenu
         {
             WorldManager.instance.LoadBattleScene(sceneName);
 
-            UIManager.instance.SwitchUI(UISelection.Battle);
+            UIManager.Instance.SwitchUI(UISelection.Battle);
             
             WorldManager.instance.UnloadSceneAsync("StartMenu");
         }

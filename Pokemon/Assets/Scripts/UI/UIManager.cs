@@ -7,7 +7,6 @@ using Mfknudsen.Player.UI_Book;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI.Pause;
 using UnityEngine;
-using UnityEngine.UI;
 
 #endregion
 
@@ -29,9 +28,9 @@ namespace Mfknudsen.UI
     public class UIManager : Manager
     {
         #region Values
-        
-        public static UIManager instance;
-        
+
+        public static UIManager Instance;
+
         [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
         [SerializeField] private SelectionMenu selectionMenu;
@@ -39,6 +38,7 @@ namespace Mfknudsen.UI
         [SerializeField] private DisplayManager displayManager;
 
         private UISelection currentSelection = UISelection.Start;
+        private bool readyToPause;
 
         #endregion
 
@@ -60,16 +60,25 @@ namespace Mfknudsen.UI
 
         #endregion
 
+        #region Setters
+
+        public void SetReadyToPause(bool set)
+        {
+            readyToPause = set;
+        }
+
+        #endregion
+
         #region In
 
         public override void Setup()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
 
-                InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
+                InputManager.Instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
@@ -107,27 +116,26 @@ namespace Mfknudsen.UI
             }
 
             currentSelection = selection;
-            
-            if(selection == UISelection.Overworld)
-                PlayerManager.instance.EnablePlayerControl();
-            else 
-                PlayerManager.instance.DisablePlayerControl();
         }
 
         public void ActivateLoadingUI(bool set)
         {
             loadingUI.SetActive(set);
         }
-        
+
         #endregion
 
         #region Internal
 
         private void PauseTrigger()
         {
-            SwitchUI(UISelection.Pause);
+            if (!readyToPause) return;
+
+            readyToPause = false;
             
-            UIBook.instance.Effect(BookTurn.Open);
+            SwitchUI(UISelection.Pause);
+
+            UIBook.Instance.Effect(BookTurn.Open);
         }
 
         #endregion

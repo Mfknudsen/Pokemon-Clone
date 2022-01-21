@@ -11,9 +11,9 @@ namespace Mfknudsen.AI
     {
         #region Values
 
-        public static NpcManager instance;
+        public static NpcManager Instance;
 
-        private List<NpcController> controllers = new List<NpcController>();
+        private readonly List<NpcController> controllers = new List<NpcController>();
 
         #endregion
 
@@ -21,8 +21,13 @@ namespace Mfknudsen.AI
 
         public override void Setup()
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
         }
 
         public void AddController(NpcController add)

@@ -77,7 +77,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.Instance.GetBattleMember()};
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -114,7 +114,7 @@ namespace Mfknudsen.Battle.Systems
             while (BattleManager.instance == null)
                 yield return null;
 
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetComponent<BattleMember>()};
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.Instance.GetComponent<BattleMember>()};
             result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies.Where(m => m != null))
             {

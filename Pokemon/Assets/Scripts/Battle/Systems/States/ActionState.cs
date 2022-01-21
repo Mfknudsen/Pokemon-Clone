@@ -22,7 +22,7 @@ namespace Mfknudsen.Battle.Systems.States
         // ReSharper disable once IdentifierTypo
         public ActionState(BattleManager manager) : base(manager)
         {
-            operationManager = OperationManager.instance;
+            operationManager = OperationManager.Instance;
             spotOversight = manager.GetSpotOversight();
         }
 

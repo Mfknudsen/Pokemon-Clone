@@ -1,8 +1,8 @@
 #region Packages
 
+using System;
 using System.Collections;
 using Cinemachine;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,15 +15,16 @@ namespace Mfknudsen.Player.Camera
     {
         #region Values
 
-        public static CameraManager instance;
+        public static CameraManager Instance;
 
         [FoldoutGroup("Camera")] [SerializeField]
-        private UnityEngine.Camera mainCam;
+        private UnityEngine.Camera currentCamera;
 
         [FoldoutGroup("Camera")] [SerializeField]
         private CinemachineFreeLook defaultCameraRig;
 
         private CinemachineVirtualCameraBase currentRig;
+        private CameraSettings currentSettings;
 
         #endregion
 
@@ -34,16 +35,36 @@ namespace Mfknudsen.Player.Camera
             return defaultCameraRig;
         }
 
+        public CinemachineVirtualCameraBase GetCurrentRig()
+        {
+            return currentRig;
+        }
+
+        public UnityEngine.Camera GetCurrentCamera()
+        {
+            return currentCamera;
+        }
+
+        public CameraSettings GetCurrentSettings()
+        {
+            return currentSettings;
+        }
+
         #endregion
 
         #region In
 
         public override void Setup()
         {
-            instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
 
-            if (mainCam == null)
-                mainCam = UnityEngine.Camera.main;
+            currentSettings = CameraSettings.Default();
             currentRig = defaultCameraRig;
             defaultCameraRig.enabled = true;
         }
@@ -55,56 +76,24 @@ namespace Mfknudsen.Player.Camera
             currentRig = defaultCameraRig;
         }
 
-        public void SetCurrentRig(CinemachineVirtualCameraBase set)
+        public void SetCurrentRig(CinemachineVirtualCameraBase set, bool disablePrevious = false)
         {
-            currentRig.enabled = false;
+            currentRig.enabled = !disablePrevious;
+            
             set.enabled = true;
-            currentRig = set;
-        }
+
+            currentRig = set;        }
 
         public void SetCameraSettings(CameraSettings cameraSettings)
+        {
+            currentSettings = cameraSettings;
+            currentCamera.fieldOfView = cameraSettings.FOV;
+        }
+
+        public void Reset()
         {
         }
 
         #endregion
-    }
-
-    public struct CameraEvent : IOperation
-    {
-        private bool done;
-        private readonly CinemachineVirtualCameraBase cinemachineRig;
-        private readonly CameraSettings cameraSettings;
-
-        public CameraEvent(CinemachineVirtualCameraBase cinemachineRig, CameraSettings? cameraSettings) : this()
-        {
-            this.cinemachineRig = cinemachineRig;
-            if (cameraSettings != null) this.cameraSettings = cameraSettings;
-
-            done = false;
-        }
-
-        public bool Done()
-        {
-            return done;
-        }
-
-        public IEnumerator Operation()
-        {
-            CameraManager cameraManager = CameraManager.instance;
-            if (cameraSettings != null)
-                cameraManager.SetCameraSettings(cameraSettings);
-
-            done = true;
-
-            yield break;
-        }
-
-        public void End()
-        {
-        }
-    }
-
-    public class CameraSettings
-    {
     }
 }

@@ -34,7 +34,7 @@ namespace Mfknudsen.Player
 
         public void Setup()
         {
-            InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
+            InputManager.Instance.interactInputEvent.AddListener(TriggerClosest);
         }
 
         public void OnEnter(InteractItem interactable, Transform transform)

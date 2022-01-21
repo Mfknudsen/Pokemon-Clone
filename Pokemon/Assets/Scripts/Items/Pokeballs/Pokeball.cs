@@ -75,7 +75,7 @@ namespace Mfknudsen.Items.Pokeballs
 
             #region Prepare Operations
 
-            OperationManager operationManager = OperationManager.instance;
+            OperationManager operationManager = OperationManager.Instance;
             OperationsContainer container = new OperationsContainer();
 
             ThrowPokeball throwPokeball = new ThrowPokeball(target, clickStage, selectedChat);

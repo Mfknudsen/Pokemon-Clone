@@ -18,12 +18,12 @@ namespace Mfknudsen.Battle.Systems.States
 
         public RoundDoneState(BattleManager manager) : base(manager)
         {
-            playerTeam = PlayerManager.instance.GetTeam();
+            playerTeam = PlayerManager.Instance.GetTeam();
         }
 
         public override IEnumerator Tick()
         {
-            OperationManager operationManager = OperationManager.instance;
+            OperationManager operationManager = OperationManager.Instance;
 
             #region End Turn Abilities
 

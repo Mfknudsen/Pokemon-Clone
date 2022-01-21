@@ -7,10 +7,12 @@ using Cinemachine;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player.Camera;
 using Mfknudsen.UI;
-using Mfknudsen.UI.Book;
+using Mfknudsen.UI.Book.Button;
+using Mfknudsen.UI.Book.Interfaces;
+using Mfknudsen.UI.Book.Slider;
+using Mfknudsen.UI.Book.TextInputField;
 using Sirenix.OdinInspector;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,30 +31,54 @@ namespace Mfknudsen.Player.UI_Book
         Right
     }
 
+    public enum BookAnimations
+    {
+        Close,
+        Open
+    }
+
     #endregion
 
     public class UIBook : MonoBehaviour
     {
         #region Values
 
-        public static UIBook instance;
+        public static UIBook Instance;
 
-        [SerializeField] private GameObject invisiblyUI, visuals;
-
-        [SerializeField] private Animator bookAnimator;
-
-        [FoldoutGroup("Render Textures")] [SerializeField]
+        [BoxGroup("References"), FoldoutGroup("References/Render Textures")] [SerializeField]
         private RenderTexture preRenderTexture, curRenderTexture;
 
-        [SerializeField] private CinemachineVirtualCameraBase bookCameraRig;
-        [SerializeField] private UIBookCameraTransition transition;
+        [FoldoutGroup("References/Camera")] [SerializeField]
+        private CinemachineVirtualCameraBase bookCameraRig;
 
-        [FoldoutGroup("Pages")] [SerializeField]
+        [FoldoutGroup("References/Camera")] [SerializeField]
+        private UIBookCameraTransition transition;
+
+        [FoldoutGroup("References/Pages")] [SerializeField]
         private GameObject openLeft, openRight, turnLeft, turnRight;
 
+        [FoldoutGroup("References/Animation")] [SerializeField]
+        private Animator bookAnimator;
+
+        [FoldoutGroup("References/Animation")] [SerializeField]
+        private GameObject invisiblyUI, visuals;
+
         private readonly Dictionary<string, BookButton> buttonReferences = new Dictionary<string, BookButton>();
-        private readonly Dictionary<string, Slider> sliderReferences = new Dictionary<string, Slider>();
+        private readonly Dictionary<string, BookSlider> sliderReferences = new Dictionary<string, BookSlider>();
+
+        private readonly Dictionary<string, BookTextInputField> textInputFieldReferences =
+            new Dictionary<string, BookTextInputField>();
+
         private readonly int preRenderTextureID = Shader.PropertyToID("RenderTexture");
+
+        #region Hash
+
+        private static readonly int HashCloseBook = Animator.StringToHash("CloseBook"),
+            HashOpenBook = Animator.StringToHash("OpenBook"),
+            HashTurnLeft = Animator.StringToHash("TurnLeftToRight"),
+            HashTurnRight = Animator.StringToHash("TurnRightToLeft");
+
+        #endregion
 
         #endregion
 
@@ -67,9 +93,9 @@ namespace Mfknudsen.Player.UI_Book
             turnRight.SetActive(false);
             turnLeft.SetActive(false);
 
-            instance = this;
+            Instance = this;
 
-            Invoke(nameof(ConstructUI), 0.1f);
+            Invoke(nameof(SetupOnAwake), 0.15f);
         }
 
         #endregion
@@ -85,71 +111,67 @@ namespace Mfknudsen.Player.UI_Book
 
         #region In
 
-        public void UpdateBook()
+        public void ConstructUI()
         {
-            ConstructUI();
+            CopyTextures();
+            StartCoroutine(ConstructAsync());
         }
 
         public void Effect(BookTurn turn)
         {
-            if (turn != BookTurn.Null)
+            if (turn == BookTurn.Null) return;
+
+            invisiblyUI.SetActive(false);
+            StartCoroutine(AnimationTrigger(turn, 0.5f));
+
+            CopyTextures();
+
+            if (turn == BookTurn.Close)
             {
-                invisiblyUI.SetActive(false);
-                StartCoroutine(AnimationTrigger(turn.ToString(), 0.5f));
-
-                CopyTextures();
-
-                if (turn == BookTurn.Close)
-                {
-                    openLeft.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
-                    openRight.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
-                }
+                openLeft.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
+                openRight.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
             }
 
             OperationsContainer container = new OperationsContainer();
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (turn)
             {
                 case BookTurn.Open:
                     container.Add(new OpenBook(transition, bookCameraRig));
-                    PlayerManager.instance.GetController().TriggerAnimator("OpenBook");
                     break;
 
                 case BookTurn.Close:
-                    container.Add(new CloseBook(transition, bookCameraRig));
-                    PlayerManager.instance.GetController().TriggerAnimator("CloseBook");
+                    container.Add(new CloseBook(transition));
                     break;
 
                 case BookTurn.Left:
-                    container.Add(new TurnPage(false, bookAnimator, turnLeft, turnRight, openLeft, openRight));
+                    container.Add(new TurnPage(false, turnLeft, turnRight, openLeft, openRight));
                     break;
 
                 case BookTurn.Right:
-                    container.Add(new TurnPage(true, bookAnimator, turnLeft, turnRight, openLeft, openRight));
+                    container.Add(new TurnPage(true, turnLeft, turnRight, openLeft, openRight));
                     break;
-
-                case BookTurn.Null:
-                default:
-                    return;
             }
 
-            OperationManager.instance.AddOperationsContainer(container);
+            OperationManager.Instance.AddOperationsContainer(container);
         }
 
-        public void CopyTextures()
+        private void CopyTextures()
         {
             Graphics.CopyTexture(curRenderTexture, preRenderTexture);
-        }
-
-        public void SetCanvasActive(bool set)
-        {
-            invisiblyUI.SetActive(set);
         }
 
         #endregion
 
         #region Internal
 
-        private List<GameObject> GetAllByRoot(GameObject obj)
+        private void SetupOnAwake()
+        {
+            ConstructUI();
+            CameraManager.Instance.SetCurrentRig(bookCameraRig);
+        }
+
+        private static List<GameObject> GetAllByRoot(GameObject obj)
         {
             List<GameObject> result = new List<GameObject>();
 
@@ -162,52 +184,110 @@ namespace Mfknudsen.Player.UI_Book
             return result;
         }
 
-        private void DestroyComponent(GameObject obj, Type t)
+        private static void DestroyComponent<TComponent>(GameObject obj)
+            where TComponent : MonoBehaviour
         {
             try
             {
-                Destroy(obj.GetComponent(t));
+                Destroy(obj.GetComponent<TComponent>());
             }
-            catch
+            catch (Exception e)
             {
-                //Ignore
+                Debug.LogWarning(e.Message);
             }
         }
 
-        private IEnumerator AnimationTrigger(string triggerName, float time)
+        private IEnumerator AnimationTrigger(BookTurn trigger, float time)
         {
+            if (trigger == BookTurn.Null) yield break;
+
             yield return new WaitForSeconds(time);
 
-            bookAnimator.SetTrigger(triggerName);
+            // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+            int hash = trigger switch
+            {
+                BookTurn.Close => HashCloseBook,
+                BookTurn.Open => HashOpenBook,
+                BookTurn.Left => HashTurnLeft,
+                BookTurn.Right => HashTurnRight,
+                _ => throw new ArgumentOutOfRangeException(nameof(trigger), trigger, null)
+            };
+
+            if (trigger == BookTurn.Close || trigger == BookTurn.Open)
+                PlayerManager.Instance.GetController().TriggerAnimator(hash);
+
+            bookAnimator.SetTrigger(hash);
         }
 
-        private void ConstructUI()
+        private static void AddToReference<TElement>(GameObject obj, IDictionary<string, TElement> dictionary)
+            where TElement : MonoBehaviour, ICustomGUIElement
         {
-            SetCanvasActive(false);
+            TElement element = obj.GetComponent<TElement>();
 
-            GameObject uiCanvas = GameObject.Find("UI Canvas");
+            if (element != null)
+                dictionary.Add(obj.name, element);
+        }
+
+        private void Replace<TReference, TElement>(GameObject obj, IReadOnlyDictionary<string, TReference> list)
+            where TReference : MonoBehaviour, ICustomGUIElement
+            where TElement : MonoBehaviour, ICustomGUIElementReference
+        {
+            string n = obj.name;
+
+            if (!list.ContainsKey(n)) return;
+
+            TReference element = list[n];
+
+            if (element == null) return;
+
+            Destroy(obj.GetComponent<TReference>());
+            StartCoroutine(AddGUIReferenceComponent<TElement>(obj, element));
+        }
+
+        private static IEnumerator AddGUIReferenceComponent<T>(GameObject obj, ICustomGUIElement element)
+            where T : MonoBehaviour, ICustomGUIElementReference
+        {
+            yield return null;
+
+            if (obj == null || element == null) yield break;
+            obj.AddComponent<T>().Setup(element);
+        }
+
+        private IEnumerator ConstructAsync()
+        {
+            invisiblyUI.SetActive(false);
+
+            GameObject uiCanvas = GameObject.Find("Book UI Canvas");
+
+            while (uiCanvas == null)
+            {
+                yield return new WaitForSeconds(0.1f);
+                uiCanvas = GameObject.Find("UI Canvas");
+            }
 
             foreach (Transform t in invisiblyUI.transform)
                 Destroy(t.gameObject);
 
             foreach (Transform t in uiCanvas.transform)
             {
-                if (!t.gameObject.activeSelf || t.gameObject.name.Equals("Transition UI") ||
-                    t.name.Equals("Template")) continue;
+                GameObject transObj = t.gameObject;
+                string objName = transObj.name;
+
+                if (!transObj.activeSelf ||
+                    objName.Equals("Transition UI") ||
+                    objName.Equals("Template"))
+                    continue;
 
                 GameObject obj = Instantiate(t.gameObject, invisiblyUI.transform);
 
                 buttonReferences.Clear();
                 sliderReferences.Clear();
+                textInputFieldReferences.Clear();
                 foreach (GameObject o in GetAllByRoot(t.gameObject))
                 {
-                    BookButton button = o.GetComponent<BookButton>();
-                    if (button != null)
-                        buttonReferences.Add(o.name, button);
-
-                    Slider slider = o.GetComponent<Slider>();
-                    if (slider != null)
-                        sliderReferences.Add(o.name, slider);
+                    AddToReference(o, buttonReferences);
+                    AddToReference(o, sliderReferences);
+                    AddToReference(o, textInputFieldReferences);
                 }
 
                 //Clean the copied ui
@@ -219,39 +299,18 @@ namespace Mfknudsen.Player.UI_Book
                         continue;
                     }
 
-                    if (buttonReferences.ContainsKey(o.name))
-                    {
-                        BookButton button = buttonReferences[o.name];
-                        if (button != null)
-                        {
-                            Destroy(o.GetComponent<BookButton>());
-                            StartCoroutine(AddButtonReferenceComponent(o, button));
-                        }
-                    }
+                    Replace<BookButton, BookButtonReference>(o, buttonReferences);
+                    Replace<BookSlider, BookSliderReference>(o, sliderReferences);
+                    Replace<BookTextInputField, BookTextInputFieldReference>(o, textInputFieldReferences);
 
-                    if (sliderReferences.ContainsKey(o.name))
-                    {
-                        Slider slider = sliderReferences[o.name];
-                        if (slider != null)
-                        {
-                            Destroy(o.GetComponent<Slider>());
-                        }
-                    }
-
-                    DestroyComponent(o, typeof(Outline));
-                    DestroyComponent(o, typeof(TextMeshProUGUI));
+                    DestroyComponent<Outline>(o);
+                    DestroyComponent<TextMeshProUGUI>(o);
                 }
 
                 break;
             }
 
-            SetCanvasActive(true);
-        }
-
-        private IEnumerator AddButtonReferenceComponent(GameObject obj, BookButton button)
-        {
-            yield return null;
-            obj.AddComponent<BookButtonReference>().Setup(button);
+            invisiblyUI.SetActive(true);
         }
 
         #endregion
@@ -261,20 +320,15 @@ namespace Mfknudsen.Player.UI_Book
     {
         private readonly bool fromLeftToRight;
         private bool done;
-        private readonly Animator bookAnimator;
         private readonly GameObject turnLeft, turnRight, openLeft, openRight;
 
-        private readonly int leftToRight = Animator.StringToHash("TurnLeftToRight"),
-            rightToLeft = Animator.StringToHash("TurnRightToLeft");
+        private readonly int invertPage = Shader.PropertyToID("InvertPage");
 
-        private readonly int InvertPage = Shader.PropertyToID("InvertPage");
-
-        public TurnPage(bool fromLeftToRight, Animator bookAnimator, GameObject turnLeft, GameObject turnRight,
+        public TurnPage(bool fromLeftToRight, GameObject turnLeft, GameObject turnRight,
             GameObject openLeft,
             GameObject openRight)
         {
             this.fromLeftToRight = fromLeftToRight;
-            this.bookAnimator = bookAnimator;
             this.turnLeft = turnLeft;
             this.turnRight = turnRight;
             this.openLeft = openLeft;
@@ -288,24 +342,16 @@ namespace Mfknudsen.Player.UI_Book
 
         public IEnumerator Operation()
         {
-            UIBook book = UIBook.instance;
-            book.CopyTextures();
+            done = false;
+            UIBook book = UIBook.Instance;
 
-            UIManager.instance.SwitchUI(UISelection.Pause);
+            SetOpens(false);
+            SetTurns(true);
 
-            openRight.SetActive(false);
-            openLeft.SetActive(false);
+            turnLeft.GetComponent<Renderer>().material.SetInt(invertPage, fromLeftToRight ? 0 : 1);
+            turnRight.GetComponent<Renderer>().material.SetInt(invertPage, fromLeftToRight ? 1 : 0);
 
-            turnLeft.SetActive(true);
-            turnRight.SetActive(true);
-
-            turnLeft.GetComponent<Renderer>().material.SetInt(InvertPage, fromLeftToRight ? 0 : 1);
-            turnRight.GetComponent<Renderer>().material.SetInt(InvertPage, fromLeftToRight ? 1 : 0);
-
-            bookAnimator.SetTrigger(fromLeftToRight ? leftToRight : rightToLeft);
-
-            float animationTime = 0.5f;
-
+            const float animationTime = 0.5f;
 
             yield return new WaitForSeconds(animationTime * 0.1f);
 
@@ -316,35 +362,42 @@ namespace Mfknudsen.Player.UI_Book
 
             yield return new WaitForSeconds(animationTime * 0.9f);
 
-            if (fromLeftToRight)
-                turnRight.SetActive(false);
-            else
-                turnLeft.SetActive(false);
+            //SetTurns(false);
+            SetOpens(true);
 
-            turnLeft.SetActive(false);
-            turnRight.SetActive(false);
-
-            openLeft.SetActive(true);
-            openRight.SetActive(true);
-
-            book.UpdateBook();
+            book.ConstructUI();
+            done = true;
         }
 
         public void End()
         {
         }
+
+        #region Internal
+
+        private void SetOpens(bool set)
+        {
+            openLeft.SetActive(set);
+            openRight.SetActive(set);
+        }
+
+        private void SetTurns(bool set)
+        {
+            turnLeft.SetActive(set);
+            turnRight.SetActive(set);
+        }
+
+        #endregion
     }
 
     internal class CloseBook : IOperation
     {
         private bool done;
-        private readonly CinemachineVirtualCameraBase bookRig;
         private readonly UIBookCameraTransition transition;
 
-        public CloseBook(UIBookCameraTransition transition, CinemachineVirtualCameraBase bookRig)
+        public CloseBook(UIBookCameraTransition transition)
         {
             this.transition = transition;
-            this.bookRig = bookRig;
         }
 
         public bool Done()
@@ -354,27 +407,29 @@ namespace Mfknudsen.Player.UI_Book
 
         public IEnumerator Operation()
         {
+            done = false;
+
             OperationsContainer container = new OperationsContainer();
             transition.InvertDirection(true, true);
             container.Add(transition);
-            OperationManager.instance.AddAsyncOperationsContainer(container);
 
-            while (transition.GetTime() < 0.75f)
-                yield return null;
+            CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld();
+            container.Add(cameraEvent);
 
-            CameraManager.instance.GetDefaultRig().enabled = true;
+            OperationManager.Instance.AddAsyncOperationsContainer(container);
 
-            while (!transition.Done())
-                yield return null;
+            yield return new WaitForSeconds(transition.GetTimeToComplete());
 
-            bookRig.enabled = false;
+            UIManager.Instance.SwitchUI(UISelection.Overworld);
 
             done = true;
         }
 
         public void End()
         {
-            UIBook.instance.GetVisuals().SetActive(false);
+            UIBook.Instance.GetVisuals().SetActive(false);
+            UIManager.Instance.SetReadyToPause(true);
+            PlayerManager.Instance.EnablePlayerControl();
         }
     }
 
@@ -388,6 +443,10 @@ namespace Mfknudsen.Player.UI_Book
         {
             this.transition = transition;
             this.bookRig = bookRig;
+
+            Transform book = UIBook.Instance.transform, player = PlayerManager.Instance.GetController().transform;
+            book.position = player.position;
+            book.rotation = player.GetChild(0).rotation;
         }
 
         public bool Done()
@@ -397,17 +456,35 @@ namespace Mfknudsen.Player.UI_Book
 
         public IEnumerator Operation()
         {
+            done = false;
+            PlayerManager.Instance.DisablePlayerControl();
+
             OperationsContainer container = new OperationsContainer();
+            transition.CheckMiddle();
             transition.InvertDirection(false, true);
             container.Add(transition);
-            OperationManager.instance.AddAsyncOperationsContainer(container);
 
-            yield break;
+            CameraEvent cameraEvent = new CameraEvent(
+                bookRig,
+                CameraSettings.Default(),
+                transition.GetTimeToComplete(),
+                0.75f
+            );
+            container.Add(cameraEvent);
+
+            OperationManager.Instance.AddAsyncOperationsContainer(container);
+
+            UIBook book = UIBook.Instance;
+            book.GetVisuals().SetActive(true);
+
+            yield return new WaitForSeconds(transition.GetTimeToComplete());
+
+            book.ConstructUI();
+            done = true;
         }
 
         public void End()
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Mfknudsen.Battle.UI.Selection
 
         public void Setup()
         {
-            playerInventory = PlayerManager.instance.GetBattleMember().GetInventory();
+            playerInventory = PlayerManager.Instance.GetBattleMember().GetInventory();
             spotOversight = BattleManager.instance.GetSpotOversight();
         }
 

@@ -19,8 +19,8 @@ namespace Mfknudsen.UI
         {
             #region Screen
 
-            Vector2 res = Setting.resolutions[Setting.resolutionIndex];
-            FullScreenMode mode = Setting.screenSetting;
+            Vector2 res = Setting.Resolutions[Setting.ResolutionIndex];
+            FullScreenMode mode = Setting.ScreenSetting;
             Screen.SetResolution((int)res.x, (int)res.y, mode);
 
             #endregion
@@ -35,11 +35,11 @@ namespace Mfknudsen.UI
 
         public void SetResolution(int i)
         {
-            Setting.resolutionIndex += i;
-            if (Setting.resolutionIndex < 0)
-                Setting.resolutionIndex = Setting.resolutions.Length - 1;
-            else if (Setting.resolutionIndex >= Setting.resolutions.Length)
-                Setting.resolutionIndex = 0;
+            Setting.ResolutionIndex += i;
+            if (Setting.ResolutionIndex < 0)
+                Setting.ResolutionIndex = Setting.Resolutions.Length - 1;
+            else if (Setting.ResolutionIndex >= Setting.Resolutions.Length)
+                Setting.ResolutionIndex = 0;
         }
 
         #endregion

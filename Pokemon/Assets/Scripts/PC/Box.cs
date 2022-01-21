@@ -34,12 +34,12 @@ namespace Mfknudsen.PC
 
         private void OnTriggerEnter(Collider other)
         {
-            PlayerManager.instance.GetInteractions().OnEnter(this, transform);
+            PlayerManager.Instance.GetInteractions().OnEnter(this, transform);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            PlayerManager.instance.GetInteractions().OnExit(this);
+            PlayerManager.Instance.GetInteractions().OnExit(this);
         }
 
         #endregion

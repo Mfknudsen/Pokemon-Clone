@@ -59,7 +59,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
             }
 
             spotOversight = BattleManager.instance.GetSpotOversight();
-            isAlly = PlayerManager.instance.GetBattleMember().GetTeamAffiliation();
+            isAlly = PlayerManager.Instance.GetBattleMember().GetTeamAffiliation();
 
             ready = true;
         }

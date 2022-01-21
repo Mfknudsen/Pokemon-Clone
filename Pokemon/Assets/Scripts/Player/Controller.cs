@@ -35,13 +35,14 @@ namespace Mfknudsen.Player
             rotateSpeed,
             runSpeed;
 
+        [SerializeField] [FoldoutGroup("Animation")]
+        private float animatorDamp = 0.1f;
+
         private Vector3 toLookRotation = Vector3.forward;
 
-        #region AnimatorHashs
+        #region Hashs
 
-        private static readonly int HashWalking = Animator.StringToHash("Walking"),
-            HashXMove = Animator.StringToHash("X Move"),
-            HashYMove = Animator.StringToHash("Y Move");
+        private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
 
         #endregion
 
@@ -85,7 +86,7 @@ namespace Mfknudsen.Player
             rb ??= playerTransform.GetComponent<Rigidbody>();
             rb.useGravity = false;
 
-            playerInputContainer = PlayerManager.instance.GetPlayerInput();
+            playerInputContainer = PlayerManager.Instance.GetPlayerInput();
 
             ready = true;
         }
@@ -100,11 +101,11 @@ namespace Mfknudsen.Player
             allowed = false;
         }
 
-        public void TriggerAnimator(string triggerName)
+        public void TriggerAnimator(int triggerID)
         {
-            animController.SetTrigger(triggerName);
+            animController.SetTrigger(triggerID);
         }
-        
+
         #endregion
 
         #region Internal
@@ -120,24 +121,23 @@ namespace Mfknudsen.Player
 
             Vector3 playerInputDirection = playerInputContainer.GetMoveDirection();
 
-            animController.SetBool(HashWalking, playerInputDirection.x != 0 || playerInputDirection.y != 0);
-            animController.SetFloat(HashXMove, playerInputDirection.x, 0.1f, Time.deltaTime);
-            animController.SetFloat(HashYMove, playerInputDirection.z, 0.1f, Time.deltaTime);
+            animController.SetFloat(
+                HashWalking,
+                playerInputDirection.magnitude * 2 * (playerInputContainer.GetRun() ? 3 : 1),
+                animatorDamp,
+                Time.deltaTime);
         }
 
         private void Move()
         {
-            if (!agent.isOnNavMesh) return;
+            if (agent == null || !agent.isOnNavMesh) return;
 
             Vector2 playerInputDirection = playerInputContainer.GetMoveDirection();
             Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
 
-            agent.Move(
-                moveVector
-                * ((playerInputContainer.GetRun() ? runSpeed : moveSpeed)
-                   * Time.deltaTime));
+            agent.Move(moveVector * ((playerInputContainer.GetRun() ? runSpeed : moveSpeed) * Time.deltaTime));
         }
 
         private void Turn()

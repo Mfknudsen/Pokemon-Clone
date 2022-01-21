@@ -3,6 +3,7 @@
 using System.Collections;
 using Cinemachine;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Common;
 using UnityEngine;
 
 #endregion
@@ -14,12 +15,15 @@ namespace Mfknudsen.Player.UI_Book
     {
         #region Values
 
-        public bool D;
+        // ReSharper disable once InconsistentNaming
+        public bool DEBUG;
         [SerializeField] private AnimationCurve curve;
-        [SerializeField] private Transform toMove;
-        [SerializeField] private Transform start, middle, end;
+        [SerializeField] private Transform toMove, endFollow;
+        [SerializeField] private Transform middleLeft, middleRight;
+        [SerializeField] private Transform start, end;
         [SerializeField] private float moveSpeed = 1;
 
+        private Transform middle;
         private float t;
         private CinemachineVirtualCamera cinemachineVirtualCamera;
         private bool done;
@@ -35,28 +39,28 @@ namespace Mfknudsen.Player.UI_Book
 
         private void Update()
         {
-            if (!D) return;
+            if (end != null && endFollow != null)
+                end.position = endFollow.position;
 
-            Vector3 oldPos = start.position;
+#if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
+            if (!DEBUG) return;
+
+            Vector3 oldRightPos = start.position;
+            Vector3 oldLeftPos = start.position;
             float f = 0;
             while (f < 1.05f)
             {
-                Vector3 newPos = LerpPosition(f, start.position, middle.position, end.position);
+                Vector3 rightPos = ExtMathf.LerpPosition(curve, f, start.position, middleRight.position, end.position);
+                Vector3 leftPos = ExtMathf.LerpPosition(curve, f, start.position, middleLeft.position, end.position);
 
-                Debug.DrawLine(oldPos, newPos);
+                Debug.DrawLine(oldRightPos, rightPos);
+                Debug.DrawLine(oldLeftPos, leftPos);
 
-                oldPos = newPos;
+                oldRightPos = rightPos;
+                oldLeftPos = leftPos;
                 f += 0.05f;
             }
-        }
-
-        #endregion
-
-        #region Getters
-
-        public float GetTime()
-        {
-            return t;
+#endif
         }
 
         #endregion
@@ -65,7 +69,7 @@ namespace Mfknudsen.Player.UI_Book
 
         public void InvertDirection(bool awayFromBook, bool? resetTime = false)
         {
-            if ((awayFromBook && moveSpeed < 0) || (!awayFromBook && moveSpeed > 0))
+            if (awayFromBook && moveSpeed < 0 || !awayFromBook && moveSpeed > 0)
                 moveSpeed *= -1;
 
             if (resetTime != null && resetTime.Value)
@@ -77,6 +81,15 @@ namespace Mfknudsen.Player.UI_Book
             cinemachineVirtualCamera.enabled = moveSpeed < 0;
         }
 
+        public void CheckMiddle()
+        {
+            middle =
+                Vector3.Distance(end.position, middleRight.position) <=
+                Vector3.Distance(end.position, middleLeft.position)
+                    ? middleRight
+                    : middleLeft;
+        }
+
         #endregion
 
         #region Out
@@ -85,9 +98,14 @@ namespace Mfknudsen.Player.UI_Book
         {
             done = false;
 
-            while (t < 1 && moveSpeed > 0 || t > 0 && moveSpeed < 0)
+            while (t <= 1 && t >= 0)
             {
-                toMove.position = LerpPosition(t, start.position, middle.position, end.position);
+                toMove.position = ExtMathf.LerpPosition(
+                    curve,
+                    t,
+                    start.position,
+                    middle.position,
+                    end.position);
                 t += moveSpeed * Time.deltaTime;
                 yield return null;
             }
@@ -100,22 +118,9 @@ namespace Mfknudsen.Player.UI_Book
             return done;
         }
 
-        #endregion
-
-        #region Internal
-
-        private Vector3 LerpPosition(float time, Vector3 p0, Vector3 p1, Vector3 p2)
+        public float GetTimeToComplete()
         {
-            float curveTime = curve.Evaluate(time);
-
-            float u = 1 - curveTime;
-            float tSquared = curveTime * curveTime;
-            float uSquared = u * u;
-            Vector3 result = uSquared * p0;
-            result += 2 * u * curveTime * p1;
-            result += tSquared * p2;
-
-            return result;
+            return 1 / moveSpeed;
         }
 
         #endregion

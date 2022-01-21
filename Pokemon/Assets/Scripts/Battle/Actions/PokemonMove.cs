@@ -419,7 +419,7 @@ namespace Mfknudsen.Battle.Actions
             done = false;
 
             float secPerPokeMove = BattleManager.instance.GetSecPerPokeMove();
-            OperationManager operationManager = OperationManager.instance;
+            OperationManager operationManager = OperationManager.Instance;
 
 
             foreach (Pokemon pokemon in targetPokemon)

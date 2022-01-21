@@ -38,7 +38,7 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
         public IEnumerator Operation()
         {
             done = false;
-            OperationManager operationManager = OperationManager.instance;
+            OperationManager operationManager = OperationManager.Instance;
             OperationsContainer container = new OperationsContainer();
 
             #region Trap Target
@@ -79,7 +79,7 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
                 BattleManager.instance.DespawnPokemon(target);
 
                 container = new OperationsContainer();
-                container.Add(new CaughtPokemon(target, PlayerManager.instance.GetTeam()));
+                container.Add(new CaughtPokemon(target, PlayerManager.Instance.GetTeam()));
                 operationManager.AddOperationsContainer(container);
             }
             else

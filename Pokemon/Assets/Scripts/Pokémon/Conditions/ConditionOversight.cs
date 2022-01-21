@@ -63,7 +63,7 @@ namespace Mfknudsen.Pokémon.Conditions
 
         public void Setup(Pokemon pokemon)
         {
-            operationManager = OperationManager.instance;
+            operationManager = OperationManager.Instance;
             volatileStatus = new List<VolatileCondition>();
             this.pokemon = pokemon;
         }
@@ -239,7 +239,7 @@ namespace Mfknudsen.Pokémon.Conditions
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 if (condition is IOperation iOperation)
                 {
-                    operationManager = OperationManager.instance;
+                    operationManager = OperationManager.Instance;
                     OperationsContainer container = new OperationsContainer();
                     container.Add(iOperation);
                     operationManager.AddOperationsContainer(container);

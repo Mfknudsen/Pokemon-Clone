@@ -3,7 +3,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
-using UnityEngine;
 
 #endregion
 
@@ -13,10 +12,46 @@ namespace Mfknudsen.Battle.Systems
     {
         #region Values
 
-        public static OperationManager instance;
+        public static OperationManager Instance;
         private bool done;
 
-        private Queue<OperationsContainer> operationsContainers;
+        private readonly Queue<OperationsContainer> operationsContainers = new Queue<OperationsContainer>();
+        private OperationsContainer currentContainer;
+
+        #endregion
+
+        #region Build In States
+
+        private void Update()
+        {
+            if (currentContainer == null)
+            {
+                if (operationsContainers.Count <= 0) return;
+
+                currentContainer = operationsContainers.Dequeue();
+                
+                foreach (IOperation i in currentContainer.GetInterfaces())
+                    StartCoroutine(i.Operation());
+            }
+            else
+            {
+                done = true;
+
+                foreach (IOperation i in currentContainer.GetInterfaces())
+                {
+                    if (i.Done()) continue;
+
+                    done = false;
+                }
+
+                if (!done) return;
+                
+                foreach (IOperation i in currentContainer.GetInterfaces())
+                    i.End();
+                
+                currentContainer = null;
+            }
+        }
 
         #endregion
 
@@ -33,17 +68,13 @@ namespace Mfknudsen.Battle.Systems
 
         public override void Setup()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
                 Destroy(gameObject);
-
-            operationsContainers = new Queue<OperationsContainer>();
-
-            StartCoroutine(QueueManager());
         }
 
         public void AddOperationsContainer(OperationsContainer set)
@@ -55,8 +86,8 @@ namespace Mfknudsen.Battle.Systems
 
         public void AddAsyncOperationsContainer(OperationsContainer container)
         {
-            foreach (IEnumerator i in container.GetOperations())
-                StartCoroutine(i);
+            foreach (IOperation i in container.GetInterfaces())
+                StartCoroutine(i.Operation());
         }
 
         public void InsertFront(OperationsContainer set)
@@ -73,61 +104,17 @@ namespace Mfknudsen.Battle.Systems
         }
 
         #endregion
-
-        #region Internal
-
-        private IEnumerator QueueManager()
-        {
-            while (true)
-            {
-                while (operationsContainers.Count > 0)
-                {
-                    done = false;
-                    OperationsContainer container = operationsContainers.Dequeue();
-
-                    foreach (IEnumerator i in container.GetOperations())
-                        StartCoroutine(i);
-
-                    foreach (IOperation i in container.GetInterfaces())
-                    {
-                        while (!i.Done())
-                            yield return null;
-
-                        i.End();
-                    }
-                }
-
-                if (operationsContainers.Count == 0 && !done)
-                {
-                    done = true;
-                    yield return new WaitForSeconds(1);
-                }
-
-                yield return null;
-            }
-
-            //This should newer end while the battle is ongoing.
-            //When the battle is over the battle manager will end it.
-            // ReSharper disable once IteratorNeverReturns
-        }
-
-        #endregion
     }
 
-    public struct OperationsContainer
+    public class OperationsContainer
     {
-        private List<IEnumerator> operations;
-        private List<IOperation> operationInterfaces;
+        private readonly List<IOperation> operationInterfaces = new List<IOperation>();
 
         public void Add(IOperation operationInterface)
         {
             if (operationInterface == null)
                 return;
 
-            operations ??= new List<IEnumerator>();
-            operationInterfaces ??= new List<IOperation>();
-
-            operations.Add(operationInterface.Operation());
             operationInterfaces.Add(operationInterface);
         }
 
@@ -136,19 +123,10 @@ namespace Mfknudsen.Battle.Systems
             if (interfaces == null)
                 return;
 
-            operations ??= new List<IEnumerator>();
-            operationInterfaces ??= new List<IOperation>();
-
             foreach (IOperation i in interfaces)
             {
-                operations.Add(i.Operation());
                 operationInterfaces.Add(i);
             }
-        }
-
-        public IEnumerable<IEnumerator> GetOperations()
-        {
-            return operations.ToArray();
         }
 
         public IEnumerable<IOperation> GetInterfaces()

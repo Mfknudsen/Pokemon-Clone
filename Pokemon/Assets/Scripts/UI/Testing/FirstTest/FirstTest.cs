@@ -54,7 +54,7 @@ namespace Mfknudsen.UI.Testing.FirstTest
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
             
-            for (int i = 0; i < PlayerManager.instance.GetTeam().GetTeamCount(); i++)
+            for (int i = 0; i < PlayerManager.Instance.GetTeam().GetTeamCount(); i++)
             {
                 Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
                 member.GetTeam().AddNewPokemonToTeam(pokemon);

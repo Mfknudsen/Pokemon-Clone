@@ -25,7 +25,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            UIManager uiManager = UIManager.instance;
+            UIManager uiManager = UIManager.Instance;
             uiManager.SwitchUI(UISelection.Battle);
 
             manager.SetSelectionMenu(uiManager.GetSelectionMenu());
@@ -51,7 +51,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             int offset = 0;
             //Player
-            PlayerManager playerManager = PlayerManager.instance;
+            PlayerManager playerManager = PlayerManager.Instance;
 
             Team team = playerManager.GetTeam();
 
@@ -64,7 +64,7 @@ namespace Mfknudsen.Battle.Systems.States
                 }
 
                 Spot spot = manager.CreateSpot().GetComponent<Spot>();
-                spot.SetBattleMember(PlayerManager.instance.GetBattleMember());
+                spot.SetBattleMember(PlayerManager.Instance.GetBattleMember());
 
                 offset += 1;
                 spotOversight.SetSpot(spot);
@@ -170,7 +170,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             #region Start Actions
 
-            OperationManager operationManager = OperationManager.instance;
+            OperationManager operationManager = OperationManager.Instance;
             foreach (Spot spot in spotOversight.GetSpots())
             {
                 spot.SetTransform();

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Items;
 using Mfknudsen.Player;
+using Mfknudsen.Player.UI_Book;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
 using UnityEngine;
@@ -24,15 +25,15 @@ namespace Mfknudsen
 
         private IEnumerator Setup()
         {
-            while (SetupManager.instance == null)
+            while (SetupManager.Instance == null)
                 yield return null;
             
-            SetupManager.instance.Trigger();
+            SetupManager.Instance.Trigger();
 
             Inventory inventory = null;
             while (inventory == null)
             {
-                inventory = PlayerManager.instance.GetBattleMember().GetInventory();
+                inventory = PlayerManager.Instance.GetBattleMember().GetInventory();
                 yield return null;
             }
 
@@ -46,12 +47,13 @@ namespace Mfknudsen
             while (!asyncOperation.isDone)
                 yield return null;
             
-            SetupManager.instance.Trigger();
+            SetupManager.Instance.Trigger();
 
-            while (UIManager.instance == null)
+            while (UIManager.Instance == null)
                 yield return null;
 
-            UIManager.instance.SwitchUI(UISelection.Start);
+            UIManager.Instance.SwitchUI(UISelection.Start);
+            UIBook.Instance.Effect(BookTurn.Open);
         }
     }
 }

@@ -13,13 +13,15 @@ using UnityEngine.AI;
 
 namespace Mfknudsen.Player
 {
-    [RequireComponent(typeof(BattleMember),
-        typeof(Team), typeof(Inventory))]
+    [RequireComponent(
+        typeof(BattleMember),
+        typeof(Team),
+        typeof(Inventory))]
     public class PlayerManager : Manager
     {
         #region Values
 
-        public static PlayerManager instance;
+        public static PlayerManager Instance;
 
         [FoldoutGroup("References")] [SerializeField]
         private Team team;
@@ -46,7 +48,7 @@ namespace Mfknudsen.Player
         private GameObject overworldGameObject;
         private PlayerInputContainer playerInputContainer;
 
-        [SerializeField] private CharacterSheet characterSheet;
+        [FoldoutGroup("Character Sheet"), HideLabel][SerializeField] private CharacterSheet characterSheet;
 
         #endregion
 
@@ -96,32 +98,31 @@ namespace Mfknudsen.Player
         {
             return controller;
         }
-        
+
         #endregion
 
         #region In
 
         public override void Setup()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
                 Destroy(gameObject);
 
             overworldCameraRig.enabled = false;
-            
+
             overworldGameObject = controller.gameObject;
-            //overworldGameObject.SetActive(false);
 
             playerInputContainer = new PlayerInputContainer();
 
             moveController.Setup();
             interactions.Setup();
 
-            InputManager inputManager = InputManager.instance;
+            InputManager inputManager = InputManager.Instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
         }

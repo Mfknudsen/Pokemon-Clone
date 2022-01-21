@@ -122,7 +122,7 @@ namespace Mfknudsen.World
             //Start Transition
             yield return StartTransition();
 
-            PlayerManager.instance.DisableOverworld();
+            PlayerManager.Instance.DisableOverworld();
 
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -135,11 +135,11 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
-            SetupManager.instance.Trigger();
+            SetupManager.Instance.Trigger();
 
             currentLoadedBattleScene = sceneName;
 
-            PlayerManager.instance.EnableOverworld();
+            PlayerManager.Instance.EnableOverworld();
 
             //End Transition
             yield return EndTransition();
@@ -166,7 +166,7 @@ namespace Mfknudsen.World
             //End Transition
             yield return EndTransition();
 
-            PlayerManager.instance.EnableOverworld();
+            PlayerManager.Instance.EnableOverworld();
         }
 
         #endregion
@@ -179,7 +179,7 @@ namespace Mfknudsen.World
 
             progressMeter = 0;
 
-            UIManager.instance.ActivateLoadingUI(true);
+            UIManager.Instance.ActivateLoadingUI(true);
 
             while (!asyncLoad.isDone)
             {
@@ -187,9 +187,9 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
-            SetupManager.instance.Trigger();
+            SetupManager.Instance.Trigger();
 
-            UIManager.instance.ActivateLoadingUI(false);
+            UIManager.Instance.ActivateLoadingUI(false);
 
             currentOperation = null;
         }

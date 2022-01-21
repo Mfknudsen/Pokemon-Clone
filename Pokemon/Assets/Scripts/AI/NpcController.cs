@@ -21,12 +21,12 @@ namespace Mfknudsen.AI
 
         private void Awake()
         {
-            NpcManager.instance.AddController(this);
+            NpcManager.Instance.AddController(this);
         }
 
         private void OnDestroy()
         {
-            NpcManager.instance.RemoveController(this);
+            NpcManager.Instance.RemoveController(this);
         }
 
         #endregion

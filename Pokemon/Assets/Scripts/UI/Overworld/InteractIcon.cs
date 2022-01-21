@@ -17,7 +17,7 @@ namespace Mfknudsen.UI.Overworld
 
         private void Awake()
         {
-            interactions = PlayerManager.instance.GetInteractions();
+            interactions = PlayerManager.Instance.GetInteractions();
 
             rectTransform = GetComponent<RectTransform>();
 

@@ -47,7 +47,7 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        public static InputManager instance;
+        public static InputManager Instance;
         private PlayerInput playerInput;
 
         #region Events
@@ -67,9 +67,9 @@ namespace Mfknudsen.Settings.Manager
 
         public override void Setup()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else

@@ -22,8 +22,8 @@ namespace Mfknudsen.UI.Pause
 
         public void OnDisplay(UISelection toReturnSelection)
         {
-            Cursor.visible = !showMouse;
-            Cursor.lockState = showMouse ? CursorLockMode.Confined : CursorLockMode.None;
+            //Cursor.visible = !showMouse;
+            //Cursor.lockState = showMouse ? CursorLockMode.Confined : CursorLockMode.None;
 
             showMouse = !showMouse;
             
@@ -41,7 +41,7 @@ namespace Mfknudsen.UI.Pause
         [UsedImplicitly]
         public void Unpause()
         {
-            UIManager uiManager = UIManager.instance;
+            UIManager uiManager = UIManager.Instance;
             uiManager.SwitchUI(preSelection);
         }
 
