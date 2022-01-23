@@ -321,6 +321,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a586dc07-0bf1-4227-b1a1-f59e242cdcc4",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "NextChat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7354165d-c209-4d95-813f-34d1c4c6be1c",
                     "path": "<Keyboard>/escape",
                     "interactions": "",

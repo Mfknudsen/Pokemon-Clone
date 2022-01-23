@@ -1,6 +1,8 @@
 #region Packages
 
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Mfknudsen._Debug;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Spots;
@@ -25,110 +27,38 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            UIManager uiManager = UIManager.Instance;
-            uiManager.SwitchUI(UISelection.Battle);
+            UIManager uiManager = UIManager.instance;
+            BattleStarter battleStarter = null;
+            PlayerManager playerManager = PlayerManager.instance;
+
+            while (battleStarter == null)
+            {
+                battleStarter = manager.GetStarter();
+                yield return null;
+            }
 
             manager.SetSelectionMenu(uiManager.GetSelectionMenu());
             manager.SetDisplayManager(uiManager.GetDisplayManager());
 
             #region Setup Spots
 
-            BattleStarter battleStarter = null;
-
-            while (battleStarter is null)
-            {
-                battleStarter = manager.GetStarter();
-                yield return null;
-            }
-
             foreach (BattleMember battleMember in battleStarter.GetAllBattleMembers())
             {
-                battleMember.GetTeam().Setup();
                 battleMember.Setup();
+                battleMember.GetTeam().Setup();
             }
 
             spotOversight = manager.GetSpotOversight();
 
-            int offset = 0;
-            //Player
-            PlayerManager playerManager = PlayerManager.Instance;
-
-            Team team = playerManager.GetTeam();
-
-            for (int i = 0; i < battleStarter.GetPlayerSpotCount(); i++)
-            {
-                if (!team.CanSendMorePokemon())
-                {
-                    playerManager.GetBattleMember().ForceHasAllSpots();
-                    break;
-                }
-
-                Spot spot = manager.CreateSpot().GetComponent<Spot>();
-                spot.SetBattleMember(PlayerManager.Instance.GetBattleMember());
-
-                offset += 1;
-                spotOversight.SetSpot(spot);
-                spot.transform.position = new Vector3(0 + (10 * i), 0, -10);
-
-                playerManager.GetBattleMember().SetOwnedSpot(spot);
-            }
-
-            //Allies
-            foreach (BattleMember battleMember in battleStarter.GetAllies())
-            {
-                team = battleMember.GetTeam();
-
-                for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
-                {
-                    if (!team.CanSendMorePokemon())
-                    {
-                        battleMember.ForceHasAllSpots();
-                        break;
-                    }
-
-                    Spot spot = manager.CreateSpot().GetComponent<Spot>();
-
-                    spot.SetBattleMember(battleMember);
-
-                    spotOversight.SetSpot(spot);
-                    spot.transform.position = new Vector3(0 + (10 * (i + offset)), 0, -10);
-                    offset += 1;
-                    battleMember.SetOwnedSpot(spot);
-                }
-            }
-
-            offset = 0;
-
-            //Enemies
-            foreach (BattleMember battleMember in battleStarter.GetEnemies())
-            {
-                team = battleMember.GetTeam();
-
-                for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
-                {
-                    if (!team.CanSendMorePokemon())
-                    {
-                        battleMember.ForceHasAllSpots();
-                        break;
-                    }
-
-                    Spot spot = manager.CreateSpot().GetComponent<Spot>();
-
-                    spot.SetBattleMember(battleMember);
-
-                    spotOversight.SetSpot(spot);
-                    spot.transform.position = new Vector3(0 + (10 * (i + offset)), 0, 10);
-                    offset += 1;
-                    battleMember.SetOwnedSpot(spot);
-                }
-            }
+            BattleMember[] playerWithAllies = {playerManager.GetBattleMember()};
+            playerWithAllies.Concat(battleStarter.GetAllies());
+            spotOversight.SetupSpots(playerWithAllies, manager.GetBattlefield().GetAllyField());
+            spotOversight.SetupSpots(battleStarter.GetEnemies(), manager.GetBattlefield().GetEnemyField());
 
             spotOversight.Reorganise(false);
 
             #endregion
 
-            manager.GetDisplayManager().Setup();
-            manager.GetSelectionMenu().Setup();
             manager.SetupAbilityOversight();
 
             #region Start Log
@@ -141,7 +71,7 @@ namespace Mfknudsen.Battle.Systems.States
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
-                if (battleMember is null || battleMember == playerManager.GetBattleMember()) continue;
+                if (battleMember == null || battleMember == playerManager.GetBattleMember()) continue;
 
                 if (battleMember.GetTeamAffiliation() == playerManager.GetBattleMember().GetTeamAffiliation())
                     alliesMsg += ", " + battleMember.GetName();
@@ -158,7 +88,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             playersMsg += "\n" + alliesMsg + "\n" + enemiesMsg;
 
-            while (BattleLog.instance is null)
+            while (BattleLog.instance == null)
                 yield return null;
 
             BattleLog.AddLog("Begin State", playersMsg);
@@ -170,7 +100,8 @@ namespace Mfknudsen.Battle.Systems.States
 
             #region Start Actions
 
-            OperationManager operationManager = OperationManager.Instance;
+            OperationManager operationManager = OperationManager.instance;
+            List<OperationsContainer> switchInActions = new List<OperationsContainer>();
             foreach (Spot spot in spotOversight.GetSpots())
             {
                 spot.SetTransform();
@@ -190,15 +121,27 @@ namespace Mfknudsen.Battle.Systems.States
 
                 OperationsContainer container = new OperationsContainer();
                 container.Add(action);
-                operationManager.AddOperationsContainer(container);
+                switchInActions.Add(container);
             }
 
+            operationManager.AddOperationsContainer(switchInActions.ToArray());
+
             #endregion
+
+            foreach (OperationsContainer switchInAction in switchInActions)
+            {
+                foreach (IOperation i in switchInAction.GetInterfaces())
+                {
+                    while (!i.Done())
+                        yield return null;
+                }
+            }
+
 
             while (!ChatManager.instance.GetIsClear() || !operationManager.GetDone())
                 yield return null;
 
-            spotOversight.Reorganise(true);
+            spotOversight.Reorganise(false);
 
             manager.SetState(new PlayerTurnState(manager));
         }

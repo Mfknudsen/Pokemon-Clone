@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
 
@@ -11,7 +12,7 @@ namespace Mfknudsen.AI
     {
         #region Values
 
-        public static NpcManager Instance;
+        public static NpcManager instance;
 
         private readonly List<NpcController> controllers = new List<NpcController>();
 
@@ -19,15 +20,17 @@ namespace Mfknudsen.AI
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
                 Destroy(gameObject);
+            
+            yield break;
         }
 
         public void AddController(NpcController add)

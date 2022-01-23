@@ -25,15 +25,15 @@ namespace Mfknudsen
 
         private IEnumerator Setup()
         {
-            while (SetupManager.Instance == null)
+            while (SetupManager.instance == null)
                 yield return null;
             
-            SetupManager.Instance.Trigger();
+            SetupManager.instance.Trigger();
 
             Inventory inventory = null;
             while (inventory == null)
             {
-                inventory = PlayerManager.Instance.GetBattleMember().GetInventory();
+                inventory = PlayerManager.instance.GetBattleMember().GetInventory();
                 yield return null;
             }
 
@@ -47,13 +47,13 @@ namespace Mfknudsen
             while (!asyncOperation.isDone)
                 yield return null;
             
-            SetupManager.Instance.Trigger();
+            SetupManager.instance.Trigger();
 
-            while (UIManager.Instance == null)
+            while (UIManager.instance == null)
                 yield return null;
 
-            UIManager.Instance.SwitchUI(UISelection.Start);
-            UIBook.Instance.Effect(BookTurn.Open);
+            UIManager.instance.SwitchUI(UISelection.Start);
+            UIBook.instance.Effect(BookTurn.Open);
         }
     }
 }

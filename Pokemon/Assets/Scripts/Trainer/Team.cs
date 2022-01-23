@@ -135,7 +135,10 @@ namespace Mfknudsen.Trainer
 
         public Pokemon GetPokemonByIndex(int index)
         {
-            if (index < 0 || index > 5 || pokemons[index] == null) return null;
+            if (index < 0 || 
+                index > 5 || 
+                index <= pokemons.Count 
+                || pokemons[index] == null) return null;
 
             return pokemons[index];
         }

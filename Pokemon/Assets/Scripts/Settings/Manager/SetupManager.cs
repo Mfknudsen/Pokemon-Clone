@@ -12,7 +12,7 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        public static SetupManager Instance;
+        public static SetupManager instance;
 
         #endregion
 
@@ -20,9 +20,9 @@ namespace Mfknudsen.Settings.Manager
 
         private void Awake()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -35,15 +35,16 @@ namespace Mfknudsen.Settings.Manager
 
         public void Trigger()
         {
-            List<Manager> managers = FindObjectsOfType<Manager>()
-                .Where(m => !m.GetReady())
-                .OrderBy(i => i.Priority())
-                .ToList();
+            Manager[] managers = FindObjectsOfTypeAll(typeof(Manager))
+                .Select(m => m as Manager)
+                .Where(m => !m.GetReady() && !m.GetIsStarted())
+                .ToArray();
+
 
             foreach (Manager manager in managers)
             {
-                manager.Setup();
-                manager.Ready();
+                manager.SetIsStarted(true);
+                StartCoroutine(manager.Setup());
             }
         }
 

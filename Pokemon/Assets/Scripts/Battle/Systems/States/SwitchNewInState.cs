@@ -25,7 +25,7 @@ namespace Mfknudsen.Battle.Systems.States
             {
                 OperationsContainer container = new OperationsContainer();
                 container.Add(switchAction);
-                OperationManager.Instance.AddOperationsContainer(container);
+                OperationManager.instance.AddOperationsContainer(container);
 
                 while (!switchAction.Done() || !ChatManager.instance.GetIsClear())
                     yield return null;

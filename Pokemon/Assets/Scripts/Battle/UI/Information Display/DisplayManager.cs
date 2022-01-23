@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Systems;
@@ -21,7 +22,6 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
         private readonly Vector3[] allyPositions = new Vector3[3];
         private bool ready;
-        private bool isAlly;
         private SpotOversight spotOversight;
 
         #endregion
@@ -40,7 +40,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
             int i = 2;
             foreach (PokemonDisplaySlot pokemonDisplay in allyDisplays)
@@ -58,8 +58,18 @@ namespace Mfknudsen.Battle.UI.Information_Display
                 pokemonDisplay.transform.position = enemyOut.position;
             }
 
-            spotOversight = BattleManager.instance.GetSpotOversight();
-            isAlly = PlayerManager.Instance.GetBattleMember().GetTeamAffiliation();
+            while (BattleManager.instance == null)
+                yield return null;
+
+            while (spotOversight == null)
+            {
+                BattleManager battleManager = BattleManager.instance;
+                battleManager.SetDisplayManager(this);
+                spotOversight = battleManager.GetSpotOversight();
+            }
+
+            while (PlayerManager.instance == null)
+                yield return null;
 
             ready = true;
         }
@@ -67,16 +77,16 @@ namespace Mfknudsen.Battle.UI.Information_Display
         public void UpdateSlots()
         {
             int allyIndex = 0, enemyIndex = 0, allyOffset = 0;
-
             allyOffset += spotOversight.GetSpots()
-                .Count(spot => spot.GetIsAlly() == isAlly && !(spot.GetActivePokemon() is null));
+                .Where(spot => spot.GetIsAlly())
+                .Count(spot => spot.GetActivePokemon() != null);
 
             //From Count to Index Value
             allyOffset--;
 
             foreach (Spot spot in spotOversight.GetSpots())
             {
-                if (spot.GetIsAlly() == isAlly)
+                if (spot.GetIsAlly())
                 {
                     PokemonDisplaySlot slot = allyDisplays[allyIndex];
 

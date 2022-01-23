@@ -1,7 +1,8 @@
-﻿#region SDK
+﻿#region Packages
 
+using Mfknudsen.Player.Camera;
 using Mfknudsen.Pokémon;
-using UnityEngine; //Custom
+using UnityEngine;
 
 #endregion
 
@@ -9,14 +10,14 @@ namespace Mfknudsen._Debug
 {
     public class PokemonPlaceholder : MonoBehaviour
     {
-        [SerializeField] private string pokmemon = "";
+        [SerializeField] private string pokmemonName = "";
         [SerializeField] private TextMesh textMesh = null;
 
         public void SetText(string t)
         {
             if (textMesh != null)
             {
-                pokmemon = t;
+                pokmemonName = t;
                 textMesh.text = t + "\nPlaceholder";
             }
         }
@@ -30,8 +31,13 @@ namespace Mfknudsen._Debug
 
             placeholder.SetText(pokemon.GetName());
 
-            Vector3 targetVector = spawnedObj.transform.GetChild(0).transform.position + (spawnedObj.transform.GetChild(0).transform.position - Camera.main.transform.position);
-            targetVector = new Vector3(targetVector.x, spawnedObj.transform.GetChild(0).transform.position.y, targetVector.z);
+            Vector3 targetVector = spawnedObj.transform.GetChild(0).transform.position +
+                                   (spawnedObj.transform.GetChild(0).transform.position -
+                                    CameraManager.instance.GetCurrentCamera().transform.position);
+            targetVector = new Vector3(
+                targetVector.x, 
+                spawnedObj.transform.GetChild(0).transform.position.y,
+                targetVector.z);
             spawnedObj.transform.GetChild(0).transform.LookAt(targetVector);
         }
     }

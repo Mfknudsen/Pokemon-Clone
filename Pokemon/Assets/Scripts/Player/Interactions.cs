@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.World.Overworld.Interactions;
@@ -32,9 +33,12 @@ namespace Mfknudsen.Player
 
         #region In
 
-        public void Setup()
+        public IEnumerator Setup()
         {
-            InputManager.Instance.interactInputEvent.AddListener(TriggerClosest);
+            while (InputManager.instance == null)
+                yield return null;
+            
+            InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
         }
 
         public void OnEnter(InteractItem interactable, Transform transform)

@@ -188,8 +188,8 @@ namespace Mfknudsen.Battle.Systems
 
             if (evaluator == null)
             {
-                Debug.LogError("Failed to Create Evaluation");
-                return;
+                Debug.LogWarning("Failed to Create Evaluation");
+                evaluator = new Evaluator(toTick, GameplaySetting.GetDefaultEvaluatorSetting(Setting.Difficultly));
             }
 
             evaluator.EvaluateForPokemon();

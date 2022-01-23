@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,30 +16,35 @@ namespace Mfknudsen.Player
         private PlayerInputContainer playerInputContainer;
         private bool ready, allowed;
 
-        [SerializeField] [FoldoutGroup("Components")]
+        [FoldoutGroup("Components")] [SerializeField]
         private NavMeshAgent agent;
 
-        [SerializeField] [FoldoutGroup("Components")]
+        [FoldoutGroup("Components")] [SerializeField]
         private Rigidbody rb;
 
-        [SerializeField] [FoldoutGroup("Components")]
+        [FoldoutGroup("Components")] [SerializeField]
         private Animator animController;
 
-        [SerializeField] [FoldoutGroup("Transforms")]
+        [FoldoutGroup("Components")] [SerializeField]
+        private CinemachineFreeLook cameraRig;
+
+        [FoldoutGroup("Transforms")] [SerializeField]
         private Transform playerTransform,
             moveTransform,
             camTransform,
             visualTransform;
 
-        [SerializeField] [FoldoutGroup("Speeds")]
+        [FoldoutGroup("Speeds")] [SerializeField]
         private float moveSpeed,
             rotateSpeed,
             runSpeed;
 
-        [SerializeField] [FoldoutGroup("Animation")]
+        [FoldoutGroup("Animation")] [SerializeField]
         private float animatorDamp = 0.1f;
 
         private Vector3 toLookRotation = Vector3.forward;
+
+        private AxisState yCamState, xCamState;
 
         #region Hashs
 
@@ -86,7 +92,10 @@ namespace Mfknudsen.Player
             rb ??= playerTransform.GetComponent<Rigidbody>();
             rb.useGravity = false;
 
-            playerInputContainer = PlayerManager.Instance.GetPlayerInput();
+            playerInputContainer = PlayerManager.instance.GetPlayerInput();
+
+            yCamState = cameraRig.m_YAxis;
+            xCamState = cameraRig.m_XAxis;
 
             ready = true;
         }
@@ -94,11 +103,17 @@ namespace Mfknudsen.Player
         public void Enable()
         {
             allowed = true;
+
+            cameraRig.m_YAxis = yCamState;
+            cameraRig.m_XAxis = xCamState;
         }
 
         public void Disable()
         {
             allowed = false;
+
+            cameraRig.m_YAxis = new AxisState();
+            cameraRig.m_XAxis = new AxisState();
         }
 
         public void TriggerAnimator(int triggerID)

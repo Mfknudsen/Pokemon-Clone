@@ -21,7 +21,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            BattleMember playerBattleMember = PlayerManager.Instance.GetBattleMember();
+            BattleMember playerBattleMember = PlayerManager.instance.GetBattleMember();
 
             foreach (Spot spot in manager.GetSpotOversight().GetSpots())
             {

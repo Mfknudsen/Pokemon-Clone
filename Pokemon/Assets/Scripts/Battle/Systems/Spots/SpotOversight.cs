@@ -1,6 +1,8 @@
 #region SDK
 
 using System.Collections.Generic;
+using Mfknudsen.Trainer;
+using UnityEngine;
 
 #endregion
 
@@ -41,6 +43,9 @@ namespace Mfknudsen.Battle.Systems.Spots
 
         public void SetSpot(Spot spot)
         {
+            if(spot == null)
+                return;
+            
             spot.SetID(counts);
             counts += 1;
 
@@ -51,11 +56,32 @@ namespace Mfknudsen.Battle.Systems.Spots
 
         #region In
 
+        public void SetupSpots(BattleMember[] members, Transform parent)
+        {
+            foreach (BattleMember battleMember in members)
+            {
+                Team team = battleMember.GetTeam();
+                for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
+                {
+                    if (!team.CanSendMorePokemon())
+                    {
+                        battleMember.ForceHasAllSpots();
+                        break;
+                    }
+
+                    Spot spot = BattleManager.instance.CreateSpot(parent);
+                    spot.SetBattleMember(battleMember);
+                    SetSpot(spot);
+                    battleMember.SetOwnedSpot(spot);
+                }
+            }
+        }
+
         public void Reorganise(bool removeEmpty)
         {
-            List<Spot> enemies = new List<Spot>(), allies = new List<Spot>();
-
-            List<Spot> toRemove = new List<Spot>();
+            List<Spot> enemies = new List<Spot>(), 
+                allies = new List<Spot>(),
+                toRemove = new List<Spot>();
 
             foreach (Spot spot in list)
             {

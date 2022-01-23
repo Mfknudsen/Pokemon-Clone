@@ -24,6 +24,8 @@ namespace Mfknudsen.Battle.UI.Information_Display
 
         #endregion
 
+        #region Build In States
+
         private void Start()
         {
             healthDisplay.gameObject.SetActive(!hideHealthText);
@@ -38,10 +40,12 @@ namespace Mfknudsen.Battle.UI.Information_Display
             if (healthToDisplay < 1 && healthToDisplay > 0)
                 healthToDisplay = 1;
 
-            healthDisplay.text = maxHPStat + " / " + (int)healthToDisplay;
+            healthDisplay.text = maxHPStat + " / " + (int) healthToDisplay;
 
             healthBar.SetCurrentBar(healthToDisplay);
         }
+
+        #endregion
 
         #region Getters
 
@@ -80,7 +84,6 @@ namespace Mfknudsen.Battle.UI.Information_Display
             if (pokemon == null)
             {
                 active = false;
-
                 return;
             }
 

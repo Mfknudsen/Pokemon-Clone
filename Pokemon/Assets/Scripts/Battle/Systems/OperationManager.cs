@@ -2,7 +2,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Battle.Actions;
 using Mfknudsen.Settings.Manager;
+using UnityEngine;
 
 #endregion
 
@@ -12,7 +14,7 @@ namespace Mfknudsen.Battle.Systems
     {
         #region Values
 
-        public static OperationManager Instance;
+        public static OperationManager instance;
         private bool done;
 
         private readonly Queue<OperationsContainer> operationsContainers = new Queue<OperationsContainer>();
@@ -29,7 +31,7 @@ namespace Mfknudsen.Battle.Systems
                 if (operationsContainers.Count <= 0) return;
 
                 currentContainer = operationsContainers.Dequeue();
-                
+
                 foreach (IOperation i in currentContainer.GetInterfaces())
                     StartCoroutine(i.Operation());
             }
@@ -45,10 +47,10 @@ namespace Mfknudsen.Battle.Systems
                 }
 
                 if (!done) return;
-                
+
                 foreach (IOperation i in currentContainer.GetInterfaces())
                     i.End();
-                
+
                 currentContainer = null;
             }
         }
@@ -66,15 +68,17 @@ namespace Mfknudsen.Battle.Systems
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
                 Destroy(gameObject);
+
+            yield break;
         }
 
         public void AddOperationsContainer(OperationsContainer set)
@@ -82,6 +86,14 @@ namespace Mfknudsen.Battle.Systems
             done = false;
 
             operationsContainers.Enqueue(set);
+        }
+
+        public void AddOperationsContainer(OperationsContainer[] sets)
+        {
+            done = false;
+
+            foreach (OperationsContainer container in sets)
+                operationsContainers.Enqueue(container);
         }
 
         public void AddAsyncOperationsContainer(OperationsContainer container)
@@ -109,6 +121,20 @@ namespace Mfknudsen.Battle.Systems
     public class OperationsContainer
     {
         private readonly List<IOperation> operationInterfaces = new List<IOperation>();
+
+        public OperationsContainer()
+        {
+        }
+
+        public OperationsContainer(IOperation set)
+        {
+            operationInterfaces.Add(set);
+        }
+
+        public OperationsContainer(IOperation[] set)
+        {
+            operationInterfaces.AddRange(set);
+        }
 
         public void Add(IOperation operationInterface)
         {

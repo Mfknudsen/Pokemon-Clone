@@ -27,7 +27,7 @@ namespace Mfknudsen.UI.Overworld
             alertType.Trigger(transform, true);
             OperationsContainer container = new OperationsContainer();
             container.Add(alertType);
-            OperationManager.Instance.AddAsyncOperationsContainer(container);
+            OperationManager.instance.AddAsyncOperationsContainer(container);
         }
 
         public void DisableAlert(AlertType alertType)
@@ -35,7 +35,7 @@ namespace Mfknudsen.UI.Overworld
             alertType.Trigger(transform, false);
             OperationsContainer container = new OperationsContainer();
             container.Add(alertType);
-            OperationManager.Instance.AddAsyncOperationsContainer(container);
+            OperationManager.instance.AddAsyncOperationsContainer(container);
         }
 
         #endregion

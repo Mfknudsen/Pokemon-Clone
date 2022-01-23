@@ -48,7 +48,7 @@ namespace Mfknudsen.Player.Camera
         {
             done = false;
 
-            CameraManager cameraManager = CameraManager.Instance;
+            CameraManager cameraManager = CameraManager.instance;
 
             yield return new WaitForSeconds(timeInSeconds * percentToEnable);
 
@@ -57,14 +57,14 @@ namespace Mfknudsen.Player.Camera
                 cameraManager.SetCameraSettings(cameraSettings);
 
             yield return new WaitForSeconds(timeInSeconds * (1 - percentToEnable));
-            
+
             done = true;
         }
 
         public void End()
         {
             if (resetOnEnd)
-                CameraManager.Instance.Reset();
+                CameraManager.instance.Reset();
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace Mfknudsen.Player.Camera
         public static CameraEvent ReturnToDefaultOverworld()
         {
             return new CameraEvent(
-                PlayerManager.Instance.GetOverworldCameraRig(),
+                PlayerManager.instance.GetOverworldCameraRig(),
                 Setting.OverworldCameraSettings,
                 2,
                 0.75f
@@ -83,7 +83,12 @@ namespace Mfknudsen.Player.Camera
 
         public static CameraEvent ReturnToDefaultBattle()
         {
-            return new CameraEvent();
+            return new CameraEvent(
+                BattleManager.instance.GetBattleCamera(),
+                Setting.BattleCameraSettings,
+                0,
+                1
+            );
         }
 
         #endregion

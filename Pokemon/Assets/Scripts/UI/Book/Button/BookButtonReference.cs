@@ -57,7 +57,7 @@ namespace Mfknudsen.UI.Book.Button
             if (bookButton == null) return;
 
             if (state == SelectionState.Pressed)
-                UIBook.Instance.Effect(bookButton.GetBookTurn());
+                UIBook.instance.Effect(bookButton.GetBookTurn());
 
             bookButton.SetPressedState(state.ToString());
         }

@@ -16,7 +16,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            OperationManager operationManager = OperationManager.Instance;
+            OperationManager operationManager = OperationManager.instance;
             foreach (IOnTurnEnd onTurnEnd in manager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
                 .Where(i => i is IOperation))
             {

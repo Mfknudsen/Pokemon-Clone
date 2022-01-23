@@ -43,7 +43,7 @@ namespace Mfknudsen.Weathers.Energy
         public IEnumerator Operation()
         {
             done = false;
-            OperationManager operationManager = OperationManager.Instance;
+            OperationManager operationManager = OperationManager.instance;
             WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
             bool raining = weatherManager.GetAll()[0] is RainWeather;
 

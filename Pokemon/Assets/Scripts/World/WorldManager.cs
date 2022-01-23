@@ -35,21 +35,6 @@ namespace Mfknudsen.World
 
         #endregion
 
-        #region Build In States
-
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-        }
-
-        #endregion
-
         #region Getters
 
         public float GetLoadMeter()
@@ -87,8 +72,17 @@ namespace Mfknudsen.World
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+            
+            yield break;
         }
 
         public void LoadSceneAsync(string sceneName)
@@ -122,7 +116,7 @@ namespace Mfknudsen.World
             //Start Transition
             yield return StartTransition();
 
-            PlayerManager.Instance.DisableOverworld();
+            PlayerManager.instance.DisableOverworld();
 
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -135,11 +129,11 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
-            SetupManager.Instance.Trigger();
+            SetupManager.instance.Trigger();
 
             currentLoadedBattleScene = sceneName;
 
-            PlayerManager.Instance.EnableOverworld();
+            PlayerManager.instance.EnableOverworld();
 
             //End Transition
             yield return EndTransition();
@@ -166,7 +160,7 @@ namespace Mfknudsen.World
             //End Transition
             yield return EndTransition();
 
-            PlayerManager.Instance.EnableOverworld();
+            PlayerManager.instance.EnableOverworld();
         }
 
         #endregion
@@ -179,7 +173,7 @@ namespace Mfknudsen.World
 
             progressMeter = 0;
 
-            UIManager.Instance.ActivateLoadingUI(true);
+            UIManager.instance.ActivateLoadingUI(true);
 
             while (!asyncLoad.isDone)
             {
@@ -187,9 +181,9 @@ namespace Mfknudsen.World
                 yield return null;
             }
 
-            SetupManager.Instance.Trigger();
+            SetupManager.instance.Trigger();
 
-            UIManager.Instance.ActivateLoadingUI(false);
+            UIManager.instance.ActivateLoadingUI(false);
 
             currentOperation = null;
         }

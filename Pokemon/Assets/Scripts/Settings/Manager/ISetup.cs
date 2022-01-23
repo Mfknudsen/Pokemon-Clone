@@ -1,8 +1,9 @@
+using System.Collections;
+
 namespace Mfknudsen.Settings
 {
     public interface ISetup
     {
-        public int Priority();
-        public void Setup();
+        public IEnumerator Setup();
     }
 }

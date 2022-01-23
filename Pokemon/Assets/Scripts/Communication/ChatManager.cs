@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
 using TMPro;
@@ -96,7 +97,7 @@ namespace Mfknudsen.Communication
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
             if (instance == null)
             {
@@ -105,8 +106,12 @@ namespace Mfknudsen.Communication
             }
             else
                 Destroy(gameObject);
-            
+
             defaultTextSpeed = textPerSecond;
+
+            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+
+            yield break;
         }
 
         public void Add(Chat[] toAdd)
@@ -120,11 +125,9 @@ namespace Mfknudsen.Communication
             waitList.Add(toAdd.GetChat());
         }
 
-        public void OnNextChatChange(InputAction.CallbackContext value)
+        public void OnNextChatChange()
         {
-            if (!value.performed || running == null) return;
-
-            if (!running.GetNeedInput() || !waitForInput) return;
+            if (running == null || !running.GetNeedInput() || !waitForInput) return;
 
             if (running.GetDone())
                 running = null;

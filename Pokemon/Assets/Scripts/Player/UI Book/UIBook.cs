@@ -43,7 +43,7 @@ namespace Mfknudsen.Player.UI_Book
     {
         #region Values
 
-        public static UIBook Instance;
+        public static UIBook instance;
 
         [BoxGroup("References"), FoldoutGroup("References/Render Textures")] [SerializeField]
         private RenderTexture preRenderTexture, curRenderTexture;
@@ -93,9 +93,7 @@ namespace Mfknudsen.Player.UI_Book
             turnRight.SetActive(false);
             turnLeft.SetActive(false);
 
-            Instance = this;
-
-            Invoke(nameof(SetupOnAwake), 0.15f);
+            instance = this;
         }
 
         #endregion
@@ -153,7 +151,7 @@ namespace Mfknudsen.Player.UI_Book
                     break;
             }
 
-            OperationManager.Instance.AddOperationsContainer(container);
+            OperationManager.instance.AddOperationsContainer(container);
         }
 
         private void CopyTextures()
@@ -164,12 +162,6 @@ namespace Mfknudsen.Player.UI_Book
         #endregion
 
         #region Internal
-
-        private void SetupOnAwake()
-        {
-            ConstructUI();
-            CameraManager.Instance.SetCurrentRig(bookCameraRig);
-        }
 
         private static List<GameObject> GetAllByRoot(GameObject obj)
         {
@@ -214,7 +206,7 @@ namespace Mfknudsen.Player.UI_Book
             };
 
             if (trigger == BookTurn.Close || trigger == BookTurn.Open)
-                PlayerManager.Instance.GetController().TriggerAnimator(hash);
+                PlayerManager.instance.GetController().TriggerAnimator(hash);
 
             bookAnimator.SetTrigger(hash);
         }
@@ -343,7 +335,7 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-            UIBook book = UIBook.Instance;
+            UIBook book = UIBook.instance;
 
             SetOpens(false);
             SetTurns(true);
@@ -408,6 +400,7 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
+            PlayerManager.instance.EnablePlayerControl();
 
             OperationsContainer container = new OperationsContainer();
             transition.InvertDirection(true, true);
@@ -415,21 +408,19 @@ namespace Mfknudsen.Player.UI_Book
 
             CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld();
             container.Add(cameraEvent);
-
-            OperationManager.Instance.AddAsyncOperationsContainer(container);
+            OperationManager.instance.AddAsyncOperationsContainer(container);
 
             yield return new WaitForSeconds(transition.GetTimeToComplete());
 
-            UIManager.Instance.SwitchUI(UISelection.Overworld);
+            UIManager.instance.SwitchUI(UISelection.Overworld);
 
             done = true;
         }
 
         public void End()
         {
-            UIBook.Instance.GetVisuals().SetActive(false);
-            UIManager.Instance.SetReadyToPause(true);
-            PlayerManager.Instance.EnablePlayerControl();
+            UIBook.instance.GetVisuals().SetActive(false);
+            UIManager.instance.SetReadyToPause(true);
         }
     }
 
@@ -444,7 +435,7 @@ namespace Mfknudsen.Player.UI_Book
             this.transition = transition;
             this.bookRig = bookRig;
 
-            Transform book = UIBook.Instance.transform, player = PlayerManager.Instance.GetController().transform;
+            Transform book = UIBook.instance.transform, player = PlayerManager.instance.GetController().transform;
             book.position = player.position;
             book.rotation = player.GetChild(0).rotation;
         }
@@ -457,7 +448,8 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-            PlayerManager.Instance.DisablePlayerControl();
+
+            PlayerManager.instance.DisablePlayerControl();
 
             OperationsContainer container = new OperationsContainer();
             transition.CheckMiddle();
@@ -472,9 +464,9 @@ namespace Mfknudsen.Player.UI_Book
             );
             container.Add(cameraEvent);
 
-            OperationManager.Instance.AddAsyncOperationsContainer(container);
+            OperationManager.instance.AddAsyncOperationsContainer(container);
 
-            UIBook book = UIBook.Instance;
+            UIBook book = UIBook.instance;
             book.GetVisuals().SetActive(true);
 
             yield return new WaitForSeconds(transition.GetTimeToComplete());

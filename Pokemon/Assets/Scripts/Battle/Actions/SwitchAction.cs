@@ -25,7 +25,7 @@ namespace Mfknudsen.Battle.Actions
         [SerializeField] private Pokemon nextPokemon;
         [SerializeField] private Chat[] nextChat;
         [SerializeField] private Spot spot;
-
+        
         #endregion
 
         #region Getters
@@ -35,12 +35,20 @@ namespace Mfknudsen.Battle.Actions
             return nextPokemon;
         }
 
+        public Spot GetSpot()
+        {
+            return spot;
+        }
+
         #endregion
 
         #region Setters
 
         public void SetNextPokemon(Pokemon next)
         {
+            if (next == null)
+                return;
+
             nextPokemon = next;
 
             next.SetGettingSwitched(true);
@@ -53,20 +61,15 @@ namespace Mfknudsen.Battle.Actions
 
         public void SetSpot(Spot set)
         {
+            if (set == null)
+                return;
+
             spot = set;
         }
 
         #endregion
 
-        #region Out
-
-        public override float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
-            PersonalitySetting personalitySetting)
-        {
-            Debug.LogError("Evaluate Switch");
-
-            return 0;
-        }
+        #region In
 
         public override IEnumerator Operation()
         {
@@ -112,7 +115,6 @@ namespace Mfknudsen.Battle.Actions
                 c.AddToOverride("<NEXT_POKEMON>", nextPokemon.GetName());
                 toSend.Add(c);
             }
-
             ChatManager.instance.Add(toSend.ToArray());
 
             BattleManager.instance.SpawnPokemon(nextPokemon, spot);
@@ -130,6 +132,18 @@ namespace Mfknudsen.Battle.Actions
             yield return new WaitForSeconds(1);
 
             done = true;
+        }
+
+        #endregion
+
+        #region Out
+
+        public override float Evaluate(Pokemon user, Pokemon target, VirtualBattle virtualBattle,
+            PersonalitySetting personalitySetting)
+        {
+            Debug.LogError("Evaluate Switch");
+
+            return 0;
         }
 
         #endregion

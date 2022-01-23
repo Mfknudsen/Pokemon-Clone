@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Player;
@@ -29,7 +30,7 @@ namespace Mfknudsen.UI
     {
         #region Values
 
-        public static UIManager Instance;
+        public static UIManager instance;
 
         [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
@@ -71,14 +72,17 @@ namespace Mfknudsen.UI
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
 
-                InputManager.Instance.pauseInputEvent.AddListener(PauseTrigger);
+                while (InputManager.instance == null)
+                    yield return null;
+
+                InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
@@ -132,10 +136,10 @@ namespace Mfknudsen.UI
             if (!readyToPause) return;
 
             readyToPause = false;
-            
+
             SwitchUI(UISelection.Pause);
 
-            UIBook.Instance.Effect(BookTurn.Open);
+            UIBook.instance.Effect(BookTurn.Open);
         }
 
         #endregion

@@ -6,6 +6,9 @@ using System.Linq;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
+using Mfknudsen.Player.Camera;
+using Mfknudsen.Player.UI_Book;
+using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World;
 
@@ -38,13 +41,13 @@ namespace Mfknudsen.Battle.Systems
 
         [SerializeField] private Transition transition;
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
-#if UNITY_EDITOR
             if (!(playerSpotCount >= 1 && playerSpotCount <= 3))
                 Debug.LogError("Player Spot Count Must Be Between 1 and 3");
-#endif
         }
+#endif
 
         #endregion
 
@@ -77,7 +80,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.Instance.GetBattleMember()};
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -91,8 +94,13 @@ namespace Mfknudsen.Battle.Systems
         {
             WorldManager manager = WorldManager.instance;
 
-            Debug.Log(manager == null);
-            
+            transition.onHide += () =>
+            {
+                PlayerManager.instance.DisableOverworld();
+                UIBook.instance.gameObject.SetActive(false);
+                UIManager.instance.SwitchUI(UISelection.Battle);
+            };
+
             manager.SetTransition(transition);
             manager.LoadBattleScene(battleSceneName);
 
@@ -114,7 +122,7 @@ namespace Mfknudsen.Battle.Systems
             while (BattleManager.instance == null)
                 yield return null;
 
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.Instance.GetComponent<BattleMember>()};
+            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetComponent<BattleMember>()};
             result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies.Where(m => m != null))
             {
@@ -130,7 +138,7 @@ namespace Mfknudsen.Battle.Systems
                     result.Add(m);
             }
 
-            onBattleStart.Invoke();
+            onBattleStart?.Invoke();
 
             BattleManager.instance.StartBattle(this);
 

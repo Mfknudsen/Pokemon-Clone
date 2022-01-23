@@ -32,7 +32,7 @@ namespace Mfknudsen.Battle.UI.Selection
         public void Setup()
         {
             oversight = BattleManager.instance.GetSpotOversight();
-            isAlly = PlayerManager.Instance.GetBattleMember().GetTeamAffiliation();
+            isAlly = PlayerManager.instance.GetBattleMember().GetTeamAffiliation();
         }
 
         public void DisplaySelection(BattleAction action)

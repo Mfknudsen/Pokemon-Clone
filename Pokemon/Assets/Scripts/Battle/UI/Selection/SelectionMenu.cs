@@ -1,5 +1,7 @@
 ﻿#region SDK
 
+using System;
+using System.Collections;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
@@ -36,10 +38,24 @@ namespace Mfknudsen.Battle.UI.Selection
 
         #endregion
 
+        #region Build In States
+
+        private void Awake()
+        {
+            StartCoroutine(Setup());
+        }
+
+        #endregion
+        
         #region In
 
-        public void Setup()
+        public IEnumerator Setup()
         {
+            while (BattleManager.instance == null)
+                yield return null;
+            
+            BattleManager.instance.SetSelectionMenu(this);
+            
             pokemonSelection.Setup();
             itemSelection.Setup();
             targetSelection.Setup();

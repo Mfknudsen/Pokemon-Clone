@@ -12,10 +12,17 @@ namespace Mfknudsen.World
     {
         public static NavMeshManager instance;
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+            
+            yield break;
         }
 
         public void Rebake(NavMeshSurface surface)

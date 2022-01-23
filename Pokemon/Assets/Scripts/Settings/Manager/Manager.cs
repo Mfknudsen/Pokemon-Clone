@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,35 +12,36 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        [FoldoutGroup("ISetup")] [Range(1, 10)] [SerializeField]
-        protected int priority = 1;
-
-        private bool ready;
+        private bool ready, isStarted;
 
         #endregion
 
         #region Getters
-
-        public int Priority()
-        {
-            return priority;
-        }
 
         public bool GetReady()
         {
             return ready;
         }
 
+        public bool GetIsStarted()
+        {
+            return isStarted;
+        }
+
+        #endregion
+
+        #region Setters
+
+        public void SetIsStarted(bool set)
+        {
+            isStarted = set;
+        }
+
         #endregion
 
         #region In
 
-        public abstract void Setup();
-
-        public void Ready()
-        {
-            ready = true;
-        }
+        public abstract IEnumerator Setup();
 
         #endregion
     }

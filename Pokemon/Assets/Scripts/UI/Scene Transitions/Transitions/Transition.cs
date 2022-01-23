@@ -16,6 +16,10 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
 
         protected SceneTransitionUI transitionUI;
 
+        public delegate void OnHide();
+
+        public OnHide onHide;
+        
         #endregion
 
         #region Setters
@@ -45,6 +49,17 @@ namespace Mfknudsen.UI.Scene_Transitions.Transitions
         public static float GetTimeOfClipByName(Animator anim)
         {
             return anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        }
+
+        #endregion
+
+        #region Internal
+
+        protected IEnumerator TriggerOnHide(float timeToHide)
+        {
+            yield return new WaitForSeconds(timeToHide);
+            
+            onHide?.Invoke();
         }
 
         #endregion

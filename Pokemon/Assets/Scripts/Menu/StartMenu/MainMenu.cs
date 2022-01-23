@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player;
 using Mfknudsen.UI;
 using Mfknudsen.World;
@@ -17,20 +18,16 @@ namespace Mfknudsen.Menu.StartMenu
         {
             WorldManager.instance.LoadSceneAsync(sceneName);
 
-            UIManager.Instance.SwitchUI(UISelection.Overworld);
+            UIManager.instance.SwitchUI(UISelection.Overworld);
 
-            PlayerManager.Instance.EnableOverworld();
+            PlayerManager.instance.EnableOverworld();
 
             WorldManager.instance.UnloadSceneAsync("StartMenu");
         }
 
-        public void LoadBattleScene(string sceneName)
+        public void LoadBattleScene()
         {
-            WorldManager.instance.LoadBattleScene(sceneName);
-
-            UIManager.Instance.SwitchUI(UISelection.Battle);
-            
-            WorldManager.instance.UnloadSceneAsync("StartMenu");
+            GameObject.Find("NPC Base").GetComponent<BattleStarter>().StartBattleNow();
         }
 
         #endregion

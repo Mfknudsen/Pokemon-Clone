@@ -64,10 +64,10 @@ namespace Mfknudsen.Battle.Actions
         {
             done = false;
 
-            BattleItem battleItem = (BattleItem)toUse;
+            BattleItem battleItem = (BattleItem) toUse;
 
             foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots()
-                .Where(spot => spot.GetActivePokemon() == currentPokemon))
+                         .Where(spot => spot.GetActivePokemon() == currentPokemon))
             {
                 battleItem.SetUserName(spot.GetBattleMember().GetName());
                 break;
@@ -76,7 +76,11 @@ namespace Mfknudsen.Battle.Actions
             battleItem.SetTarget(targetPokemon[0]);
             battleItem.SetOnUse(chatOnActivation);
 
-            yield return toUse.Operation();
+            OperationsContainer container = new OperationsContainer();
+            container.Add(toUse);
+            OperationManager.instance.AddAsyncOperationsContainer(container);
+            while (!toUse.Done())
+                yield return null;
 
             battleMember.GetInventory().RemoveItem(toUse);
 

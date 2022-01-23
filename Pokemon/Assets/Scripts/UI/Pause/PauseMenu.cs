@@ -41,7 +41,7 @@ namespace Mfknudsen.UI.Pause
         [UsedImplicitly]
         public void Unpause()
         {
-            UIManager uiManager = UIManager.Instance;
+            UIManager uiManager = UIManager.instance;
             uiManager.SwitchUI(preSelection);
         }
 

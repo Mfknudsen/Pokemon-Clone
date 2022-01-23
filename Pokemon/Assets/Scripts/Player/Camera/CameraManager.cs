@@ -15,7 +15,7 @@ namespace Mfknudsen.Player.Camera
     {
         #region Values
 
-        public static CameraManager Instance;
+        public static CameraManager instance;
 
         [FoldoutGroup("Camera")] [SerializeField]
         private UnityEngine.Camera currentCamera;
@@ -54,11 +54,11 @@ namespace Mfknudsen.Player.Camera
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -67,6 +67,8 @@ namespace Mfknudsen.Player.Camera
             currentSettings = CameraSettings.Default();
             currentRig = defaultCameraRig;
             defaultCameraRig.enabled = true;
+
+            yield break;
         }
 
         public void SetCurrentRigToDefault()
@@ -79,10 +81,12 @@ namespace Mfknudsen.Player.Camera
         public void SetCurrentRig(CinemachineVirtualCameraBase set, bool disablePrevious = false)
         {
             currentRig.enabled = !disablePrevious;
-            
-            set.enabled = true;
 
-            currentRig = set;        }
+            if (set != null)
+                set.enabled = true;
+
+            currentRig = set;
+        }
 
         public void SetCameraSettings(CameraSettings cameraSettings)
         {

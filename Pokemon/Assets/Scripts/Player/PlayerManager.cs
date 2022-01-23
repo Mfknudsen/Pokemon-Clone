@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System.Collections;
 using Cinemachine;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Items;
@@ -21,7 +22,7 @@ namespace Mfknudsen.Player
     {
         #region Values
 
-        public static PlayerManager Instance;
+        public static PlayerManager instance;
 
         [FoldoutGroup("References")] [SerializeField]
         private Team team;
@@ -44,11 +45,11 @@ namespace Mfknudsen.Player
         [FoldoutGroup("References")] [SerializeField]
         private CinemachineFreeLook overworldCameraRig;
 
-        // ReSharper disable once IdentifierTypo
         private GameObject overworldGameObject;
         private PlayerInputContainer playerInputContainer;
 
-        [FoldoutGroup("Character Sheet"), HideLabel][SerializeField] private CharacterSheet characterSheet;
+        [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
+        private CharacterSheet characterSheet;
 
         #endregion
 
@@ -103,11 +104,11 @@ namespace Mfknudsen.Player
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -120,9 +121,12 @@ namespace Mfknudsen.Player
             playerInputContainer = new PlayerInputContainer();
 
             moveController.Setup();
-            interactions.Setup();
+            StartCoroutine(interactions.Setup());
 
-            InputManager inputManager = InputManager.Instance;
+            while (InputManager.instance == null)
+                yield return null;
+
+            InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
         }
@@ -140,13 +144,15 @@ namespace Mfknudsen.Player
         // ReSharper disable once IdentifierTypo
         public void DisableOverworld()
         {
-            overworldGameObject.SetActive(false);
+            if (overworldGameObject != null)
+                overworldGameObject.SetActive(false);
         }
 
         // ReSharper disable once IdentifierTypo
         public void EnableOverworld()
         {
-            overworldGameObject.SetActive(true);
+            if (overworldGameObject != null)
+                overworldGameObject.SetActive(true);
         }
 
         #endregion

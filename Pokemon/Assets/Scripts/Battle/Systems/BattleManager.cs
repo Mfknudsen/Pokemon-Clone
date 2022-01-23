@@ -1,6 +1,9 @@
 ﻿#region Packages
 
+using System;
+using System.Collections;
 using System.Linq;
+using Cinemachine;
 using Mfknudsen._Debug;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Spots;
@@ -8,58 +11,70 @@ using Mfknudsen.Battle.Systems.States;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Communication;
+using Mfknudsen.Player.Camera;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
 using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
+using Mfknudsen.Settings.Manager;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-// ReSharper disable once ParameterTypeCanBeEnumerable.Global
 namespace Mfknudsen.Battle.Systems
 {
-    public class BattleManager : MonoBehaviour
+    public class BattleManager : Manager
     {
         #region Values
 
         public static BattleManager instance;
-        [SerializeField] private BattleStarter starter;
-        [SerializeField] private Condition faintCondition;
-        [SerializeField] private BattleAction switchAction, itemAction;
 
-        [SerializeField] private GameObject spotPrefab;
+        [FoldoutGroup("Conditions")] [SerializeField]
+        private Condition faintCondition;
+
+        [FoldoutGroup("Actions")] [SerializeField]
+        private BattleAction switchAction, itemAction;
+
+        [FoldoutGroup("Actions")] [SerializeField]
+        private float secondsPerPokemonMove = 1;
+
+        [FoldoutGroup("Battlefield")] [SerializeField]
+        private GameObject spotPrefab;
+
+        [FoldoutGroup("Battlefield")] [SerializeField]
+        private Battlefield battlefield;
+
+        [FoldoutGroup("UI")] [SerializeField] private SelectionMenu selectionMenu;
+
+        [FoldoutGroup("UI")] [SerializeField] private DisplayManager displayManager;
+
+        [FoldoutGroup("Chat")] [SerializeField]
+        private Chat superEffective;
+
+        [FoldoutGroup("Chat")] [SerializeField]
+        private Chat notEffective, noEffect, barelyEffective, extremelyEffective, miss;
+
+        [FoldoutGroup("Camera")] [SerializeField]
+        private CinemachineVirtualCameraBase battleCameraRig;
+
+        private BattleStarter starter;
 
         private WeatherManager weatherManager;
+
         private SpotOversight spotOversight;
+
         private AbilityOversight abilityOversight;
 
-        // ReSharper disable once NotAccessedField.Local
-        private State stateManage;
-
-        [SerializeField] private float secondsPerPokemonMove = 1;
-
-        [SerializeField] private SelectionMenu selectionMenu;
-
-        [SerializeField] private DisplayManager displayManager;
-
-        [SerializeField] private Chat superEffective;
-
-        [SerializeField] private Chat notEffective, noEffect, barelyEffective, extremelyEffective, miss;
+        private State stateManager;
 
         #endregion
 
         #region Build In States
 
-        private void Start()
+        private void OnDestroy()
         {
-            instance = this;
-            
-            BattleMathf.SetSuperEffective(superEffective);
-            BattleMathf.SetNotEffective(notEffective);
-            BattleMathf.SetNoEffect(noEffect);
-            BattleMathf.SetBarelyEffective(barelyEffective);
-            BattleMathf.SetExtremlyEffective(extremelyEffective);
-            BattleMathf.SetMissChat(miss);
+            if (instance == this)
+                instance = null;
         }
 
         #endregion
@@ -101,6 +116,16 @@ namespace Mfknudsen.Battle.Systems
             return displayManager;
         }
 
+        public Battlefield GetBattlefield()
+        {
+            return battlefield;
+        }
+
+        public CinemachineVirtualCameraBase GetBattleCamera()
+        {
+            return battleCameraRig;
+        }
+
         #endregion
 
         #region Setters
@@ -119,11 +144,36 @@ namespace Mfknudsen.Battle.Systems
 
         #region In
 
-        public void StartBattle(BattleStarter bs)
+        public override IEnumerator Setup()
         {
-            starter = bs;
+            if (instance == null)
+            {
+                instance = this;
 
-            SetState(new BeginState(this));
+                OperationManager.instance.AddAsyncOperationsContainer(
+                    new OperationsContainer(CameraEvent.ReturnToDefaultBattle()));
+
+                BattleMathf.SetSuperEffective(superEffective);
+                BattleMathf.SetNotEffective(notEffective);
+                BattleMathf.SetNoEffect(noEffect);
+                BattleMathf.SetBarelyEffective(barelyEffective);
+                BattleMathf.SetExtremlyEffective(extremelyEffective);
+                BattleMathf.SetMissChat(miss);
+
+                while (displayManager == null || selectionMenu == null)
+                    yield return null;
+
+                SetState(new BeginState(this));
+            }
+            else
+                Destroy(gameObject);
+
+            yield break;
+        }
+
+        public void StartBattle(BattleStarter battleStarter)
+        {
+            starter = battleStarter;
         }
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
@@ -156,16 +206,16 @@ namespace Mfknudsen.Battle.Systems
             if (pokemon == null) return;
 
             foreach (Spot s in spotOversight.GetSpots()
-                // ReSharper disable once Unity.NoNullPropagation
-                .Select(s => new { s, p = s?.GetActivePokemon() })
-                .Where(t => t.p is { })
-                .Where(t => t.p == pokemon)
-                .Select(t => t.s))
+                         // ReSharper disable once Unity.NoNullPropagation
+                         .Select(s => new {s, p = s?.GetActivePokemon()})
+                         .Where(t => t.p is { })
+                         .Where(t => t.p == pokemon)
+                         .Select(t => t.s))
             {
                 pokemon.DespawnPokemon();
 
                 s.SetActivePokemon(null);
-                
+
                 break;
             }
 
@@ -181,7 +231,7 @@ namespace Mfknudsen.Battle.Systems
 
         public void SetState(State s)
         {
-            stateManage = s;
+            stateManager = s;
             StartCoroutine(s.Tick());
         }
 
@@ -204,14 +254,14 @@ namespace Mfknudsen.Battle.Systems
 
         #region Out
 
-        public GameObject CreateSpot()
+        public Spot CreateSpot(Transform parent)
         {
-            return Instantiate(spotPrefab);
+            return Instantiate(spotPrefab, parent).GetComponent<Spot>();
         }
 
         public SwitchAction InstantiateSwitchAction()
         {
-            return (SwitchAction)Instantiate(switchAction);
+            return (SwitchAction) Instantiate(switchAction);
         }
 
         public ItemAction InstantiateItemAction()

@@ -26,7 +26,7 @@ namespace Mfknudsen.Battle.UI.Selection
 
         public void Setup()
         {
-            playerTeam = PlayerManager.Instance.GetTeam();
+            playerTeam = PlayerManager.instance.GetTeam();
         }
 
         public void DisplaySelection(SwitchAction switchAction)

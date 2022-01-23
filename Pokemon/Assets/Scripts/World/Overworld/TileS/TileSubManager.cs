@@ -1,6 +1,7 @@
 ﻿#region Packages
 
 using System;
+using System.Collections;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -47,11 +48,13 @@ namespace Mfknudsen.World.Overworld.TileS
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
             TileManager tileManager = TileManager.instance;
             tileManager.AddSubManager(this);
             transform.parent = tileManager.transform;
+            
+            yield break;
         }
 
         public void EnableDividers()

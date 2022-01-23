@@ -1,6 +1,7 @@
 #region Packages
 
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -47,7 +48,7 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        public static InputManager Instance;
+        public static InputManager instance;
         private PlayerInput playerInput;
 
         #region Events
@@ -65,11 +66,11 @@ namespace Mfknudsen.Settings.Manager
 
         #region In
 
-        public override void Setup()
+        public override IEnumerator Setup()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -91,6 +92,8 @@ namespace Mfknudsen.Settings.Manager
             
             playerInput.Player.Run.performed += OnRunPerformed;
             playerInput.Player.Run.canceled += OnRunPerformed;
+            
+            yield break;
         }
 
         #endregion

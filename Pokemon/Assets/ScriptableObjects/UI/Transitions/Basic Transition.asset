@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db7d812a58d33d64dae2ddbf2ad42bee, type: 3}
   m_Name: Basic Transition
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   gameObjectToAnimate: {fileID: 9002197844947928405, guid: b39f1810b7999494c924c6f5c9678699, type: 3}

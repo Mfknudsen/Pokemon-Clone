@@ -19,7 +19,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            Team playerTeam = PlayerManager.Instance.GetTeam();
+            Team playerTeam = PlayerManager.instance.GetTeam();
             SpotOversight spotOversight = manager.GetSpotOversight();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator

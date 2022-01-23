@@ -28,7 +28,7 @@ namespace Mfknudsen.AI
 
         private void Update()
         {
-            Vector3 dir = (PlayerManager.Instance.transform.position - origin.transform.position).normalized;
+            Vector3 dir = (PlayerManager.instance.transform.position - origin.transform.position).normalized;
 
             float actualAngel = Vector3.Angle(origin.forward, dir);
             if (actualAngel > povAngel / 2) return;
@@ -39,7 +39,7 @@ namespace Mfknudsen.AI
 
             if (onSeenOperations == null) return;
 
-            OperationManager operationManager = OperationManager.Instance;
+            OperationManager operationManager = OperationManager.instance;
             foreach (OperationsContainer onSeenOperation in onSeenOperations)
                 operationManager.AddOperationsContainer(onSeenOperation);
         }
