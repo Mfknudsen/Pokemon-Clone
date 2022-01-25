@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d019de2411f5142ac2ac511c8d500e, type: 3}
+  m_Name: Ice
+  m_EditorClassIdentifier: 
+  typeName: 5
+  typeColor: {r: 0.40000004, g: 0.8000001, b: 1, a: 1}
+  noEffect: []
+  resistances:
+  - {fileID: 11400000}
+  weakness:
+  - {fileID: 11400000, guid: ed7030f5bbb8eb74b9242907049220f9, type: 2}
+  - {fileID: 11400000, guid: 5653934b9bb928a489ebfca52f5710d6, type: 2}
+  - {fileID: 11400000, guid: 0b95b520435267647b230846d0eefffb, type: 2}
+  - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
