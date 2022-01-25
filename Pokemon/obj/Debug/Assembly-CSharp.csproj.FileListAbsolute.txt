@@ -1,2 +1,0 @@
-C:\Users\Mads T.F. Knudsen\Documents\GitHub\Pokemon-Clone\Pokemon\obj\Debug\Assembly-CSharp.csproj.AssemblyReference.cache
-C:\Users\Mads T.F. Knudsen\Documents\GitHub\Pokemon-Clone\Pokemon\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
