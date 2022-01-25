@@ -28,13 +28,12 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            foreach (Pokemon pokemon in from spot in spotOversight.GetSpots()
-                select spot.GetActivePokemon()
-                into pokemon
-                where pokemon != null
-                where pokemon.GetBattleAction() != null &&
-                      !(pokemon.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)
-                select pokemon)
+            foreach (Pokemon pokemon in spotOversight.GetSpots()
+                .Select(s => s.GetActivePokemon())
+                .Where(p =>
+                    p != null &&
+                    p.GetBattleAction() != null &&
+                    !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)))
             {
                 #region Start Action
 
@@ -54,20 +53,41 @@ namespace Mfknudsen.Battle.Systems.States
                 #region Check Any Fainted
 
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-                foreach (Pokemon checkFainted in from spot in spotOversight.GetSpots()
-                    select spot.GetActivePokemon()
-                    into checkFainted
-                    where checkFainted != null
-                    where checkFainted.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition
-                    select checkFainted)
+                foreach (Pokemon checkPokemon in spotOversight.GetSpots()
+                    .Select(s =>
+                        s.GetActivePokemon())
+                    .Where(p =>
+                        p != null &&
+                        p.GetCurrentHealth() == 0))
                 {
-                    manager.SetPokemonFainted(checkFainted);
+                    manager.SetPokemonFainted(checkPokemon);
+
+                    FaintedCondition faintedCondition =
+                        checkPokemon.GetConditionOversight().GetNonVolatileStatus() as FaintedCondition;
+
+                    if (faintedCondition != null)
+                    {
+                        operationManager.AddOperationsContainer(new OperationsContainer(faintedCondition));
+
+                        yield return null;
+
+                        while (!faintedCondition.Done())
+                            yield return null;
+                    }
 
                     while (!operationManager.GetDone())
                         yield return null;
                 }
 
                 #endregion
+            }
+
+            if (manager.CheckTeamDefeated(true) ||
+                manager.CheckTeamDefeated(false))
+            {
+                manager.SetState(new RoundDoneState(manager));
+
+                yield break;
             }
 
             manager.SetState(new AfterConditionState(manager));

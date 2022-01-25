@@ -1,6 +1,5 @@
 #region Packages
 
-using System;
 using System.Collections;
 using Cinemachine;
 using Mfknudsen.Settings.Manager;
@@ -80,7 +79,8 @@ namespace Mfknudsen.Player.Camera
 
         public void SetCurrentRig(CinemachineVirtualCameraBase set, bool disablePrevious = false)
         {
-            currentRig.enabled = !disablePrevious;
+            if (currentRig != null)
+                currentRig.enabled = !disablePrevious;
 
             if (set != null)
                 set.enabled = true;
@@ -92,10 +92,6 @@ namespace Mfknudsen.Player.Camera
         {
             currentSettings = cameraSettings;
             currentCamera.fieldOfView = cameraSettings.FOV;
-        }
-
-        public void Reset()
-        {
         }
 
         #endregion

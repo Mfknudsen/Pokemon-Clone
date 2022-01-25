@@ -15,7 +15,6 @@ namespace Mfknudsen.Player.Camera
         #region Values
 
         private bool done;
-        private readonly bool resetOnEnd;
         private readonly CinemachineVirtualCameraBase cinemachineRig;
         private readonly CameraSettings cameraSettings;
         private readonly float percentToEnable, timeInSeconds;
@@ -24,14 +23,12 @@ namespace Mfknudsen.Player.Camera
             CinemachineVirtualCameraBase cinemachineRig,
             CameraSettings cameraSettings,
             float timeInSeconds,
-            float percentToEnable,
-            bool? resetOnEnd = null) : this()
+            float percentToEnable) : this()
         {
             //percentToEnable must be between 0 and 1
             this.cinemachineRig = cinemachineRig;
             this.percentToEnable = percentToEnable;
             this.timeInSeconds = timeInSeconds;
-            this.resetOnEnd = resetOnEnd ?? false;
             this.cameraSettings = cameraSettings ?? CameraSettings.Default();
         }
 
@@ -63,8 +60,6 @@ namespace Mfknudsen.Player.Camera
 
         public void End()
         {
-            if (resetOnEnd)
-                CameraManager.instance.Reset();
         }
 
         #endregion

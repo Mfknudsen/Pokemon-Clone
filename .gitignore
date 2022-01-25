@@ -1,5 +1,7 @@
 Pokemon/Assets/_Packages
 Pokemon/Library
+Pokemon/Temp
+Pokemon/Logs
 
 # Created by https://www.toptal.com/developers/gitignore/api/unity,rider
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,rider

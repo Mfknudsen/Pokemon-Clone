@@ -1,4 +1,4 @@
-﻿namespace Mfknudsen.World.Overworld
+﻿namespace Mfknudsen.World.Overworld.Interactions
 {
     public interface IInteractable
     {

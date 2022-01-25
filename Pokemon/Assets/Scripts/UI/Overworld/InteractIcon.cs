@@ -11,13 +11,13 @@ namespace Mfknudsen.UI.Overworld
     {
         [SerializeField] private GameObject visuals;
 
-        private Interactions interactions;
+        private PlayerInteractions _playerInteractions;
         private RectTransform rectTransform;
         private Camera cam;
 
         private void Awake()
         {
-            interactions = PlayerManager.instance.GetInteractions();
+            _playerInteractions = PlayerManager.instance.GetInteractions();
 
             rectTransform = GetComponent<RectTransform>();
 
@@ -26,7 +26,7 @@ namespace Mfknudsen.UI.Overworld
 
         private void Update()
         {
-            Vector3 worldPos = interactions.GetFocusedPosition();
+            Vector3 worldPos = _playerInteractions.GetFocusedPosition();
 
             if (worldPos == Vector3.zero)
             {

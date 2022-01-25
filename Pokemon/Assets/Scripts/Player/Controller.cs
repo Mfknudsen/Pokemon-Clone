@@ -13,9 +13,6 @@ namespace Mfknudsen.Player
     {
         #region Values
 
-        private PlayerInputContainer playerInputContainer;
-        private bool ready, allowed;
-
         [FoldoutGroup("Components")] [SerializeField]
         private NavMeshAgent agent;
 
@@ -42,9 +39,12 @@ namespace Mfknudsen.Player
         [FoldoutGroup("Animation")] [SerializeField]
         private float animatorDamp = 0.1f;
 
+        private PlayerInputContainer playerInputContainer;
+        private bool ready, allowed;
+
         private Vector3 toLookRotation = Vector3.forward;
 
-        private AxisState yCamState, xCamState;
+        private float yCamSpeed, xCamSpeed;
 
         #region Hashs
 
@@ -68,15 +68,6 @@ namespace Mfknudsen.Player
 
         #endregion
 
-        #region Getters
-
-        public PlayerInputContainer GetPlayerInput()
-        {
-            return playerInputContainer;
-        }
-
-        #endregion
-
         #region Setters
 
         #endregion
@@ -94,8 +85,8 @@ namespace Mfknudsen.Player
 
             playerInputContainer = PlayerManager.instance.GetPlayerInput();
 
-            yCamState = cameraRig.m_YAxis;
-            xCamState = cameraRig.m_XAxis;
+            yCamSpeed = cameraRig.m_YAxis.m_MaxSpeed;
+            xCamSpeed = cameraRig.m_XAxis.m_MaxSpeed;
 
             ready = true;
         }
@@ -104,16 +95,16 @@ namespace Mfknudsen.Player
         {
             allowed = true;
 
-            cameraRig.m_YAxis = yCamState;
-            cameraRig.m_XAxis = xCamState;
+            cameraRig.m_YAxis.m_MaxSpeed = yCamSpeed;
+            cameraRig.m_XAxis.m_MaxSpeed = xCamSpeed;
         }
 
         public void Disable()
         {
             allowed = false;
 
-            cameraRig.m_YAxis = new AxisState();
-            cameraRig.m_XAxis = new AxisState();
+            cameraRig.m_YAxis.m_MaxSpeed = 0;
+            cameraRig.m_XAxis.m_MaxSpeed = 0;
         }
 
         public void TriggerAnimator(int triggerID)

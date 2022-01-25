@@ -3,9 +3,6 @@
 using System.Collections;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Battle.Systems.Spots;
-using Mfknudsen.Player;
-using Mfknudsen.Trainer;
-using UnityEngine;
 
 #endregion
 
@@ -14,11 +11,8 @@ namespace Mfknudsen.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
-        private readonly Team playerTeam;
-
         public RoundDoneState(BattleManager manager) : base(manager)
         {
-            playerTeam = PlayerManager.instance.GetTeam();
         }
 
         public override IEnumerator Tick()
@@ -44,39 +38,18 @@ namespace Mfknudsen.Battle.Systems.States
 
             #region End Battle
 
-            SpotOversight spotOversight = manager.GetSpotOversight();
-
-            bool endBattle = true;
-
-            spotOversight.Reorganise(true);
-
-            if (spotOversight.GetSpots().Count > 1)
-            {
-                Spot spotA = spotOversight.GetSpots()[0];
-
-                for (int i = 1; i < spotOversight.GetSpots().Count; i++)
-                {
-                    Spot spotB = spotOversight.GetSpots()[i];
-
-                    if (spotA.GetIsAlly() == spotB.GetIsAlly()) continue;
-
-                    endBattle = false;
-
-                    break;
-                }
-            }
-
-            if (endBattle)
-            {
-                bool playerVictory = playerTeam.HasMorePokemon();
-                Debug.Log("Victory: " + playerVictory);
-                if (playerVictory)
-                    manager.SetState(new WinState(manager));
-                else
-                    manager.SetState(new LostState(manager));
-            }
+            if (manager.CheckTeamDefeated(true))
+                manager.SetState(new LostState(manager));
+            else if (manager.CheckTeamDefeated(false))
+                manager.SetState(new WinState(manager));
             else
+            {
+                SpotOversight spotOversight = manager.GetSpotOversight();
+
+                spotOversight.Reorganise(true);
+
                 manager.SetState(new PlayerTurnState(manager));
+            }
 
             #endregion
         }

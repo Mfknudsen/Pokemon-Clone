@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System;
 using Mfknudsen.NPC;
 using UnityEngine;
 

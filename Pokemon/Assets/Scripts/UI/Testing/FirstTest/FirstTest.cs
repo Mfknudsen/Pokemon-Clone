@@ -1,7 +1,6 @@
 #region Packages
 
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
@@ -18,11 +17,14 @@ namespace Mfknudsen.UI.Testing.FirstTest
 
         #region Wild
 
-        [SerializeField] [FoldoutGroup("Wild Encounter Settings")]
+        [FoldoutGroup("Wild Encounter Settings")] [SerializeField]
         private GameObject wildBasePrefab;
 
-        [SerializeField] [FoldoutGroup("Wild Encounter Settings/poke")]
+        [FoldoutGroup("Wild Encounter Settings/poke")] [SerializeField]
         private List<Pokemon> possibleEncounters = new List<Pokemon>();
+
+        [FoldoutGroup("trainer Encounter")] [SerializeField]
+        private GameObject trainerBasePrefab;
 
         #endregion
 
@@ -30,42 +32,36 @@ namespace Mfknudsen.UI.Testing.FirstTest
 
         #region In
 
-        #region Buttons
-
-        [UsedImplicitly]
-        public void SpawnWildEncounter()
+        public GameObject SpawnWildEncounter()
         {
             GameObject obj = Instantiate(wildBasePrefab);
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
-            
+
             Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
             member.GetTeam().AddNewPokemonToTeam(pokemon);
 
-            starter.onBattleEnd += () => { Destroy(obj); };
+            starter.onBattleEnd += _ => { Destroy(obj); };
 
-            starter.StartBattleNow();
+            return obj;
         }
 
-        [UsedImplicitly]
-        public void SpawnTrainerEncounter()
+        public GameObject SpawnTrainerEncounter()
         {
-            GameObject obj = Instantiate(wildBasePrefab);
+            GameObject obj = Instantiate(trainerBasePrefab);
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
-            
+
             for (int i = 0; i < PlayerManager.instance.GetTeam().GetTeamCount(); i++)
             {
                 Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
                 member.GetTeam().AddNewPokemonToTeam(pokemon);
-                
             }
-            starter.onBattleEnd += () => { Destroy(obj); };
 
-            starter.StartBattleNow();
+            starter.onBattleEnd += _ => { Destroy(obj); };
+
+            return obj;
         }
-
-        #endregion
 
         #endregion
     }

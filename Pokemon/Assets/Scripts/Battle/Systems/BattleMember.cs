@@ -5,6 +5,7 @@ using System.Linq;
 using Mfknudsen.AI;
 using UnityEngine;
 using Mfknudsen.Battle.Systems.Spots;
+using Mfknudsen.Communication;
 using Mfknudsen.Items;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Settings;
@@ -26,32 +27,33 @@ namespace Mfknudsen.Battle.Systems
 
         [SerializeField] [BoxGroup(" ")] private int spotsToOwn = 1;
 
-
         [BoxGroup(" /Affiliation")]
-        [SerializeField]
-        [LabelWidth(60)]
         [HorizontalGroup(" /Affiliation/Team Affiliation")]
         [HideIf("isWild")]
+        [LabelWidth(60)]
+        [SerializeField]
         private bool isPlayer;
 
-        [SerializeField] [LabelWidth(60)] [HorizontalGroup(" /Affiliation/Team Affiliation")] [HideIf("isPlayer")]
+        [HorizontalGroup(" /Affiliation/Team Affiliation")] [HideIf("isPlayer")] [LabelWidth(60)] [SerializeField]
         private bool isWild;
 
-        [SerializeField] [BoxGroup(" ")] [TableList]
+        [BoxGroup(" ")] [TableList] [SerializeField]
         private List<EvaluatorSetting> evaluatorSettings = new List<EvaluatorSetting>();
 
-        [SerializeField] [BoxGroup(" /Personality")]
+        [BoxGroup(" /Personality")] [SerializeField]
         private bool useDefaultPersonalitySetting = true;
 
-        [SerializeField] [BoxGroup(" /Personality")] [HideIf("useDefaultPersonalitySetting")]
+        [BoxGroup(" /Personality")] [HideIf("useDefaultPersonalitySetting")] [SerializeField]
         private PersonalitySetting personalitySetting;
+
+        [FoldoutGroup(" /On Defeat")] [SerializeField]
+        private Chat onDefeatedChats;
 
         private Inventory inventory;
         private Team pokemonTeam;
 
         private bool hasAllSpots;
         private readonly List<Spot> ownedSpots = new List<Spot>();
-
 
         private readonly List<Evaluator> evaluators = new List<Evaluator>();
 
@@ -119,6 +121,11 @@ namespace Mfknudsen.Battle.Systems
         public int GetSpotsToOwn()
         {
             return spotsToOwn;
+        }
+
+        public Chat GetOnDefeatedChats()
+        {
+            return onDefeatedChats;
         }
 
         #endregion

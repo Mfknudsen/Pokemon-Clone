@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System;
 using System.Collections;
 using System.Linq;
 using Cinemachine;
@@ -65,7 +64,7 @@ namespace Mfknudsen.Battle.Systems
 
         private AbilityOversight abilityOversight;
 
-        private State stateManager;
+        private Coroutine stateManager;
 
         #endregion
 
@@ -167,8 +166,6 @@ namespace Mfknudsen.Battle.Systems
             }
             else
                 Destroy(gameObject);
-
-            yield break;
         }
 
         public void StartBattle(BattleStarter battleStarter)
@@ -200,17 +197,16 @@ namespace Mfknudsen.Battle.Systems
             PokemonPlaceholder.CheckPlaceholder(pokemon, obj);
         }
 
-        // ReSharper disable once IdentifierTypo
         public void DespawnPokemon(Pokemon pokemon)
         {
             if (pokemon == null) return;
 
             foreach (Spot s in spotOversight.GetSpots()
-                         // ReSharper disable once Unity.NoNullPropagation
-                         .Select(s => new {s, p = s?.GetActivePokemon()})
-                         .Where(t => t.p is { })
-                         .Where(t => t.p == pokemon)
-                         .Select(t => t.s))
+                // ReSharper disable once Unity.NoNullPropagation
+                .Select(s => new { s, p = s?.GetActivePokemon() })
+                .Where(t => t.p is { })
+                .Where(t => t.p == pokemon)
+                .Select(t => t.s))
             {
                 pokemon.DespawnPokemon();
 
@@ -229,10 +225,12 @@ namespace Mfknudsen.Battle.Systems
             abilityOversight.Setup();
         }
 
-        public void SetState(State s)
+        public void SetState(State set)
         {
-            stateManager = s;
-            StartCoroutine(s.Tick());
+            if (stateManager != null)
+                StopCoroutine(stateManager);
+
+            stateManager = StartCoroutine(set.Tick());
         }
 
         public void EndBattle(bool playerVictory)
@@ -242,7 +240,7 @@ namespace Mfknudsen.Battle.Systems
 
         public void SetPokemonFainted(Pokemon pokemon)
         {
-            FaintedCondition condition = faintCondition.GetCondition() as FaintedCondition;
+            FaintedCondition condition = Instantiate(faintCondition) as FaintedCondition;
 
             // ReSharper disable once PossibleNullReferenceException
             condition.SetAffectedPokemon(pokemon);
@@ -261,12 +259,23 @@ namespace Mfknudsen.Battle.Systems
 
         public SwitchAction InstantiateSwitchAction()
         {
-            return (SwitchAction) Instantiate(switchAction);
+            return (SwitchAction)Instantiate(switchAction);
         }
 
         public ItemAction InstantiateItemAction()
         {
             return Instantiate(itemAction) as ItemAction;
+        }
+
+        public bool CheckTeamDefeated(bool isAlly)
+        {
+            return spotOversight.GetSpots()
+                .Select(s =>
+                    s.GetBattleMember())
+                .Where(bm =>
+                    bm.GetTeamAffiliation() == isAlly)
+                .Any(bm =>
+                    !bm.GetTeam().CanSendMorePokemon());
         }
 
         #endregion

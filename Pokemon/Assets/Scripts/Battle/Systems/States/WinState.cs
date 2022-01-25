@@ -1,6 +1,8 @@
-#region SDK
+#region Packages
 
 using System.Collections;
+using System.Linq;
+using Mfknudsen.Communication;
 
 #endregion
 
@@ -14,9 +16,21 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
+            ChatManager chatManager = ChatManager.instance;
+
+            foreach (BattleMember battleMember in manager.GetSpotOversight().GetSpots()
+                .Select(s =>
+                    s.GetBattleMember())
+                .Where(bm =>
+                    !bm.GetTeamAffiliation()))
+                chatManager.Add(battleMember.GetOnDefeatedChats());
+
+            yield return null;
+
+            while (!chatManager.GetIsClear())
+                yield return null;
+
             manager.EndBattle(true);
-            
-            yield break;
         }
     }
 }

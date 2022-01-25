@@ -6,7 +6,6 @@ using System.Linq;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
-using Mfknudsen.Player.Camera;
 using Mfknudsen.Player.UI_Book;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
@@ -26,7 +25,7 @@ namespace Mfknudsen.Battle.Systems
 
         public OnBattleStart onBattleStart;
 
-        public delegate void OnBattleEnd();
+        public delegate void OnBattleEnd(bool playerWon);
 
         public OnBattleEnd onBattleEnd;
 
@@ -40,6 +39,8 @@ namespace Mfknudsen.Battle.Systems
         [SerializeField] private Chat onStartChat;
 
         [SerializeField] private Transition transition;
+
+        private bool ready = true, playerWon;
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -68,6 +69,11 @@ namespace Mfknudsen.Battle.Systems
             return enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
         }
 
+        public bool GetPlayerWon()
+        {
+            return playerWon;
+        }
+
         public BattleMember[] GetAllies()
         {
             return allies;
@@ -80,7 +86,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetBattleMember()};
+            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetBattleMember() };
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -92,9 +98,13 @@ namespace Mfknudsen.Battle.Systems
 
         public void StartBattleNow()
         {
+            if (!ready) return;
+
+            ready = false;
+
             WorldManager manager = WorldManager.instance;
 
-            transition.onHide += () =>
+            transition.onHide = () =>
             {
                 PlayerManager.instance.DisableOverworld();
                 UIBook.instance.gameObject.SetActive(false);
@@ -110,11 +120,20 @@ namespace Mfknudsen.Battle.Systems
 
         public void EndBattle(bool playerVictory)
         {
-            WorldManager.instance.UnloadCurrentBattleScene();
+            transition.onHide = () =>
+            {
+                UIBook.instance.gameObject.SetActive(true);
+                UIManager.instance.SwitchUI(UISelection.Start);
+                UIBook.instance.Effect(BookTurn.Open);
+            };
 
-            Debug.Log(playerVictory ? "You Win!" : "You Lose!");
+            WorldManager manager = WorldManager.instance;
+            manager.SetTransition(transition);
+            manager.UnloadCurrentBattleScene();
 
-            onBattleEnd?.Invoke();
+            playerWon = playerVictory;
+
+            onBattleEnd?.Invoke(playerVictory);
         }
 
         private IEnumerator WaitForResponse()
@@ -122,16 +141,20 @@ namespace Mfknudsen.Battle.Systems
             while (BattleManager.instance == null)
                 yield return null;
 
-            List<BattleMember> result = new List<BattleMember> {PlayerManager.instance.GetComponent<BattleMember>()};
+            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
             result[0].SetTeamNumber(true);
-            foreach (BattleMember m in allies.Where(m => m != null))
+            foreach (BattleMember m in allies
+                         .Where(m =>
+                             m != null))
             {
                 m.SetTeamNumber(true);
                 if (!result.Contains(m))
                     result.Add(m);
             }
 
-            foreach (BattleMember m in enemies.Where(m => m != null))
+            foreach (BattleMember m in enemies
+                         .Where(m =>
+                             m != null))
             {
                 m.SetTeamNumber(false);
                 if (!result.Contains(m))
@@ -144,7 +167,7 @@ namespace Mfknudsen.Battle.Systems
 
             Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatManager.instance.Add(new[] {toSend});
+            ChatManager.instance.Add(new[] { toSend });
         }
 
         #endregion

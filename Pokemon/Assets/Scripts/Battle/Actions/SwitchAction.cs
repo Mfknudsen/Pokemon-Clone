@@ -25,7 +25,7 @@ namespace Mfknudsen.Battle.Actions
         [SerializeField] private Pokemon nextPokemon;
         [SerializeField] private Chat[] nextChat;
         [SerializeField] private Spot spot;
-        
+
         #endregion
 
         #region Getters
@@ -115,6 +115,7 @@ namespace Mfknudsen.Battle.Actions
                 c.AddToOverride("<NEXT_POKEMON>", nextPokemon.GetName());
                 toSend.Add(c);
             }
+
             ChatManager.instance.Add(toSend.ToArray());
 
             BattleManager.instance.SpawnPokemon(nextPokemon, spot);

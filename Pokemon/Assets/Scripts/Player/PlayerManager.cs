@@ -37,7 +37,7 @@ namespace Mfknudsen.Player
         private BattleMember battleMember;
 
         [FoldoutGroup("References")] [SerializeField]
-        private Interactions interactions;
+        private PlayerInteractions playerInteractions;
 
         [FoldoutGroup("References")] [SerializeField]
         private Controller moveController;
@@ -75,9 +75,9 @@ namespace Mfknudsen.Player
             return battleMember;
         }
 
-        public Interactions GetInteractions()
+        public PlayerInteractions GetInteractions()
         {
-            return interactions;
+            return playerInteractions;
         }
 
         public PlayerInputContainer GetPlayerInput()
@@ -121,7 +121,7 @@ namespace Mfknudsen.Player
             playerInputContainer = new PlayerInputContainer();
 
             moveController.Setup();
-            StartCoroutine(interactions.Setup());
+            StartCoroutine(playerInteractions.Setup());
 
             while (InputManager.instance == null)
                 yield return null;

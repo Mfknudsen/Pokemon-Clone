@@ -457,9 +457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0bfe0c054d23042974ca56dbe7053e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invisiblyUI: {fileID: 5291448554455411010}
-  visuals: {fileID: 2493626362064758519}
-  bookAnimator: {fileID: 474399824}
   preRenderTexture: {fileID: 8400000, guid: 711d31f423e5d7d4ebebe9bf2132552d, type: 2}
   curRenderTexture: {fileID: 8400000, guid: a0fe318b4eb80df43b38de5b3d0a488b, type: 2}
   bookCameraRig: {fileID: 436971409}
@@ -468,6 +465,9 @@ MonoBehaviour:
   openRight: {fileID: 915039851705436525}
   turnLeft: {fileID: 364198312757502156}
   turnRight: {fileID: 1931971208821939575}
+  bookAnimator: {fileID: 474399824}
+  invisiblyUI: {fileID: 5291448554455411010}
+  visuals: {fileID: 2493626362064758519}
 --- !u!95 &474399824
 Animator:
   serializedVersion: 3

@@ -9,9 +9,7 @@ using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Trainer;
 using Mfknudsen.UI;
-using UnityEngine;
 
 #endregion
 
@@ -50,7 +48,8 @@ namespace Mfknudsen.Battle.Systems.States
 
             spotOversight = manager.GetSpotOversight();
 
-            BattleMember[] playerWithAllies = {playerManager.GetBattleMember()};
+            BattleMember[] playerWithAllies = { playerManager.GetBattleMember() };
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             playerWithAllies.Concat(battleStarter.GetAllies());
             spotOversight.SetupSpots(playerWithAllies, manager.GetBattlefield().GetAllyField());
             spotOversight.SetupSpots(battleStarter.GetEnemies(), manager.GetBattlefield().GetEnemyField());
@@ -128,13 +127,12 @@ namespace Mfknudsen.Battle.Systems.States
 
             #endregion
 
-            foreach (OperationsContainer switchInAction in switchInActions)
+            foreach (IOperation i in switchInActions
+                .SelectMany(switchInAction => 
+                    switchInAction.GetInterfaces()))
             {
-                foreach (IOperation i in switchInAction.GetInterfaces())
-                {
-                    while (!i.Done())
-                        yield return null;
-                }
+                while (!i.Done())
+                    yield return null;
             }
 
 

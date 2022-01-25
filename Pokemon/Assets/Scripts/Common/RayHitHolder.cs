@@ -1,7 +1,6 @@
 #region Packages
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -9,19 +8,25 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen
+namespace Mfknudsen.Common
 {
     public class RayHitHolder : MonoBehaviour
     {
         #region Values
 
         [FoldoutGroup("Contains")] [SerializeField]
-        private readonly bool hasComponents, hasTags;
+        private bool hasComponents, hasTags;
 
         [FoldoutGroup("Contains"), ShowIf("hasTags")] [SerializeField]
-        private readonly string[] tags;
+        private string[] tags;
 
         private readonly List<MonoBehaviour> allComponents = new List<MonoBehaviour>();
+
+        private void OnValidate()
+        {
+            if (!hasTags)
+                tags = Array.Empty<string>();
+        }
 
         #endregion
 
@@ -54,15 +59,15 @@ namespace Mfknudsen
             return hasTags;
         }
 
-        public MonoBehaviour[] GetComponents()
+        public MonoBehaviour[] GetAllComponents()
         {
             return allComponents.ToArray();
         }
 
-        public T[] GetComponents<T>()
+        public T[] GetComponentsOfType<T>()
             where T : MonoBehaviour
         {
-            return allComponents.Where(component => component is T).Select(component => component as T).ToArray();
+            return allComponents.OfType<T>().ToArray();
         }
 
         #endregion

@@ -1,11 +1,10 @@
-#region SDK
+#region Packages
 
 using System.Collections;
+using System.Linq;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
-using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
-using UnityEngine;
 
 #endregion
 
@@ -22,24 +21,20 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            foreach (Spot spot in oversight.GetSpots())
+            foreach (ConditionOversight conditionOversight in oversight.GetSpots()
+                .Select(s => s.GetActivePokemon())
+                .Where(p => p != null)
+                .Select(p => p.GetConditionOversight()))
             {
-                Pokemon pokemon = spot.GetActivePokemon();
-
-                if (pokemon is null) continue;
-                
-                ConditionOversight conditionOversight = pokemon.GetConditionOversight();
-
                 manager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
                 while (!conditionOversight.GetDone() || !ChatManager.instance.GetIsClear())
                     yield return null;
-                
+
                 conditionOversight.Reset();
             }
 
             manager.SetState(new PlayerSelectNewState(manager));
-            yield break;
         }
     }
 }

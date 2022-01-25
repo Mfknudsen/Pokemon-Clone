@@ -20,6 +20,9 @@ namespace Mfknudsen
 
         private void Start()
         {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 150;
+
             StartCoroutine(Setup());
         }
 
@@ -38,9 +41,7 @@ namespace Mfknudsen
             }
 
             foreach (Item item in items)
-            {
                 inventory.AddItem(item);
-            }
 
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 

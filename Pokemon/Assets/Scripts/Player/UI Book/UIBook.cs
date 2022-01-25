@@ -410,7 +410,7 @@ namespace Mfknudsen.Player.UI_Book
             container.Add(cameraEvent);
             OperationManager.instance.AddAsyncOperationsContainer(container);
 
-            yield return new WaitForSeconds(transition.GetTimeToComplete());
+            yield return new WaitUntil(transition.Done);
 
             UIManager.instance.SwitchUI(UISelection.Overworld);
 
@@ -469,7 +469,7 @@ namespace Mfknudsen.Player.UI_Book
             UIBook book = UIBook.instance;
             book.GetVisuals().SetActive(true);
 
-            yield return new WaitForSeconds(transition.GetTimeToComplete());
+            yield return new WaitUntil(transition.Done);
 
             book.ConstructUI();
             done = true;

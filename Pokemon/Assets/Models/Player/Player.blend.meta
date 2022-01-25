@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -623603649343465320
-    second: Player_Walk
+    second: Player_T-Pose
   - first:
       74: -3100369314251171874
     second: Player_Idle
@@ -21,6 +21,12 @@ ModelImporter:
   - first:
       74: -623603649343465320
     second: Player_Walk
+  - first:
+      74: 2667949614841947897
+    second: Player_Walk
+  - first:
+      74: 2667949614841947897
+    second: Walk
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -53,8 +59,8 @@ ModelImporter:
       name: Player_Walk
       takeName: Scene
       internalID: 0
-      firstFrame: 1
-      lastFrame: 29
+      firstFrame: 2
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -558,7 +564,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 0
+  importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human:

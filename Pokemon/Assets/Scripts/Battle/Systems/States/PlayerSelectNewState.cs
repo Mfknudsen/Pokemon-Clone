@@ -1,13 +1,13 @@
-#region SDK
+#region Packages
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Communication;
 using Mfknudsen.Player;
-using UnityEngine;
 
 #endregion
 
@@ -25,24 +25,26 @@ namespace Mfknudsen.Battle.Systems.States
             SpotOversight oversight = manager.GetSpotOversight();
             BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
 
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (Spot spot in oversight.GetSpots())
+            if (playerTeam.GetTeam().CanSendMorePokemon())
             {
-                if (spot.GetBattleMember() != playerTeam || !playerTeam.GetTeam().CanSendMorePokemon() ||
-                    !(spot.GetActivePokemon() is null)) continue;
+                foreach (Spot spot in oversight.GetSpots()
+                    .Where(s =>
+                        s.GetBattleMember() == playerTeam ||
+                        s.GetActivePokemon() != null))
+                {
+                    SwitchAction switchAction = manager.InstantiateSwitchAction();
 
-                SwitchAction switchAction = manager.InstantiateSwitchAction();
+                    switchAction.SetSpot(spot);
 
-                switchAction.SetSpot(spot);
+                    manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
-                manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
+                    while (switchAction.GetNextPokemon() is null || !ChatManager.instance.GetIsClear())
+                        yield return null;
 
-                while (switchAction.GetNextPokemon() is null || !ChatManager.instance.GetIsClear())
-                    yield return null;
-
-                switchActions.Add(switchAction);
+                    switchActions.Add(switchAction);
+                }
             }
-            
+
             manager.GetSelectionMenu().DisableDisplaySelection();
 
             manager.SetState(new ComputerSelectNewState(manager, switchActions));

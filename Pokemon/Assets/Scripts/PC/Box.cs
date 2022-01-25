@@ -10,7 +10,7 @@ namespace Mfknudsen.PC
 {
     [RequireComponent(typeof(SphereCollider))]
     [AddComponentMenu("Overworld/Interactions")]
-    public class Box : InteractItem
+    public class Box : MonoBehaviour, IInteractable
     {
         #region In
 
@@ -24,24 +24,10 @@ namespace Mfknudsen.PC
 
         #endregion
 
-        public override void Trigger()
+        public void Trigger()
         {
             Debug.Log("Trigger Box");
             //UIManager.instance.SwitchUI(UISelection.Box);
         }
-
-        #region Collider
-
-        private void OnTriggerEnter(Collider other)
-        {
-            PlayerManager.instance.GetInteractions().OnEnter(this, transform);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            PlayerManager.instance.GetInteractions().OnExit(this);
-        }
-
-        #endregion
     }
 }
