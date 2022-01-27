@@ -15,7 +15,7 @@ using UnityEngine;
 namespace Mfknudsen.Battle.Actions
 {
     [CreateAssetMenu(fileName = "SwitchAction", menuName = "Action/Create new Switch Action")]
-    public class SwitchAction : BattleAction
+    public sealed class SwitchAction : BattleAction
     {
         #region Values
 

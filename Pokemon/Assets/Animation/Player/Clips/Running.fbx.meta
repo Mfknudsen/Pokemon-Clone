@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: c4953240e2e339d4f9dd0e65e0bf72cc
+guid: c50f42f53774e3e49b011e2d745bb38d
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Humanoid Run
+    second: Humanoid Running
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Humanoid Run
+      name: Humanoid Running
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0

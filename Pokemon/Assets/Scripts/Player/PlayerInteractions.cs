@@ -8,7 +8,6 @@ using UnityEngine;
 
 #endregion
 
-// ReSharper disable ParameterHidesMember
 namespace Mfknudsen.Player
 {
     public class PlayerInteractions : MonoBehaviour
@@ -17,8 +16,8 @@ namespace Mfknudsen.Player
 
         [SerializeField] private InteractItem focusedInteractable;
 
-        private readonly Dictionary<InteractItem, Transform> interactableInRange =
-            new Dictionary<InteractItem, Transform>();
+        private readonly Dictionary<InteractItem, Vector3> interactableInRange =
+            new Dictionary<InteractItem, Vector3>();
 
         #endregion
 
@@ -41,11 +40,11 @@ namespace Mfknudsen.Player
             InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
         }
 
-        public void OnEnter(InteractItem interactable, Transform transform)
+        public void OnEnter(InteractItem interactable, Transform trans)
         {
             if (interactableInRange.ContainsKey(interactable)) return;
 
-            interactableInRange.Add(interactable, transform);
+            interactableInRange.Add(interactable, trans.position);
 
             Evaluate();
         }
@@ -80,7 +79,6 @@ namespace Mfknudsen.Player
 
             Vector3 playerPos = transform.position;
 
-            // ReSharper disable once PossibleNullReferenceException
             float dist = focusedInteractable == null
                 ? Mathf.Infinity
                 : Vector3.Distance(playerPos, focusedInteractable.GetPosition());
@@ -89,7 +87,7 @@ namespace Mfknudsen.Player
             {
                 if (focusedInteractable == interactable) continue;
 
-                float tempDist = Vector3.Distance(playerPos, interactableInRange[interactable].position);
+                float tempDist = Vector3.Distance(playerPos, interactableInRange[interactable]);
 
                 if (!(tempDist < dist)) continue;
 
