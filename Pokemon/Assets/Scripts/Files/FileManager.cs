@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Mfknudsen.Player;
+using Mfknudsen.Pokémon;
+using Mfknudsen.Trainer;
 using UnityEngine;
+using Type = System.Type;
 
 #endregion
 
@@ -15,13 +18,7 @@ namespace Mfknudsen.Files
     {
         #region Values
 
-        private static readonly Dictionary<Type, string> fileNames = new Dictionary<Type, string>()
-        {
-            { typeof(PlayerData), "PlayerData" },
-            { typeof(StoryTriggers), "PlayerData" }
-        };
-
-        private static bool checkedForTriggers = false;
+        private static bool checkedForTriggers;
         private static Dictionary<string, bool> storyTriggers = new Dictionary<string, bool>();
 
         private static readonly BinaryFormatter formatter = new BinaryFormatter();
@@ -30,12 +27,12 @@ namespace Mfknudsen.Files
 
         #region In
 
-        public static void SaveData<T>(T data)
+        public static void SaveData<T>(T data, string fileName)
         {
             try
             {
                 SaveToFile(
-                    fileNames[typeof(T)],
+                    fileName,
                     data);
             }
             catch (Exception e)
@@ -44,12 +41,12 @@ namespace Mfknudsen.Files
             }
         }
 
-        public static T LoadData<T>() where T : class
+        public static T LoadData<T>(string fileName) where T : class
         {
             try
             {
                 return LoadFromFile<T>(
-                    fileNames[typeof(T)]);
+                    fileName);
             }
             catch (Exception e)
             {
@@ -66,7 +63,7 @@ namespace Mfknudsen.Files
         {
             if (!checkedForTriggers)
             {
-                storyTriggers = LoadFromFile<StoryTriggers>(fileNames[typeof(StoryTriggers)]).GetDictionary();
+                storyTriggers = LoadFromFile<StoryTriggers>("StoryTriggers").GetDictionary();
                 checkedForTriggers = true;
             }
 
@@ -115,8 +112,25 @@ namespace Mfknudsen.Files
 
     internal class PlayerData
     {
+        public readonly int badge;
+        public readonly string[] pronouns;
+        public readonly Pokemon[] inTeam = new Pokemon[6], inBox;
+
         public PlayerData(PlayerManager manager)
         {
+            CharacterSheet characterSheet = manager.GetCharacterSheet();
+            Team team = manager.GetTeam();
+
+            badge = characterSheet.badgeCount;
+            pronouns = new[]
+            {
+                characterSheet.pronoun1,
+                characterSheet.pronoun2,
+                characterSheet.pronoun3
+            };
+
+            for (int i = 0; i < 6; i++)
+                inTeam[i] = team.GetPokemonByIndex(i);
         }
     }
 
@@ -124,6 +138,12 @@ namespace Mfknudsen.Files
     {
         private string[] keys;
         private bool[] values;
+
+        public StoryTriggers(string[] keys, bool[] values)
+        {
+            this.keys = keys;
+            this.values = values;
+        }
 
         public Dictionary<string, bool> GetDictionary()
         {

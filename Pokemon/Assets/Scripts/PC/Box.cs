@@ -1,6 +1,8 @@
 ﻿#region Packages
 
-using Mfknudsen.Player;
+using System.Collections.Generic;
+using Mfknudsen.Files;
+using Mfknudsen.Pokémon;
 using Mfknudsen.World.Overworld.Interactions;
 using UnityEngine;
 
@@ -12,7 +14,29 @@ namespace Mfknudsen.PC
     [AddComponentMenu("Overworld/Interactions")]
     public class Box : MonoBehaviour, IInteractable
     {
+        #region Values
+
+        private static List<Pokemon> pokemonsInBox = new List<Pokemon>();
+        private string fileName = "PokemonBox";
+
+        #endregion
+
         #region In
+
+        #region Load/Save
+
+        public void Load()
+        {
+            pokemonsInBox.Clear();
+            pokemonsInBox.AddRange(FileManager.LoadData<Pokemon[]>(fileName));
+        }
+
+        public void Save()
+        {
+            FileManager.SaveData(pokemonsInBox, fileName);
+        }
+
+        #endregion
 
         public void ShowNextBox()
         {

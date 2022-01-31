@@ -73,10 +73,10 @@ namespace Mfknudsen.Player.UI_Book
 
         #region Hash
 
-        private static readonly int HashCloseBook = Animator.StringToHash("CloseBook"),
-            HashOpenBook = Animator.StringToHash("OpenBook"),
-            HashTurnLeft = Animator.StringToHash("TurnLeftToRight"),
-            HashTurnRight = Animator.StringToHash("TurnRightToLeft");
+        private static readonly int hashCloseBook = Animator.StringToHash("CloseBook"),
+            hashOpenBook = Animator.StringToHash("OpenBook"),
+            hashTurnLeft = Animator.StringToHash("TurnLeftToRight"),
+            hashTurnRight = Animator.StringToHash("TurnRightToLeft");
 
         #endregion
 
@@ -198,10 +198,10 @@ namespace Mfknudsen.Player.UI_Book
             // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
             int hash = trigger switch
             {
-                BookTurn.Close => HashCloseBook,
-                BookTurn.Open => HashOpenBook,
-                BookTurn.Left => HashTurnLeft,
-                BookTurn.Right => HashTurnRight,
+                BookTurn.Close => hashCloseBook,
+                BookTurn.Open => hashOpenBook,
+                BookTurn.Left => hashTurnLeft,
+                BookTurn.Right => hashTurnRight,
                 _ => throw new ArgumentOutOfRangeException(nameof(trigger), trigger, null)
             };
 
