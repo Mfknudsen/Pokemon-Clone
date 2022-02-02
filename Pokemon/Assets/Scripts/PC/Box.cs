@@ -33,7 +33,7 @@ namespace Mfknudsen.PC
 
         public void Save()
         {
-            FileManager.SaveData(pokemonsInBox, fileName);
+            FileManager.SaveData(fileName, pokemonsInBox);
         }
 
         #endregion

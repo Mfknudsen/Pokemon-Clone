@@ -87,10 +87,10 @@ namespace Mfknudsen.Battle.Systems.States
 
             playersMsg += "\n" + alliesMsg + "\n" + enemiesMsg;
 
-            while (BattleLog.instance == null)
+            while (Logger.instance == null)
                 yield return null;
 
-            BattleLog.AddLog("Begin State", playersMsg);
+            Logger.AddLog("Begin State", playersMsg);
 
             #endregion
 

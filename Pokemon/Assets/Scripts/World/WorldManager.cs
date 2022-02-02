@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Files;
 using Mfknudsen.Player;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
@@ -10,8 +11,7 @@ using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World.Overworld.TileS;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-// ReSharper disable Unity.PreferAddressByIdToGraphicsParams
+using Logger = Mfknudsen._Debug.Logger;
 
 #endregion
 
@@ -32,6 +32,9 @@ namespace Mfknudsen.World
         private Transition transition;
 
         private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
+
+        private StoryTriggers storyTriggers;
+        private const string fileName = "StoryTriggers";
 
         #endregion
 
@@ -81,7 +84,9 @@ namespace Mfknudsen.World
             }
             else
                 Destroy(gameObject);
-            
+
+            storyTriggers = FileManager.LoadData<StoryTriggers>(fileName);
+
             yield break;
         }
 
@@ -113,6 +118,8 @@ namespace Mfknudsen.World
 
         private IEnumerator LoadBattleSceneAsync(string sceneName)
         {
+            Logger.AddLog(ToString(), "Loading Battle Scene Async: \n" + sceneName);
+
             //Start Transition
             yield return StartTransition();
 
@@ -123,10 +130,13 @@ namespace Mfknudsen.World
 
             progressMeter = 0;
 
-            while (!asyncLoad.isDone)
+            if (asyncLoad != null)
             {
-                progressMeter = asyncLoad.progress + 0.1f;
-                yield return null;
+                while (!asyncLoad.isDone)
+                {
+                    progressMeter = asyncLoad.progress + 0.1f;
+                    yield return null;
+                }
             }
 
             SetupManager.instance.Trigger();
@@ -141,6 +151,8 @@ namespace Mfknudsen.World
 
         private IEnumerator UnloadBattleSceneAsync(string sceneName)
         {
+            Logger.AddLog(ToString(), "Unloading Battle Scene Async: \n" + sceneName);
+
             //Start Transition
             yield return StartTransition();
 
@@ -151,7 +163,7 @@ namespace Mfknudsen.World
 
             while (!asyncUnload.isDone)
             {
-                progressMeter = (int) (asyncUnload.progress + 0.1f) * 100;
+                progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
                 yield return null;
             }
 
@@ -169,6 +181,8 @@ namespace Mfknudsen.World
 
         private IEnumerator LoadWorldSceneAsync(string sceneName)
         {
+            Logger.AddLog(ToString(), "Loading World Scene Async: \n" + sceneName);
+
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             progressMeter = 0;
@@ -190,6 +204,8 @@ namespace Mfknudsen.World
 
         private IEnumerator UnloadWorldSceneAsync(string sceneName)
         {
+            Logger.AddLog(ToString(), "Unloading World Scene Async: \n" + sceneName);
+
             UnloadWorldInterfaces(sceneName);
 
             AsyncOperation asyncOperation = SceneManager.UnloadSceneAsync(sceneName);
@@ -216,7 +232,7 @@ namespace Mfknudsen.World
 
         #endregion
 
-        private void UnloadWorldInterfaces(string sceneName)
+        private static void UnloadWorldInterfaces(string sceneName)
         {
             List<GameObject> toUnload = new List<GameObject>();
 

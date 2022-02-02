@@ -1,6 +1,10 @@
+#region Packages
+
 using System.Collections;
 using Mfknudsen.Pokémon;
 using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.Battle.Systems.Static_Operations
 {
@@ -25,7 +29,6 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
 
         public IEnumerator Operation()
         {
-           
             float damageApplied = 0, damageOverTime = damage / SplitTime;
 
             while (damageApplied < damage)

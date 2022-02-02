@@ -45,20 +45,41 @@ namespace Mfknudsen.Player.UI_Book
 #if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
             if (!DEBUG) return;
 
-            Vector3 oldRightPos = start.position;
-            Vector3 oldLeftPos = start.position;
-            float f = 0;
-            while (f < 1.05f)
+            Vector3 startPosition = start.position,
+                endPosition = end.position;
+            
+            Vector3 oldRightPos = startPosition,
+                oldLeftPos = startPosition;
+            
+            float floatTime = 0;
+            
+            while (floatTime <= 1)
             {
-                Vector3 rightPos = ExtMathf.LerpPosition(curve, f, start.position, middleRight.position, end.position);
-                Vector3 leftPos = ExtMathf.LerpPosition(curve, f, start.position, middleLeft.position, end.position);
+                Vector3 rightPos = ExtMathf.LerpPosition(
+                    curve, 
+                    floatTime, 
+                    startPosition, 
+                    middleRight.position, 
+                    endPosition);
+            
+                Vector3 leftPos = ExtMathf.LerpPosition(
+                    curve, 
+                    floatTime, 
+                    startPosition, 
+                    middleLeft.position, 
+                    endPosition);
 
-                Debug.DrawLine(oldRightPos, rightPos);
-                Debug.DrawLine(oldLeftPos, leftPos);
+                Debug.DrawLine(
+                    oldRightPos, 
+                    rightPos);
+            
+                Debug.DrawLine(
+                    oldLeftPos, 
+                    leftPos);
 
                 oldRightPos = rightPos;
                 oldLeftPos = leftPos;
-                f += 0.05f;
+                floatTime += 0.05f;
             }
 #endif
         }
@@ -69,10 +90,12 @@ namespace Mfknudsen.Player.UI_Book
 
         public void InvertDirection(bool awayFromBook, bool? resetTime = false)
         {
-            if (awayFromBook && moveSpeed < 0 || !awayFromBook && moveSpeed > 0)
+            if (awayFromBook && moveSpeed < 0 || 
+                !awayFromBook && moveSpeed > 0)
                 moveSpeed *= -1;
 
-            if (resetTime != null && resetTime.Value)
+            if (resetTime != null && 
+                resetTime.Value)
                 t = moveSpeed > 0 ? 0 : 1;
         }
 
@@ -83,9 +106,10 @@ namespace Mfknudsen.Player.UI_Book
 
         public void CheckMiddle()
         {
+            Vector3 endPosition = end.position;
             middle =
-                Vector3.Distance(end.position, middleRight.position) <=
-                Vector3.Distance(end.position, middleLeft.position)
+                Vector3.Distance(endPosition, middleRight.position) <=
+                Vector3.Distance(endPosition, middleLeft.position)
                     ? middleRight
                     : middleLeft;
         }

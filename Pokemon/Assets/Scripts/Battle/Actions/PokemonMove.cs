@@ -4,6 +4,7 @@ using System.Collections;
 using Mfknudsen.AI;
 using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.Systems.Static_Operations;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon;
@@ -406,7 +407,7 @@ namespace Mfknudsen.Battle.Actions
                     user,
                     target,
                     this,
-                    targetPokemon.Count == 1,
+                    targets.Count == 1,
                     isCritical));
         }
 
@@ -421,9 +422,9 @@ namespace Mfknudsen.Battle.Actions
             float secPerPokeMove = BattleManager.instance.GetSecPerPokeMove();
             OperationManager operationManager = OperationManager.instance;
 
-
-            foreach (Pokemon pokemon in targetPokemon)
+            foreach (Spot target in targets)
             {
+                Pokemon pokemon = target.GetActivePokemon();
                 OperationsContainer container = new OperationsContainer();
 
                 #region Calculate Hit

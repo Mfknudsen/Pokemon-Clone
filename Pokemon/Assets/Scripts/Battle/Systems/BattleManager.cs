@@ -17,6 +17,7 @@ using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Logger = Mfknudsen._Debug.Logger;
 
 #endregion
 
@@ -175,13 +176,13 @@ namespace Mfknudsen.Battle.Systems
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
         {
-            BattleLog.AddLog(name, "Spawning: " + pokemon.GetName());
+            Logger.AddLog(name, "Spawning: " + pokemon.GetName());
 
-            Transform trans = spot.GetTransform();
-            GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), trans, true);
+            Transform sTransform = spot.GetTransform();
+            GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), sTransform, true);
 
-            obj.transform.position = trans.position;
-            obj.transform.rotation = trans.rotation;
+            obj.transform.position = sTransform.position;
+            obj.transform.rotation = sTransform.rotation;
 
             pokemon.SetSpawnedObject(obj);
             pokemon.SetInBattle(true);
@@ -275,7 +276,7 @@ namespace Mfknudsen.Battle.Systems
                 .Where(bm =>
                     bm.GetTeamAffiliation() == isAlly)
                 .Any(bm =>
-                    !bm.GetTeam().CanSendMorePokemon());
+                    !bm.GetTeam().HasMorePokemon());
         }
 
         #endregion

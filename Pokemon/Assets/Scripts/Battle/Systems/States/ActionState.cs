@@ -4,10 +4,10 @@ using System.Collections;
 using System.Linq;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Pokémon;
-using Mfknudsen._Debug;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
+using Logger = Mfknudsen._Debug.Logger;
 
 #endregion
 
@@ -29,17 +29,18 @@ namespace Mfknudsen.Battle.Systems.States
         public override IEnumerator Tick()
         {
             foreach (Pokemon pokemon in spotOversight.GetSpots()
-                .Select(s => s.GetActivePokemon())
-                .Where(p =>
-                    p != null &&
-                    p.GetBattleAction() != null &&
-                    !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)))
+                         .Select(s =>
+                             s.GetActivePokemon())
+                         .Where(p =>
+                             p != null &&
+                             p.GetBattleAction() != null &&
+                             !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)))
             {
                 #region Start Action
 
                 BattleAction action = pokemon.GetBattleAction();
 
-                BattleLog.instance.AddNewLog(action.name, "Starting Action: " + action.name.Replace("(Clone)", ""));
+                Logger.instance.AddNewLog(action.name, "Starting Action: " + action.name.Replace("(Clone)", ""));
 
                 OperationsContainer container = new OperationsContainer();
                 container.Add(action);
@@ -54,11 +55,11 @@ namespace Mfknudsen.Battle.Systems.States
 
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
                 foreach (Pokemon checkPokemon in spotOversight.GetSpots()
-                    .Select(s =>
-                        s.GetActivePokemon())
-                    .Where(p =>
-                        p != null &&
-                        p.GetCurrentHealth() == 0))
+                             .Select(s =>
+                                 s.GetActivePokemon())
+                             .Where(p =>
+                                 p != null &&
+                                 p.GetCurrentHealth() == 0))
                 {
                     manager.SetPokemonFainted(checkPokemon);
 

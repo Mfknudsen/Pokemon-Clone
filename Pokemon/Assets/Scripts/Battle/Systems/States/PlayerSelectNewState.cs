@@ -8,6 +8,8 @@ using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Communication;
 using Mfknudsen.Player;
+using Mfknudsen.UI.Cursor;
+using UnityEngine;
 
 #endregion
 
@@ -21,6 +23,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
+            CustomCursor.ShowCursor();
             List<SwitchAction> switchActions = new List<SwitchAction>();
             SpotOversight oversight = manager.GetSpotOversight();
             BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
@@ -38,8 +41,8 @@ namespace Mfknudsen.Battle.Systems.States
 
                     manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
-                    while (switchAction.GetNextPokemon() is null || !ChatManager.instance.GetIsClear())
-                        yield return null;
+                    yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
+                                                     !ChatManager.instance.GetIsClear());
 
                     switchActions.Add(switchAction);
                 }
@@ -47,6 +50,7 @@ namespace Mfknudsen.Battle.Systems.States
 
             manager.GetSelectionMenu().DisableDisplaySelection();
 
+            CustomCursor.HideCursor();
             manager.SetState(new ComputerSelectNewState(manager, switchActions));
         }
     }

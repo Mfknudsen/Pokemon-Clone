@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Player;
+using Mfknudsen.UI.Cursor;
 
 #endregion
 

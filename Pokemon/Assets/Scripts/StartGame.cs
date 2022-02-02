@@ -7,8 +7,10 @@ using Mfknudsen.Player;
 using Mfknudsen.Player.UI_Book;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
+using Mfknudsen.UI.Cursor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Logger = Mfknudsen._Debug.Logger;
 
 #endregion
 
@@ -28,10 +30,16 @@ namespace Mfknudsen
 
         private IEnumerator Setup()
         {
-            while (SetupManager.instance == null)
-                yield return null;
-            
+            yield return new WaitWhile(() => !SetupManager.instance);
+
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
+
+            yield return new WaitWhile(() => !asyncOperation.isDone || !Logger.instance || !CustomCursor.instance);
+
             SetupManager.instance.Trigger();
+            CustomCursor.HideCursor();
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
 
             Inventory inventory = null;
             while (inventory == null)
@@ -42,16 +50,10 @@ namespace Mfknudsen
 
             foreach (Item item in items)
                 inventory.AddItem(item);
-
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
-
-            while (!asyncOperation.isDone)
-                yield return null;
             
             SetupManager.instance.Trigger();
 
-            while (UIManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => !UIManager.instance ||!UIBook.instance);
 
             UIManager.instance.SwitchUI(UISelection.Start);
             UIBook.instance.Effect(BookTurn.Open);

@@ -8,7 +8,7 @@ using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 using UnityEngine;
-using Type = System.Type;
+using Logger = Mfknudsen._Debug.Logger;
 
 #endregion
 
@@ -18,16 +18,13 @@ namespace Mfknudsen.Files
     {
         #region Values
 
-        private static bool checkedForTriggers;
-        private static Dictionary<string, bool> storyTriggers = new Dictionary<string, bool>();
-
         private static readonly BinaryFormatter formatter = new BinaryFormatter();
 
         #endregion
 
         #region In
 
-        public static void SaveData<T>(T data, string fileName)
+        public static void SaveData<T>(string fileName, T data)
         {
             try
             {
@@ -57,29 +54,13 @@ namespace Mfknudsen.Files
 
         #endregion
 
-        #region Out
-
-        public static bool? GetStoryTrigger(string key)
-        {
-            if (!checkedForTriggers)
-            {
-                storyTriggers = LoadFromFile<StoryTriggers>("StoryTriggers").GetDictionary();
-                checkedForTriggers = true;
-            }
-
-            if (storyTriggers.ContainsKey(key))
-                return storyTriggers[key];
-
-            return null;
-        }
-
-        #endregion
-
         #region Internal
 
         private static T LoadFromFile<T>(string fileName) where T : class
         {
             string path = Application.persistentDataPath + "/" + fileName;
+
+            Logger.AddLog(typeof(FileManager).ToString(), "Loading from path:\n" + path);
 
             if (!File.Exists(path)) return null;
 
@@ -98,6 +79,8 @@ namespace Mfknudsen.Files
         {
             string path = Application.persistentDataPath + "/" + fileName;
 
+            Logger.AddLog(typeof(FileManager).ToString(), "Saving to path:\n" + path);
+
             FileStream stream = new FileStream(
                 path,
                 FileMode.Create);
@@ -110,9 +93,9 @@ namespace Mfknudsen.Files
         #endregion
     }
 
-    internal class PlayerData
+    public class PlayerData
     {
-        public readonly int badge;
+        public readonly int badgeCount;
         public readonly string[] pronouns;
         public readonly Pokemon[] inTeam = new Pokemon[6], inBox;
 
@@ -121,7 +104,7 @@ namespace Mfknudsen.Files
             CharacterSheet characterSheet = manager.GetCharacterSheet();
             Team team = manager.GetTeam();
 
-            badge = characterSheet.badgeCount;
+            badgeCount = characterSheet.badgeCount;
             pronouns = new[]
             {
                 characterSheet.pronoun1,
@@ -134,24 +117,25 @@ namespace Mfknudsen.Files
         }
     }
 
-    internal class StoryTriggers
+    public class StoryTriggers
     {
-        private string[] keys;
-        private bool[] values;
+        private readonly string[] keys;
+        private readonly string[] values;
 
-        public StoryTriggers(string[] keys, bool[] values)
+        public StoryTriggers(string[] keys, string[] values)
         {
             this.keys = keys;
             this.values = values;
         }
 
-        public Dictionary<string, bool> GetDictionary()
+        // ReSharper disable once FunctionRecursiveOnAllPaths
+        public Dictionary<string, string> GetDictionary()
         {
-            Dictionary<string, bool> result = GetDictionary();
-
-            for (int i = 0; i < keys.Length; i++)
+            Dictionary<string, string> result = GetDictionary();
+            for (int i = 0;
+                 i < keys.Length;
+                 i++)
                 result.Add(keys[i], values[i]);
-
             return result;
         }
     }

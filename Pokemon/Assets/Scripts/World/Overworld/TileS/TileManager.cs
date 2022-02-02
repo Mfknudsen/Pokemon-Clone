@@ -89,6 +89,18 @@ namespace Mfknudsen.World.Overworld.TileS
             currentCorutine = StartCoroutine(BeginUpdate(newSubManager));
         }
 
+        public void HideTiles()
+        {
+            foreach (TileSubManager tileSubManager in allSubManagers)
+                tileSubManager.gameObject.SetActive(false);
+        }
+
+        public void ShowTiles()
+        {
+            foreach (TileSubManager tileSubManager in allSubManagers)
+                tileSubManager.gameObject.SetActive(true);
+        }
+
         #endregion
 
         #region Out

@@ -27,6 +27,8 @@ namespace Mfknudsen.Settings
 
     public static class Setting
     {
+        #region Values
+
         public static Difficultly Difficultly = Difficultly.Easy;
 
         public static int ResolutionIndex = 1;
@@ -38,5 +40,16 @@ namespace Mfknudsen.Settings
         public static FullScreenMode ScreenSetting = FullScreenMode.FullScreenWindow;
 
         public static CameraSettings OverworldCameraSettings, BattleCameraSettings;
+
+        #endregion
+
+        #region Out
+
+        public static Vector2 GetCurrentScreenSize()
+        {
+            return Resolutions[ResolutionIndex];
+        }
+
+        #endregion
     }
 }

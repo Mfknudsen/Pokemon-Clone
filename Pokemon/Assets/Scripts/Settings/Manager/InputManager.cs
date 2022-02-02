@@ -42,6 +42,11 @@ namespace Mfknudsen.Settings.Manager
     {
     }
 
+    [Serializable]
+    public class ShowHideEvent : UnityEvent
+    {
+    }
+
     #endregion
 
     public class InputManager : Manager
@@ -59,6 +64,7 @@ namespace Mfknudsen.Settings.Manager
         [HideInInspector] public PauseInputEvent pauseInputEvent;
         [HideInInspector] public InteractInputEvent interactInputEvent;
         [HideInInspector] public RunInputEvent runInputEvent;
+        [HideInInspector] public ShowHideEvent showHideEvent;
 
         #endregion
 
@@ -89,10 +95,12 @@ namespace Mfknudsen.Settings.Manager
             playerInput.Player.NextChat.performed += OnNextChatPerformed;
             playerInput.Player.Pause.performed += OnPausePerformed;
             playerInput.Player.Interact.performed += OnInteractPerformed;
-            
+
             playerInput.Player.Run.performed += OnRunPerformed;
             playerInput.Player.Run.canceled += OnRunPerformed;
-            
+
+            playerInput.Player.ShowHide.performed += OnShowHidePerformed;
+
             yield break;
         }
 
@@ -137,7 +145,12 @@ namespace Mfknudsen.Settings.Manager
         {
             runInputEvent.Invoke(!context.canceled);
         }
-        
+
+        private void OnShowHidePerformed(InputAction.CallbackContext context)
+        {
+            showHideEvent.Invoke();
+        }
+
         #endregion
 
         #endregion

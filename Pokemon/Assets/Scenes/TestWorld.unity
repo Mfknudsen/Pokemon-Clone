@@ -580,7 +580,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &338579900
 MonoBehaviour:
@@ -594,8 +594,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5040c5c2743d2fa47967e032e25437b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconOffset: {x: 0, y: 0, z: 0}
-  onTrigger: []
+  iconOffset: {x: 0, y: 2, z: 0}
+  onTrigger:
+  - {fileID: 1084440605}
 --- !u!1 &364055386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,8 +1433,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1084440604}
-  - component: {fileID: 1084440608}
   - component: {fileID: 1084440605}
+  - component: {fileID: 1084440606}
+  - component: {fileID: 1084440608}
+  - component: {fileID: 1084440609}
+  - component: {fileID: 1084440607}
   m_Layer: 0
   m_Name: NPC_Base
   m_TagString: Untagged
@@ -1466,11 +1470,68 @@ MonoBehaviour:
   m_GameObject: {fileID: 1084440603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5040c5c2743d2fa47967e032e25437b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7222592949e70b447b3f1f6f77f118b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconOffset: {x: 0, y: 0, z: 0}
-  onTrigger: []
+  idleChat: {fileID: 0}
+  battleStarter: {fileID: 1084440608}
+  beforeChat: {fileID: 0}
+--- !u!114 &1084440606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084440603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  memberName: TestWorld NPC
+  isAlly: 0
+  spotsToOwn: 1
+  isPlayer: 0
+  isWild: 0
+  evaluatorSettings: []
+  useDefaultPersonalitySetting: 1
+  personalitySetting:
+    aggressionLevel: 1
+    aggressionIncrease: 0
+    setupLevel: 1
+    setupIncrease: 0
+    survivalLevel: 1
+    survivalIncrease: 0
+  onDefeatedChats: {fileID: 11400000, guid: 311d9132e704fe74abbde7a7f753a7ee, type: 2}
+--- !u!114 &1084440607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084440603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6215533ab38fb242aa22af8907bbf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  medicine: 
+  balls: 
+  battle: 
+  berries: 
+  other: 
+  tm: 
+  treasure: 
+  key: 
 --- !u!114 &1084440608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,12 +1544,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a9bc5d048b9741b9a8ec02b7d58fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleSceneName: 
+  battleSceneName: TestBattle
   playerSpotCount: 1
   allies: []
-  enemies: []
-  onStartChat: {fileID: 0}
-  transition: {fileID: 0}
+  enemies:
+  - {fileID: 1084440606}
+  onStartChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
+  transition: {fileID: 11400000, guid: 448d565c65325c54a9892543f221932f, type: 2}
+--- !u!114 &1084440609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084440603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88c51db965b60240944fc90082bb8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemons:
+  - {fileID: 11400000, guid: bb24c920ad7a4b648ad1697c6123ae90, type: 2}
 --- !u!1 &1093493497
 GameObject:
   m_ObjectHideFlags: 0

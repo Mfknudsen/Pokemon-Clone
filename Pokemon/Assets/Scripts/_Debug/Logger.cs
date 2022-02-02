@@ -1,6 +1,8 @@
-﻿#region SDK
+﻿#region Packages
 
+using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Settings.Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,12 +11,12 @@ using UnityEngine.UI;
 
 namespace Mfknudsen._Debug
 {
-    public class BattleLog : MonoBehaviour
+    public class Logger : MonoBehaviour
     {
         #region Values
 
-        public static BattleLog instance ;
-        [SerializeField] private bool active;
+        public static Logger instance;
+        [SerializeField] private bool active, show;
         [SerializeField] private TextMeshProUGUI textField;
 
         // ReSharper disable once CollectionNeverQueried.Local
@@ -26,9 +28,12 @@ namespace Mfknudsen._Debug
         private void Start()
         {
             if (instance != null) return;
-            
+
             instance = this;
             textField.text = "";
+
+            StartCoroutine(SetupInput());
+            ShowHide();
         }
 
         private void Awake()
@@ -70,6 +75,25 @@ namespace Mfknudsen._Debug
         private void ScrollControl()
         {
             scroller.value = 0;
+        }
+
+        #endregion
+
+        #region Internal
+
+        private void ShowHide()
+        {
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(show);
+            
+            show = !show;
+        }
+
+        private IEnumerator SetupInput()
+        {
+            yield return new WaitWhile(() => !InputManager.instance);
+            
+            InputManager.instance.showHideEvent.AddListener(ShowHide);
         }
 
         #endregion

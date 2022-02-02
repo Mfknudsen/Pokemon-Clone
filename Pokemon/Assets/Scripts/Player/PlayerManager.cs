@@ -3,6 +3,7 @@
 using System.Collections;
 using Cinemachine;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Files;
 using Mfknudsen.Items;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.Trainer;
@@ -51,6 +52,8 @@ namespace Mfknudsen.Player
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
         private CharacterSheet characterSheet;
 
+        private static readonly string fileName = "PlayerData";
+
         #endregion
 
         #region Getters
@@ -62,7 +65,7 @@ namespace Mfknudsen.Player
 
         public string[] GetPronouns()
         {
-            return new[] {characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3};
+            return new[] { characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3 };
         }
 
         public Team GetTeam()
@@ -114,6 +117,8 @@ namespace Mfknudsen.Player
             else
                 Destroy(gameObject);
 
+            characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(fileName));
+
             overworldCameraRig.enabled = false;
 
             overworldGameObject = controller.gameObject;
@@ -123,8 +128,7 @@ namespace Mfknudsen.Player
             moveController.Setup();
             StartCoroutine(playerInteractions.Setup());
 
-            while (InputManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => !InputManager.instance) ;
 
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);

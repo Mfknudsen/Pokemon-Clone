@@ -1,4 +1,4 @@
-#region SDK
+#region Packages
 
 using Mfknudsen.Pokémon;
 using TMPro;
@@ -6,22 +6,21 @@ using UnityEngine;
 
 #endregion
 
-// ReSharper disable ParameterHidesMember
 namespace Mfknudsen.Battle.UI.Selection
 {
     public class PokemonSlot : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI gui;
-        
+
         private PokemonSelection pokemonSelection;
         private Pokemon pokemon;
 
-        public void SetPokemon(PokemonSelection pokemonSelection, Pokemon pokemon)
+        public void SetPokemon(PokemonSelection _pokemonSelection, Pokemon _pokemon)
         {
-            this.pokemonSelection = pokemonSelection;
-            this.pokemon = pokemon;
+            pokemonSelection = _pokemonSelection;
+            pokemon = _pokemon;
 
-            gui.text = pokemon is null ? "" : pokemon.GetName();
+            gui.text = _pokemon is null ? "" : _pokemon.GetName();
         }
 
         public void Trigger()

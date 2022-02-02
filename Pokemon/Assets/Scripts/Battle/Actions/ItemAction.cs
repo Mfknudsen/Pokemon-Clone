@@ -37,7 +37,7 @@ namespace Mfknudsen.Battle.Actions
 
         #region Setters
 
-        public void SetToUse(Items.Item set)
+        public void SetToUse(Item set)
         {
             toUse = set;
         }
@@ -73,7 +73,7 @@ namespace Mfknudsen.Battle.Actions
                 break;
             }
 
-            battleItem.SetTarget(targetPokemon[0]);
+            battleItem.SetTarget(targets[0].GetActivePokemon());
             battleItem.SetOnUse(chatOnActivation);
 
             OperationsContainer container = new OperationsContainer();

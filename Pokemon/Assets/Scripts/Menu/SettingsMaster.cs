@@ -4,8 +4,8 @@ namespace Mfknudsen.Menu
 {
     public class SettingsMaster : MonoBehaviour
     {
-        public static SettingsMaster instance = null;
-        [SerializeField] private SettingsData data = null;
+        public static SettingsMaster instance;
+        [SerializeField] private SettingsData data;
 
         private void Start()
         {

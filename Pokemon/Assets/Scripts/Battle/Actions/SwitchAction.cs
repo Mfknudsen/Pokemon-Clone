@@ -81,9 +81,7 @@ namespace Mfknudsen.Battle.Actions
             {
                 //Switch team member places
                 team.SwitchTeamPlaces(currentPokemon, nextPokemon);
-
-                currentPokemon.DespawnPokemon();
-
+                
                 if (currentPokemon.GetSpawnedObject() != null)
                 {
                     foreach (Chat t in chatOnActivation)
@@ -102,6 +100,8 @@ namespace Mfknudsen.Battle.Actions
                         obj.transform.localScale += -Vector3.one * Time.deltaTime;
                         yield return null;
                     }
+                    
+                    currentPokemon.DespawnPokemon();
                 }
             }
 

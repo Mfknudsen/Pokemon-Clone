@@ -1,6 +1,8 @@
-#region SDK
+#region Packages
 
+using System.Linq;
 using Mfknudsen.Battle.Actions;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
@@ -36,7 +38,9 @@ namespace Mfknudsen.Battle.UI.Selection
             background.SetActive(true);
 
             for (int i = 0; i < 6; i++)
-                pokemonSlots[i].SetPokemon(this, playerTeam.GetPokemonByIndex(i));
+                pokemonSlots[i].SetPokemon(
+                    this,
+                    playerTeam.GetPokemonByIndex(i));
         }
 
         public void DisableDisplaySelection()
@@ -48,9 +52,21 @@ namespace Mfknudsen.Battle.UI.Selection
         {
             if (pokemon is null) return;
 
-            switchAction.SetNextPokemon(pokemon);
+            switchAction.SetNextPokemon(
+                pokemon);
 
-            pokemon.SetGettingSwitched(true);
+            switchAction.SetSpot(
+                BattleManager.instance.GetSpotOversight().GetSpots()
+                    .FirstOrDefault(s => s.GetActivePokemon() == switchAction.GetCurrentPokemon()));
+
+            switchAction.SetTeam(
+                PlayerManager.instance.GetTeam());
+
+            pokemon.SetGettingSwitched(
+                true);
+
+            switchAction.GetCurrentPokemon().SetBattleAction(
+                switchAction);
 
             switchAction = null;
         }

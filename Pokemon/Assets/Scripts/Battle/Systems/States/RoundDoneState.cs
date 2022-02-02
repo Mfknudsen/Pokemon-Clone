@@ -3,6 +3,7 @@
 using System.Collections;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Battle.Systems.Spots;
+using UnityEngine;
 
 #endregion
 
@@ -30,14 +31,13 @@ namespace Mfknudsen.Battle.Systems.States
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone())
-                    yield return null;
+                yield return new WaitWhile(() => !operationManager.GetDone());
             }
 
             #endregion
 
             #region End Battle
-
+            
             if (manager.CheckTeamDefeated(true))
                 manager.SetState(new LostState(manager));
             else if (manager.CheckTeamDefeated(false))

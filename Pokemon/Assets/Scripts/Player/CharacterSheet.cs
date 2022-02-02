@@ -1,6 +1,7 @@
 #region Packages
 
 using System;
+using Mfknudsen.Files;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -8,10 +9,10 @@ using Sirenix.OdinInspector;
 namespace Mfknudsen.Player
 {
     [Serializable]
-    public class CharacterSheet 
+    public class CharacterSheet
     {
         public int badgeCount;
-        
+
         [FoldoutGroup("Pronouns")]
         [HorizontalGroup("Pronouns/Horizontal")]
         [HideLabel]
@@ -23,5 +24,22 @@ namespace Mfknudsen.Player
 
         [HideLabel] [BoxGroup("Pronouns/Horizontal/3", false)]
         public string pronoun3 = "Theirs";
+
+        public CharacterSheet(PlayerData data)
+        {
+            try
+            {
+                badgeCount = data.badgeCount;
+
+                string[] pronouns = data.pronouns;
+                pronoun1 = pronouns[0];
+                pronoun2 = pronouns[1];
+                pronoun3 = pronouns[2];
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
     }
 }

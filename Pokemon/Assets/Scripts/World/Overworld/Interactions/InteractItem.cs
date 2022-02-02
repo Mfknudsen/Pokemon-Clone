@@ -35,7 +35,6 @@ namespace Mfknudsen.World.Overworld.Interactions
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.tag);
             if (!other.tag.Equals("Player")) return;
 
             PlayerManager.instance.GetInteractions().OnEnter(this, transform);

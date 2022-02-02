@@ -10,6 +10,8 @@ using Mfknudsen.Player.UI_Book;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World;
+using Mfknudsen.World.Overworld.Interactions;
+using Mfknudsen.World.Overworld.TileS;
 
 #endregion
 
@@ -20,11 +22,7 @@ namespace Mfknudsen.Battle.Systems
         #region Values
 
         #region Delegates
-
-        public delegate void OnBattleStart();
-
-        public OnBattleStart onBattleStart;
-
+        
         public delegate void OnBattleEnd(bool playerWon);
 
         public OnBattleEnd onBattleEnd;
@@ -42,6 +40,8 @@ namespace Mfknudsen.Battle.Systems
 
         private bool ready = true, playerWon;
 
+        private Transform overworldParent;
+        
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -95,17 +95,23 @@ namespace Mfknudsen.Battle.Systems
         #endregion
 
         #region In
-
+        
         public void StartBattleNow()
         {
             if (!ready) return;
-
+            
             ready = false;
 
+            Transform t = transform;
+            overworldParent = t.parent;
+            t.parent = null;
+            
+            
             WorldManager manager = WorldManager.instance;
 
             transition.onHide = () =>
             {
+                TileManager.instance.HideTiles();
                 PlayerManager.instance.DisableOverworld();
                 UIBook.instance.gameObject.SetActive(false);
                 UIManager.instance.SwitchUI(UISelection.Battle);
@@ -118,28 +124,9 @@ namespace Mfknudsen.Battle.Systems
             StartCoroutine(WaitForResponse());
         }
 
-        public void EndBattle(bool playerVictory)
-        {
-            transition.onHide = () =>
-            {
-                UIBook.instance.gameObject.SetActive(true);
-                UIManager.instance.SwitchUI(UISelection.Start);
-                UIBook.instance.Effect(BookTurn.Open);
-            };
-
-            WorldManager manager = WorldManager.instance;
-            manager.SetTransition(transition);
-            manager.UnloadCurrentBattleScene();
-
-            playerWon = playerVictory;
-
-            onBattleEnd?.Invoke(playerVictory);
-        }
-
         private IEnumerator WaitForResponse()
         {
-            while (BattleManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => !BattleManager.instance);
 
             List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
             result[0].SetTeamNumber(true);
@@ -161,13 +148,31 @@ namespace Mfknudsen.Battle.Systems
                     result.Add(m);
             }
 
-            onBattleStart?.Invoke();
-
             BattleManager.instance.StartBattle(this);
 
             Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
             ChatManager.instance.Add(new[] { toSend });
+        }
+
+        public void EndBattle(bool playerVictory)
+        {
+            transition.onHide = () =>
+            {
+                TileManager.instance.ShowTiles();
+                UIBook.instance.gameObject.SetActive(true);
+                UIManager.instance.SwitchUI(UISelection.Start);
+                UIBook.instance.Effect(BookTurn.Open);
+                transform.parent = overworldParent;
+            };
+
+            WorldManager manager = WorldManager.instance;
+            manager.SetTransition(transition);
+            manager.UnloadCurrentBattleScene();
+
+            playerWon = playerVictory;
+
+            onBattleEnd?.Invoke(playerVictory);
         }
 
         #endregion

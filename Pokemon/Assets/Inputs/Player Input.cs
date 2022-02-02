@@ -65,6 +65,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShowHide"",
+                    ""type"": ""Button"",
+                    ""id"": ""9912ed9a-e272-43cf-94b2-b4b8fe61a053"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -116,61 +124,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": ""right"",
                     ""id"": ""c4517098-a2a0-40f7-97c3-75a1ddbe98bd"",
                     ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Move Axis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""efe43595-f9b9-4068-a3bf-c9d97026581d"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move Axis"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""e6f8c721-5bd6-4bd9-bf77-ad90301c30e8"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Move Axis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""d3c085ae-afcb-4fb4-a1c4-faa4d0361e4e"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Move Axis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""154ebf1e-e61e-4ade-a756-5256314ef780"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Move Axis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""9e90c889-41c9-4052-a5e1-fba2b3c49606"",
-                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -240,6 +193,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e77ff39-e6ea-4497-878e-cac885e4f15c"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -345,6 +309,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""de2dabd9-4565-449f-9a5d-fbc1d97d8b1d"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NextChat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7354165d-c209-4d95-813f-34d1c4c6be1c"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -367,12 +342,56 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ec803e0c-58b5-4a07-978d-16e639f6b0e0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5c823ebd-90f8-46e5-b20d-3fb40da78106"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""983f1d02-cd39-4f77-af60-aa919591e83a"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""091a181f-8040-472c-a546-a087c0591bf0"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ShowHide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9205889-e200-4f45-bdb2-25b63cc91b2b"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ShowHide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -417,6 +436,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Player_NextChat = m_Player.FindAction("NextChat", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_ShowHide = m_Player.FindAction("ShowHide", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -472,6 +492,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_NextChat;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_ShowHide;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -482,6 +503,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @NextChat => m_Wrapper.m_Player_NextChat;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @ShowHide => m_Wrapper.m_Player_ShowHide;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -509,6 +531,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @ShowHide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowHide;
+                @ShowHide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowHide;
+                @ShowHide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowHide;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -531,6 +556,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @ShowHide.started += instance.OnShowHide;
+                @ShowHide.performed += instance.OnShowHide;
+                @ShowHide.canceled += instance.OnShowHide;
             }
         }
     }
@@ -561,5 +589,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnNextChat(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnShowHide(InputAction.CallbackContext context);
     }
 }

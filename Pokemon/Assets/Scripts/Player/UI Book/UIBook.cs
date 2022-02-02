@@ -11,6 +11,7 @@ using Mfknudsen.UI.Book.Button;
 using Mfknudsen.UI.Book.Interfaces;
 using Mfknudsen.UI.Book.Slider;
 using Mfknudsen.UI.Book.TextInputField;
+using Mfknudsen.UI.Cursor;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -400,8 +401,7 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-            PlayerManager.instance.EnablePlayerControl();
-
+            CustomCursor.HideCursor();
             OperationsContainer container = new OperationsContainer();
             transition.InvertDirection(true, true);
             container.Add(transition);
@@ -421,6 +421,7 @@ namespace Mfknudsen.Player.UI_Book
         {
             UIBook.instance.GetVisuals().SetActive(false);
             UIManager.instance.SetReadyToPause(true);
+            PlayerManager.instance.EnablePlayerControl();
         }
     }
 
@@ -477,6 +478,7 @@ namespace Mfknudsen.Player.UI_Book
 
         public void End()
         {
+            CustomCursor.ShowCursor();
         }
     }
 }

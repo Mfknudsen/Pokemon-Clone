@@ -5,6 +5,7 @@ using System.Linq;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon.Conditions;
+using UnityEngine;
 
 #endregion
 
@@ -22,9 +23,8 @@ namespace Mfknudsen.Battle.Systems.States
         public override IEnumerator Tick()
         {
             foreach (ConditionOversight conditionOversight in oversight.GetSpots()
-                .Select(s => s.GetActivePokemon())
-                .Where(p => p != null)
-                .Select(p => p.GetConditionOversight()))
+                         .Select(s =>
+                             s.GetActivePokemon().GetConditionOversight()))
             {
                 manager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
@@ -33,8 +33,16 @@ namespace Mfknudsen.Battle.Systems.States
 
                 conditionOversight.Reset();
             }
+            
+            if (oversight.GetSpots().FirstOrDefault(spot =>
+                    spot.GetActivePokemon() == null &&
+                    spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
+            {
+                manager.SetState(new PlayerSelectNewState(manager));
+                yield break;
+            }
 
-            manager.SetState(new PlayerSelectNewState(manager));
+            manager.SetState(new RoundDoneState(manager));
         }
     }
 }

@@ -3,13 +3,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Pokémon.Conditions;
 using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
 using UnityEngine;
 
 #endregion
 
-// ReSharper disable IdentifierTypo
 namespace Mfknudsen.Trainer
 {
     public class Team : MonoBehaviour
@@ -17,36 +15,29 @@ namespace Mfknudsen.Trainer
         #region Values
 
         [SerializeField] private List<Pokemon> pokemons = new List<Pokemon>(6);
-        private bool ready;
         private readonly List<BoxContainer> boxContainers = new List<BoxContainer>();
 
         private void OnValidate()
         {
-            if (pokemons.Count != 6)
+            if (pokemons.Count == 6) return;
+            
+            List<Pokemon> tempList = new List<Pokemon>();
+
+            foreach (Pokemon p in pokemons)
             {
-                List<Pokemon> tempList = new List<Pokemon>();
-
-                foreach (Pokemon p in pokemons)
-                {
-                    if (p != null && tempList.Count != 6)
-                        tempList.Add(p);
-                    else if (tempList.Count == 6)
-                        break;
-                }
-
-                for (int i = 0; i < tempList.Count; i++)
-                    pokemons[i] = tempList[i];
+                if (p != null && tempList.Count != 6)
+                    tempList.Add(p);
+                else if (tempList.Count == 6)
+                    break;
             }
+
+            for (int i = 0; i < tempList.Count; i++)
+                pokemons[i] = tempList[i];
         }
 
         #endregion
 
         #region Getters
-
-        public bool GetReady()
-        {
-            return ready;
-        }
 
         public int GetTeamCount()
         {
@@ -55,19 +46,7 @@ namespace Mfknudsen.Trainer
 
         public bool HasMorePokemon()
         {
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Pokemon pokemon in pokemons)
-            {
-                if (pokemon is null) continue;
-
-                Condition c = pokemon.GetConditionOversight().GetNonVolatileStatus();
-
-                if (c is FaintedCondition) continue;
-
-                return true;
-            }
-
-            return false;
+            return pokemons.FirstOrDefault(p => !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition));
         }
 
         public bool CanSendMorePokemon()
@@ -129,17 +108,14 @@ namespace Mfknudsen.Trainer
 
                 pokemons[i] = pokemon;
             }
-
-            ready = true;
         }
 
         public Pokemon GetPokemonByIndex(int index)
         {
-            if (index < 0 || 
-                index > 5 || 
-                index <= pokemons.Count 
-                || pokemons[index] == null) return null;
-
+            if (index < 0 ||
+                index > 5 ||
+                index >= pokemons.Count) return null;
+            
             return pokemons[index];
         }
 

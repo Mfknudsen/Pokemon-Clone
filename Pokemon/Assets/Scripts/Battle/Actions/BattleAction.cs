@@ -4,9 +4,11 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mfknudsen.AI;
 using Mfknudsen.AI.Virtual;
 using Mfknudsen.Battle.Systems;
+using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon;
 
@@ -23,7 +25,7 @@ namespace Mfknudsen.Battle.Actions
 
         [SerializeField] protected Pokemon currentPokemon;
 
-        [SerializeField] protected List<Pokemon> targetPokemon;
+        [SerializeField] protected List<Spot> targets;
         [SerializeField] protected bool moveActive;
 
         [SerializeField] protected int priority;
@@ -67,9 +69,10 @@ namespace Mfknudsen.Battle.Actions
 
         public void SetTargets(Pokemon pokemon)
         {
-            targetPokemon ??= new List<Pokemon>();
-
-            targetPokemon.Add(pokemon);
+            targets ??= new List<Spot>();
+            
+            targets.Add(BattleManager.instance.GetSpotOversight().GetSpots()
+                .FirstOrDefault(s => s.GetActivePokemon() == pokemon));
         }
 
         public void SetCurrentPokemon(Pokemon pokemon)
