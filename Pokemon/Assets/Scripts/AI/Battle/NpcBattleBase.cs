@@ -16,20 +16,20 @@ namespace Mfknudsen.AI.Battle
 {
     public class NpcBattleBase : NpcBase
     {
-        #region Value
+        #region Values
 
         [FoldoutGroup("Before Battle")] [SerializeField]
         private BattleStarter battleStarter;
 
         [FoldoutGroup("Before Battle")] [SerializeField]
-        private BeforeEffectContainer[] beforeEffects;
+        private BeforeEffectContainer[] beforeEffects = new BeforeEffectContainer[0];
 
         [FoldoutGroup("Before Battle")] [SerializeField]
-        private AfterEffectContainer[] afterEffects;
+        private AfterEffectContainer[] afterEffects = new AfterEffectContainer[0];
 
         [FoldoutGroup("Input")] [SerializeField]
         private string[] chatKeys, chatValues;
-        
+
         #endregion
 
         #region Build In States
@@ -94,7 +94,8 @@ namespace Mfknudsen.AI.Battle
 
         public void SetInput<T>(object i) where T : NpcBattleBeforeEffect
         {
-            foreach (NpcBattleBeforeEffect effect in effects.Where(e => e is T))
+            foreach (NpcBattleBeforeEffect effect in effects.Where(e => 
+                         e is T))
                 effect.SetInput(i);
         }
 
@@ -117,13 +118,15 @@ namespace Mfknudsen.AI.Battle
 
         public void SetInput<T>(object i) where T : NpcBattleAfterEffect
         {
-            foreach (NpcBattleAfterEffect effect in effects.Where(e => e is T))
+            foreach (NpcBattleAfterEffect effect in effects.Where(e => 
+                         e is T))
                 effect.SetInput(i);
         }
 
         public bool AllDone()
         {
-            return effects.Any(e => !e.Done());
+            return effects.Any(e => 
+                !e.Done());
         }
 
         public void Trigger()

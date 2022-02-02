@@ -35,6 +35,8 @@ namespace Mfknudsen.Player
         private float moveSpeed,
             rotateSpeed,
             runSpeed;
+        [HorizontalGroup("Speeds/Camera")] [SerializeField]
+        private float yCamSpeed, xCamSpeed;
 
         [FoldoutGroup("Animation")] [SerializeField]
         private float animatorDamp = 0.1f;
@@ -43,9 +45,7 @@ namespace Mfknudsen.Player
         private bool ready, allowed;
 
         private Vector3 toLookRotation = Vector3.forward;
-
-        private float yCamSpeed, xCamSpeed;
-
+        
         #region Hashs
 
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
@@ -84,9 +84,6 @@ namespace Mfknudsen.Player
             rb.useGravity = false;
 
             playerInputContainer = PlayerManager.instance.GetPlayerInput();
-
-            yCamSpeed = cameraRig.m_YAxis.m_MaxSpeed;
-            xCamSpeed = cameraRig.m_XAxis.m_MaxSpeed;
 
             ready = true;
         }

@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿#region Packages
+
+using System;
+using System.Collections.Generic;
 using Mfknudsen.Files.Save_Types;
-using UnityEngine;
+
+#endregion
 
 namespace Mfknudsen.Files
 {
-    [SerializeField]
+    [Serializable]
     public class SaveInformation
     {
         //Player Character
-        public int badgeCount = 0;
+        public int badgeCount;
         public string playerName = "";
 
         //NPCs
-        public List<NPCSave> NPCSaves = new List<NPCSave>();
+        public List<NPCSave> npcSaves = new List<NPCSave>();
 
         //Pokemons
         public List<PokemonSave> partyPokemons = new List<PokemonSave>();

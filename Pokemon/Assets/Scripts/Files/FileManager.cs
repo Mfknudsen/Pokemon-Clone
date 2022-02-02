@@ -97,7 +97,7 @@ namespace Mfknudsen.Files
     {
         public readonly int badgeCount;
         public readonly string[] pronouns;
-        public readonly Pokemon[] inTeam = new Pokemon[6], inBox;
+        public readonly Pokemon[] inTeam = new Pokemon[6], inBox = new Pokemon[0];
 
         public PlayerData(PlayerManager manager)
         {

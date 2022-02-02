@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Mfknudsen.Player
 {
     [Serializable]
-    public class CharacterSheet
+    public class   CharacterSheet
     {
         public int badgeCount;
 
