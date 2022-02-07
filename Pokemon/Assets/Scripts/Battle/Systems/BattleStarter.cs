@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mfknudsen.AI.Battle;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
@@ -10,8 +11,8 @@ using Mfknudsen.Player.UI_Book;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World;
-using Mfknudsen.World.Overworld.Interactions;
 using Mfknudsen.World.Overworld.TileS;
+using Sirenix.OdinInspector;
 
 #endregion
 
@@ -22,7 +23,7 @@ namespace Mfknudsen.Battle.Systems
         #region Values
 
         #region Delegates
-        
+
         public delegate void OnBattleEnd(bool playerWon);
 
         public OnBattleEnd onBattleEnd;
@@ -30,25 +31,23 @@ namespace Mfknudsen.Battle.Systems
         #endregion
 
         [SerializeField] private string battleSceneName = "";
-
         [SerializeField] private int playerSpotCount = 1;
-        [SerializeField] private BattleMember[] allies;
-        [SerializeField] private BattleMember[] enemies;
-        [SerializeField] private Chat onStartChat;
 
+        [FoldoutGroup("BattleMembers")] [SerializeField]
+        private BattleMember[] allies, enemies;
+
+        [SerializeField] private Chat onStartChat;
         [SerializeField] private Transition transition;
 
         private bool ready = true, playerWon;
 
         private Transform overworldParent;
-        
-#if UNITY_EDITOR
+
         private void OnValidate()
         {
             if (!(playerSpotCount >= 1 && playerSpotCount <= 3))
                 Debug.LogError("Player Spot Count Must Be Between 1 and 3");
         }
-#endif
 
         #endregion
 
@@ -95,18 +94,18 @@ namespace Mfknudsen.Battle.Systems
         #endregion
 
         #region In
-        
+
         public void StartBattleNow()
         {
             if (!ready) return;
-            
+
             ready = false;
 
             Transform t = transform;
             overworldParent = t.parent;
             t.parent = null;
-            
-            
+
+
             WorldManager manager = WorldManager.instance;
 
             transition.onHide = () =>
@@ -116,6 +115,8 @@ namespace Mfknudsen.Battle.Systems
                 UIBook.instance.gameObject.SetActive(false);
                 UIManager.instance.SwitchUI(UISelection.Battle);
             };
+
+            onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<NpcBattleBase>()?.AfterBattle()); };
 
             manager.SetTransition(transition);
             manager.LoadBattleScene(battleSceneName);

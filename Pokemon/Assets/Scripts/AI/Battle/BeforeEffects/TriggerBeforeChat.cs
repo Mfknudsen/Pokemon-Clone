@@ -1,21 +1,24 @@
-#region Packages
+﻿#region Packages
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.AI.Battle.AfterEffects;
 using Mfknudsen.Communication;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI.Battle.AfterEffects
+namespace Mfknudsen.AI.Battle.BeforeEffects
 {
     [Serializable]
-    public class TriggerChat : NpcBattleAfterEffect
+    public class TriggerBeforeChat : NpcBattleBeforeEffect
     {
         [SerializeField] private Chat chat;
 
         private Dictionary<string, string> input;
+
+        #region In
 
         public override void SetInput(object i)
         {
@@ -25,7 +28,7 @@ namespace Mfknudsen.AI.Battle.AfterEffects
             }
             catch (Exception e)
             {
-                Debug.LogError("Input was not Dictionary of string/string - \n"+e.Message);
+                Debug.LogError("Input was not Dictionary of string/string\n" + e.Message);
                 input = null;
             }
         }
@@ -35,7 +38,7 @@ namespace Mfknudsen.AI.Battle.AfterEffects
             if (input == null) yield break;
 
             // ReSharper disable once AccessToStaticMemberViaDerivedType
-            chat = ScriptableObject.Instantiate(chat);
+            chat = Instantiate(chat);
             foreach (string inputKey in input.Keys)
                 chat.AddToOverride(
                     inputKey,
@@ -47,5 +50,18 @@ namespace Mfknudsen.AI.Battle.AfterEffects
                 !ChatManager.instance.GetIsClear());
             done = true;
         }
+
+        #endregion
+
+        #region Out
+
+        public override NpcBattleBeforeEffect GetInstantiatedEffect()
+        {
+            NpcBattleBeforeEffect effect = Instantiate(this);
+            effect.IsInstantiated();
+            return effect;
+        }
+
+        #endregion
     }
 }

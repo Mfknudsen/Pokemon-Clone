@@ -3,14 +3,16 @@
 using System;
 using System.Collections;
 using Mfknudsen.Battle.Systems;
+using UnityEngine;
 
 #endregion
 
 namespace Mfknudsen.AI.Battle.AfterEffects
 {
     [Serializable]
-    public abstract class NpcBattleAfterEffect : IOperation
+    public abstract class NpcBattleAfterEffect : ScriptableObject, IOperation
     {
+        private bool instantiated;
         protected bool done = false;
 
         #region Getters
@@ -20,20 +22,37 @@ namespace Mfknudsen.AI.Battle.AfterEffects
             return done;
         }
 
+        public bool GetIsInstantiated()
+        {
+            return instantiated;
+        }
+
         #endregion
 
         #region Setters
 
         public abstract void SetInput(object input);
+
         #endregion
 
         #region In
 
+        public void IsInstantiated()
+        {
+            instantiated = true;
+        }
+        
         public abstract IEnumerator Operation();
 
         public virtual void End()
         {
         }
+
+        #endregion
+
+        #region Out
+
+        public abstract NpcBattleAfterEffect GetInstantiatedEffect();
 
         #endregion
     }

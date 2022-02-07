@@ -9,7 +9,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI
+namespace Mfknudsen.AI.Senses
 {
     public class NpcSight : MonoBehaviour
     {
