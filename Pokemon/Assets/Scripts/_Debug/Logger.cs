@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
 using TMPro;
@@ -32,18 +31,14 @@ namespace Mfknudsen._Debug
             instance = this;
             textField.text = "";
 
-            StartCoroutine(SetupInput());
+            InputManager.Instance.showHideEvent.AddListener(ShowHide);
             ShowHide();
         }
 
         private void Awake()
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                GameObject obj = transform.GetChild(i).gameObject;
-
-                obj.SetActive(active);
-            }
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(active);
         }
 
         #region In
@@ -85,15 +80,8 @@ namespace Mfknudsen._Debug
         {
             foreach (Transform t in transform)
                 t.gameObject.SetActive(show);
-            
-            show = !show;
-        }
 
-        private IEnumerator SetupInput()
-        {
-            yield return new WaitWhile(() => !InputManager.instance);
-            
-            InputManager.instance.showHideEvent.AddListener(ShowHide);
+            show = !show;
         }
 
         #endregion

@@ -34,10 +34,10 @@ namespace Mfknudsen.Player
 
         public IEnumerator Setup()
         {
-            while (InputManager.instance == null)
+            while (InputManager.Instance == null)
                 yield return null;
 
-            InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
+            InputManager.Instance.interactInputEvent.AddListener(TriggerClosest);
         }
 
         public void OnEnter(InteractItem interactable, Transform trans)

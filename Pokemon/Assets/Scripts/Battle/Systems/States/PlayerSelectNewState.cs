@@ -8,7 +8,6 @@ using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Communication;
 using Mfknudsen.Player;
-using Mfknudsen.UI.Cursor;
 using UnityEngine;
 
 #endregion
@@ -23,7 +22,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            CustomCursor.ShowCursor();
+            Cursor.visible = true;
             List<SwitchAction> switchActions = new List<SwitchAction>();
             SpotOversight oversight = manager.GetSpotOversight();
             BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
@@ -50,7 +49,8 @@ namespace Mfknudsen.Battle.Systems.States
 
             manager.GetSelectionMenu().DisableDisplaySelection();
 
-            CustomCursor.HideCursor();
+            Cursor.visible = false;
+            
             manager.SetState(new ComputerSelectNewState(manager, switchActions));
         }
     }

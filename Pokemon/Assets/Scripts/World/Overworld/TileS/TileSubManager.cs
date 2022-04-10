@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace Mfknudsen.World.Overworld.TileS
         private NavMeshSurface surface;
 
         [FoldoutGroup("Tile")] [SerializeField]
-        private GameObject[] dividers;
+        private TileBorder[] borders;
 
         [FoldoutGroup("Tile/Neighbors")] [SerializeField]
         private Neighbor[] neighbors;
@@ -44,6 +45,11 @@ namespace Mfknudsen.World.Overworld.TileS
             return surface;
         }
 
+        public Neighbor[] GetNeighbors()
+        {
+            return neighbors;
+        }
+
         #endregion
 
         #region In
@@ -53,42 +59,61 @@ namespace Mfknudsen.World.Overworld.TileS
             TileManager tileManager = TileManager.instance;
             tileManager.AddSubManager(this);
             transform.parent = tileManager.transform;
-            
+
             yield break;
         }
 
         public void EnableDividers()
         {
-            foreach (GameObject divider in dividers)
+            foreach (GameObject divider in borders.Select(b => b.gameObject))
                 divider.SetActive(true);
         }
 
         public void DisableDividers()
         {
-            foreach (GameObject divider in dividers)
+            foreach (GameObject divider in borders.Select(b => b.gameObject))
                 divider.SetActive(false);
         }
 
-        public void LoadNeighbors()
+        public void Unload()
         {
+            StartCoroutine(UnloadSubManager());
         }
+        
+        #endregion
 
-        public void UnloadNeighbors()
+        #region Internal
+
+        private IEnumerator UnloadSubManager()
         {
+            yield break;
         }
 
         #endregion
     }
 
     [Serializable]
-    internal struct Neighbor
+    public struct Neighbor
     {
+        #region Values
+
         [SerializeField] private string sceneName;
         [SerializeField] private Transform loadAnchor;
+
+        #endregion
+
+        #region Getters
+
+        public string GetSceneName()
+        {
+            return sceneName;
+        }
+
+        #endregion
     }
 
     [Serializable]
-    internal struct FakeNeighbor
+    public struct FakeNeighbor
     {
         [SerializeField] private string sceneName;
         [SerializeField] private Transform loadAnchor;

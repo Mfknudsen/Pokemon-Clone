@@ -55,13 +55,11 @@ namespace Mfknudsen.Player.Camera
 
         public override IEnumerator Setup()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
+            if (instance != null)
                 Destroy(gameObject);
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
 
             currentSettings = CameraSettings.Default();
             currentRig = defaultCameraRig;

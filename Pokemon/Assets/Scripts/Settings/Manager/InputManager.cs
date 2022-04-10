@@ -1,7 +1,5 @@
 #region Packages
 
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -10,79 +8,47 @@ using UnityEngine.InputSystem;
 
 namespace Mfknudsen.Settings.Manager
 {
-    #region Events
-
-    [Serializable]
-    public class MoveAxisInputEvent : UnityEvent<Vector2>
-    {
-    }
-
-    [Serializable]
-    public class RotAxisInputEvent : UnityEvent<Vector2>
-    {
-    }
-
-    [Serializable]
-    public class NextChatInputEvent : UnityEvent
-    {
-    }
-
-    [Serializable]
-    public class PauseInputEvent : UnityEvent
-    {
-    }
-
-    [Serializable]
-    public class InteractInputEvent : UnityEvent
-    {
-    }
-
-    [Serializable]
-    public class RunInputEvent : UnityEvent<bool>
-    {
-    }
-
-    [Serializable]
-    public class ShowHideEvent : UnityEvent
-    {
-    }
-
-    #endregion
-
-    public class InputManager : Manager
+    public class InputManager
     {
         #region Values
 
-        public static InputManager instance;
-        private PlayerInput playerInput;
+        public static InputManager Instance
+        {
+            get
+            {
+                if (staticInstance == null)
+                    staticInstance = new InputManager();
+
+                return staticInstance;
+            }
+        }
+
+        private static InputManager staticInstance;
 
         #region Events
 
-        [HideInInspector] public MoveAxisInputEvent moveAxisInputEvent;
-        [HideInInspector] public RotAxisInputEvent rotAxisInputEvent;
-        [HideInInspector] public NextChatInputEvent nextChatInputEvent;
-        [HideInInspector] public PauseInputEvent pauseInputEvent;
-        [HideInInspector] public InteractInputEvent interactInputEvent;
-        [HideInInspector] public RunInputEvent runInputEvent;
-        [HideInInspector] public ShowHideEvent showHideEvent;
+        public UnityEvent<Vector2> 
+            moveAxisInputEvent = new UnityEvent<Vector2>(),
+            rotAxisInputEvent = new UnityEvent<Vector2>();
+
+        public UnityEvent 
+            nextChatInputEvent = new UnityEvent(),
+            pauseInputEvent = new UnityEvent(),
+            interactInputEvent = new UnityEvent(),
+            showHideEvent = new UnityEvent();
+
+        public UnityEvent<bool> 
+            runInputEvent = new UnityEvent<bool>();
 
         #endregion
 
         #endregion
 
-        #region In
+        #region Build In States
 
-        public override IEnumerator Setup()
+        public InputManager()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-
-            playerInput = new PlayerInput();
+            PlayerInput playerInput = new PlayerInput();
 
             playerInput.Player.Enable();
 
@@ -100,8 +66,6 @@ namespace Mfknudsen.Settings.Manager
             playerInput.Player.Run.canceled += OnRunPerformed;
 
             playerInput.Player.ShowHide.performed += OnShowHidePerformed;
-
-            yield break;
         }
 
         #endregion

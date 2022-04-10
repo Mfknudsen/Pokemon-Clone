@@ -42,7 +42,7 @@ namespace Mfknudsen.Player.UI_Book
             if (end != null && endFollow != null)
                 end.position = endFollow.position;
 
-#if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
+#if UNITY_EDITOR
             if (!DEBUG) return;
 
             Vector3 startPosition = start.position,
@@ -79,7 +79,7 @@ namespace Mfknudsen.Player.UI_Book
 
                 oldRightPos = rightPos;
                 oldLeftPos = leftPos;
-                floatTime += 0.05f;
+                floatTime += 0.025f;
             }
 #endif
         }
@@ -121,7 +121,7 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-
+            
             while (t <= 1 && t >= 0)
             {
                 toMove.position = ExtMathf.LerpPosition(

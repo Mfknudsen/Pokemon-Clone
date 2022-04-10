@@ -109,7 +109,7 @@ namespace Mfknudsen.Communication
 
             defaultTextSpeed = textPerSecond;
 
-            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+            InputManager.Instance.nextChatInputEvent.AddListener(OnNextChatChange);
 
             yield break;
         }

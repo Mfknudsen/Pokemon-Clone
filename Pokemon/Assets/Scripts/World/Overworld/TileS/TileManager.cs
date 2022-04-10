@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mfknudsen.Common;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -23,8 +24,9 @@ namespace Mfknudsen.World.Overworld.TileS
         private TileSubManager currentTile;
         private readonly List<TileSubManager> allSubManagers = new List<TileSubManager>();
 
-        // ReSharper disable once IdentifierTypo
-        private Coroutine currentCorutine;
+        private Timer resetWorldPositionTimer;
+
+        private string toLoadName;
 
         #endregion
 
@@ -46,13 +48,11 @@ namespace Mfknudsen.World.Overworld.TileS
 
         public override IEnumerator Setup()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
+            if (instance != null)
                 Destroy(gameObject);
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
 
             yield break;
         }
@@ -67,7 +67,7 @@ namespace Mfknudsen.World.Overworld.TileS
             if (allSubManagers.Count != 1) return;
 
             currentTile = add;
-            UpdateNavmesh(add.GetTileName());
+            UpdateNavmesh();
         }
 
         public void RemoveSubManager(TileSubManager remove)
@@ -78,15 +78,9 @@ namespace Mfknudsen.World.Overworld.TileS
             allSubManagers.Remove(remove);
         }
 
-        public void UpdateNavmesh(string newSubManager)
+        public void UpdateNavmesh()
         {
-            if (currentCorutine != null)
-            {
-                StopCoroutine(currentCorutine);
-                currentCorutine = null;
-            }
-
-            currentCorutine = StartCoroutine(BeginUpdate(newSubManager));
+            StartCoroutine(BeginUpdate());
         }
 
         public void HideTiles()
@@ -99,6 +93,61 @@ namespace Mfknudsen.World.Overworld.TileS
         {
             foreach (TileSubManager tileSubManager in allSubManagers)
                 tileSubManager.gameObject.SetActive(true);
+        }
+
+        public void SetCurrentSubTile(string newSubManagerName)
+        {
+            if (toLoadName.Equals(newSubManagerName)) return;
+
+            toLoadName = newSubManagerName;
+
+            resetWorldPositionTimer?.Stop();
+
+            resetWorldPositionTimer = new Timer(waitTime);
+            resetWorldPositionTimer.timerEvent.AddListener(() =>
+            {
+                currentTile.DisableDividers();
+
+                List<Neighbor> toUnload = new List<Neighbor>(),
+                    loaded = new List<Neighbor>(),
+                    toLoad = new List<Neighbor>();
+                toUnload.AddRange(currentTile.GetNeighbors());
+                loaded.AddRange(currentTile.GetNeighbors());
+
+                currentTile = allSubManagers.First(m => m.GetTileName().Equals(newSubManagerName));
+                currentTile.EnableDividers();
+
+                foreach (Neighbor neighbor in currentTile.GetNeighbors().Where(n => toUnload.Contains(n)))
+                    toUnload.Remove(neighbor);
+
+                foreach (Neighbor neighbor in toUnload.Where(n => loaded.Contains(n)))
+                    loaded.Remove(neighbor);
+
+                foreach (Neighbor neighbor in currentTile.GetNeighbors().Where(n => loaded.Contains(n)))
+                    toLoad.Add(neighbor );
+
+                #region Unload Unneeded Neighbors
+
+                foreach (Neighbor neighbor in toUnload)
+                {
+                    TileSubManager unload = allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()));
+                    unload.Unload();
+                }
+
+                #endregion
+
+                #region Load New Neighbors
+
+                foreach (Neighbor neighbor in toLoad)
+                {
+                    WorldManager.instance.LoadSceneAsync(neighbor.GetSceneName());
+                }
+
+                #endregion
+
+                ResetWorldCenter();
+                UpdateNavmesh();
+            });
         }
 
         #endregion
@@ -114,21 +163,13 @@ namespace Mfknudsen.World.Overworld.TileS
 
         #region Internal
 
-        private IEnumerator BeginUpdate(string newSubManager)
+        private IEnumerator BeginUpdate()
         {
-            yield return new WaitForSeconds(waitTime);
-
-            if (currentTile != null)
-                currentTile.DisableDividers();
-            currentTile = GetByName(newSubManager);
-            currentTile.EnableDividers();
-
             yield return NavMeshManager.instance.RebakeWait(currentTile.GetSurface());
         }
 
-        private TileSubManager GetByName(string tileName)
+        private void ResetWorldCenter()
         {
-            return allSubManagers.FirstOrDefault(tileSubManager => tileSubManager.GetTileName().Equals(tileName));
         }
 
         #endregion

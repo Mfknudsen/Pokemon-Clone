@@ -7,24 +7,40 @@ using UnityEngine.Events;
 
 namespace Mfknudsen.Common
 {
-    public class TimerEvent : UnityEvent
-    {
-    }
-
     public class Timer
     {
-        public TimerEvent timerEvent;
+        #region Values
+
+        public UnityEvent timerEvent = new UnityEvent();
         private float duration, current;
-        private bool done;
+        private bool done, stop;
+
+        #endregion
+
+        #region Build In States
 
         public Timer(float duration)
         {
+            TimerUpdater.instance.timers.Add(this);
             this.duration = duration;
         }
 
+        #endregion
+
+        #region Getters
+
+        public bool GetStopped()
+        {
+            return stop;
+        }
+
+        #endregion
+
+        #region In
+
         public void Update()
         {
-            if (done) return;
+            if (done || stop) return;
 
             current += Time.deltaTime;
 
@@ -34,5 +50,12 @@ namespace Mfknudsen.Common
                 done = true;
             }
         }
+
+        public void Stop()
+        {
+            stop = true;
+        }
+
+        #endregion
     }
 }

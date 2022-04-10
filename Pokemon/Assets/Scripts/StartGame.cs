@@ -7,7 +7,6 @@ using Mfknudsen.Player;
 using Mfknudsen.Player.UI_Book;
 using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
-using Mfknudsen.UI.Cursor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Logger = Mfknudsen._Debug.Logger;
@@ -34,10 +33,9 @@ namespace Mfknudsen
 
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 
-            yield return new WaitWhile(() => !asyncOperation.isDone || !Logger.instance || !CustomCursor.instance);
+            yield return new WaitWhile(() => !asyncOperation.isDone || !Logger.instance);
 
             SetupManager.instance.Trigger();
-            CustomCursor.HideCursor();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
@@ -56,7 +54,7 @@ namespace Mfknudsen
             yield return new WaitWhile(() => !UIManager.instance ||!UIBook.instance);
 
             UIManager.instance.SwitchUI(UISelection.Start);
-            UIBook.instance.Effect(BookTurn.Open);
+            //UIBook.instance.Effect(BookTurn.Open);
         }
     }
 }

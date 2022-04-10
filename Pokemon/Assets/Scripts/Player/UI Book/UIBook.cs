@@ -11,7 +11,6 @@ using Mfknudsen.UI.Book.Button;
 using Mfknudsen.UI.Book.Interfaces;
 using Mfknudsen.UI.Book.Slider;
 using Mfknudsen.UI.Book.TextInputField;
-using Mfknudsen.UI.Cursor;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -87,6 +86,9 @@ namespace Mfknudsen.Player.UI_Book
 
         private void Awake()
         {
+            if (instance != null)
+                Destroy(gameObject);
+
             DontDestroyOnLoad(gameObject);
 
             invisiblyUI.transform.localScale /= 10000;
@@ -95,6 +97,8 @@ namespace Mfknudsen.Player.UI_Book
             turnLeft.SetActive(false);
 
             instance = this;
+            transition.CheckMiddle();
+            Invoke("DelayedStart", 0.135f);
         }
 
         #endregion
@@ -163,6 +167,16 @@ namespace Mfknudsen.Player.UI_Book
         #endregion
 
         #region Internal
+
+        private void DelayedStart()
+        {
+            CameraManager.instance.SetCurrentRig(bookCameraRig, true);
+            Cursor.visible = true;
+
+            PlayerManager.instance.DisablePlayerControl();
+
+            ConstructUI();
+        }
 
         private static List<GameObject> GetAllByRoot(GameObject obj)
         {
@@ -401,7 +415,8 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-            CustomCursor.HideCursor();
+            Cursor.visible = false;
+
             OperationsContainer container = new OperationsContainer();
             transition.InvertDirection(true, true);
             container.Add(transition);
@@ -478,7 +493,7 @@ namespace Mfknudsen.Player.UI_Book
 
         public void End()
         {
-            CustomCursor.ShowCursor();
+            Cursor.visible = true;
         }
     }
 }

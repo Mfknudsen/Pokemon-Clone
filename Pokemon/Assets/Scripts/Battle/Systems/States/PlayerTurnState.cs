@@ -1,4 +1,4 @@
-#region SDK
+#region Packages
 
 using System.Collections;
 using Mfknudsen.Battle.Systems.Spots;
@@ -6,7 +6,7 @@ using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Trainer;
 using Mfknudsen.Player;
-using Mfknudsen.UI.Cursor;
+using UnityEngine;
 
 #endregion
 
@@ -20,7 +20,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            CustomCursor.ShowCursor();
+            Cursor.visible = true;
             Team playerTeam = PlayerManager.instance.GetTeam();
             SpotOversight spotOversight = manager.GetSpotOversight();
 
@@ -38,8 +38,9 @@ namespace Mfknudsen.Battle.Systems.States
             }
 
             manager.GetSelectionMenu().DisableDisplaySelection();
-            
-            CustomCursor.HideCursor();
+
+            Cursor.visible = false;
+
             manager.SetState(new ComputerTurnState(manager));
         }
     }

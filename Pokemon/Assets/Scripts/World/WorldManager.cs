@@ -34,7 +34,7 @@ namespace Mfknudsen.World
         private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
 
         private StoryTriggers storyTriggers;
-        private const string fileName = "StoryTriggers";
+        private readonly string fileName = "StoryTriggers";
 
         #endregion
 

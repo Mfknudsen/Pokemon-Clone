@@ -127,12 +127,12 @@ namespace Mfknudsen.Player
 
             moveController.Setup();
             StartCoroutine(playerInteractions.Setup());
-
-            yield return new WaitWhile(() => !InputManager.instance) ;
-
-            InputManager inputManager = InputManager.instance;
+            
+            InputManager inputManager = InputManager.Instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
+            
+            yield break;
         }
 
         public void EnablePlayerControl()

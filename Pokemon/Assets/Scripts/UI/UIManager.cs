@@ -79,10 +79,10 @@ namespace Mfknudsen.UI
                 instance = this;
                 DontDestroyOnLoad(gameObject);
 
-                while (InputManager.instance == null)
+                while (InputManager.Instance == null)
                     yield return null;
 
-                InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
+                InputManager.Instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
