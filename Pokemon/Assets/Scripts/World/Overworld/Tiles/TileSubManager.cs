@@ -1,12 +1,12 @@
-﻿#region Packages
+#region Packages
 
 using System;
 using System.Collections;
 using System.Linq;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 
 #endregion
 

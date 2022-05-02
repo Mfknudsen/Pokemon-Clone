@@ -63,11 +63,11 @@ namespace Mfknudsen.Player.UI_Book
         [FoldoutGroup("References/Animation")] [SerializeField]
         private GameObject invisiblyUI, visuals;
 
-        private readonly Dictionary<string, BookButton> buttonReferences = new Dictionary<string, BookButton>();
-        private readonly Dictionary<string, BookSlider> sliderReferences = new Dictionary<string, BookSlider>();
+        private readonly Dictionary<string, BookButton> buttonReferences = new();
+        private readonly Dictionary<string, BookSlider> sliderReferences = new();
 
         private readonly Dictionary<string, BookTextInputField> textInputFieldReferences =
-            new Dictionary<string, BookTextInputField>();
+            new();
 
         private readonly int preRenderTextureID = Shader.PropertyToID("RenderTexture");
 
@@ -421,7 +421,7 @@ namespace Mfknudsen.Player.UI_Book
             done = false;
             Cursor.visible = false;
 
-            OperationsContainer container = new OperationsContainer();
+            OperationsContainer container = new();
             transition.InvertDirection(true, true);
             container.Add(transition);
 

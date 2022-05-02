@@ -123,16 +123,12 @@ namespace Mfknudsen.World.Overworld.Tiles
                 foreach (Neighbor neighbor in toUnload.Where(n => loaded.Contains(n)))
                     loaded.Remove(neighbor);
 
-                foreach (Neighbor neighbor in currentTile.GetNeighbors().Where(n => loaded.Contains(n)))
-                    toLoad.Add(neighbor );
+                toLoad.AddRange(currentTile.GetNeighbors().Where(n => loaded.Contains(n)));
 
                 #region Unload Unneeded Neighbors
 
-                foreach (Neighbor neighbor in toUnload)
-                {
-                    TileSubManager unload = allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()));
+                foreach (TileSubManager unload in toUnload.Select(neighbor => allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
                     unload.Unload();
-                }
 
                 #endregion
 
