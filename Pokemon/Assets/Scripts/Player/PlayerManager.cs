@@ -109,13 +109,11 @@ namespace Mfknudsen.Player
 
         public override IEnumerator Setup()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
+            if (instance != null)
                 Destroy(gameObject);
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
 
             characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(fileName));
 
@@ -127,11 +125,11 @@ namespace Mfknudsen.Player
 
             moveController.Setup();
             StartCoroutine(playerInteractions.Setup());
-            
+
             InputManager inputManager = InputManager.Instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
-            
+
             yield break;
         }
 

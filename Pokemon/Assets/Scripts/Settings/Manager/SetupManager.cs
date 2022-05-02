@@ -35,11 +35,10 @@ namespace Mfknudsen.Settings.Manager
 
         public void Trigger()
         {
-            Manager[] managers = Resources.FindObjectsOfTypeAll(typeof(Manager))
+            Manager[] managers = FindObjectsOfType(typeof(Manager))
                 .Select(m =>
                     m as Manager)
                 .Where(m =>
-                    m != null &&
                     !m.GetReady() &&
                     !m.GetIsStarted())
                 .ToArray();

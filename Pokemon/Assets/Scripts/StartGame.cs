@@ -21,6 +21,8 @@ namespace Mfknudsen
 
         private void Start()
         {
+            InputManager.Instance = new InputManager();
+            
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 150;
 
@@ -39,12 +41,9 @@ namespace Mfknudsen
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
-            Inventory inventory = null;
-            while (inventory == null)
-            {
-                inventory = PlayerManager.instance.GetBattleMember().GetInventory();
-                yield return null;
-            }
+            yield return new WaitWhile(() => PlayerManager.instance.GetBattleMember().GetInventory() == null);
+            
+            Inventory inventory = PlayerManager.instance.GetBattleMember().GetInventory();
 
             foreach (Item item in items)
                 inventory.AddItem(item);
@@ -54,7 +53,6 @@ namespace Mfknudsen
             yield return new WaitWhile(() => !UIManager.instance ||!UIBook.instance);
 
             UIManager.instance.SwitchUI(UISelection.Start);
-            //UIBook.instance.Effect(BookTurn.Open);
         }
     }
 }

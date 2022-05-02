@@ -127,9 +127,11 @@ namespace Mfknudsen.Battle.Systems
 
         private IEnumerator WaitForResponse()
         {
+            yield return null;
+            
             yield return new WaitWhile(() => !BattleManager.instance);
 
-            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetComponent<BattleMember>() };
+            List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetBattleMember() };
             result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies
                          .Where(m =>
@@ -162,8 +164,8 @@ namespace Mfknudsen.Battle.Systems
             {
                 TileManager.instance.ShowTiles();
                 UIBook.instance.gameObject.SetActive(true);
-                UIManager.instance.SwitchUI(UISelection.Start);
-                UIBook.instance.Effect(BookTurn.Open);
+                //UIManager.instance.SwitchUI(UISelection.Start);
+                //UIBook.instance.Effect(BookTurn.Open);
                 transform.parent = overworldParent;
             };
 

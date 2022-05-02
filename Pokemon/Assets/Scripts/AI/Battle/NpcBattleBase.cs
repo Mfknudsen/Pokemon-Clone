@@ -14,6 +14,7 @@ using UnityEngine;
 
 namespace Mfknudsen.AI.Battle
 {
+    [RequireComponent(typeof(BattleStarter))]
     public class NpcBattleBase : NpcBase
     {
         #region Values
@@ -49,14 +50,12 @@ namespace Mfknudsen.AI.Battle
 
             //Apply
             foreach (BeforeEffectContainer container in beforeEffects)
-            {
                 container.SetInput<TriggerBeforeChat>(chatInput);
-            }
 
             foreach (AfterEffectContainer container in afterEffects)
-            {
                 container.SetInput<TriggerAfterChat>(chatInput);
-            }
+
+            battleStarter ??= GetComponent<BattleStarter>();
         }
 
         #endregion
@@ -65,12 +64,10 @@ namespace Mfknudsen.AI.Battle
 
         public override void Trigger()
         {
-            if (battleStarter == null) return;
-
-            if (!battleStarter.GetPlayerWon())
-                StartCoroutine(BeforeBattle());
-            else
+            if (battleStarter.GetPlayerWon())
                 ChatManager.instance.Add(idleChat);
+            else
+                StartCoroutine(BeforeBattle());
         }
 
         #endregion
@@ -83,13 +80,10 @@ namespace Mfknudsen.AI.Battle
         {
             if (chatKeys == null)
                 return null;
-            
+
             Dictionary<string, string> chatInput = new Dictionary<string, string>();
-            for (int i = 0; i < chatKeys.Length; i++)
-            {
-                if (i < chatValues.Length)
-                    chatInput.Add(chatKeys[i], chatValues[i]);
-            }
+            for (int i = 0; i < chatKeys.Length && i < chatValues.Length; i++)
+                chatInput.Add(chatKeys[i], chatValues[i]);
 
             return chatInput;
         }
@@ -101,7 +95,9 @@ namespace Mfknudsen.AI.Battle
             foreach (BeforeEffectContainer container in beforeEffects)
             {
                 container.Trigger();
+
                 yield return null;
+
                 yield return new WaitWhile(() => !container.AllDone());
             }
 
@@ -113,7 +109,9 @@ namespace Mfknudsen.AI.Battle
             foreach (AfterEffectContainer container in afterEffects)
             {
                 container.Trigger();
+
                 yield return null;
+
                 yield return new WaitWhile(() => !container.AllDone());
             }
         }

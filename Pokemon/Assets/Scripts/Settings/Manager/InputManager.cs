@@ -12,19 +12,8 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
-        public static InputManager Instance
-        {
-            get
-            {
-                if (staticInstance == null)
-                    staticInstance = new InputManager();
-
-                return staticInstance;
-            }
-        }
-
-        private static InputManager staticInstance;
-
+        public static InputManager Instance;
+        
         #region Events
 
         public UnityEvent<Vector2> 
@@ -58,13 +47,12 @@ namespace Mfknudsen.Settings.Manager
             playerInput.Player.TurnAxis.performed += OnRotAxisPerformed;
             playerInput.Player.TurnAxis.canceled += OnRotAxisPerformed;
 
-            playerInput.Player.NextChat.performed += OnNextChatPerformed;
-            playerInput.Player.Pause.performed += OnPausePerformed;
-            playerInput.Player.Interact.performed += OnInteractPerformed;
-
             playerInput.Player.Run.performed += OnRunPerformed;
             playerInput.Player.Run.canceled += OnRunPerformed;
 
+            playerInput.Player.NextChat.performed += OnNextChatPerformed;
+            playerInput.Player.Pause.performed += OnPausePerformed;
+            playerInput.Player.Interact.performed += OnInteractPerformed;
             playerInput.Player.ShowHide.performed += OnShowHidePerformed;
         }
 

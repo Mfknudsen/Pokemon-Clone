@@ -98,7 +98,7 @@ namespace Mfknudsen.Player.UI_Book
 
             instance = this;
             transition.CheckMiddle();
-            Invoke("DelayedStart", 0.135f);
+            StartCoroutine(DelayedStart());
         }
 
         #endregion
@@ -168,10 +168,14 @@ namespace Mfknudsen.Player.UI_Book
 
         #region Internal
 
-        private void DelayedStart()
+        private IEnumerator DelayedStart()
         {
+            yield return new WaitWhile(() => CameraManager.instance == null);
+
             CameraManager.instance.SetCurrentRig(bookCameraRig, true);
             Cursor.visible = true;
+            
+            yield return new WaitWhile(() => PlayerManager.instance == null);
 
             PlayerManager.instance.DisablePlayerControl();
 
