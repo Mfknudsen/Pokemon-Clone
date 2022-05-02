@@ -12,11 +12,17 @@ namespace Mfknudsen.Settings.Manager
     {
         #region Values
 
+        [SerializeField] private bool includeAsInactive;
         private bool ready, isStarted;
 
         #endregion
 
         #region Getters
+
+        public bool GetInclude()
+        {
+            return includeAsInactive;
+        }
 
         public bool GetReady()
         {

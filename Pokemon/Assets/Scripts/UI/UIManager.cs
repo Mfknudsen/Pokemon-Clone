@@ -1,6 +1,7 @@
 #region Packages
 
 using System.Collections;
+using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Player;
@@ -133,6 +134,8 @@ namespace Mfknudsen.UI
 
         private void PauseTrigger()
         {
+            if (BattleManager.instance != null) return;
+
             if (!readyToPause) return;
 
             readyToPause = false;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.World.Overworld.TileS
+namespace Mfknudsen.World.Overworld.Tiles
 {
     public class TileBorder : MonoBehaviour
     {

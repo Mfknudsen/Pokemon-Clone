@@ -70,7 +70,8 @@ namespace Mfknudsen.Player.Camera
 
         public void SetCurrentRigToDefault()
         {
-            currentRig.enabled = false;
+            if (currentRig != null)
+                currentRig.enabled = false;
             defaultCameraRig.enabled = true;
             currentRig = defaultCameraRig;
         }

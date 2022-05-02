@@ -99,13 +99,11 @@ namespace Mfknudsen.Communication
 
         public override IEnumerator Setup()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
+            if (instance != null)
                 Destroy(gameObject);
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
 
             defaultTextSpeed = textPerSecond;
 
@@ -125,18 +123,6 @@ namespace Mfknudsen.Communication
             waitList.Add(toAdd.GetChat());
         }
 
-        public void OnNextChatChange()
-        {
-            if (running == null || !running.GetNeedInput() || !waitForInput) return;
-
-            if (running.GetDone())
-                running = null;
-            else
-                StartCoroutine(running.PlayNext());
-
-            waitForInput = false;
-        }
-
 
         #region Defaults
 
@@ -150,6 +136,18 @@ namespace Mfknudsen.Communication
         #endregion
 
         #region Internal
+
+        public void OnNextChatChange()
+        {
+            if (running == null || !running.GetNeedInput() || !waitForInput) return;
+
+            if (running.GetDone())
+                running = null;
+            else
+                StartCoroutine(running.PlayNext());
+
+            waitForInput = false;
+        }
 
         public void CheckRunningState()
         {

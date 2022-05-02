@@ -20,13 +20,11 @@ namespace Mfknudsen.Settings.Manager
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
+            if (instance != null)
                 Destroy(gameObject);
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         #endregion
@@ -35,14 +33,12 @@ namespace Mfknudsen.Settings.Manager
 
         public void Trigger()
         {
-            Manager[] managers = FindObjectsOfType(typeof(Manager))
-                .Select(m =>
-                    m as Manager)
+            Manager[] managers = FindObjectsOfType<Manager>(true)
                 .Where(m =>
+                    !(!m.gameObject.activeInHierarchy && !m.GetInclude()) &&
                     !m.GetReady() &&
                     !m.GetIsStarted())
                 .ToArray();
-
 
             foreach (Manager manager in managers)
             {

@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,8 +59,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
                 pokemonDisplay.transform.position = enemyOut.position;
             }
 
-            while (BattleManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => BattleManager.instance == null);
 
             while (spotOversight == null)
             {
@@ -68,8 +68,7 @@ namespace Mfknudsen.Battle.UI.Information_Display
                 spotOversight = battleManager.GetSpotOversight();
             }
 
-            while (PlayerManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => PlayerManager.instance == null);
 
             ready = true;
         }

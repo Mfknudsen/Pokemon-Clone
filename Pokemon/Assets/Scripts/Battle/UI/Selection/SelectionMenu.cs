@@ -1,4 +1,4 @@
-﻿#region SDK
+﻿#region Packages
 
 using System;
 using System.Collections;
@@ -40,19 +40,9 @@ namespace Mfknudsen.Battle.UI.Selection
 
         #region Build In States
 
-        private void Awake()
+        private IEnumerator Start()
         {
-            StartCoroutine(Setup());
-        }
-
-        #endregion
-        
-        #region In
-
-        public IEnumerator Setup()
-        {
-            while (BattleManager.instance == null)
-                yield return null;
+            yield return new WaitWhile(() => BattleManager.instance == null);
             
             BattleManager.instance.SetSelectionMenu(this);
             
@@ -61,6 +51,10 @@ namespace Mfknudsen.Battle.UI.Selection
             targetSelection.Setup();
             turnSelection.Setup();
         }
+
+        #endregion
+        
+        #region In
 
         public void DisplaySelection(SelectorGoal goal, object parse)
         {

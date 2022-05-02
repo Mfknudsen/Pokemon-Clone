@@ -1,6 +1,6 @@
 #region Packages
 
-using Mfknudsen.World.Overworld.TileS;
+using Mfknudsen.World.Overworld.Tiles;
 using UnityEngine;
 
 #endregion

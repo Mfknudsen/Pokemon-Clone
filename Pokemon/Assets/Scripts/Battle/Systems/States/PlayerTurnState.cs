@@ -38,9 +38,7 @@ namespace Mfknudsen.Battle.Systems.States
             }
 
             manager.GetSelectionMenu().DisableDisplaySelection();
-
-            Cursor.visible = false;
-
+            
             manager.SetState(new ComputerTurnState(manager));
         }
     }

@@ -10,7 +10,7 @@ using UnityEngine.AI;
 
 #endregion
 
-namespace Mfknudsen.World.Overworld.TileS
+namespace Mfknudsen.World.Overworld.Tiles
 {
     public class TileSubManager : Manager
     {

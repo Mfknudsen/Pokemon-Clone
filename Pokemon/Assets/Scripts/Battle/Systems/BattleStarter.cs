@@ -7,11 +7,12 @@ using Mfknudsen.AI.Battle;
 using Mfknudsen.Communication;
 using UnityEngine;
 using Mfknudsen.Player;
+using Mfknudsen.Player.Camera;
 using Mfknudsen.Player.UI_Book;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
 using Mfknudsen.World;
-using Mfknudsen.World.Overworld.TileS;
+using Mfknudsen.World.Overworld.Tiles;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -105,19 +106,20 @@ namespace Mfknudsen.Battle.Systems
             overworldParent = t.parent;
             t.parent = null;
 
-
-            WorldManager manager = WorldManager.instance;
-
             transition.onHide = () =>
             {
                 TileManager.instance.HideTiles();
                 PlayerManager.instance.DisableOverworld();
                 UIBook.instance.gameObject.SetActive(false);
                 UIManager.instance.SwitchUI(UISelection.Battle);
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             };
 
             onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<NpcBattleBase>()?.AfterBattle()); };
 
+            WorldManager manager = WorldManager.instance;
             manager.SetTransition(transition);
             manager.LoadBattleScene(battleSceneName);
 
@@ -128,7 +130,7 @@ namespace Mfknudsen.Battle.Systems
         private IEnumerator WaitForResponse()
         {
             yield return null;
-            
+
             yield return new WaitWhile(() => !BattleManager.instance);
 
             List<BattleMember> result = new List<BattleMember> { PlayerManager.instance.GetBattleMember() };
@@ -163,7 +165,13 @@ namespace Mfknudsen.Battle.Systems
             transition.onHide = () =>
             {
                 TileManager.instance.ShowTiles();
+                PlayerManager.instance.EnableOverworld();
                 UIBook.instance.gameObject.SetActive(true);
+                UIManager.instance.SwitchUI(UISelection.Overworld);
+                CameraManager.instance.SetCurrentRigToDefault();
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
+                //UIBook.instance.gameObject.SetActive(true);
                 //UIManager.instance.SwitchUI(UISelection.Start);
                 //UIBook.instance.Effect(BookTurn.Open);
                 transform.parent = overworldParent;

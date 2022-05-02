@@ -28,7 +28,7 @@ namespace Mfknudsen.Battle.Systems.States
             UIManager uiManager = UIManager.instance;
             BattleStarter battleStarter = null;
             PlayerManager playerManager = PlayerManager.instance;
-
+            
             while (battleStarter == null)
             {
                 battleStarter = manager.GetStarter();

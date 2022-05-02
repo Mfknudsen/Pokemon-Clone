@@ -23,6 +23,7 @@ namespace Mfknudsen.Battle.Systems.States
         public override IEnumerator Tick()
         {
             foreach (ConditionOversight conditionOversight in oversight.GetSpots()
+                         .Where(s => s.GetActivePokemon() != null)
                          .Select(s =>
                              s.GetActivePokemon().GetConditionOversight()))
             {
@@ -33,7 +34,7 @@ namespace Mfknudsen.Battle.Systems.States
 
                 conditionOversight.Reset();
             }
-            
+
             if (oversight.GetSpots().FirstOrDefault(spot =>
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))

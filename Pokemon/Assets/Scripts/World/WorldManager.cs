@@ -8,7 +8,7 @@ using Mfknudsen.Settings.Manager;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
-using Mfknudsen.World.Overworld.TileS;
+using Mfknudsen.World.Overworld.Tiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Logger = Mfknudsen._Debug.Logger;
@@ -130,15 +130,18 @@ namespace Mfknudsen.World
 
             progressMeter = 0;
 
-            if (asyncLoad != null)
+            if (asyncLoad == null)
             {
-                while (!asyncLoad.isDone)
-                {
-                    progressMeter = asyncLoad.progress + 0.1f;
-                    yield return null;
-                }
+                Debug.LogWarning("No scene loaded");
+                yield break;
             }
 
+            while (!asyncLoad.isDone)
+            {
+                progressMeter = asyncLoad.progress + 0.1f;
+                yield return null;
+            }
+            
             SetupManager.instance.Trigger();
 
             currentLoadedBattleScene = sceneName;
