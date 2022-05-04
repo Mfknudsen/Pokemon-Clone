@@ -135,7 +135,7 @@ namespace Mfknudsen.Player.UI_Book
                 openRight.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
             }
 
-            OperationsContainer container = new OperationsContainer();
+            OperationsContainer container = new();
             // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (turn)
             {
@@ -184,7 +184,7 @@ namespace Mfknudsen.Player.UI_Book
 
         private static List<GameObject> GetAllByRoot(GameObject obj)
         {
-            List<GameObject> result = new List<GameObject>();
+            List<GameObject> result = new();
 
             foreach (Transform t in obj.transform)
             {
@@ -224,7 +224,7 @@ namespace Mfknudsen.Player.UI_Book
                 _ => throw new ArgumentOutOfRangeException(nameof(trigger), trigger, null)
             };
 
-            if (trigger == BookTurn.Close || trigger == BookTurn.Open)
+            if (trigger is BookTurn.Close or BookTurn.Open)
                 PlayerManager.instance.GetController().TriggerAnimator(hash);
 
             bookAnimator.SetTrigger(hash);
@@ -420,6 +420,7 @@ namespace Mfknudsen.Player.UI_Book
         {
             done = false;
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
 
             OperationsContainer container = new();
             transition.InvertDirection(true, true);

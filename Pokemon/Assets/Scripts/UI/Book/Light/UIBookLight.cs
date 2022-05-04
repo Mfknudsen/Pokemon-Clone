@@ -1,23 +1,20 @@
 #region Packages
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mime;
 using Mfknudsen.Common;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.Player.UI_Book
+namespace Mfknudsen.UI.Book.Light
 {
     public class UIBookLight : MonoBehaviour
     {
         #region Values
 
-        [SerializeField] private UnityEngine.Camera renderCamera;
-        [SerializeField] private Light light;
+        [SerializeField] private UnityEngine.Light bookLight;
         [SerializeField] private float levelToTurnOn;
+        [SerializeField] private RenderTexture renderTexture;
 
         #endregion
 
@@ -27,37 +24,34 @@ namespace Mfknudsen.Player.UI_Book
         {
             yield return new WaitWhile(() => TimerUpdater.instance == null);
 
-            new Timer(.1f).timerEvent.AddListener(() => Calc());
+            new Timer(.1f).timerEvent.AddListener(Calculate);
         }
-
         #endregion
 
         #region Internal
 
-        private void Calc()
+        private void Calculate()
         {
-            RenderTexture renderTexture = new RenderTexture(renderCamera.pixelWidth, renderCamera.pixelHeight, 24);
-            renderCamera.targetTexture = renderTexture;
-            renderCamera.Render();
-            Texture2D tex = CommonTexture.RenderToTexture2D(renderTexture);
-
-            renderCamera.targetTexture = null;
-
-            float brightColor = 0;
-            int count = 0;
-
-            Color[] pixels = tex.GetPixels();
-            for (int i = 0; i < pixels.Length; i = i + 5)
+            if (gameObject.activeInHierarchy)
             {
-                count = count + 1;
-                brightColor = brightColor + (pixels[i].r + pixels[i].g + pixels[i].b) / 3;
+                Texture2D tex = CommonTexture.RenderToTexture2D(renderTexture);
+                Color[] pixels = tex.GetPixels();
+                
+                float brightColor = 0;
+                int count = 0;
+
+                foreach (Color pixel in pixels)
+                {
+                    count++;
+                    brightColor += (pixel.r + pixel.g + pixel.b) / 3f;
+                }
+
+                Debug.Log(brightColor / count);
+
+                bookLight.enabled = brightColor / count * 100f <= levelToTurnOn;
             }
-
-            Debug.Log(brightColor / count);
-
-            light.enabled = brightColor / count * 100f <= levelToTurnOn;
-
-            new Timer(.2f).timerEvent.AddListener(() => Calc());
+            
+            new Timer(.5f).timerEvent.AddListener(Calculate);
         }
 
         #endregion
