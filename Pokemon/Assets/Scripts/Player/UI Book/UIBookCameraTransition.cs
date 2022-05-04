@@ -88,7 +88,7 @@ namespace Mfknudsen.Player.UI_Book
 
         #region In
 
-        public void InvertDirection(bool awayFromBook, bool? resetTime = false)
+        public void Direction(bool awayFromBook, bool? resetTime = false)
         {
             if (awayFromBook && moveSpeed < 0 || 
                 !awayFromBook && moveSpeed > 0)

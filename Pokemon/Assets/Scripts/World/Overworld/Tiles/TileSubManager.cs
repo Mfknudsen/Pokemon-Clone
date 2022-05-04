@@ -7,6 +7,7 @@ using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 #endregion
 

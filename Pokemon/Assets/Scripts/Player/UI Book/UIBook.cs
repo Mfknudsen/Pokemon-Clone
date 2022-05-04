@@ -88,7 +88,7 @@ namespace Mfknudsen.Player.UI_Book
 
         #region Build In States
 
-        private void Awake()
+        private void Start()
         {
             if (instance != null)
                 Destroy(gameObject);
@@ -433,7 +433,7 @@ namespace Mfknudsen.Player.UI_Book
             bookLight.TurnOff();
 
             OperationsContainer container = new();
-            transition.InvertDirection(true, true);
+            transition.Direction(true, true);
             container.Add(transition);
 
             CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld();
@@ -486,7 +486,7 @@ namespace Mfknudsen.Player.UI_Book
 
             OperationsContainer container = new OperationsContainer();
             transition.CheckMiddle();
-            transition.InvertDirection(false, true);
+            transition.Direction(false, true);
             container.Add(transition);
 
             CameraEvent cameraEvent = new CameraEvent(
