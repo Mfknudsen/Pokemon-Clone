@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Mfknudsen.Settings.Manager;
-using Unity.AI.Navigation;
+using UnityEngine.AI;
 
 #endregion
 

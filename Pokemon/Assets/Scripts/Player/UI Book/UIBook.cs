@@ -9,6 +9,7 @@ using Mfknudsen.Player.Camera;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Book.Button;
 using Mfknudsen.UI.Book.Interfaces;
+using Mfknudsen.UI.Book.Light;
 using Mfknudsen.UI.Book.Slider;
 using Mfknudsen.UI.Book.TextInputField;
 using Sirenix.OdinInspector;
@@ -63,6 +64,9 @@ namespace Mfknudsen.Player.UI_Book
         [FoldoutGroup("References/Animation")] [SerializeField]
         private GameObject invisiblyUI, visuals;
 
+        [BoxGroup("References")] [SerializeField]
+        private UIBookLight bookLight;
+
         private readonly Dictionary<string, BookButton> buttonReferences = new();
         private readonly Dictionary<string, BookSlider> sliderReferences = new();
 
@@ -95,6 +99,8 @@ namespace Mfknudsen.Player.UI_Book
 
             turnRight.SetActive(false);
             turnLeft.SetActive(false);
+
+            bookLight.Calculate();
 
             instance = this;
             transition.CheckMiddle();
@@ -140,11 +146,11 @@ namespace Mfknudsen.Player.UI_Book
             switch (turn)
             {
                 case BookTurn.Open:
-                    container.Add(new OpenBook(transition, bookCameraRig));
+                    container.Add(new OpenBook(transition, bookCameraRig, bookLight));
                     break;
 
                 case BookTurn.Close:
-                    container.Add(new CloseBook(transition));
+                    container.Add(new CloseBook(transition, bookLight));
                     break;
 
                 case BookTurn.Left:
@@ -174,7 +180,7 @@ namespace Mfknudsen.Player.UI_Book
 
             CameraManager.instance.SetCurrentRig(bookCameraRig, true);
             Cursor.visible = true;
-            
+
             yield return new WaitWhile(() => PlayerManager.instance == null);
 
             PlayerManager.instance.DisablePlayerControl();
@@ -405,10 +411,12 @@ namespace Mfknudsen.Player.UI_Book
     {
         private bool done;
         private readonly UIBookCameraTransition transition;
+        private readonly UIBookLight bookLight;
 
-        public CloseBook(UIBookCameraTransition transition)
+        public CloseBook(UIBookCameraTransition transition, UIBookLight bookLight)
         {
             this.transition = transition;
+            this.bookLight = bookLight;
         }
 
         public bool Done()
@@ -421,6 +429,8 @@ namespace Mfknudsen.Player.UI_Book
             done = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+
+            bookLight.TurnOff();
 
             OperationsContainer container = new();
             transition.InvertDirection(true, true);
@@ -450,9 +460,11 @@ namespace Mfknudsen.Player.UI_Book
         private bool done;
         private readonly CinemachineVirtualCameraBase bookRig;
         private readonly UIBookCameraTransition transition;
+        private readonly UIBookLight bookLight;
 
-        public OpenBook(UIBookCameraTransition transition, CinemachineVirtualCameraBase bookRig)
+        public OpenBook(UIBookCameraTransition transition, CinemachineVirtualCameraBase bookRig, UIBookLight bookLight)
         {
+            this.bookLight = bookLight;
             this.transition = transition;
             this.bookRig = bookRig;
 
@@ -499,6 +511,9 @@ namespace Mfknudsen.Player.UI_Book
         public void End()
         {
             Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            bookLight.Calculate();
         }
     }
 }

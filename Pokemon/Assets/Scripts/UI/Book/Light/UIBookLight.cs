@@ -18,40 +18,30 @@ namespace Mfknudsen.UI.Book.Light
 
         #endregion
 
-        #region Build In States
+        #region In
 
-        private IEnumerator Start()
+        public void TurnOff()
         {
-            yield return new WaitWhile(() => TimerUpdater.instance == null);
-
-            new Timer(.1f).timerEvent.AddListener(Calculate);
+            bookLight.enabled = false;
         }
-        #endregion
 
-        #region Internal
-
-        private void Calculate()
+        public void Calculate()
         {
-            if (gameObject.activeInHierarchy)
-            {
-                Texture2D tex = CommonTexture.RenderToTexture2D(renderTexture);
-                Color[] pixels = tex.GetPixels();
-                
-                float brightColor = 0;
-                int count = 0;
-
-                foreach (Color pixel in pixels)
-                {
-                    count++;
-                    brightColor += (pixel.r + pixel.g + pixel.b) / 3f;
-                }
-
-                Debug.Log(brightColor / count);
-
-                bookLight.enabled = brightColor / count * 100f <= levelToTurnOn;
-            }
+            bookLight.enabled = true;
             
-            new Timer(.5f).timerEvent.AddListener(Calculate);
+            Texture2D tex = CommonTexture.RenderToTexture2D(renderTexture);
+            Color[] pixels = tex.GetPixels();
+
+            float brightColor = 0;
+            int count = 0;
+
+            foreach (Color pixel in pixels)
+            {
+                count++;
+                brightColor += (pixel.r + pixel.g + pixel.b) / 3f;
+            }
+
+            bookLight.enabled = brightColor / count * 100f <= levelToTurnOn;
         }
 
         #endregion
