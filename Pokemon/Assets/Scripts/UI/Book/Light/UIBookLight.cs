@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections;
 using Mfknudsen.Common;
 using UnityEngine;
 
@@ -12,8 +11,9 @@ namespace Mfknudsen.UI.Book.Light
     {
         #region Values
 
-        [SerializeField] private UnityEngine.Light bookLight;
+        [SerializeField] private int pixelSkip = 10;
         [SerializeField] private float levelToTurnOn;
+        [SerializeField] private UnityEngine.Light bookLight;
         [SerializeField] private RenderTexture renderTexture;
 
         #endregion
@@ -35,10 +35,10 @@ namespace Mfknudsen.UI.Book.Light
             float brightColor = 0;
             int count = 0;
 
-            foreach (Color pixel in pixels)
+            for (int i = 0; i < pixels.Length; i += pixelSkip)
             {
                 count++;
-                brightColor += (pixel.r + pixel.g + pixel.b) / 3f;
+                brightColor += pixels[i].grayscale;
             }
 
             bookLight.enabled = brightColor / count * 100f <= levelToTurnOn;

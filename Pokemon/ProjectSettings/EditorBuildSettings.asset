@@ -15,9 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/TestWorld.unity
     guid: 183f58bf0dc2ccd4caf8e51710fc6211
   - enabled: 1
-    path: Assets/Scenes/T.unity
-    guid: adeaa8057ef1a9145b755ad540293be5
-  - enabled: 1
     path: Assets/Scenes/UI.unity
     guid: 22a90c416a0f29f4da546e6b3fe2dafa
+  - enabled: 1
+    path: Assets/Scenes/Towns/Shayklind/Shayklind.unity
+    guid: d2ca9fa9060f06349b7d2b16f1b39406
+  - enabled: 1
+    path: Assets/Scenes/Interiors/StarterHouse.unity
+    guid: 1c309d5eb8c71836ea562c6e555b4c3d
   m_configObjects: {}

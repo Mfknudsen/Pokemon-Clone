@@ -27,14 +27,14 @@ namespace Mfknudsen.World
 
         [SerializeField] private float progressMeter;
 
-        [SerializeField] private string currentLoadedBattleScene;
+        [SerializeField] private string currentLoadedBattleScene, currentLoadedWorldScene;
 
         private Transition transition;
 
-        private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
+        private readonly List<Coroutine> activeLoading = new(), activeUnloading = new();
 
         private StoryTriggers storyTriggers;
-        private readonly string fileName = "StoryTriggers";
+        private const string fileName = "StoryTriggers";
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace Mfknudsen.World
             return (currentOperation == null);
         }
 
-        public bool GetActiveLoading()
+        public bool GetIsLoading()
         {
             return activeLoading.Count == 0;
         }
@@ -58,6 +58,11 @@ namespace Mfknudsen.World
         public bool GetActiveUnloading()
         {
             return activeUnloading.Count == 0;
+        }
+
+        public string GetCurrentLoadedWorldScene()
+        {
+            return currentLoadedWorldScene;
         }
 
         #endregion

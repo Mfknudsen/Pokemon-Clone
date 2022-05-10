@@ -11,8 +11,9 @@ namespace Mfknudsen.Common
     {
         #region Values
 
-        public UnityEvent timerEvent = new UnityEvent();
-        private float duration, current;
+        public readonly UnityEvent timerEvent = new();
+        private readonly float duration;
+        private float current;
         private bool done, stop;
 
         #endregion
@@ -44,11 +45,10 @@ namespace Mfknudsen.Common
 
             current += Time.deltaTime;
 
-            if (current >= duration)
-            {
-                timerEvent.Invoke();
-                done = true;
-            }
+            if (!(current >= duration)) return;
+            
+            timerEvent.Invoke();
+            done = true;
         }
 
         public void Stop()

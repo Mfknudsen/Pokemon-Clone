@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Mfknudsen.Settings.Manager;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 #endregion
 
