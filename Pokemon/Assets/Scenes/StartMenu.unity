@@ -241,6 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeAsInactive: 0
+  mediumDelay: 1
+  farDelay: 1
 --- !u!4 &350199346
 Transform:
   m_ObjectHideFlags: 0
@@ -872,17 +874,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1872804856 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-  m_PrefabInstance: {fileID: 399740840918858724}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71dc673570590c74f986a73fceb6f227, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2043220130
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,10 +942,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 950863811926426463, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2599390591471191717, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -999,34 +986,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4656425669571942325, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: enemies.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4656425669571942325, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: enemies.Array.data[0]
-      value: 
-      objectReference: {fileID: 1872804856}
-    - target: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: memberName
-      value: NPC Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: onDefeatedChats
-      value: 
-      objectReference: {fileID: 11400000, guid: 311d9132e704fe74abbde7a7f753a7ee, type: 2}
     - target: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-    - target: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: onDefeatedChats.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6132361091304672973, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
-      propertyPath: onDefeatedChats.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 311d9132e704fe74abbde7a7f753a7ee, type: 2}
     - target: {fileID: 8172509907182731635, guid: 2cdf26471f0103645b51822073135ef0, type: 3}
       propertyPath: m_Name
       value: NPC Base
@@ -1078,7 +1041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 436971408, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000024773972
+      value: 0.000002477397
       objectReference: {fileID: 0}
     - target: {fileID: 436971409, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_Enabled
@@ -1086,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 436971409, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7798742
+      value: 1.7776366
       objectReference: {fileID: 0}
     - target: {fileID: 564464083, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_Layer
@@ -1447,7 +1410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 565465643, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000024773972
+      value: 0.000002477397
       objectReference: {fileID: 0}
     - target: {fileID: 565465644, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_Enabled
@@ -1503,11 +1466,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5468753899061695485, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000008404399
+      value: -0.000000008404406
       objectReference: {fileID: 0}
     - target: {fileID: 5468753899061695485, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000001838721
+      value: 0.0000000018387223
       objectReference: {fileID: 0}
     - target: {fileID: 5644096484479605312, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1527,11 +1490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5644096484479605312, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016739138
+      value: 0.000000016739131
       objectReference: {fileID: 0}
     - target: {fileID: 5644096484479605312, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000039825805
+      value: -0.0000000039825783
       objectReference: {fileID: 0}
     - target: {fileID: 5921889010023028678, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: xCamSpeed

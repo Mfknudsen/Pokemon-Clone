@@ -2,7 +2,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Mfknudsen.Player;
 using Mfknudsen.Settings.Manager;
+using UnityEngine;
 
 #endregion
 
@@ -14,7 +16,40 @@ namespace Mfknudsen.AI
 
         public static NpcManager instance;
 
-        private readonly List<NpcController> controllers = new List<NpcController>();
+        [SerializeField] private int mediumDelay = 1, farDelay = 1;
+
+        private readonly List<NpcController> controllers = new(),
+            close = new(),
+            medium = new(),
+            far = new();
+
+        private int count = 0;
+
+        #endregion
+
+        #region Build In States
+
+        private void OnValidate()
+        {
+            mediumDelay = mediumDelay > 0 ? mediumDelay : 1;
+            farDelay = farDelay > 0 ? farDelay : 1;
+        }
+
+        private void Update()
+        {
+            close.ForEach(c => c.TriggerBehaviourUpdate());
+
+            if (count % farDelay == 0)
+                far.ForEach(c => c.TriggerBehaviourUpdate());
+
+            if (count % mediumDelay == 0)
+            {
+                medium.ForEach(c => c.TriggerBehaviourUpdate());
+
+                if (count % farDelay == 0)
+                    count = 0;
+            }
+        }
 
         #endregion
 
@@ -29,16 +64,25 @@ namespace Mfknudsen.AI
             }
             else
                 Destroy(gameObject);
-            
+
             yield break;
         }
 
-        public void AddController(NpcController add)
+        public void AddController(NpcController controller)
         {
-            if (add == null || controllers.Contains(add))
+            if (controller == null || controllers.Contains(controller))
                 return;
 
-            controllers.Add(add);
+            controllers.Add(controller);
+
+            Vector3 cPos = controller.transform.position, pPos = PlayerManager.instance.GetAgent().transform.position;
+            float distance = Vector3.Distance(cPos, pPos);
+            if (distance < 50)
+                close.Add(controller);
+            else if (distance < 100)
+                medium.Add(controller);
+            else
+                far.Add(controller);
         }
 
         public void RemoveController(NpcController remove)

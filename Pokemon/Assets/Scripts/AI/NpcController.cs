@@ -1,6 +1,7 @@
 ﻿#region Packages
 
-using Mfknudsen.NPC;
+using System.Collections;
+using NodeCanvas.BehaviourTrees;
 using UnityEngine;
 
 #endregion
@@ -11,21 +12,31 @@ namespace Mfknudsen.AI
     {
         #region Values
 
-        [SerializeField] private string characterName = "";
-        [SerializeField] private NpcTeam npcTeam;
+        [SerializeField] private BehaviourTreeOwner bto;
 
         #endregion
 
         #region Build In States
 
-        private void Awake()
+        private IEnumerator Start()
         {
+            yield return new WaitWhile(() => NpcManager.instance == null);
+            
             NpcManager.instance.AddController(this);
         }
 
         private void OnDestroy()
         {
             NpcManager.instance.RemoveController(this);
+        }
+
+        #endregion
+
+        #region In
+
+        public void TriggerBehaviourUpdate()
+        {
+            bto.UpdateBehaviour();
         }
 
         #endregion

@@ -7,6 +7,7 @@ using UnityEngine;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Items;
+using Mfknudsen.NPC;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Settings;
 using Mfknudsen.Trainer;
@@ -16,7 +17,7 @@ using Sirenix.OdinInspector;
 
 namespace Mfknudsen.Battle.Systems
 {
-    [RequireComponent(typeof(Team), typeof(Inventory))]
+    [RequireComponent(typeof(NpcTeam), typeof(Inventory))]
     public class BattleMember : SerializedMonoBehaviour
     {
         #region Values

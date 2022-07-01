@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections.Generic;
 using Mfknudsen.Communication;
 using Mfknudsen.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
@@ -21,6 +22,8 @@ namespace Mfknudsen.AI
 
         [FoldoutGroup("Base/Navmesh")] protected NavMeshAgent agent;
 
+        private Dictionary<string, object> memoryBank = new();
+
         #endregion
 
         #region Getters
@@ -28,6 +31,28 @@ namespace Mfknudsen.AI
         public NavMeshAgent GetAgent()
         {
             return agent;
+        }
+
+        public TObject GetFromMemory<TObject>(string key) where TObject : Object
+        {
+            if (!memoryBank.ContainsKey(key)) return null;
+
+            return memoryBank[key] as TObject;
+        }
+        
+        #endregion
+
+        #region Setters
+
+        public void SetMemory(string key, object value)
+        {
+            if (memoryBank.ContainsKey(key))
+            {
+                memoryBank[key] = value;
+                return;
+            }
+            
+            memoryBank.Add(key, value);
         }
 
         #endregion

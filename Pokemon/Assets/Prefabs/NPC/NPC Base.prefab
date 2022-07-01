@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2599390591471191717}
   m_RootOrder: 1
@@ -56,6 +57,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2599390591471191717}
   m_RootOrder: 0
@@ -71,8 +73,8 @@ GameObject:
   - component: {fileID: 2599390591471191717}
   - component: {fileID: 4656425669571942325}
   - component: {fileID: 6132361091304672973}
-  - component: {fileID: 914250480936772521}
   - component: {fileID: 6398850999463250055}
+  - component: {fileID: 458608610150327177}
   m_Layer: 0
   m_Name: NPC Base
   m_TagString: Untagged
@@ -90,6 +92,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1279063, y: 3.5254645, z: -8.52699}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2547697726526250261}
   - {fileID: 950863811926426463}
@@ -111,7 +114,8 @@ MonoBehaviour:
   battleSceneName: TestBattle
   playerSpotCount: 1
   allies: []
-  enemies: []
+  enemies:
+  - {fileID: 6132361091304672973}
   onStartChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
   transition: {fileID: 11400000, guid: 448d565c65325c54a9892543f221932f, type: 2}
 --- !u!114 &6132361091304672973
@@ -135,7 +139,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  memberName: 
+  memberName: NPC Base
   isAlly: 0
   spotsToOwn: 1
   isPlayer: 0
@@ -149,20 +153,7 @@ MonoBehaviour:
     setupIncrease: 0
     survivalLevel: 1
     survivalIncrease: 0
---- !u!114 &914250480936772521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8172509907182731635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88c51db965b60240944fc90082bb8f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pokemons:
-  - {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+  onDefeatedChats: {fileID: 11400000, guid: 311d9132e704fe74abbde7a7f753a7ee, type: 2}
 --- !u!114 &6398850999463250055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,3 +174,17 @@ MonoBehaviour:
   tm: 
   treasure: 
   key: 
+--- !u!114 &458608610150327177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8172509907182731635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ceec9e82f113dc41996c06f3285e85a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemons: []
+  allPossible: []

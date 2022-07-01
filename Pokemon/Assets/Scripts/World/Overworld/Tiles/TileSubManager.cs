@@ -33,6 +33,12 @@ namespace Mfknudsen.World.Overworld.Tiles
 
         #endregion
 
+        private void Start()
+        {
+           
+            surface.BuildNavMesh();
+        }
+
         #region Getters
 
         public string GetTileName()
@@ -52,6 +58,15 @@ namespace Mfknudsen.World.Overworld.Tiles
 
         #endregion
 
+        #region Setters
+
+        public void SetNavMeshSurface(NavMeshSurface set)
+        {
+            surface = set;
+        }
+
+        #endregion
+        
         #region In
 
         public override IEnumerator Setup()
