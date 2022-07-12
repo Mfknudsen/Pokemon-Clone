@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: Basic Wild Pokemon
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":705.0,"y":-15.0},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"0"},{"_condition":{"variable":{"_name":"gatherGiftTree","_targetVariableID":"aad938fa-4347-47dc-8d89-63a625fd2a89"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckNull"},"_position":{"x":240.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"1"},{"_subTree":{"_name":"gatherGiftTree","_targetVariableID":"aad938fa-4347-47dc-8d89-63a625fd2a89"},"_position":{"x":270.0,"y":255.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"2"},{"_condition":{"variable":{"_name":"fleeTree","_targetVariableID":"862d8667-96b8-4832-8b9e-9d9e83c3e717"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckNull"},"_position":{"x":465.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"3"},{"_subTree":{"_name":"fleeTree","_targetVariableID":"862d8667-96b8-4832-8b9e-9d9e83c3e717"},"_position":{"x":495.0,"y":255.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"4"},{"_condition":{"variable":{"_name":"warnTree","_targetVariableID":"3b4bd40b-f0db-44da-a68b-e160681f1d8e"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckNull"},"_position":{"x":690.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"5"},{"_subTree":{"_name":"warnTree","_targetVariableID":"3b4bd40b-f0db-44da-a68b-e160681f1d8e"},"_position":{"x":720.0,"y":255.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"6"},{"_condition":{"variable":{"_name":"attackTree","_targetVariableID":"26ab3dc5-e43c-4f94-8cc0-de130f101f30"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckNull"},"_position":{"x":915.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"7"},{"_subTree":{"_name":"attackTree","_targetVariableID":"26ab3dc5-e43c-4f94-8cc0-de130f101f30"},"_position":{"x":945.0,"y":255.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"8"},{"_condition":{"variable":{"_name":"idleTree","_targetVariableID":"ce1fed0e-889e-42bb-8cc5-0d7a76687b69"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckNull"},"_position":{"x":1140.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"9"},{"_subTree":{"_name":"idleTree","_targetVariableID":"ce1fed0e-889e-42bb-8cc5-0d7a76687b69"},"_position":{"x":1170.0,"y":255.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"10"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[{"name":"Gather
+    Gift Tree","rect":{"xMin":216.4324,"yMin":101.6622,"xMax":415.4324,"yMax":370.6622},"autoGroup":true},{"name":"Attack
+    Tree","rect":{"xMin":895.0,"yMin":100.0,"xMax":1092.0,"yMax":370.0},"autoGroup":true},{"name":"Warn
+    Tree","rect":{"xMin":670.0,"yMin":100.0,"xMax":865.0,"yMax":370.0},"autoGroup":true},{"name":"Flee
+    Tree","rect":{"xMin":445.0,"yMin":100.0,"xMax":640.0,"yMax":370.0},"autoGroup":true},{"name":"Idle
+    Tree","rect":{"xMin":1120.855,"yMin":98.33783,"xMax":1315.855,"yMax":368.3378},"autoGroup":true}],"localBlackboard":{"_variables":{"idleTree":{"_name":"idleTree","_id":"ce1fed0e-889e-42bb-8cc5-0d7a76687b69","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+    ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"fleeTree":{"_name":"fleeTree","_id":"862d8667-96b8-4832-8b9e-9d9e83c3e717","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+    ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"warnTree":{"_name":"warnTree","_id":"3b4bd40b-f0db-44da-a68b-e160681f1d8e","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+    ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"attackTree":{"_name":"attackTree","_id":"26ab3dc5-e43c-4f94-8cc0-de130f101f30","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+    ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"gatherGiftTree":{"_name":"gatherGiftTree","_id":"aad938fa-4347-47dc-8d89-63a625fd2a89","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+    ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.21
+    _category: 
+    _comments: 
+    _translation: {x: 144, y: 258}
+    _zoomFactor: 0.69853497
+  _haltSerialization: 0

@@ -157,6 +157,11 @@ namespace Mfknudsen.Player
                 overworldGameObject.SetActive(true);
         }
 
+        public void PlayAnimationClip(AnimationClip clip)
+        {
+            
+        }
+
         #endregion
 
         #region Internal

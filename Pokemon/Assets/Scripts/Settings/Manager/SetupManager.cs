@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,6 +13,8 @@ namespace Mfknudsen.Settings.Manager
 
         public static SetupManager instance;
 
+        [SerializeField] private bool t;
+
         #endregion
 
         #region Build In States
@@ -25,6 +26,9 @@ namespace Mfknudsen.Settings.Manager
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            if(t)
+                Trigger();
         }
 
         #endregion

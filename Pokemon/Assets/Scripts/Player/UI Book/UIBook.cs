@@ -74,7 +74,7 @@ namespace Mfknudsen.Player.UI_Book
             new();
 
         private readonly int preRenderTextureID = Shader.PropertyToID("RenderTexture");
-
+        
         #region Hash
 
         private static readonly int HashCloseBook = Animator.StringToHash("CloseBook"),

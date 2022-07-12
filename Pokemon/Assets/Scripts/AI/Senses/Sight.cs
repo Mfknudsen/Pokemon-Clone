@@ -19,7 +19,7 @@ namespace Mfknudsen.AI.Senses
 
     #endregion
 
-    public class SightLine : MonoBehaviour
+    public class Sight : MonoBehaviour
     {
         #region Values
         

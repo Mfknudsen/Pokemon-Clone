@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections.Generic;
 using NodeCanvas.Framework;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,15 +11,14 @@ namespace Mfknudsen.AI.Node_Canvas.Actions
     public class SetAgentDestination : ActionTask
     {
         public BBParameter<NavMeshAgent> navAgent;
-        public BBParameter<List<Transform>> waypoints;
-        public BBParameter<int> index;
+        public BBParameter<Transform> target;
 
         protected override void OnExecute()
         {
             navAgent.GetValue().isStopped = false;
-            navAgent.GetValue().SetDestination(waypoints.value[index.value].position);
+            navAgent.GetValue().SetDestination(target.value.position);
             
-            EndAction(true);
+            EndAction();
         }
     }
 }

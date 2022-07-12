@@ -1,6 +1,7 @@
 ﻿#region Packages
 
 using System.Collections;
+using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
 using UnityEngine;
 
@@ -13,6 +14,14 @@ namespace Mfknudsen.AI
         #region Values
 
         [SerializeField] private BehaviourTreeOwner bto;
+
+        private Dictionary<string, object> stateList = new Dictionary<string, object>()
+        {
+            { "spottedDanger", false },
+            { "spottedGift", false },
+            { "warnTime", 0.0f },
+            { "stunned", false }
+        };
 
         #endregion
 
@@ -28,6 +37,27 @@ namespace Mfknudsen.AI
         private void OnDestroy()
         {
             NpcManager.instance.RemoveController(this);
+        }
+
+        #endregion
+
+        #region Getters
+
+        public object GetStateByKey(string key)
+        {
+            return stateList.ContainsKey(key) ? stateList[key] : null;
+        }
+
+        #endregion
+
+        #region Setters
+
+        public void SetState(string key, object value)
+        {
+            if (stateList.ContainsKey(key))
+                stateList[key] = value;
+            else
+                stateList.Add(key, value);
         }
 
         #endregion

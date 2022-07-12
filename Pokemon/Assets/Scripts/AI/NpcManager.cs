@@ -23,7 +23,7 @@ namespace Mfknudsen.AI
             medium = new(),
             far = new();
 
-        private int count = 0;
+        private int count;
 
         #endregion
 
@@ -68,21 +68,29 @@ namespace Mfknudsen.AI
             yield break;
         }
 
-        public void AddController(NpcController controller)
+        public void AddController(NpcController add)
         {
-            if (controller == null || controllers.Contains(controller))
+            if (add == null || controllers.Contains(add))
                 return;
 
-            controllers.Add(controller);
+            controllers.Add(add);
 
-            Vector3 cPos = controller.transform.position, pPos = PlayerManager.instance.GetAgent().transform.position;
+            Transform cTrans = add.transform;
+            cTrans.root.parent = transform;
+
+            Vector3 cPos = cTrans.position,
+                pPos = PlayerManager.instance != null
+                    ? PlayerManager.instance.GetAgent().transform.position
+                    : Vector3.zero;
+
             float distance = Vector3.Distance(cPos, pPos);
+
             if (distance < 50)
-                close.Add(controller);
+                close.Add(add);
             else if (distance < 100)
-                medium.Add(controller);
+                medium.Add(add);
             else
-                far.Add(controller);
+                far.Add(add);
         }
 
         public void RemoveController(NpcController remove)

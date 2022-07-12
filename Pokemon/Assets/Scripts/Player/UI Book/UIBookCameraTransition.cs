@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using System.Collections;
 using Cinemachine;
 using Mfknudsen.Battle.Systems;
@@ -22,6 +23,7 @@ namespace Mfknudsen.Player.UI_Book
         [SerializeField] private Transform middleLeft, middleRight;
         [SerializeField] private Transform start, end;
         [SerializeField] private float moveSpeed = 1;
+        [SerializeField] private CinemachineBlenderSettings settings;
 
         private Transform middle;
         private float t;
@@ -31,6 +33,15 @@ namespace Mfknudsen.Player.UI_Book
         #endregion
 
         #region Build In States
+
+        private void OnValidate()
+        {
+            if (settings == null || settings.m_CustomBlends == null)
+                return;
+
+            settings.m_CustomBlends[0].m_Blend.m_Time = 1 - Math.Abs(moveSpeed);
+            settings.m_CustomBlends[1].m_Blend.m_Time = 1 - Math.Abs(moveSpeed);
+        }
 
         private void Awake()
         {
@@ -47,34 +58,34 @@ namespace Mfknudsen.Player.UI_Book
 
             Vector3 startPosition = start.position,
                 endPosition = end.position;
-            
+
             Vector3 oldRightPos = startPosition,
                 oldLeftPos = startPosition;
-            
+
             float floatTime = 0;
-            
+
             while (floatTime <= 1)
             {
                 Vector3 rightPos = ExtMathf.LerpPosition(
-                    curve, 
-                    floatTime, 
-                    startPosition, 
-                    middleRight.position, 
+                    curve,
+                    floatTime,
+                    startPosition,
+                    middleRight.position,
                     endPosition);
-            
+
                 Vector3 leftPos = ExtMathf.LerpPosition(
-                    curve, 
-                    floatTime, 
-                    startPosition, 
-                    middleLeft.position, 
+                    curve,
+                    floatTime,
+                    startPosition,
+                    middleLeft.position,
                     endPosition);
 
                 Debug.DrawLine(
-                    oldRightPos, 
+                    oldRightPos,
                     rightPos);
-            
+
                 Debug.DrawLine(
-                    oldLeftPos, 
+                    oldLeftPos,
                     leftPos);
 
                 oldRightPos = rightPos;
@@ -86,15 +97,24 @@ namespace Mfknudsen.Player.UI_Book
 
         #endregion
 
+        #region Getters
+
+        public float GetSpeed()
+        {
+            return moveSpeed;
+        }
+
+        #endregion
+
         #region In
 
         public void Direction(bool awayFromBook, bool? resetTime = false)
         {
-            if (awayFromBook && moveSpeed < 0 || 
+            if (awayFromBook && moveSpeed < 0 ||
                 !awayFromBook && moveSpeed > 0)
                 moveSpeed *= -1;
 
-            if (resetTime != null && 
+            if (resetTime != null &&
                 resetTime.Value)
                 t = moveSpeed > 0 ? 0 : 1;
         }
@@ -121,7 +141,7 @@ namespace Mfknudsen.Player.UI_Book
         public IEnumerator Operation()
         {
             done = false;
-            
+
             while (t <= 1 && t >= 0)
             {
                 toMove.position = ExtMathf.LerpPosition(
