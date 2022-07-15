@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1010230260090993944}
   - component: {fileID: 688969845329888488}
+  - component: {fileID: 6327718237884549779}
   m_Layer: 0
   m_Name: Windmill
   m_TagString: Untagged
@@ -24,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382489021896632226}
-  m_LocalRotation: {x: -0, y: -0.7442363, z: -0, w: 0.6679165}
+  m_LocalRotation: {x: 0, y: -0.74423563, z: 0, w: 0.66791713}
   m_LocalPosition: {x: -116.3, y: 5.2, z: -0.1}
-  m_LocalScale: {x: 0.6772862, y: 0.5415987, z: 0.6772862}
+  m_LocalScale: {x: 0.47321576, y: 0.37841168, z: 0.47321576}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7635209254531222530}
@@ -46,7 +47,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce7b766fdea0f94cb8dd7481fccb6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+--- !u!136 &6327718237884549779
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382489021896632226}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.6
+  m_Height: 10
+  m_Direction: 1
+  m_Center: {x: 0, y: -7.87, z: 0}
 --- !u!1 &2732406524554863211
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,10 +20,6 @@ namespace Mfknudsen.Editor.Tools
             {
                 name = "'Name' - Tile Manager"
             };
-
-            TileSubManager tileSubManager = obj.AddComponent<TileSubManager>();
-            NavMeshSurface surface = obj.AddComponent<NavMeshSurface>();
-            tileSubManager.SetNavMeshSurface(surface);
         }
 
         #endregion

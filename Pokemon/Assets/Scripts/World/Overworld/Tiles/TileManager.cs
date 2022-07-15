@@ -161,7 +161,7 @@ namespace Mfknudsen.World.Overworld.Tiles
 
         private IEnumerator BeginUpdate()
         {
-            yield return NavMeshManager.instance.RebakeWait(currentTile.GetSurface());
+            yield return NavMeshManager.instance.RebakeWait(currentTile.GetSurfaces());
         }
 
         private void ResetWorldCenter()

@@ -22,8 +22,33 @@ namespace Mfknudsen.Common
 
             return result.Where(i => i != null).ToArray();
         }
-        
-        
+
+        public static T GetFirstComponentByRoot<T>(GameObject gameObject) where T : Component
+        {
+            if (gameObject.GetComponent<T>() is { } component)
+                return component;
+
+            List<GameObject> toCheck = new();
+
+            foreach (Transform t in gameObject.transform)
+                toCheck.Add(t.gameObject);
+
+            while (toCheck.Count > 0)
+            {
+                GameObject child = toCheck[0];
+
+                if (child.GetComponent<T>() is { } childComponent)
+                    return childComponent;
+
+                foreach (Transform t in child.transform)
+                    toCheck.Add(t.gameObject);
+
+                toCheck.RemoveAt(0);
+            }
+
+            return null;
+        }
+
         public static T[] GetAllMonoBehavioursByRoot<T>(GameObject gameObject) where T : MonoBehaviour
         {
             List<T> result = new();

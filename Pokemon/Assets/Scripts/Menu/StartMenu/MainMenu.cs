@@ -60,8 +60,10 @@ namespace Mfknudsen.Menu.StartMenu
 
         private static IEnumerator StartGame()
         {
-            if (!WorldManager.instance.GetCurrentLoadedWorldScene().Equals("StarterHouse"))
-                WorldManager.instance.LoadSceneAsync("StarterHouse");
+            string sceneName = "Shayklind";
+            
+            if (!WorldManager.instance.GetCurrentLoadedWorldScene().Equals(sceneName))
+                WorldManager.instance.LoadSceneAsync(sceneName);
 
             yield return null;
             

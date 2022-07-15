@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Mfknudsen.Common;
 using Mfknudsen.Settings.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -20,9 +21,6 @@ namespace Mfknudsen.World.Overworld.Tiles
         private string tileName;
 
         [FoldoutGroup("Tile")] [SerializeField]
-        private NavMeshSurface surface;
-
-        [FoldoutGroup("Tile")] [SerializeField]
         private TileBorder[] borders;
 
         [FoldoutGroup("Tile/Neighbors")] [SerializeField]
@@ -35,8 +33,7 @@ namespace Mfknudsen.World.Overworld.Tiles
 
         private void Start()
         {
-           
-            surface.BuildNavMesh();
+            GetSurfaces().BuildNavMesh();
         }
 
         #region Getters
@@ -46,9 +43,9 @@ namespace Mfknudsen.World.Overworld.Tiles
             return tileName;
         }
 
-        public NavMeshSurface GetSurface()
+        public NavMeshSurface GetSurfaces()
         {
-            return surface;
+            return CommonGameObject.GetFirstComponentByRoot<NavMeshSurface>(gameObject);
         }
 
         public Neighbor[] GetNeighbors()
@@ -58,15 +55,6 @@ namespace Mfknudsen.World.Overworld.Tiles
 
         #endregion
 
-        #region Setters
-
-        public void SetNavMeshSurface(NavMeshSurface set)
-        {
-            surface = set;
-        }
-
-        #endregion
-        
         #region In
 
         public override IEnumerator Setup()
@@ -94,7 +82,7 @@ namespace Mfknudsen.World.Overworld.Tiles
         {
             StartCoroutine(UnloadSubManager());
         }
-        
+
         #endregion
 
         #region Internal
