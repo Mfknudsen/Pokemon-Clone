@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using Mfknudsen.AI.Battle.AfterEffects;
 using Mfknudsen.Battle.Systems;
 using UnityEngine;
 

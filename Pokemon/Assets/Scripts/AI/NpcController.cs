@@ -15,7 +15,7 @@ namespace Mfknudsen.AI
 
         [SerializeField] private BehaviourTreeOwner bto;
 
-        private Dictionary<string, object> stateList = new Dictionary<string, object>()
+        private Dictionary<string, object> stateList = new()
         {
             { "spottedDanger", false },
             { "spottedGift", false },

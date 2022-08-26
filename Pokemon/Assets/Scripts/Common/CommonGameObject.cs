@@ -20,7 +20,8 @@ namespace Mfknudsen.Common
             foreach (Transform child in gameObject.transform)
                 result.AddRange(GetAllComponentsByRoot<T>(child.gameObject));
 
-            return result.Where(i => i != null).ToArray();
+            return result.Where(i => i != null)
+                .ToArray();
         }
 
         public static T GetFirstComponentByRoot<T>(GameObject gameObject) where T : Component
@@ -28,10 +29,8 @@ namespace Mfknudsen.Common
             if (gameObject.GetComponent<T>() is { } component)
                 return component;
 
-            List<GameObject> toCheck = new();
-
-            foreach (Transform t in gameObject.transform)
-                toCheck.Add(t.gameObject);
+            List<GameObject> toCheck = (from Transform t in gameObject.transform select t.gameObject)
+                .ToList();
 
             while (toCheck.Count > 0)
             {
@@ -40,8 +39,7 @@ namespace Mfknudsen.Common
                 if (child.GetComponent<T>() is { } childComponent)
                     return childComponent;
 
-                foreach (Transform t in child.transform)
-                    toCheck.Add(t.gameObject);
+                toCheck.AddRange(from Transform t in child.transform select t.gameObject);
 
                 toCheck.RemoveAt(0);
             }
@@ -64,15 +62,16 @@ namespace Mfknudsen.Common
 
         public static T GetFirstComponentTowardsRoot<T>(GameObject gameObject) where T : MonoBehaviour
         {
-            if (gameObject.transform.parent == null)
-                return null;
+            while (true)
+            {
+                if (gameObject.transform.parent == null) return null;
 
-            T component = gameObject.GetComponent<T>();
+                T component = gameObject.GetComponent<T>();
 
-            if (component != null)
-                return component;
-
-            return GetFirstComponentTowardsRoot<T>(gameObject.transform.parent.gameObject);
+                if (component != null) return component;
+   
+                gameObject = gameObject.transform.parent.gameObject;
+            }
         }
     }
 }

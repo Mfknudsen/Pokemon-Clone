@@ -2,8 +2,8 @@
 
 using System.Collections;
 using System.Linq;
-using Mfknudsen.AI;
-using Mfknudsen.AI.Virtual;
+using Mfknudsen.AI.Battle.Evaluator;
+using Mfknudsen.AI.Battle.Evaluator.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Items;
@@ -76,7 +76,7 @@ namespace Mfknudsen.Battle.Actions
             battleItem.SetTarget(targets[0].GetActivePokemon());
             battleItem.SetOnUse(chatOnActivation);
 
-            OperationsContainer container = new OperationsContainer();
+            OperationsContainer container = new();
             container.Add(toUse);
             OperationManager.instance.AddAsyncOperationsContainer(container);
             while (!toUse.Done())

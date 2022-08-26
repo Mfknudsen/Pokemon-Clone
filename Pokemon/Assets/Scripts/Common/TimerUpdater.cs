@@ -11,7 +11,7 @@ namespace Mfknudsen.Common
     public class TimerUpdater : MonoBehaviour
     {
         public static TimerUpdater instance;
-        public List<Timer> timers = new List<Timer>();
+        public readonly List<Timer> timers = new();
 
         private void Start()
         {
@@ -24,8 +24,8 @@ namespace Mfknudsen.Common
 
         private void Update()
         {
-            Timer[] toUpdate = timers.Where(t => t != null).ToArray();
-            List<Timer> toRemove = new List<Timer>();
+            Timer[] toUpdate = this.timers.Where(t => t != null).ToArray();
+            List<Timer> toRemove = new();
 
             foreach (Timer timer in toUpdate.Where(t => t != null))
             {
@@ -35,7 +35,7 @@ namespace Mfknudsen.Common
                     timer.Update();
             }
 
-            toRemove.ForEach(t => timers.Remove(t));
+            toRemove.ForEach(t => this.timers.Remove(t));
         }
     }
 }

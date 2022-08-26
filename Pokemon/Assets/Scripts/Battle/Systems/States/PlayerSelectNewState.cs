@@ -23,22 +23,22 @@ namespace Mfknudsen.Battle.Systems.States
         public override IEnumerator Tick()
         {
             Cursor.visible = true;
-            List<SwitchAction> switchActions = new List<SwitchAction>();
-            SpotOversight oversight = manager.GetSpotOversight();
+            List<SwitchAction> switchActions = new();
+            SpotOversight oversight = this.manager.GetSpotOversight();
             BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
 
             if (playerTeam.GetTeam().CanSendMorePokemon())
             {
                 foreach (Spot spot in oversight.GetSpots()
-                    .Where(s =>
-                        s.GetBattleMember() == playerTeam ||
-                        s.GetActivePokemon() != null))
+                             .Where(s =>
+                                 s.GetBattleMember() == playerTeam ||
+                                 s.GetActivePokemon() != null))
                 {
-                    SwitchAction switchAction = manager.InstantiateSwitchAction();
+                    SwitchAction switchAction = this.manager.InstantiateSwitchAction();
 
                     switchAction.SetSpot(spot);
 
-                    manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
+                    this.manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
                     yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
                                                      !ChatManager.instance.GetIsClear());
@@ -47,11 +47,11 @@ namespace Mfknudsen.Battle.Systems.States
                 }
             }
 
-            manager.GetSelectionMenu().DisableDisplaySelection();
+            this.manager.GetSelectionMenu().DisableDisplaySelection();
 
             Cursor.visible = false;
-            
-            manager.SetState(new ComputerSelectNewState(manager, switchActions));
+
+            this.manager.SetState(new ComputerSelectNewState(this.manager, switchActions));
         }
     }
 }

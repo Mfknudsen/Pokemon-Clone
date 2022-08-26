@@ -29,7 +29,7 @@ namespace Mfknudsen.UI.Book.Light
         {
             bookLight.enabled = true;
             
-            Texture2D tex = CommonTexture.RenderToTexture2D(renderTexture);
+            Texture2D tex = CommonTexture.RenderTextureToTexture2D(renderTexture);
             Color[] pixels = tex.GetPixels();
 
             float brightColor = 0;

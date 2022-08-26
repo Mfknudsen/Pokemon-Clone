@@ -2,18 +2,17 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Mfknudsen.AI.Virtual;
+using Mfknudsen.AI.Battle.Evaluator.Virtual;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Pokémon.Conditions;
+using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
 using Mfknudsen.Weathers;
-using UnityEngine;
 
 #endregion
 
 // ReSharper disable SuspiciousTypeConversion.Global
-namespace Mfknudsen.AI
+namespace Mfknudsen.AI.Battle.Evaluator
 {
     public static class VirtualMathf
     {
@@ -69,14 +68,14 @@ namespace Mfknudsen.AI
         private static float[] CalculateVirtualModifiers(Pokemon user, Pokemon target, PokemonMove move,
             VirtualBattle virtualBattle)
         {
-            List<float> result = new List<float>();
+            List<float> result = new();
 
             Type[] defTypes = target.GetTypes();
 
-            List<IBypassImmune> bypassImmune = new List<IBypassImmune>();
-            List<IImmuneAttackType> immuneAttackType = new List<IImmuneAttackType>();
-            List<IBurnStop> burnStop = new List<IBurnStop>();
-            List<IFinalModifier> finalModifier = new List<IFinalModifier>();
+            List<IBypassImmune> bypassImmune = new();
+            List<IImmuneAttackType> immuneAttackType = new();
+            List<IBurnStop> burnStop = new();
+            List<IFinalModifier> finalModifier = new();
 
             foreach (Pokemon pokemon in virtualBattle.spotOversight.spots.Select(spot =>
                 spot.virtualPokemon.GetFakePokemon()))

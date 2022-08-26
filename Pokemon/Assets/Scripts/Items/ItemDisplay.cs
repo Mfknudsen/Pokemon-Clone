@@ -2,7 +2,6 @@
 
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.UI.Selection;
-using Mfknudsen.Pokémon;
 using TMPro;
 using UnityEngine;
 

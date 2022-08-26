@@ -2,7 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Mfknudsen.World.Overworld.Interactions;
 using UnityEngine;
 
@@ -16,8 +16,7 @@ namespace Mfknudsen.Player
 
         [SerializeField] private InteractItem focusedInteractable;
 
-        private readonly Dictionary<InteractItem, Vector3> interactableInRange =
-            new Dictionary<InteractItem, Vector3>();
+        private readonly Dictionary<InteractItem, Vector3> interactableInRange = new();
 
         #endregion
 

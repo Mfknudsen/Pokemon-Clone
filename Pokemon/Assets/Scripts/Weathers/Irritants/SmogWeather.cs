@@ -4,7 +4,6 @@ using System.Linq;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Pokémon.Conditions;
 using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
 using UnityEngine;
 

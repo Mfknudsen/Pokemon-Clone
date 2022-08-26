@@ -1,7 +1,6 @@
 #region Packages
 
 using System.Collections;
-using Mfknudsen.Battle.Systems;
 using UnityEngine;
 
 // ReSharper disable Unity.PreferAddressByIdToGraphicsParams

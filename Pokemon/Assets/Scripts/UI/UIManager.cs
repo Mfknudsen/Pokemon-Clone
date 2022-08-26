@@ -4,9 +4,8 @@ using System.Collections;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.UI.Information_Display;
 using Mfknudsen.Battle.UI.Selection;
-using Mfknudsen.Player;
 using Mfknudsen.Player.UI_Book;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Mfknudsen.UI.Pause;
 using UnityEngine;
 
@@ -79,14 +78,13 @@ namespace Mfknudsen.UI
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-
-                while (InputManager.Instance == null)
-                    yield return null;
-
+                
                 InputManager.Instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
+            
+            yield break;
         }
 
         public void SwitchUI(UISelection selection)

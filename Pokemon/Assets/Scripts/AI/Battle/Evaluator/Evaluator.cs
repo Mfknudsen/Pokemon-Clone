@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Mfknudsen.AI.Virtual;
+using Mfknudsen.AI.Battle.Evaluator.Virtual;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Pokémon;
@@ -10,7 +10,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI
+namespace Mfknudsen.AI.Battle.Evaluator
 {
     public class Evaluator
     {
@@ -45,9 +45,9 @@ namespace Mfknudsen.AI
 
         public void EvaluateForPokemon()
         {
-            VirtualBattle virtualBattle = new VirtualBattle();
+            VirtualBattle virtualBattle = new();
 
-            List<VirtualMove> virtualMoves = new List<VirtualMove>();
+            List<VirtualMove> virtualMoves = new();
             VirtualSpotOversight spotOversight = virtualBattle.spotOversight;
             VirtualSpot userSpot = spotOversight.GetPokemonSpot(pokemon);
             VirtualPokemon user = userSpot.virtualPokemon;
@@ -119,7 +119,7 @@ namespace Mfknudsen.AI
                 return;
             }
 
-            List<VirtualMove> nextMoves = new List<VirtualMove>();
+            List<VirtualMove> nextMoves = new();
             foreach (VirtualMove virtualMove in toCheck)
             {
                 if (virtualMove.rootAction is SwitchAction)

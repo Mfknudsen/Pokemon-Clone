@@ -1,13 +1,11 @@
 #region Packages
 
-using System.Collections;
-using System.Collections.Generic;
 using NodeCanvas.Framework;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen
+namespace Mfknudsen.AI.Node_Canvas.Actions
 {
     public class AddDeltaTime : ActionTask
     {

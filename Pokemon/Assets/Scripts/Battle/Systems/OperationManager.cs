@@ -2,9 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Battle.Actions;
-using Mfknudsen.Settings.Manager;
-using UnityEngine;
+using Mfknudsen.Settings.Managers;
 
 #endregion
 
@@ -17,7 +15,7 @@ namespace Mfknudsen.Battle.Systems
         public static OperationManager instance;
         private bool done;
 
-        private readonly Queue<OperationsContainer> operationsContainers = new Queue<OperationsContainer>();
+        private readonly Queue<OperationsContainer> operationsContainers = new();
         private OperationsContainer currentContainer;
 
         #endregion
@@ -26,32 +24,32 @@ namespace Mfknudsen.Battle.Systems
 
         private void Update()
         {
-            if (currentContainer == null)
+            if (this.currentContainer == null)
             {
-                if (operationsContainers.Count <= 0) return;
+                if (this.operationsContainers.Count == 0) return;
 
-                currentContainer = operationsContainers.Dequeue();
+                this.currentContainer = this.operationsContainers.Dequeue();
 
-                foreach (IOperation i in currentContainer.GetInterfaces())
+                foreach (IOperation i in this.currentContainer.GetInterfaces())
                     StartCoroutine(i.Operation());
             }
             else
             {
-                done = true;
+                this.done = true;
 
-                foreach (IOperation i in currentContainer.GetInterfaces())
+                foreach (IOperation i in this.currentContainer.GetInterfaces())
                 {
                     if (i.Done()) continue;
 
-                    done = false;
+                    this.done = false;
                 }
 
-                if (!done) return;
+                if (!this.done) return;
 
-                foreach (IOperation i in currentContainer.GetInterfaces())
+                foreach (IOperation i in this.currentContainer.GetInterfaces())
                     i.End();
 
-                currentContainer = null;
+                this.currentContainer = null;
             }
         }
 
@@ -61,7 +59,7 @@ namespace Mfknudsen.Battle.Systems
 
         public bool GetDone()
         {
-            return done;
+            return this.done;
         }
 
         #endregion
@@ -83,17 +81,17 @@ namespace Mfknudsen.Battle.Systems
 
         public void AddOperationsContainer(OperationsContainer set)
         {
-            done = false;
+            this.done = false;
 
-            operationsContainers.Enqueue(set);
+            this.operationsContainers.Enqueue(set);
         }
 
         public void AddOperationsContainer(OperationsContainer[] sets)
         {
-            done = false;
+            this.done = false;
 
             foreach (OperationsContainer container in sets)
-                operationsContainers.Enqueue(container);
+                this.operationsContainers.Enqueue(container);
         }
 
         public void AddAsyncOperationsContainer(OperationsContainer container)
@@ -104,15 +102,15 @@ namespace Mfknudsen.Battle.Systems
 
         public void InsertFront(OperationsContainer set)
         {
-            done = false;
+            this.done = false;
 
-            List<OperationsContainer> holder = new List<OperationsContainer>();
-            while (operationsContainers.Count > 0)
-                holder.Add(operationsContainers.Dequeue());
+            List<OperationsContainer> holder = new();
+            while (this.operationsContainers.Count > 0)
+                holder.Add(this.operationsContainers.Dequeue());
 
-            operationsContainers.Enqueue(set);
+            this.operationsContainers.Enqueue(set);
             foreach (OperationsContainer operationsContainer in holder)
-                operationsContainers.Enqueue(operationsContainer);
+                this.operationsContainers.Enqueue(operationsContainer);
         }
 
         #endregion
@@ -120,7 +118,7 @@ namespace Mfknudsen.Battle.Systems
 
     public class OperationsContainer
     {
-        private readonly List<IOperation> operationInterfaces = new List<IOperation>();
+        private readonly List<IOperation> operationInterfaces = new();
 
         public OperationsContainer()
         {

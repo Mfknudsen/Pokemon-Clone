@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace GameDev.Common
+namespace Mfknudsen.Common
 {
     public static class CommonPhysic
     {

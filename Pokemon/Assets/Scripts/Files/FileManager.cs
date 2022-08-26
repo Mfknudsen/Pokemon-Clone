@@ -18,7 +18,7 @@ namespace Mfknudsen.Files
     {
         #region Values
 
-        private static readonly BinaryFormatter formatter = new BinaryFormatter();
+        private static readonly BinaryFormatter formatter = new();
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace Mfknudsen.Files
 
             if (!File.Exists(path)) return null;
 
-            FileStream stream = new FileStream(
+            FileStream stream = new(
                 path,
                 FileMode.Open);
 
@@ -81,7 +81,7 @@ namespace Mfknudsen.Files
 
             Logger.AddLog(typeof(FileManager).ToString(), "Saving to path:\n" + path);
 
-            FileStream stream = new FileStream(
+            FileStream stream = new(
                 path,
                 FileMode.Create);
 

@@ -5,7 +5,7 @@ using Cinemachine;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Files;
 using Mfknudsen.Items;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Mfknudsen.Trainer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -52,7 +52,7 @@ namespace Mfknudsen.Player
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
         private CharacterSheet characterSheet;
 
-        private static readonly string fileName = "PlayerData";
+        private const string FileName = "PlayerData";
 
         #endregion
 
@@ -115,7 +115,7 @@ namespace Mfknudsen.Player
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(fileName));
+            characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
 
             overworldCameraRig.enabled = false;
 

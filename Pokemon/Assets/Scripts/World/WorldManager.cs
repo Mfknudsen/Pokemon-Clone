@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Files;
 using Mfknudsen.Player;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Mfknudsen.UI;
 using Mfknudsen.UI.Scene_Transitions;
 using Mfknudsen.UI.Scene_Transitions.Transitions;
@@ -34,7 +34,9 @@ namespace Mfknudsen.World
         private readonly List<Coroutine> activeLoading = new(), activeUnloading = new();
 
         private StoryTriggers storyTriggers;
-        private const string fileName = "StoryTriggers";
+        private const string FileName = "StoryTriggers";
+        
+        private readonly List<GameObject> loadedScenes = new();
 
         #endregion
 
@@ -42,27 +44,27 @@ namespace Mfknudsen.World
 
         public float GetLoadMeter()
         {
-            return progressMeter;
+            return this.progressMeter;
         }
 
         public bool GetEmpty()
         {
-            return (currentOperation == null);
+            return this.currentOperation == null;
         }
 
         public bool GetIsLoading()
         {
-            return activeLoading.Count == 0;
+            return this.activeLoading.Count == 0;
         }
 
         public bool GetActiveUnloading()
         {
-            return activeUnloading.Count == 0;
+            return this.activeUnloading.Count == 0;
         }
 
         public string GetCurrentLoadedWorldScene()
         {
-            return currentLoadedWorldScene;
+            return this.currentLoadedWorldScene;
         }
 
         #endregion
@@ -71,9 +73,9 @@ namespace Mfknudsen.World
 
         public void SetTransition(Transition set)
         {
-            transition = set;
+            this.transition = set;
 
-            transition.SetTransitionParent(SceneTransitionUI.instance);
+            this.transition.SetTransitionParent(SceneTransitionUI.instance);
         }
 
         #endregion
@@ -90,7 +92,7 @@ namespace Mfknudsen.World
             else
                 Destroy(gameObject);
 
-            storyTriggers = FileManager.LoadData<StoryTriggers>(fileName);
+            this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
 
             yield break;
         }
@@ -112,7 +114,7 @@ namespace Mfknudsen.World
 
         public void UnloadCurrentBattleScene()
         {
-            activeUnloading.Add(StartCoroutine(UnloadBattleSceneAsync(currentLoadedBattleScene)));
+            activeUnloading.Add(StartCoroutine(UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
         }
 
         #endregion
@@ -133,7 +135,7 @@ namespace Mfknudsen.World
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
-            progressMeter = 0;
+            this.progressMeter = 0;
 
             if (asyncLoad == null)
             {
@@ -143,13 +145,13 @@ namespace Mfknudsen.World
 
             while (!asyncLoad.isDone)
             {
-                progressMeter = asyncLoad.progress + 0.1f;
+                this.progressMeter = asyncLoad.progress + 0.1f;
                 yield return null;
             }
-            
+
             SetupManager.instance.Trigger();
 
-            currentLoadedBattleScene = sceneName;
+            this.currentLoadedBattleScene = sceneName;
 
             PlayerManager.instance.EnableOverworld();
 
@@ -167,15 +169,15 @@ namespace Mfknudsen.World
             //Scene Unloading
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
 
-            progressMeter = 0;
+            this.progressMeter = 0;
 
             while (!asyncUnload.isDone)
             {
-                progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
+                this.progressMeter = (int)(asyncUnload.progress + 0.1f) * 100;
                 yield return null;
             }
 
-            currentOperation = null;
+            this.currentOperation = null;
 
             //End Transition
             yield return EndTransition();
@@ -193,13 +195,13 @@ namespace Mfknudsen.World
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
-            progressMeter = 0;
+            this.progressMeter = 0;
 
             UIManager.instance.ActivateLoadingUI(true);
 
             while (!asyncLoad.isDone)
             {
-                progressMeter = asyncLoad.progress + 0.1f;
+                this.progressMeter = asyncLoad.progress + 0.1f;
                 yield return null;
             }
 
@@ -207,7 +209,7 @@ namespace Mfknudsen.World
 
             UIManager.instance.ActivateLoadingUI(false);
 
-            currentOperation = null;
+            this.currentOperation = null;
         }
 
         private IEnumerator UnloadWorldSceneAsync(string sceneName)
@@ -221,7 +223,7 @@ namespace Mfknudsen.World
             while (!asyncOperation.isDone)
                 yield return null;
 
-            currentOperation = null;
+            this.currentOperation = null;
         }
 
         #endregion
@@ -230,19 +232,19 @@ namespace Mfknudsen.World
 
         private IEnumerator StartTransition()
         {
-            yield return transition.Trigger(true);
+            yield return this.transition.Trigger(true);
         }
 
         private IEnumerator EndTransition()
         {
-            yield return transition.Trigger(false);
+            yield return this.transition.Trigger(false);
         }
 
         #endregion
 
         private static void UnloadWorldInterfaces(string sceneName)
         {
-            List<GameObject> toUnload = new List<GameObject>();
+            List<GameObject> toUnload = new();
 
             TileSubManager subManager = TileManager.instance.GetSubManagerByName(sceneName);
             if (subManager != null)

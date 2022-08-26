@@ -34,7 +34,7 @@ namespace Mfknudsen.Settings
         public static int ResolutionIndex = 1;
 
         public static readonly Vector2[] Resolutions =
-            { new Vector2(1280, 720), new Vector2(1920, 1080), new Vector2(2560, 1440) };
+            { new(1280, 720), new(1920, 1080), new(2560, 1440) };
 
         public static float MasterSoundLevel = 50, MusicLevel = 50, AmbientLevel = 50;
         public static FullScreenMode ScreenSetting = FullScreenMode.FullScreenWindow;

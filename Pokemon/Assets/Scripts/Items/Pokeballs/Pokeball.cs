@@ -62,7 +62,7 @@ namespace Mfknudsen.Items.Pokeballs
             selectedChat = selectedChat.GetChat();
             selectedChat.AddToOverride("<TARGET_NAME>", target.GetName());
 
-            List<Chat> chats = new List<Chat>();
+            List<Chat> chats = new();
             foreach (Chat chat in onUse)
             {
                 Chat c = chat.GetChat();
@@ -76,12 +76,12 @@ namespace Mfknudsen.Items.Pokeballs
             #region Prepare Operations
 
             OperationManager operationManager = OperationManager.instance;
-            OperationsContainer container = new OperationsContainer();
+            OperationsContainer container = new();
 
-            ThrowPokeball throwPokeball = new ThrowPokeball(target, clickStage, selectedChat);
+            ThrowPokeball throwPokeball = new(target, clickStage, selectedChat);
             container.Add(throwPokeball);
 
-            ChatOperation chatOperation = new ChatOperation(chats.ToArray());
+            ChatOperation chatOperation = new(chats.ToArray());
             container.Add(chatOperation);
 
             operationManager.AddOperationsContainer(container);

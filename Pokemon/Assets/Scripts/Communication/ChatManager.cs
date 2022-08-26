@@ -2,7 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace Mfknudsen.Communication
 
         [Header("Object Reference:")] public static ChatManager instance;
         [SerializeField] private Chat running;
-        [SerializeField] private List<Chat> waitList = new List<Chat>();
+        [SerializeField] private List<Chat> waitList = new();
 
         [Header("Display:")] [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] private bool waitForInput = true;

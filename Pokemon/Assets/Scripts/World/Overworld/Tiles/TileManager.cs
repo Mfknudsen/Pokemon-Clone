@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Common;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace Mfknudsen.World.Overworld.Tiles
         private float waitTime = 5;
 
         private TileSubManager currentTile;
-        private readonly List<TileSubManager> allSubManagers = new List<TileSubManager>();
+        private readonly List<TileSubManager> allSubManagers = new();
 
         private Timer resetWorldPositionTimer;
 
@@ -108,9 +108,9 @@ namespace Mfknudsen.World.Overworld.Tiles
             {
                 currentTile.DisableDividers();
 
-                List<Neighbor> toUnload = new List<Neighbor>(),
-                    loaded = new List<Neighbor>(),
-                    toLoad = new List<Neighbor>();
+                List<Neighbor> toUnload = new(),
+                    loaded = new(),
+                    toLoad = new();
                 toUnload.AddRange(currentTile.GetNeighbors());
                 loaded.AddRange(currentTile.GetNeighbors());
 

@@ -43,7 +43,7 @@ namespace Mfknudsen.Battle.UI.Selection
 
             Spot currentSpot = null;
 
-            List<Spot> eSpots = new List<Spot>(), aSpots = new List<Spot>();
+            List<Spot> eSpots = new(), aSpots = new();
 
             foreach (Spot spot in oversight.GetSpots())
             {

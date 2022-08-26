@@ -39,7 +39,7 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
         {
             done = false;
             OperationManager operationManager = OperationManager.instance;
-            OperationsContainer container = new OperationsContainer();
+            OperationsContainer container = new();
 
             #region Trap Target
 
@@ -68,7 +68,7 @@ namespace Mfknudsen.Battle.Systems.Static_Operations
 
             #region Final
 
-            ChatOperation chatOperation = new ChatOperation(resultChat);
+            ChatOperation chatOperation = new(resultChat);
             container.Add(chatOperation);
             operationManager.AddOperationsContainer(container);
 

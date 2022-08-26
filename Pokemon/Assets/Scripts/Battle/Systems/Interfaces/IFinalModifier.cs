@@ -1,5 +1,4 @@
 using Mfknudsen.Battle.Actions;
-using Mfknudsen.Pokémon;
 
 namespace Mfknudsen.Battle.Systems.Interfaces
 {

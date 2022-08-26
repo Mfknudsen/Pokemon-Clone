@@ -1,7 +1,7 @@
 ﻿#region Packages
 
 using System.Collections.Generic;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +19,7 @@ namespace Mfknudsen._Debug
         [SerializeField] private TextMeshProUGUI textField;
 
         // ReSharper disable once CollectionNeverQueried.Local
-        private readonly List<string> textLog = new List<string>();
+        private readonly List<string> textLog = new();
         [SerializeField] private Scrollbar scroller;
 
         #endregion

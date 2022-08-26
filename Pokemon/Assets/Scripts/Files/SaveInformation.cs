@@ -16,10 +16,10 @@ namespace Mfknudsen.Files
         public string playerName = "";
 
         //NPCs
-        public List<NPCSave> npcSaves = new List<NPCSave>();
+        public List<NPCSave> npcSaves = new();
 
         //Pokemons
-        public List<PokemonSave> partyPokemons = new List<PokemonSave>();
-        public List<PokemonSave> boxPokemons = new List<PokemonSave>();
+        public List<PokemonSave> partyPokemons = new();
+        public List<PokemonSave> boxPokemons = new();
     }
 }

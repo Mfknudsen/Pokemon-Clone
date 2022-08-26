@@ -1,7 +1,5 @@
 #region Libraries
 
-using System;
-using System.Linq;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Battle.Systems.Spots;

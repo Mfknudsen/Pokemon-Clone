@@ -35,6 +35,7 @@ namespace Mfknudsen.Player
         private float moveSpeed,
             rotateSpeed,
             runSpeed;
+
         [HorizontalGroup("Speeds/Camera")] [SerializeField]
         private float yCamSpeed, xCamSpeed;
 
@@ -45,7 +46,7 @@ namespace Mfknudsen.Player
         private bool ready, allowed;
 
         private Vector3 toLookRotation = Vector3.forward;
-        
+
         #region Hashs
 
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
@@ -68,9 +69,10 @@ namespace Mfknudsen.Player
 
         #endregion
 
-        #region Setters
-
-        #endregion
+        public bool GetAllowed()
+        {
+            return allowed;
+        }
 
         #region In
 

@@ -22,12 +22,12 @@ namespace Mfknudsen.Battle.Systems.States
 
             #region End Turn Abilities
 
-            AbilityOversight abilityOversight = manager.GetAbilityOversight();
+            AbilityOversight abilityOversight = this.manager.GetAbilityOversight();
             foreach (IOnTurnEnd onTurnEnd in abilityOversight.ListOfSpecific<IOnTurnEnd>())
             {
-                if (!(onTurnEnd is IOperation iOperation)) continue;
+                if (onTurnEnd is not IOperation iOperation) continue;
 
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
@@ -37,18 +37,18 @@ namespace Mfknudsen.Battle.Systems.States
             #endregion
 
             #region End Battle
-            
-            if (manager.CheckTeamDefeated(true))
-                manager.SetState(new LostState(manager));
-            else if (manager.CheckTeamDefeated(false))
-                manager.SetState(new WinState(manager));
+
+            if (this.manager.CheckTeamDefeated(true))
+                this.manager.SetState(new LostState(this.manager));
+            else if (this.manager.CheckTeamDefeated(false))
+                this.manager.SetState(new WinState(this.manager));
             else
             {
-                SpotOversight spotOversight = manager.GetSpotOversight();
+                SpotOversight spotOversight = this.manager.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                manager.SetState(new PlayerTurnState(manager));
+                this.manager.SetState(new PlayerTurnState(this.manager));
             }
 
             #endregion

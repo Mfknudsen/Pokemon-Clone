@@ -11,7 +11,7 @@ namespace Mfknudsen.AI.World
     {
         #region Values
 
-        private List<Transform> points = new List<Transform>();
+        private List<Transform> points = new();
 
         #endregion
 

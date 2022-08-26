@@ -46,7 +46,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<T> ListOfSpecific<T>()
         {
-            List<T> result = new List<T>();
+            List<T> result = new();
 
             foreach (Ability ability in abilities)
             {

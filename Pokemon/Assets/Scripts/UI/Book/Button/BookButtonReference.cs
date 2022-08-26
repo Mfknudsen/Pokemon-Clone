@@ -15,7 +15,7 @@ namespace Mfknudsen.UI.Book.Button
         #region Values
 
         private BookButton bookButton;
-        private readonly Color color = new Color(0, 0, 0, 0);
+        private readonly Color color = new(0, 0, 0, 0);
 
         #endregion
 

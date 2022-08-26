@@ -5,7 +5,6 @@ using System.Linq;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Pokémon.Conditions;
-using UnityEngine;
 
 #endregion
 
@@ -17,17 +16,17 @@ namespace Mfknudsen.Battle.Systems.States
 
         public AfterConditionState(BattleManager manager) : base(manager)
         {
-            oversight = manager.GetSpotOversight();
+            this.oversight = manager.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
         {
-            foreach (ConditionOversight conditionOversight in oversight.GetSpots()
+            foreach (ConditionOversight conditionOversight in this.oversight.GetSpots()
                          .Where(s => s.GetActivePokemon() != null)
                          .Select(s =>
                              s.GetActivePokemon().GetConditionOversight()))
             {
-                manager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
+                this.manager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
                 while (!conditionOversight.GetDone() || !ChatManager.instance.GetIsClear())
                     yield return null;
@@ -35,15 +34,15 @@ namespace Mfknudsen.Battle.Systems.States
                 conditionOversight.Reset();
             }
 
-            if (oversight.GetSpots().FirstOrDefault(spot =>
+            if (this.oversight.GetSpots().FirstOrDefault(spot =>
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
             {
-                manager.SetState(new PlayerSelectNewState(manager));
+                this.manager.SetState(new PlayerSelectNewState(this.manager));
                 yield break;
             }
 
-            manager.SetState(new RoundDoneState(manager));
+            this.manager.SetState(new RoundDoneState(manager));
         }
     }
 }

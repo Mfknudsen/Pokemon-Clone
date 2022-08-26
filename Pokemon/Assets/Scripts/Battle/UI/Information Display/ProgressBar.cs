@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mfknudsen.Battle.UI
+namespace Mfknudsen.Battle.UI.Information_Display
 {
     public class ProgressBar : MonoBehaviour
     {

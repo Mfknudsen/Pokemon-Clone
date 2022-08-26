@@ -17,7 +17,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            SpotOversight spotOversight = manager.GetSpotOversight();
+            SpotOversight spotOversight = this.manager.GetSpotOversight();
 
             foreach (Spot spot in spotOversight.GetSpots().Where(spot =>
                 spot.GetActivePokemon() != null &&
@@ -26,17 +26,13 @@ namespace Mfknudsen.Battle.Systems.States
                 BattleMember battleMember = spot.GetBattleMember();
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                #region Send Information
-
-                #endregion
-
                 battleMember.ActivateAIBrain(pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;
             }
 
-            manager.SetState(new ActionState(manager));
+            this.manager.SetState(new ActionState(this.manager));
         }
     }
 }

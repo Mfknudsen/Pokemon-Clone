@@ -2,7 +2,7 @@ using Mfknudsen.Pokémon;
 using Object = UnityEngine.Object;
 using Type = System.Type;
 
-namespace Mfknudsen.AI.Virtual
+namespace Mfknudsen.AI.Battle.Evaluator.Virtual
 {
     public class VirtualPokemon
     {

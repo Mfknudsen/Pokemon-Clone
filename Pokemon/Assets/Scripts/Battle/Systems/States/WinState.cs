@@ -18,11 +18,11 @@ namespace Mfknudsen.Battle.Systems.States
         {
             ChatManager chatManager = ChatManager.instance;
 
-            foreach (BattleMember battleMember in manager.GetSpotOversight().GetSpots()
-                .Select(s =>
-                    s.GetBattleMember())
-                .Where(bm =>
-                    !bm.GetTeamAffiliation()))
+            foreach (BattleMember battleMember in this.manager.GetSpotOversight().GetSpots()
+                         .Select(s =>
+                             s.GetBattleMember())
+                         .Where(bm =>
+                             !bm.GetTeamAffiliation()))
                 chatManager.Add(battleMember.GetOnDefeatedChats());
 
             yield return null;
@@ -30,7 +30,7 @@ namespace Mfknudsen.Battle.Systems.States
             while (!chatManager.GetIsClear())
                 yield return null;
 
-            manager.EndBattle(true);
+            this.manager.EndBattle(true);
         }
     }
 }

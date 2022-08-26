@@ -7,7 +7,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI.Battle.AfterEffects
+namespace Mfknudsen.AI.Battle.BeforeEffects
 {
     [Serializable]
     public abstract class NpcBattleBeforeEffect : ScriptableObject, IOperation

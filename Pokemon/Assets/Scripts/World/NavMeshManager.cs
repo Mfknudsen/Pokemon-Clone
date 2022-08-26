@@ -1,7 +1,7 @@
 #region Packages
 
 using System.Collections;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Unity.AI.Navigation;
 
 #endregion

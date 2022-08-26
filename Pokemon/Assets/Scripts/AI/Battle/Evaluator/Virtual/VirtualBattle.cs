@@ -3,13 +3,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Weathers;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI.Virtual
+namespace Mfknudsen.AI.Battle.Evaluator.Virtual
 {
     public class VirtualBattle
     {

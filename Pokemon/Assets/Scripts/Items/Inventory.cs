@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Mfknudsen.Items
         #region Values
 
         [Header("Object Reference:")] [SerializeField]
-        private readonly List<ItemContainer> items = new List<ItemContainer>();
+        private readonly List<ItemContainer> items = new();
 
         [Header("Bag Categories:")] [SerializeField]
         private List<ItemType> medicine;
@@ -105,7 +104,7 @@ namespace Mfknudsen.Items
 
             if (foundExisting) return;
 
-            ItemContainer itemContainer = new ItemContainer(i);
+            ItemContainer itemContainer = new(i);
             items.Add(itemContainer);
         }
 

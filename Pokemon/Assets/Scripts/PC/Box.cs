@@ -16,7 +16,7 @@ namespace Mfknudsen.PC
     {
         #region Values
 
-        private static List<Pokemon> pokemonsInBox = new List<Pokemon>();
+        private static List<Pokemon> pokemonsInBox = new();
         private string fileName = "PokemonBox";
 
         #endregion

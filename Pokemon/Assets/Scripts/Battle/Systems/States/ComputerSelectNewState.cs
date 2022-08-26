@@ -23,7 +23,7 @@ namespace Mfknudsen.Battle.Systems.States
         {
             BattleMember playerBattleMember = PlayerManager.instance.GetBattleMember();
 
-            foreach (Spot spot in manager.GetSpotOversight().GetSpots())
+            foreach (Spot spot in this.manager.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
@@ -31,15 +31,10 @@ namespace Mfknudsen.Battle.Systems.States
                       battleMember == playerBattleMember ||
                       !battleMember.GetTeam().CanSendMorePokemon()) continue;
 
-                #region Send Information
-                
-
-                #endregion
-
                 battleMember.ActivateAIBrain(spot.GetActivePokemon());
             }
 
-            manager.SetState(new SwitchNewInState(manager, switchActions));
+            this.manager.SetState(new SwitchNewInState(this.manager, this.switchActions));
 
             yield break;
         }

@@ -14,7 +14,7 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            manager.EndBattle(false);
+            this. manager.EndBattle(false);
             
             yield break;
         }

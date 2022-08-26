@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mfknudsen
+namespace Mfknudsen.Battle.Systems
 {
     public class Battlefield : MonoBehaviour
     {

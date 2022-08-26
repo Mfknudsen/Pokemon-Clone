@@ -1,6 +1,7 @@
 #region Packages
 
 using System.Collections;
+using System.Linq;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.UI.Selection;
 using Mfknudsen.Pokémon;
@@ -22,24 +23,21 @@ namespace Mfknudsen.Battle.Systems.States
         {
             Cursor.visible = true;
             Team playerTeam = PlayerManager.instance.GetTeam();
-            SpotOversight spotOversight = manager.GetSpotOversight();
+            SpotOversight spotOversight = this.manager.GetSpotOversight();
 
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (Spot spot in spotOversight.GetSpots())
+            foreach (Pokemon pokemon in spotOversight.GetSpots()
+                         .Select(spot => spot.GetActivePokemon())
+                         .Where(pokemon => pokemon is not null && playerTeam.PartOfTeam(pokemon)))
             {
-                Pokemon pokemon = spot.GetActivePokemon();
-
-                if (pokemon is null || !playerTeam.PartOfTeam(pokemon)) continue;
-
-                manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
+                this.manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;
             }
 
-            manager.GetSelectionMenu().DisableDisplaySelection();
-            
-            manager.SetState(new ComputerTurnState(manager));
+            this.manager.GetSelectionMenu().DisableDisplaySelection();
+
+            this.manager.SetState(new ComputerTurnState(this.manager));
         }
     }
 }

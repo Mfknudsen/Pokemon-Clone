@@ -11,7 +11,6 @@ using UnityEngine;
 
 #endregion
 
-// ReSharper disable InconsistentNaming
 namespace Mfknudsen.Pokémon
 {
     #region Enums
@@ -302,20 +301,20 @@ namespace Mfknudsen.Pokémon
         {
             int baseStat = stats[(int)stat];
 
-            int IV = iv[(int)stat];
+            int iv = this.iv[(int)stat];
 
-            int EV = ev[(int)stat];
+            int ev = this.ev[(int)stat];
 
             float result = stat == Stat.HP
                 ? BattleMathf.CalculateHPStat(
                     baseStat,
-                    IV,
-                    EV,
+                    iv,
+                    ev,
                     level)
                 : BattleMathf.CalculateBaseStat(
                     baseStat,
-                    IV,
-                    EV,
+                    iv,
+                    ev,
                     level);
 
             result *= BattleMathf.GetMultiplierValue(multipliers[(int)stat],
@@ -325,7 +324,7 @@ namespace Mfknudsen.Pokémon
 
             // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (IStatModifier statModifier in BattleManager.instance.GetAbilityOversight()
-                .ListOfSpecific<IStatModifier>())
+                         .ListOfSpecific<IStatModifier>())
             {
                 result *= statModifier.Modify(this, stat);
             }
@@ -609,48 +608,48 @@ namespace Mfknudsen.Pokémon
 
         public void Setup()
         {
-            oversight ??= CreateInstance<ConditionOversight>();
-            oversight.Setup(this);
+            this.oversight ??= CreateInstance<ConditionOversight>();
+            this.oversight.Setup(this);
 
-            maxHealth = GetStat(Stat.HP);
+            this.maxHealth = GetStat(Stat.HP);
 
             AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
 
-            instantiatedAbilities = new List<Ability> { firstAbility, secondAbility, hiddenAbility };
+            this.instantiatedAbilities = new List<Ability> { firstAbility, secondAbility, hiddenAbility };
 
-            for (int i = 0; i < instantiatedAbilities.Count; i++)
+            for (int i = 0; i < this.instantiatedAbilities.Count; i++)
             {
-                if (instantiatedAbilities[i] is null) continue;
+                if (this.instantiatedAbilities[i] is null) continue;
 
-                Ability ability = Instantiate(instantiatedAbilities[i]);
+                Ability ability = Instantiate(this.instantiatedAbilities[i]);
 
                 ability.SetAffectedPokemon(this);
                 abilityOversight.AddAbility(ability);
 
-                instantiatedAbilities[i] = ability;
+                this.instantiatedAbilities[i] = ability;
             }
         }
 
         // ReSharper disable once IdentifierTypo
         public void DespawnPokemon()
         {
-            Destroy(spawnedObject);
-            inBattle = false;
-            gettingSwitched = false;
-            spawnedObject = null;
-            oversight.ResetConditionList();
+            Destroy(this.spawnedObject);
+            this.inBattle = false;
+            this.gettingSwitched = false;
+            this.spawnedObject = null;
+            this.oversight.ResetConditionList();
         }
 
         public void ReceiveDamage(float damage)
         {
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+            this.currentHealth = Mathf.Clamp(this.currentHealth - damage, 0, this.maxHealth);
         }
 
         public void ReceiveExp(int points)
         {
-            if (level == 100) return;
+            if (this.level == 100) return;
 
-            int expNeeded = maxExp - currentExp;
+            int expNeeded = this.maxExp - this.currentExp;
 
             if (expNeeded < points)
             {
@@ -659,7 +658,7 @@ namespace Mfknudsen.Pokémon
             {
                 points -= expNeeded;
                 LevelUp();
-                currentExp = points;
+                this.currentExp = points;
             }
         }
 

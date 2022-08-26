@@ -79,9 +79,9 @@ namespace Mfknudsen.Battle.Systems.Spots
 
         public void Reorganise(bool removeEmpty)
         {
-            List<Spot> enemies = new List<Spot>(), 
-                allies = new List<Spot>(),
-                toRemove = new List<Spot>();
+            List<Spot> enemies = new(), 
+                allies = new(),
+                toRemove = new();
 
             foreach (Spot spot in list)
             {

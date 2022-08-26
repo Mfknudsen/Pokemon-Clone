@@ -17,15 +17,15 @@ namespace Mfknudsen.Battle.Systems.States
         public override IEnumerator Tick()
         {
             OperationManager operationManager = OperationManager.instance;
-            foreach (IOnTurnEnd onTurnEnd in manager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
+            foreach (IOnTurnEnd onTurnEnd in this.manager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
                 .Where(i => i is IOperation))
             {
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
                 container.Add((IOperation)onTurnEnd);
                 operationManager.AddOperationsContainer(container);
             }
 
-            manager.SetState(new RoundDoneState(manager));
+            this.manager.SetState(new RoundDoneState(this.manager));
             yield break;
         }
     }

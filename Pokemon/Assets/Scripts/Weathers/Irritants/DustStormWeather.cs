@@ -1,6 +1,5 @@
 #region Packages
 
-using System;
 using System.Linq;
 using Mfknudsen.Battle.Systems.Interfaces;
 using Mfknudsen.Pokémon;

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mfknudsen
+namespace Mfknudsen.Weathers.Energy
 {
     public class MagnetosphereWeather : MonoBehaviour
     {

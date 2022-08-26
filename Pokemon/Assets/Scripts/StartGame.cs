@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Mfknudsen.Items;
 using Mfknudsen.Player;
 using Mfknudsen.Player.UI_Book;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Mfknudsen.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,8 +21,6 @@ namespace Mfknudsen
 
         private void Start()
         {
-            InputManager.Instance = new InputManager();
-            
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 150;
 
@@ -41,11 +39,11 @@ namespace Mfknudsen
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
-            yield return new WaitWhile(() => PlayerManager.instance.GetBattleMember().GetInventory() == null);
+            yield return new WaitWhile(() => !PlayerManager.instance.GetBattleMember().GetInventory());
             
             Inventory inventory = PlayerManager.instance.GetBattleMember().GetInventory();
 
-            foreach (Item item in items)
+            foreach (Item item in this.items)
                 inventory.AddItem(item);
             
             SetupManager.instance.Trigger();

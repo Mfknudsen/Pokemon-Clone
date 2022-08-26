@@ -1999,7 +1999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7222592949e70b447b3f1f6f77f118b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleChat: {fileID: 0}
+  idleChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
   battleStarter: {fileID: 1084440608}
   beforeEffects: []
   afterEffects: []
@@ -2973,7 +2973,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   includeAsInactive: 0
   tileName: TestWorld
-  surface: {fileID: 1412597825}
   borders: []
   neighbors: []
   fakeNeighbors: []

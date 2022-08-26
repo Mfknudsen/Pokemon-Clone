@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Mfknudsen.AI
+namespace Mfknudsen.AI.Battle.Evaluator
 {
     [Serializable]
     public struct EvaluatorSetting

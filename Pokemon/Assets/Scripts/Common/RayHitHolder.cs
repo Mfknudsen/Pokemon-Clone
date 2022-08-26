@@ -20,7 +20,7 @@ namespace Mfknudsen.Common
         [FoldoutGroup("Contains"), ShowIf("hasTags")] [SerializeField]
         private string[] tags;
 
-        private readonly List<MonoBehaviour> allComponents = new List<MonoBehaviour>();
+        private readonly List<MonoBehaviour> allComponents = new();
 
         private void OnValidate()
         {

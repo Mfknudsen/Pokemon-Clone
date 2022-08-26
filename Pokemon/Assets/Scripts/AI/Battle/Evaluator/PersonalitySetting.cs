@@ -5,7 +5,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.AI
+namespace Mfknudsen.AI.Battle.Evaluator
 {
     [Serializable]
     public class PersonalitySetting

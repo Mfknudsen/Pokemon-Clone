@@ -18,7 +18,7 @@ namespace Mfknudsen.PC
         //GUI
         [SerializeField]
         private TextMeshProUGUI numberGUI = null;
-        private List<BoxSpot> spots = new List<BoxSpot>();
+        private List<BoxSpot> spots = new();
 
         private void OnValidate()
         {

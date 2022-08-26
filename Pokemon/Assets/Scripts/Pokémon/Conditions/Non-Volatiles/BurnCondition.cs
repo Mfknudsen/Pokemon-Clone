@@ -1,12 +1,11 @@
 ﻿#region SDK
 
 using System.Collections;
-using Mfknudsen.Battle.Systems;
 using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.Pokémon.Conditions
+namespace Mfknudsen.Pokémon.Conditions.Non_Volatiles
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Burn", order = 1)]
     public class BurnCondition : NonVolatileCondition

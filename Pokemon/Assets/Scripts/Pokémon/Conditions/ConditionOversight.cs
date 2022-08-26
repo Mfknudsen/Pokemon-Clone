@@ -22,7 +22,7 @@ namespace Mfknudsen.Pokémon.Conditions
         private Condition nonVolatileStatus; //Burn, Freeze, Paralysis, Poison, Sleep. Only one can be active.
 
         [SerializeField] private List<VolatileCondition>
-            volatileStatus = new List<VolatileCondition>(); //Bound, CantEscape, Confusion, Curse...
+            volatileStatus = new(); //Bound, CantEscape, Confusion, Curse...
 
         [SerializeField] private bool done, isStunned;
 
@@ -154,7 +154,7 @@ namespace Mfknudsen.Pokémon.Conditions
 
             #region Check To Play
 
-            List<Condition> toPlay = new List<Condition>();
+            List<Condition> toPlay = new();
             if (nonVolatileStatus != null)
             {
                 if (!nonVolatileStatus.GetBeforeAttack())
@@ -173,7 +173,7 @@ namespace Mfknudsen.Pokémon.Conditions
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 if (!(condition is IOperation iOperation)) continue;
 
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
@@ -192,7 +192,7 @@ namespace Mfknudsen.Pokémon.Conditions
         {
             done = false;
 
-            List<Condition> toPlay = new List<Condition>();
+            List<Condition> toPlay = new();
 
             #region Check To Play
 
@@ -214,7 +214,7 @@ namespace Mfknudsen.Pokémon.Conditions
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 if (!(condition is IOperation iOperation)) continue;
 
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
@@ -240,7 +240,7 @@ namespace Mfknudsen.Pokémon.Conditions
                 if (condition is IOperation iOperation)
                 {
                     operationManager = OperationManager.instance;
-                    OperationsContainer container = new OperationsContainer();
+                    OperationsContainer container = new();
                     container.Add(iOperation);
                     operationManager.AddOperationsContainer(container);
                 }

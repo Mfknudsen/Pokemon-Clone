@@ -60,7 +60,7 @@ namespace Mfknudsen.Menu.StartMenu
 
         private static IEnumerator StartGame()
         {
-            string sceneName = "Shayklind";
+            const string sceneName = "Shayklind";
             
             if (!WorldManager.instance.GetCurrentLoadedWorldScene().Equals(sceneName))
                 WorldManager.instance.LoadSceneAsync(sceneName);

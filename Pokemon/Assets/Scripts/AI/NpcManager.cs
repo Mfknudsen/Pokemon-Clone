@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mfknudsen.Player;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using UnityEngine;
 
 #endregion

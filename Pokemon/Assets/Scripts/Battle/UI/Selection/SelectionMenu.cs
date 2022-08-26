@@ -1,14 +1,9 @@
 ﻿#region Packages
 
-using System;
 using System.Collections;
 using Mfknudsen.Battle.Actions;
 using Mfknudsen.Battle.Systems;
-using Mfknudsen.Items;
 using Mfknudsen.Pokémon;
-using Mfknudsen.Pokémon.Conditions;
-using Mfknudsen.Trainer;
-using TMPro;
 using UnityEngine;
 
 #endregion

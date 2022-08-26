@@ -21,9 +21,9 @@ namespace Mfknudsen.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            foreach (SwitchAction switchAction in switchActions)
+            foreach (SwitchAction switchAction in this.switchActions)
             {
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
                 container.Add(switchAction);
                 OperationManager.instance.AddOperationsContainer(container);
 
@@ -31,7 +31,7 @@ namespace Mfknudsen.Battle.Systems.States
                     yield return null;
             }
 
-            manager.SetState(new RoundDoneState(manager));
+            this.manager.SetState(new RoundDoneState(this.manager));
         }
     }
 }

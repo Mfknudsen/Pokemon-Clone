@@ -81,7 +81,7 @@ namespace Mfknudsen.AI.Battle
             if (chatKeys == null)
                 return null;
 
-            Dictionary<string, string> chatInput = new Dictionary<string, string>();
+            Dictionary<string, string> chatInput = new();
             for (int i = 0; i < chatKeys.Length && i < chatValues.Length; i++)
                 chatInput.Add(chatKeys[i], chatValues[i]);
 

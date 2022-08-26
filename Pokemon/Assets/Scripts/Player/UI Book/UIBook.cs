@@ -73,8 +73,8 @@ namespace Mfknudsen.Player.UI_Book
         private readonly Dictionary<string, BookTextInputField> textInputFieldReferences =
             new();
 
-        private readonly int preRenderTextureID = Shader.PropertyToID("RenderTexture");
-        
+        private static readonly int PreRenderTextureID = Shader.PropertyToID("RenderTexture");
+
         #region Hash
 
         private static readonly int HashCloseBook = Animator.StringToHash("CloseBook"),
@@ -95,15 +95,15 @@ namespace Mfknudsen.Player.UI_Book
 
             DontDestroyOnLoad(gameObject);
 
-            invisiblyUI.transform.localScale /= 10000;
+            this.invisiblyUI.transform.localScale /= 10000;
 
-            turnRight.SetActive(false);
-            turnLeft.SetActive(false);
+            this.turnRight.SetActive(false);
+            this.turnLeft.SetActive(false);
 
-            bookLight.Calculate();
+            this.bookLight.Calculate();
 
             instance = this;
-            transition.CheckMiddle();
+            this.transition.CheckMiddle();
             StartCoroutine(DelayedStart());
         }
 
@@ -113,7 +113,7 @@ namespace Mfknudsen.Player.UI_Book
 
         public GameObject GetVisuals()
         {
-            return visuals;
+            return this.visuals;
         }
 
         #endregion
@@ -130,15 +130,15 @@ namespace Mfknudsen.Player.UI_Book
         {
             if (turn == BookTurn.Null) return;
 
-            invisiblyUI.SetActive(false);
+            this.invisiblyUI.SetActive(false);
             StartCoroutine(AnimationTrigger(turn, 0.5f));
 
             CopyTextures();
 
             if (turn == BookTurn.Close)
             {
-                openLeft.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
-                openRight.GetComponent<Renderer>().material.SetTexture(preRenderTextureID, preRenderTexture);
+                this.openLeft.GetComponent<Renderer>().material.SetTexture(PreRenderTextureID, this.preRenderTexture);
+                this.openRight.GetComponent<Renderer>().material.SetTexture(PreRenderTextureID, this.preRenderTexture);
             }
 
             OperationsContainer container = new();
@@ -167,7 +167,7 @@ namespace Mfknudsen.Player.UI_Book
 
         private void CopyTextures()
         {
-            Graphics.CopyTexture(curRenderTexture, preRenderTexture);
+            Graphics.CopyTexture(this.curRenderTexture, this.preRenderTexture);
         }
 
         #endregion
@@ -178,7 +178,7 @@ namespace Mfknudsen.Player.UI_Book
         {
             yield return new WaitWhile(() => CameraManager.instance == null);
 
-            CameraManager.instance.SetCurrentRig(bookCameraRig, true);
+            CameraManager.instance.SetCurrentRig(this.bookCameraRig, true);
             Cursor.visible = true;
 
             yield return new WaitWhile(() => PlayerManager.instance == null);
@@ -199,19 +199,6 @@ namespace Mfknudsen.Player.UI_Book
             }
 
             return result;
-        }
-
-        private static void DestroyComponent<TComponent>(GameObject obj)
-            where TComponent : MonoBehaviour
-        {
-            try
-            {
-                Destroy(obj.GetComponent<TComponent>());
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning(e.Message);
-            }
         }
 
         private IEnumerator AnimationTrigger(BookTurn trigger, float time)
@@ -320,8 +307,11 @@ namespace Mfknudsen.Player.UI_Book
                     Replace<BookSlider, BookSliderReference>(o, sliderReferences);
                     Replace<BookTextInputField, BookTextInputFieldReference>(o, textInputFieldReferences);
 
-                    DestroyComponent<Outline>(o);
-                    DestroyComponent<TextMeshProUGUI>(o);
+                    if(o.GetComponent<Outline>() is {} outline)
+                        Destroy(outline);
+                    
+                    if(o.GetComponent<TextMeshProUGUI>() is {} text)
+                        Destroy(text);
                 }
 
                 break;
@@ -337,24 +327,24 @@ namespace Mfknudsen.Player.UI_Book
     {
         private readonly bool fromLeftToRight;
         private bool done;
-        private readonly GameObject turnLeft, turnRight, openLeft, openRight;
+        private readonly GameObject turnLeftPaper, turnRightPaper, openLeft, openRight;
 
         private readonly int invertPage = Shader.PropertyToID("InvertPage");
 
-        public TurnPage(bool fromLeftToRight, GameObject turnLeft, GameObject turnRight,
+        public TurnPage(bool fromLeftToRight, GameObject turnLeftPaper, GameObject turnRightPaper,
             GameObject openLeft,
             GameObject openRight)
         {
             this.fromLeftToRight = fromLeftToRight;
-            this.turnLeft = turnLeft;
-            this.turnRight = turnRight;
+            this.turnLeftPaper = turnLeftPaper;
+            this.turnRightPaper = turnRightPaper;
             this.openLeft = openLeft;
             this.openRight = openRight;
         }
 
         public bool Done()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
@@ -365,17 +355,17 @@ namespace Mfknudsen.Player.UI_Book
             SetOpens(false);
             SetTurns(true);
 
-            turnLeft.GetComponent<Renderer>().material.SetInt(invertPage, fromLeftToRight ? 0 : 1);
-            turnRight.GetComponent<Renderer>().material.SetInt(invertPage, fromLeftToRight ? 1 : 0);
+            this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(invertPage, this.fromLeftToRight ? 0 : 1);
+            this.turnRightPaper.GetComponent<Renderer>().material.SetInt(invertPage, this.fromLeftToRight ? 1 : 0);
 
             const float animationTime = 0.5f;
 
             yield return new WaitForSeconds(animationTime * 0.1f);
 
-            if (!fromLeftToRight)
-                openRight.SetActive(true);
+            if (!this.fromLeftToRight)
+                this.openRight.SetActive(true);
             else
-                openLeft.SetActive(true);
+                this.openLeft.SetActive(true);
 
             yield return new WaitForSeconds(animationTime * 0.9f);
 
@@ -383,7 +373,7 @@ namespace Mfknudsen.Player.UI_Book
             SetOpens(true);
 
             book.ConstructUI();
-            done = true;
+            this.done = true;
         }
 
         public void End()
@@ -394,14 +384,14 @@ namespace Mfknudsen.Player.UI_Book
 
         private void SetOpens(bool set)
         {
-            openLeft.SetActive(set);
-            openRight.SetActive(set);
+            this.openLeft.SetActive(set);
+            this.openRight.SetActive(set);
         }
 
         private void SetTurns(bool set)
         {
-            turnLeft.SetActive(set);
-            turnRight.SetActive(set);
+            this.turnLeftPaper.SetActive(set);
+            this.turnRightPaper.SetActive(set);
         }
 
         #endregion
@@ -426,25 +416,25 @@ namespace Mfknudsen.Player.UI_Book
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            bookLight.TurnOff();
+            this.bookLight.TurnOff();
 
             OperationsContainer container = new();
-            transition.Direction(true, true);
-            container.Add(transition);
+            this.transition.Direction(true, true);
+            container.Add(this.transition);
 
             CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld();
             container.Add(cameraEvent);
             OperationManager.instance.AddAsyncOperationsContainer(container);
 
-            yield return new WaitUntil(transition.Done);
+            yield return new WaitUntil(this.transition.Done);
 
             UIManager.instance.SwitchUI(UISelection.Overworld);
 
-            done = true;
+            this.done = true;
         }
 
         public void End()
@@ -475,24 +465,24 @@ namespace Mfknudsen.Player.UI_Book
 
         public bool Done()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
             PlayerManager.instance.DisablePlayerControl();
 
-            OperationsContainer container = new OperationsContainer();
-            transition.CheckMiddle();
-            transition.Direction(false, true);
-            container.Add(transition);
+            OperationsContainer container = new();
+            this.transition.CheckMiddle();
+            this.transition.Direction(false, true);
+            container.Add(this.transition);
 
-            CameraEvent cameraEvent = new CameraEvent(
-                bookRig,
+            CameraEvent cameraEvent = new(
+                this.bookRig,
                 CameraSettings.Default(),
-                transition.GetTimeToComplete(),
+                this.transition.GetTimeToComplete(),
                 0.75f
             );
             container.Add(cameraEvent);
@@ -502,10 +492,10 @@ namespace Mfknudsen.Player.UI_Book
             UIBook book = UIBook.instance;
             book.GetVisuals().SetActive(true);
 
-            yield return new WaitUntil(transition.Done);
+            yield return new WaitUntil(this.transition.Done);
 
             book.ConstructUI();
-            done = true;
+            this.done = true;
         }
 
         public void End()
@@ -513,7 +503,7 @@ namespace Mfknudsen.Player.UI_Book
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            bookLight.Calculate();
+            this.bookLight.Calculate();
         }
     }
 }

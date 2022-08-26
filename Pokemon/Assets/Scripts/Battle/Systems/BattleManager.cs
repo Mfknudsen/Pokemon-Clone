@@ -14,7 +14,7 @@ using Mfknudsen.Player.Camera;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Pokémon.Conditions;
 using Mfknudsen.Pokémon.Conditions.Non_Volatiles;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Logger = Mfknudsen._Debug.Logger;
@@ -132,12 +132,12 @@ namespace Mfknudsen.Battle.Systems
 
         public void SetDisplayManager(DisplayManager set)
         {
-            displayManager = set;
+            this.displayManager = set;
         }
 
         public void SetSelectionMenu(SelectionMenu set)
         {
-            selectionMenu = set;
+            this.selectionMenu = set;
         }
 
         #endregion
@@ -153,30 +153,32 @@ namespace Mfknudsen.Battle.Systems
                 OperationManager.instance.AddAsyncOperationsContainer(
                     new OperationsContainer(CameraEvent.ReturnToDefaultBattle()));
 
-                BattleMathf.SetSuperEffective(superEffective);
-                BattleMathf.SetNotEffective(notEffective);
-                BattleMathf.SetNoEffect(noEffect);
-                BattleMathf.SetBarelyEffective(barelyEffective);
-                BattleMathf.SetExtremlyEffective(extremelyEffective);
-                BattleMathf.SetMissChat(miss);
+                BattleMathf.SetSuperEffective(this.superEffective);
+                BattleMathf.SetNotEffective(this.notEffective);
+                BattleMathf.SetNoEffect(this.noEffect);
+                BattleMathf.SetBarelyEffective(this.barelyEffective);
+                BattleMathf.SetExtremlyEffective(this.extremelyEffective);
+                BattleMathf.SetMissChat(this.miss);
 
-                while (displayManager == null || selectionMenu == null)
+                while (this.displayManager == null || this.selectionMenu == null)
                     yield return null;
 
                 SetState(new BeginState(this));
+
+                yield break;
             }
-            else
-                Destroy(gameObject);
+
+            Destroy(gameObject);
         }
 
         public void StartBattle(BattleStarter battleStarter)
         {
-            starter = battleStarter;
+            this.starter = battleStarter;
         }
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
         {
-            Logger.AddLog(name, "Spawning: " + pokemon.GetName());
+            Logger.AddLog(this.name, "Spawning: " + pokemon.GetName());
 
             Transform sTransform = spot.GetTransform();
             GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), sTransform, true);
@@ -192,7 +194,7 @@ namespace Mfknudsen.Battle.Systems
             spot.SetActivePokemon(pokemon);
             spot.SetNeedNew(false);
 
-            displayManager.UpdateSlots();
+            this.displayManager.UpdateSlots();
 
             //Check if spawned object is placeholder;
             PokemonPlaceholder.CheckPlaceholder(pokemon, obj);
@@ -200,14 +202,13 @@ namespace Mfknudsen.Battle.Systems
 
         public void DespawnPokemon(Pokemon pokemon)
         {
-            if (pokemon == null) return;
+            if (!pokemon) return;
 
-            foreach (Spot s in spotOversight.GetSpots()
-                // ReSharper disable once Unity.NoNullPropagation
-                .Select(s => new { s, p = s?.GetActivePokemon() })
-                .Where(t => t.p is { })
-                .Where(t => t.p == pokemon)
-                .Select(t => t.s))
+            foreach (Spot s in this.spotOversight.GetSpots()
+                         // ReSharper disable once Unity.NoNullPropagation
+                         .Select(s => new { s, p = s?.GetActivePokemon() })
+                         .Where(t => t.p == pokemon)
+                         .Select(t => t.s))
             {
                 pokemon.DespawnPokemon();
 
@@ -216,32 +217,32 @@ namespace Mfknudsen.Battle.Systems
                 break;
             }
 
-            displayManager.UpdateSlots();
+            this.displayManager.UpdateSlots();
         }
 
         public void SetupAbilityOversight()
         {
-            abilityOversight = new AbilityOversight();
+            this.abilityOversight = new AbilityOversight();
 
-            abilityOversight.Setup();
+            this.abilityOversight.Setup();
         }
 
         public void SetState(State set)
         {
-            if (stateManager != null)
-                StopCoroutine(stateManager);
+            if (this.stateManager != null)
+                StopCoroutine(this.stateManager);
 
-            stateManager = StartCoroutine(set.Tick());
+            this.stateManager = StartCoroutine(set.Tick());
         }
 
         public void EndBattle(bool playerVictory)
         {
-            starter.EndBattle(playerVictory);
+            this.starter.EndBattle(playerVictory);
         }
 
         public void SetPokemonFainted(Pokemon pokemon)
         {
-            FaintedCondition condition = Instantiate(faintCondition) as FaintedCondition;
+            FaintedCondition condition = Instantiate(this.faintCondition) as FaintedCondition;
 
             // ReSharper disable once PossibleNullReferenceException
             condition.SetAffectedPokemon(pokemon);
@@ -255,22 +256,22 @@ namespace Mfknudsen.Battle.Systems
 
         public Spot CreateSpot(Transform parent)
         {
-            return Instantiate(spotPrefab, parent).GetComponent<Spot>();
+            return Instantiate(this.spotPrefab, parent).GetComponent<Spot>();
         }
 
         public SwitchAction InstantiateSwitchAction()
         {
-            return (SwitchAction)Instantiate(switchAction);
+            return (SwitchAction)Instantiate(this.switchAction);
         }
 
         public ItemAction InstantiateItemAction()
         {
-            return Instantiate(itemAction) as ItemAction;
+            return Instantiate(this.itemAction) as ItemAction;
         }
 
         public bool CheckTeamDefeated(bool isAlly)
         {
-            return spotOversight.GetSpots()
+            return this.spotOversight.GetSpots()
                 .Select(s =>
                     s.GetBattleMember())
                 .Where(bm =>

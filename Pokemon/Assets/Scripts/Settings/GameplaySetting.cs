@@ -1,6 +1,6 @@
 #region Packages
 
-using Mfknudsen.AI;
+using Mfknudsen.AI.Battle.Evaluator;
 
 #endregion
 
@@ -15,7 +15,7 @@ namespace Mfknudsen.Settings
 
         static GameplaySetting()
         {
-            PersonalitySetting personalitySetting = new PersonalitySetting();
+            PersonalitySetting personalitySetting = new();
 
             EasyEvaluatorSetting =
                 new EvaluatorSetting(1, 10, false, false, personalitySetting);

@@ -3,7 +3,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.AI.Battle.AfterEffects;
 using Mfknudsen.Communication;
 using UnityEngine;
 

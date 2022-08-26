@@ -5,7 +5,7 @@ using Mfknudsen.Pokémon;
 
 #endregion
 
-namespace Mfknudsen.AI.Virtual
+namespace Mfknudsen.AI.Battle.Evaluator.Virtual
 {
     public class VirtualMove
     {

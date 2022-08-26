@@ -1,8 +1,8 @@
 ﻿#region Packages
 
 using System.Collections;
-using Mfknudsen.AI;
-using Mfknudsen.AI.Virtual;
+using Mfknudsen.AI.Battle.Evaluator;
+using Mfknudsen.AI.Battle.Evaluator.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Battle.Systems.Static_Operations;
@@ -425,7 +425,7 @@ namespace Mfknudsen.Battle.Actions
             foreach (Spot target in targets)
             {
                 Pokemon pokemon = target.GetActivePokemon();
-                OperationsContainer container = new OperationsContainer();
+                OperationsContainer container = new();
 
                 #region Calculate Hit
 
@@ -440,7 +440,7 @@ namespace Mfknudsen.Battle.Actions
 
                 if (!hit)
                 {
-                    MissHit missHit = new MissHit(pokemon);
+                    MissHit missHit = new(pokemon);
                     container.Add(missHit);
                     operationManager.AddOperationsContainer(container);
 
@@ -465,14 +465,14 @@ namespace Mfknudsen.Battle.Actions
                     bool isCritical = canCrit && BattleMathf.CalculateCriticalRoll(currentPokemon, pokemon);
                     float damagePerTarget = GetDamageForTarget(currentPokemon, pokemon, isCritical);
 
-                    DamagePokemon damagePokemon = new DamagePokemon(pokemon, damagePerTarget, secPerPokeMove);
+                    DamagePokemon damagePokemon = new(pokemon, damagePerTarget, secPerPokeMove);
                     container.Add(damagePokemon);
                 }
                 else if (!(statusCondition is null))
                 {
                     if (!BattleMathf.CalculateStatusHit(applyChance)) continue;
 
-                    ApplyStatus applyStatus = new ApplyStatus(statusHitChat, pokemon, statusCondition);
+                    ApplyStatus applyStatus = new(statusHitChat, pokemon, statusCondition);
                     container.Add(applyStatus);
                 }
 

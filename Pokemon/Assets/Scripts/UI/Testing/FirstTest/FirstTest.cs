@@ -21,7 +21,7 @@ namespace Mfknudsen.UI.Testing.FirstTest
         private GameObject wildBasePrefab;
 
         [FoldoutGroup("Wild Encounter Settings/poke")] [SerializeField]
-        private List<Pokemon> possibleEncounters = new List<Pokemon>();
+        private List<Pokemon> possibleEncounters = new();
 
         [FoldoutGroup("trainer Encounter")] [SerializeField]
         private GameObject trainerBasePrefab;

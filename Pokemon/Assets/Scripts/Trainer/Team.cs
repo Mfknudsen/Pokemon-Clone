@@ -14,14 +14,14 @@ namespace Mfknudsen.Trainer
     {
         #region Values
 
-        [SerializeField] private List<Pokemon> pokemons = new List<Pokemon>(6);
-        private readonly List<BoxContainer> boxContainers = new List<BoxContainer>();
+        [SerializeField] private List<Pokemon> pokemons = new(6);
+        private readonly List<BoxContainer> boxContainers = new();
 
         private void OnValidate()
         {
             if (pokemons.Count == 6) return;
             
-            List<Pokemon> tempList = new List<Pokemon>();
+            List<Pokemon> tempList = new();
 
             foreach (Pokemon p in pokemons)
             {
@@ -139,7 +139,7 @@ namespace Mfknudsen.Trainer
             if (boxContainers.Any(container => container.AddPokemon(toAdd)))
                 return;
 
-            BoxContainer c = new BoxContainer();
+            BoxContainer c = new();
             c.AddPokemon(toAdd);
             boxContainers.Add(c);
         }
@@ -163,7 +163,7 @@ namespace Mfknudsen.Trainer
 
     internal class BoxContainer
     {
-        private readonly List<Pokemon> pokemons = new List<Pokemon>(48);
+        private readonly List<Pokemon> pokemons = new(48);
 
         public bool AddPokemon(Pokemon toAdd)
         {

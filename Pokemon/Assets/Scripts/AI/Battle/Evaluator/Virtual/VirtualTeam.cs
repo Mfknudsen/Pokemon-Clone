@@ -7,7 +7,7 @@ using Mfknudsen.Trainer;
 
 #endregion
 
-namespace Mfknudsen.AI.Virtual
+namespace Mfknudsen.AI.Battle.Evaluator.Virtual
 {
     public class VirtualTeam 
     {

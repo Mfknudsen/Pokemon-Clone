@@ -15,26 +15,24 @@ namespace Mfknudsen.Battle.Systems.States
 {
     public class ActionState : State
     {
-        // ReSharper disable once IdentifierTypo
         private readonly SpotOversight spotOversight;
         private readonly OperationManager operationManager;
 
-        // ReSharper disable once IdentifierTypo
         public ActionState(BattleManager manager) : base(manager)
         {
-            operationManager = OperationManager.instance;
-            spotOversight = manager.GetSpotOversight();
+            this.operationManager = OperationManager.instance;
+            this.spotOversight = manager.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
         {
-            foreach (Pokemon pokemon in spotOversight.GetSpots()
+            foreach (Pokemon pokemon in this.spotOversight.GetSpots()
                          .Select(s =>
                              s.GetActivePokemon())
                          .Where(p =>
-                             p != null &&
-                             p.GetBattleAction() != null &&
-                             !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition)))
+                             !p &&
+                             !p.GetBattleAction() &&
+                             p.GetConditionOversight().GetNonVolatileStatus() is not FaintedCondition))
             {
                 #region Start Action
 
@@ -42,11 +40,10 @@ namespace Mfknudsen.Battle.Systems.States
 
                 Logger.instance.AddNewLog(action.name, "Starting Action: " + action.name.Replace("(Clone)", ""));
 
-                OperationsContainer container = new OperationsContainer();
-                container.Add(action);
-                operationManager.AddOperationsContainer(container);
+                OperationsContainer container = new(action);
+                this.operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone() || !ChatManager.instance.GetIsClear())
+                while (!this.operationManager.GetDone() || !ChatManager.instance.GetIsClear())
                     yield return null;
 
                 #endregion
@@ -54,21 +51,18 @@ namespace Mfknudsen.Battle.Systems.States
                 #region Check Any Fainted
 
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-                foreach (Pokemon checkPokemon in spotOversight.GetSpots()
+                foreach (Pokemon checkPokemon in this.spotOversight.GetSpots()
                              .Select(s =>
                                  s.GetActivePokemon())
                              .Where(p =>
-                                 p != null &&
+                                 !p &&
                                  p.GetCurrentHealth() == 0))
                 {
-                    manager.SetPokemonFainted(checkPokemon);
+                    this.manager.SetPokemonFainted(checkPokemon);
 
-                    FaintedCondition faintedCondition =
-                        checkPokemon.GetConditionOversight().GetNonVolatileStatus() as FaintedCondition;
-
-                    if (faintedCondition != null)
+                    if (checkPokemon.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition faintedCondition)
                     {
-                        operationManager.AddOperationsContainer(new OperationsContainer(faintedCondition));
+                        this.operationManager.AddOperationsContainer(new OperationsContainer(faintedCondition));
 
                         yield return null;
 
@@ -76,22 +70,22 @@ namespace Mfknudsen.Battle.Systems.States
                             yield return null;
                     }
 
-                    while (!operationManager.GetDone())
+                    while (!this.operationManager.GetDone())
                         yield return null;
                 }
 
                 #endregion
             }
 
-            if (manager.CheckTeamDefeated(true) ||
-                manager.CheckTeamDefeated(false))
+            if (this.manager.CheckTeamDefeated(true) ||
+                this.manager.CheckTeamDefeated(false))
             {
-                manager.SetState(new RoundDoneState(manager));
+                this.manager.SetState(new RoundDoneState(this.manager));
 
                 yield break;
             }
 
-            manager.SetState(new AfterConditionState(manager));
+            this.manager.SetState(new AfterConditionState(this.manager));
         }
     }
 }

@@ -27,12 +27,12 @@ namespace Mfknudsen.Battle.UI.Selection
 
         [SerializeField] private GameObject itemUIPrefab;
         [SerializeField] private Transform parentTransform;
-        [SerializeField] private List<ItemDisplay> displays = new List<ItemDisplay>();
+        [SerializeField] private List<ItemDisplay> displays = new();
 
-        private readonly List<ItemContainer> potionList = new List<ItemContainer>(),
-            pokéballList = new List<ItemContainer>(),
-            otherList = new List<ItemContainer>(),
-            medicineList = new List<ItemContainer>();
+        private readonly List<ItemContainer> potionList = new(),
+            pokéballList = new(),
+            otherList = new(),
+            medicineList = new();
 
         private SpotOversight spotOversight;
         private ItemAction itemAction;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Mfknudsen.NPC
+namespace Mfknudsen.AI
 {
     [System.Serializable]
     public class NpcTeam : Team

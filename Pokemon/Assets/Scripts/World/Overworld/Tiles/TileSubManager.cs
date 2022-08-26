@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using Mfknudsen.Common;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Unity.AI.Navigation;

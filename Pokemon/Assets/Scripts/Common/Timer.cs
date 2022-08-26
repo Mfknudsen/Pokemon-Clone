@@ -32,7 +32,7 @@ namespace Mfknudsen.Common
 
         public bool GetStopped()
         {
-            return stop;
+            return this.stop;
         }
 
         #endregion
@@ -41,19 +41,19 @@ namespace Mfknudsen.Common
 
         public void Update()
         {
-            if (done || stop) return;
+            if (this.done || this.stop) return;
 
-            current += Time.deltaTime;
+            this.current += Time.deltaTime;
 
-            if (!(current >= duration)) return;
-            
-            timerEvent.Invoke();
-            done = true;
+            if (!(this.current >= this.duration)) return;
+
+            this.timerEvent.Invoke();
+            this.done = true;
         }
 
         public void Stop()
         {
-            stop = true;
+            this.stop = true;
         }
 
         #endregion

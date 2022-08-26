@@ -30,7 +30,7 @@ namespace Mfknudsen.Battle.Systems
 
         public List<T> GetWeatherWithInterface<T>()
         {
-            List<T> result = new List<T>();
+            List<T> result = new();
 
             foreach (Weather weather in GetAll())
             {

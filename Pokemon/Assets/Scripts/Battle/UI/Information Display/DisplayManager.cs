@@ -1,13 +1,12 @@
 #region Packages
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Player;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using UnityEngine;
 
 #endregion

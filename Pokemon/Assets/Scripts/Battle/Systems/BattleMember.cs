@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mfknudsen.AI;
+using Mfknudsen.AI.Battle.Evaluator;
 using UnityEngine;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
 using Mfknudsen.Items;
-using Mfknudsen.NPC;
 using Mfknudsen.Pokémon;
 using Mfknudsen.Settings;
 using Mfknudsen.Trainer;
@@ -39,7 +39,7 @@ namespace Mfknudsen.Battle.Systems
         private bool isWild;
 
         [BoxGroup(" ")] [TableList] [SerializeField]
-        private List<EvaluatorSetting> evaluatorSettings = new List<EvaluatorSetting>();
+        private List<EvaluatorSetting> evaluatorSettings = new();
 
         [BoxGroup(" /Personality")] [SerializeField]
         private bool useDefaultPersonalitySetting = true;
@@ -54,9 +54,9 @@ namespace Mfknudsen.Battle.Systems
         private Team pokemonTeam;
 
         private bool hasAllSpots;
-        private readonly List<Spot> ownedSpots = new List<Spot>();
+        private readonly List<Spot> ownedSpots = new();
 
-        private readonly List<Evaluator> evaluators = new List<Evaluator>();
+        private readonly List<Evaluator> evaluators = new();
 
         #endregion
 
@@ -180,7 +180,7 @@ namespace Mfknudsen.Battle.Systems
 
                 evaluatorSetting.SetPersonalitySetting(personalitySetting);
 
-                Evaluator evaluator = new Evaluator(pokemon, evaluatorSetting);
+                Evaluator evaluator = new(pokemon, evaluatorSetting);
                 evaluators.Add(evaluator);
             }
         }

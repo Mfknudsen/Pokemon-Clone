@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Cinemachine;
-using Mfknudsen.Settings.Manager;
+using Mfknudsen.Settings.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

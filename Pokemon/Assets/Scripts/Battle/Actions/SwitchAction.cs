@@ -2,8 +2,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Mfknudsen.AI;
-using Mfknudsen.AI.Virtual;
+using Mfknudsen.AI.Battle.Evaluator;
+using Mfknudsen.AI.Battle.Evaluator.Virtual;
 using Mfknudsen.Battle.Systems;
 using Mfknudsen.Battle.Systems.Spots;
 using Mfknudsen.Communication;
@@ -74,7 +74,7 @@ namespace Mfknudsen.Battle.Actions
         public override IEnumerator Operation()
         {
             done = false;
-            List<Chat> toSend = new List<Chat>();
+            List<Chat> toSend = new();
 
             //Start of match there will be no current pokemon
             if (currentPokemon != null)

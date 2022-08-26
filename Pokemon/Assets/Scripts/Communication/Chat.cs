@@ -26,9 +26,9 @@ namespace Mfknudsen.Communication
         [SerializeField] protected float timeUntilNext = 0.75f;
 
         [Header("Overriding:")] [SerializeField]
-        protected List<string> replaceString = new List<string>();
+        protected List<string> replaceString = new();
 
-        [SerializeField] protected List<string> addString = new List<string>();
+        [SerializeField] protected List<string> addString = new();
 
         [Header("Text Animation:")] [SerializeField]
         protected string showText;

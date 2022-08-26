@@ -53,7 +53,7 @@ namespace Mfknudsen.Battle.Systems.Spots
 
         public List<Spot> GetAllAdjacentSpots()
         {
-            List<Spot> result = new List<Spot>();
+            List<Spot> result = new();
 
             if (!(front is null))
                 result.Add(front);
@@ -255,7 +255,7 @@ namespace Mfknudsen.Battle.Systems.Spots
         public List<Spot> GetAllOneSide()
         {
             bool continueCheck = true;
-            List<Spot> result = new List<Spot> { this };
+            List<Spot> result = new() { this };
 
             while (continueCheck)
             {
