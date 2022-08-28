@@ -19,9 +19,6 @@ namespace Mfknudsen.Timeline.Chat
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-#if UNITY_EDITOR
-            return;
-#endif
             
             ChatManager.instance.Add(clip);
         }

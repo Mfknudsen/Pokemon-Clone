@@ -69,9 +69,14 @@ namespace Mfknudsen.Common
                 T component = gameObject.GetComponent<T>();
 
                 if (component != null) return component;
-   
+
                 gameObject = gameObject.transform.parent.gameObject;
             }
+        }
+
+        public static GameObject GetChildByName(Transform parent, string name)
+        {
+            return (from Transform t in parent where t.name.Equals(name) select t.gameObject).FirstOrDefault();
         }
     }
 }

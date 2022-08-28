@@ -32,12 +32,6 @@ namespace Mfknudsen.Player.UI_Book
         Right
     }
 
-    public enum BookAnimations
-    {
-        Close,
-        Open
-    }
-
     #endregion
 
     public class UIBook : MonoBehaviour
@@ -88,7 +82,7 @@ namespace Mfknudsen.Player.UI_Book
 
         #region Build In States
 
-        private void Start()
+        private IEnumerator Start()
         {
             if (instance != null)
                 Destroy(gameObject);
@@ -105,6 +99,15 @@ namespace Mfknudsen.Player.UI_Book
             instance = this;
             this.transition.CheckMiddle();
             StartCoroutine(DelayedStart());
+
+            yield return new WaitWhile(() => !PlayerManager.instance);
+
+            GameObject bookHolder = new("Book Holder")
+            {
+                transform = { parent = PlayerManager.instance.GetController().transform }
+            };
+
+            transform.parent = bookHolder.transform;
         }
 
         #endregion
@@ -207,7 +210,6 @@ namespace Mfknudsen.Player.UI_Book
 
             yield return new WaitForSeconds(time);
 
-            // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
             int hash = trigger switch
             {
                 BookTurn.Close => HashCloseBook,
@@ -226,9 +228,7 @@ namespace Mfknudsen.Player.UI_Book
         private static void AddToReference<TElement>(GameObject obj, IDictionary<string, TElement> dictionary)
             where TElement : MonoBehaviour, ICustomGUIElement
         {
-            TElement element = obj.GetComponent<TElement>();
-
-            if (element != null)
+            if (obj.GetComponent<TElement>() is { } element)
                 dictionary.Add(obj.name, element);
         }
 
@@ -307,10 +307,10 @@ namespace Mfknudsen.Player.UI_Book
                     Replace<BookSlider, BookSliderReference>(o, sliderReferences);
                     Replace<BookTextInputField, BookTextInputFieldReference>(o, textInputFieldReferences);
 
-                    if(o.GetComponent<Outline>() is {} outline)
+                    if (o.GetComponent<Outline>() is { } outline)
                         Destroy(outline);
-                    
-                    if(o.GetComponent<TextMeshProUGUI>() is {} text)
+
+                    if (o.GetComponent<TextMeshProUGUI>() is { } text)
                         Destroy(text);
                 }
 
@@ -329,7 +329,7 @@ namespace Mfknudsen.Player.UI_Book
         private bool done;
         private readonly GameObject turnLeftPaper, turnRightPaper, openLeft, openRight;
 
-        private readonly int invertPage = Shader.PropertyToID("InvertPage");
+        private static readonly int InvertPage = Shader.PropertyToID("InvertPage");
 
         public TurnPage(bool fromLeftToRight, GameObject turnLeftPaper, GameObject turnRightPaper,
             GameObject openLeft,
@@ -355,8 +355,8 @@ namespace Mfknudsen.Player.UI_Book
             SetOpens(false);
             SetTurns(true);
 
-            this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(invertPage, this.fromLeftToRight ? 0 : 1);
-            this.turnRightPaper.GetComponent<Renderer>().material.SetInt(invertPage, this.fromLeftToRight ? 1 : 0);
+            this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(InvertPage, this.fromLeftToRight ? 0 : 1);
+            this.turnRightPaper.GetComponent<Renderer>().material.SetInt(InvertPage, this.fromLeftToRight ? 1 : 0);
 
             const float animationTime = 0.5f;
 

@@ -17,6 +17,15 @@ namespace Mfknudsen.UI.Book.Button
 
         [SerializeField, HideInInspector] private BookTurn bookTurn;
 
+        private static readonly SelectionState[] States =
+        {
+            SelectionState.Normal,
+            SelectionState.Disabled,
+            SelectionState.Highlighted,
+            SelectionState.Pressed,
+            SelectionState.Selected
+        };
+
         #endregion
 
         protected override void Awake()
@@ -50,17 +59,8 @@ namespace Mfknudsen.UI.Book.Button
 
         public void SetPressedState(string buttonState)
         {
-            SelectionState[] states =
-            {
-                SelectionState.Normal,
-                SelectionState.Disabled,
-                SelectionState.Highlighted,
-                SelectionState.Pressed,
-                SelectionState.Selected
-            };
-
             SelectionState state =
-                states.FirstOrDefault(selectionState => selectionState.ToString().Equals(buttonState));
+                States.FirstOrDefault(selectionState => selectionState.ToString().Equals(buttonState));
 
             base.DoStateTransition(state, false);
 

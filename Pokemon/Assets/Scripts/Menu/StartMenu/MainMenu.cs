@@ -1,7 +1,6 @@
 ﻿#region Packages
 
 using System.Collections;
-using Mfknudsen.Battle.Systems;
 using Mfknudsen.Player;
 using Mfknudsen.UI;
 using Mfknudsen.World;
@@ -36,15 +35,6 @@ namespace Mfknudsen.Menu.StartMenu
             WorldManager.instance.UnloadSceneAsync("StartMenu");
         }
 
-        public void LoadBattleScene()
-        {
-            if(!ready) return;
-
-            ready = true;
-            
-            GameObject.Find("NPC Base").GetComponent<BattleStarter>().StartBattleNow();
-        }
-
         public void StartNewGame()
         {
             if(!ready) return;
@@ -70,6 +60,12 @@ namespace Mfknudsen.Menu.StartMenu
             yield return new WaitWhile(() => WorldManager.instance.GetIsLoading());
             
             WorldManager.instance.UnloadSceneAsync("StartMenu");
+
+            yield return null;
+
+            yield return new WaitWhile(() => WorldManager.instance.GetActiveUnloading());
+            
+            
         }
 
         #endregion

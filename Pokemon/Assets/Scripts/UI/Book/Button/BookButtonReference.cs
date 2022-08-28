@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 namespace Mfknudsen.UI.Book.Button
 {
-    [AddComponentMenu("Mfknudsen/BookUI/Book Button Reference")]
     public class BookButtonReference : UnityEngine.UI.Button, ICustomGUIElementReference
     {
         #region Values
