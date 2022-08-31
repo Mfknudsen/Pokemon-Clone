@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Runtime.Common.ScriptableVariables.Items
 {
     [Serializable]
-    [CreateAssetMenu(menuName = "Scriptable Variable/Pokemon Item")]
+    [CreateAssetMenu(menuName = "Scriptable Variable/Pokemon Item/Other")]
     public class ScriptableItemVariable : ScriptableStruct<int>
     {
         [field: SerializeField] public Item pokemonItem { get; private set; }

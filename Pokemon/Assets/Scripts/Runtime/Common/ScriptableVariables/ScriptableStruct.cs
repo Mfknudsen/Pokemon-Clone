@@ -1,23 +1,20 @@
-#region Packages
-
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
-using Object = UnityEngine.Object;
-
-#endregion
 
 namespace Runtime.Common.ScriptableVariables
 {
     [Serializable]
-    public abstract class ScriptableVariable<T> : ScriptableObject, ISerializationCallbackReceiver where T : Object
+    public abstract class ScriptableStruct<T> : ScriptableObject, ISerializationCallbackReceiver where T : struct
     {
+        [SerializeField] private T initialValue;
+
         public T value
         {
             get => valueHolder;
             set
             {
-                if (value != valueHolder)
+                if (!value.Equals(valueHolder))
                 {
                     valueHolder = value;
                     changeEvent.Invoke(valueHolder);
@@ -27,7 +24,7 @@ namespace Runtime.Common.ScriptableVariables
             }
         }
 
-        [SerializeField] private T valueHolder;
+        [NonSerialized] private T valueHolder;
 
         private readonly UnityEvent<T> changeEvent = new();
 
@@ -41,7 +38,13 @@ namespace Runtime.Common.ScriptableVariables
             changeEvent.RemoveListener(action);
         }
 
-        public abstract void OnBeforeSerialize();
-        public abstract void OnAfterDeserialize();
+        public virtual void OnAfterDeserialize()
+        {
+            this.value = this.initialValue;
+        }
+
+        public virtual void OnBeforeSerialize()
+        {
+        }
     }
 }

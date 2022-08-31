@@ -37,7 +37,7 @@ namespace Runtime.Common
             if (hasComponents)
                 allComponents.AddRange(
                     gameObject.GetComponents<MonoBehaviour>()
-                        .Where(component => !(component is RayHitHolder)));
+                        .Where(component => component is not RayHitHolder));
         }
 
         #endregion

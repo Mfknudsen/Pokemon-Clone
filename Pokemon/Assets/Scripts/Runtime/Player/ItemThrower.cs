@@ -1,6 +1,7 @@
 #region Packages
 
 using Cinemachine;
+using Runtime.Common.ScriptableVariables.Structs;
 using Runtime.Systems;
 using UnityEngine;
 
@@ -10,33 +11,58 @@ namespace Runtime.Player
 {
     public class ItemThrower : MonoBehaviour
     {
+        #region Values
+
         [SerializeField] private CinemachineVirtualCameraBase cameraRig;
+        [SerializeField] private ScriptableBool aiming, throwing;
 
-        private bool aim;
+        #endregion
 
-        private void Start()
+        #region Build In States
+
+        private void OnEnable()
         {
             InputManager inputManager = InputManager.instance;
-            inputManager.rightClickEvent.AddListener(OnRightClick);
-            inputManager.leftClickEvent.AddListener(OnLeftClick);
+            inputManager.rightClickEvent.AddListener(() => this.aiming.value = !this.aiming.value);
+            inputManager.leftClickEvent.AddListener(() => this.throwing.value = !this.throwing.value);
+            
+            aiming.AddListener(SwitchToAiming);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             InputManager inputManager = InputManager.instance;
-            inputManager.rightClickEvent.RemoveListener(OnRightClick);
-            inputManager.leftClickEvent.RemoveListener(OnLeftClick);
+            inputManager.rightClickEvent.RemoveListener(() => this.aiming.value = !this.aiming.value);
+            inputManager.leftClickEvent.RemoveListener(() => this.throwing.value = !this.throwing.value);
+            
+            aiming.RemoveListener(SwitchToAiming);
         }
+
+        #endregion
 
         #region Internal
 
-        private void OnRightClick()
+        private void SwitchToAiming(bool state)
         {
-            aim = !aim;
+            if (state)
+            {
+                SwitchToAimingRig();
+                SwitchToAimingControls();
+            }
+            else
+            {
+                
+            }
         }
 
-        private void OnLeftClick()
+        private void SwitchToAimingRig()
         {
+            cameraRig.enabled = true;
+        }
+
+        private void SwitchToAimingControls()
+        {
+            
         }
 
         #endregion

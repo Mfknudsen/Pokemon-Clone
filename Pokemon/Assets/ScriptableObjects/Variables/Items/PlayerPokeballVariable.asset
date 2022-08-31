@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b75b782adae3e298708247b0296f65, type: 3}
+  m_Script: {fileID: 11500000, guid: ef3e0d22194240fd9749685da5368efa, type: 3}
   m_Name: PlayerPokeballVariable
   m_EditorClassIdentifier: 
   valueHolder: 0
-  <pokemonItem>k__BackingField: {fileID: 11400000, guid: c540ef55878352d49a17ee086456650b, type: 2}
+  defaultItem: {fileID: 11400000, guid: c540ef55878352d49a17ee086456650b, type: 2}
