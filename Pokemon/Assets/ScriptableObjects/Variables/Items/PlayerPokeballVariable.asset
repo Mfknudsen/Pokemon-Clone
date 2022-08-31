@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b75b782adae3e298708247b0296f65, type: 3}
+  m_Name: PlayerPokeballVariable
+  m_EditorClassIdentifier: 
+  valueHolder: 0
+  <pokemonItem>k__BackingField: {fileID: 11400000, guid: c540ef55878352d49a17ee086456650b, type: 2}

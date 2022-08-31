@@ -11,7 +11,8 @@
                     "id": "a9739c69-c5ec-4cdb-bdae-2ac6178c241e",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Interact",
@@ -19,7 +20,8 @@
                     "id": "f1011942-2938-424c-93be-6d5a3fd35b10",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Turn Axis",
@@ -27,7 +29,8 @@
                     "id": "2d842ed9-e396-4c7d-a333-ff34af5e5f38",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "NextChat",
@@ -35,7 +38,8 @@
                     "id": "67ac8333-9213-4716-b963-975a185d7a3a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Pause",
@@ -43,7 +47,8 @@
                     "id": "b5b84b1f-638f-40de-a296-a95a96629bc8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Run",
@@ -51,7 +56,8 @@
                     "id": "5c9f237f-6c2e-4012-8151-3191294bd80d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ShowHide",
@@ -59,7 +65,26 @@
                     "id": "9912ed9a-e272-43cf-94b2-b4b8fe61a053",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightClick",
+                    "type": "Button",
+                    "id": "cb061563-bd70-4bee-abff-4048628a7747",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "be5d3a2c-8fcc-42d1-8490-d3f06847ae9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -379,6 +404,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ShowHide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da3f5ebe-5418-442a-90bf-89333f78fac2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "RightClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "311611a6-a04f-40a3-98e3-664901e2caed",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
