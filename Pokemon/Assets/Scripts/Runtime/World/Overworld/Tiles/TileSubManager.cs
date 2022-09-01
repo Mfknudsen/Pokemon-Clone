@@ -45,7 +45,7 @@ namespace Runtime.World.Overworld.Tiles
 
         public NavMeshSurface GetSurfaces()
         {
-            return CommonGameObject.GetFirstComponentByRoot<NavMeshSurface>(gameObject);
+            return gameObject.GetFirstComponentByRoot<NavMeshSurface>();
         }
 
         public Neighbor[] GetNeighbors()

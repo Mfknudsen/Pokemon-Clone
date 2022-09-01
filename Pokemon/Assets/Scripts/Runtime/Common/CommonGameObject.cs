@@ -10,7 +10,7 @@ namespace Runtime.Common
 {
     public static class CommonGameObject
     {
-        public static T[] GetAllComponentsByRoot<T>(GameObject gameObject) where T : Component
+        public static T[] GetAllComponentsByRoot<T>(this GameObject gameObject) where T : Component
         {
             List<T> result = new();
 
@@ -18,13 +18,13 @@ namespace Runtime.Common
                 result.Add(component);
 
             foreach (Transform child in gameObject.transform)
-                result.AddRange(GetAllComponentsByRoot<T>(child.gameObject));
+                result.AddRange(child.gameObject.GetAllComponentsByRoot<T>());
 
             return result.Where(i => i != null)
                 .ToArray();
         }
 
-        public static T GetFirstComponentByRoot<T>(GameObject gameObject) where T : Component
+        public static T GetFirstComponentByRoot<T>(this GameObject gameObject) where T : Component
         {
             if (gameObject.GetComponent<T>() is { } component)
                 return component;
@@ -47,7 +47,7 @@ namespace Runtime.Common
             return null;
         }
 
-        public static T[] GetAllMonoBehavioursByRoot<T>(GameObject gameObject) where T : MonoBehaviour
+        public static T[] GetAllMonoBehavioursByRoot<T>(this GameObject gameObject) where T : MonoBehaviour
         {
             List<T> result = new();
 
@@ -55,12 +55,12 @@ namespace Runtime.Common
                 result.Add(monoBehaviour);
 
             foreach (Transform child in gameObject.transform)
-                result.AddRange(GetAllComponentsByRoot<T>(child.gameObject));
+                result.AddRange(child.gameObject.GetAllComponentsByRoot<T>());
 
             return result.Where(i => i != null).ToArray();
         }
 
-        public static T GetFirstComponentTowardsRoot<T>(GameObject gameObject) where T : MonoBehaviour
+        public static T GetFirstComponentTowardsRoot<T>(this GameObject gameObject) where T : MonoBehaviour
         {
             while (true)
             {
@@ -74,9 +74,16 @@ namespace Runtime.Common
             }
         }
 
-        public static GameObject GetChildByName(Transform parent, string name)
+        public static GameObject GetChildByName(this Transform parent, string name)
         {
-            return (from Transform t in parent where t.name.Equals(name) select t.gameObject).FirstOrDefault();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (Transform t in parent)
+            {
+                if (t.name.Equals(name))
+                    return t.gameObject;
+            }
+
+            return null;
         }
     }
 }
