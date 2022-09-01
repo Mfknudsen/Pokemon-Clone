@@ -8,7 +8,7 @@ namespace Runtime.Common
 {
     public static class CommonTexture
     {
-        public static Texture2D RenderTextureToTexture2D(RenderTexture renderTexture)
+        public static Texture2D RenderTextureToTexture2D(this RenderTexture renderTexture)
         {
             Texture2D tex = new(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
             RenderTexture.active = renderTexture;

@@ -52,7 +52,7 @@ namespace Runtime.Common
             return closest;
         }
 
-        public static T GetComponentFromHit<T>(RaycastHit hit)
+        public static T GetComponentFromHit<T>(this RaycastHit hit)
         {
             return hit.collider.GetComponent<T>();
         }

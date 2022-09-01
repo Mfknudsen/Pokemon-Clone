@@ -29,7 +29,7 @@ namespace Runtime.UI.Book.Light
         {
             bookLight.enabled = true;
             
-            Texture2D tex = CommonTexture.RenderTextureToTexture2D(renderTexture);
+            Texture2D tex = renderTexture.RenderTextureToTexture2D();
             Color[] pixels = tex.GetPixels();
 
             float brightColor = 0;

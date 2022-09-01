@@ -74,10 +74,10 @@ namespace Runtime.Common
             }
         }
 
-        public static GameObject GetChildByName(this Transform parent, string name)
+        public static GameObject GetChildByName(this GameObject parent, string name)
         {
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Transform t in parent)
+            foreach (Transform t in parent.transform)
             {
                 if (t.name.Equals(name))
                     return t.gameObject;
