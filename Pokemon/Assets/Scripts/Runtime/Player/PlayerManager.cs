@@ -56,6 +56,26 @@ namespace Runtime.Player
 
         #endregion
 
+        #region Build In State
+
+        private void OnEnable()
+        {
+            InputManager inputManager = InputManager.instance;
+            inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
+            inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
+            inputManager.runInputEvent.AddListener(OnRunChange);
+        }
+
+        private void OnDisable()
+        {
+            InputManager inputManager = InputManager.instance;
+            inputManager.moveAxisInputEvent.RemoveListener(OnMoveAxisChange);
+            inputManager.turnAxisInputEvent.RemoveListener(OnTurnAxisChange);
+            inputManager.runInputEvent.RemoveListener(OnRunChange);
+        }
+
+        #endregion
+
         #region Getters
 
         public CharacterSheet GetCharacterSheet()
@@ -126,10 +146,6 @@ namespace Runtime.Player
             moveController.Setup();
             StartCoroutine(playerInteractions.Setup());
 
-            InputManager inputManager = InputManager.instance;
-            inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
-            inputManager.runInputEvent.AddListener(OnRunChange);
-
             yield break;
         }
 
@@ -159,7 +175,6 @@ namespace Runtime.Player
 
         public void PlayAnimationClip(AnimationClip clip)
         {
-            
         }
 
         #endregion
@@ -168,15 +183,11 @@ namespace Runtime.Player
 
         #region Input
 
-        private void OnMoveAxisChange(Vector2 vec)
-        {
-            playerInputContainer.SetMoveDirection(vec);
-        }
+        private void OnMoveAxisChange(Vector2 vec) => playerInputContainer.moveDir = vec;
 
-        private void OnRunChange(bool set)
-        {
-            playerInputContainer.SetRun(set);
-        }
+        private void OnTurnAxisChange(Vector2 vec) => playerInputContainer.rotDir = vec;
+
+        private void OnRunChange(bool set) => playerInputContainer.run = set;
 
         #endregion
 

@@ -43,13 +43,14 @@ namespace Runtime.Player
         [FoldoutGroup("Animation")] [SerializeField]
         private float animatorDamp = 0.1f;
 
+        [FoldoutGroup("Variables")] [SerializeField]
+        private BoolVariable aiming, allowed;
+
         private PlayerInputContainer playerInputContainer;
-        private bool ready, allowed;
+        private bool ready;
 
         private Vector3 toLookRotation = Vector3.forward;
-
-        [SerializeField] private BoolVariable aiming;
-
+        
         #region Hashs
 
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
@@ -72,11 +73,6 @@ namespace Runtime.Player
 
         #endregion
 
-        public bool GetAllowed()
-        {
-            return allowed;
-        }
-
         #region In
 
         public void Setup()
@@ -95,7 +91,7 @@ namespace Runtime.Player
 
         public void Enable()
         {
-            allowed = true;
+            allowed.value = true;
 
             cameraRig.m_YAxis.m_MaxSpeed = yCamSpeed;
             cameraRig.m_XAxis.m_MaxSpeed = xCamSpeed;
@@ -103,7 +99,7 @@ namespace Runtime.Player
 
         public void Disable()
         {
-            allowed = false;
+            allowed.value = false;
 
             cameraRig.m_YAxis.m_MaxSpeed = 0;
             cameraRig.m_XAxis.m_MaxSpeed = 0;
@@ -127,11 +123,11 @@ namespace Runtime.Player
         {
             if (animController == null) return;
 
-            Vector3 playerInputDirection = playerInputContainer.GetMoveDirection();
+            Vector3 playerInputDirection = playerInputContainer.moveDir;
 
             animController.SetFloat(
                 HashWalking,
-                playerInputDirection.magnitude * 2 * (playerInputContainer.GetRun() ? 3 : 1),
+                playerInputDirection.magnitude * 2 * (playerInputContainer.run ? 3 : 1),
                 animatorDamp,
                 Time.deltaTime);
         }
@@ -140,26 +136,33 @@ namespace Runtime.Player
         {
             if (agent == null || !agent.isOnNavMesh) return;
 
-            Vector2 playerInputDirection = playerInputContainer.GetMoveDirection();
+            Vector2 playerInputDirection = playerInputContainer.moveDir;
             Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
 
-            agent.Move(moveVector * ((playerInputContainer.GetRun() ? runSpeed : moveSpeed) * Time.deltaTime));
+            agent.Move(moveVector * ((playerInputContainer.run ? runSpeed : moveSpeed) * Time.deltaTime));
         }
 
         private void Turn()
         {
-            if (playerInputContainer.GetMoveDirection() != Vector2.zero)
+            if (this.aiming.Equals(false))
             {
-                Vector2 playerInputDirection = playerInputContainer.GetMoveDirection();
-                Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
-                Vector3 sideMove = moveTransform.right * playerInputDirection.x;
-                toLookRotation = (forwardMove + sideMove).normalized;
-            }
+                if (playerInputContainer.moveDir != Vector2.zero)
+                {
+                    Vector2 playerInputDirection = playerInputContainer.moveDir;
+                    Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
+                    Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+                    toLookRotation = (forwardMove + sideMove).normalized;
+                }
 
-            visualTransform.rotation = Quaternion.Lerp(visualTransform.rotation,
-                Quaternion.LookRotation(toLookRotation), rotateSpeed * Time.deltaTime);
+                visualTransform.rotation = Quaternion.Lerp(visualTransform.rotation,
+                    Quaternion.LookRotation(toLookRotation), rotateSpeed * Time.deltaTime);
+            }
+            else
+            {
+                visualTransform.Rotate(Vector3.up, playerInputContainer.rotDir.x * Time.deltaTime);
+            }
         }
 
         #endregion

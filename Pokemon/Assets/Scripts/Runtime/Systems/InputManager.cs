@@ -15,7 +15,10 @@ namespace Runtime.Systems
         {
             get
             {
-                _instance ??= new InputManager();
+                if (_instance != null) return _instance;
+                
+                Debug.Log("Instantiating new InputManager");
+                _instance = new InputManager();
 
                 return _instance;
             }
@@ -26,7 +29,8 @@ namespace Runtime.Systems
         #region Events
 
         public readonly UnityEvent<Vector2>
-            moveAxisInputEvent = new();
+            moveAxisInputEvent = new(),
+            turnAxisInputEvent = new();
 
         public readonly UnityEvent
             nextChatInputEvent = new(),
@@ -52,15 +56,14 @@ namespace Runtime.Systems
             playerInput.Player.Enable();
 
             playerInput.Player.MoveAxis.performed += context =>
-            {
-                Vector2 input = context.ReadValue<Vector2>();
-                this.moveAxisInputEvent.Invoke(input);
-            };
+                this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
             playerInput.Player.MoveAxis.canceled += context =>
-            {
-                Vector2 input = context.ReadValue<Vector2>();
-                this.moveAxisInputEvent.Invoke(input);
-            };
+                this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+
+            playerInput.Player.TurnAxis.performed += context =>
+                this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            playerInput.Player.TurnAxis.canceled += context =>
+                this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
             playerInput.Player.Run.performed += context => this.runInputEvent.Invoke(!context.canceled);
             playerInput.Player.Run.canceled += context => this.runInputEvent.Invoke(!context.canceled);
@@ -71,7 +74,10 @@ namespace Runtime.Systems
             playerInput.Player.ShowHide.performed += _ => showHideEvent.Invoke();
 
             playerInput.Player.RightClick.performed += _ => rightClickEvent.Invoke();
+            playerInput.Player.RightClick.canceled += _ => rightClickEvent.Invoke();
+
             playerInput.Player.LeftClick.performed += _ => leftClickEvent.Invoke();
+            playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke();
         }
 
         #endregion

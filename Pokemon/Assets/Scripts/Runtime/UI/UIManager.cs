@@ -81,12 +81,12 @@ namespace Runtime.UI
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                
+
                 InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
             }
             else
                 Destroy(gameObject);
-            
+
             yield break;
         }
 
@@ -135,13 +135,13 @@ namespace Runtime.UI
 
         private void PauseTrigger()
         {
-            if(this.playerThrowingItem.Equals(true)) return;
-            
+            if (this.playerThrowingItem.Equals(true)) return;
+
             if (BattleManager.instance != null) return;
 
-            if (!readyToPause) return;
+            if (!this.readyToPause) return;
 
-            readyToPause = false;
+            this.readyToPause = false;
 
             SwitchUI(UISelection.Pause);
 

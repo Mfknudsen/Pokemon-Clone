@@ -8,16 +8,16 @@ using Object = UnityEngine.Object;
 
 namespace Runtime.ScriptableVariables
 {
-    public class ObjectVariable<T> : ScriptableVariable where T : Object
+    public class ObjectVariable<TGeneric> : ScriptableVariable where TGeneric : Object
     {
-        public T defaultValue;
+        public TGeneric defaultValue;
 
-        [NonSerialized] private T localValue;
+        [NonSerialized] private TGeneric localValue;
 
-        private readonly UnityEvent<T> valueChangeEventWithValue = new();
+        private readonly UnityEvent<TGeneric> valueChangeEventWithValue = new();
         private readonly UnityEvent valueChangeEvent = new();
 
-        public T value
+        public TGeneric value
         {
             get => this.localValue;
             set
@@ -26,18 +26,25 @@ namespace Runtime.ScriptableVariables
                 {
                     this.localValue = value;
                     valueChangeEventWithValue.Invoke(this.localValue);
+                    valueChangeEvent.Invoke();
                 }
                 else
                     this.localValue = value;
             }
         }
 
-        public void AddListener(UnityAction<T> action) => this.valueChangeEventWithValue.AddListener(action);
-        public void RemoveListener(UnityAction<T> action) => this.valueChangeEventWithValue.RemoveListener(action);
+        public void AddListener(UnityAction<TGeneric> action) =>
+            this.valueChangeEventWithValue.AddListener(action);
 
-        public void AddListener(UnityAction action) => this.valueChangeEvent.AddListener(action);
-        public void RemoveListener(UnityAction action) => this.valueChangeEvent.RemoveListener(action);
-        
+        public void RemoveListener(UnityAction<TGeneric> action) =>
+            this.valueChangeEventWithValue.RemoveListener(action);
+
+        public void AddListener(UnityAction action) =>
+            this.valueChangeEvent.AddListener(action);
+
+        public void RemoveListener(UnityAction action) =>
+            this.valueChangeEvent.RemoveListener(action);
+
         public bool Empty()
         {
             return value == null;

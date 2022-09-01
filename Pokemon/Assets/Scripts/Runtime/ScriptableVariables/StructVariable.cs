@@ -1,22 +1,24 @@
 #region Packages
 
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine.Events;
 
 #endregion
 
 namespace Runtime.ScriptableVariables
 {
-    public class StructVariable<T> : ScriptableVariable where T : struct
+    public class StructVariable<TGeneric> : ScriptableVariable where TGeneric : struct
     {
-        public T defaultValue;
+        public TGeneric defaultValue;
 
-        [NonSerialized] private T localValue;
+        [NonSerialized, ShowInInspector, ReadOnly]
+        private TGeneric localValue;
 
-        private readonly UnityEvent<T> valueChangeEventWithParam = new();
+        private readonly UnityEvent<TGeneric> valueChangeEventWithParam = new();
         private readonly UnityEvent valueChangeEvent = new();
 
-        public T value
+        public TGeneric value
         {
             get => this.localValue;
             set
@@ -25,19 +27,26 @@ namespace Runtime.ScriptableVariables
                 {
                     this.localValue = value;
                     valueChangeEventWithParam.Invoke(this.localValue);
+                    valueChangeEvent.Invoke();
                 }
                 else
                     this.localValue = value;
             }
         }
-        
-        public void AddListener(UnityAction<T> action) => this.valueChangeEventWithParam.AddListener(action);
-        public void RemoveListener(UnityAction<T> action) => this.valueChangeEventWithParam.RemoveListener(action);
 
-        public void AddListener(UnityAction action) => this.valueChangeEvent.AddListener(action);
-        public void RemoveListener(UnityAction action) => this.valueChangeEvent.RemoveListener(action);
+        public void AddListener(UnityAction<TGeneric> action) =>
+            this.valueChangeEventWithParam.AddListener(action);
 
-        public bool Equals(T checkAgainst)
+        public void RemoveListener(UnityAction<TGeneric> action) =>
+            this.valueChangeEventWithParam.RemoveListener(action);
+
+        public void AddListener(UnityAction action) =>
+            this.valueChangeEvent.AddListener(action);
+
+        public void RemoveListener(UnityAction action) =>
+            this.valueChangeEvent.RemoveListener(action);
+
+        public bool Equals(TGeneric checkAgainst)
         {
             return value.Equals(checkAgainst);
         }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.35872743, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2041,6 +2041,7 @@ MonoBehaviour:
   loadingUI: {fileID: 1452226467}
   selectionMenu: {fileID: 141515557}
   displayManager: {fileID: 1906483170}
+  playerThrowingItem: {fileID: 11400000, guid: a6d79683a78e3ec48be4618be35c7b04, type: 2}
 --- !u!4 &200748080
 Transform:
   m_ObjectHideFlags: 0

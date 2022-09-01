@@ -15,7 +15,7 @@ namespace Runtime.Player
         #region Values
 
         [SerializeField] private CinemachineVirtualCameraBase cameraRig;
-        [SerializeField] private BoolVariable aiming, throwing;
+        [SerializeField] private BoolVariable aiming, throwing, allowed;
         [SerializeField] private ItemVariable toThrow;
 
         #endregion
@@ -46,30 +46,24 @@ namespace Runtime.Player
 
         private void ThrowItem()
         {
-            if(toThrow.Empty()) return;
+            if(this.toThrow.Empty()) return;
 
             this.throwing.value = true;
+            
         }
         
         private void SwitchToAiming()
         {
-            if (aiming.Equals(true))
+            Debug.Log(this.allowed.value);
+            
+            if (this.aiming.Equals(true))
             {
-                SwitchToAimingRig();
-                SwitchToAimingControls();
+                this.cameraRig.Priority = 9;
             }
             else
             {
+                this.cameraRig.Priority = 11;
             }
-        }
-
-        private void SwitchToAimingRig()
-        {
-            cameraRig.enabled = true;
-        }
-
-        private void SwitchToAimingControls()
-        {
         }
 
         #endregion
