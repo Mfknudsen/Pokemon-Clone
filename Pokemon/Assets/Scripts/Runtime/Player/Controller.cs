@@ -1,7 +1,7 @@
 ﻿#region Packages
 
 using Cinemachine;
-using Runtime.Common.ScriptableVariables;
+using Runtime.ScriptableVariables.Structs;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -48,7 +48,7 @@ namespace Runtime.Player
 
         private Vector3 toLookRotation = Vector3.forward;
 
-        [SerializeField] private ScriptableStruct<bool> aiming;
+        [SerializeField] private BoolVariable aiming;
 
         #region Hashs
 

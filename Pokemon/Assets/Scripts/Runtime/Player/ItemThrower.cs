@@ -1,7 +1,7 @@
 #region Packages
 
 using Cinemachine;
-using Runtime.Common.ScriptableVariables.Structs;
+using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace Runtime.Player
         #region Values
 
         [SerializeField] private CinemachineVirtualCameraBase cameraRig;
-        [SerializeField] private ScriptableBool aiming, throwing;
+        [SerializeField] private BoolVariable aiming, throwing;
 
         #endregion
 
