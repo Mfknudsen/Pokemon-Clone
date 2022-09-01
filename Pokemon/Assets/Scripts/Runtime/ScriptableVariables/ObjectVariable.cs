@@ -1,7 +1,6 @@
 #region Package
 
 using System;
-using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
@@ -9,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace Runtime.ScriptableVariables
 {
-    public class ObjectVariable<T> : ScriptableObject, ISerializationCallbackReceiver where T : Object
+    public class ObjectVariable<T> : ScriptableVariable where T : Object
     {
         public T defaultValue;
 
@@ -18,7 +17,7 @@ namespace Runtime.ScriptableVariables
             get => this.localValue;
             set
             {
-                if (!value.Equals(this.localValue))
+                if (value != this.localValue)
                 {
                     this.localValue = value;
                     valueChangeEvent.Invoke(this.localValue);
@@ -36,12 +35,17 @@ namespace Runtime.ScriptableVariables
         public void AddListener(UnityAction<T> action) => this.valueChangeEvent.AddListener(action);
         public void RemoveListener(UnityAction<T> action) => this.valueChangeEvent.RemoveListener(action);
 
-        public void OnAfterDeserialize()
+        public bool Empty()
+        {
+            return value == null;
+        }
+        
+        public override void OnAfterDeserialize()
         {
             this.value = this.defaultValue;
         }
 
-        public void OnBeforeSerialize()
+        public override void OnBeforeSerialize()
         {
         }
     }

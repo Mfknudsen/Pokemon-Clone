@@ -4,6 +4,7 @@ using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
+using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Runtime.UI_Book;
 using Runtime.UI.Pause;
@@ -37,6 +38,8 @@ namespace Runtime.UI
         [SerializeField] private SelectionMenu selectionMenu;
 
         [SerializeField] private DisplayManager displayManager;
+
+        [SerializeField] private BoolVariable playerThrowingItem;
 
         private UISelection currentSelection = UISelection.Start;
         private bool readyToPause;
@@ -132,6 +135,8 @@ namespace Runtime.UI
 
         private void PauseTrigger()
         {
+            if(this.playerThrowingItem.Equals(true)) return;
+            
             if (BattleManager.instance != null) return;
 
             if (!readyToPause) return;

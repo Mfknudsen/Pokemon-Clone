@@ -1,6 +1,7 @@
 #region Packages
 
 using Cinemachine;
+using Runtime.ScriptableVariables;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Runtime.Player
 
         [SerializeField] private CinemachineVirtualCameraBase cameraRig;
         [SerializeField] private BoolVariable aiming, throwing;
+        [SerializeField] private ItemVariable toThrow;
 
         #endregion
 
@@ -24,8 +26,8 @@ namespace Runtime.Player
         {
             InputManager inputManager = InputManager.instance;
             inputManager.rightClickEvent.AddListener(() => this.aiming.value = !this.aiming.value);
-            inputManager.leftClickEvent.AddListener(() => this.throwing.value = !this.throwing.value);
-            
+            inputManager.leftClickEvent.AddListener(ThrowItem);
+
             aiming.AddListener(SwitchToAiming);
         }
 
@@ -33,8 +35,8 @@ namespace Runtime.Player
         {
             InputManager inputManager = InputManager.instance;
             inputManager.rightClickEvent.RemoveListener(() => this.aiming.value = !this.aiming.value);
-            inputManager.leftClickEvent.RemoveListener(() => this.throwing.value = !this.throwing.value);
-            
+            inputManager.leftClickEvent.RemoveListener(ThrowItem);
+
             aiming.RemoveListener(SwitchToAiming);
         }
 
@@ -42,16 +44,22 @@ namespace Runtime.Player
 
         #region Internal
 
-        private void SwitchToAiming(bool state)
+        private void ThrowItem()
         {
-            if (state)
+            if(toThrow.Empty()) return;
+
+            this.throwing.value = true;
+        }
+        
+        private void SwitchToAiming()
+        {
+            if (aiming.Equals(true))
             {
                 SwitchToAimingRig();
                 SwitchToAimingControls();
             }
             else
             {
-                
             }
         }
 
@@ -62,7 +70,6 @@ namespace Runtime.Player
 
         private void SwitchToAimingControls()
         {
-            
         }
 
         #endregion

@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef3e0d22194240fd9749685da5368efa, type: 3}
-  m_Name: PlayerGreatballVariable
+  m_Script: {fileID: 11500000, guid: 5db05b464a66f774eb246021894f1c63, type: 3}
+  m_Name: ThrowingItem
   m_EditorClassIdentifier: 
-  valueHolder: 0
-  defaultItem: {fileID: 11400000, guid: 43345a413221a9649ba3bae311ff5f47, type: 2}
+  defaultValue: {fileID: 0}

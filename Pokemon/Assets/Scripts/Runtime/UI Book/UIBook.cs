@@ -330,7 +330,7 @@ namespace Runtime.UI_Book
         private bool done;
         private readonly GameObject turnLeftPaper, turnRightPaper, openLeft, openRight;
 
-        private static readonly int InvertPage = Shader.PropertyToID("InvertPage");
+        private static readonly int InvertPageID = Shader.PropertyToID("InvertPage");
 
         public TurnPage(bool fromLeftToRight, GameObject turnLeftPaper, GameObject turnRightPaper,
             GameObject openLeft,
@@ -356,8 +356,8 @@ namespace Runtime.UI_Book
             SetOpens(false);
             SetTurns(true);
 
-            this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(InvertPage, this.fromLeftToRight ? 0 : 1);
-            this.turnRightPaper.GetComponent<Renderer>().material.SetInt(InvertPage, this.fromLeftToRight ? 1 : 0);
+            this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(InvertPageID, this.fromLeftToRight ? 0 : 1);
+            this.turnRightPaper.GetComponent<Renderer>().material.SetInt(InvertPageID, this.fromLeftToRight ? 1 : 0);
 
             const float animationTime = 0.5f;
 
