@@ -12,6 +12,11 @@ namespace Runtime.ScriptableVariables
     {
         public T defaultValue;
 
+        [NonSerialized] private T localValue;
+
+        private readonly UnityEvent<T> valueChangeEventWithValue = new();
+        private readonly UnityEvent valueChangeEvent = new();
+
         public T value
         {
             get => this.localValue;
@@ -20,26 +25,24 @@ namespace Runtime.ScriptableVariables
                 if (value != this.localValue)
                 {
                     this.localValue = value;
-                    valueChangeEvent.Invoke(this.localValue);
+                    valueChangeEventWithValue.Invoke(this.localValue);
                 }
                 else
                     this.localValue = value;
             }
         }
+
+        public void AddListener(UnityAction<T> action) => this.valueChangeEventWithValue.AddListener(action);
+        public void RemoveListener(UnityAction<T> action) => this.valueChangeEventWithValue.RemoveListener(action);
+
+        public void AddListener(UnityAction action) => this.valueChangeEvent.AddListener(action);
+        public void RemoveListener(UnityAction action) => this.valueChangeEvent.RemoveListener(action);
         
-        [NonSerialized]
-        private T localValue;
-
-        private readonly UnityEvent<T> valueChangeEvent = new();
-
-        public void AddListener(UnityAction<T> action) => this.valueChangeEvent.AddListener(action);
-        public void RemoveListener(UnityAction<T> action) => this.valueChangeEvent.RemoveListener(action);
-
         public bool Empty()
         {
             return value == null;
         }
-        
+
         public override void OnAfterDeserialize()
         {
             this.value = this.defaultValue;
