@@ -54,15 +54,13 @@ namespace Runtime.Player
         
         private void SwitchToAiming()
         {
-            Debug.Log(this.allowed.value);
-            
-            if (this.aiming.Equals(true))
+            if (this.aiming.value)
             {
-                this.cameraRig.Priority = 9;
+                this.cameraRig.Priority = 11;
             }
             else
             {
-                this.cameraRig.Priority = 11;
+                this.cameraRig.Priority = 9;
             }
         }
 

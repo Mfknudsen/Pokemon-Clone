@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: PlayerMoveDirection
   m_EditorClassIdentifier: 
   description: The current directional direction input from the player
+  debugSetter: 1
   defaultValue: {x: 0, y: 0}

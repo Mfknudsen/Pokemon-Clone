@@ -15,14 +15,14 @@ namespace Runtime.Systems
         {
             get
             {
-                if (_instance != null) return _instance;
-
-                Debug.Log("Instantiating new InputManager");
-                _instance = new InputManager();
+                if (_instance?.playerInput == null)
+                    _instance = new InputManager();
 
                 return _instance;
             }
         }
+
+        private readonly PlayerInput playerInput;
 
         private static InputManager _instance;
 
@@ -51,25 +51,24 @@ namespace Runtime.Systems
 
         private InputManager()
         {
-            PlayerInput playerInput = new();
+            Debug.Log("Non static");
+
+            playerInput = new PlayerInput();
 
             playerInput.Player.Enable();
 
             playerInput.Player.MoveAxis.performed += context =>
-            {
-                Debug.Log(context.ReadValue<Vector2>());
-                this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
-            };
+                moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
             playerInput.Player.MoveAxis.canceled += context =>
-                this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+                moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
             playerInput.Player.TurnAxis.performed += context =>
-                this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+                turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
             playerInput.Player.TurnAxis.canceled += context =>
-                this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+                turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
-            playerInput.Player.Run.performed += context => this.runInputEvent.Invoke(!context.canceled);
-            playerInput.Player.Run.canceled += context => this.runInputEvent.Invoke(!context.canceled);
+            playerInput.Player.Run.performed += context => runInputEvent.Invoke(!context.canceled);
+            playerInput.Player.Run.canceled += context => runInputEvent.Invoke(!context.canceled);
 
             playerInput.Player.NextChat.performed += _ => nextChatInputEvent.Invoke();
             playerInput.Player.Pause.performed += _ => pauseInputEvent.Invoke();

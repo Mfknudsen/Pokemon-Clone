@@ -2,13 +2,12 @@
 
 using System;
 using UnityEngine.Events;
-using Object = UnityEngine.Object;
 
 #endregion
 
 namespace Runtime.ScriptableVariables
 {
-    public class ObjectVariable<TGeneric> : ScriptableVariable where TGeneric : Object
+    public abstract class ObjectVariable<TGeneric> : ScriptableVariable where TGeneric : class
     {
         public TGeneric defaultValue;
 

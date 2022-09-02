@@ -8,10 +8,10 @@ using UnityEngine.Events;
 
 namespace Runtime.ScriptableVariables
 {
-    public class StructVariable<TGeneric> : ScriptableVariable where TGeneric : struct
+    public abstract class StructVariable<TGeneric> : ScriptableVariable where TGeneric : struct
     {
         public TGeneric defaultValue;
-
+        
         [NonSerialized, ShowInInspector, ReadOnly]
         private TGeneric localValue;
 
@@ -23,6 +23,7 @@ namespace Runtime.ScriptableVariables
             get => this.localValue;
             set
             {
+
                 if (!value.Equals(this.localValue))
                 {
                     this.localValue = value;

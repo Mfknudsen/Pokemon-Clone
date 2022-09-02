@@ -23,7 +23,7 @@ namespace Runtime
         {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 150;
-
+            
             StartCoroutine(Setup());
         }
 

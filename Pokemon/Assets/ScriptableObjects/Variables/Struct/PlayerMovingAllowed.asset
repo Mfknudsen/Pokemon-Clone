@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: PlayerMovingAllowed
   m_EditorClassIdentifier: 
   description: When the player is allowed to move in the overworld
+  debugSetter: 0
   defaultValue: 0

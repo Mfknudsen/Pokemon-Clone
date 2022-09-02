@@ -11,6 +11,8 @@ namespace Runtime.ScriptableVariables
         // ReSharper disable once NotAccessedField.Local
         [SerializeField, TextArea] private string description;
 
+        [SerializeField] protected bool debugSetter;
+
         public abstract void OnBeforeSerialize();
         public abstract void OnAfterDeserialize();
     }
