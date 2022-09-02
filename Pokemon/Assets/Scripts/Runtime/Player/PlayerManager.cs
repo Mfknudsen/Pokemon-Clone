@@ -5,6 +5,7 @@ using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Files;
 using Runtime.Items;
+using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Runtime.Trainer;
 using Sirenix.OdinInspector;
@@ -46,11 +47,16 @@ namespace Runtime.Player
         [FoldoutGroup("References")] [SerializeField]
         private CinemachineFreeLook overworldCameraRig;
 
-        private GameObject overworldGameObject;
-        private PlayerInputContainer playerInputContainer;
-
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
         private CharacterSheet characterSheet;
+
+        [FoldoutGroup("Variables")] [SerializeField]
+        private Vec2Variable moveDirection, rotationDirection;
+
+        [FoldoutGroup("Variables")] [SerializeField]
+        private BoolVariable running;
+
+        private GameObject overworldGameObject;
 
         private const string FileName = "PlayerData";
 
@@ -103,11 +109,6 @@ namespace Runtime.Player
             return playerInteractions;
         }
 
-        public PlayerInputContainer GetPlayerInput()
-        {
-            return playerInputContainer;
-        }
-
         public NavMeshAgent GetAgent()
         {
             return agent;
@@ -140,8 +141,6 @@ namespace Runtime.Player
             overworldCameraRig.enabled = false;
 
             overworldGameObject = controller.gameObject;
-
-            playerInputContainer = new PlayerInputContainer();
 
             moveController.Setup();
             StartCoroutine(playerInteractions.Setup());
@@ -183,11 +182,11 @@ namespace Runtime.Player
 
         #region Input
 
-        private void OnMoveAxisChange(Vector2 vec) => playerInputContainer.moveDir = vec;
+        private void OnMoveAxisChange(Vector2 vec) => moveDirection.value = vec;
 
-        private void OnTurnAxisChange(Vector2 vec) => playerInputContainer.rotDir = vec;
+        private void OnTurnAxisChange(Vector2 vec) => rotationDirection.value = vec;
 
-        private void OnRunChange(bool set) => playerInputContainer.run = set;
+        private void OnRunChange(bool set) => running.value = set;
 
         #endregion
 

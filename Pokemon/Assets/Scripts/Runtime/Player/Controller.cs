@@ -44,13 +44,15 @@ namespace Runtime.Player
         private float animatorDamp = 0.1f;
 
         [FoldoutGroup("Variables")] [SerializeField]
-        private BoolVariable aiming, allowed;
+        private BoolVariable aiming, allowed, running;
 
-        private PlayerInputContainer playerInputContainer;
+        [FoldoutGroup("Variables")] [SerializeField]
+        private Vec2Variable moveDirection, rotationDirection; 
+            
         private bool ready;
 
         private Vector3 toLookRotation = Vector3.forward;
-        
+
         #region Hashs
 
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
@@ -63,8 +65,8 @@ namespace Runtime.Player
 
         private void Update()
         {
-            if (!ready || !allowed) return;
-
+            if (!ready || allowed.Equals(false)) return;
+            
             UpdateMoveTransform();
             Move();
             Turn();
@@ -83,9 +85,7 @@ namespace Runtime.Player
 
             rb ??= playerTransform.GetComponent<Rigidbody>();
             rb.useGravity = false;
-
-            playerInputContainer = PlayerManager.instance.GetPlayerInput();
-
+            
             ready = true;
         }
 
@@ -123,11 +123,11 @@ namespace Runtime.Player
         {
             if (animController == null) return;
 
-            Vector3 playerInputDirection = playerInputContainer.moveDir;
+            Vector3 playerInputDirection = moveDirection.value;
 
             animController.SetFloat(
                 HashWalking,
-                playerInputDirection.magnitude * 2 * (playerInputContainer.run ? 3 : 1),
+                playerInputDirection.magnitude * 2 * (running.value ? 3 : 1),
                 animatorDamp,
                 Time.deltaTime);
         }
@@ -136,21 +136,21 @@ namespace Runtime.Player
         {
             if (agent == null || !agent.isOnNavMesh) return;
 
-            Vector2 playerInputDirection = playerInputContainer.moveDir;
+            Vector2 playerInputDirection = moveDirection.value;
             Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
 
-            agent.Move(moveVector * ((playerInputContainer.run ? runSpeed : moveSpeed) * Time.deltaTime));
+            agent.Move(moveVector * ((running.value ? runSpeed : moveSpeed) * Time.deltaTime));
         }
 
         private void Turn()
         {
             if (this.aiming.Equals(false))
             {
-                if (playerInputContainer.moveDir != Vector2.zero)
+                if (moveDirection.value != Vector2.zero)
                 {
-                    Vector2 playerInputDirection = playerInputContainer.moveDir;
+                    Vector2 playerInputDirection = moveDirection.value;
                     Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
                     Vector3 sideMove = moveTransform.right * playerInputDirection.x;
                     toLookRotation = (forwardMove + sideMove).normalized;
@@ -161,7 +161,7 @@ namespace Runtime.Player
             }
             else
             {
-                visualTransform.Rotate(Vector3.up, playerInputContainer.rotDir.x * Time.deltaTime);
+                visualTransform.Rotate(Vector3.up, rotationDirection.x * Time.deltaTime);
             }
         }
 

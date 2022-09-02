@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e2b3913ae617128821645ca6b4a4dc, type: 3}
   m_Name: PlayerThrowing
   m_EditorClassIdentifier: 
+  description: When the player is currently throwing an item in the overworld
   defaultValue: 0

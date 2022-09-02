@@ -16,7 +16,7 @@ namespace Runtime.Systems
             get
             {
                 if (_instance != null) return _instance;
-                
+
                 Debug.Log("Instantiating new InputManager");
                 _instance = new InputManager();
 
@@ -56,7 +56,10 @@ namespace Runtime.Systems
             playerInput.Player.Enable();
 
             playerInput.Player.MoveAxis.performed += context =>
+            {
+                Debug.Log(context.ReadValue<Vector2>());
                 this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            };
             playerInput.Player.MoveAxis.canceled += context =>
                 this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
