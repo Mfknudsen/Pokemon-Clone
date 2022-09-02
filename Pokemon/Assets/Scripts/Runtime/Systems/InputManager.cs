@@ -49,10 +49,8 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        public InputManager()
+        private InputManager()
         {
-            Debug.Log("Non static");
-
             playerInput = new PlayerInput();
 
             playerInput.Player.Enable();
@@ -81,6 +79,9 @@ namespace Runtime.Systems
             playerInput.Player.LeftClick.performed += _ => leftClickEvent.Invoke();
             playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke();
         }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+        private static void RemoveQuit() => _instance = null;
 
         #endregion
     }
