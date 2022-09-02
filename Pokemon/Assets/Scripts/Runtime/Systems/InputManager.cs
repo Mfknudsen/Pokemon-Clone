@@ -49,7 +49,7 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        private InputManager()
+        public InputManager()
         {
             Debug.Log("Non static");
 
