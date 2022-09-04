@@ -169,10 +169,7 @@ namespace Runtime.UI_Book
             OperationManager.instance.AddOperationsContainer(container);
         }
 
-        private void CopyTextures()
-        {
-            Graphics.CopyTexture(this.curRenderTexture, this.preRenderTexture);
-        }
+        private void CopyTextures() => Graphics.CopyTexture(this.curRenderTexture, this.preRenderTexture);
 
         #endregion
 

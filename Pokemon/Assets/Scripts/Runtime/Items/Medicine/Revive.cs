@@ -49,7 +49,7 @@ namespace Runtime.Items.Medicine
             if (toFull)
                 target.ReceiveDamage(-Mathf.Infinity);
             else
-                target.ReceiveDamage(-(target.GetStat(Stat.HP) / 2));
+                target.ReceiveDamage(-(target.GetCalculatedStat(Stat.HP) / 2));
 
             while (!ChatManager.instance.GetIsClear())
                 yield return null;

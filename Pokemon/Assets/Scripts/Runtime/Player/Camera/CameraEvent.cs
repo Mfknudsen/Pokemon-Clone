@@ -14,7 +14,7 @@ namespace Runtime.Player.Camera
     public struct CameraEvent : IOperation
     {
         #region Values
-
+        
         private bool done;
         private readonly CinemachineVirtualCameraBase cinemachineRig;
         private readonly CameraSettings cameraSettings;

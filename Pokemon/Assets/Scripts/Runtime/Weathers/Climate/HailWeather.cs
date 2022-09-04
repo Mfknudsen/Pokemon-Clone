@@ -38,7 +38,7 @@ namespace Runtime.Weathers.Climate
                 if (pokemon == null || IsImmune(pokemon))
                     continue;
 
-                int damagePerTarget = pokemon.GetStat(Stat.HP) / 16;
+                int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 16;
                 float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
 
 

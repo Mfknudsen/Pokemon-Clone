@@ -47,8 +47,8 @@ namespace Runtime.Player
         private BoolVariable aiming, allowed, running;
 
         [FoldoutGroup("Variables")] [SerializeField]
-        private Vec2Variable moveDirection, rotationDirection; 
-            
+        private Vec2Variable moveDirection, rotationDirection;
+
         private bool ready;
 
         private Vector3 toLookRotation = Vector3.forward;
@@ -66,12 +66,18 @@ namespace Runtime.Player
         private void Update()
         {
             if (!ready || allowed.Equals(false)) return;
-            
+
             UpdateMoveTransform();
             Move();
             Turn();
             UpdateAnimController();
         }
+
+        #endregion
+
+        #region Getters
+
+        public GameObject GetVisual() => visualTransform.gameObject;
 
         #endregion
 
@@ -85,7 +91,7 @@ namespace Runtime.Player
 
             rb ??= playerTransform.GetComponent<Rigidbody>();
             rb.useGravity = false;
-            
+
             ready = true;
         }
 
@@ -116,7 +122,7 @@ namespace Runtime.Player
 
         private void UpdateMoveTransform()
         {
-            moveTransform.rotation = Quaternion.Euler(0, camTransform.localRotation.eulerAngles.y, 0);
+            moveTransform.LookAt(moveTransform.position + camTransform.forward, Vector3.up);
         }
 
         private void UpdateAnimController()
@@ -153,15 +159,16 @@ namespace Runtime.Player
                     Vector2 playerInputDirection = moveDirection.value;
                     Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
                     Vector3 sideMove = moveTransform.right * playerInputDirection.x;
-                    toLookRotation = (forwardMove + sideMove).normalized;
+                    this.toLookRotation = (forwardMove + sideMove).normalized;
+                    this.toLookRotation -= new Vector3(0, this.toLookRotation.y, 0);
                 }
 
-                visualTransform.rotation = Quaternion.Lerp(visualTransform.rotation,
-                    Quaternion.LookRotation(toLookRotation), rotateSpeed * Time.deltaTime);
+                this.visualTransform.rotation = Quaternion.Lerp(this.visualTransform.rotation,
+                    Quaternion.LookRotation(this.toLookRotation), this.rotateSpeed * Time.deltaTime);
             }
             else
             {
-                visualTransform.Rotate(Vector3.up, rotationDirection.x * Time.deltaTime);
+                transform.Rotate(Vector3.up, rotationDirection.x * 5 * Time.deltaTime);
             }
         }
 

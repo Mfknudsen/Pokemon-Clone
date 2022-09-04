@@ -1,10 +1,12 @@
 ﻿#region Packages
 
 using System.Collections;
+using System.Linq;
 using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Files;
 using Runtime.Items;
+using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Runtime.Trainer;
@@ -56,6 +58,12 @@ namespace Runtime.Player
         [FoldoutGroup("Variables")] [SerializeField]
         private BoolVariable running;
 
+        [BoxGroup("Variables/Camera")] [SerializeField]
+        private CinemachineBrainVariable cameraBrain;
+
+        [BoxGroup("Variables/Camera")] [SerializeField]
+        private CinemachineFreeLookVariable defaultOverworldRig;
+
         private GameObject overworldGameObject;
 
         private const string FileName = "PlayerData";
@@ -70,6 +78,12 @@ namespace Runtime.Player
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
+
+            defaultOverworldRig.value = GetComponentsInChildren<CinemachineFreeLook>()
+                .First(c => c.name.Equals("Player Third Person Rig"));
+
+            if (UnityEngine.Camera.main != null)
+                cameraBrain.value = UnityEngine.Camera.main.GetComponent<CinemachineBrain>();
         }
 
         private void OnDisable()
@@ -84,45 +98,21 @@ namespace Runtime.Player
 
         #region Getters
 
-        public CharacterSheet GetCharacterSheet()
-        {
-            return characterSheet;
-        }
+        public CharacterSheet GetCharacterSheet() => characterSheet;
 
-        public string[] GetPronouns()
-        {
-            return new[] { characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3 };
-        }
+        public string[] GetPronouns() => new[] { characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3 };
 
-        public Team GetTeam()
-        {
-            return team;
-        }
+        public Team GetTeam() => team;
 
-        public BattleMember GetBattleMember()
-        {
-            return battleMember;
-        }
+        public BattleMember GetBattleMember() => battleMember;
 
-        public PlayerInteractions GetInteractions()
-        {
-            return playerInteractions;
-        }
+        public PlayerInteractions GetInteractions() => playerInteractions;
 
-        public NavMeshAgent GetAgent()
-        {
-            return agent;
-        }
+        public NavMeshAgent GetAgent() => agent;
 
-        public CinemachineFreeLook GetOverworldCameraRig()
-        {
-            return overworldCameraRig;
-        }
+        public CinemachineFreeLook GetOverworldCameraRig() => overworldCameraRig;
 
-        public Controller GetController()
-        {
-            return controller;
-        }
+        public Controller GetController() => controller;
 
         #endregion
 
@@ -148,15 +138,9 @@ namespace Runtime.Player
             yield break;
         }
 
-        public void EnablePlayerControl()
-        {
-            controller.Enable();
-        }
+        public void EnablePlayerControl() => controller.Enable();
 
-        public void DisablePlayerControl()
-        {
-            controller.Disable();
-        }
+        public void DisablePlayerControl() => controller.Disable();
 
         // ReSharper disable once IdentifierTypo
         public void DisableOverworld()

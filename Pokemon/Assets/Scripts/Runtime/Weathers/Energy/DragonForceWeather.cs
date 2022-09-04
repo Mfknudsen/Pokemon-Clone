@@ -57,7 +57,7 @@ namespace Runtime.Weathers.Energy
             if (affected == null || affected.GetTypes()
                 .Any(type => type.GetTypeName() == TypeName.Dragon)) yield break;
 
-            int damagePerTarget = affected.GetStat(Stat.HP) / 10;
+            int damagePerTarget = affected.GetCalculatedStat(Stat.HP) / 10;
             float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
 
             while (damageApplied < damagePerTarget)

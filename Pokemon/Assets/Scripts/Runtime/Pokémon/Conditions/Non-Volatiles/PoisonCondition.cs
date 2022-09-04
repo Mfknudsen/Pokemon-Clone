@@ -85,7 +85,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             ChatManager.instance.Add(toSend);
 
             if (damage == 0)
-                SetDamage(affectedPokemon.GetStat(Stat.HP));
+                SetDamage(affectedPokemon.GetCalculatedStat(Stat.HP));
 
             damage = GetDamage();
             float divide = 200;

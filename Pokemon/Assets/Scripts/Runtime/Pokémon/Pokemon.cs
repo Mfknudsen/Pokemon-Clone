@@ -7,6 +7,7 @@ using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Interfaces;
 using Runtime.Items;
 using Runtime.Pokémon.Conditions;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -69,62 +70,92 @@ namespace Runtime.Pokémon
 
         [SerializeField] private bool isInstantiated;
 
-        [SerializeField] private string pokemonName;
+        [BoxGroup("Basic")] [SerializeField] private string pokemonName;
 
-        // ReSharper disable once IdentifierTypo
-        [SerializeField] private int pokedexIndex;
-        [SerializeField] private string pokemonCategory;
-        [SerializeField] private Type[] types = new Type[1];
-        [SerializeField] private Ability firstAbility, secondAbility, hiddenAbility;
-        [SerializeField] private HoldableItem itemInHand;
-        [SerializeField, TextArea] private string description;
+        [BoxGroup("Basic")] [SerializeField] private int pokedexIndex;
 
-        [SerializeField] private ConditionOversight oversight;
+        [BoxGroup("Basic")] [SerializeField] private Type[] types = new Type[1];
+
+        [BoxGroup("Basic")] [SerializeField, TextArea]
+        private string description;
+
+        [HorizontalGroup("Basic/H1"), VerticalGroup("Basic/H1/V1")] [SerializeField]
+        private float height;
+
+        [VerticalGroup("Basic/H1/V1")] [SerializeField]
+        private float weight;
+
+        [VerticalGroup("Basic/H1/V2")] [SerializeField]
+        private Shape shape;
+
+        [VerticalGroup("Basic/H1/V2")] [SerializeField]
+        private Footprint footprint;
+
+        [BoxGroup("Basic")] [SerializeField] private Color pokedexColor = Color.green;
+
+        [HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0)] [SerializeField]
+        private GameObject prefab;
+
+        [BoxGroup("Moves")] [SerializeField] private string pokemonCategory;
+
+
+        [VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)] [SerializeField]
+        private Ability firstAbility, secondAbility, hiddenAbility;
+
+
+        [BoxGroup("Stats")] [SerializeField] private Stats stats;
+        [BoxGroup("Stats")] [SerializeField] private int[] iv = new int[6];
+        [BoxGroup("Stats")] [SerializeField] private int[] ev = new int[6];
+
+        [BoxGroup("Evolution")] [SerializeField]
+        private EvolutionMethod method;
+
+        [BoxGroup("Evolution")] [SerializeField]
+        Pokemon evolveTo;
+
+        [BoxGroup("Evolution")] [SerializeField]
+        int evolutionLevel;
+
+        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
+
+        [BoxGroup("Moves")] [SerializeField] private int[] levelLearnableMoveKeys;
+
+        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] levelLearnableMove;
+
+        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] tmLearnableMove;
+
+        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] tutorLearnableMove;
+
+        [BoxGroup("Breeding")] [SerializeField]
+        private Pokemon[] breedingLearnedMoveKeys;
+
+        [BoxGroup("Breeding")] [SerializeField]
+        private PokemonMove[] breedingLearnedMove;
+
+        [BoxGroup("Breeding")] [SerializeField]
+        private EggGroup eggGroup;
+
+        [BoxGroup("Breeding")] [SerializeField]
+        private int hatchTimeMin, hatchTimeMax;
 
         private int maxHealth;
-        [SerializeField] private float currentHealth;
-        [SerializeField] private int[] stats = new int[6];
-        [SerializeField] private int[] iv = new int[6];
-        [SerializeField] private int[] ev = new int[6];
-        [SerializeField] private int level, maxExp;
-        [SerializeField] private int currentExp;
 
-        [SerializeField] private EvolutionMethod method;
+        private int level, maxExp;
+        private int currentExp;
 
-        [SerializeField] Pokemon evolveTo;
-        [SerializeField] int evolutionLevel;
-        [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
+        private float currentHealth;
 
-        //Level
-        [SerializeField] private int[] levelLearnableMoveKeys;
+        private ConditionOversight oversight;
 
-        [SerializeField] private PokemonMove[] levelLearnableMoveValue;
+        private HoldableItem itemInHand;
 
-        //TM/TR
-        [SerializeField] private PokemonMove[] tmLearnableMoveValue;
-
-        //Breeding
-        [SerializeField] private Pokemon[] breedingLearnedMoveKeys;
-
-        [SerializeField] private PokemonMove[] breedingLearnedMoveValue;
-
-        //Tutor
-        [SerializeField] private PokemonMove[] tutorLearnableMoveValue;
-
-        [SerializeField] private EggGroup eggGroup;
-        [SerializeField] private int hatchTimeMin, hatchTimeMax;
-        [SerializeField] private float height, weight;
         [SerializeField] private float genderRate, catchRate;
 
         [SerializeField] private int expYield;
 
         [SerializeField] private LevelRate levelRate;
         [SerializeField] private int[] evYield = new int[6];
-        [SerializeField] private Shape shape;
-        [SerializeField] private Footprint footprint;
 
-        // ReSharper disable once IdentifierTypo
-        [SerializeField] private Color pokedexColor = Color.green;
         [SerializeField] private int baseFriendship;
 
         #endregion
@@ -132,7 +163,6 @@ namespace Runtime.Pokémon
         #region In Battle
 
         [Header("Battle:"), SerializeField] private int spotIndex;
-        [SerializeField] private GameObject prefab;
         [SerializeField] private GameObject spawnedObject;
         [SerializeField] private Animator anim;
         [SerializeField] private bool gettingSwitched, inBattle;
@@ -168,7 +198,7 @@ namespace Runtime.Pokémon
 
         public int GetStatRaw(Stat target)
         {
-            return stats[(int)target];
+            return stats[target];
         }
 
         // ReSharper disable once InconsistentNaming
@@ -265,7 +295,7 @@ namespace Runtime.Pokémon
 
         public PokemonMove[] GetLevelLearnableMoveValue()
         {
-            return levelLearnableMoveValue;
+            return levelLearnableMove;
         }
 
         public Pokemon[] GetBreedingLearnableMoveKeys()
@@ -275,17 +305,17 @@ namespace Runtime.Pokémon
 
         public PokemonMove[] GetBreedingLearnableMoveValue()
         {
-            return breedingLearnedMoveValue;
+            return breedingLearnedMove;
         }
 
         public PokemonMove[] GetTMLearnableMoveValues()
         {
-            return tmLearnableMoveValue;
+            return tmLearnableMove;
         }
 
         public PokemonMove[] GetTutorLearnableMoveValue()
         {
-            return tutorLearnableMoveValue;
+            return tutorLearnableMove;
         }
 
         public Ability[] GetAbilities()
@@ -297,9 +327,9 @@ namespace Runtime.Pokémon
 
         #region - In Battle
 
-        public int GetStat(Stat stat)
+        public int GetCalculatedStat(Stat stat)
         {
-            int baseStat = stats[(int)stat];
+            int baseStat = this.stats[stat];
 
             int iv = this.iv[(int)stat];
 
@@ -310,96 +340,93 @@ namespace Runtime.Pokémon
                     baseStat,
                     iv,
                     ev,
-                    level)
+                    this.level)
                 : BattleMathf.CalculateBaseStat(
                     baseStat,
                     iv,
                     ev,
-                    level);
+                    this.level);
 
-            result *= BattleMathf.GetMultiplierValue(multipliers[(int)stat],
-                !(stat == Stat.Accuracy || stat == Stat.Evasion));
+            result *= BattleMathf.GetMultiplierValue(this.multipliers[(int)stat],
+                stat is not (Stat.Accuracy or Stat.Evasion));
 
             if (stat == Stat.HP) return Mathf.FloorToInt(result);
 
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (IStatModifier statModifier in BattleManager.instance.GetAbilityOversight()
-                         .ListOfSpecific<IStatModifier>())
-            {
-                result *= statModifier.Modify(this, stat);
-            }
+            result = BattleManager.instance.GetAbilityOversight()
+                .ListOfSpecific<IStatModifier>()
+                .Aggregate(result, (current, statModifier) => current * statModifier.Modify(this, stat));
 
             return Mathf.FloorToInt(result);
         }
 
         public ConditionOversight GetConditionOversight()
         {
-            return oversight ? oversight : oversight = CreateInstance<ConditionOversight>();
+            return this.oversight ? this.oversight : this.oversight = CreateInstance<ConditionOversight>();
         }
 
         public float GetCurrentHealth()
         {
-            return currentHealth;
+            return this.currentHealth;
         }
 
-        public PokemonMove[] GetMoves()
+        public IEnumerable<PokemonMove> GetMoves()
         {
-            return learnedMoves;
+            return this.learnedMoves;
         }
 
         public PokemonMove GetMoveByIndex(int index)
         {
-            if (learnedMoves.Length <= 0 || index < 0 || index >= learnedMoves.Length) return null;
+            if (this.learnedMoves.Length <= 0 || index < 0 || index >= this.learnedMoves.Length) return null;
 
-            if (learnedMoves[index] != null)
-                return learnedMoves[index].GetAction() as PokemonMove;
+            if (this.learnedMoves[index] != null)
+                return this.learnedMoves[index].GetAction() as PokemonMove;
 
             return null;
         }
 
         public GameObject GetPokemonPrefab()
         {
-            return prefab;
+            return this.prefab;
         }
 
         public GameObject GetSpawnedObject()
         {
-            return spawnedObject;
+            return this.spawnedObject;
         }
 
         public BattleAction GetBattleAction()
         {
-            return battleAction;
+            return this.battleAction;
         }
 
         public bool GetGettingSwitched()
         {
-            return gettingSwitched;
+            return this.gettingSwitched;
         }
 
         public bool GetInBattle()
         {
-            return inBattle;
+            return this.inBattle;
         }
 
         public bool GetRevived()
         {
-            return gettingRevived;
+            return this.gettingRevived;
         }
 
         public int GetAccuracy()
         {
-            return accuracy;
+            return this.accuracy;
         }
 
         public int GetEvasion()
         {
-            return evasion;
+            return this.evasion;
         }
 
         public int GetCritical()
         {
-            return critical;
+            return this.critical;
         }
 
         #endregion
@@ -407,130 +434,6 @@ namespace Runtime.Pokémon
         #endregion
 
         #region Setters
-
-        #region Pokemon
-
-        public void SetStat(Stat targetStat, int set)
-        {
-            stats[(int)targetStat] = set;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public void SetIV(Stat targetStat, int set)
-        {
-            iv[(int)targetStat] = set;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public void SetEV(Stat targetStat, int set)
-        {
-            ev[(int)targetStat] = set;
-        }
-
-        public void SetEggGroup(EggGroup egg)
-        {
-            eggGroup = egg;
-        }
-
-        public void SetMinHatchSteps(int set)
-        {
-            hatchTimeMin = set;
-        }
-
-        public void SetMaxHatchSteps(int set)
-        {
-            hatchTimeMax = set;
-        }
-
-        public void SetHeight(float set)
-        {
-            height = set;
-        }
-
-        public void SetWeight(float set)
-        {
-            weight = set;
-        }
-
-        public void SetLearnedMove(int moveIndex, PokemonMove move)
-        {
-            learnedMoves[moveIndex] = move;
-        }
-
-        public void SetTypes(Type[] set)
-        {
-            types = set;
-        }
-
-        public void SetPokedexIndex(int set)
-        {
-            pokedexIndex = set;
-        }
-
-        public void SetPokemonCategory(string set)
-        {
-            pokemonCategory = set;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public void SetEVYield(Stat target, int set)
-        {
-            evYield[(int)target] = set;
-        }
-
-        public void SetExpYield(int set)
-        {
-            expYield = set;
-        }
-
-        public void SetLevelingRate(LevelRate set)
-        {
-            levelRate = set;
-        }
-
-        public void SetGenderRate(float set)
-        {
-            genderRate = set;
-        }
-
-        public void SetCatchRate(float set)
-        {
-            catchRate = set;
-        }
-
-        public void SetLevelLearnedMoveKeys(int[] set)
-        {
-            levelLearnableMoveKeys = set;
-        }
-
-        public void SetLevelLearnableMoveValues(PokemonMove[] set)
-        {
-            levelLearnableMoveValue = set;
-        }
-
-        public void SetBreedingLearnableMoveKeys(Pokemon[] set)
-        {
-            breedingLearnedMoveKeys = set;
-        }
-
-        public void SetBreedingLearnableMoveValues(PokemonMove[] set)
-        {
-            breedingLearnedMoveValue = set;
-        }
-
-        public void SetTMLearnableMoveValues(PokemonMove[] set)
-        {
-            tmLearnableMoveValue = set;
-        }
-
-        public void SetTutorLearnableMoveValue(PokemonMove[] set)
-        {
-            tutorLearnableMoveValue = set;
-        }
-
-        #endregion
-
-        #region Battle
 
         public void SetIsInstantiated(bool set)
         {
@@ -579,27 +482,26 @@ namespace Runtime.Pokémon
 
         #endregion
 
-        #endregion
-
         #region Out
 
         public bool IsSameType(TypeName typeName)
         {
-            if (types[0].GetTypeName() == typeName)
+            if (this.types[0].GetTypeName() == typeName)
                 return true;
 
-            if (types[1] != null)
-            {
-                if (types[1].GetTypeName() == typeName)
-                    return true;
-            }
+            if (this.types[1] == null) return false;
 
-            return false;
+            return this.types[1].GetTypeName() == typeName;
         }
 
         public T[] GetAbilitiesOfType<T>()
         {
-            return new[] { firstAbility, secondAbility, hiddenAbility }.OfType<T>().ToArray();
+            return new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
+        }
+
+        public PokemonBattleInstance CreateBattleInstance()
+        {
+            return new PokemonBattleInstance(this);
         }
 
         #endregion
@@ -611,7 +513,7 @@ namespace Runtime.Pokémon
             this.oversight ??= CreateInstance<ConditionOversight>();
             this.oversight.Setup(this);
 
-            this.maxHealth = GetStat(Stat.HP);
+            this.maxHealth = GetCalculatedStat(Stat.HP);
 
             AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
 

@@ -15,23 +15,32 @@ MonoBehaviour:
   isInstantiated: 0
   pokemonName: Blastoise
   pokedexIndex: 9
-  pokemonCategory: Shellfish
   types:
   - {fileID: 11400000, guid: c4af5f10f19573447bbe6a49504eb1b7, type: 2}
   - {fileID: 0}
+  description: 
+  height: 1.6
+  weight: 85
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  pokemonCategory: Shellfish
   firstAbility: {fileID: 11400000, guid: efcc600525f2faa438b47ca708e6a7cc, type: 2}
   secondAbility: {fileID: 0}
   hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 139
-  stats: 4f000000530000006400000055000000690000004e000000
+  stats:
+    hp: 0
+    attack: 0
+    defence: 0
+    spAtk: 0
+    spDef: 0
+    speed: 0
+    accuracy: 0
+    evasion: 0
+    critical: 0
   iv: 000000000000000000000000000000000000000000000000
   ev: 000000000000000000000000000000000000000000000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
   method: 0
   evolveTo: {fileID: 0}
   evolutionLevel: 16
@@ -41,27 +50,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 631a5d7eba664934d973917dcb7ba22f, type: 2}
   - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
   levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
+  levelLearnableMove: []
+  tmLearnableMove: []
+  tutorLearnableMove: []
   breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
+  breedingLearnedMove: []
   eggGroup: 0
   hatchTimeMin: 5140
   hatchTimeMax: 5396
-  height: 1.6
-  weight: 85
   genderRate: 87.5
   catchRate: 11.9
   expYield: 239
   levelRate: 1
   evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
   baseFriendship: 0
   spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0

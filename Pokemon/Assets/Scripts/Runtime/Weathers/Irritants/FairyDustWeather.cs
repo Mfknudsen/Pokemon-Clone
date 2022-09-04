@@ -53,7 +53,7 @@ namespace Runtime.Weathers.Irritants
                 if (pokemon.GetTypes().Any(type => noEffectTypes.Contains(type.GetTypeName())))
                     continue;
 
-                int damagePerTarget = pokemon.GetStat(Stat.HP) / 16;
+                int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 16;
                 float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
 
 

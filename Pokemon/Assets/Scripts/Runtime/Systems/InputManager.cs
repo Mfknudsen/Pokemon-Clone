@@ -36,12 +36,12 @@ namespace Runtime.Systems
             nextChatInputEvent = new(),
             pauseInputEvent = new(),
             interactInputEvent = new(),
-            showHideEvent = new(),
-            rightClickEvent = new(),
-            leftClickEvent = new();
+            showHideEvent = new();
 
         public readonly UnityEvent<bool>
-            runInputEvent = new();
+            runInputEvent = new(),
+            rightClickEvent = new(),
+            leftClickEvent = new();
 
         #endregion
 
@@ -65,23 +65,23 @@ namespace Runtime.Systems
             playerInput.Player.TurnAxis.canceled += context =>
                 turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
-            playerInput.Player.Run.performed += context => runInputEvent.Invoke(!context.canceled);
-            playerInput.Player.Run.canceled += context => runInputEvent.Invoke(!context.canceled);
+            playerInput.Player.Run.performed += _ => runInputEvent.Invoke(true);
+            playerInput.Player.Run.canceled += _ => runInputEvent.Invoke(false);
 
             playerInput.Player.NextChat.performed += _ => nextChatInputEvent.Invoke();
             playerInput.Player.Pause.performed += _ => pauseInputEvent.Invoke();
             playerInput.Player.Interact.performed += _ => interactInputEvent.Invoke();
             playerInput.Player.ShowHide.performed += _ => showHideEvent.Invoke();
 
-            playerInput.Player.RightClick.performed += _ => rightClickEvent.Invoke();
-            playerInput.Player.RightClick.canceled += _ => rightClickEvent.Invoke();
+            playerInput.Player.RightClick.performed += _ => rightClickEvent.Invoke(true);
+            playerInput.Player.RightClick.canceled += _ => rightClickEvent.Invoke(false);
 
-            playerInput.Player.LeftClick.performed += _ => leftClickEvent.Invoke();
-            playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke();
+            playerInput.Player.LeftClick.performed += _ => leftClickEvent.Invoke(true);
+            playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke(false);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-        private static void RemoveQuit() => _instance = null;
+        private static void ResetInstance() => _instance = null;
 
         #endregion
     }

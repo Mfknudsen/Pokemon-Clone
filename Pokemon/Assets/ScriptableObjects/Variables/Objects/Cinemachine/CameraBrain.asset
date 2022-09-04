@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d3b4474443e4f49a557391dc880bca, type: 3}
-  m_Name: Easy Battle AI
+  m_Script: {fileID: 11500000, guid: 5715b6286c3be770bb8dfcdf626c5326, type: 3}
+  m_Name: CameraBrain
   m_EditorClassIdentifier: 
-  behaviorSetup: {fileID: 11400000, guid: 9fb957846c86c614ca013f3afe7edca2, type: 2}
-  canRemember: 0
-  canRememberOpponent: 0
-  canRememberAlly: 0
+  description: 
+  debugSetter: 0
+  defaultValue: {fileID: 0}

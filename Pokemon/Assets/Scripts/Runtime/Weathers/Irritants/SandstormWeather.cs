@@ -46,7 +46,7 @@ namespace Runtime.Weathers.Irritants
 
                 int partsDealt = amplified ? 8 : 16;
 
-                int damagePerTarget = pokemon.GetStat(Stat.HP) / partsDealt;
+                int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / partsDealt;
                 float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
 
 

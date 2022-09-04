@@ -396,9 +396,9 @@ namespace Runtime.Battle.Actions
 
         private float GetDamageForTarget(Pokemon user, Pokemon target, bool isCritical)
         {
-            float attackPower = currentPokemon.GetStat(category == Category.Physical ? Stat.Attack : Stat.SpAtk);
+            float attackPower = currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Attack : Stat.SpAtk);
 
-            float defencePower = currentPokemon.GetStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
+            float defencePower = currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
 
             return BattleMathf.CalculateDamage(user.GetLevel(),
                 attackPower,

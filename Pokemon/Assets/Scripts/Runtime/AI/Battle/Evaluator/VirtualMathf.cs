@@ -47,11 +47,11 @@ namespace Runtime.AI.Battle.Evaluator
         {
             Category category = move.GetCategory();
             int attack = category == Category.Physical
-                    ? user.GetStat(Stat.Attack)
-                    : user.GetStat(Stat.SpAtk),
+                    ? user.GetCalculatedStat(Stat.Attack)
+                    : user.GetCalculatedStat(Stat.SpAtk),
                 defense = category == Category.Physical
-                    ? user.GetStat(Stat.Defence)
-                    : user.GetStat(Stat.SpDef);
+                    ? user.GetCalculatedStat(Stat.Defence)
+                    : user.GetCalculatedStat(Stat.SpDef);
 
             float result = ((2 * user.GetLevel()) / 5) + 2;
             result *= move.GetPower() * (attack / defense);
