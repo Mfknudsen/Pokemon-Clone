@@ -80,6 +80,10 @@ namespace Runtime.Systems
             playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke(false);
         }
 
+        #endregion
+
+        #region Internal
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         private static void ResetInstance() => _instance = null;
 
