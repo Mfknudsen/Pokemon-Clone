@@ -32,30 +32,16 @@ namespace Runtime.Player
         [SerializeField] private Vector2 top, mid, bot;
         [SerializeField] private AnimationCurve lerpCurve;
 
-        private AnimationCurve positionCurve, distanceCurve;
         [SerializeField] private float current;
 
         #endregion
 
-        private void OnValidate()
-        {
-            positionCurve = new AnimationCurve();
-            positionCurve.AddKey(1f, top.x);
-            positionCurve.AddKey(.5f, mid.x);
-            positionCurve.AddKey(0f, bot.x);
-
-            distanceCurve = new AnimationCurve();
-            distanceCurve.AddKey(1f, top.y);
-            distanceCurve.AddKey(.5f, mid.y);
-            distanceCurve.AddKey(0f, bot.y);
-
-            MoveCam(current);
-        }
+        private void OnValidate() => MoveCam(this.current);
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            for (float i = 0.05f; i < 1; i += .05f)
+            for (float i = 0.05f; i <= 1; i += .05f)
                 Gizmos.DrawLine(GizmoGetLine(i), GizmoGetLine(i - .05f));
 
             try
@@ -63,7 +49,7 @@ namespace Runtime.Player
                 Gizmos.color = Color.white;
                 Transform playerTransform = transform.parent;
                 Vector3 playerPos = playerTransform.position;
-                Gizmos.DrawLine(playerPos, playerPos + (playerPos - cameraBrain.value.transform.position));
+                Gizmos.DrawLine(playerPos, playerPos + (playerPos - this.cameraBrain.value.transform.position));
             }
             catch
             {
@@ -73,14 +59,16 @@ namespace Runtime.Player
 
         private Vector3 GizmoGetLine(float i)
         {
-            float l = lerpCurve.Evaluate(i);
+            float l = this.lerpCurve.Evaluate(i);
 
-            return transform.position - (i < .5f
-                       ? Vector3.forward * Mathf.Lerp(bot.y, mid.y, l)
-                       : Vector3.forward * Mathf.Lerp(mid.y, top.y, 1f - l))
+            return transform.position
+                   + Vector3.up * .4f + Vector3.right * .25f
+                   - Vector3.forward * (i < .5f
+                       ? Mathf.Lerp(this.bot.y, this.mid.y, l)
+                       : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
                    + Vector3.up * (i < .5f
-                       ? Mathf.Lerp(bot.x, mid.x, l)
-                       : Mathf.Lerp(mid.x, top.x, 1 - l));
+                       ? Mathf.Lerp(this.bot.x, this.mid.x, i * 2f)
+                       : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f));
         }
 
         #region Build In States
@@ -111,22 +99,25 @@ namespace Runtime.Player
 
         private void MoveCam(float input)
         {
-            current += input * Time.deltaTime / 10f;
-            current.Clamp(0f, 1f);
+            this.current -= input *this. ySpeed * Time.deltaTime;
+            this.current.Clamp(0f, 1f);
 
             //throwAtTransform.localPosition = new Vector3(0, positionCurve.Evaluate(current), 0);
             Cinemachine3rdPersonFollow body = ((CinemachineVirtualCamera)this.cameraRig)
                 .GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
-            float lerpCurrent = lerpCurve.Evaluate(current);
+            float lerpCurrent = this.lerpCurve.Evaluate(this.current);
 
             body.CameraDistance = current < .5f
-                ? Mathf.Lerp(bot.y, mid.y, lerpCurrent)
-                : Mathf.Lerp(mid.y, top.y, 1f - lerpCurrent);
+                ? Mathf.Lerp(this.bot.y, this.mid.y, lerpCurrent)
+                : Mathf.Lerp(this.mid.y, this.top.y, 1f - lerpCurrent);
 
-            body.ShoulderOffset = new Vector3(.5f, 1, 0) * (current < .5f
-                ? Mathf.Lerp(bot.x, mid.x, lerpCurrent)
-                : Mathf.Lerp(mid.x, top.x, 1 - lerpCurrent));
+            body.ShoulderOffset = new Vector3(
+                .25f,
+                this.current < .5f
+                    ? Mathf.Lerp(this.bot.x, this.mid.x, this.current * 2f)
+                    : Mathf.Lerp(this.mid.x, this.top.x, (this.current - .5f) * 2f),
+                0f);
         }
 
         private void ThrowItem()
@@ -143,6 +134,9 @@ namespace Runtime.Player
             CameraEvent cameraEvent;
             if (this.aiming.value)
             {
+                this.current = this.defaultOverworldRig.value.m_YAxis.Value;
+                MoveCam(this.current);
+
                 cameraEvent = new CameraEvent(
                     this.cameraRig,
                     CameraSettings.Default(),
@@ -151,6 +145,8 @@ namespace Runtime.Player
             }
             else
             {
+                this.defaultOverworldRig.value.m_YAxis.Value = this.current;
+
                 cameraEvent = new CameraEvent(
                     PlayerManager.instance.GetOverworldCameraRig(),
                     CameraSettings.Default(),
