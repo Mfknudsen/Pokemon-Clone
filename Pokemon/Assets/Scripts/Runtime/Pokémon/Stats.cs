@@ -11,7 +11,7 @@ namespace Runtime.Pokémon
     [Serializable]
     public struct Stats
     {
-        [HorizontalGroup("Stats")] [SerializeField]
+        [SerializeField]
         private int hp,
             attack,
             defence,

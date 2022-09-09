@@ -30,15 +30,15 @@ MonoBehaviour:
   secondAbility: {fileID: 0}
   hiddenAbility: {fileID: 0}
   stats:
-    hp: 0
-    attack: 0
-    defence: 0
-    spAtk: 0
-    spDef: 0
-    speed: 0
-    accuracy: 0
-    evasion: 0
-    critical: 0
+    hp: 10
+    attack: 10
+    defence: 10
+    spAtk: 10
+    spDef: 10
+    speed: 10
+    accuracy: 10
+    evasion: 10
+    critical: 10
   iv: 000000000000000000000000000000000000000000000000
   ev: 000000000000000000000000000000000000000000000000
   method: 0

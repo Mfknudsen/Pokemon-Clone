@@ -18,12 +18,11 @@ namespace Runtime.Player
     {
         #region Values
 
-        [SerializeField] private Transform throwAtTransform;
-        [SerializeField] private CinemachineVirtualCameraBase cameraRig;
-        [SerializeField] private BoolVariable aiming, throwing, allowed;
-        [SerializeField] private ItemVariable toThrow;
-        [SerializeField] private CinemachineFreeLookVariable defaultOverworldRig;
-        [SerializeField] private CinemachineBrainVariable cameraBrain;
+        [SerializeField, Required] private CinemachineVirtualCameraBase cameraRig;
+        [SerializeField, Required] private BoolVariable aiming, throwing, allowed;
+        [SerializeField, Required] private ItemVariable toThrow;
+        [SerializeField, Required] private CinemachineFreeLookVariable defaultOverworldRig;
+        [SerializeField, Required] private CinemachineBrainVariable cameraBrain;
 
         [HorizontalGroup("Rotation Speed")] [SerializeField]
         private float xSpeed, ySpeed;
@@ -59,11 +58,15 @@ namespace Runtime.Player
 
         private Vector3 GizmoGetLine(float i)
         {
+            if (!PlayerManager.instance) return Vector3.zero;
+
             float l = this.lerpCurve.Evaluate(i);
 
-            return transform.position
+            Transform t = PlayerManager.instance.GetController().GetVisual().transform;
+
+            return t.position
                    + Vector3.up * .4f + Vector3.right * .25f
-                   - Vector3.forward * (i < .5f
+                   - t.forward * (i < .5f
                        ? Mathf.Lerp(this.bot.y, this.mid.y, l)
                        : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
                    + Vector3.up * (i < .5f
@@ -99,7 +102,7 @@ namespace Runtime.Player
 
         private void MoveCam(float input)
         {
-            this.current -= input *this. ySpeed * Time.deltaTime;
+            this.current -= input * this.ySpeed * Time.deltaTime;
             this.current.Clamp(0f, 1f);
 
             //throwAtTransform.localPosition = new Vector3(0, positionCurve.Evaluate(current), 0);
@@ -132,6 +135,7 @@ namespace Runtime.Player
             if (!this.allowed.value) return;
 
             CameraEvent cameraEvent;
+
             if (this.aiming.value)
             {
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;

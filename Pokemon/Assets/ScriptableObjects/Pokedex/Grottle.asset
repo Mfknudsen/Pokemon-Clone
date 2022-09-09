@@ -15,23 +15,32 @@ MonoBehaviour:
   isInstantiated: 0
   pokemonName: Grottle
   pokedexIndex: 0
-  pokemonCategory: 
   types:
   - {fileID: 11400000, guid: 2b328b9c970b80d4ca7733ad52999bf8, type: 2}
   - {fileID: 0}
+  description: 
+  height: 0
+  weight: 0
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  pokemonCategory: 
   firstAbility: {fileID: 0}
   secondAbility: {fileID: 0}
   hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 10
-  stats: 000000000000000000000000000000000000000000000000
+  stats:
+    hp: 10
+    attack: 10
+    defence: 10
+    spAtk: 10
+    spDef: 10
+    speed: 10
+    accuracy: 10
+    evasion: 10
+    critical: 10
   iv: 000000000000000000000000000000000000000000000000
   ev: 000000000000000000000000000000000000000000000000
-  level: 0
-  maxExp: 0
-  currentExp: 0
   method: 0
   evolveTo: {fileID: 0}
   evolutionLevel: 0
@@ -41,27 +50,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
+  levelLearnableMove: []
+  tmLearnableMove: []
+  tutorLearnableMove: []
   breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
+  breedingLearnedMove: []
   eggGroup: 0
   hatchTimeMin: 0
   hatchTimeMax: 0
-  height: 0
-  weight: 0
   genderRate: 0
   catchRate: 11.9
   expYield: 0
   levelRate: 0
   evYield: 000000000000000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
   baseFriendship: 0
   spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0

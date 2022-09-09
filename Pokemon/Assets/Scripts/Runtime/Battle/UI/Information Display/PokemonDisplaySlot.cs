@@ -37,7 +37,7 @@ namespace Runtime.Battle.UI.Information_Display
 
             float healthToDisplay = pokemon.GetCurrentHealth();
 
-            if (healthToDisplay < 1 && healthToDisplay > 0)
+            if (healthToDisplay is < 1 and > 0)
                 healthToDisplay = 1;
 
             healthDisplay.text = maxHPStat + " / " + (int) healthToDisplay;

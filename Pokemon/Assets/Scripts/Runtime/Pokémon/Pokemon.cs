@@ -98,23 +98,15 @@ namespace Runtime.Pokémon
 
         [BoxGroup("Moves")] [SerializeField] private string pokemonCategory;
 
-
         [VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)] [SerializeField]
         private Ability firstAbility, secondAbility, hiddenAbility;
-
-
+        
         [BoxGroup("Stats")] [SerializeField] private Stats stats;
         [BoxGroup("Stats")] [SerializeField] private int[] iv = new int[6];
         [BoxGroup("Stats")] [SerializeField] private int[] ev = new int[6];
 
         [BoxGroup("Evolution")] [SerializeField]
-        private EvolutionMethod method;
-
-        [BoxGroup("Evolution")] [SerializeField]
-        Pokemon evolveTo;
-
-        [BoxGroup("Evolution")] [SerializeField]
-        int evolutionLevel;
+        private EvolutionMethod[] method;
 
         [BoxGroup("Moves")] [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
 

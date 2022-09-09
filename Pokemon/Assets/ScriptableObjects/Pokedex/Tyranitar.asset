@@ -15,23 +15,32 @@ MonoBehaviour:
   isInstantiated: 0
   pokemonName: Tyranitar
   pokedexIndex: 248
-  pokemonCategory: Armor
   types:
   - {fileID: 11400000, guid: 4b25c003777d08b458bab6ad0c3ee2df, type: 2}
   - {fileID: 11400000, guid: d2fd45596b5c63c41ab3086aec62892c, type: 2}
+  description: 
+  height: 2
+  weight: 202
+  shape: 0
+  footprint: 0
+  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
+  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  pokemonCategory: Armor
   firstAbility: {fileID: 11400000, guid: 086c845accb275f4180d7c33c68adf34, type: 2}
   secondAbility: {fileID: 11400000, guid: 59ebbb322c4665342a49a09af4bbe7b0, type: 2}
   hiddenAbility: {fileID: 0}
-  itemInHand: {fileID: 0}
-  description: 
-  oversight: {fileID: 0}
-  currentHealth: 289
-  stats: 6c000000820000005f000000500000005500000066000000
+  stats:
+    hp: 10
+    attack: 10
+    defence: 10
+    spAtk: 10
+    spDef: 10
+    speed: 10
+    accuracy: 10
+    evasion: 10
+    critical: 10
   iv: 180000000c0000001e000000100000001700000005000000
   ev: 4a000000be0000005b000000300000005400000017000000
-  level: 50
-  maxExp: 0
-  currentExp: 0
   method: 0
   evolveTo: {fileID: 0}
   evolutionLevel: 0
@@ -41,27 +50,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   levelLearnableMoveKeys: 
-  levelLearnableMoveValue: []
-  tmLearnableMoveValue: []
+  levelLearnableMove: []
+  tmLearnableMove: []
+  tutorLearnableMove: []
   breedingLearnedMoveKeys: []
-  breedingLearnedMoveValue: []
-  tutorLearnableMoveValue: []
+  breedingLearnedMove: []
   eggGroup: 0
   hatchTimeMin: 10280
   hatchTimeMax: 10536
-  height: 2
-  weight: 202
   genderRate: 50
   catchRate: 45
   expYield: 270
   levelRate: 0
   evYield: 000000000300000000000000000000000000000000000000
-  shape: 0
-  footprint: 0
-  pokedexColor: {r: 0, g: 1, b: 0, a: 1}
   baseFriendship: 0
   spotIndex: 0
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   spawnedObject: {fileID: 0}
   anim: {fileID: 0}
   gettingSwitched: 0
