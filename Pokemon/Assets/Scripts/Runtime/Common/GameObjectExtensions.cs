@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Runtime.Common
 {
-    public static class CommonGameObject
+    public static class GameObjectExtensions
     {
         public static T[] GetAllComponentsByRoot<T>(this GameObject gameObject) where T : Component
         {

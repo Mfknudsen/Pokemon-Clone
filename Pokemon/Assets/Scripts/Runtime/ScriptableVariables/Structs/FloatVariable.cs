@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Structs
 {
     [CreateAssetMenu(menuName = "Variables/Float")]
-    public class FloatVariable : StructVariable<float>
+    public sealed class FloatVariable : StructVariable<float>
     {
     }
 }

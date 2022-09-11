@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 #endregion
 
@@ -16,6 +17,8 @@ namespace Runtime.Systems
 
         private readonly Queue<OperationsContainer> operationsContainers = new();
         private OperationsContainer currentContainer;
+
+        private readonly Dictionary<OperationsContainer, List<Coroutine>> activeAsyncCoroutines = new();
 
         #endregion
 
@@ -85,7 +88,7 @@ namespace Runtime.Systems
             this.operationsContainers.Enqueue(set);
         }
 
-        public void AddOperationsContainer(OperationsContainer[] sets)
+        public void AddOperationsContainer(IEnumerable<OperationsContainer> sets)
         {
             this.done = false;
 
@@ -95,8 +98,10 @@ namespace Runtime.Systems
 
         public void AddAsyncOperationsContainer(OperationsContainer container)
         {
+            this.activeAsyncCoroutines.Add(container, new List<Coroutine>());
+
             foreach (IOperation i in container.GetInterfaces())
-                StartCoroutine(i.Operation());
+                this.activeAsyncCoroutines[container].Add(StartCoroutine(i.Operation()));
         }
 
         public void InsertFront(OperationsContainer set)
@@ -112,6 +117,15 @@ namespace Runtime.Systems
                 this.operationsContainers.Enqueue(operationsContainer);
         }
 
+        public void StopAsyncContainer(OperationsContainer toStop, bool triggerEnd = false)
+        {
+            foreach (Coroutine coroutine in this.activeAsyncCoroutines[toStop]) StopCoroutine(coroutine);
+
+            if (!triggerEnd) return;
+
+            foreach (IOperation operation in toStop.GetInterfaces()) operation.End();
+        }
+
         #endregion
     }
 
@@ -125,12 +139,12 @@ namespace Runtime.Systems
 
         public OperationsContainer(IOperation set)
         {
-            operationInterfaces.Add(set);
+            this.operationInterfaces.Add(set);
         }
 
         public OperationsContainer(IOperation[] set)
         {
-            operationInterfaces.AddRange(set);
+            this.operationInterfaces.AddRange(set);
         }
 
         public void Add(IOperation operationInterface)
@@ -138,7 +152,7 @@ namespace Runtime.Systems
             if (operationInterface == null)
                 return;
 
-            operationInterfaces.Add(operationInterface);
+            this.operationInterfaces.Add(operationInterface);
         }
 
         public void Add(IOperation[] interfaces)
@@ -146,16 +160,10 @@ namespace Runtime.Systems
             if (interfaces == null)
                 return;
 
-            foreach (IOperation i in interfaces)
-            {
-                operationInterfaces.Add(i);
-            }
+            foreach (IOperation i in interfaces) this.operationInterfaces.Add(i);
         }
 
-        public IEnumerable<IOperation> GetInterfaces()
-        {
-            return operationInterfaces.ToArray();
-        }
+        public IEnumerable<IOperation> GetInterfaces() => this.operationInterfaces.ToArray();
     }
 
     public interface IOperation

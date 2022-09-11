@@ -11,18 +11,7 @@ namespace Runtime.Systems
     {
         #region Values
 
-        public static InputManager instance
-        {
-            get
-            {
-                if (_instance?.playerInput == null)
-                    _instance = new InputManager();
-
-                return _instance;
-            }
-        }
-
-        private readonly PlayerInput playerInput;
+        public static InputManager instance => _instance ??= new InputManager();
 
         private static InputManager _instance;
 
@@ -51,7 +40,7 @@ namespace Runtime.Systems
 
         private InputManager()
         {
-            playerInput = new PlayerInput();
+            PlayerInput playerInput = new();
 
             playerInput.Player.Enable();
 

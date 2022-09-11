@@ -5,10 +5,10 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime.ScriptableVariables
+namespace Runtime.ScriptableVariables.Objects.Items
 {
     [CreateAssetMenu(menuName = "Variables/Item")]
-    public class ItemVariable : ObjectVariable<Item>
+    public sealed class ItemVariable : ObjectVariable<Item>
     {
 
     }

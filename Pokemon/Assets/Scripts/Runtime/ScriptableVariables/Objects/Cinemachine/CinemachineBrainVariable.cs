@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Objects.Cinemachine
 {
     [CreateAssetMenu(menuName = "Variables/CinemachineBrain")]
-    public class CinemachineBrainVariable : ObjectVariable<CinemachineBrain>
+    public sealed class CinemachineBrainVariable : ComponentVariable<CinemachineBrain>
     {
     }
 }

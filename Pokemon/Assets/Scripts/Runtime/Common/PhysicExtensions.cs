@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Runtime.Common
 {
-    public static class CommonPhysic
+    public static class PhysicExtensions
     {
         public static Collider GetNearestSurfaceBySphere(Vector3 originPosition, float checkDistance,
             LayerMask mask = default)

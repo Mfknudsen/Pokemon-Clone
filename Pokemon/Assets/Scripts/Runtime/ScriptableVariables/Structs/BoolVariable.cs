@@ -1,10 +1,13 @@
+#region Packages
+
 using UnityEngine;
+
+#endregion
 
 namespace Runtime.ScriptableVariables.Structs
 {
     [CreateAssetMenu(menuName = "Variables/Bool")]
-    public class BoolVariable : StructVariable<bool>
+    public sealed class BoolVariable : StructVariable<bool>
     {
-
     }
 }

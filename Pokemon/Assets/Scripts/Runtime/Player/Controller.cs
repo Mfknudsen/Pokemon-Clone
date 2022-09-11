@@ -1,6 +1,7 @@
 ﻿#region Packages
 
 using Cinemachine;
+using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine.AI;
 
 namespace Runtime.Player
 {
-    public class Controller : MonoBehaviour
+    public sealed class Controller : MonoBehaviour
     {
         #region Values
 
@@ -29,7 +30,6 @@ namespace Runtime.Player
         [FoldoutGroup("Transforms")] [SerializeField]
         private Transform playerTransform,
             moveTransform,
-            camTransform,
             visualTransform;
 
         [FoldoutGroup("Speeds")] [SerializeField]
@@ -43,11 +43,14 @@ namespace Runtime.Player
         [FoldoutGroup("Animation")] [SerializeField]
         private float animatorDamp = 0.1f;
 
-        [FoldoutGroup("Variables")] [SerializeField]
+        [FoldoutGroup("Variables")] [SerializeField, Required]
         private BoolVariable aiming, allowed, running;
 
-        [FoldoutGroup("Variables")] [SerializeField]
-        private Vec2Variable moveDirection, rotationDirection;
+        [FoldoutGroup("Variables")] [SerializeField, Required]
+        private Vec2Variable moveDirection;
+
+        [FoldoutGroup("Variables")] [SerializeField, Required]
+        private CinemachineBrainVariable cameraBrain;
 
         private bool ready;
 
@@ -65,7 +68,7 @@ namespace Runtime.Player
 
         private void Update()
         {
-            if (!ready || allowed.Equals(false)) return;
+            if (!this.ready || this.allowed.Equals(false)) return;
 
             UpdateMoveTransform();
             Move();
@@ -77,7 +80,7 @@ namespace Runtime.Player
 
         #region Getters
 
-        public GameObject GetVisual() => visualTransform.gameObject;
+        public GameObject GetVisual() => this.visualTransform.gameObject;
 
         #endregion
 
@@ -85,35 +88,35 @@ namespace Runtime.Player
 
         public void Setup()
         {
-            playerTransform = transform;
+            this.playerTransform = transform;
 
-            agent ??= playerTransform.GetComponent<NavMeshAgent>();
+            this.agent ??= this.playerTransform.GetComponent<NavMeshAgent>();
 
-            rb ??= playerTransform.GetComponent<Rigidbody>();
-            rb.useGravity = false;
+            this.rb ??= this.playerTransform.GetComponent<Rigidbody>();
+            this.rb.useGravity = false;
 
-            ready = true;
+            this.ready = true;
         }
 
         public void Enable()
         {
-            allowed.value = true;
+            this.allowed.value = true;
 
-            cameraRig.m_YAxis.m_MaxSpeed = yCamSpeed;
-            cameraRig.m_XAxis.m_MaxSpeed = xCamSpeed;
+            this.cameraRig.m_YAxis.m_MaxSpeed = yCamSpeed;
+            this.cameraRig.m_XAxis.m_MaxSpeed = xCamSpeed;
         }
 
         public void Disable()
         {
-            allowed.value = false;
+            this.allowed.value = false;
 
-            cameraRig.m_YAxis.m_MaxSpeed = 0;
-            cameraRig.m_XAxis.m_MaxSpeed = 0;
+            this.cameraRig.m_YAxis.m_MaxSpeed = 0;
+            this.cameraRig.m_XAxis.m_MaxSpeed = 0;
         }
 
         public void TriggerAnimator(int triggerID)
         {
-            animController.SetTrigger(triggerID);
+            this.animController.SetTrigger(triggerID);
         }
 
         #endregion
@@ -122,43 +125,49 @@ namespace Runtime.Player
 
         private void UpdateMoveTransform()
         {
-            moveTransform.LookAt(moveTransform.position + camTransform.forward, Vector3.up);
+            if (this.aiming.Equals(true)) return;
+
+            Vector3 camForward = this.cameraBrain.getTransform.forward;
+            camForward -= new Vector3(0, camForward.y, 0);
+
+            this.moveTransform.LookAt(this.moveTransform.position + camForward, Vector3.up);
         }
 
         private void UpdateAnimController()
         {
-            if (animController == null) return;
+            if (!this.animController) return;
 
-            Vector3 playerInputDirection = moveDirection.value;
+            Vector3 playerInputDirection = this.moveDirection.value;
 
-            animController.SetFloat(
+            this.animController.SetFloat(
                 HashWalking,
-                playerInputDirection.magnitude * 2 * (running.value ? 3 : 1),
-                animatorDamp,
+                playerInputDirection.magnitude * 2 * (this.running.value ? 3 : 1),
+                this.animatorDamp,
                 Time.deltaTime);
         }
 
         private void Move()
         {
-            if (agent == null || !agent.isOnNavMesh) return;
+            if (!this.agent || !this.agent.isOnNavMesh) return;
 
-            Vector2 playerInputDirection = moveDirection.value;
-            Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
-            Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+            Vector2 playerInputDirection = this.moveDirection.value;
+            Vector3 forwardMove = this.moveTransform.forward * playerInputDirection.y;
+            Vector3 sideMove = this.moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
 
-            agent.Move(moveVector * ((running.value ? runSpeed : moveSpeed) * Time.deltaTime));
+            this.agent.Move(moveVector.normalized *
+                            ((this.running.value ? this.runSpeed : this.moveSpeed) * Time.deltaTime));
         }
 
         private void Turn()
         {
             if (this.aiming.Equals(false))
             {
-                if (moveDirection.value != Vector2.zero)
+                if (this.moveDirection.value != Vector2.zero)
                 {
-                    Vector2 playerInputDirection = moveDirection.value;
-                    Vector3 forwardMove = moveTransform.forward * playerInputDirection.y;
-                    Vector3 sideMove = moveTransform.right * playerInputDirection.x;
+                    Vector2 playerInputDirection = this.moveDirection.value;
+                    Vector3 forwardMove = this.moveTransform.forward * playerInputDirection.y;
+                    Vector3 sideMove = this.moveTransform.right * playerInputDirection.x;
                     this.toLookRotation = (forwardMove + sideMove).normalized;
                     this.toLookRotation -= new Vector3(0, this.toLookRotation.y, 0);
                 }
@@ -168,7 +177,9 @@ namespace Runtime.Player
             }
             else
             {
-                transform.Rotate(Vector3.up, rotationDirection.x * 5 * Time.deltaTime);
+                Vector3 camForward = this.cameraBrain.getTransform.forward;
+                camForward -= Vector3.up * camForward.y;
+                this.toLookRotation = camForward;
             }
         }
 

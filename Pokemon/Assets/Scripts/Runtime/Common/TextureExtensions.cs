@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Runtime.Common
 {
-    public static class CommonTexture
+    public static class TextureExtensions
     {
         public static Texture2D RenderTextureToTexture2D(this RenderTexture renderTexture)
         {

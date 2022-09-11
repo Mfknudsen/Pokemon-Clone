@@ -28,40 +28,40 @@ namespace Runtime.Player
 
         public static PlayerManager instance;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private Team team;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private Controller controller;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private NavMeshAgent agent;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private BattleMember battleMember;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private PlayerInteractions playerInteractions;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private Controller moveController;
 
-        [FoldoutGroup("References")] [SerializeField]
+        [FoldoutGroup("References")] [SerializeField, Required]
         private CinemachineFreeLook overworldCameraRig;
 
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
         private CharacterSheet characterSheet;
 
-        [FoldoutGroup("Variables")] [SerializeField]
+        [FoldoutGroup("Variables")] [SerializeField, Required]
         private Vec2Variable moveDirection, rotationDirection;
 
-        [FoldoutGroup("Variables")] [SerializeField]
+        [FoldoutGroup("Variables")] [SerializeField, Required]
         private BoolVariable running;
 
-        [BoxGroup("Variables/Camera")] [SerializeField]
+        [BoxGroup("Variables/Camera")] [SerializeField, Required]
         private CinemachineBrainVariable cameraBrain;
 
-        [BoxGroup("Variables/Camera")] [SerializeField]
+        [BoxGroup("Variables/Camera")] [SerializeField, Required]
         private CinemachineFreeLookVariable defaultOverworldRig;
 
         private GameObject overworldGameObject;
@@ -79,11 +79,10 @@ namespace Runtime.Player
             inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
 
-            defaultOverworldRig.value = GetComponentsInChildren<CinemachineFreeLook>()
+            this.defaultOverworldRig.value = GetComponentsInChildren<CinemachineFreeLook>()
                 .First(c => c.name.Equals("Player Third Person Rig"));
 
-            if (UnityEngine.Camera.main != null)
-                cameraBrain.value = UnityEngine.Camera.main.GetComponent<CinemachineBrain>();
+            this.cameraBrain.value = GetComponentInChildren<CinemachineBrain>();
         }
 
         private void OnDisable()
@@ -98,21 +97,22 @@ namespace Runtime.Player
 
         #region Getters
 
-        public CharacterSheet GetCharacterSheet() => characterSheet;
+        public CharacterSheet GetCharacterSheet() => this.characterSheet;
 
-        public string[] GetPronouns() => new[] { characterSheet.pronoun1, characterSheet.pronoun2, characterSheet.pronoun3 };
+        public string[] GetPronouns() => new[]
+            { this.characterSheet.pronoun1, this.characterSheet.pronoun2, this.characterSheet.pronoun3 };
 
-        public Team GetTeam() => team;
+        public Team GetTeam() => this.team;
 
-        public BattleMember GetBattleMember() => battleMember;
+        public BattleMember GetBattleMember() => this.battleMember;
 
-        public PlayerInteractions GetInteractions() => playerInteractions;
+        public PlayerInteractions GetInteractions() => this.playerInteractions;
 
-        public NavMeshAgent GetAgent() => agent;
+        public NavMeshAgent GetAgent() => this.agent;
 
-        public CinemachineFreeLook GetOverworldCameraRig() => overworldCameraRig;
+        public CinemachineFreeLook GetOverworldCameraRig() => this.overworldCameraRig;
 
-        public Controller GetController() => controller;
+        public Controller GetController() => this.controller;
 
         #endregion
 
@@ -126,35 +126,23 @@ namespace Runtime.Player
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
+            this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
+            this.overworldCameraRig.enabled = false;
+            this.overworldGameObject = this.controller.gameObject;
+            this.moveController.Setup();
 
-            overworldCameraRig.enabled = false;
-
-            overworldGameObject = controller.gameObject;
-
-            moveController.Setup();
-            StartCoroutine(playerInteractions.Setup());
+            StartCoroutine(this.playerInteractions.Setup());
 
             yield break;
         }
 
-        public void EnablePlayerControl() => controller.Enable();
+        public void EnablePlayerControl() => this.controller.Enable();
 
-        public void DisablePlayerControl() => controller.Disable();
+        public void DisablePlayerControl() => this.controller.Disable();
 
-        // ReSharper disable once IdentifierTypo
-        public void DisableOverworld()
-        {
-            if (overworldGameObject != null)
-                overworldGameObject.SetActive(false);
-        }
+        public void DisableOverworld() => this.overworldGameObject.SetActive(false);
 
-        // ReSharper disable once IdentifierTypo
-        public void EnableOverworld()
-        {
-            if (overworldGameObject != null)
-                overworldGameObject.SetActive(true);
-        }
+        public void EnableOverworld() => this.overworldGameObject.SetActive(true);
 
         public void PlayAnimationClip(AnimationClip clip)
         {
@@ -166,11 +154,11 @@ namespace Runtime.Player
 
         #region Input
 
-        private void OnMoveAxisChange(Vector2 vec) => moveDirection.value = vec;
+        private void OnMoveAxisChange(Vector2 vec) => this.moveDirection.value = vec;
 
-        private void OnTurnAxisChange(Vector2 vec) => rotationDirection.value = vec;
+        private void OnTurnAxisChange(Vector2 vec) => this.rotationDirection.value = vec;
 
-        private void OnRunChange(bool set) => running.value = set;
+        private void OnRunChange(bool set) => this.running.value = set;
 
         #endregion
 
