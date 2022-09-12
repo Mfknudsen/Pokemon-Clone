@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace Runtime.Player
 {
-    public class ItemThrower : MonoBehaviour
+    public class ItemThrowerController : MonoBehaviour
     {
         #region Values
 
@@ -44,12 +44,14 @@ namespace Runtime.Player
 
         #endregion
 
+        #region Build In States
+
         private void OnValidate()
         {
             this.bodyComponent = this.cameraRig.CinemachineComponent<Cinemachine3rdPersonFollow>();
             this.aimComponent = this.cameraRig.CinemachineComponent<CinemachineComposer>();
 
-            MoveCamera(this.current);
+            MoveCamera(0);
         }
 
         private void OnDrawGizmos()
@@ -71,24 +73,6 @@ namespace Runtime.Player
                 // ignored
             }
         }
-
-        private Vector3 GizmoGetLine(float i)
-        {
-            float l = this.lerpCurve.Evaluate(i);
-
-            Transform t = transform;
-
-            return t.position
-                   + Vector3.up * .4f + Vector3.right * this.shoulderOffset
-                   - t.forward * (i < .5f
-                       ? Mathf.Lerp(this.bot.y, this.mid.y, l)
-                       : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
-                   + Vector3.up * (i < .5f
-                       ? Mathf.Lerp(this.bot.x, this.mid.x, i * 2f)
-                       : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f));
-        }
-
-        #region Build In States
 
         private void OnEnable()
         {
@@ -117,10 +101,27 @@ namespace Runtime.Player
 
         #region Internal
 
+        private Vector3 GizmoGetLine(float i)
+        {
+            float l = this.lerpCurve.Evaluate(i);
+
+            Transform t = transform;
+
+            return t.position
+                   + Vector3.up * .4f + Vector3.right * this.shoulderOffset
+                   - t.forward * (i < .5f
+                       ? Mathf.Lerp(this.bot.y, this.mid.y, l)
+                       : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
+                   + Vector3.up * (i < .5f
+                       ? Mathf.Lerp(this.bot.x, this.mid.x, i * 2f)
+                       : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f));
+        }
+
         private void MoveCamera(float input)
         {
-            this.current -= input * this.throwRotationSpeed.y * Time.deltaTime;
-            this.current = this.current.Clamp(0f, 1f);
+            if (input != 0)
+                this.current -= input * this.throwRotationSpeed.y * Time.deltaTime;
+            this.current.RefClamp(0f, 1f);
 
             if (this.bodyComponent == null || this.aimComponent == null) return;
 
@@ -162,21 +163,19 @@ namespace Runtime.Player
             if (this.aiming.value)
             {
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;
-                MoveCamera(this.current);
+                MoveCamera(0);
 
                 cameraEvent = new CameraEvent(
                     this.cameraRig,
                     CameraSettings.Default(),
-                    .5f,
-                    0f);
+                    .5f);
 
                 this.shoulderOffsetTweener = DOTween.To(
                         () => this.currentShoulderOffset,
-                        x => this.currentShoulderOffset = x,
+                        set => this.currentShoulderOffset = set,
                         this.shoulderOffset,
                         .5f)
-                    .SetEase(Ease.OutExpo)
-                    .OnUpdate(() => MoveCamera(this.current));
+                    .OnUpdate(() => MoveCamera(0));
             }
             else
             {
@@ -186,8 +185,7 @@ namespace Runtime.Player
                 cameraEvent = new CameraEvent(
                     PlayerManager.instance.GetOverworldCameraRig(),
                     CameraSettings.Default(),
-                    .5f,
-                    0f);
+                    .5f);
             }
 
             this.cameraSwitchAsyncContainer.Add(cameraEvent);

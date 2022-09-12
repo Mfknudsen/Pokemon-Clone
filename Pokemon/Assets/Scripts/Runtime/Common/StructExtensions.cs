@@ -17,6 +17,8 @@ namespace Runtime.Common
 
         public static float Clamp(this float current, float min, float max) => Mathf.Clamp(current, min, max);
 
+        public static void RefClamp(this ref float current, float min, float max) => current = Mathf.Clamp(current, min, max);
+
         public static Vector3 Forward(this Quaternion quaternion) => quaternion * Vector3.forward;
         public static Vector3 Up(this Quaternion quaternion) => quaternion * Vector3.up;
         public static Vector3 Right(this Quaternion quaternion) => quaternion * Vector3.right;

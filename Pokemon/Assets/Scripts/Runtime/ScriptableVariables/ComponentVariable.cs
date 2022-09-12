@@ -11,9 +11,9 @@ namespace Runtime.ScriptableVariables
     {
         #region Values
 
-        [SerializeField, ReadOnly] private Transform componentTransform;
+        [ShowInInspector, ReadOnly] private Transform componentTransform;
 
-        [SerializeField, ReadOnly] private GameObject componentGameObject;
+        [ShowInInspector, ReadOnly] private GameObject componentGameObject;
 
         #endregion
 

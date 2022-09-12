@@ -24,7 +24,7 @@ namespace Runtime.Player.Camera
             CinemachineVirtualCameraBase cinemachineRig,
             CameraSettings cameraSettings,
             float timeInSeconds,
-            float percentToEnable) : this()
+            float percentToEnable = 0) : this()
         {
             //percentToEnable must be between 0 and 1
             this.cinemachineRig = cinemachineRig;

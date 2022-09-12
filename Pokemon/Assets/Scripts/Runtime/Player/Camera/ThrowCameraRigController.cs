@@ -44,7 +44,7 @@ namespace Runtime.Player.Camera
             this.controllerTransform.rotation = followRotation;
 
             this.visualObject.rotation = Quaternion.Lerp(this.visualObject.rotation,
-                followRotation, 10 * Time.deltaTime);
+                followRotation, 100 * Time.deltaTime);
         }
 
         #endregion

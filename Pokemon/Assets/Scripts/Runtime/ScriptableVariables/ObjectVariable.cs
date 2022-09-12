@@ -10,11 +10,10 @@ namespace Runtime.ScriptableVariables
 {
     public abstract class ObjectVariable<TGeneric> : ScriptableVariable<TGeneric> where TGeneric : class
     {
-        public TGeneric defaultValue;
+        [SerializeField] private TGeneric defaultValue;
 
         [NonSerialized, ShowInInspector, ReadOnly]
         private TGeneric localValue;
-
 
         public TGeneric value
         {
@@ -32,13 +31,8 @@ namespace Runtime.ScriptableVariables
             }
         }
 
+        protected override void OnEnable() => this.localValue = this.defaultValue;
 
         public bool Empty() => value == null;
-
-        public override void OnAfterDeserialize() => this.value = this.defaultValue;
-
-        public override void OnBeforeSerialize()
-        {
-        }
     }
 }

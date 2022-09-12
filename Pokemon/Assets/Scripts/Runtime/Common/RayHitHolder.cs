@@ -10,7 +10,8 @@ using UnityEngine;
 
 namespace Runtime.Common
 {
-    public class RayHitHolder : MonoBehaviour
+    [Serializable]
+    public class RayHitHolder : Component
     {
         #region Values
 
@@ -36,8 +37,7 @@ namespace Runtime.Common
         {
             if (hasComponents)
                 allComponents.AddRange(
-                    gameObject.GetComponents<MonoBehaviour>()
-                        .Where(component => component is not RayHitHolder));
+                    gameObject.GetComponents<MonoBehaviour>());
         }
 
         #endregion

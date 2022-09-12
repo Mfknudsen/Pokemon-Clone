@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Runtime.ScriptableVariables
 {
-    public abstract class ScriptableVariable<TGeneric> : ScriptableObject, ISerializationCallbackReceiver
+    public abstract class ScriptableVariable<TGeneric> : ScriptableObject
     {
         #region Packages
 
@@ -22,10 +22,13 @@ namespace Runtime.ScriptableVariables
 
         #endregion
 
-        #region In
+        #region Build In States
 
-        public abstract void OnBeforeSerialize();
-        public abstract void OnAfterDeserialize();
+        protected abstract void OnEnable();
+
+        #endregion
+
+        #region In
 
         public void AddListener(UnityAction<TGeneric> action)
         {

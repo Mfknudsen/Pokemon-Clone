@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5715b6286c3be770bb8dfcdf626c5326, type: 3}
   m_Name: CameraBrain
   m_EditorClassIdentifier: 
-  description: 
+  description: The cinemachine camera brain located on the default camera.
   debugSetter: 0
   defaultValue: {fileID: 0}
   componentTransform: {fileID: 0}

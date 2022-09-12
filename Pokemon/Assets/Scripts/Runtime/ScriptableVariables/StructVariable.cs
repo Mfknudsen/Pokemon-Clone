@@ -10,7 +10,7 @@ namespace Runtime.ScriptableVariables
 {
     public abstract class StructVariable<TGeneric> : ScriptableVariable<TGeneric> where TGeneric : struct
     {
-        public TGeneric defaultValue;
+        [SerializeField] private TGeneric defaultValue;
 
         [NonSerialized, ShowInInspector, ReadOnly]
         private TGeneric localValue;
@@ -31,12 +31,8 @@ namespace Runtime.ScriptableVariables
             }
         }
 
-        public bool Equals(TGeneric checkAgainst) => value.Equals(checkAgainst);
+        protected override void OnEnable() => this.localValue = this.defaultValue;
 
-        public override void OnAfterDeserialize() => this.value = this.defaultValue;
-
-        public override void OnBeforeSerialize()
-        {
-        }
+        public bool Equals(TGeneric check) => value.Equals(check);
     }
 }
