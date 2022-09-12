@@ -1,6 +1,7 @@
 #region Packages
 
 using Cinemachine;
+using DG.Tweening;
 using Runtime.Common;
 using Runtime.Player.Camera;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
@@ -36,6 +37,10 @@ namespace Runtime.Player
         private CinemachineComposer aimComponent;
 
         private OperationsContainer cameraSwitchAsyncContainer;
+
+        private Tweener shoulderOffsetTweener;
+
+        private float currentShoulderOffset;
 
         #endregion
 
@@ -146,6 +151,8 @@ namespace Runtime.Player
         {
             if (!this.allowed.value) return;
 
+            this.shoulderOffsetTweener?.Kill();
+
             if (this.cameraSwitchAsyncContainer != null)
                 OperationManager.instance.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
@@ -162,6 +169,14 @@ namespace Runtime.Player
                     CameraSettings.Default(),
                     .5f,
                     0f);
+
+                this.shoulderOffsetTweener = DOTween.To(
+                        () => this.currentShoulderOffset,
+                        x => this.currentShoulderOffset = x,
+                        this.shoulderOffset,
+                        .5f)
+                    .SetEase(Ease.OutExpo)
+                    .OnUpdate(() => MoveCamera(this.current));
             }
             else
             {
