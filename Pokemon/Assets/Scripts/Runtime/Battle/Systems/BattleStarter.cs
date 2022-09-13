@@ -117,7 +117,7 @@ namespace Runtime.Battle.Systems
                 Cursor.visible = true;
             };
 
-            onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<NpcBattleBase>()?.AfterBattle()); };
+            onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
 
             WorldManager manager = WorldManager.instance;
             manager.SetTransition(transition);

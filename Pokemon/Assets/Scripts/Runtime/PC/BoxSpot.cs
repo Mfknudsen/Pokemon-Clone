@@ -12,7 +12,7 @@ namespace Runtime.PC
 {
     public class BoxSpot : MonoBehaviour
     {
-        private Pokemon onSpot = null;
+        private Pokemon onSpot;
         private Image visual = null;
 
         public void SetPokemon(Pokemon set)

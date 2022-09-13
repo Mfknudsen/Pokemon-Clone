@@ -10,7 +10,7 @@ namespace Runtime.AI.Node_Canvas.Actions
     public class AttackAction : ActionTask
     {
         public BBParameter<bool> meleeAttack;
-        public BBParameter<NpcBase> npcBase;
+        public BBParameter<UnitBase> npcBase;
         public BBParameter<GameObject> target;
 
 

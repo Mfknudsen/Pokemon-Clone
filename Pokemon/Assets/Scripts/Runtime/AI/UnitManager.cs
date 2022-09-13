@@ -10,11 +10,11 @@ using UnityEngine;
 
 namespace Runtime.AI
 {
-    public class NpcManager : Manager
+    public class UnitManager : Manager
     {
         #region Values
 
-        public static NpcManager instance;
+        public static UnitManager instance;
 
         [SerializeField] private int mediumDelay = 1, farDelay = 1;
 

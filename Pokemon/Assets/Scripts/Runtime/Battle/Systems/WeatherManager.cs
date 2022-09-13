@@ -17,7 +17,7 @@ namespace Runtime.Battle.Systems
         private EnergyWeather energyWeather;
         private Terrain terrain;
 
-        private bool amplifyNext = false;
+        private bool amplifyNext;
 
         #endregion
 

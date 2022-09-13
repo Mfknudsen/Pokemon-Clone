@@ -69,6 +69,8 @@ namespace Runtime.ScriptableVariables
             this.valueChangeEventWithValue?.Invoke(value);
         }
 
+        protected abstract bool ValueAcceptable(TGeneric value);
+
         #endregion
     }
 }

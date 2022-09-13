@@ -139,7 +139,7 @@ namespace Runtime.Pokémon
 
         private ConditionOversight oversight;
 
-        private HoldableItem itemInHand;
+        private IHoldableItem itemInHand;
 
         [SerializeField] private float genderRate, catchRate;
 
@@ -163,7 +163,7 @@ namespace Runtime.Pokémon
         [SerializeField] private int[] multipliers = new int[6];
         [SerializeField] private List<Ability> instantiatedAbilities;
 
-        private int accuracy = 0, evasion = 0, critical = 0;
+        private int accuracy, evasion, critical;
 
         #endregion
 

@@ -20,7 +20,7 @@ namespace Runtime.ScriptableVariables
             get => this.localValue;
             set
             {
-                if (value.Equals(this.localValue)) return;
+                if (value.Equals(this.localValue) || !ValueAcceptable(value)) return;
 
                 this.localValue = value;
 
@@ -34,5 +34,7 @@ namespace Runtime.ScriptableVariables
         protected override void OnEnable() => this.localValue = this.defaultValue;
 
         public bool Equals(TGeneric check) => value.Equals(check);
+
+        protected override bool ValueAcceptable(TGeneric value) => true;
     }
 }

@@ -6,12 +6,13 @@ using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 #endregion
 
 namespace Runtime.AI
 {
-    public abstract class NpcBase : MonoBehaviour, IInteractable
+    public abstract class UnitBase : MonoBehaviour, IInteractable
     {
         #region Values
 
@@ -23,6 +24,8 @@ namespace Runtime.AI
         [FoldoutGroup("Base/Navmesh")] protected NavMeshAgent agent;
 
         private Dictionary<string, object> memoryBank = new();
+
+        private UnityEvent disableEvent;
 
         #endregion
 
@@ -39,7 +42,7 @@ namespace Runtime.AI
 
             return memoryBank[key] as TObject;
         }
-        
+
         #endregion
 
         #region Setters
@@ -51,12 +54,12 @@ namespace Runtime.AI
                 memoryBank[key] = value;
                 return;
             }
-            
+
             memoryBank.Add(key, value);
         }
 
         #endregion
-        
+
         #region In
 
         public abstract void Trigger();
@@ -69,6 +72,18 @@ namespace Runtime.AI
         public void ShowVisual()
         {
             visualsObject.SetActive(true);
+        }
+
+        public void AddDisableEventListener(UnityAction action)
+        {
+            this.disableEvent ??= new UnityEvent();
+
+            this.disableEvent.AddListener(action);
+        }
+
+        public void RemoveDisableEventListener(UnityAction action)
+        {
+            this.disableEvent?.RemoveListener(action);
         }
 
         #endregion

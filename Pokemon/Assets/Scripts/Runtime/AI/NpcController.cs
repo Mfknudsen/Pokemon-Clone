@@ -29,14 +29,14 @@ namespace Runtime.AI
 
         private IEnumerator Start()
         {
-            yield return new WaitWhile(() => NpcManager.instance == null);
+            yield return new WaitWhile(() => UnitManager.instance == null);
             
-            NpcManager.instance.AddController(this);
+            UnitManager.instance.AddController(this);
         }
 
         private void OnDestroy()
         {
-            NpcManager.instance.RemoveController(this);
+            UnitManager.instance.RemoveController(this);
         }
 
         #endregion

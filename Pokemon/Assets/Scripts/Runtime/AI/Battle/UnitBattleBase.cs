@@ -15,7 +15,7 @@ using UnityEngine;
 namespace Runtime.AI.Battle
 {
     [RequireComponent(typeof(BattleStarter))]
-    public class NpcBattleBase : NpcBase
+    public class UnitBattleBase : UnitBase
     {
         #region Values
 

@@ -109,6 +109,8 @@ namespace Runtime.Items
             return instantiateObject;
         }
 
+        public GameObject GetVisualPrefab() => this.visualPrefab;
+
         #endregion
 
         #region Setters

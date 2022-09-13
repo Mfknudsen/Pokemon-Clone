@@ -3,8 +3,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.AI;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Static_Operations;
+using Runtime.Common;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Systems;
@@ -15,7 +17,7 @@ using UnityEngine;
 namespace Runtime.Items.Pokeballs
 {
     [CreateAssetMenu(menuName = "Item/Pokeballs/Standard Pokeball")]
-    public class Pokeball : BattleItem
+    public class Pokeball : BattleItem, IThrowableItem
     {
         #region Values
 
@@ -38,6 +40,19 @@ namespace Runtime.Items.Pokeballs
         #region Setters
 
         #endregion
+
+        #region In
+
+        //IThrowableItem
+        public void OnCollision(Collision collision)
+        {
+            UnitBase pokemonHit = collision.gameObject.GetFirstComponentByRoot<UnitBase>();
+            Debug.Log("Hit NPC: " + pokemonHit.name);
+        }
+
+        #endregion
+
+        #region Out
 
         public override bool IsUsableTarget(Pokemon pokemon)
         {
@@ -87,11 +102,13 @@ namespace Runtime.Items.Pokeballs
 
             operationManager.AddOperationsContainer(container);
 
-                #endregion
+            #endregion
 
             done = true;
 
             yield break;
         }
+
+        #endregion
     }
 }

@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections;
 using Cinemachine;
 using Runtime.Common;
 using Runtime.Player.Camera;
@@ -10,7 +9,6 @@ using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Events;
 
 #endregion
 
@@ -26,6 +24,7 @@ namespace Runtime.Player
         [SerializeField, Required] private CinemachineFreeLookVariable defaultOverworldRig;
         [SerializeField, Required] private CinemachineBrainVariable cameraBrain;
         [SerializeField, Required] private Vec2Variable throwRotationSpeed;
+        [SerializeField, Required] private Transform throwTransform;
 
         //Cam
         [SerializeField] private float shoulderOffset;
@@ -38,7 +37,7 @@ namespace Runtime.Player
         private CinemachineComposer aimComponent;
 
         private OperationsContainer cameraSwitchAsyncContainer;
-        
+
         private float currentShoulderOffset;
 
         private IOperation throwingOperation;
@@ -59,8 +58,30 @@ namespace Runtime.Player
         {
             Gizmos.color = Color.red;
 
+            Transform t = transform;
             for (float i = 0.05f; i <= 1; i += .05f)
-                Gizmos.DrawLine(GizmoGetLine(i), GizmoGetLine(i - .05f));
+            {
+                float l = this.lerpCurve.Evaluate(i);
+                float j = this.lerpCurve.Evaluate(i - .05f);
+
+                Gizmos.DrawLine(
+                    t.position
+                    + Vector3.up * .4f + Vector3.right * this.shoulderOffset
+                    - t.forward * (i < .5f
+                        ? Mathf.Lerp(this.bot.y, this.mid.y, l)
+                        : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
+                    + Vector3.up * (i < .5f
+                        ? Mathf.Lerp(this.bot.x, this.mid.x, i * 2f)
+                        : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f)),
+                    t.position
+                    + Vector3.up * .4f + Vector3.right * this.shoulderOffset
+                    - t.forward * (i - .05f < .5f
+                        ? Mathf.Lerp(this.bot.y, this.mid.y, j)
+                        : Mathf.Lerp(this.mid.y, this.top.y, 1f - j))
+                    + Vector3.up * (i - .05f < .5f
+                        ? Mathf.Lerp(this.bot.x, this.mid.x, (i - .05f) * 2f)
+                        : Mathf.Lerp(this.mid.x, this.top.x, (i - .05f - .5f) * 2f)));
+            }
 
             try
             {
@@ -102,22 +123,6 @@ namespace Runtime.Player
 
         #region Internal
 
-        private Vector3 GizmoGetLine(float i)
-        {
-            float l = this.lerpCurve.Evaluate(i);
-
-            Transform t = transform;
-
-            return t.position
-                   + Vector3.up * .4f + Vector3.right * this.shoulderOffset
-                   - t.forward * (i < .5f
-                       ? Mathf.Lerp(this.bot.y, this.mid.y, l)
-                       : Mathf.Lerp(this.mid.y, this.top.y, 1f - l))
-                   + Vector3.up * (i < .5f
-                       ? Mathf.Lerp(this.bot.x, this.mid.x, i * 2f)
-                       : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f));
-        }
-
         private void MoveCamera(float input = 0)
         {
             if (input != 0)
@@ -148,18 +153,18 @@ namespace Runtime.Player
 
             this.throwing.value = true;
 
-            this.throwingOperation = new ThrowItemAction(() =>
-            {
-                this.throwing.value = false;
-                this.throwingOperation = null;
-            });
-            OperationManager.instance.AddAsyncOperationsContainer(new OperationsContainer(this.throwingOperation));
+            GameObject spawnedItem = Instantiate(
+                this.toThrow.GetVisual(),
+                this.throwTransform.position + this.cameraBrain.getTransform.forward * .25f,
+                this.cameraBrain.getTransform.rotation);
+
+            spawnedItem.GetComponent<Rigidbody>().AddForce(this.cameraBrain.getTransform.forward, ForceMode.Impulse);
         }
 
         private void SwitchToAiming()
         {
             if (!this.allowed.value) return;
-            
+
             if (this.cameraSwitchAsyncContainer != null)
                 OperationManager.instance.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
@@ -192,40 +197,5 @@ namespace Runtime.Player
         }
 
         #endregion
-    }
-
-    internal class ThrowItemAction : IOperation
-    {
-        #region Values
-
-        private bool done;
-
-        private readonly UnityEvent callback;
-
-        #endregion
-
-        #region Build In States
-
-        public ThrowItemAction(UnityAction callback)
-        {
-            this.callback = new UnityEvent();
-            this.callback.AddListener(callback);
-            this.done = false;
-        }
-
-        #endregion
-
-        public bool Done() => this.done;
-
-        public IEnumerator Operation()
-        {
-            this.done = true;
-            yield break;
-        }
-
-        public void End()
-        {
-            this.callback.Invoke();
-        }
     }
 }

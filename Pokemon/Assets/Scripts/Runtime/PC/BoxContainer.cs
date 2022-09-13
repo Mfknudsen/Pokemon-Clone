@@ -19,7 +19,7 @@ namespace Runtime.PC
 
         //GUI
         [SerializeField]
-        private TextMeshProUGUI numberGUI = null;
+        private TextMeshProUGUI numberGUI;
         private List<BoxSpot> spots = new();
 
         private void OnValidate()

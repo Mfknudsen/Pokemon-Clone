@@ -11,8 +11,8 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
     public class BurnCondition : NonVolatileCondition
     {
         #region Values
-        [SerializeField] private float damage = 0;
-        [SerializeField] private float n = 0, increaseN = 1;
+        [SerializeField] private float damage;
+        [SerializeField] private float n, increaseN = 1;
         #endregion
 
         #region Getters

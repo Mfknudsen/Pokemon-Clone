@@ -21,7 +21,7 @@ namespace Runtime.Cutscenes
         [SerializeField] private List<PlayableAsset> timelines;
         [SerializeField] private List<DelayTime> delayTimes;
 
-        private int currentPlayIndex = 0;
+        private int currentPlayIndex;
         private bool readyForNext, waitingForInput;
         
         #endregion

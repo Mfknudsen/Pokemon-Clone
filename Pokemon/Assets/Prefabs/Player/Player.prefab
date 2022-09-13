@@ -346,7 +346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477059440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -508,7 +508,7 @@ MonoBehaviour:
     GateFit: 2
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 1
+    m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
@@ -823,7 +823,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4072991089739934151}
   - component: {fileID: 7620935572146578316}
-  - component: {fileID: 1962563928295597647}
   - component: {fileID: 6591952015189776732}
   m_Layer: 3
   m_Name: Player Third Person Thrower Rig
@@ -839,8 +838,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2745685025538445215}
-  m_LocalRotation: {x: -0.43318874, y: -0, z: -0, w: 0.90130323}
-  m_LocalPosition: {x: 0.25, y: 0.5, z: -0.6}
+  m_LocalRotation: {x: 0.5483037, y: -0, z: -0, w: 0.8362793}
+  m_LocalPosition: {x: 0.5, y: 2.65, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -864,7 +863,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 9
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 1477059441}
   m_Follow: {fileID: 2061206351}
@@ -879,29 +878,13 @@ MonoBehaviour:
     GateFit: 2
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 1
+    m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2965904968468461424}
---- !u!114 &1962563928295597647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2745685025538445215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerIndex: -1
-  AutoEnableInputs: 1
-  XYAxis: {fileID: -2406340867215661640, guid: cb0efd68321d2b34088e9c6ea82de189, type: 3}
-  ZAxis: {fileID: 0}
 --- !u!114 &6591952015189776732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0.25, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0.5, y: 0, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -1018,10 +1001,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: {x: 0, y: 0, z: 0}
-  ShoulderOffset: {x: 0.25, y: 0.1, z: 0}
+  ShoulderOffset: {x: 0.5, y: 2.25, z: 0}
   VerticalArmLength: 0.4
   CameraSide: 1
-  CameraDistance: 0.6
+  CameraDistance: 0.5
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 0
@@ -1663,9 +1646,11 @@ MonoBehaviour:
   defaultOverworldRig: {fileID: 11400000, guid: 008e10a30c7950fa6bb85b484f546e0e, type: 2}
   cameraBrain: {fileID: 11400000, guid: 6d1072f5072ef4f9692e72067a2d8886, type: 2}
   throwRotationSpeed: {fileID: 11400000, guid: 020a8f1df31b215bc8f1a3ed81e4e689, type: 2}
+  throwTransform: {fileID: 1477059441}
+  shoulderOffset: 0.5
   top: {x: 2.25, y: 0.5}
   mid: {x: 1.25, y: 1.25}
-  bot: {x: 0.1, y: 0.6}
+  bot: {x: -0.1, y: 0.75}
   lerpCurve:
     serializedVersion: 2
     m_Curve:
@@ -1699,7 +1684,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  current: 0
+  current: 1
 --- !u!1 &7970307803279657890
 GameObject:
   m_ObjectHideFlags: 0

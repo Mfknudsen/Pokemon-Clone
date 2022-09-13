@@ -20,10 +20,12 @@ namespace Runtime.Common
 
         #region Build In States
 
-        public Timer(float duration)
+        public Timer(float duration, UnityAction action = null)
         {
             TimerUpdater.instance.timers.Add(this);
             this.duration = duration;
+            
+            this.timerEvent.AddListener(action);
         }
 
         #endregion
