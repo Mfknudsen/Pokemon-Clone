@@ -1,7 +1,7 @@
 #region Packages
 
+using System.Collections;
 using Cinemachine;
-using DG.Tweening;
 using Runtime.Common;
 using Runtime.Player.Camera;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
@@ -10,6 +10,7 @@ using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 #endregion
 
@@ -37,10 +38,10 @@ namespace Runtime.Player
         private CinemachineComposer aimComponent;
 
         private OperationsContainer cameraSwitchAsyncContainer;
-
-        private Tweener shoulderOffsetTweener;
-
+        
         private float currentShoulderOffset;
+
+        private IOperation throwingOperation;
 
         #endregion
 
@@ -51,7 +52,7 @@ namespace Runtime.Player
             this.bodyComponent = this.cameraRig.CinemachineComponent<Cinemachine3rdPersonFollow>();
             this.aimComponent = this.cameraRig.CinemachineComponent<CinemachineComposer>();
 
-            MoveCamera(0);
+            MoveCamera();
         }
 
         private void OnDrawGizmos()
@@ -117,7 +118,7 @@ namespace Runtime.Player
                        : Mathf.Lerp(this.mid.x, this.top.x, (i - .5f) * 2f));
         }
 
-        private void MoveCamera(float input)
+        private void MoveCamera(float input = 0)
         {
             if (input != 0)
                 this.current -= input * this.throwRotationSpeed.y * Time.deltaTime;
@@ -146,14 +147,19 @@ namespace Runtime.Player
             if (this.toThrow.Empty()) return;
 
             this.throwing.value = true;
+
+            this.throwingOperation = new ThrowItemAction(() =>
+            {
+                this.throwing.value = false;
+                this.throwingOperation = null;
+            });
+            OperationManager.instance.AddAsyncOperationsContainer(new OperationsContainer(this.throwingOperation));
         }
 
         private void SwitchToAiming()
         {
             if (!this.allowed.value) return;
-
-            this.shoulderOffsetTweener?.Kill();
-
+            
             if (this.cameraSwitchAsyncContainer != null)
                 OperationManager.instance.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
@@ -163,19 +169,12 @@ namespace Runtime.Player
             if (this.aiming.value)
             {
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;
-                MoveCamera(0);
+                MoveCamera();
 
                 cameraEvent = new CameraEvent(
                     this.cameraRig,
                     CameraSettings.Default(),
                     .5f);
-
-                this.shoulderOffsetTweener = DOTween.To(
-                        () => this.currentShoulderOffset,
-                        set => this.currentShoulderOffset = set,
-                        this.shoulderOffset,
-                        .5f)
-                    .OnUpdate(() => MoveCamera(0));
             }
             else
             {
@@ -193,5 +192,40 @@ namespace Runtime.Player
         }
 
         #endregion
+    }
+
+    internal class ThrowItemAction : IOperation
+    {
+        #region Values
+
+        private bool done;
+
+        private readonly UnityEvent callback;
+
+        #endregion
+
+        #region Build In States
+
+        public ThrowItemAction(UnityAction callback)
+        {
+            this.callback = new UnityEvent();
+            this.callback.AddListener(callback);
+            this.done = false;
+        }
+
+        #endregion
+
+        public bool Done() => this.done;
+
+        public IEnumerator Operation()
+        {
+            this.done = true;
+            yield break;
+        }
+
+        public void End()
+        {
+            this.callback.Invoke();
+        }
     }
 }

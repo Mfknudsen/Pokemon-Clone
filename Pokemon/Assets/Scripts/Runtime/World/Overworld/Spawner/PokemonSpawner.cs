@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace Runtime.World.Overworld.Spawner
 {
-    public class PokémonSpawner : MonoBehaviour
+    public class PokemonSpawner : MonoBehaviour
     {
         [SerializeField]
-        private PokémonSpawnList[] list;
+        private Pokemon[] list;
         [SerializeField]
         private int maxActiveEntities;
 
