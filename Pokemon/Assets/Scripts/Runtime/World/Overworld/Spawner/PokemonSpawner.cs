@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using System.Collections.Generic;
 using Runtime.AI;
 using Runtime.Common;
@@ -27,6 +28,12 @@ namespace Runtime.World.Overworld.Spawner
         private void OnEnable() => CheckState();
 
         private void OnDisable() => checkTimer?.Stop();
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = new Color(1, 0, 0, .25f);
+            Gizmos.DrawSphere(transform.position, this.radius);
+        }
 
         #endregion
 
