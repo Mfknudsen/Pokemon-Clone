@@ -1,6 +1,7 @@
 #region Packages
 
 using Runtime.Items;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -8,11 +9,11 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Objects.Items
 {
     [CreateAssetMenu(menuName = "Variables/Item")]
-    public sealed class ItemVariable : ObjectVariable<Item>
+    public sealed class ItemVariable : ScriptableVariable<Item>
     {
         #region Values
 
-        [SerializeField] private bool mostBeHoldable, mostBeThrowable;
+        [BoxGroup("Rules")] [SerializeField] private bool mostBeHoldable, mostBeThrowable;
 
         #endregion
 
@@ -24,12 +25,22 @@ namespace Runtime.ScriptableVariables.Objects.Items
 
         #region Internal
 
-        protected override bool ValueAcceptable(Item value)
+        protected override bool ValueAcceptable(Item item)
         {
-            if (this.mostBeHoldable && value is not IHoldableItem)
-                return false;
+            if (this.mostBeHoldable && item is not IHoldableItem)
+            {
+                if (this.debugSetter)
+                    Debug.Log("Item is not holdable", this);
 
-            return !this.mostBeThrowable || value is IThrowableItem;
+                return false;
+            }
+
+            if (!this.mostBeThrowable || item is IThrowableItem) return true;
+
+            if (this.debugSetter)
+                Debug.Log("Item is not throwable", this);
+
+            return false;
         }
 
         #endregion

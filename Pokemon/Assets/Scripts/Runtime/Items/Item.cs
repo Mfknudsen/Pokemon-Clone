@@ -156,31 +156,4 @@ namespace Runtime.Items
 
         #endregion
     }
-
-    public abstract class BattleItem : Item
-    {
-        [SerializeField] private BattleBagSlot battleBagSlot;
-        [SerializeField] protected Chat[] onUse;
-        [SerializeField] protected string userName;
-
-        public void SetOnUse(Chat[] chats)
-        {
-            onUse = chats;
-        }
-
-        public void SetUserName(string user)
-        {
-            userName = user;
-        }
-
-        public BattleBagSlot GetBattleBagSlot()
-        {
-            return battleBagSlot;
-        }
-
-        public void SetBattleBagSlot(BattleBagSlot battleBagSlot)
-        {
-            this.battleBagSlot = battleBagSlot;
-        }
-    }
 }

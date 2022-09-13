@@ -82,18 +82,6 @@ namespace Runtime.Player
                         ? Mathf.Lerp(this.bot.x, this.mid.x, (i - .05f) * 2f)
                         : Mathf.Lerp(this.mid.x, this.top.x, (i - .05f - .5f) * 2f)));
             }
-
-            try
-            {
-                Gizmos.color = Color.white;
-                Transform playerTransform = transform;
-                Vector3 playerPos = playerTransform.position;
-                Gizmos.DrawLine(playerPos, playerPos + (playerPos - this.cameraBrain.value.transform.position));
-            }
-            catch
-            {
-                // ignored
-            }
         }
 
         private void OnEnable()
@@ -149,7 +137,7 @@ namespace Runtime.Player
 
         private void ThrowItem()
         {
-            if (this.toThrow.Empty()) return;
+            if (this.allowed.value || this.toThrow.value == null || this.throwing.value) return;
 
             this.throwing.value = true;
 
@@ -159,6 +147,8 @@ namespace Runtime.Player
                 this.cameraBrain.getTransform.rotation);
 
             spawnedItem.GetComponent<Rigidbody>().AddForce(this.cameraBrain.getTransform.forward, ForceMode.Impulse);
+
+            Debug.Log("Spawned");
         }
 
         private void SwitchToAiming()

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db05b464a66f774eb246021894f1c63, type: 3}
   m_Name: ThrowingItem
   m_EditorClassIdentifier: 
-  description: 
-  debugSetter: 0
+  description: The currently selected item to be thrown.
   defaultValue: {fileID: 11400000, guid: c540ef55878352d49a17ee086456650b, type: 2}
+  debugSetter: 0
+  mostBeHoldable: 0
+  mostBeThrowable: 1

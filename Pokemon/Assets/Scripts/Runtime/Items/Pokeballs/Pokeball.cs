@@ -79,7 +79,7 @@ namespace Runtime.Items.Pokeballs
             selectedChat.AddToOverride("<TARGET_NAME>", target.GetName());
 
             List<Chat> chats = new();
-            foreach (Chat chat in onUse)
+            foreach (Chat chat in chatOnUse)
             {
                 Chat c = chat.GetChat();
                 c.AddToOverride("<USER_NAME>", userName);

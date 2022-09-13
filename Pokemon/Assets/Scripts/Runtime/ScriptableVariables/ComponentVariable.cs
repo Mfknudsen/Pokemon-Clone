@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Runtime.ScriptableVariables
 {
-    public abstract class ComponentVariable<TGeneric> : ObjectVariable<TGeneric> where TGeneric : Component
+    public abstract class ComponentVariable<TGeneric> : ScriptableVariable<TGeneric> where TGeneric : Component
     {
         #region Values
 

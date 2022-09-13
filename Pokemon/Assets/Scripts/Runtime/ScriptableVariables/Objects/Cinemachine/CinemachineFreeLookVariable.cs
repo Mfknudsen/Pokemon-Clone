@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Objects.Cinemachine
 {
     [CreateAssetMenu(menuName = "Variables/Cinemachine/Free Look")]
-    public class CinemachineFreeLookVariable : ObjectVariable<CinemachineFreeLook>
+    public class CinemachineFreeLookVariable : ScriptableVariable<CinemachineFreeLook>
     {
     }
 }

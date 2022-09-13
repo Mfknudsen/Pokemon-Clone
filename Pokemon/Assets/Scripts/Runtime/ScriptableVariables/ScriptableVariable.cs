@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,16 +16,37 @@ namespace Runtime.ScriptableVariables
         // ReSharper disable once NotAccessedField.Local
         [SerializeField, TextArea] private string description;
 
+        [SerializeField] private TGeneric defaultValue;
+
+        [NonSerialized, ShowInInspector, ReadOnly]
+        private TGeneric localValue;
+
+        public TGeneric value
+        {
+            get => this.localValue;
+            set
+            {
+                if (value.Equals(this.localValue) || !ValueAcceptable(value)) return;
+
+                this.localValue = value;
+
+                InvokeEvents(value);
+
+                if (this.debugSetter)
+                    Debug.Log(value);
+            }
+        }
+
         [SerializeField] protected bool debugSetter;
 
-        [ShowInInspector, ReadOnly] private UnityEvent<TGeneric> valueChangeEventWithValue;
-        [ShowInInspector, ReadOnly] private UnityEvent valueChangeEvent;
+        private UnityEvent<TGeneric> valueChangeEventWithValue;
+        private UnityEvent valueChangeEvent;
 
         #endregion
 
         #region Build In States
 
-        protected abstract void OnEnable();
+        protected virtual void OnEnable() => this.localValue = this.defaultValue;
 
         #endregion
 
@@ -62,14 +84,14 @@ namespace Runtime.ScriptableVariables
 
         #region Internal
 
-        protected void InvokeEvents(TGeneric value)
+        private void InvokeEvents(TGeneric toCheck)
         {
             this.valueChangeEvent?.Invoke();
 
-            this.valueChangeEventWithValue?.Invoke(value);
+            this.valueChangeEventWithValue?.Invoke(toCheck);
         }
 
-        protected abstract bool ValueAcceptable(TGeneric value);
+        protected virtual bool ValueAcceptable(TGeneric item) => true;
 
         #endregion
     }
