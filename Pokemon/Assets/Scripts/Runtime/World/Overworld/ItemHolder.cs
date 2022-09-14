@@ -17,7 +17,7 @@ namespace Runtime.World.Overworld
         #endregion
 
         #region Build In States
-
+        
         private void OnCollisionEnter(Collision collision)
         {
             if (this.item is not IThrowableItem throwableItem) return;

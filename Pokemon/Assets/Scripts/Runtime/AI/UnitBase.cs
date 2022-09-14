@@ -86,6 +86,11 @@ namespace Runtime.AI
             this.disableEvent?.RemoveListener(action);
         }
 
+        public void DisableUnit()
+        {
+            
+        }
+
         #endregion
     }
 }

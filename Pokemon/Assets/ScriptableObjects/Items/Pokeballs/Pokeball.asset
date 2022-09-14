@@ -19,8 +19,10 @@ MonoBehaviour:
   target: {fileID: 0}
   inUse: 0
   done: 1
-  visualPrefab: {fileID: 0}
+  visualPrefab: {fileID: 2470954641315690844, guid: be59f393668973d0eaa9bfbc826608f0, type: 3}
   battleBagSlot: 1
+  chatOnUse: []
+  userName: 
   catchStat: 1
   noClickBreak: {fileID: 11400000, guid: fb20f8d977925fd4c9c3b461169b3e29, type: 2}
   oneClickBreak: {fileID: 11400000, guid: fff30e9b98bea7148a865dfa47ea1961, type: 2}

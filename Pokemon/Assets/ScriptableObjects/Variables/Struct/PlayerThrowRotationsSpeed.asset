@@ -16,5 +16,5 @@ MonoBehaviour:
 
     Used for the
     overworld throwing mechanic.'
-  debugSetter: 0
   defaultValue: {x: 3, y: 0.05}
+  debugSetter: 0

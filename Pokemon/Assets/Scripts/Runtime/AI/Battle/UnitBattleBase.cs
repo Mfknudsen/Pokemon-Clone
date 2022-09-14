@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Runtime.AI.Battle.AfterEffects;
@@ -23,10 +24,10 @@ namespace Runtime.AI.Battle
         private BattleStarter battleStarter;
 
         [FoldoutGroup("Before Battle")] [SerializeField]
-        private BeforeEffectContainer[] beforeEffects = new BeforeEffectContainer[0];
+        private BeforeEffectContainer[] beforeEffects = Array.Empty<BeforeEffectContainer>();
 
         [FoldoutGroup("Before Battle")] [SerializeField]
-        private AfterEffectContainer[] afterEffects = new AfterEffectContainer[0];
+        private AfterEffectContainer[] afterEffects = Array.Empty<AfterEffectContainer>();
 
         [FoldoutGroup("Input")] [SerializeField]
         private string[] chatKeys, chatValues;

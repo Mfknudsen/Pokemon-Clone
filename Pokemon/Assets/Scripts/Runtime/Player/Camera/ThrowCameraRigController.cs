@@ -31,12 +31,12 @@ namespace Runtime.Player.Camera
 
         private void Update()
         {
-            if (this.allowed.Equals(false)) return;
+            if (!this.allowed.value) return;
 
             this.controllerTransform.position = this.followObject.position;
 
-            if (this.aiming.Equals(false)) return;
-
+            if (!this.aiming.value) return;
+            
             this.followObject.Rotate(Vector3.up, this.rotationDirection.x * this.rotationSpeeds.x * Time.deltaTime);
 
             Quaternion followRotation = this.followObject.rotation;

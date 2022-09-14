@@ -1,8 +1,10 @@
 #region Packages
 
 using System.Collections;
+using Runtime.Items.Pokeballs;
 using Runtime.Pokémon;
 using Runtime.Systems;
+using UnityEngine.Events;
 
 #endregion
 
@@ -12,10 +14,18 @@ namespace Runtime.Battle.Systems.Static_Operations
     {
         private bool done;
         private readonly Pokemon pokemon;
+        private readonly Pokeball pokeball;
+        private UnityEvent catchEvent;
 
-        public CatchPokemon(Pokemon pokemon)
+        public CatchPokemon(Pokemon pokemon, Pokeball pokeball, UnityAction catchAction = null)
         {
             this.pokemon = pokemon;
+            this.pokeball = pokeball;
+
+            if (catchAction == null) return;
+
+            this.catchEvent = new UnityEvent();
+            this.catchEvent.AddListener(catchAction);
         }
 
         public bool Done()
@@ -25,8 +35,6 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public IEnumerator Operation()
         {
-            done = false;
-
             done = true;
 
             yield break;

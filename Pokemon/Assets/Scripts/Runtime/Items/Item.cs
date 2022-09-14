@@ -1,9 +1,9 @@
 ﻿#region Packages
 
 using System.Collections;
-using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -23,7 +23,7 @@ namespace Runtime.Items
     public enum BattleBagSlot
     {
         Battle,
-        Pokéball,
+        Pokeball,
         Berries,
         Medicine
     }
@@ -51,7 +51,7 @@ namespace Runtime.Items
 
         #region Visual
 
-        [Header("Visual")] [SerializeField] private GameObject visualPrefab;
+        [Header("Visual")] [SerializeField, AssetsOnly, AssetSelector(Paths = "Assets/Prefabs/Items", Filter = "t:Prefab")] private GameObject visualPrefab;
         private GameObject instantiateObject;
 
         #endregion
@@ -72,20 +72,11 @@ namespace Runtime.Items
             return result;
         }
 
-        public ItemType GetItemType()
-        {
-            return type;
-        }
+        public ItemType GetItemType() => type;
 
-        public bool GetIsInstantiated()
-        {
-            return isInstantiated;
-        }
+        public bool GetIsInstantiated() => isInstantiated;
 
-        public string GetItemName()
-        {
-            return itemName;
-        }
+        public string GetItemName() => itemName;
 
         public string GetDescription()
         {

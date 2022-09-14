@@ -93,14 +93,14 @@ namespace Runtime.Pokémon
 
         [BoxGroup("Basic")] [SerializeField] private Color pokedexColor = Color.green;
 
-        [HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0)] [SerializeField]
+        [HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0)] [SerializeField, Required]
         private GameObject prefab;
 
         [BoxGroup("Moves")] [SerializeField] private string pokemonCategory;
 
         [VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)] [SerializeField]
         private Ability firstAbility, secondAbility, hiddenAbility;
-        
+
         [BoxGroup("Stats")] [SerializeField] private Stats stats;
         [BoxGroup("Stats")] [SerializeField] private int[] iv = new int[6];
         [BoxGroup("Stats")] [SerializeField] private int[] ev = new int[6];

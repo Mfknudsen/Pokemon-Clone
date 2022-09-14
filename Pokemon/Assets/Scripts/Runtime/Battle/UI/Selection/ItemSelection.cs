@@ -62,7 +62,7 @@ namespace Runtime.Battle.UI.Selection
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (slot == BattleBagSlot.Battle && !potionList.Contains(itemContainer))
                     potionList.Add(itemContainer);
-                else if (slot == BattleBagSlot.Pokéball && !pokéballList.Contains(itemContainer))
+                else if (slot == BattleBagSlot.Pokeball && !pokéballList.Contains(itemContainer))
                     pokéballList.Add(itemContainer);
                 else if (slot == BattleBagSlot.Berries && !otherList.Contains(itemContainer))
                     otherList.Add(itemContainer);
@@ -85,7 +85,7 @@ namespace Runtime.Battle.UI.Selection
 
             if (battleBagSlot == BattleBagSlot.Battle)
                 toDisplay = potionList;
-            else if (battleBagSlot == BattleBagSlot.Pokéball)
+            else if (battleBagSlot == BattleBagSlot.Pokeball)
                 toDisplay = pokéballList;
             else if (battleBagSlot == BattleBagSlot.Berries)
                 toDisplay = otherList;

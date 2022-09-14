@@ -1,6 +1,5 @@
 #region Packages
 
-using System;
 using System.Collections.Generic;
 using Runtime.AI;
 using Runtime.Common;
@@ -56,6 +55,12 @@ namespace Runtime.World.Overworld.Spawner
         {
             Pokemon toSpawn = SelectPokemonFromList();
 
+            if (toSpawn.GetPokemonPrefab() == null)
+            {
+                Debug.LogWarning("Pokemon need visual prefab to be spawned");
+                return;
+            }
+            
             GameObject obj = Instantiate(
                 toSpawn.GetPokemonPrefab(),
                 RandomPositionFromArea(),

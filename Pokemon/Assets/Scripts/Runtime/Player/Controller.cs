@@ -56,19 +56,15 @@ namespace Runtime.Player
 
         private Vector3 toLookRotation = Vector3.forward;
 
-        #region Hashs
-
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
-
-        #endregion
-
+        
         #endregion
 
         #region Build In States
 
         private void Update()
         {
-            if (!this.ready || this.allowed.Equals(false)) return;
+            if (!this.ready || !this.allowed.value) return;
 
             UpdateMoveTransform();
             Move();
@@ -125,10 +121,10 @@ namespace Runtime.Player
 
         private void UpdateMoveTransform()
         {
-            if (this.aiming.Equals(true)) return;
+            if (this.aiming.value) return;
 
             Vector3 camForward = this.cameraBrain.getTransform.forward;
-            camForward -= new Vector3(0, camForward.y, 0);
+            camForward -= Vector3.up * camForward.y;
 
             this.moveTransform.LookAt(this.moveTransform.position + camForward, Vector3.up);
         }
@@ -161,7 +157,7 @@ namespace Runtime.Player
 
         private void Turn()
         {
-            if (this.aiming.Equals(false))
+            if (!this.aiming.value)
             {
                 if (this.moveDirection.value != Vector2.zero)
                 {

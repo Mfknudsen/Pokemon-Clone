@@ -33,7 +33,7 @@ namespace Runtime.ScriptableVariables
                 InvokeEvents(value);
 
                 if (this.debugSetter)
-                    Debug.Log(value);
+                    Debug.Log(value, this);
             }
         }
 

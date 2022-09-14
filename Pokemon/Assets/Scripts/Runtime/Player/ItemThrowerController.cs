@@ -137,16 +137,19 @@ namespace Runtime.Player
 
         private void ThrowItem()
         {
-            if (this.allowed.value || this.toThrow.value == null || this.throwing.value) return;
+            if (!this.allowed.value || this.toThrow.value == null || this.throwing.value || !this.aiming.value) return;
 
             this.throwing.value = true;
 
             GameObject spawnedItem = Instantiate(
                 this.toThrow.GetVisual(),
-                this.throwTransform.position + this.cameraBrain.getTransform.forward * .25f,
+                this.throwTransform.position + this.cameraBrain.getTransform.forward * .5f,
                 this.cameraBrain.getTransform.rotation);
 
-            spawnedItem.GetComponent<Rigidbody>().AddForce(this.cameraBrain.getTransform.forward, ForceMode.Impulse);
+            spawnedItem.GetComponent<Rigidbody>()
+                .AddForce(this.cameraBrain.getTransform.forward * 10, ForceMode.Impulse);
+
+            new Timer(1, () => this.throwing.value = false);
 
             Debug.Log("Spawned");
         }
