@@ -50,6 +50,12 @@ namespace Runtime.ScriptableVariables
 
         #endregion
 
+        #region Getters
+
+        public string getDescription => this.description;
+
+        #endregion
+
         #region In
 
         public void AddListener(UnityAction<TGeneric> action)
