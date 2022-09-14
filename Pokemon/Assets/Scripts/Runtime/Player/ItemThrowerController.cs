@@ -42,6 +42,8 @@ namespace Runtime.Player
 
         private IOperation throwingOperation;
 
+        private Timer throwDelay;
+
         #endregion
 
         #region Build In States
@@ -105,6 +107,8 @@ namespace Runtime.Player
             inputManager.turnAxisInputEvent.RemoveListener(input => MoveCamera(input.y));
 
             this.aiming.RemoveListener(SwitchToAiming);
+
+            this.throwDelay?.Stop();
         }
 
         #endregion
@@ -137,7 +141,7 @@ namespace Runtime.Player
 
         private void ThrowItem()
         {
-            if (!this.allowed.value || this.toThrow.value == null || this.throwing.value || !this.aiming.value) return;
+            if (!this.allowed.value || this.toThrow.valueEmpty || this.throwing.value || !this.aiming.value) return;
 
             this.throwing.value = true;
 
@@ -149,7 +153,11 @@ namespace Runtime.Player
             spawnedItem.GetComponent<Rigidbody>()
                 .AddForce(this.cameraBrain.getTransform.forward * 10, ForceMode.Impulse);
 
-            new Timer(1, () => this.throwing.value = false);
+            this.throwDelay = new Timer(1, () =>
+            {
+                this.throwing.value = false;
+                this.throwDelay = null;
+            });
 
             Debug.Log("Spawned");
         }

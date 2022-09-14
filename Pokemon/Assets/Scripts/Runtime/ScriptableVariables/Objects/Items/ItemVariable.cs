@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Objects.Items
 {
     [CreateAssetMenu(menuName = "Variables/Item")]
-    public sealed class ItemVariable : ScriptableVariable<Item>
+    public sealed class ItemVariable : ObjectVariable<Item>
     {
         #region Values
 
@@ -30,7 +30,7 @@ namespace Runtime.ScriptableVariables.Objects.Items
             if (this.mostBeHoldable && item is not IHoldableItem)
             {
                 if (this.debugSetter)
-                    Debug.Log("Item is not holdable", this);
+                    Debug.Log("Item " + item.name + " is not holdable", this);
 
                 return false;
             }
@@ -38,7 +38,7 @@ namespace Runtime.ScriptableVariables.Objects.Items
             if (!this.mostBeThrowable || item is IThrowableItem) return true;
 
             if (this.debugSetter)
-                Debug.Log("Item is not throwable", this);
+                Debug.Log("Item " + item.name + " is not throwable", this);
 
             return false;
         }
