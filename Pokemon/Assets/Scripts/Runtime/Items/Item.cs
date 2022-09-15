@@ -1,6 +1,7 @@
 ﻿#region Packages
 
 using System.Collections;
+using Runtime.Player;
 using Runtime.Pokémon;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
@@ -34,6 +35,9 @@ namespace Runtime.Items
     {
         #region Values
 
+        [SerializeField, Required] protected PlayerManager playerManager;
+        [SerializeField, Required] protected OperationManager operationManager;
+        
         [Header("Object Reference:")] [SerializeField]
         protected bool isInstantiated;
 

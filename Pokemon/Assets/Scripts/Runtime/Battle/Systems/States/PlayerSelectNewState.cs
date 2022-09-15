@@ -16,7 +16,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerSelectNewState : State
     {
-        public PlayerSelectNewState(BattleManager manager) : base(manager)
+        public PlayerSelectNewState(BattleManager battleManager) : base(battleManager)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Runtime.Battle.Systems.States
         {
             Cursor.visible = true;
             List<SwitchAction> switchActions = new();
-            SpotOversight oversight = this.manager.GetSpotOversight();
+            SpotOversight oversight = this.battleManager.GetSpotOversight();
             BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
 
             if (playerTeam.GetTeam().CanSendMorePokemon())
@@ -34,11 +34,11 @@ namespace Runtime.Battle.Systems.States
                                  s.GetBattleMember() == playerTeam ||
                                  s.GetActivePokemon() != null))
                 {
-                    SwitchAction switchAction = this.manager.InstantiateSwitchAction();
+                    SwitchAction switchAction = this.battleManager.InstantiateSwitchAction();
 
                     switchAction.SetSpot(spot);
 
-                    this.manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
+                    this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
                     yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
                                                      !ChatManager.instance.GetIsClear());
@@ -47,11 +47,11 @@ namespace Runtime.Battle.Systems.States
                 }
             }
 
-            this.manager.GetSelectionMenu().DisableDisplaySelection();
+            this.battleManager.GetSelectionMenu().DisableDisplaySelection();
 
             Cursor.visible = false;
 
-            this.manager.SetState(new ComputerSelectNewState(this.manager, switchActions));
+            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, switchActions));
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Runtime.AI.Battle.AfterEffects
     [Serializable]
     public class TriggerAfterChat : NpcBattleAfterEffect
     {
+        [SerializeField] private ChatManager chatManager;
         [SerializeField] private Chat chat;
 
         private Dictionary<string, string> input;
@@ -43,10 +44,10 @@ namespace Runtime.AI.Battle.AfterEffects
                     inputKey,
                     input[inputKey]);
 
-            ChatManager.instance.Add(chat);
+            chatManager.Add(chat);
 
             yield return new WaitWhile(() =>
-                !ChatManager.instance.GetIsClear());
+                !chatManager.GetIsClear());
             done = true;
         }
 

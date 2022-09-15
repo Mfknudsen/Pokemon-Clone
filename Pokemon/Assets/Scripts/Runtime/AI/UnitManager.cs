@@ -1,21 +1,20 @@
 #region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
 using Runtime.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
 namespace Runtime.AI
 {
-    public class UnitManager : Manager
+    public sealed class UnitManager : Manager
     {
         #region Values
 
-        public static UnitManager instance;
-
+        [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField] private int mediumDelay = 1, farDelay = 1;
 
         private readonly List<NpcController> controllers = new(),
@@ -35,7 +34,7 @@ namespace Runtime.AI
             farDelay = farDelay > 0 ? farDelay : 1;
         }
 
-        private void Update()
+        public override void UpdateManager()
         {
             close.ForEach(c => c.TriggerBehaviourUpdate());
 
@@ -55,19 +54,6 @@ namespace Runtime.AI
 
         #region In
 
-        public override IEnumerator Setup()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-
-            yield break;
-        }
-
         public void AddController(NpcController add)
         {
             if (add == null || controllers.Contains(add))
@@ -76,21 +62,27 @@ namespace Runtime.AI
             controllers.Add(add);
 
             Transform cTrans = add.transform;
-            cTrans.root.parent = transform;
+            cTrans.root.parent = this.holder.transform;
 
             Vector3 cPos = cTrans.position,
-                pPos = PlayerManager.instance != null
-                    ? PlayerManager.instance.GetAgent().transform.position
+                pPos = playerManager.GetHolderObject() != null
+                    ? playerManager.GetAgent().transform.position
                     : Vector3.zero;
 
             float distance = Vector3.Distance(cPos, pPos);
 
-            if (distance < 50)
-                close.Add(add);
-            else if (distance < 100)
-                medium.Add(add);
-            else
-                far.Add(add);
+            switch (distance)
+            {
+                case < 50:
+                    close.Add(add);
+                    break;
+                case < 100:
+                    medium.Add(add);
+                    break;
+                default:
+                    far.Add(add);
+                    break;
+            }
         }
 
         public void RemoveController(NpcController remove)

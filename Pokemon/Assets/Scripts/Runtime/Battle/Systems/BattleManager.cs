@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Linq;
 using Cinemachine;
 using Runtime._Debug;
@@ -10,7 +9,6 @@ using Runtime.Battle.Systems.States;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
-using Runtime.Player.Camera;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
@@ -144,7 +142,8 @@ namespace Runtime.Battle.Systems
 
         #region In
 
-        public override IEnumerator Setup()
+        //TODO FIX:
+/*        public override IEnumerator Setup()
         {
             if (instance == null)
             {
@@ -170,6 +169,7 @@ namespace Runtime.Battle.Systems
 
             Destroy(gameObject);
         }
+        */
 
         public void StartBattle(BattleStarter battleStarter)
         {
@@ -230,9 +230,9 @@ namespace Runtime.Battle.Systems
         public void SetState(State set)
         {
             if (this.stateManager != null)
-                StopCoroutine(this.stateManager);
+                this.holder.StopCoroutine(this.stateManager);
 
-            this.stateManager = StartCoroutine(set.Tick());
+            this.stateManager = this.holder.StartCoroutine(set.Tick());
         }
 
         public void EndBattle(bool playerVictory)

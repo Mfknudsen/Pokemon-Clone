@@ -1,11 +1,9 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Linq;
 using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Files;
-using Runtime.Items;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
@@ -18,16 +16,10 @@ using UnityEngine.AI;
 
 namespace Runtime.Player
 {
-    [RequireComponent(
-        typeof(BattleMember),
-        typeof(Team),
-        typeof(Inventory))]
     public class PlayerManager : Manager
     {
         #region Values
-
-        public static PlayerManager instance;
-
+        
         [FoldoutGroup("References")] [SerializeField, Required]
         private Team team;
 
@@ -79,10 +71,17 @@ namespace Runtime.Player
             inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
 
-            this.defaultOverworldRig.value = GetComponentsInChildren<CinemachineFreeLook>()
+            this.defaultOverworldRig.value = this.holder.GetComponentsInChildren<CinemachineFreeLook>()
                 .First(c => c.name.Equals("Player Third Person Rig"));
 
-            this.cameraBrain.value = GetComponentInChildren<CinemachineBrain>();
+            this.cameraBrain.value = this.holder.GetComponentInChildren<CinemachineBrain>();
+
+            this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
+            this.overworldCameraRig.enabled = false;
+            this.overworldGameObject = this.controller.gameObject;
+            this.moveController.Setup();
+
+            this.holder.StartCoroutine(this.playerInteractions.Setup());
         }
 
         private void OnDisable()
@@ -117,24 +116,6 @@ namespace Runtime.Player
         #endregion
 
         #region In
-
-        public override IEnumerator Setup()
-        {
-            if (instance != null)
-                Destroy(gameObject);
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
-            this.overworldCameraRig.enabled = false;
-            this.overworldGameObject = this.controller.gameObject;
-            this.moveController.Setup();
-
-            StartCoroutine(this.playerInteractions.Setup());
-
-            yield break;
-        }
 
         public void EnablePlayerControl() => this.controller.Enable();
 

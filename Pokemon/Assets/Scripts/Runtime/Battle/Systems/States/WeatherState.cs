@@ -11,14 +11,14 @@ namespace Runtime.Battle.Systems.States
 {
     public class WeatherState : State
     {
-        public WeatherState(BattleManager manager) : base(manager)
+        public WeatherState(BattleManager battleManager) : base(battleManager)
         {
         }
 
         public override IEnumerator Tick()
         {
             OperationManager operationManager = OperationManager.instance;
-            foreach (IOnTurnEnd onTurnEnd in this.manager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
+            foreach (IOnTurnEnd onTurnEnd in this.battleManager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
                 .Where(i => i is IOperation))
             {
                 OperationsContainer container = new();
@@ -26,7 +26,7 @@ namespace Runtime.Battle.Systems.States
                 operationManager.AddOperationsContainer(container);
             }
 
-            this.manager.SetState(new RoundDoneState(this.manager));
+            this.battleManager.SetState(new RoundDoneState(this.battleManager));
             yield break;
         }
     }

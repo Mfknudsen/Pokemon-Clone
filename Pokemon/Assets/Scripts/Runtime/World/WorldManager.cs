@@ -21,8 +21,10 @@ namespace Runtime.World
     {
         #region Values
 
-        public static WorldManager instance;
-
+        [SerializeField] private PlayerManager playerManager;
+        [SerializeField] private UIManager uiManager;
+        [SerializeField] private TileManager tileManager;
+        
         private Coroutine currentOperation;
 
         [SerializeField] private float progressMeter;
@@ -35,8 +37,17 @@ namespace Runtime.World
 
         private StoryTriggers storyTriggers;
         private const string FileName = "StoryTriggers";
-        
+
         private readonly List<GameObject> loadedScenes = new();
+
+        #endregion
+
+        #region Build In States
+
+        private void OnEnable()
+        {
+            this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
+        }
 
         #endregion
 
@@ -82,39 +93,24 @@ namespace Runtime.World
 
         #region In
 
-        public override IEnumerator Setup()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-
-            this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
-
-            yield break;
-        }
-
         public void LoadSceneAsync(string sceneName)
         {
-            activeLoading.Add(StartCoroutine(LoadWorldSceneAsync(sceneName)));
+            activeLoading.Add(this.holder.StartCoroutine(LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            activeUnloading.Add(StartCoroutine(UnloadWorldSceneAsync(sceneName)));
+            activeUnloading.Add(this.holder.StartCoroutine(UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            activeLoading.Add(StartCoroutine(LoadBattleSceneAsync(sceneName)));
+            activeLoading.Add(this.holder.StartCoroutine(LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()
         {
-            activeUnloading.Add(StartCoroutine(UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
+            activeUnloading.Add(this.holder.StartCoroutine(UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
         }
 
         #endregion
@@ -130,7 +126,7 @@ namespace Runtime.World
             //Start Transition
             yield return StartTransition();
 
-            PlayerManager.instance.DisableOverworld();
+            playerManager.DisableOverworld();
 
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -153,7 +149,7 @@ namespace Runtime.World
 
             this.currentLoadedBattleScene = sceneName;
 
-            PlayerManager.instance.EnableOverworld();
+            playerManager.EnableOverworld();
 
             //End Transition
             yield return EndTransition();
@@ -182,7 +178,7 @@ namespace Runtime.World
             //End Transition
             yield return EndTransition();
 
-            PlayerManager.instance.EnableOverworld();
+            playerManager.EnableOverworld();
         }
 
         #endregion
@@ -197,7 +193,7 @@ namespace Runtime.World
 
             this.progressMeter = 0;
 
-            UIManager.instance.ActivateLoadingUI(true);
+            uiManager.ActivateLoadingUI(true);
 
             while (!asyncLoad.isDone)
             {
@@ -207,7 +203,7 @@ namespace Runtime.World
 
             SetupManager.instance.Trigger();
 
-            UIManager.instance.ActivateLoadingUI(false);
+            uiManager.ActivateLoadingUI(false);
 
             this.currentOperation = null;
         }
@@ -242,13 +238,13 @@ namespace Runtime.World
 
         #endregion
 
-        private static void UnloadWorldInterfaces(string sceneName)
+        private void UnloadWorldInterfaces(string sceneName)
         {
             List<GameObject> toUnload = new();
 
-            TileSubManager subManager = TileManager.instance.GetSubManagerByName(sceneName);
+            TileSubManager subManager = tileManager.GetSubManagerByName(sceneName);
             if (subManager != null)
-                toUnload.Add(subManager.gameObject);
+                toUnload.Add(subManager.GetHolderObject());
 
             while (toUnload.Count > 0)
             {

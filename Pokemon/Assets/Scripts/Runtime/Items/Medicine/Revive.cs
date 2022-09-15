@@ -4,6 +4,7 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -15,6 +16,7 @@ namespace Runtime.Items.Medicine
     {
         #region Values
 
+        [SerializeField, Required] private ChatManager chatManager;
         [SerializeField] private bool toFull;
         [SerializeField] private Chat onActivation;
 
@@ -42,7 +44,7 @@ namespace Runtime.Items.Medicine
 
             Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
-            ChatManager.instance.Add(toSend);
+            chatManager.Add(toSend);
 
             target.GetConditionOversight().TryApplyNonVolatileCondition(null);
 
@@ -51,7 +53,7 @@ namespace Runtime.Items.Medicine
             else
                 target.ReceiveDamage(-(target.GetCalculatedStat(Stat.HP) / 2));
 
-            while (!ChatManager.instance.GetIsClear())
+            while (!chatManager.GetIsClear())
                 yield return null;
 
             done = true;

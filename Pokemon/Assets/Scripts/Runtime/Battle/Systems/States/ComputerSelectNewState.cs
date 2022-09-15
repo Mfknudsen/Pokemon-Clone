@@ -14,7 +14,7 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly List<SwitchAction> switchActions;
 
-        public ComputerSelectNewState(BattleManager manager, List<SwitchAction> switchActions) : base(manager)
+        public ComputerSelectNewState(BattleManager battleManager, List<SwitchAction> switchActions) : base(battleManager)
         {
             this.switchActions = switchActions;
         }
@@ -23,7 +23,7 @@ namespace Runtime.Battle.Systems.States
         {
             BattleMember playerBattleMember = PlayerManager.instance.GetBattleMember();
 
-            foreach (Spot spot in this.manager.GetSpotOversight().GetSpots())
+            foreach (Spot spot in this.battleManager.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
@@ -34,7 +34,7 @@ namespace Runtime.Battle.Systems.States
                 battleMember.ActivateAIBrain(spot.GetActivePokemon());
             }
 
-            this.manager.SetState(new SwitchNewInState(this.manager, this.switchActions));
+            this.battleManager.SetState(new SwitchNewInState(this.battleManager, this.switchActions));
 
             yield break;
         }

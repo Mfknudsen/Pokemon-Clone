@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using Runtime.Systems;
 using TMPro;
@@ -13,8 +12,8 @@ namespace Runtime.Communication
     public class ChatManager : Manager
     {
         #region Values
-
-        [Header("Object Reference:")] public static ChatManager instance;
+        
+        [Header("Object Reference:")]
         [SerializeField] private Chat running;
         [SerializeField] private List<Chat> waitList = new();
 
@@ -24,36 +23,12 @@ namespace Runtime.Communication
         [Header("Chat Settings:")] [SerializeField]
         private int textPerSecond = 30;
 
-        private int defaultTextSpeed;
-
         #endregion
 
         #region Build In States
 
-        private void Update()
-        {
-            if (textField == null)
-            {
-                textField = TextField.instance;
-                return;
-            }
-
-            if (running != null && waitForInput)
-            {
-                if (running.GetNeedInput()) return;
-
-                if (running.GetDone())
-                    running = null;
-                else
-                    StartCoroutine(running.PlayNext());
-
-                waitForInput = false;
-            }
-            else if (running is null && waitList.Count > 0)
-            {
-                PlayNextInLine();
-            }
-        }
+        private void OnEnable() => InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+        private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(OnNextChatChange);
 
         #endregion
 
@@ -61,13 +36,13 @@ namespace Runtime.Communication
 
         public bool GetIsClear()
         {
-            return running == null && waitList.Count == 0;
+            return this.running == null && this.waitList.Count == 0;
         }
 
         public float GetTextSpeed()
         {
             float result = 1;
-            result /= textPerSecond;
+            result /= this.textPerSecond;
             return result;
         }
 
@@ -75,98 +50,95 @@ namespace Runtime.Communication
 
         #region Setters
 
-        public void SetDisplayText(string text)
-        {
-            textField.text = text;
-        }
+        public void SetDisplayText(string text) => this.textField.text = text;
 
         public void SetTextField(TextMeshProUGUI newTextField)
         {
-            string currentText = textField.text;
-            textField = newTextField;
-            textField.text = currentText;
+            string currentText = this.textField.text;
+            this.textField = newTextField;
+            this.textField.text = currentText;
         }
 
         public void SetTextSpeed(int speed)
         {
-            textPerSecond = speed;
+            this.textPerSecond = speed;
         }
 
         #endregion
 
         #region In
 
-        public override IEnumerator Setup()
+        public override void UpdateManager()
         {
-            if (instance != null)
-                Destroy(gameObject);
+            if (this.textField == null)
+            {
+                this.textField = TextField.instance;
+                return;
+            }
 
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (this.running != null && this.waitForInput)
+            {
+                if (this.running.GetNeedInput()) return;
 
-            defaultTextSpeed = textPerSecond;
+                if (this.running.GetDone())
+                    this.running = null;
+                else
+                    this.holder.StartCoroutine(this.running.PlayNext());
 
-            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
-
-            yield break;
+                this.waitForInput = false;
+            }
+            else if (this.running is null && this.waitList.Count > 0)
+            {
+                PlayNextInLine();
+            }
         }
 
-        public void Add(Chat[] toAdd)
+        public void Add(IEnumerable<Chat> toAdd)
         {
             foreach (Chat c in toAdd)
-                waitList.Add(c.GetChat());
+                this.waitList.Add(c.GetChat());
         }
 
         public void Add(Chat toAdd)
         {
-            waitList.Add(toAdd.GetChat());
+            this.waitList.Add(toAdd.GetChat());
         }
-
-
-        #region Defaults
-
-        public void DefaultTextSpeed()
-        {
-            textPerSecond = defaultTextSpeed;
-        }
-
-        #endregion
 
         #endregion
 
         #region Internal
 
-        public void OnNextChatChange()
+        private void OnNextChatChange()
         {
-            if (running == null || !running.GetNeedInput() || !waitForInput) return;
+            if (this.running == null || !this.running.GetNeedInput() || !this.waitForInput) return;
 
-            if (running.GetDone())
-                running = null;
+            if (this.running.GetDone())
+                this.running = null;
             else
-                StartCoroutine(running.PlayNext());
+                this.holder.StartCoroutine(this.running.PlayNext());
 
-            waitForInput = false;
+            this.waitForInput = false;
         }
 
         public void CheckRunningState()
         {
-            waitForInput = true;
+            this.waitForInput = true;
         }
 
         private void PlayNextInLine()
         {
-            running = waitList[0];
-            waitList.RemoveAt(0);
+            this.running = this.waitList[0];
+            this.waitList.RemoveAt(0);
 
-            Play(running);
+            Play(this.running);
         }
 
         private void Play(Chat toPlay)
         {
-            textField.gameObject.SetActive(true);
+            this.textField.gameObject.SetActive(true);
 
-            running = toPlay;
-            StartCoroutine(running.Play());
+            this.running = toPlay;
+            this.holder.StartCoroutine(this.running.Play());
         }
 
         #endregion

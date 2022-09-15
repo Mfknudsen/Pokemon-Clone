@@ -16,7 +16,8 @@ namespace Runtime.World.Overworld.Tiles
     {
         #region Values
 
-        public static TileManager instance;
+        [SerializeField, Required] private NavMeshManager navMeshManager;
+        [SerializeField, Required] private WorldManager worldManager;
 
         [FoldoutGroup("Tile")] [SerializeField]
         private float waitTime = 5;
@@ -46,17 +47,6 @@ namespace Runtime.World.Overworld.Tiles
 
         #region In
 
-        public override IEnumerator Setup()
-        {
-            if (instance != null)
-                Destroy(gameObject);
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            yield break;
-        }
-
         public void AddSubManager(TileSubManager add)
         {
             if (add == null || allSubManagers.Contains(add))
@@ -80,19 +70,19 @@ namespace Runtime.World.Overworld.Tiles
 
         public void UpdateNavmesh()
         {
-            StartCoroutine(BeginUpdate());
+            this.holder.StartCoroutine(BeginUpdate());
         }
 
         public void HideTiles()
         {
             foreach (TileSubManager tileSubManager in allSubManagers)
-                tileSubManager.gameObject.SetActive(false);
+                tileSubManager.GetHolderObject().SetActive(false);
         }
 
         public void ShowTiles()
         {
             foreach (TileSubManager tileSubManager in allSubManagers)
-                tileSubManager.gameObject.SetActive(true);
+                tileSubManager.GetHolderObject().SetActive(true);
         }
 
         public void SetCurrentSubTile(string newSubManagerName)
@@ -127,7 +117,8 @@ namespace Runtime.World.Overworld.Tiles
 
                 #region Unload Unneeded Neighbors
 
-                foreach (TileSubManager unload in toUnload.Select(neighbor => allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
+                foreach (TileSubManager unload in toUnload.Select(neighbor =>
+                             allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
                     unload.Unload();
 
                 #endregion
@@ -136,7 +127,7 @@ namespace Runtime.World.Overworld.Tiles
 
                 foreach (Neighbor neighbor in toLoad)
                 {
-                    WorldManager.instance.LoadSceneAsync(neighbor.GetSceneName());
+                    worldManager.LoadSceneAsync(neighbor.GetSceneName());
                 }
 
                 #endregion
@@ -161,7 +152,7 @@ namespace Runtime.World.Overworld.Tiles
 
         private IEnumerator BeginUpdate()
         {
-            yield return NavMeshManager.instance.RebakeWait(currentTile.GetSurfaces());
+            yield return this.navMeshManager.RebakeWait(currentTile.GetSurfaces());
         }
 
         private void ResetWorldCenter()

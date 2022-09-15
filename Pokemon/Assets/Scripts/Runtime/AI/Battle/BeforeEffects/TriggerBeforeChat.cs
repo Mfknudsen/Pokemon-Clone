@@ -43,10 +43,10 @@ namespace Runtime.AI.Battle.BeforeEffects
                     inputKey,
                     input[inputKey]);
 
-            ChatManager.instance.Add(chat);
+            chatManager.Add(chat);
 
             yield return new WaitWhile(() =>
-                !ChatManager.instance.GetIsClear());
+                !chatManager.GetIsClear());
             done = true;
         }
 

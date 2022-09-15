@@ -8,6 +8,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 {
     public class MissHit : IOperation
     {
+        private ChatManager chatManager;
         private readonly Chat missChat;
         private readonly Pokemon targetPokemon;
         private bool done;
@@ -30,7 +31,6 @@ namespace Runtime.Battle.Systems.Static_Operations
 
             missChat.AddToOverride("<POKEMON_NAME>", targetPokemon.GetName());
 
-            ChatManager chatManager = ChatManager.instance;
             chatManager.Add(missChat);
 
             while (!chatManager.GetIsClear())

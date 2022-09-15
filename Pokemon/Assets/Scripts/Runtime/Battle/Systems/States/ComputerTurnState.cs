@@ -11,13 +11,13 @@ namespace Runtime.Battle.Systems.States
 {
     public class ComputerTurnState : State
     {
-        public ComputerTurnState(BattleManager manager) : base(manager)
+        public ComputerTurnState(BattleManager battleManager) : base(battleManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            SpotOversight spotOversight = this.manager.GetSpotOversight();
+            SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
             foreach (Spot spot in spotOversight.GetSpots().Where(spot =>
                 spot.GetActivePokemon() != null &&
@@ -32,7 +32,7 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-            this.manager.SetState(new ActionState(this.manager));
+            this.battleManager.SetState(new ActionState(this.battleManager));
         }
     }
 }

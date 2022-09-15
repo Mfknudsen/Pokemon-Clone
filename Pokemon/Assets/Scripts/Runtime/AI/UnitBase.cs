@@ -12,9 +12,13 @@ using UnityEngine.Events;
 
 namespace Runtime.AI
 {
+    [RequireComponent(typeof(NpcController))]
     public abstract class UnitBase : MonoBehaviour, IInteractable
     {
         #region Values
+
+        [FoldoutGroup("Base")] [SerializeField]
+        private UnitManager unitManager;
 
         [FoldoutGroup("Base")] [SerializeField]
         protected Chat idleChat;
@@ -26,6 +30,22 @@ namespace Runtime.AI
         private Dictionary<string, object> memoryBank = new();
 
         private UnityEvent disableEvent;
+
+        private NpcController controller;
+
+        #endregion
+
+        #region Build In States
+
+        private void OnEnable()
+        {
+            this.unitManager.AddController(controller);
+        }
+
+        private void OnDisable()
+        {
+            this.unitManager.RemoveController(controller);
+        }
 
         #endregion
 
@@ -88,7 +108,6 @@ namespace Runtime.AI
 
         public void DisableUnit()
         {
-            
         }
 
         #endregion

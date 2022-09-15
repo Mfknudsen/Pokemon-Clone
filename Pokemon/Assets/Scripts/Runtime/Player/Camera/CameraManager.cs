@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections;
 using Cinemachine;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
@@ -13,9 +12,7 @@ namespace Runtime.Player.Camera
     public class CameraManager : Manager
     {
         #region Values
-
-        public static CameraManager instance;
-
+        
         [FoldoutGroup("Camera")] [SerializeField]
         private UnityEngine.Camera currentCamera;
 
@@ -24,6 +21,17 @@ namespace Runtime.Player.Camera
 
         private CinemachineVirtualCameraBase currentRig;
         private CameraSettings currentSettings;
+
+        #endregion
+
+        #region Build In States
+
+        private void OnEnable()
+        {
+            currentSettings = CameraSettings.Default();
+            currentRig = defaultCameraRig;
+            defaultCameraRig.enabled = true;
+        }
 
         #endregion
 
@@ -52,21 +60,6 @@ namespace Runtime.Player.Camera
         #endregion
 
         #region In
-
-        public override IEnumerator Setup()
-        {
-            if (instance != null)
-                Destroy(gameObject);
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            currentSettings = CameraSettings.Default();
-            currentRig = defaultCameraRig;
-            defaultCameraRig.enabled = true;
-
-            yield break;
-        }
 
         public void SetCurrentRigToDefault()
         {

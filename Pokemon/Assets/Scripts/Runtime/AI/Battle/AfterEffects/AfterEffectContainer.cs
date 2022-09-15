@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using Runtime.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -12,6 +13,7 @@ namespace Runtime.AI.Battle.AfterEffects
     [Serializable]
     public class AfterEffectContainer
     {
+        [SerializeField, Required] private OperationManager operationManager;
         [SerializeField] private NpcBattleAfterEffect[] effects;
 
         #region In
@@ -34,7 +36,7 @@ namespace Runtime.AI.Battle.AfterEffects
         public void Trigger()
         {
             // ReSharper disable once CoVariantArrayConversion
-            OperationManager.instance.AddOperationsContainer(new OperationsContainer(effects));
+            operationManager.AddOperationsContainer(new OperationsContainer(effects));
         }
 
         #endregion

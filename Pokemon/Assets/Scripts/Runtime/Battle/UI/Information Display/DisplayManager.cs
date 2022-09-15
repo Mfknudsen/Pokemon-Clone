@@ -1,11 +1,8 @@
 #region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
-using Runtime.Player;
 using Runtime.Systems;
 using UnityEngine;
 
@@ -40,7 +37,8 @@ namespace Runtime.Battle.UI.Information_Display
 
         #region In
 
-        public override IEnumerator Setup()
+        //TODO FIX:
+/*        public override IEnumerator Setup()
         {
             int i = 2;
             foreach (PokemonDisplaySlot pokemonDisplay in allyDisplays)
@@ -71,6 +69,7 @@ namespace Runtime.Battle.UI.Information_Display
 
             ready = true;
         }
+        */
 
         public void UpdateSlots()
         {

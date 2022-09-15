@@ -12,7 +12,6 @@ namespace Runtime.Systems
     {
         #region Values
 
-        public static OperationManager instance;
         private bool done;
 
         private readonly Queue<OperationsContainer> operationsContainers = new();
@@ -24,7 +23,7 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        private void Update()
+        public override void UpdateManager()
         {
             if (this.currentContainer == null)
             {
@@ -33,7 +32,7 @@ namespace Runtime.Systems
                 this.currentContainer = this.operationsContainers.Dequeue();
 
                 foreach (IOperation i in this.currentContainer.GetInterfaces())
-                    StartCoroutine(i.Operation());
+                    this.holder.StartCoroutine(i.Operation());
             }
             else
             {
@@ -68,19 +67,6 @@ namespace Runtime.Systems
 
         #region In
 
-        public override IEnumerator Setup()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-
-            yield break;
-        }
-
         public void AddOperationsContainer(OperationsContainer set)
         {
             this.done = false;
@@ -101,25 +87,26 @@ namespace Runtime.Systems
             this.activeAsyncCoroutines.Add(container, new List<Coroutine>());
 
             foreach (IOperation i in container.GetInterfaces())
-                this.activeAsyncCoroutines[container].Add(StartCoroutine(i.Operation()));
+                this.activeAsyncCoroutines[container].Add(this.holder.StartCoroutine(i.Operation()));
         }
 
         public void InsertFront(OperationsContainer set)
         {
             this.done = false;
 
-            List<OperationsContainer> holder = new();
+            List<OperationsContainer> containerHolder = new();
             while (this.operationsContainers.Count > 0)
-                holder.Add(this.operationsContainers.Dequeue());
+                containerHolder.Add(this.operationsContainers.Dequeue());
 
             this.operationsContainers.Enqueue(set);
-            foreach (OperationsContainer operationsContainer in holder)
+            foreach (OperationsContainer operationsContainer in containerHolder)
                 this.operationsContainers.Enqueue(operationsContainer);
         }
 
         public void StopAsyncContainer(OperationsContainer toStop, bool triggerEnd = false)
         {
-            foreach (Coroutine coroutine in this.activeAsyncCoroutines[toStop]) StopCoroutine(coroutine);
+            foreach (Coroutine coroutine in this.activeAsyncCoroutines[toStop])
+                this.holder.StopCoroutine(coroutine);
 
             if (!triggerEnd) return;
 

@@ -21,7 +21,7 @@ namespace Runtime.Battle.Systems.States
     {
         private SpotOversight spotOversight;
 
-        public BeginState(BattleManager manager) : base(manager)
+        public BeginState(BattleManager battleManager) : base(battleManager)
         {
         }
 
@@ -33,12 +33,12 @@ namespace Runtime.Battle.Systems.States
 
             while (battleStarter == null)
             {
-                battleStarter = this.manager.GetStarter();
+                battleStarter = this.battleManager.GetStarter();
                 yield return null;
             }
 
-            this.manager.SetSelectionMenu(uiManager.GetSelectionMenu());
-            this.manager.SetDisplayManager(uiManager.GetDisplayManager());
+            this.battleManager.SetSelectionMenu(uiManager.GetSelectionMenu());
+            this.battleManager.SetDisplayManager(uiManager.GetDisplayManager());
 
             #region Setup Spots
 
@@ -48,19 +48,19 @@ namespace Runtime.Battle.Systems.States
                 battleMember.GetTeam().Setup();
             }
 
-            this.spotOversight = this.manager.GetSpotOversight();
+            this.spotOversight = this.battleManager.GetSpotOversight();
 
             BattleMember[] playerWithAllies = { playerManager.GetBattleMember() };
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             playerWithAllies.Concat(battleStarter.GetAllies());
-            this.spotOversight.SetupSpots(playerWithAllies, this.manager.GetBattlefield().GetAllyField());
-            this.spotOversight.SetupSpots(battleStarter.GetEnemies(), this.manager.GetBattlefield().GetEnemyField());
+            this.spotOversight.SetupSpots(playerWithAllies, this.battleManager.GetBattlefield().GetAllyField());
+            this.spotOversight.SetupSpots(battleStarter.GetEnemies(), this.battleManager.GetBattlefield().GetEnemyField());
 
             this.spotOversight.Reorganise(false);
 
             #endregion
 
-            this.manager.SetupAbilityOversight();
+            this.battleManager.SetupAbilityOversight();
 
             #region Start Log
 
@@ -68,7 +68,7 @@ namespace Runtime.Battle.Systems.States
             string alliesMsg = " - " + playerManager.GetBattleMember().GetName(), enemiesMsg = "";
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (Spot spot in this.manager.GetSpotOversight().GetSpots())
+            foreach (Spot spot in this.battleManager.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
@@ -114,7 +114,7 @@ namespace Runtime.Battle.Systems.States
 
                 if (!pokemon) continue;
 
-                SwitchAction action = this.manager.InstantiateSwitchAction();
+                SwitchAction action = this.battleManager.InstantiateSwitchAction();
 
                 action.SetNextPokemon(battleMember.GetTeam().GetFirstOut());
                 action.SetSpot(spot);
@@ -142,7 +142,7 @@ namespace Runtime.Battle.Systems.States
 
             this.spotOversight.Reorganise(false);
 
-            this.manager.SetState(new PlayerTurnState(this.manager));
+            this.battleManager.SetState(new PlayerTurnState(this.battleManager));
         }
     }
 }

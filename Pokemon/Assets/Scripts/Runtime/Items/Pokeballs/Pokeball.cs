@@ -51,7 +51,7 @@ namespace Runtime.Items.Pokeballs
 
             Debug.Log("Hit Pokemon: " + pokemonHit.GetPokemon().name);
 
-            OperationManager.instance.AddAsyncOperationsContainer(
+            operationManager.AddAsyncOperationsContainer(
                 new OperationsContainer(new CatchPokemon(
                     pokemonHit.GetPokemon(),
                     this,
@@ -99,10 +99,9 @@ namespace Runtime.Items.Pokeballs
 
             #region Prepare Operations
 
-            OperationManager operationManager = OperationManager.instance;
             OperationsContainer container = new();
 
-            ThrowPokeball throwPokeball = new(target, clickStage, selectedChat);
+            ThrowPokeball throwPokeball = new(playerManager, operationManager, target, clickStage, selectedChat);
             container.Add(throwPokeball);
 
             ChatOperation chatOperation = new(chats.ToArray());

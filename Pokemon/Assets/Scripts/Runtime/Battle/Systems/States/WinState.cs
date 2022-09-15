@@ -10,7 +10,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class WinState : State
     {
-        public WinState(BattleManager manager) : base(manager)
+        public WinState(BattleManager battleManager) : base(battleManager)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Runtime.Battle.Systems.States
         {
             ChatManager chatManager = ChatManager.instance;
 
-            foreach (BattleMember battleMember in this.manager.GetSpotOversight().GetSpots()
+            foreach (BattleMember battleMember in this.battleManager.GetSpotOversight().GetSpots()
                          .Select(s =>
                              s.GetBattleMember())
                          .Where(bm =>
@@ -30,7 +30,7 @@ namespace Runtime.Battle.Systems.States
             while (!chatManager.GetIsClear())
                 yield return null;
 
-            this.manager.EndBattle(true);
+            this.battleManager.EndBattle(true);
         }
     }
 }

@@ -7,6 +7,7 @@ using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Items;
 using Runtime.Player;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -20,6 +21,8 @@ namespace Runtime.Battle.UI.Selection
     {
         #region Values
 
+        [SerializeField, Required] private PlayerManager playerManager;
+
         [SerializeField] private SelectionMenu selectionMenu;
         [SerializeField] private GameObject background;
 
@@ -30,7 +33,7 @@ namespace Runtime.Battle.UI.Selection
         [SerializeField] private List<ItemDisplay> displays = new();
 
         private readonly List<ItemContainer> potionList = new(),
-            pokéballList = new(),
+            pokeballList = new(),
             otherList = new(),
             medicineList = new();
 
@@ -44,7 +47,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            playerInventory = PlayerManager.instance.GetBattleMember().GetInventory();
+            playerInventory = playerManager.GetBattleMember().GetInventory();
             spotOversight = BattleManager.instance.GetSpotOversight();
         }
 
@@ -55,15 +58,15 @@ namespace Runtime.Battle.UI.Selection
             this.itemAction = itemAction;
 
             foreach (ItemContainer itemContainer in playerInventory.GetAllItems()
-                .Where(container => container.item is BattleItem))
+                         .Where(container => container.item is BattleItem))
             {
                 BattleBagSlot slot = ((BattleItem)itemContainer.item).GetBattleBagSlot();
 
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (slot == BattleBagSlot.Battle && !potionList.Contains(itemContainer))
                     potionList.Add(itemContainer);
-                else if (slot == BattleBagSlot.Pokeball && !pokéballList.Contains(itemContainer))
-                    pokéballList.Add(itemContainer);
+                else if (slot == BattleBagSlot.Pokeball && !pokeballList.Contains(itemContainer))
+                    pokeballList.Add(itemContainer);
                 else if (slot == BattleBagSlot.Berries && !otherList.Contains(itemContainer))
                     otherList.Add(itemContainer);
                 else if (slot == BattleBagSlot.Medicine && !medicineList.Contains(itemContainer))
@@ -86,7 +89,7 @@ namespace Runtime.Battle.UI.Selection
             if (battleBagSlot == BattleBagSlot.Battle)
                 toDisplay = potionList;
             else if (battleBagSlot == BattleBagSlot.Pokeball)
-                toDisplay = pokéballList;
+                toDisplay = pokeballList;
             else if (battleBagSlot == BattleBagSlot.Berries)
                 toDisplay = otherList;
             else

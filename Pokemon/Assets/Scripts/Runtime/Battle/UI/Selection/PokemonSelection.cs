@@ -17,6 +17,7 @@ namespace Runtime.Battle.UI.Selection
     {
         #region Values
 
+        [SerializeField] private PlayerManager playerManager;
         [SerializeField] private GameObject background;
         [SerializeField] private PokemonSlot[] pokemonSlots;
         private Team playerTeam;
@@ -28,7 +29,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            playerTeam = PlayerManager.instance.GetTeam();
+            playerTeam = playerManager.GetTeam();
         }
 
         public void DisplaySelection(SwitchAction switchAction)
@@ -60,7 +61,7 @@ namespace Runtime.Battle.UI.Selection
                     .FirstOrDefault(s => s.GetActivePokemon() == switchAction.GetCurrentPokemon()));
 
             switchAction.SetTeam(
-                PlayerManager.instance.GetTeam());
+                playerManager.GetTeam());
 
             pokemon.SetGettingSwitched(
                 true);

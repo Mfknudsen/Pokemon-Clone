@@ -2,7 +2,6 @@
 
 using Runtime.Pokémon;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 #endregion
 
@@ -12,7 +11,7 @@ namespace Runtime.AI
     {
         #region Values
 
-        [SerializeField, Required] private Pokemon pokemon;
+        [ShowInInspector, ReadOnly] private Pokemon pokemon;
 
         #endregion
 
@@ -22,8 +21,17 @@ namespace Runtime.AI
 
         #endregion
 
+        #region In
+
         public override void Trigger()
         {
         }
+
+        public void Setup(Pokemon pokemon)
+        {
+            this.pokemon = pokemon;
+        }
+
+        #endregion
     }
 }

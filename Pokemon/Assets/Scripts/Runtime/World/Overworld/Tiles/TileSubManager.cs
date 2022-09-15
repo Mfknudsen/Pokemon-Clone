@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Runtime.Common;
 using Runtime.Systems;
@@ -17,6 +18,8 @@ namespace Runtime.World.Overworld.Tiles
     {
         #region Values
 
+        [SerializeField] private TileManager tileManager;
+
         [FoldoutGroup("Tile")] [SerializeField]
         private string tileName;
 
@@ -31,40 +34,29 @@ namespace Runtime.World.Overworld.Tiles
 
         #endregion
 
-        private void Start()
+        #region Build In States
+
+        private void OnEnable()
         {
+            this.tileManager.AddSubManager(this);
+            this.holder.transform.parent = this.tileManager.GetHolderObject().transform;
+
             GetSurfaces().BuildNavMesh();
-        }
-
-        #region Getters
-
-        public string GetTileName()
-        {
-            return tileName;
-        }
-
-        public NavMeshSurface GetSurfaces()
-        {
-            return gameObject.GetFirstComponentByRoot<NavMeshSurface>();
-        }
-
-        public Neighbor[] GetNeighbors()
-        {
-            return neighbors;
         }
 
         #endregion
 
+        #region Getters
+
+        public string GetTileName() => tileName;
+
+        public NavMeshSurface GetSurfaces() => this.holder.gameObject.GetFirstComponentByRoot<NavMeshSurface>();
+
+        public IEnumerable<Neighbor> GetNeighbors() => neighbors;
+
+        #endregion
+
         #region In
-
-        public override IEnumerator Setup()
-        {
-            TileManager tileManager = TileManager.instance;
-            tileManager.AddSubManager(this);
-            transform.parent = tileManager.transform;
-
-            yield break;
-        }
 
         public void EnableDividers()
         {
@@ -80,7 +72,7 @@ namespace Runtime.World.Overworld.Tiles
 
         public void Unload()
         {
-            StartCoroutine(UnloadSubManager());
+            this.holder.StartCoroutine(UnloadSubManager());
         }
 
         #endregion

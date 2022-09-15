@@ -15,6 +15,8 @@ namespace Runtime.Battle.Systems.Static_Operations
     {
         #region Values
 
+        private readonly PlayerManager playerManager;
+        private readonly OperationManager operationManager;
         private bool done;
         private readonly Pokemon target;
         private readonly int clicks;
@@ -22,8 +24,11 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         #endregion
 
-        public ThrowPokeball(Pokemon target, int clicks, Chat resultChat)
+        public ThrowPokeball(PlayerManager playerManager, OperationManager operationManager, Pokemon target, int clicks,
+            Chat resultChat)
         {
+            this.playerManager = playerManager;
+            this.operationManager = operationManager;
             this.target = target;
             this.clicks = clicks;
             this.resultChat = resultChat;
@@ -39,7 +44,6 @@ namespace Runtime.Battle.Systems.Static_Operations
         public IEnumerator Operation()
         {
             done = false;
-            OperationManager operationManager = OperationManager.instance;
             OperationsContainer container = new();
 
             #region Trap Target
@@ -80,7 +84,7 @@ namespace Runtime.Battle.Systems.Static_Operations
                 BattleManager.instance.DespawnPokemon(target);
 
                 container = new OperationsContainer();
-                container.Add(new CaughtPokemon(target, PlayerManager.instance.GetTeam()));
+                container.Add(new CaughtPokemon(target, playerManager.GetTeam()));
                 operationManager.AddOperationsContainer(container);
             }
             else

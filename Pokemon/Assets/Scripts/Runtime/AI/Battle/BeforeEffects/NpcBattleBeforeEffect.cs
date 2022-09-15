@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections;
+using Runtime.Communication;
 using Runtime.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -12,6 +14,8 @@ namespace Runtime.AI.Battle.BeforeEffects
     [Serializable]
     public abstract class NpcBattleBeforeEffect : ScriptableObject, IOperation
     {
+        [SerializeField, Required] protected ChatManager chatManager;
+        
         private bool instantiated;
         protected bool done = false;
 

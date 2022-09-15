@@ -15,7 +15,7 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly List<SwitchAction> switchActions;
 
-        public SwitchNewInState(BattleManager manager, List<SwitchAction> switchActions) : base(manager)
+        public SwitchNewInState(BattleManager battleManager, List<SwitchAction> switchActions) : base(battleManager)
         {
             this.switchActions = switchActions;
         }
@@ -32,7 +32,7 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-            this.manager.SetState(new RoundDoneState(this.manager));
+            this.battleManager.SetState(new RoundDoneState(this.battleManager));
         }
     }
 }

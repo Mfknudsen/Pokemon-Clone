@@ -4,6 +4,7 @@ using System.Collections;
 using Runtime.Player;
 using Runtime.UI;
 using Runtime.World;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -14,30 +15,30 @@ namespace Runtime.Menu.StartMenu
     {
         #region Values
 
+        [SerializeField, Required] private WorldManager worldManager;
+        [SerializeField, Required] private UIManager uiManager;
+        [SerializeField, Required] private PlayerManager playerManager;
         private bool ready = true;
 
         #endregion
-        
+
         #region In
 
         public void LoadScene(string sceneName)
         {
-            if(!ready) return;
+            if (!ready) return;
 
             ready = true;
-            
-            WorldManager.instance.LoadSceneAsync(sceneName);
 
-            UIManager.instance.SwitchUI(UISelection.Overworld);
-
-            PlayerManager.instance.EnableOverworld();
-
-            WorldManager.instance.UnloadSceneAsync("StartMenu");
+            worldManager.LoadSceneAsync(sceneName);
+            uiManager.SwitchUI(UISelection.Overworld);
+            playerManager.EnableOverworld();
+            worldManager.UnloadSceneAsync("StartMenu");
         }
 
         public void StartNewGame()
         {
-            if(!ready) return;
+            if (!ready) return;
 
             ready = true;
 
@@ -48,24 +49,22 @@ namespace Runtime.Menu.StartMenu
 
         #region Internal
 
-        private static IEnumerator StartGame()
+        private IEnumerator StartGame()
         {
             const string sceneName = "Shayklind";
-            
-            if (!WorldManager.instance.GetCurrentLoadedWorldScene().Equals(sceneName))
-                WorldManager.instance.LoadSceneAsync(sceneName);
 
-            yield return null;
-            
-            yield return new WaitWhile(() => WorldManager.instance.GetIsLoading());
-            
-            WorldManager.instance.UnloadSceneAsync("StartMenu");
+            if (!worldManager.GetCurrentLoadedWorldScene().Equals(sceneName))
+                worldManager.LoadSceneAsync(sceneName);
 
             yield return null;
 
-            yield return new WaitWhile(() => WorldManager.instance.GetActiveUnloading());
-            
-            
+            yield return new WaitWhile(() => worldManager.GetIsLoading());
+
+            worldManager.UnloadSceneAsync("StartMenu");
+
+            yield return null;
+
+            yield return new WaitWhile(() => worldManager.GetActiveUnloading());
         }
 
         #endregion

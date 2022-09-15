@@ -91,11 +91,11 @@ namespace Runtime.Battle.Actions
                         toSend.Add(c);
                     }
 
-                    ChatManager.instance.Add(toSend.ToArray());
+                    chatManager.Add(toSend.ToArray());
 
                     GameObject obj = currentPokemon.GetSpawnedObject();
 
-                    while (!ChatManager.instance.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
+                    while (!chatManager.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
                     {
                         obj.transform.localScale += -Vector3.one * Time.deltaTime;
                         yield return null;
@@ -116,7 +116,7 @@ namespace Runtime.Battle.Actions
                 toSend.Add(c);
             }
 
-            ChatManager.instance.Add(toSend.ToArray());
+            chatManager.Add(toSend.ToArray());
 
             BattleManager.instance.SpawnPokemon(nextPokemon, spot);
             Transform inTrans = nextPokemon.GetSpawnedObject().transform;

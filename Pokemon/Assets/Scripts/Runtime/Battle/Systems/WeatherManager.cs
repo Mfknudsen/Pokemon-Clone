@@ -12,6 +12,7 @@ namespace Runtime.Battle.Systems
     {
         #region Values
 
+        private BattleManager battleManager;
         private ClimateWeather climateWeather;
         private IrritantWeather irritantWeather;
         private EnergyWeather energyWeather;
@@ -92,7 +93,7 @@ namespace Runtime.Battle.Systems
 
         private void ShiftWeather(Weather current, Weather next)
         {
-            BattleManager.instance.StartCoroutine(Shift());
+            //battleManager.GetHolderObject().StartCoroutine(Shift());
         }
 
         #endregion

@@ -2,6 +2,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Runtime.Player;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -12,6 +14,9 @@ namespace Runtime.Communication
     public class Chat : ScriptableObject
     {
         #region Values
+
+        [SerializeField, Required] private ChatManager chatManager;
+        [SerializeField, Required] private PlayerManager playerManager;
 
         [Header("Object Reference:")] [SerializeField]
         protected bool isInstantiated;
@@ -106,7 +111,7 @@ namespace Runtime.Communication
             while (!done && !waiting && (index < textList.Length))
             {
                 string tempText = "", fromList = textList[index];
-                float relativeSpeed = ChatManager.instance.GetTextSpeed();
+                float relativeSpeed = chatManager.GetTextSpeed();
 
                 if (nextCharacter + 1 < fromList.Length)
                     tempText = "" + fromList[nextCharacter] + fromList[nextCharacter + 1];
@@ -124,7 +129,7 @@ namespace Runtime.Communication
                 }
 
                 if (showText.Length != 0)
-                    ChatManager.instance.SetDisplayText(showText);
+                    chatManager.SetDisplayText(showText);
 
                 if (showText.Length == fromList.Length)
                 {
@@ -136,7 +141,7 @@ namespace Runtime.Communication
                     else
                         done = true;
 
-                    ChatManager.instance.CheckRunningState();
+                    chatManager.CheckRunningState();
                 }
 
                 yield return new WaitForSeconds(relativeSpeed);
@@ -175,7 +180,7 @@ namespace Runtime.Communication
 
         private void AddPronounsToOverride()
         {
-            string[] pronouns = Player.PlayerManager.instance.GetPronouns();
+            string[] pronouns = playerManager.GetPronouns();
 
             AddToOverride("P_ONE", pronouns[0]);
             AddToOverride("P_TWO", pronouns[1]);

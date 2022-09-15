@@ -6,6 +6,7 @@ using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Player;
 using Runtime.Pokémon;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ namespace Runtime.Battle.UI.Selection
     {
         #region Values
 
+        [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField] private GameObject background;
         [SerializeField] private TargetSlot[] enemies, allies;
         private SpotOversight oversight;
@@ -32,7 +34,7 @@ namespace Runtime.Battle.UI.Selection
         public void Setup()
         {
             oversight = BattleManager.instance.GetSpotOversight();
-            isAlly = PlayerManager.instance.GetBattleMember().GetTeamAffiliation();
+            isAlly = playerManager.GetBattleMember().GetTeamAffiliation();
         }
 
         public void DisplaySelection(BattleAction action)

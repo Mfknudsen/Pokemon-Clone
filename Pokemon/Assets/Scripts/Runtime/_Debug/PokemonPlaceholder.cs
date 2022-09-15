@@ -2,6 +2,7 @@
 
 using Runtime.Player.Camera;
 using Runtime.Pokémon;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Runtime._Debug
 {
     public class PokemonPlaceholder : MonoBehaviour
     {
+        [SerializeField, Required] private CameraManager cameraManager;
         [SerializeField] private string pokmemonName = "";
         [SerializeField] private TextMeshPro textMesh;
 
@@ -22,7 +24,7 @@ namespace Runtime._Debug
             textMesh.text = t + "\nPlaceholder";
         }
 
-        public static void CheckPlaceholder(Pokemon pokemon, GameObject spawnedObj)
+        public void CheckPlaceholder(Pokemon pokemon, GameObject spawnedObj)
         {
             PokemonPlaceholder placeholder = spawnedObj.GetComponent<PokemonPlaceholder>();
 
@@ -33,7 +35,7 @@ namespace Runtime._Debug
 
             Vector3 targetVector = spawnedObj.transform.GetChild(0).transform.position +
                                    (spawnedObj.transform.GetChild(0).transform.position -
-                                    CameraManager.instance.GetCurrentCamera().transform.position);
+                                    cameraManager.GetCurrentCamera().transform.position);
             targetVector = new Vector3(
                 targetVector.x,
                 spawnedObj.transform.GetChild(0).transform.position.y,

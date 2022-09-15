@@ -2,13 +2,13 @@
 
 using System.Collections;
 using System.Linq;
+using Runtime._Debug;
 using Runtime.Battle.Actions;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
 using Runtime.Systems;
-using Logger = Runtime._Debug.Logger;
 
 #endregion
 
@@ -17,12 +17,11 @@ namespace Runtime.Battle.Systems.States
     public class ActionState : State
     {
         private readonly SpotOversight spotOversight;
-        private readonly OperationManager operationManager;
 
-        public ActionState(BattleManager manager) : base(manager)
+        public ActionState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager) :
+            base(battleManager, operationManager, chatManager)
         {
-            this.operationManager = OperationManager.instance;
-            this.spotOversight = manager.GetSpotOversight();
+            this.spotOversight = battleManager.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
@@ -44,7 +43,7 @@ namespace Runtime.Battle.Systems.States
                 OperationsContainer container = new(action);
                 this.operationManager.AddOperationsContainer(container);
 
-                while (!this.operationManager.GetDone() || !ChatManager.instance.GetIsClear())
+                while (!this.operationManager.GetDone() || !chatManager.GetIsClear())
                     yield return null;
 
                 #endregion
@@ -59,9 +58,10 @@ namespace Runtime.Battle.Systems.States
                                  !p &&
                                  p.GetCurrentHealth() == 0))
                 {
-                    this.manager.SetPokemonFainted(checkPokemon);
+                    this.battleManager.SetPokemonFainted(checkPokemon);
 
-                    if (checkPokemon.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition faintedCondition)
+                    if (checkPokemon.GetConditionOversight()
+                            .GetNonVolatileStatus() is FaintedCondition faintedCondition)
                     {
                         this.operationManager.AddOperationsContainer(new OperationsContainer(faintedCondition));
 
@@ -78,15 +78,15 @@ namespace Runtime.Battle.Systems.States
                 #endregion
             }
 
-            if (this.manager.CheckTeamDefeated(true) ||
-                this.manager.CheckTeamDefeated(false))
+            if (this.battleManager.CheckTeamDefeated(true) ||
+                this.battleManager.CheckTeamDefeated(false))
             {
-                this.manager.SetState(new RoundDoneState(this.manager));
+                this.battleManager.SetState(new RoundDoneState(this.battleManager));
 
                 yield break;
             }
 
-            this.manager.SetState(new AfterConditionState(this.manager));
+            this.battleManager.SetState(new AfterConditionState(this.battleManager));
         }
     }
 }

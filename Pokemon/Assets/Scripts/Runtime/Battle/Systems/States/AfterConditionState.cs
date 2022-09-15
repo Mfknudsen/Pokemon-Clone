@@ -14,9 +14,9 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly SpotOversight oversight;
 
-        public AfterConditionState(BattleManager manager) : base(manager)
+        public AfterConditionState(BattleManager battleManager) : base(battleManager)
         {
-            this.oversight = manager.GetSpotOversight();
+            this.oversight = battleManager.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
@@ -26,7 +26,7 @@ namespace Runtime.Battle.Systems.States
                          .Select(s =>
                              s.GetActivePokemon().GetConditionOversight()))
             {
-                this.manager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
+                this.battleManager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
                 while (!conditionOversight.GetDone() || !ChatManager.instance.GetIsClear())
                     yield return null;
@@ -38,11 +38,11 @@ namespace Runtime.Battle.Systems.States
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
             {
-                this.manager.SetState(new PlayerSelectNewState(this.manager));
+                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager));
                 yield break;
             }
 
-            this.manager.SetState(new RoundDoneState(manager));
+            this.battleManager.SetState(new RoundDoneState(battleManager));
         }
     }
 }

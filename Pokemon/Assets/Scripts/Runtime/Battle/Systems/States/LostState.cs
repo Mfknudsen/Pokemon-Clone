@@ -8,13 +8,13 @@ namespace Runtime.Battle.Systems.States
 {
     public class LostState : State
     {
-        public LostState(BattleManager manager) : base(manager)
+        public LostState(BattleManager battleManager) : base(battleManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            this. manager.EndBattle(false);
+            this. battleManager.EndBattle(false);
             
             yield break;
         }

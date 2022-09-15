@@ -20,6 +20,8 @@ namespace Runtime.AI.Battle
     {
         #region Values
 
+        [SerializeField, Required] private ChatManager chatManager;
+
         [FoldoutGroup("Before Battle")] [SerializeField]
         private BattleStarter battleStarter;
 
@@ -66,7 +68,7 @@ namespace Runtime.AI.Battle
         public override void Trigger()
         {
             if (battleStarter.GetPlayerWon())
-                ChatManager.instance.Add(idleChat);
+                chatManager.Add(idleChat);
             else
                 StartCoroutine(BeforeBattle());
         }

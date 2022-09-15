@@ -15,7 +15,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerTurnState : State
     {
-        public PlayerTurnState(BattleManager manager) : base(manager)
+        public PlayerTurnState(BattleManager battleManager) : base(battleManager)
         {
         }
 
@@ -23,21 +23,21 @@ namespace Runtime.Battle.Systems.States
         {
             Cursor.visible = true;
             Team playerTeam = PlayerManager.instance.GetTeam();
-            SpotOversight spotOversight = this.manager.GetSpotOversight();
+            SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
             foreach (Pokemon pokemon in spotOversight.GetSpots()
                          .Select(spot => spot.GetActivePokemon())
                          .Where(pokemon => pokemon is not null && playerTeam.PartOfTeam(pokemon)))
             {
-                this.manager.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
+                this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;
             }
 
-            this.manager.GetSelectionMenu().DisableDisplaySelection();
+            this.battleManager.GetSelectionMenu().DisableDisplaySelection();
 
-            this.manager.SetState(new ComputerTurnState(this.manager));
+            this.battleManager.SetState(new ComputerTurnState(this.battleManager));
         }
     }
 }

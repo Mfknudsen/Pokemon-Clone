@@ -79,7 +79,7 @@ namespace Runtime.Battle.Actions
 
             OperationsContainer container = new();
             container.Add(toUse);
-            OperationManager.instance.AddAsyncOperationsContainer(container);
+            operationManager.AddAsyncOperationsContainer(container);
             while (!toUse.Done())
                 yield return null;
 

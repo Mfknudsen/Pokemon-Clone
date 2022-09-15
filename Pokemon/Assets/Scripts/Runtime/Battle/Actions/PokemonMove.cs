@@ -11,7 +11,6 @@ using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
 using Runtime.Systems;
 using UnityEngine;
-using Type = Runtime.Pokémon.Type;
 
 #endregion
 
@@ -183,21 +182,21 @@ namespace Runtime.Battle.Actions
 
         public void SetNormalContests(int[] set)
         {
-            normalCondition = (Contest) set[0];
+            normalCondition = (Contest)set[0];
             normalAppeal = set[1];
             normalJam = set[2];
         }
 
         public void SetSuperContests(int[] set)
         {
-            superCondition = (Contest) set[0];
+            superCondition = (Contest)set[0];
             superAppeal = set[1];
             superJam = set[2];
         }
 
         public void SetSpectacularContests(int[] set)
         {
-            spectacularCondition = (Contest) set[0];
+            spectacularCondition = (Contest)set[0];
             spectacularAppeal = set[1];
             spectacularJam = set[2];
         }
@@ -318,17 +317,17 @@ namespace Runtime.Battle.Actions
 
         public int[] GetNormalContests()
         {
-            return new[] {(int) normalCondition, normalAppeal, normalJam};
+            return new[] { (int)normalCondition, normalAppeal, normalJam };
         }
 
         public int[] GetSuperContests()
         {
-            return new[] {(int) superCondition, superAppeal, superJam};
+            return new[] { (int)superCondition, superAppeal, superJam };
         }
 
         public int[] GetSpectacularContests()
         {
-            return new[] {(int) spectacularCondition, spectacularAppeal, spectacularJam};
+            return new[] { (int)spectacularCondition, spectacularAppeal, spectacularJam };
         }
 
         public HitType GetHitType()
@@ -396,9 +395,11 @@ namespace Runtime.Battle.Actions
 
         private float GetDamageForTarget(Pokemon user, Pokemon target, bool isCritical)
         {
-            float attackPower = currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Attack : Stat.SpAtk);
+            float attackPower =
+                currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Attack : Stat.SpAtk);
 
-            float defencePower = currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
+            float defencePower =
+                currentPokemon.GetCalculatedStat(category == Category.Physical ? Stat.Defence : Stat.SpDef);
 
             return BattleMathf.CalculateDamage(user.GetLevel(),
                 attackPower,
@@ -421,7 +422,6 @@ namespace Runtime.Battle.Actions
             done = false;
 
             float secPerPokeMove = BattleManager.instance.GetSecPerPokeMove();
-            OperationManager operationManager = OperationManager.instance;
 
             foreach (Spot target in targets)
             {
@@ -457,8 +457,7 @@ namespace Runtime.Battle.Actions
                     Chat instance = chat.GetChat();
                     instance.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
                     instance.AddToOverride("<POKEMON_MOVE>", moveName);
-
-                    ChatManager.instance.Add(instance);
+                    chatManager.Add(instance);
                 }
 
                 if (category != Category.Status)

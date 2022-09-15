@@ -9,8 +9,10 @@ using Runtime.AI.Battle.Evaluator.Virtual;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
+using Runtime.Player;
 using Runtime.Pokémon;
 using Runtime.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -21,6 +23,9 @@ namespace Runtime.Battle.Actions
     {
         #region Values
 
+        [SerializeField, Required] protected PlayerManager playerManager;
+        [SerializeField, Required] protected OperationManager operationManager;
+        [SerializeField, Required] protected ChatManager chatManager;
         [SerializeField] protected bool active, done;
         [SerializeField] private bool defaultTargetEnemy = true;
 

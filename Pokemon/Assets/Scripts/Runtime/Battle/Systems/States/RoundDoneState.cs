@@ -13,7 +13,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
-        public RoundDoneState(BattleManager manager) : base(manager)
+        public RoundDoneState(BattleManager battleManager) : base(battleManager)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Runtime.Battle.Systems.States
 
             #region End Turn Abilities
 
-            AbilityOversight abilityOversight = this.manager.GetAbilityOversight();
+            AbilityOversight abilityOversight = this.battleManager.GetAbilityOversight();
             foreach (IOnTurnEnd onTurnEnd in abilityOversight.ListOfSpecific<IOnTurnEnd>())
             {
                 if (onTurnEnd is not IOperation iOperation) continue;
@@ -39,17 +39,17 @@ namespace Runtime.Battle.Systems.States
 
             #region End Battle
 
-            if (this.manager.CheckTeamDefeated(true))
-                this.manager.SetState(new LostState(this.manager));
-            else if (this.manager.CheckTeamDefeated(false))
-                this.manager.SetState(new WinState(this.manager));
+            if (this.battleManager.CheckTeamDefeated(true))
+                this.battleManager.SetState(new LostState(this.battleManager));
+            else if (this.battleManager.CheckTeamDefeated(false))
+                this.battleManager.SetState(new WinState(this.battleManager));
             else
             {
-                SpotOversight spotOversight = this.manager.GetSpotOversight();
+                SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                this.manager.SetState(new PlayerTurnState(this.manager));
+                this.battleManager.SetState(new PlayerTurnState(this.battleManager));
             }
 
             #endregion

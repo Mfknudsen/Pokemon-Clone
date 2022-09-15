@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
 using UnityEngine;
@@ -13,6 +12,7 @@ namespace Runtime.AI
     {
         #region Values
 
+        [SerializeField] private UnitManager unitManager;
         [SerializeField] private BehaviourTreeOwner bto;
 
         private Dictionary<string, object> stateList = new()
@@ -27,16 +27,14 @@ namespace Runtime.AI
 
         #region Build In States
 
-        private IEnumerator Start()
+        private void OnEnable()
         {
-            yield return new WaitWhile(() => UnitManager.instance == null);
-            
-            UnitManager.instance.AddController(this);
+            unitManager.AddController(this);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            UnitManager.instance.RemoveController(this);
+            unitManager.RemoveController(this);
         }
 
         #endregion
