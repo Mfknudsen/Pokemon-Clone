@@ -3,7 +3,7 @@
 using System;
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         #region Getters
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -48,7 +48,7 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         public abstract IEnumerator Operation();
 
-        public virtual void End()
+        public virtual void OperationEnd()
         {
         }
 

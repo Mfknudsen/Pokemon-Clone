@@ -4,7 +4,7 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -36,7 +36,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         #region IOperation
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -106,7 +106,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 

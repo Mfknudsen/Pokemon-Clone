@@ -1,6 +1,7 @@
 #region Packages
 
 using Runtime.Player;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,8 @@ namespace Runtime.UI.Overworld
 {
     public class InteractIcon : MonoBehaviour
     {
+        [SerializeField, Required] private PlayerManager playerManager;
+        
         [SerializeField] private GameObject visuals;
 
         private PlayerInteractions _playerInteractions;
@@ -17,7 +20,7 @@ namespace Runtime.UI.Overworld
 
         private void Awake()
         {
-            _playerInteractions = PlayerManager.instance.GetInteractions();
+            _playerInteractions = playerManager.GetInteractions();
 
             rectTransform = GetComponent<RectTransform>();
 

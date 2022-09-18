@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492c7cf6cb00e914e942be9ae2639ed1, type: 3}
   m_Name: Battle Aura
   m_EditorClassIdentifier: 
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
   effectName: 
   maxEffectTurns: 0
   type: {fileID: 0}

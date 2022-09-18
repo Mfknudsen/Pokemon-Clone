@@ -4,8 +4,11 @@ using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.UI.Selection;
+using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 using Runtime.Trainer;
 using UnityEngine;
 
@@ -15,14 +18,14 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerTurnState : State
     {
-        public PlayerTurnState(BattleManager battleManager) : base(battleManager)
+        public PlayerTurnState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
             Cursor.visible = true;
-            Team playerTeam = PlayerManager.instance.GetTeam();
+            Team playerTeam = playerManager.GetTeam();
             SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
             foreach (Pokemon pokemon in spotOversight.GetSpots()
@@ -37,7 +40,7 @@ namespace Runtime.Battle.Systems.States
 
             this.battleManager.GetSelectionMenu().DisableDisplaySelection();
 
-            this.battleManager.SetState(new ComputerTurnState(this.battleManager));
+            this.battleManager.SetState(new ComputerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
         }
     }
 }

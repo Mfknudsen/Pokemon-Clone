@@ -2,10 +2,10 @@
 
 using System.Collections;
 using Runtime.Player;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
-
 
 namespace Runtime.World.Overworld.Interactions.Doors
 {
@@ -13,6 +13,8 @@ namespace Runtime.World.Overworld.Interactions.Doors
     {
         #region Values
 
+        [SerializeField, Required] private PlayerManager playerManager;
+        
         [SerializeField] private Animator anim;
         [SerializeField] private AnimationClip frontAnim, backAnim;
         [SerializeField] private bool bothWays;
@@ -23,7 +25,7 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         public void Trigger()
         {
-            PlayerManager.instance.DisablePlayerControl();
+            playerManager.DisablePlayerControl();
 
             StartCoroutine(GoThroughDoor());
         }
@@ -34,20 +36,19 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         private IEnumerator GoThroughDoor()
         {
-            PlayerManager pm = PlayerManager.instance;
             AnimationClip toPlay =
                 bothWays
                     ? frontAnim
-                    : Vector3.Angle(transform.position, pm.GetController().transform.position) <= 90
+                    : Vector3.Angle(transform.position, playerManager.GetController().transform.position) <= 90
                         ? frontAnim
                         : backAnim;
 
-            pm.PlayAnimationClip(toPlay);
+            playerManager.PlayAnimationClip(toPlay);
             anim.Play(toPlay.name);
 
             yield return new WaitForSeconds(toPlay.length);
 
-            pm.EnablePlayerControl();
+            playerManager.EnablePlayerControl();
         }
 
         #endregion

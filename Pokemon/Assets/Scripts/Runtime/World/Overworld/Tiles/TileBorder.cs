@@ -1,5 +1,6 @@
 #region Packages
 
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -10,6 +11,7 @@ namespace Runtime.World.Overworld.Tiles
     {
         #region Values
 
+        [SerializeField, Required] private TileManager tileManager;
         [SerializeField] private string fromName, toName;
 
         #endregion
@@ -18,7 +20,7 @@ namespace Runtime.World.Overworld.Tiles
 
         public void Trigger(bool exitCurrentTile)
         {
-            TileManager.instance.SetCurrentSubTile(exitCurrentTile ? toName : fromName);
+            tileManager.SetCurrentSubTile(exitCurrentTile ? toName : fromName);
         }
 
         #endregion

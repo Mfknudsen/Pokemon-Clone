@@ -75,6 +75,8 @@ GameObject:
   - component: {fileID: 7538315525238079288}
   - component: {fileID: 7298847352820726130}
   - component: {fileID: 4312955246872023676}
+  - component: {fileID: 64882999}
+  - component: {fileID: 64883000}
   m_Layer: 0
   m_Name: WildPokemonBase
   m_TagString: Untagged
@@ -111,6 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a9bc5d048b9741b9a8ec02b7d58fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileManager: {fileID: 11400000, guid: c9cd88d08bd12ad1e8ee74a3316a51c6, type: 2}
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  uiManager: {fileID: 11400000, guid: f5938af1dcb402b7494499cb2206b3cc, type: 2}
+  cameraManager: {fileID: 11400000, guid: 53f364342aaa4ec19926b6e680672102, type: 2}
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
+  worldManager: {fileID: 11400000, guid: 6e1ddf5a5c52f7fbababa4e2c049470a, type: 2}
   battleSceneName: TestBattle
   playerSpotCount: 1
   allies: []
@@ -188,3 +196,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemons: []
   allPossible: []
+--- !u!114 &64882999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5543202844694818950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32445ff1562be3344af1bfc481c07ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitManager: {fileID: 0}
+  idleChat: {fileID: 0}
+--- !u!114 &64883000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5543202844694818950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f12cf403f590a7c488039614011d3702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
+  bto: {fileID: 0}

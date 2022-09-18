@@ -6,9 +6,11 @@ using Runtime._Debug;
 using Runtime.Battle.Actions;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
+using Runtime.Player;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 
 #endregion
 
@@ -18,8 +20,9 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly SpotOversight spotOversight;
 
-        public ActionState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager) :
-            base(battleManager, operationManager, chatManager)
+        public ActionState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager,
+            uiManager, playerManager)
         {
             this.spotOversight = battleManager.GetSpotOversight();
         }
@@ -67,7 +70,7 @@ namespace Runtime.Battle.Systems.States
 
                         yield return null;
 
-                        while (!faintedCondition.Done())
+                        while (!faintedCondition.IsOperationDone())
                             yield return null;
                     }
 
@@ -81,12 +84,12 @@ namespace Runtime.Battle.Systems.States
             if (this.battleManager.CheckTeamDefeated(true) ||
                 this.battleManager.CheckTeamDefeated(false))
             {
-                this.battleManager.SetState(new RoundDoneState(this.battleManager));
+                this.battleManager.SetState(new RoundDoneState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
 
                 yield break;
             }
 
-            this.battleManager.SetState(new AfterConditionState(this.battleManager));
+            this.battleManager.SetState(new AfterConditionState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
         }
     }
 }

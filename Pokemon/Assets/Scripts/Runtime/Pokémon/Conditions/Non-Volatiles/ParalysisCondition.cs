@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -19,7 +19,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             throw new System.NotImplementedException();
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             throw new System.NotImplementedException();
         }
@@ -29,7 +29,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             throw new System.NotImplementedException();
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

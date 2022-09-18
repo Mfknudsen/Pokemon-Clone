@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca8cc52cad8d0f49bef4bdae8f6b1ec, type: 3}
+  m_Name: PlayerManager
+  m_EditorClassIdentifier: 
+  includeAsInactive: 0
+  team: {fileID: 0}
+  controller: {fileID: 0}
+  agent: {fileID: 0}
+  battleMember: {fileID: 0}
+  playerInteractions: {fileID: 0}
+  moveController: {fileID: 0}
+  overworldCameraRig: {fileID: 0}
+  characterSheet:
+    badgeCount: 0
+    pronoun1: They
+    pronoun2: Them
+    pronoun3: Theirs
+  moveDirection: {fileID: 11400000, guid: a45788c7b247674c7a5870ef53a389cf, type: 2}
+  rotationDirection: {fileID: 11400000, guid: 487a8b920fc51ab3cb59a5aa422ec3be, type: 2}
+  running: {fileID: 11400000, guid: c9f58e2b30e7afa91b40c2a93f174326, type: 2}
+  cameraBrain: {fileID: 11400000, guid: 6d1072f5072ef4f9692e72067a2d8886, type: 2}
+  defaultOverworldRig: {fileID: 11400000, guid: 008e10a30c7950fa6bb85b484f546e0e, type: 2}

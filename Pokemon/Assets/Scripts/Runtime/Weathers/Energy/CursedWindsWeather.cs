@@ -7,7 +7,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -26,7 +26,7 @@ namespace Runtime.Weathers.Energy
                                                   type.GetTypeName() == TypeName.Normal);
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             throw new System.NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace Runtime.Weathers.Energy
             }
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 

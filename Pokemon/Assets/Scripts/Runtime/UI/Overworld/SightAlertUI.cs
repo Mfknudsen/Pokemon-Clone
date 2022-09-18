@@ -1,7 +1,8 @@
 #region Packages
 
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Runtime.UI.Overworld.Sight_Alerts;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -10,13 +11,14 @@ namespace Runtime.UI.Overworld
 {
     public class SightAlertUI : MonoBehaviour
     {
+        [SerializeField, Required] private OperationManager operationManager;
         public static SightAlertUI instance;
 
         private void Awake()
         {
             if (instance == null)
                 instance = this;
-            else 
+            else
                 Destroy(gameObject);
         }
 
@@ -27,7 +29,7 @@ namespace Runtime.UI.Overworld
             alertType.Trigger(transform, true);
             OperationsContainer container = new();
             container.Add(alertType);
-            OperationManager.instance.AddAsyncOperationsContainer(container);
+            operationManager.AddAsyncOperationsContainer(container);
         }
 
         public void DisableAlert(AlertType alertType)
@@ -35,7 +37,7 @@ namespace Runtime.UI.Overworld
             alertType.Trigger(transform, false);
             OperationsContainer container = new();
             container.Add(alertType);
-            OperationManager.instance.AddAsyncOperationsContainer(container);
+            operationManager.AddAsyncOperationsContainer(container);
         }
 
         #endregion

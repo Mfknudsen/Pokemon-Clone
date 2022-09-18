@@ -7,6 +7,7 @@ using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Objects.Items;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ namespace Runtime.Player
     public class ItemThrowerController : MonoBehaviour
     {
         #region Values
+
+        [SerializeField, Required] private OperationManager operationManager;
+        [SerializeField, Required] private PlayerManager playerManager;
 
         [SerializeField, Required] private CinemachineVirtualCameraBase cameraRig;
         [SerializeField, Required] private BoolVariable aiming, throwing, allowed;
@@ -167,7 +171,7 @@ namespace Runtime.Player
             if (!this.allowed.value) return;
 
             if (this.cameraSwitchAsyncContainer != null)
-                OperationManager.instance.StopAsyncContainer(this.cameraSwitchAsyncContainer);
+                operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
 
             CameraEvent cameraEvent;
@@ -177,7 +181,7 @@ namespace Runtime.Player
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;
                 MoveCamera();
 
-                cameraEvent = new CameraEvent(
+                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(
                     this.cameraRig,
                     CameraSettings.Default(),
                     .5f);
@@ -187,14 +191,14 @@ namespace Runtime.Player
                 this.defaultOverworldRig.value.m_YAxis.Value = this.current;
                 this.defaultOverworldRig.value.m_XAxis.Value = this.cameraBrain.getTransform.rotation.eulerAngles.y;
 
-                cameraEvent = new CameraEvent(
-                    PlayerManager.instance.GetOverworldCameraRig(),
+                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(
+                    playerManager.GetOverworldCameraRig(),
                     CameraSettings.Default(),
                     .5f);
             }
 
             this.cameraSwitchAsyncContainer.Add(cameraEvent);
-            OperationManager.instance.AddAsyncOperationsContainer(this.cameraSwitchAsyncContainer);
+            operationManager.AddAsyncOperationsContainer(this.cameraSwitchAsyncContainer);
         }
 
         #endregion

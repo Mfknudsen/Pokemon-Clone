@@ -3,7 +3,10 @@
 using System.Collections;
 using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
-using Runtime.Systems;
+using Runtime.Communication;
+using Runtime.Player;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 using UnityEngine;
 
 #endregion
@@ -13,14 +16,12 @@ namespace Runtime.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
-        public RoundDoneState(BattleManager battleManager) : base(battleManager)
+        public RoundDoneState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            OperationManager operationManager = OperationManager.instance;
-
             #region End Turn Abilities
 
             AbilityOversight abilityOversight = this.battleManager.GetAbilityOversight();
@@ -40,16 +41,16 @@ namespace Runtime.Battle.Systems.States
             #region End Battle
 
             if (this.battleManager.CheckTeamDefeated(true))
-                this.battleManager.SetState(new LostState(this.battleManager));
+                this.battleManager.SetState(new LostState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
             else if (this.battleManager.CheckTeamDefeated(false))
-                this.battleManager.SetState(new WinState(this.battleManager));
+                this.battleManager.SetState(new WinState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
             else
             {
                 SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                this.battleManager.SetState(new PlayerTurnState(this.battleManager));
+                this.battleManager.SetState(new PlayerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
             }
 
             #endregion

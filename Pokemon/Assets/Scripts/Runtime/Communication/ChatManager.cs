@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Runtime.Systems;
 using TMPro;
@@ -9,12 +10,16 @@ using UnityEngine;
 
 namespace Runtime.Communication
 {
+    [CreateAssetMenu(menuName = "Manager/Chat")]
     public class ChatManager : Manager
     {
         #region Values
-        
-        [Header("Object Reference:")]
-        [SerializeField] private Chat running;
+
+        private ChatController controller;
+
+        [Header("Object Reference:")] [SerializeField]
+        private Chat running;
+
         [SerializeField] private List<Chat> waitList = new();
 
         [Header("Display:")] [SerializeField] private TextMeshProUGUI textField;
@@ -27,7 +32,15 @@ namespace Runtime.Communication
 
         #region Build In States
 
-        private void OnEnable() => InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+        public override IEnumerator StartManager()
+        {
+            this.controller = new GameObject("Chat Controller").AddComponent<ChatController>();
+
+            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+            
+            yield break;
+        }
+
         private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(OnNextChatChange);
 
         #endregion
@@ -36,7 +49,7 @@ namespace Runtime.Communication
 
         public bool GetIsClear()
         {
-            return this.running == null && this.waitList.Count == 0;
+            return this.running is null && this.waitList.Count == 0;
         }
 
         public float GetTextSpeed()
@@ -70,20 +83,20 @@ namespace Runtime.Communication
 
         public override void UpdateManager()
         {
-            if (this.textField == null)
+            if (this.textField is null)
             {
                 this.textField = TextField.instance;
                 return;
             }
 
-            if (this.running != null && this.waitForInput)
+            if (this.running is not null && this.waitForInput)
             {
                 if (this.running.GetNeedInput()) return;
 
                 if (this.running.GetDone())
                     this.running = null;
                 else
-                    this.holder.StartCoroutine(this.running.PlayNext());
+                    this.controller.StartCoroutine(this.running.PlayNext());
 
                 this.waitForInput = false;
             }
@@ -115,7 +128,7 @@ namespace Runtime.Communication
             if (this.running.GetDone())
                 this.running = null;
             else
-                this.holder.StartCoroutine(this.running.PlayNext());
+                this.controller.StartCoroutine(this.running.PlayNext());
 
             this.waitForInput = false;
         }
@@ -138,7 +151,7 @@ namespace Runtime.Communication
             this.textField.gameObject.SetActive(true);
 
             this.running = toPlay;
-            this.holder.StartCoroutine(this.running.Play());
+            this.controller.StartCoroutine(this.running.Play());
         }
 
         #endregion

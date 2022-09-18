@@ -8,6 +8,8 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
 using Runtime.Player;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 using UnityEngine;
 
 #endregion
@@ -16,7 +18,9 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerSelectNewState : State
     {
-        public PlayerSelectNewState(BattleManager battleManager) : base(battleManager)
+        public PlayerSelectNewState(BattleManager battleManager, OperationManager operationManager,
+            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager,
+            operationManager, chatManager, uiManager, playerManager)
         {
         }
 
@@ -25,7 +29,7 @@ namespace Runtime.Battle.Systems.States
             Cursor.visible = true;
             List<SwitchAction> switchActions = new();
             SpotOversight oversight = this.battleManager.GetSpotOversight();
-            BattleMember playerTeam = PlayerManager.instance.GetBattleMember();
+            BattleMember playerTeam = playerManager.GetBattleMember();
 
             if (playerTeam.GetTeam().CanSendMorePokemon())
             {
@@ -41,7 +45,7 @@ namespace Runtime.Battle.Systems.States
                     this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
                     yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
-                                                     !ChatManager.instance.GetIsClear());
+                                                     !chatManager.GetIsClear());
 
                     switchActions.Add(switchAction);
                 }
@@ -51,7 +55,8 @@ namespace Runtime.Battle.Systems.States
 
             Cursor.visible = false;
 
-            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, switchActions));
+            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, operationManager, chatManager,
+                uiManager, playerManager, switchActions));
         }
     }
 }

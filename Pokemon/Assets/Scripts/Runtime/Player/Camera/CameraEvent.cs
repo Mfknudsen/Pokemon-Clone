@@ -4,40 +4,51 @@ using System.Collections;
 using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Settings;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
+using Sirenix.OdinInspector;
 using UnityEngine;
+// ReSharper disable ParameterHidesMember
 
 #endregion
 
 namespace Runtime.Player.Camera
 {
-    public struct CameraEvent : IOperation
+    [CreateAssetMenu]
+    public class CameraEvent : ScriptableObject, IOperation
     {
         #region Values
-        
-        private bool done;
-        private readonly CinemachineVirtualCameraBase cinemachineRig;
-        private readonly CameraSettings cameraSettings;
-        private readonly float percentToEnable, timeInSeconds;
 
-        public CameraEvent(
+        [SerializeField, Required] private CameraManager cameraManager;
+
+        private bool done;
+        private CinemachineVirtualCameraBase cinemachineRig;
+        private CameraSettings cameraSettings;
+        private float percentToEnable, timeInSeconds;
+
+        public CameraEvent Setup(
             CinemachineVirtualCameraBase cinemachineRig,
             CameraSettings cameraSettings,
             float timeInSeconds,
-            float percentToEnable = 0) : this()
+            float percentToEnable = 0)
         {
             //percentToEnable must be between 0 and 1
             this.cinemachineRig = cinemachineRig;
             this.percentToEnable = percentToEnable;
             this.timeInSeconds = timeInSeconds;
             this.cameraSettings = cameraSettings ?? CameraSettings.Default();
+
+            return this;
         }
+
+        #endregion
+
+        #region Build In States
 
         #endregion
 
         #region In
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -45,8 +56,6 @@ namespace Runtime.Player.Camera
         public IEnumerator Operation()
         {
             done = false;
-
-            CameraManager cameraManager = CameraManager.instance;
 
             yield return new WaitForSeconds(timeInSeconds * percentToEnable);
 
@@ -59,7 +68,7 @@ namespace Runtime.Player.Camera
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 
@@ -67,10 +76,10 @@ namespace Runtime.Player.Camera
 
         #region Out
 
-        public static CameraEvent ReturnToDefaultOverworld()
+        public static CameraEvent ReturnToDefaultOverworld(PlayerManager playerManager)
         {
-            return new CameraEvent(
-                PlayerManager.instance.GetOverworldCameraRig(),
+            return CreateInstance<CameraEvent>().Setup(
+                playerManager.GetOverworldCameraRig(),
                 Setting.OverworldCameraSettings,
                 2,
                 0.75f
@@ -79,7 +88,7 @@ namespace Runtime.Player.Camera
 
         public static CameraEvent ReturnToDefaultBattle()
         {
-            return new CameraEvent(
+            return CreateInstance<CameraEvent>().Setup(
                 BattleManager.instance.GetBattleCamera(),
                 Setting.BattleCameraSettings,
                 0,

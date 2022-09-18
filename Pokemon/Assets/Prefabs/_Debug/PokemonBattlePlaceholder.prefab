@@ -168,12 +168,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  _SortingLayer: 0
-  _SortingLayerID: 0
-  _SortingOrder: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1208857719616638621}
   m_maskType: 0
+  _SortingLayer: 0
+  _SortingLayerID: 0
+  _SortingOrder: 0
 --- !u!1 &7832799634741538103
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,5 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4384d5a3cf3e6842b5e35a70a464bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraManager: {fileID: 11400000, guid: 53f364342aaa4ec19926b6e680672102, type: 2}
   pokmemonName: 
   textMesh: {fileID: 241867642537543251}

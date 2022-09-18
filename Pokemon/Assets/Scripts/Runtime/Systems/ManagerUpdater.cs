@@ -1,5 +1,8 @@
 #region Packages
 
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -8,23 +11,36 @@ namespace Runtime.Systems
 {
     public class ManagerUpdater : MonoBehaviour
     {
-        private readonly Manager toUpdate;
+        private static ManagerUpdater _instance;
+        [ShowInInspector, ReadOnly] private readonly List<Manager> toUpdate = new();
 
-        public ManagerUpdater(Manager toUpdate)
+        #region Build In States
+
+        private void Start()
         {
-            this.toUpdate = toUpdate;
-
-            if (toUpdate != null)
-            {
-                Debug.LogWarning("No Manager");
+            if (_instance is not null)
                 Destroy(gameObject);
-                return;
-            }
 
-            toUpdate.SetHolder(this);
+            _instance = this;
+
+            foreach (string guid in AssetDatabase.FindAssets("t:" + nameof(Manager)))
+                this.toUpdate.Add(AssetDatabase.LoadAssetAtPath<Manager>(AssetDatabase.GUIDToAssetPath(guid)));
+
+            this.toUpdate.ForEach(m => StartCoroutine(m.StartManager()));
         }
 
-        private void Update() => toUpdate.UpdateManager();
-        private void FixedUpdate() => toUpdate.FixedUpdateManager();
+        #endregion
+
+        private void Update() => this.toUpdate.ForEach(m =>
+        {
+            if (m.GetReady())
+                m.UpdateManager();
+        });
+
+        private void FixedUpdate() => this.toUpdate.ForEach(m =>
+        {
+            if (m.GetReady())
+                m.FixedUpdateManager();
+        });
     }
 }

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181cc78fbdb3e7043ba1c2e301f3b789, type: 3}
   m_Name: Freeze
   m_EditorClassIdentifier: 
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   conditionName: Freeze
   affectedPokemon: {fileID: 0}
   beforeAttack: 1
   n: 0
   onEffectChat: {fileID: 11400000, guid: 11f4e3dfdad61274ab3b04dd5f9eb860, type: 2}
-  onContinuousEffectChat: {fileID: 11400000, guid: 65b49d4d58c48d24faaea67826202008,
-    type: 2}
+  onContinuousEffectChat: {fileID: 11400000, guid: 65b49d4d58c48d24faaea67826202008, type: 2}
   abruptEndChat: {fileID: 11400000, guid: a665c6da440a7c54782b37e839fd2e53, type: 2}
   endEffectChat: {fileID: 11400000, guid: c0538418964661443a694526bb10ee20, type: 2}

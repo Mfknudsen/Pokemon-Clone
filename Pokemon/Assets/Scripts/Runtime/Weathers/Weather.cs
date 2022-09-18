@@ -1,4 +1,10 @@
+#region Packages
+
+using Runtime.Systems.Operation;
+using Sirenix.OdinInspector;
 using UnityEngine;
+
+#endregion
 
 namespace Runtime.Weathers
 {
@@ -7,6 +13,7 @@ namespace Runtime.Weathers
     {
         #region Values
 
+        [SerializeField, Required] protected OperationManager operationManager;
         [SerializeField] private string effectName;
         [SerializeField] private int maxEffectTurns;
         private int currentEffectTurn;

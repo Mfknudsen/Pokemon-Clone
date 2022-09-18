@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿#region Packages
+
+using Runtime.Communication;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+#endregion
 
 namespace Runtime.Pokémon.Conditions
 {
@@ -6,6 +12,8 @@ namespace Runtime.Pokémon.Conditions
     {
         #region Values
 
+        [SerializeField, Required] protected ChatManager chatManager;
+        
         private bool isInstantiated;
         protected ConditionOversight conditionOversight;
 

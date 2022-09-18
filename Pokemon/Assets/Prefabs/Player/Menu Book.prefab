@@ -93,7 +93,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7783688, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -231,6 +231,7 @@ MonoBehaviour:
   start: {fileID: 564464084}
   end: {fileID: 714411655}
   moveSpeed: -0.5
+  settings: {fileID: 0}
 --- !u!1 &714411654
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0bfe0c054d23042974ca56dbe7053e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
+  uiManager: {fileID: 11400000, guid: f5938af1dcb402b7494499cb2206b3cc, type: 2}
+  cameraManager: {fileID: 11400000, guid: 53f364342aaa4ec19926b6e680672102, type: 2}
   preRenderTexture: {fileID: 8400000, guid: 711d31f423e5d7d4ebebe9bf2132552d, type: 2}
   curRenderTexture: {fileID: 8400000, guid: a0fe318b4eb80df43b38de5b3d0a488b, type: 2}
   bookCameraRig: {fileID: 436971409}
@@ -481,6 +486,7 @@ MonoBehaviour:
   bookAnimator: {fileID: 474399824}
   invisiblyUI: {fileID: 5291448554455411010}
   visuals: {fileID: 2493626362064758519}
+  bookLight: {fileID: 0}
 --- !u!1 &4435996507218999918
 GameObject:
   m_ObjectHideFlags: 0

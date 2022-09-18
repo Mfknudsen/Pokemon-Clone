@@ -3,7 +3,7 @@
 using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Communication;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -45,7 +45,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             done = false;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -54,11 +54,11 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
         {
             Chat toSend = onEffectChat.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-            ChatManager.instance.Add(toSend);
+            chatManager.Add(toSend);
 
             GameObject obj = affectedPokemon.GetSpawnedObject();
 
-            while (!ChatManager.instance.GetIsClear())
+            while (!chatManager.GetIsClear())
             {
                 if (obj.transform.localScale.y > 0.01f)
                     obj.transform.localScale += -Vector3.one * Time.deltaTime;
@@ -73,7 +73,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 

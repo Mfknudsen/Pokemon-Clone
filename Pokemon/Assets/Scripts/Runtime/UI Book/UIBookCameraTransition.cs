@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using Runtime.Common;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -119,7 +119,7 @@ namespace Runtime.UI_Book
                 t = moveSpeed > 0 ? 0 : 1;
         }
 
-        public void End()
+        public void OperationEnd()
         {
             cinemachineVirtualCamera.enabled = moveSpeed < 0;
         }
@@ -157,7 +157,7 @@ namespace Runtime.UI_Book
             done = true;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }

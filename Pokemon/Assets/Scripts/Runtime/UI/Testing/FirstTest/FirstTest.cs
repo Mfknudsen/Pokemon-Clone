@@ -15,6 +15,8 @@ namespace Runtime.UI.Testing.FirstTest
     {
         #region Values
 
+        [SerializeField, Required] private PlayerManager playerManager;
+        
         #region Wild
 
         [FoldoutGroup("Wild Encounter Settings")] [SerializeField]
@@ -52,7 +54,7 @@ namespace Runtime.UI.Testing.FirstTest
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
 
-            for (int i = 0; i < PlayerManager.instance.GetTeam().GetTeamCount(); i++)
+            for (int i = 0; i < playerManager.GetTeam().GetTeamCount(); i++)
             {
                 Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
                 member.GetTeam().AddNewPokemonToTeam(pokemon);

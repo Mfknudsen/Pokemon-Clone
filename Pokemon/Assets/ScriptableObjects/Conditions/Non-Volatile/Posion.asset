@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc6905fd56a3ca4788f8f194a682484, type: 3}
   m_Name: Posion
   m_EditorClassIdentifier: 
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   conditionName: Poison
   affectedPokemon: {fileID: 0}
   beforeAttack: 0

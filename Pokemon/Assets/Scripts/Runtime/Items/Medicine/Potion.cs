@@ -61,9 +61,9 @@ namespace Runtime.Items.Medicine
 
             Chat toSend = onActivation.GetChat();
             toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
-            ChatManager.instance.Add(toSend);
+            chatManager.Add(toSend);
 
-            while (!ChatManager.instance.GetIsClear())
+            while (!chatManager.GetIsClear())
                 yield return null;
 
             done = true;

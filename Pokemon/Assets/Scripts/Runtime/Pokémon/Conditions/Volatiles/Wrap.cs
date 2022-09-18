@@ -1,5 +1,5 @@
 using System.Collections;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 
 namespace Runtime.Pokémon.Conditions.Volatiles
 {
@@ -20,7 +20,7 @@ namespace Runtime.Pokémon.Conditions.Volatiles
             throw new System.NotImplementedException();
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             throw new System.NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace Runtime.Pokémon.Conditions.Volatiles
             throw new System.NotImplementedException();
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

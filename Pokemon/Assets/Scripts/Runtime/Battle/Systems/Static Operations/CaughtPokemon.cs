@@ -2,7 +2,7 @@ using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Runtime.Trainer;
 
 namespace Runtime.Battle.Systems.Static_Operations
@@ -19,7 +19,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.toReceive = toReceive;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -44,7 +44,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             yield break;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

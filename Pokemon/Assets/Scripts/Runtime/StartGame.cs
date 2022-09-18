@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Runtime.Items;
 using Runtime.Player;
-using Runtime.Systems;
-using Runtime.UI;
+using Runtime.Systems.UI;
 using Runtime.UI_Book;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Logger = Runtime._Debug.Logger;
@@ -17,32 +17,34 @@ namespace Runtime
 {
     public class StartGame : MonoBehaviour
     {
+        [SerializeField, Required] private PlayerManager playerManager;
+        [SerializeField, Required] private UIManager uiManager;
+
         public List<Item> items;
-        
+
         private IEnumerator Start()
         {
-            yield return new WaitWhile(() => !SetupManager.instance);
-
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 
             yield return new WaitWhile(() => !asyncOperation.isDone || !Logger.instance);
 
-            SetupManager.instance.Trigger();
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
+            while (!this.playerManager.GetBattleMember()?.GetInventory())
+            {
+                Debug.Log(this.playerManager.GetBattleMember());
+                yield return null;
+            }
 
-            yield return new WaitWhile(() => !PlayerManager.instance.GetBattleMember().GetInventory());
+            yield return new WaitWhile(() => !this.playerManager.GetBattleMember()?.GetInventory());
 
-            Inventory inventory = PlayerManager.instance.GetBattleMember().GetInventory();
+            Inventory inventory = this.playerManager.GetBattleMember().GetInventory();
 
             foreach (Item item in this.items)
                 inventory.AddItem(item);
 
-            SetupManager.instance.Trigger();
 
-            yield return new WaitWhile(() => !UIManager.instance || !UIBook.instance);
-
-            UIManager.instance.SwitchUI(UISelection.Start);
+            yield return new WaitWhile(() => !UIBook.instance);
+            
+            this.uiManager.SwitchUI(UISelection.Start);
         }
     }
 }

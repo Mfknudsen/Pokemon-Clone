@@ -1,6 +1,8 @@
 #region Packages
 
 using JetBrains.Annotations;
+using Runtime.Systems.UI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -11,6 +13,7 @@ namespace Runtime.UI.Pause
     {
         #region Values
 
+        [SerializeField, Required] private UIManager uiManager;
         [SerializeField] private GameObject defaultPage, optionsPage, savePage, exitPage;
 
         private UISelection preSelection;
@@ -41,7 +44,6 @@ namespace Runtime.UI.Pause
         [UsedImplicitly]
         public void Unpause()
         {
-            UIManager uiManager = UIManager.instance;
             uiManager.SwitchUI(preSelection);
         }
 

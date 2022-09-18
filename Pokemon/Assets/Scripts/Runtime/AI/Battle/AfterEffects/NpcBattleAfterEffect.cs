@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -17,7 +17,7 @@ namespace Runtime.AI.Battle.AfterEffects
 
         #region Getters
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -44,7 +44,7 @@ namespace Runtime.AI.Battle.AfterEffects
         
         public abstract IEnumerator Operation();
 
-        public virtual void End()
+        public virtual void OperationEnd()
         {
         }
 

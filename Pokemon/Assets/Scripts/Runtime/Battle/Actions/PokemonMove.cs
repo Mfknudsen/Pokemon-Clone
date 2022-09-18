@@ -9,7 +9,7 @@ using Runtime.Battle.Systems.Static_Operations;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion

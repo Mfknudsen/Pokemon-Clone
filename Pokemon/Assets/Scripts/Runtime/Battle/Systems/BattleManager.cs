@@ -9,10 +9,13 @@ using Runtime.Battle.Systems.States;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
+using Runtime.Player;
+using Runtime.Player.Camera;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Logger = Runtime._Debug.Logger;
@@ -21,11 +24,16 @@ using Logger = Runtime._Debug.Logger;
 
 namespace Runtime.Battle.Systems
 {
-    public class BattleManager : Manager
+    public class BattleManager : MonoBehaviour
     {
         #region Values
 
         public static BattleManager instance;
+
+        [SerializeField, Required] private OperationManager operationManager;
+        [SerializeField, Required] private ChatManager chatManager;
+        [SerializeField, Required] private PlayerManager playerManager;
+        [SerializeField, Required] private UIManager uiManager;
 
         [FoldoutGroup("Conditions")] [SerializeField]
         private Condition faintCondition;
@@ -142,14 +150,13 @@ namespace Runtime.Battle.Systems
 
         #region In
 
-        //TODO FIX:
-/*        public override IEnumerator Setup()
+        private void Start()
         {
             if (instance == null)
             {
                 instance = this;
 
-                OperationManager.instance.AddAsyncOperationsContainer(
+                operationManager.AddAsyncOperationsContainer(
                     new OperationsContainer(CameraEvent.ReturnToDefaultBattle()));
 
                 BattleMathf.SetSuperEffective(this.superEffective);
@@ -159,17 +166,13 @@ namespace Runtime.Battle.Systems
                 BattleMathf.SetExtremlyEffective(this.extremelyEffective);
                 BattleMathf.SetMissChat(this.miss);
 
-                while (this.displayManager == null || this.selectionMenu == null)
-                    yield return null;
 
-                SetState(new BeginState(this));
-
-                yield break;
+                SetState(new BeginState(this, operationManager, chatManager, uiManager, playerManager));
             }
 
             Destroy(gameObject);
         }
-        */
+
 
         public void StartBattle(BattleStarter battleStarter)
         {
@@ -197,7 +200,7 @@ namespace Runtime.Battle.Systems
             this.displayManager.UpdateSlots();
 
             //Check if spawned object is placeholder;
-            PokemonPlaceholder.CheckPlaceholder(pokemon, obj);
+            obj.GetComponent<PokemonPlaceholder>().CheckPlaceholder(pokemon);
         }
 
         public void DespawnPokemon(Pokemon pokemon)
@@ -230,9 +233,9 @@ namespace Runtime.Battle.Systems
         public void SetState(State set)
         {
             if (this.stateManager != null)
-                this.holder.StopCoroutine(this.stateManager);
+                StopCoroutine(this.stateManager);
 
-            this.stateManager = this.holder.StartCoroutine(set.Tick());
+            this.stateManager = StartCoroutine(set.Tick());
         }
 
         public void EndBattle(bool playerVictory)

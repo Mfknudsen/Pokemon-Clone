@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -23,7 +23,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.target = target;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -47,7 +47,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

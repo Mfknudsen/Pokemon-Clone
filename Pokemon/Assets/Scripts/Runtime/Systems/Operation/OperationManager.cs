@@ -6,11 +6,14 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime.Systems
+namespace Runtime.Systems.Operation
 {
+    [CreateAssetMenu(menuName = "Manager/Operation")]
     public class OperationManager : Manager
     {
         #region Values
+
+        private OperationController operationController;
 
         private bool done;
 
@@ -23,6 +26,13 @@ namespace Runtime.Systems
 
         #region Build In States
 
+        public override IEnumerator StartManager()
+        {
+            this.operationController = new GameObject("Operation Controller").AddComponent<OperationController>();
+            yield break;
+        }
+
+
         public override void UpdateManager()
         {
             if (this.currentContainer == null)
@@ -32,7 +42,7 @@ namespace Runtime.Systems
                 this.currentContainer = this.operationsContainers.Dequeue();
 
                 foreach (IOperation i in this.currentContainer.GetInterfaces())
-                    this.holder.StartCoroutine(i.Operation());
+                    this.operationController.StartCoroutine(i.Operation());
             }
             else
             {
@@ -40,7 +50,7 @@ namespace Runtime.Systems
 
                 foreach (IOperation i in this.currentContainer.GetInterfaces())
                 {
-                    if (i.Done()) continue;
+                    if (i.IsOperationDone()) continue;
 
                     this.done = false;
                 }
@@ -48,7 +58,7 @@ namespace Runtime.Systems
                 if (!this.done) return;
 
                 foreach (IOperation i in this.currentContainer.GetInterfaces())
-                    i.End();
+                    i.OperationEnd();
 
                 this.currentContainer = null;
             }
@@ -87,7 +97,7 @@ namespace Runtime.Systems
             this.activeAsyncCoroutines.Add(container, new List<Coroutine>());
 
             foreach (IOperation i in container.GetInterfaces())
-                this.activeAsyncCoroutines[container].Add(this.holder.StartCoroutine(i.Operation()));
+                this.activeAsyncCoroutines[container].Add(this.operationController.StartCoroutine(i.Operation()));
         }
 
         public void InsertFront(OperationsContainer set)
@@ -106,11 +116,11 @@ namespace Runtime.Systems
         public void StopAsyncContainer(OperationsContainer toStop, bool triggerEnd = false)
         {
             foreach (Coroutine coroutine in this.activeAsyncCoroutines[toStop])
-                this.holder.StopCoroutine(coroutine);
+                this.operationController.StopCoroutine(coroutine);
 
             if (!triggerEnd) return;
 
-            foreach (IOperation operation in toStop.GetInterfaces()) operation.End();
+            foreach (IOperation operation in toStop.GetInterfaces()) operation.OperationEnd();
         }
 
         #endregion
@@ -155,10 +165,10 @@ namespace Runtime.Systems
 
     public interface IOperation
     {
-        public bool Done();
+        public bool IsOperationDone();
 
         public IEnumerator Operation();
 
-        public void End();
+        public void OperationEnd();
     }
 }

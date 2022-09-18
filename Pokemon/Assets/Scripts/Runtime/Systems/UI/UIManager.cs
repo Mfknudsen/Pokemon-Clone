@@ -1,17 +1,19 @@
 #region Packages
 
+using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
 using Runtime.ScriptableVariables.Structs;
-using Runtime.Systems;
 using Runtime.UI_Book;
 using Runtime.UI.Pause;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Runtime.UI
+// ReSharper disable ParameterHidesMember
+namespace Runtime.Systems.UI
 {
     #region Enums
 
@@ -26,17 +28,18 @@ namespace Runtime.UI
 
     #endregion
 
+    [CreateAssetMenu(menuName = "Manager/UI")]
     public class UIManager : Manager
     {
         #region Values
 
-        [SerializeField] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
+        [ShowInInspector, ReadOnly] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
-        [SerializeField] private SelectionMenu selectionMenu;
+        [ShowInInspector, ReadOnly] private SelectionMenu selectionMenu;
 
-        [SerializeField] private DisplayManager displayManager;
+        [ShowInInspector, ReadOnly] private DisplayManager displayManager;
 
-        [SerializeField] private BoolVariable playerThrowingItem;
+        [SerializeField, Required] private BoolVariable playerThrowingItem;
 
         private UISelection currentSelection = UISelection.Start;
         private bool readyToPause;
@@ -45,7 +48,12 @@ namespace Runtime.UI
 
         #region Build In States
 
-        private void OnEnable() => InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
+        public override IEnumerator StartManager()
+        {
+            InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
+            yield break;
+        }
+
         private void OnDisable() => InputManager.instance.pauseInputEvent.RemoveListener(PauseTrigger);
 
         #endregion
@@ -78,6 +86,18 @@ namespace Runtime.UI
         #endregion
 
         #region In
+
+        public void Setup(GameObject battleUI, GameObject overworldUI, GameObject pauseUI, GameObject startUI,
+            GameObject loadingUI, SelectionMenu selectionMenu, DisplayManager displayManager)
+        {
+            this.battleUI = battleUI;
+            this.overworldUI = overworldUI;
+            this.pauseUI = pauseUI;
+            this.startUI = startUI;
+            this.loadingUI = loadingUI;
+            this.selectionMenu = selectionMenu;
+            this.displayManager = displayManager;
+        }
 
         public void SwitchUI(UISelection selection)
         {
@@ -126,7 +146,7 @@ namespace Runtime.UI
         {
             if (this.playerThrowingItem.value) return;
 
-            if (BattleManager.instance != null) return;
+            if (BattleManager.instance is not null) return;
 
             if (!this.readyToPause) return;
 

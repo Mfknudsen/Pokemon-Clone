@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -12,7 +13,7 @@ namespace Runtime.AI
     {
         #region Values
 
-        [SerializeField] private UnitManager unitManager;
+        [SerializeField, Required] private UnitManager unitManager;
         [SerializeField] private BehaviourTreeOwner bto;
 
         private Dictionary<string, object> stateList = new()

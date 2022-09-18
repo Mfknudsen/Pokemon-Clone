@@ -1,6 +1,10 @@
+#region Packages
+
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
+
+#endregion
 
 namespace Runtime.Battle.Systems.Static_Operations
 {
@@ -13,16 +17,14 @@ namespace Runtime.Battle.Systems.Static_Operations
         public ChatOperation(Chat[] toPlay)
         {
             this.toPlay = toPlay;
-            chatManager = ChatManager.instance;
         }
 
         public ChatOperation(Chat toPlay)
         {
             this.toPlay = new[] { toPlay };
-            chatManager = ChatManager.instance;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -39,7 +41,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

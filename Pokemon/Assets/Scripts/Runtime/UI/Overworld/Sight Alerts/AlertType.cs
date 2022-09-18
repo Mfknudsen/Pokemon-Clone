@@ -1,7 +1,7 @@
 #region Packages
 
 using System.Collections;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 // ReSharper disable ParameterHidesMember
@@ -21,10 +21,10 @@ namespace Runtime.UI.Overworld.Sight_Alerts
             this.beginNew = beginNew;
         }
 
-        public abstract bool Done();
+        public abstract bool IsOperationDone();
 
         public abstract IEnumerator Operation();
 
-        public abstract void End();
+        public abstract void OperationEnd();
     }
 }

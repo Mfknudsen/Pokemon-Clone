@@ -14,6 +14,8 @@ namespace Runtime.World.Overworld.Interactions
     {
         #region Values
 
+        [SerializeField, Required] private PlayerManager playerManager;
+
         [FoldoutGroup(" ")] [SerializeField] private Vector3 iconOffset;
 
         [FoldoutGroup(" ")] [SerializeField] private MonoBehaviour[] onTrigger;
@@ -37,14 +39,14 @@ namespace Runtime.World.Overworld.Interactions
         {
             if (!other.tag.Equals("Player")) return;
 
-            PlayerManager.instance.GetInteractions().OnEnter(this, transform);
+            playerManager.GetInteractions().OnEnter(this, transform);
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.tag.Equals("Player")) return;
 
-            PlayerManager.instance.GetInteractions().OnExit(this);
+            playerManager.GetInteractions().OnExit(this);
         }
 
         #endregion

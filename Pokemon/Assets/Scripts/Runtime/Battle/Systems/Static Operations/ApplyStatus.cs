@@ -2,12 +2,13 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 
 namespace Runtime.Battle.Systems.Static_Operations
 {
     public class ApplyStatus : IOperation
     {
+        private readonly ChatManager chatManager;
         private bool done;
         private readonly Chat statusChat;
         private readonly Pokemon targetPokemon;
@@ -20,7 +21,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.statusCondition = statusCondition;
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -31,7 +32,6 @@ namespace Runtime.Battle.Systems.Static_Operations
 
             statusChat.AddToOverride("<TARGET_NAME>", targetPokemon.GetName());
 
-            ChatManager chatManager = ChatManager.instance;
             chatManager.Add(statusChat);
 
             if (statusCondition is NonVolatileCondition nonVolatile)
@@ -47,7 +47,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

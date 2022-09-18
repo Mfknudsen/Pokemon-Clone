@@ -11,7 +11,7 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -123,7 +123,7 @@ namespace Runtime.Battle.Actions
 
         #region IOperation
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -134,7 +134,7 @@ namespace Runtime.Battle.Actions
             yield return null;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 

@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using UnityEngine;
 
 #endregion
@@ -10,10 +11,9 @@ namespace Runtime.Systems
     {
         #region Values
 
-        protected ManagerUpdater holder;
-
         [SerializeField] private bool includeAsInactive;
-        private bool ready, isStarted;
+        protected bool ready;
+        private bool isStarted;
 
         #endregion
 
@@ -25,19 +25,20 @@ namespace Runtime.Systems
 
         public bool GetIsStarted() => isStarted;
 
-        public GameObject GetHolderObject() => this.holder.gameObject;
-        
         #endregion
 
         #region Setters
 
         public void SetIsStarted(bool set) => isStarted = set;
 
-        public void SetHolder(ManagerUpdater holder) => this.holder = holder;
-
         #endregion
 
         #region In
+
+        public virtual IEnumerator StartManager()
+        {
+            yield break;
+        }
 
         public virtual void UpdateManager()
         {
@@ -46,7 +47,7 @@ namespace Runtime.Systems
         public virtual void FixedUpdateManager()
         {
         }
-        
+
         #endregion
     }
 }

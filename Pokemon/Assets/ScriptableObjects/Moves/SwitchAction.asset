@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ecec7d9512c1c47955d6387184977a, type: 3}
   m_Name: SwitchAction
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   active: 0
   done: 0
   defaultTargetEnemy: 0
   currentPokemon: {fileID: 0}
-  targetPokemon: []
+  targets: []
   moveActive: 0
   priority: 5
   priorityInteraction: []
   chatOnActivation:
   - {fileID: 11400000, guid: 76a09965ebd8aad44af51a50197b127a, type: 2}
   team: {fileID: 0}
-  display: {fileID: 0}
   nextPokemon: {fileID: 0}
   nextChat:
   - {fileID: 11400000, guid: b5b9acee84921714ea4abe2ec1832175, type: 2}

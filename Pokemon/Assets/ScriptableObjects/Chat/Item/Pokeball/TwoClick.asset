@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc7eea31f8fac142b5e4b78ef6aa7b1, type: 3}
   m_Name: TwoClick
   m_EditorClassIdentifier: 
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
   isInstantiated: 0
   location: 
   description: 

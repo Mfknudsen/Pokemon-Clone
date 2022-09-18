@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb69a47088838d34ba48cd5eed15c48e, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   isInstantiated: 0
   type: 3
   itemName: Potion
   description: 
   target: {fileID: 0}
   inUse: 0
-  active: 0
   done: 0
+  visualPrefab: {fileID: 0}
+  battleBagSlot: 0
+  chatOnUse: []
+  userName: 
   healAmount: 20
   onActivation: {fileID: 11400000, guid: a67de638a66a3ee4cafaf11789d0b076, type: 2}

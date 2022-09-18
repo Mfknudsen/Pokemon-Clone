@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -57,7 +57,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             {
                 Chat toSend = abruptEndChat.GetChat();
                 toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                ChatManager.instance.Add(toSend);
+                chatManager.Add(toSend);
 
                 conditionOversight.RemoveFromCondition(this);
             }
@@ -65,7 +65,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             {
                 Chat toSend = onContinuousEffectChat.GetChat();
                 toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                ChatManager.instance.Add(toSend);
+                chatManager.Add(toSend);
 
                 conditionOversight.SetIsStunned(true);
             }
@@ -73,7 +73,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             {
                 Chat toSend = endEffectChat.GetChat();
                 toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                ChatManager.instance.Add(endEffectChat);
+                chatManager.Add(endEffectChat);
 
                 conditionOversight.RemoveFromCondition(this);
             }
@@ -83,13 +83,13 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             done = true;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 
         #endregion
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }

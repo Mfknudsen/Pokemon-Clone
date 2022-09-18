@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214a3402fce467842968ec1f7341248a, type: 3}
   m_Name: Burn
   m_EditorClassIdentifier: 
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   conditionName: Burn
   affectedPokemon: {fileID: 0}
   beforeAttack: 0

@@ -1,9 +1,10 @@
 ﻿#region Packages
 
 using System.Collections;
+using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -37,6 +38,7 @@ namespace Runtime.Items
 
         [SerializeField, Required] protected PlayerManager playerManager;
         [SerializeField, Required] protected OperationManager operationManager;
+        [SerializeField, Required] protected ChatManager chatManager;
         
         [Header("Object Reference:")] [SerializeField]
         protected bool isInstantiated;
@@ -138,14 +140,14 @@ namespace Runtime.Items
 
         #region IOperation
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
 
         public abstract IEnumerator Operation();
 
-        public virtual void End()
+        public virtual void OperationEnd()
         {
         }
 

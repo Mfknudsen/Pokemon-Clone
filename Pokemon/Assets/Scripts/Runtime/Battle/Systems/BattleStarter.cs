@@ -7,7 +7,7 @@ using Runtime.AI.Battle;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Player.Camera;
-using Runtime.UI;
+using Runtime.Systems.UI;
 using Runtime.UI_Book;
 using Runtime.UI.SceneTransitions.Transitions;
 using Runtime.World;
@@ -31,6 +31,14 @@ namespace Runtime.Battle.Systems
 
         #endregion
 
+        [SerializeField, Required] private TileManager tileManager;
+        [SerializeField, Required] private PlayerManager playerManager;
+        [SerializeField, Required] private UIManager uiManager;
+        [SerializeField, Required] private CameraManager cameraManager;
+        [SerializeField, Required] private ChatManager chatManager;
+        [SerializeField, Required] private WorldManager worldManager;
+
+
         [SerializeField] private string battleSceneName = "";
         [SerializeField] private int playerSpotCount = 1;
 
@@ -46,7 +54,7 @@ namespace Runtime.Battle.Systems
 
         private void OnValidate()
         {
-            if (!(playerSpotCount >= 1 && playerSpotCount <= 3))
+            if (playerSpotCount is not (>= 1 and <= 3))
                 Debug.LogError("Player Spot Count Must Be Between 1 and 3");
         }
 
@@ -86,7 +94,7 @@ namespace Runtime.Battle.Systems
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new() { PlayerManager.instance.GetBattleMember() };
+            List<BattleMember> result = new() { playerManager.GetBattleMember() };
             result.AddRange(allies);
             result.AddRange(enemies);
             return result;
@@ -108,10 +116,10 @@ namespace Runtime.Battle.Systems
 
             transition.onHide = () =>
             {
-                TileManager.instance.HideTiles();
-                PlayerManager.instance.DisableOverworld();
+                tileManager.HideTiles();
+                playerManager.DisableOverworld();
                 UIBook.instance.gameObject.SetActive(false);
-                UIManager.instance.SwitchUI(UISelection.Battle);
+                uiManager.SwitchUI(UISelection.Battle);
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -119,9 +127,8 @@ namespace Runtime.Battle.Systems
 
             onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
 
-            WorldManager manager = WorldManager.instance;
-            manager.SetTransition(transition);
-            manager.LoadBattleScene(battleSceneName);
+            worldManager.SetTransition(transition);
+            worldManager.LoadBattleScene(battleSceneName);
 
             //Wait for the Battle Scene to load and apply settings from Battle Starter
             StartCoroutine(WaitForResponse());
@@ -133,7 +140,7 @@ namespace Runtime.Battle.Systems
 
             yield return new WaitWhile(() => !BattleManager.instance);
 
-            List<BattleMember> result = new() { PlayerManager.instance.GetBattleMember() };
+            List<BattleMember> result = new() { playerManager.GetBattleMember() };
             result[0].SetTeamNumber(true);
             foreach (BattleMember m in allies
                          .Where(m =>
@@ -157,18 +164,18 @@ namespace Runtime.Battle.Systems
 
             Chat toSend = Instantiate(onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            ChatManager.instance.Add(new[] { toSend });
+            chatManager.Add(new[] { toSend });
         }
 
         public void EndBattle(bool playerVictory)
         {
             transition.onHide = () =>
             {
-                TileManager.instance.ShowTiles();
-                PlayerManager.instance.EnableOverworld();
+                tileManager.ShowTiles();
+                playerManager.EnableOverworld();
                 UIBook.instance.gameObject.SetActive(true);
-                UIManager.instance.SwitchUI(UISelection.Overworld);
-                CameraManager.instance.SetCurrentRigToDefault();
+                uiManager.SwitchUI(UISelection.Overworld);
+                cameraManager.SetCurrentRigToDefault();
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 //UIBook.instance.gameObject.SetActive(true);
@@ -177,9 +184,8 @@ namespace Runtime.Battle.Systems
                 transform.parent = overworldParent;
             };
 
-            WorldManager manager = WorldManager.instance;
-            manager.SetTransition(transition);
-            manager.UnloadCurrentBattleScene();
+            worldManager.SetTransition(transition);
+            worldManager.UnloadCurrentBattleScene();
 
             playerWon = playerVictory;
 

@@ -1,7 +1,7 @@
 #region Packages
 
 using System.Collections;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -12,7 +12,7 @@ namespace Runtime.Weathers._Extra
     {
         private bool done;
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -26,7 +26,7 @@ namespace Runtime.Weathers._Extra
             yield break;
         }
 
-        public void End()
+        public void OperationEnd()
         {
             Destroy(gameObject);
         }

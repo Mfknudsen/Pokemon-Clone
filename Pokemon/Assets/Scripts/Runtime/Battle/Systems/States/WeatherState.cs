@@ -3,7 +3,10 @@
 using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Interfaces;
-using Runtime.Systems;
+using Runtime.Communication;
+using Runtime.Player;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 
 #endregion
 
@@ -11,13 +14,12 @@ namespace Runtime.Battle.Systems.States
 {
     public class WeatherState : State
     {
-        public WeatherState(BattleManager battleManager) : base(battleManager)
+        public WeatherState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            OperationManager operationManager = OperationManager.instance;
             foreach (IOnTurnEnd onTurnEnd in this.battleManager.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
                 .Where(i => i is IOperation))
             {
@@ -26,7 +28,7 @@ namespace Runtime.Battle.Systems.States
                 operationManager.AddOperationsContainer(container);
             }
 
-            this.battleManager.SetState(new RoundDoneState(this.battleManager));
+            this.battleManager.SetState(new RoundDoneState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
             yield break;
         }
     }

@@ -27,6 +27,8 @@ namespace Runtime.Battle.Systems
     {
         #region Values
 
+        private static ChatManager chatManager;
+
         private static Chat _superEffective,
             _notEffective,
             _noEffect,
@@ -145,7 +147,7 @@ namespace Runtime.Battle.Systems
                                                                         user.GetBattleMember().GetTeamAffiliation());
 
                     foreach (Spot total in totals.Where(total => total != target)
-                        .Where(total => !checks.Contains(total)))
+                                 .Where(total => !checks.Contains(total)))
                         totals.Remove(total);
 
                     return totals.Count > 1;
@@ -292,7 +294,7 @@ namespace Runtime.Battle.Systems
             List<IImmuneAttackType> immuneAttackType = new();
 
             foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
-                .Select(spot => spot.GetActivePokemon()).Where(pokemon => pokemon != null))
+                         .Select(spot => spot.GetActivePokemon()).Where(pokemon => pokemon != null))
             {
                 bypassImmune.AddRange(pokemon.GetAbilitiesOfType<IBypassImmune>());
                 immuneAttackType.AddRange(pokemon.GetAbilitiesOfType<IImmuneAttackType>());
@@ -308,13 +310,13 @@ namespace Runtime.Battle.Systems
                 immuneAttackType.Any(i => i.MatchType(attackMove.GetMoveType().GetTypeName())))
             {
                 if (bypassImmune.Any(b =>
-                    b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[0].GetTypeName())))
+                        b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[0].GetTypeName())))
                     type = 0;
 
                 if (toCheck.Length > 1)
                 {
                     if (bypassImmune.Any(b =>
-                        b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[1].GetTypeName())))
+                            b.CanEffect(attackMove.GetMoveType().GetTypeName(), toCheck[1].GetTypeName())))
                         type = 0;
                 }
             }
@@ -331,19 +333,19 @@ namespace Runtime.Battle.Systems
                 {
                     case 0:
                         type = 0.5f;
-                        ChatManager.instance.Add(_notEffective.GetChat());
+                        chatManager.Add(_notEffective.GetChat());
                         break;
                     case -1:
                         type = 0.25f;
-                        ChatManager.instance.Add(_barelyEffective.GetChat());
+                        chatManager.Add(_barelyEffective.GetChat());
                         break;
                     case 2:
                         type = 1.5f;
-                        ChatManager.instance.Add(_superEffective.GetChat());
+                        chatManager.Add(_superEffective.GetChat());
                         break;
                     case 3:
                         type = 2;
-                        ChatManager.instance.Add(_extremlyEffective.GetChat());
+                        chatManager.Add(_extremlyEffective.GetChat());
                         break;
                     default:
                         type = 1;
@@ -352,7 +354,7 @@ namespace Runtime.Battle.Systems
             }
             // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
             else if (_noEffect != null)
-                ChatManager.instance.Add(_noEffect.GetChat());
+                chatManager.Add(_noEffect.GetChat());
 
             result.Add(type);
 

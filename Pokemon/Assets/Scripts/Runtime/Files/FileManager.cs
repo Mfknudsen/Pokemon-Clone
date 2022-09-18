@@ -18,7 +18,7 @@ namespace Runtime.Files
     {
         #region Values
 
-        private static readonly BinaryFormatter formatter = new();
+        private static readonly BinaryFormatter Formatter = new();
 
         #endregion
 
@@ -40,6 +40,7 @@ namespace Runtime.Files
 
         public static T LoadData<T>(string fileName) where T : class
         {
+            return null;
             try
             {
                 return LoadFromFile<T>(
@@ -68,7 +69,7 @@ namespace Runtime.Files
                 path,
                 FileMode.Open);
 
-            T result = formatter.Deserialize(stream) as T;
+            T result = Formatter.Deserialize(stream) as T;
 
             stream.Close();
 
@@ -85,7 +86,7 @@ namespace Runtime.Files
                 path,
                 FileMode.Create);
 
-            formatter.Serialize(stream, toSave);
+            Formatter.Serialize(stream, toSave);
 
             stream.Close();
         }

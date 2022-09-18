@@ -3,7 +3,7 @@
 using System.Collections;
 using Runtime.Items.Pokeballs;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine.Events;
 
 #endregion
@@ -28,7 +28,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.catchEvent.AddListener(catchAction);
         }
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -40,7 +40,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             yield break;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
     }

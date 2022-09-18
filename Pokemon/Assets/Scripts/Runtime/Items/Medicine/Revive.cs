@@ -4,7 +4,6 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -16,7 +15,6 @@ namespace Runtime.Items.Medicine
     {
         #region Values
 
-        [SerializeField, Required] private ChatManager chatManager;
         [SerializeField] private bool toFull;
         [SerializeField] private Chat onActivation;
 

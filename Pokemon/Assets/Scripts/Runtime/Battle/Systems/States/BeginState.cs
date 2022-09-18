@@ -8,8 +8,8 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems;
-using Runtime.UI;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 using UnityEngine;
 using Logger = Runtime._Debug.Logger;
 
@@ -21,15 +21,15 @@ namespace Runtime.Battle.Systems.States
     {
         private SpotOversight spotOversight;
 
-        public BeginState(BattleManager battleManager) : base(battleManager)
+        public BeginState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager,
+            uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            UIManager uiManager = UIManager.instance;
             BattleStarter battleStarter = null;
-            PlayerManager playerManager = PlayerManager.instance;
 
             while (battleStarter == null)
             {
@@ -54,7 +54,8 @@ namespace Runtime.Battle.Systems.States
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             playerWithAllies.Concat(battleStarter.GetAllies());
             this.spotOversight.SetupSpots(playerWithAllies, this.battleManager.GetBattlefield().GetAllyField());
-            this.spotOversight.SetupSpots(battleStarter.GetEnemies(), this.battleManager.GetBattlefield().GetEnemyField());
+            this.spotOversight.SetupSpots(battleStarter.GetEnemies(),
+                this.battleManager.GetBattlefield().GetEnemyField());
 
             this.spotOversight.Reorganise(false);
 
@@ -95,12 +96,11 @@ namespace Runtime.Battle.Systems.States
 
             #endregion
 
-            while (!ChatManager.instance.GetIsClear())
+            while (!chatManager.GetIsClear())
                 yield return null;
 
             #region Start Actions
 
-            OperationManager operationManager = OperationManager.instance;
             List<OperationsContainer> switchInActions = new();
             foreach (Spot spot in this.spotOversight.GetSpots())
             {
@@ -132,17 +132,17 @@ namespace Runtime.Battle.Systems.States
                          .SelectMany(switchInAction =>
                              switchInAction.GetInterfaces()))
             {
-                while (!i.Done())
+                while (!i.IsOperationDone())
                     yield return null;
             }
 
 
-            while (!ChatManager.instance.GetIsClear() || !operationManager.GetDone())
+            while (!chatManager.GetIsClear() || !operationManager.GetDone())
                 yield return null;
 
             this.spotOversight.Reorganise(false);
 
-            this.battleManager.SetState(new PlayerTurnState(this.battleManager));
+            this.battleManager.SetState(new PlayerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
         }
     }
 }

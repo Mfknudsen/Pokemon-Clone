@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace Runtime.World.Overworld.Tiles
 {
+    [CreateAssetMenu(menuName = "Manager/Tile")]
     public class TileManager : Manager
     {
         #region Values
@@ -22,8 +23,8 @@ namespace Runtime.World.Overworld.Tiles
         [FoldoutGroup("Tile")] [SerializeField]
         private float waitTime = 5;
 
-        private TileSubManager currentTile;
-        private readonly List<TileSubManager> allSubManagers = new();
+        private TileSubController currentTile;
+        private readonly List<TileSubController> allSubManagers = new();
 
         private Timer resetWorldPositionTimer;
 
@@ -33,12 +34,12 @@ namespace Runtime.World.Overworld.Tiles
 
         #region Getters
 
-        public TileSubManager GetSubManager()
+        public TileSubController GetSubManager()
         {
             return currentTile;
         }
 
-        public TileSubManager[] GetSubManagers()
+        public TileSubController[] GetSubManagers()
         {
             return allSubManagers.ToArray();
         }
@@ -47,7 +48,7 @@ namespace Runtime.World.Overworld.Tiles
 
         #region In
 
-        public void AddSubManager(TileSubManager add)
+        public void AddSubManager(TileSubController add)
         {
             if (add == null || allSubManagers.Contains(add))
                 return;
@@ -60,7 +61,7 @@ namespace Runtime.World.Overworld.Tiles
             UpdateNavmesh();
         }
 
-        public void RemoveSubManager(TileSubManager remove)
+        public void RemoveSubManager(TileSubController remove)
         {
             if (remove == null || !allSubManagers.Contains(remove))
                 return;
@@ -68,21 +69,21 @@ namespace Runtime.World.Overworld.Tiles
             allSubManagers.Remove(remove);
         }
 
-        public void UpdateNavmesh()
+        private void UpdateNavmesh()
         {
-            this.holder.StartCoroutine(BeginUpdate());
+            this.currentTile.StartCoroutine(BeginUpdate());
         }
 
         public void HideTiles()
         {
-            foreach (TileSubManager tileSubManager in allSubManagers)
-                tileSubManager.GetHolderObject().SetActive(false);
+            foreach (TileSubController tileSubController in allSubManagers)
+                tileSubController.gameObject.SetActive(false);
         }
 
         public void ShowTiles()
         {
-            foreach (TileSubManager tileSubManager in allSubManagers)
-                tileSubManager.GetHolderObject().SetActive(true);
+            foreach (TileSubController tileSubController in allSubManagers)
+                tileSubController.gameObject.SetActive(true);
         }
 
         public void SetCurrentSubTile(string newSubManagerName)
@@ -117,7 +118,7 @@ namespace Runtime.World.Overworld.Tiles
 
                 #region Unload Unneeded Neighbors
 
-                foreach (TileSubManager unload in toUnload.Select(neighbor =>
+                foreach (TileSubController unload in toUnload.Select(neighbor =>
                              allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
                     unload.Unload();
 
@@ -141,10 +142,7 @@ namespace Runtime.World.Overworld.Tiles
 
         #region Out
 
-        public TileSubManager GetSubManagerByName(string tileName)
-        {
-            return allSubManagers.FirstOrDefault(tileSubManager => tileSubManager.GetTileName().Equals(tileName));
-        }
+        public TileSubController GetSubManagerByName(string tileName) => allSubManagers.FirstOrDefault(tileSubManager => tileSubManager.GetTileName().Equals(tileName));
 
         #endregion
 
@@ -152,7 +150,7 @@ namespace Runtime.World.Overworld.Tiles
 
         private IEnumerator BeginUpdate()
         {
-            yield return this.navMeshManager.RebakeWait(currentTile.GetSurfaces());
+            yield return this.navMeshManager.RebakeWait(currentTile.GetSurface ());
         }
 
         private void ResetWorldCenter()

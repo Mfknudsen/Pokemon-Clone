@@ -4,7 +4,10 @@ using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
+using Runtime.Player;
 using Runtime.Pokémon.Conditions;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 
 #endregion
 
@@ -14,7 +17,9 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly SpotOversight oversight;
 
-        public AfterConditionState(BattleManager battleManager) : base(battleManager)
+        public AfterConditionState(BattleManager battleManager, OperationManager operationManager,
+            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager,
+            operationManager, chatManager, uiManager, playerManager)
         {
             this.oversight = battleManager.GetSpotOversight();
         }
@@ -28,7 +33,7 @@ namespace Runtime.Battle.Systems.States
             {
                 this.battleManager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
-                while (!conditionOversight.GetDone() || !ChatManager.instance.GetIsClear())
+                while (!conditionOversight.GetDone() || !chatManager.GetIsClear())
                     yield return null;
 
                 conditionOversight.Reset();
@@ -38,11 +43,12 @@ namespace Runtime.Battle.Systems.States
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
             {
-                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager));
+                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager, operationManager, chatManager,
+                    uiManager, playerManager));
                 yield break;
             }
 
-            this.battleManager.SetState(new RoundDoneState(battleManager));
+            this.battleManager.SetState(new RoundDoneState(battleManager, operationManager, chatManager, uiManager, playerManager));
         }
     }
 }

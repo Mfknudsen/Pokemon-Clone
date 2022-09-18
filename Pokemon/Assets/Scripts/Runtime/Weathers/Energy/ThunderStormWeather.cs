@@ -8,7 +8,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.Systems.Static_Operations;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using Runtime.Weathers._Extra;
 using Runtime.Weathers.Climate;
 using UnityEngine;
@@ -36,7 +36,7 @@ namespace Runtime.Weathers.Energy
 
         #endregion
 
-        public bool Done()
+        public bool IsOperationDone()
         {
             return done;
         }
@@ -44,7 +44,6 @@ namespace Runtime.Weathers.Energy
         public IEnumerator Operation()
         {
             done = false;
-            OperationManager operationManager = OperationManager.instance;
             WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
             bool raining = weatherManager.GetAll()[0] is RainWeather;
 
@@ -77,7 +76,7 @@ namespace Runtime.Weathers.Energy
             yield break;
         }
 
-        public void End()
+        public void OperationEnd()
         {
         }
 

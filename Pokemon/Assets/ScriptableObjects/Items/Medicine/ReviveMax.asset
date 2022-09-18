@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad74048912d000448bad5c0459058427, type: 3}
   m_Name: ReviveMax
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   isInstantiated: 0
   type: 2
   itemName: Max Revive
   description: 
   target: {fileID: 0}
   inUse: 0
-  active: 0
   done: 0
+  visualPrefab: {fileID: 0}
+  battleBagSlot: 0
+  chatOnUse: []
+  userName: 
   toFull: 1
   onActivation: {fileID: 11400000, guid: 52b633ea6b4ed354d8870162667dd2be, type: 2}

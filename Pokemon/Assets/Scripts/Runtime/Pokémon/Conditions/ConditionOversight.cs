@@ -6,7 +6,8 @@ using System.Linq;
 using Runtime.Battle.Systems;
 using Runtime.Communication;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -19,6 +20,9 @@ namespace Runtime.Pokémon.Conditions
     {
         #region Values
 
+        [SerializeField, Required] private OperationManager operationManager;
+        [SerializeField, Required] private ChatManager chatManager;
+
         [SerializeField]
         private Condition nonVolatileStatus; //Burn, Freeze, Paralysis, Poison, Sleep. Only one can be active.
 
@@ -28,7 +32,6 @@ namespace Runtime.Pokémon.Conditions
         [SerializeField] private bool done, isStunned;
 
         private Pokemon pokemon;
-        private OperationManager operationManager;
 
         #endregion
 
@@ -64,7 +67,6 @@ namespace Runtime.Pokémon.Conditions
 
         public void Setup(Pokemon pokemon)
         {
-            operationManager = OperationManager.instance;
             volatileStatus = new List<VolatileCondition>();
             this.pokemon = pokemon;
         }
@@ -178,7 +180,7 @@ namespace Runtime.Pokémon.Conditions
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone() || !ChatManager.instance.GetIsClear())
+                while (!operationManager.GetDone() || !chatManager.GetIsClear())
                     yield return null;
 
                 condition.Reset();
@@ -213,13 +215,13 @@ namespace Runtime.Pokémon.Conditions
             foreach (Condition condition in toPlay)
             {
                 // ReSharper disable once SuspiciousTypeConversion.Global
-                if (!(condition is IOperation iOperation)) continue;
+                if (condition is not IOperation iOperation) continue;
 
                 OperationsContainer container = new();
                 container.Add(iOperation);
                 operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone() || !ChatManager.instance.GetIsClear())
+                while (!operationManager.GetDone() || !chatManager.GetIsClear())
                     yield return null;
 
                 condition.Reset();
@@ -235,16 +237,11 @@ namespace Runtime.Pokémon.Conditions
             done = false;
             Condition condition = nonVolatileStatus;
 
-            if (condition is FaintedCondition)
+            if (condition is FaintedCondition and IOperation iOperation)
             {
-                // ReSharper disable once SuspiciousTypeConversion.Global
-                if (condition is IOperation iOperation)
-                {
-                    operationManager = OperationManager.instance;
-                    OperationsContainer container = new();
-                    container.Add(iOperation);
-                    operationManager.AddOperationsContainer(container);
-                }
+                OperationsContainer container = new();
+                container.Add(iOperation);
+                operationManager.AddOperationsContainer(container);
             }
 
             done = true;

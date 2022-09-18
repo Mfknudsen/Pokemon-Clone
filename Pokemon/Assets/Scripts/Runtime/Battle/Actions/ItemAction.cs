@@ -8,7 +8,7 @@ using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Items;
 using Runtime.Pokémon;
-using Runtime.Systems;
+using Runtime.Systems.Operation;
 using UnityEngine;
 
 #endregion
@@ -80,7 +80,7 @@ namespace Runtime.Battle.Actions
             OperationsContainer container = new();
             container.Add(toUse);
             operationManager.AddAsyncOperationsContainer(container);
-            while (!toUse.Done())
+            while (!toUse.IsOperationDone())
                 yield return null;
 
             battleMember.GetInventory().RemoveItem(toUse);

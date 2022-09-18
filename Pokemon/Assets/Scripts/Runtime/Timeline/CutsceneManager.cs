@@ -1,6 +1,8 @@
 #region Packages
 
+using System.Collections;
 using Runtime.Cutscenes;
+using Runtime.Systems;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -8,29 +10,23 @@ using UnityEngine.Playables;
 
 namespace Runtime.Timeline
 {
-    public class CutsceneManager : MonoBehaviour
+    [CreateAssetMenu(menuName = "Manager/Cutscene")]
+    public class CutsceneManager : Manager
     {
         #region Values
 
-        public static CutsceneManager instance;
-        
         private PlayableDirector director;
 
         private Cutscene currentPlaying;
-        
+
         #endregion
 
         #region Build In States
 
-        private void Start()
+        public override IEnumerator StartManager()
         {
-            if(instance != null)
-                Destroy(gameObject);
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            
-            director ??= GetComponent<PlayableDirector>();
+//            director ??= GetComponent<PlayableDirector>();
+            yield break;
         }
 
         #endregion
@@ -39,12 +35,12 @@ namespace Runtime.Timeline
 
         public void PlayCutscene(Cutscene toPlay)
         {
-            if(toPlay == null) 
+            if (toPlay == null)
                 return;
-            
-            if(currentPlaying != null)
+
+            if (currentPlaying != null)
                 currentPlaying.Disable();
-            
+
             currentPlaying = toPlay;
             currentPlaying.Enable();
         }

@@ -3,7 +3,11 @@
 using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Spots;
+using Runtime.Communication;
+using Runtime.Player;
 using Runtime.Pokémon;
+using Runtime.Systems.Operation;
+using Runtime.Systems.UI;
 
 #endregion
 
@@ -11,7 +15,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class ComputerTurnState : State
     {
-        public ComputerTurnState(BattleManager battleManager) : base(battleManager)
+        public ComputerTurnState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
@@ -32,7 +36,7 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-            this.battleManager.SetState(new ActionState(this.battleManager));
+            this.battleManager.SetState(new ActionState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
         }
     }
 }

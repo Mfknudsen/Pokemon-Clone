@@ -1,8 +1,9 @@
 ﻿#region Packages
 
-using System.Linq;
+using System.Collections;
 using Cinemachine;
 using Runtime.Battle.Systems;
+using Runtime.Common;
 using Runtime.Files;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
@@ -16,29 +17,30 @@ using UnityEngine.AI;
 
 namespace Runtime.Player
 {
-    public class PlayerManager : Manager
+    [CreateAssetMenu(menuName = "Manager/Player")]
+    public sealed class PlayerManager : Manager
     {
         #region Values
-        
-        [FoldoutGroup("References")] [SerializeField, Required]
+
+        [FoldoutGroup("References")] [SerializeField,]
         private Team team;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField,]
         private Controller controller;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField]
         private NavMeshAgent agent;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField]
         private BattleMember battleMember;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField]
         private PlayerInteractions playerInteractions;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField]
         private Controller moveController;
 
-        [FoldoutGroup("References")] [SerializeField, Required]
+        [FoldoutGroup("References")] [SerializeField]
         private CinemachineFreeLook overworldCameraRig;
 
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
@@ -64,24 +66,37 @@ namespace Runtime.Player
 
         #region Build In State
 
-        private void OnEnable()
+        // ReSharper disable Unity.PerformanceAnalysis
+        public override IEnumerator StartManager()
         {
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
             inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
             inputManager.runInputEvent.AddListener(OnRunChange);
 
-            this.defaultOverworldRig.value = this.holder.GetComponentsInChildren<CinemachineFreeLook>()
-                .First(c => c.name.Equals("Player Third Person Rig"));
+            this.overworldGameObject = GameObject.Find("Player");
 
-            this.cameraBrain.value = this.holder.GetComponentInChildren<CinemachineBrain>();
+            GameObject overworld = this.overworldGameObject.GetChildByName("Overworld");
+
+            this.overworldCameraRig = overworld.GetFirstComponentByRoot<CinemachineFreeLook>();
+
+            this.defaultOverworldRig.value = this.overworldCameraRig;
+
+            this.moveController = overworld.GetComponent<Controller>();
+
+            this.playerInteractions = overworld.GetComponent<PlayerInteractions>();
+            
+            this.cameraBrain.value = this.overworldGameObject.GetComponentInChildren<CinemachineBrain>();
 
             this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
             this.overworldCameraRig.enabled = false;
-            this.overworldGameObject = this.controller.gameObject;
             this.moveController.Setup();
 
-            this.holder.StartCoroutine(this.playerInteractions.Setup());
+            this.battleMember = this.overworldGameObject.GetFirstComponentByRoot<BattleMember>();
+
+            this.playerInteractions.StartCoroutine(this.playerInteractions.Setup());
+            
+            yield break;
         }
 
         private void OnDisable()
@@ -135,9 +150,9 @@ namespace Runtime.Player
 
         #region Input
 
-        private void OnMoveAxisChange(Vector2 vec) => this.moveDirection.value = vec;
+        private void OnMoveAxisChange(Vector2 set) => this.moveDirection.value = set;
 
-        private void OnTurnAxisChange(Vector2 vec) => this.rotationDirection.value = vec;
+        private void OnTurnAxisChange(Vector2 set) => this.rotationDirection.value = set;
 
         private void OnRunChange(bool set) => this.running.value = set;
 

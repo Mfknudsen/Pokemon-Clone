@@ -14,33 +14,26 @@ namespace Runtime._Debug
     {
         [SerializeField, Required] private CameraManager cameraManager;
         [SerializeField] private string pokmemonName = "";
-        [SerializeField] private TextMeshPro textMesh;
+        [SerializeField, Required] private TextMeshPro textMesh;
 
         private void SetText(string t)
         {
-            if (textMesh == null) return;
-
             pokmemonName = t;
             textMesh.text = t + "\nPlaceholder";
         }
 
-        public void CheckPlaceholder(Pokemon pokemon, GameObject spawnedObj)
+        public void CheckPlaceholder(Pokemon pokemon)
         {
-            PokemonPlaceholder placeholder = spawnedObj.GetComponent<PokemonPlaceholder>();
+            SetText(pokemon.GetName());
 
-            if (placeholder == null)
-                return;
-
-            placeholder.SetText(pokemon.GetName());
-
-            Vector3 targetVector = spawnedObj.transform.GetChild(0).transform.position +
-                                   (spawnedObj.transform.GetChild(0).transform.position -
+            Vector3 targetVector = transform.GetChild(0).transform.position +
+                                   (transform.GetChild(0).transform.position -
                                     cameraManager.GetCurrentCamera().transform.position);
             targetVector = new Vector3(
                 targetVector.x,
-                spawnedObj.transform.GetChild(0).transform.position.y,
+                transform.GetChild(0).transform.position.y,
                 targetVector.z);
-            spawnedObj.transform.GetChild(0).transform.LookAt(targetVector);
+            transform.GetChild(0).transform.LookAt(targetVector);
         }
     }
 }

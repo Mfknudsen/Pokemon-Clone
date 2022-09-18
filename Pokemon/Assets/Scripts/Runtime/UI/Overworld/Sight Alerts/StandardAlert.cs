@@ -10,7 +10,7 @@ namespace Runtime.UI.Overworld.Sight_Alerts
     [CreateAssetMenu(menuName = "UI/Sight Alerts/Standard Alert")]
     public class StandardAlert : AlertType
     {
-        public override bool Done()
+        public override bool IsOperationDone()
         {
             throw new System.NotImplementedException();
         }
@@ -20,7 +20,7 @@ namespace Runtime.UI.Overworld.Sight_Alerts
             throw new System.NotImplementedException();
         }
 
-        public override void End()
+        public override void OperationEnd()
         {
             throw new System.NotImplementedException();
         }

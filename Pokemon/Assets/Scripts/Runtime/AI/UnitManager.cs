@@ -1,5 +1,6 @@
 #region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
 using Runtime.Systems;
@@ -10,9 +11,12 @@ using UnityEngine;
 
 namespace Runtime.AI
 {
+    [CreateAssetMenu(menuName = "Manager/Unit")]
     public sealed class UnitManager : Manager
     {
         #region Values
+
+        private Transform parentTransform;
 
         [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField] private int mediumDelay = 1, farDelay = 1;
@@ -32,6 +36,13 @@ namespace Runtime.AI
         {
             mediumDelay = mediumDelay > 0 ? mediumDelay : 1;
             farDelay = farDelay > 0 ? farDelay : 1;
+        }
+
+        public override IEnumerator StartManager()
+        {
+            this.parentTransform = new GameObject("Units").transform;
+
+            yield break;
         }
 
         public override void UpdateManager()
@@ -62,10 +73,10 @@ namespace Runtime.AI
             controllers.Add(add);
 
             Transform cTrans = add.transform;
-            cTrans.root.parent = this.holder.transform;
+            cTrans.root.parent = this.parentTransform.transform;
 
             Vector3 cPos = cTrans.position,
-                pPos = playerManager.GetHolderObject() != null
+                pPos = playerManager.GetAgent() != null
                     ? playerManager.GetAgent().transform.position
                     : Vector3.zero;
 
