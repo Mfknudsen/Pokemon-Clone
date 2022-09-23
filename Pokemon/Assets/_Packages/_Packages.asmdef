@@ -1,0 +1,21 @@
+{
+    "name": "_Packages",
+    "rootNamespace": "",
+    "references": [
+        "GUID:297298e96bd169749825525478571a51",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:290dd5870d0ead646bcb6ea5c6a60af5",
+        "GUID:a1653399f63795746b1857281d1e400d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
