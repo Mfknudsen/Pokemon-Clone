@@ -19,12 +19,12 @@ namespace Runtime.AI.Battle.AfterEffects
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public bool GetIsInstantiated()
         {
-            return instantiated;
+            return this.instantiated;
         }
 
         #endregion
@@ -39,7 +39,7 @@ namespace Runtime.AI.Battle.AfterEffects
 
         public void IsInstantiated()
         {
-            instantiated = true;
+            this.instantiated = true;
         }
         
         public abstract IEnumerator Operation();

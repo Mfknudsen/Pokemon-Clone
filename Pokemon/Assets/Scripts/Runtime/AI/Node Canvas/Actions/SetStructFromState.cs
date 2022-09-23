@@ -13,11 +13,11 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            object o = agent.GetStateByKey(key.GetValue());
+            object o = agent.GetStateByKey(this.key.GetValue());
 
             if (o is T t)
             {
-                toSet.SetValue(t);
+                this.toSet.SetValue(t);
 
                 EndAction(true);
             }

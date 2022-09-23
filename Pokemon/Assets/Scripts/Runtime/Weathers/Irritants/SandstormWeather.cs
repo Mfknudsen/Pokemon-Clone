@@ -27,9 +27,9 @@ namespace Runtime.Weathers.Irritants
 
         private bool IsImmune(Pokemon pokemon)
         {
-            return pokemon.GetTypes().Any(type => type.GetTypeName() == ground ||
-                                                  type.GetTypeName() == steel ||
-                                                  type.GetTypeName() == rock);
+            return pokemon.GetTypes().Any(type => type.GetTypeName() == this.ground ||
+                                                  type.GetTypeName() == this.steel ||
+                                                  type.GetTypeName() == this.rock);
         }
 
         public IEnumerator Operation()
@@ -44,7 +44,7 @@ namespace Runtime.Weathers.Irritants
                 if (pokemon == null || IsImmune(pokemon))
                     continue;
 
-                int partsDealt = amplified ? 8 : 16;
+                int partsDealt = this.amplified ? 8 : 16;
 
                 int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / partsDealt;
                 float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
@@ -66,20 +66,20 @@ namespace Runtime.Weathers.Irritants
 
         public void Trigger(Pokemon pokemon)
         {
-            if (pokemon.GetTypes().Contains(boostType))
-                pokemon.EffectMultiplierStage(1, boostStat);
+            if (pokemon.GetTypes().Contains(this.boostType))
+                pokemon.EffectMultiplierStage(1, this.boostStat);
         }
 
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            if (pokemon.GetTypes().Any(type => type.GetTypeName() == rock &&
+            if (pokemon.GetTypes().Any(type => type.GetTypeName() == this.rock &&
                                                stat == Stat.SpDef))
                 return 1.5f;
 
-            return !amplified
+            return !this.amplified
                 ? 1
-                : pokemon.GetTypes().Any(type => type.GetTypeName() == steel ||
-                                                 type.GetTypeName() == ground &&
+                : pokemon.GetTypes().Any(type => type.GetTypeName() == this.steel ||
+                                                 type.GetTypeName() == this.ground &&
                                                  stat == Stat.Defence)
                     ? 1.5f
                     : 1;

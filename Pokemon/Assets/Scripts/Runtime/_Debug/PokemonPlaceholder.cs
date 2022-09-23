@@ -18,8 +18,8 @@ namespace Runtime._Debug
 
         private void SetText(string t)
         {
-            pokmemonName = t;
-            textMesh.text = t + "\nPlaceholder";
+            this.pokmemonName = t;
+            this.textMesh.text = t + "\nPlaceholder";
         }
 
         public void CheckPlaceholder(Pokemon pokemon)
@@ -27,8 +27,7 @@ namespace Runtime._Debug
             SetText(pokemon.GetName());
 
             Vector3 targetVector = transform.GetChild(0).transform.position +
-                                   (transform.GetChild(0).transform.position -
-                                    cameraManager.GetCurrentCamera().transform.position);
+                                   (transform.GetChild(0).transform.position - this.cameraManager.GetCurrentCamera().transform.position);
             targetVector = new Vector3(
                 targetVector.x,
                 transform.GetChild(0).transform.position.y,

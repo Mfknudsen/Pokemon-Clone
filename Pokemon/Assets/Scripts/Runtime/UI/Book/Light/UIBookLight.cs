@@ -22,26 +22,26 @@ namespace Runtime.UI.Book.Light
 
         public void TurnOff()
         {
-            bookLight.enabled = false;
+            this.bookLight.enabled = false;
         }
 
         public void Calculate()
         {
-            bookLight.enabled = true;
+            this.bookLight.enabled = true;
             
-            Texture2D tex = renderTexture.RenderTextureToTexture2D();
+            Texture2D tex = this.renderTexture.RenderTextureToTexture2D();
             Color[] pixels = tex.GetPixels();
 
             float brightColor = 0;
             int count = 0;
 
-            for (int i = 0; i < pixels.Length; i += pixelSkip)
+            for (int i = 0; i < pixels.Length; i += this.pixelSkip)
             {
                 count++;
                 brightColor += pixels[i].grayscale;
             }
 
-            bookLight.enabled = brightColor / count * 100f <= levelToTurnOn;
+            this.bookLight.enabled = brightColor / count * 100f <= this.levelToTurnOn;
         }
 
         #endregion

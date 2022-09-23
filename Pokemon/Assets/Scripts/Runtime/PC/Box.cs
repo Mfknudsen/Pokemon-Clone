@@ -28,12 +28,12 @@ namespace Runtime.PC
         public void Load()
         {
             pokemonsInBox.Clear();
-            pokemonsInBox.AddRange(FileManager.LoadData<Pokemon[]>(fileName));
+            pokemonsInBox.AddRange(FileManager.LoadData<Pokemon[]>(this.fileName));
         }
 
         public void Save()
         {
-            FileManager.SaveData(fileName, pokemonsInBox);
+            FileManager.SaveData(this.fileName, pokemonsInBox);
         }
 
         #endregion

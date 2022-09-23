@@ -29,47 +29,44 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            playerTeam = playerManager.GetTeam();
+            this.playerTeam = this.playerManager.GetTeam();
         }
 
         public void DisplaySelection(SwitchAction switchAction)
         {
             this.switchAction = switchAction;
 
-            background.SetActive(true);
+            this.background.SetActive(true);
 
             for (int i = 0; i < 6; i++)
-                pokemonSlots[i].SetPokemon(
-                    this,
-                    playerTeam.GetPokemonByIndex(i));
+                this.pokemonSlots[i].SetPokemon(
+                    this, this.playerTeam.GetPokemonByIndex(i));
         }
 
         public void DisableDisplaySelection()
         {
-            background.SetActive(false);
+            this.background.SetActive(false);
         }
 
         public void SendPokemon(Pokemon pokemon)
         {
             if (pokemon is null) return;
 
-            switchAction.SetNextPokemon(
+            this.switchAction.SetNextPokemon(
                 pokemon);
 
-            switchAction.SetSpot(
+            this.switchAction.SetSpot(
                 BattleManager.instance.GetSpotOversight().GetSpots()
-                    .FirstOrDefault(s => s.GetActivePokemon() == switchAction.GetCurrentPokemon()));
+                    .FirstOrDefault(s => s.GetActivePokemon() == this.switchAction.GetCurrentPokemon()));
 
-            switchAction.SetTeam(
-                playerManager.GetTeam());
+            this.switchAction.SetTeam(this.playerManager.GetTeam());
 
             pokemon.SetGettingSwitched(
                 true);
 
-            switchAction.GetCurrentPokemon().SetBattleAction(
-                switchAction);
+            this.switchAction.GetCurrentPokemon().SetBattleAction(this.switchAction);
 
-            switchAction = null;
+            this.switchAction = null;
         }
 
         #endregion

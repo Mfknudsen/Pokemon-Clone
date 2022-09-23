@@ -21,7 +21,7 @@ namespace Runtime.Common.CommonPath
 
         public void CreatePath()
         {
-            path = new Path(transform.position);
+            this.path = new Path(transform.position);
         }
 
         private void Reset()

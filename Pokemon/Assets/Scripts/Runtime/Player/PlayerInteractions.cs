@@ -24,7 +24,7 @@ namespace Runtime.Player
 
         public Vector3 GetFocusedPosition()
         {
-            return focusedInteractable == null ? Vector3.zero : focusedInteractable.GetPosition();
+            return this.focusedInteractable == null ? Vector3.zero : this.focusedInteractable.GetPosition();
         }
 
         #endregion
@@ -41,18 +41,18 @@ namespace Runtime.Player
 
         public void OnEnter(InteractItem interactable, Transform trans)
         {
-            if (interactableInRange.ContainsKey(interactable)) return;
+            if (this.interactableInRange.ContainsKey(interactable)) return;
 
-            interactableInRange.Add(interactable, trans.position);
+            this.interactableInRange.Add(interactable, trans.position);
 
             Evaluate();
         }
 
         public void OnExit(InteractItem interactable)
         {
-            if (!interactableInRange.ContainsKey(interactable)) return;
+            if (!this.interactableInRange.ContainsKey(interactable)) return;
 
-            interactableInRange.Remove(interactable);
+            this.interactableInRange.Remove(interactable);
 
             Evaluate();
         }
@@ -63,35 +63,34 @@ namespace Runtime.Player
 
         private void TriggerClosest()
         {
-            if (focusedInteractable == null) return;
+            if (this.focusedInteractable == null) return;
 
-            focusedInteractable.Trigger();
+            this.focusedInteractable.Trigger();
         }
 
         private void Evaluate()
         {
-            if (focusedInteractable != null)
+            if (this.focusedInteractable != null)
             {
-                if (!interactableInRange.ContainsKey(focusedInteractable))
-                    focusedInteractable = null;
+                if (!this.interactableInRange.ContainsKey(this.focusedInteractable)) this.focusedInteractable = null;
             }
 
             Vector3 playerPos = transform.position;
 
-            float dist = focusedInteractable == null
+            float dist = this.focusedInteractable == null
                 ? Mathf.Infinity
-                : Vector3.Distance(playerPos, focusedInteractable.GetPosition());
+                : Vector3.Distance(playerPos, this.focusedInteractable.GetPosition());
 
-            foreach (InteractItem interactable in interactableInRange.Keys)
+            foreach (InteractItem interactable in this.interactableInRange.Keys)
             {
-                if (focusedInteractable == interactable) continue;
+                if (this.focusedInteractable == interactable) continue;
 
-                float tempDist = Vector3.Distance(playerPos, interactableInRange[interactable]);
+                float tempDist = Vector3.Distance(playerPos, this.interactableInRange[interactable]);
 
                 if (!(tempDist < dist)) continue;
 
                 dist = tempDist;
-                focusedInteractable = interactable;
+                this.focusedInteractable = interactable;
             }
         }
 

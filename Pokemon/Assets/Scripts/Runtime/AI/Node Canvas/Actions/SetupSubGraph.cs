@@ -14,7 +14,7 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            if (navAgent.value != null && controller.value != null)
+            if (this.navAgent.value != null && this.controller.value != null)
             {
                 EndAction(true);
                 return;
@@ -22,9 +22,9 @@ namespace Runtime.AI.Node_Canvas.Actions
             
             try
             {
-                navAgent.value = agent;
+                this.navAgent.value = agent;
 
-                controller.value = agent.GetComponent<NpcController>();
+                this.controller.value = agent.GetComponent<NpcController>();
             }
             catch
             {

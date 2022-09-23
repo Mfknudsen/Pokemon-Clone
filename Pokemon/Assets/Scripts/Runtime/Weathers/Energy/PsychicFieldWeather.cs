@@ -16,16 +16,16 @@ namespace Runtime.Weathers.Energy
         {
             base.Setup();
 
-            if (amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(psyTerrain);
+            if (this.amplified)
+                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.psyTerrain);
         }
 
         public float Modify(PokemonMove pokemonMove)
         {
-            if (pokemonMove.GetMoveType().GetTypeName() == boostType)
+            if (pokemonMove.GetMoveType().GetTypeName() == this.boostType)
                 return 1.5f;
 
-            return pokemonMove.GetMoveType().GetTypeName() == reduceType
+            return pokemonMove.GetMoveType().GetTypeName() == this.reduceType
                 ? 0.5f
                 : 1;
         }

@@ -50,7 +50,7 @@ namespace Runtime.Communication
         {
             Chat result = this;
 
-            if (isInstantiated) return result;
+            if (this.isInstantiated) return result;
 
             result = Instantiate(result);
             result.SetIsInstantiated();
@@ -60,12 +60,12 @@ namespace Runtime.Communication
 
         public bool GetDone()
         {
-            return done;
+            return this.done;
         }
 
         public bool GetNeedInput()
         {
-            return needInput;
+            return this.needInput;
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace Runtime.Communication
 
         private void SetIsInstantiated()
         {
-            isInstantiated = true;
+            this.isInstantiated = true;
         }
 
         #endregion
@@ -83,16 +83,16 @@ namespace Runtime.Communication
 
         private void IncreaseIndex()
         {
-            index++;
-            showText = "";
-            nextCharacter = 0;
-            waiting = false;
+            this.index++;
+            this.showText = "";
+            this.nextCharacter = 0;
+            this.waiting = false;
         }
 
         public void AddToOverride(string replace, string add)
         {
-            replaceString.Add(replace);
-            addString.Add(add);
+            this.replaceString.Add(replace);
+            this.addString.Add(add);
         }
 
         #endregion
@@ -101,53 +101,52 @@ namespace Runtime.Communication
 
         public IEnumerator Play()
         {
-            if (!active)
+            if (!this.active)
             {
-                index = 0;
+                this.index = 0;
                 CheckTextOverride();
-                active = true;
+                this.active = true;
             }
 
-            while (!done && !waiting && (index < textList.Length))
+            while (!this.done && !this.waiting && (this.index < this.textList.Length))
             {
-                string tempText = "", fromList = textList[index];
-                float relativeSpeed = chatManager.GetTextSpeed();
+                string tempText = "", fromList = this.textList[this.index];
+                float relativeSpeed = this.chatManager.GetTextSpeed();
 
-                if (nextCharacter + 1 < fromList.Length)
-                    tempText = "" + fromList[nextCharacter] + fromList[nextCharacter + 1];
+                if (this.nextCharacter + 1 < fromList.Length)
+                    tempText = "" + fromList[this.nextCharacter] + fromList[this.nextCharacter + 1];
 
                 if (tempText == "\n")
                 {
-                    showText += "\n";
-                    nextCharacter += 2;
+                    this.showText += "\n";
+                    this.nextCharacter += 2;
                     relativeSpeed *= 1.5f;
                 }
-                else if (nextCharacter < fromList.Length)
+                else if (this.nextCharacter < fromList.Length)
                 {
-                    showText += fromList[nextCharacter];
-                    nextCharacter++;
+                    this.showText += fromList[this.nextCharacter];
+                    this.nextCharacter++;
                 }
 
-                if (showText.Length != 0)
-                    chatManager.SetDisplayText(showText);
+                if (this.showText.Length != 0) this.chatManager.SetDisplayText(this.showText);
 
-                if (showText.Length == fromList.Length)
+                if (this.showText.Length == fromList.Length)
                 {
-                    if (!needInput)
-                        yield return new WaitForSeconds(timeUntilNext);
+                    if (!this.needInput)
+                        yield return new WaitForSeconds(this.timeUntilNext);
 
-                    if (index < (textList.Length - 1))
-                        waiting = true;
+                    if (this.index < (this.textList.Length - 1))
+                        this.waiting = true;
                     else
-                        done = true;
+                        this.done = true;
 
-                    chatManager.CheckRunningState();
+                    this.chatManager.CheckRunningState();
                 }
 
                 yield return new WaitForSeconds(relativeSpeed);
             }
 
-            while (waiting)
+            while (this.waiting)
                 yield return null;
         }
 
@@ -155,7 +154,7 @@ namespace Runtime.Communication
         {
             IncreaseIndex();
 
-            done = false;
+            this.done = false;
 
             return Play();
         }
@@ -168,19 +167,18 @@ namespace Runtime.Communication
         {
             AddPronounsToOverride();
 
-            for (int i = 0; i < textList.Length; i++)
+            for (int i = 0; i < this.textList.Length; i++)
             {
-                for (int j = 0; j < replaceString.Count; j++)
+                for (int j = 0; j < this.replaceString.Count; j++)
                 {
-                    if (j < replaceString.Count && j < addString.Count)
-                        textList[i] = textList[i].Replace(replaceString[j], addString[j]);
+                    if (j < this.replaceString.Count && j < this.addString.Count) this.textList[i] = this.textList[i].Replace(this.replaceString[j], this.addString[j]);
                 }
             }
         }
 
         private void AddPronounsToOverride()
         {
-            string[] pronouns = playerManager.GetPronouns();
+            string[] pronouns = this.playerManager.GetPronouns();
 
             AddToOverride("P_ONE", pronouns[0]);
             AddToOverride("P_TWO", pronouns[1]);

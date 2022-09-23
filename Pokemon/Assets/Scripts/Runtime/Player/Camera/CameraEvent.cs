@@ -7,6 +7,7 @@ using Runtime.Settings;
 using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
+
 // ReSharper disable ParameterHidesMember
 
 #endregion
@@ -50,22 +51,21 @@ namespace Runtime.Player.Camera
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            yield return new WaitForSeconds(timeInSeconds * percentToEnable);
+            yield return new WaitForSeconds(this.timeInSeconds * this.percentToEnable);
 
-            cameraManager.SetCurrentRig(cinemachineRig, true);
-            if (cameraSettings != null)
-                cameraManager.SetCameraSettings(cameraSettings);
+            this.cameraManager.SetCurrentRig(this.cinemachineRig, true);
+            if (this.cameraSettings != null) this.cameraManager.SetCameraSettings(this.cameraSettings);
 
-            yield return new WaitForSeconds(timeInSeconds * (1 - percentToEnable));
+            yield return new WaitForSeconds(this.timeInSeconds * (1 - this.percentToEnable));
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

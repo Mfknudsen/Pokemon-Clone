@@ -15,7 +15,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
         public VirtualSpotOversight()
         {
-            spots = new List<VirtualSpot>();
+            this.spots = new List<VirtualSpot>();
 
             foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots())
             {
@@ -27,13 +27,13 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
                     spot.GetStrafeRight()?.GetActivePokemon(),
                     spot.GetFront()?.GetActivePokemon()
                 );
-                spots.Add(virtualSpot);
+                this.spots.Add(virtualSpot);
             }
         }
 
         public VirtualSpot GetPokemonSpot(Pokemon pokemon)
         {
-            foreach (VirtualSpot virtualSpot in spots)
+            foreach (VirtualSpot virtualSpot in this.spots)
             {
                 VirtualPokemon virtualPokemon = virtualSpot.virtualPokemon;
                 if (virtualPokemon.GetActualPokemon() == pokemon || virtualPokemon.GetFakePokemon() == pokemon)
@@ -51,7 +51,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
         public VirtualSpot(Pokemon pokemon)
         {
-            virtualPokemon = new VirtualPokemon(pokemon);
+            this.virtualPokemon = new VirtualPokemon(pokemon);
         }
 
         public VirtualSpot(VirtualPokemon virtualPokemon)
@@ -61,11 +61,11 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
         public void SetRelations(Pokemon l, Pokemon r, Pokemon sR, Pokemon sL, Pokemon f)
         {
-            left = l;
-            right = r;
-            strafeLeft = sL;
-            strafeRight = sR;
-            front = f;
+            this.left = l;
+            this.right = r;
+            this.strafeLeft = sL;
+            this.strafeRight = sR;
+            this.front = f;
         }
     }
 }

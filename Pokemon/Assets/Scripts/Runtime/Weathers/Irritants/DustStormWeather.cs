@@ -23,11 +23,11 @@ namespace Runtime.Weathers.Irritants
 
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            if (pokemon.GetTypes().Any(type => type.GetTypeName() == boostType) && stat == boostStat)
-                return boostValue;
+            if (pokemon.GetTypes().Any(type => type.GetTypeName() == this.boostType) && stat == this.boostStat)
+                return this.boostValue;
 
-            if (pokemon.GetTypes().Any(type => type.GetTypeName() == reduceType) && stat == reduceStat)
-                return reduceValue;
+            if (pokemon.GetTypes().Any(type => type.GetTypeName() == this.reduceType) && stat == this.reduceStat)
+                return this.reduceValue;
 
             return 1;
         }

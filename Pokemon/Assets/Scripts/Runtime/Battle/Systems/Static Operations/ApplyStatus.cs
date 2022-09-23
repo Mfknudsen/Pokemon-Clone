@@ -23,28 +23,28 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            statusChat.AddToOverride("<TARGET_NAME>", targetPokemon.GetName());
+            this.statusChat.AddToOverride("<TARGET_NAME>", this.targetPokemon.GetName());
 
-            chatManager.Add(statusChat);
+            this.chatManager.Add(this.statusChat);
 
-            if (statusCondition is NonVolatileCondition nonVolatile)
-                targetPokemon.GetConditionOversight()
+            if (this.statusCondition is NonVolatileCondition nonVolatile)
+                this.targetPokemon.GetConditionOversight()
                     .TryApplyNonVolatileCondition(nonVolatile);
             else
-                targetPokemon.GetConditionOversight().ApplyVolatileCondition((VolatileCondition)statusCondition);
+                this.targetPokemon.GetConditionOversight().ApplyVolatileCondition((VolatileCondition)this.statusCondition);
 
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

@@ -28,8 +28,7 @@ namespace Runtime.AI.World
 
         private void Start()
         {
-            foreach (Transform t in transform)
-                points.Add(t);
+            foreach (Transform t in transform) this.points.Add(t);
         }
 
         #endregion
@@ -38,7 +37,7 @@ namespace Runtime.AI.World
 
         public Transform[] GetPoints()
         {
-            return points.ToArray();
+            return this.points.ToArray();
         }
 
         #endregion

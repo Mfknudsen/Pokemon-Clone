@@ -29,36 +29,36 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            spotOversight = BattleManager.instance.GetSpotOversight();
+            this.spotOversight = BattleManager.instance.GetSpotOversight();
         }
 
         public void DisplaySelection(Pokemon pokemon)
         {
             this.pokemon = pokemon;
 
-            background.SetActive(true);
+            this.background.SetActive(true);
 
-            for (int i = 0; i < moveSlots.Length; i++)
+            for (int i = 0; i < this.moveSlots.Length; i++)
             {
                 PokemonMove move = pokemon.GetMoveByIndex(i);
 
-                moveSlots[i].SetMove(move);
+                this.moveSlots[i].SetMove(move);
             }
         }
 
         public void DisableDisplaySelection()
         {
-            background.SetActive(false);
+            this.background.SetActive(false);
         }
 
         public void ReceiveAction(BattleAction battleAction)
         {
-            battleAction.SetCurrentPokemon(pokemon);
+            battleAction.SetCurrentPokemon(this.pokemon);
 
-            if (spotOversight.GetToDefaultTargeting())
+            if (this.spotOversight.GetToDefaultTargeting())
             {
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-                foreach (Spot spot in spotOversight.GetSpots())
+                foreach (Spot spot in this.spotOversight.GetSpots())
                 {
                     bool enemy = spot.GetActivePokemon() != battleAction.GetCurrentPokemon();
 
@@ -67,13 +67,13 @@ namespace Runtime.Battle.UI.Selection
 
                     battleAction.SetTargets(spot.GetActivePokemon());
 
-                    pokemon.SetBattleAction(battleAction);
+                    this.pokemon.SetBattleAction(battleAction);
 
                     break;
                 }
             }
             else
-                selectionMenu.DisplaySelection(SelectorGoal.Target, battleAction);
+                this.selectionMenu.DisplaySelection(SelectorGoal.Target, battleAction);
         }
 
         #region Side Bottuns
@@ -82,9 +82,9 @@ namespace Runtime.Battle.UI.Selection
         {
             SwitchAction action = BattleManager.instance.InstantiateSwitchAction();
 
-            action.SetCurrentPokemon(pokemon);
+            action.SetCurrentPokemon(this.pokemon);
 
-            selectionMenu.DisplaySelection(SelectorGoal.Switch, action);
+            this.selectionMenu.DisplaySelection(SelectorGoal.Switch, action);
         }
 
         public void ItemButton()
@@ -92,15 +92,15 @@ namespace Runtime.Battle.UI.Selection
             BattleManager manager = BattleManager.instance;
             ItemAction action = manager.InstantiateItemAction();
             foreach (Spot spot in manager.GetSpotOversight().GetSpots()
-                .Where(spot => spot.GetActivePokemon() == pokemon))
+                .Where(spot => spot.GetActivePokemon() == this.pokemon))
             {
                 action.SetBattleMember(spot.GetBattleMember());
                 break;
             }
 
-            action.SetCurrentPokemon(pokemon);
+            action.SetCurrentPokemon(this.pokemon);
 
-            selectionMenu.DisplaySelection(SelectorGoal.Item, action);
+            this.selectionMenu.DisplaySelection(SelectorGoal.Item, action);
         }
 
         public void RunButton()

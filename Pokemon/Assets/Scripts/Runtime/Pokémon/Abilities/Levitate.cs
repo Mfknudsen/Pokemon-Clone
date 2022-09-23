@@ -14,7 +14,7 @@ namespace Runtime.Pokémon.Abilities
         
         public bool MatchType(TypeName type)
         {
-            return type == immuneType;
+            return type == this.immuneType;
         }
 
         public override void TriggerEnable(AbilityTrigger trigger, Pokemon currentPokemon)

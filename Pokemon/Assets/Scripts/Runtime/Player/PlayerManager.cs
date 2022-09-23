@@ -22,10 +22,10 @@ namespace Runtime.Player
     {
         #region Values
 
-        [FoldoutGroup("References")] [SerializeField,]
+        [FoldoutGroup("References")] [SerializeField]
         private Team team;
 
-        [FoldoutGroup("References")] [SerializeField,]
+        [FoldoutGroup("References")] [SerializeField]
         private Controller controller;
 
         [FoldoutGroup("References")] [SerializeField]

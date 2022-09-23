@@ -27,7 +27,7 @@ namespace Runtime.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            BattleMember playerBattleMember = playerManager.GetBattleMember();
+            BattleMember playerBattleMember = this.playerManager.GetBattleMember();
 
             foreach (Spot spot in this.battleManager.GetSpotOversight().GetSpots())
             {
@@ -40,7 +40,7 @@ namespace Runtime.Battle.Systems.States
                 battleMember.ActivateAIBrain(spot.GetActivePokemon());
             }
 
-            this.battleManager.SetState(new SwitchNewInState(this.battleManager, operationManager, chatManager, uiManager, playerManager, switchActions));
+            this.battleManager.SetState(new SwitchNewInState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager, this.switchActions));
 
             yield break;
         }

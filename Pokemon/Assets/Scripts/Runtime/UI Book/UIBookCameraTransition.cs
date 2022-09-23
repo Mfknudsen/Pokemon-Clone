@@ -36,28 +36,27 @@ namespace Runtime.UI_Book
 
         private void OnValidate()
         {
-            if (settings == null || settings.m_CustomBlends == null)
+            if (this.settings == null || this.settings.m_CustomBlends == null)
                 return;
 
-            settings.m_CustomBlends[0].m_Blend.m_Time = 1 - Math.Abs(moveSpeed);
-            settings.m_CustomBlends[1].m_Blend.m_Time = 1 - Math.Abs(moveSpeed);
+            this.settings.m_CustomBlends[0].m_Blend.m_Time = 1 - Math.Abs(this.moveSpeed);
+            this.settings.m_CustomBlends[1].m_Blend.m_Time = 1 - Math.Abs(this.moveSpeed);
         }
 
         private void Awake()
         {
-            cinemachineVirtualCamera = toMove.gameObject.GetComponent<CinemachineVirtualCamera>();
+            this.cinemachineVirtualCamera = this.toMove.gameObject.GetComponent<CinemachineVirtualCamera>();
         }
 
         private void Update()
         {
-            if (end != null && endFollow != null)
-                end.position = endFollow.position;
+            if (this.end != null && this.endFollow != null) this.end.position = this.endFollow.position;
 
 #if UNITY_EDITOR
-            if (!DEBUG) return;
+            if (!this.DEBUG) return;
 
-            Vector3 startPosition = start.position,
-                endPosition = end.position;
+            Vector3 startPosition = this.start.position,
+                endPosition = this.end.position;
 
             Vector3 oldRightPos = startPosition,
                 oldLeftPos = startPosition;
@@ -66,18 +65,14 @@ namespace Runtime.UI_Book
 
             while (floatTime <= 1)
             {
-                Vector3 rightPos = ExtMathf.LerpPosition(
-                    curve,
+                Vector3 rightPos = ExtMathf.LerpPosition(this.curve,
                     floatTime,
-                    startPosition,
-                    middleRight.position,
+                    startPosition, this.middleRight.position,
                     endPosition);
 
-                Vector3 leftPos = ExtMathf.LerpPosition(
-                    curve,
+                Vector3 leftPos = ExtMathf.LerpPosition(this.curve,
                     floatTime,
-                    startPosition,
-                    middleLeft.position,
+                    startPosition, this.middleLeft.position,
                     endPosition);
 
                 Debug.DrawLine(
@@ -101,7 +96,7 @@ namespace Runtime.UI_Book
 
         public float GetSpeed()
         {
-            return moveSpeed;
+            return this.moveSpeed;
         }
 
         #endregion
@@ -110,28 +105,28 @@ namespace Runtime.UI_Book
 
         public void Direction(bool awayFromBook, bool? resetTime = false)
         {
-            if (awayFromBook && moveSpeed < 0 ||
-                !awayFromBook && moveSpeed > 0)
-                moveSpeed *= -1;
+            if (awayFromBook && this.moveSpeed < 0 ||
+                !awayFromBook && this.moveSpeed > 0)
+                this.moveSpeed *= -1;
 
             if (resetTime != null &&
                 resetTime.Value)
-                t = moveSpeed > 0 ? 0 : 1;
+                this.t = this.moveSpeed > 0 ? 0 : 1;
         }
 
         public void OperationEnd()
         {
-            cinemachineVirtualCamera.enabled = moveSpeed < 0;
+            this.cinemachineVirtualCamera.enabled = this.moveSpeed < 0;
         }
 
         public void CheckMiddle()
         {
-            Vector3 endPosition = end.position;
-            middle =
-                Vector3.Distance(endPosition, middleRight.position) <=
-                Vector3.Distance(endPosition, middleLeft.position)
-                    ? middleRight
-                    : middleLeft;
+            Vector3 endPosition = this.end.position;
+            this.middle =
+                Vector3.Distance(endPosition, this.middleRight.position) <=
+                Vector3.Distance(endPosition, this.middleLeft.position)
+                    ? this.middleRight
+                    : this.middleLeft;
         }
 
         #endregion
@@ -140,31 +135,26 @@ namespace Runtime.UI_Book
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            while (t is <= 1 and >= 0)
+            while (this.t is <= 1 and >= 0)
             {
-                toMove.position = ExtMathf.LerpPosition(
-                    curve,
-                    t,
-                    start.position,
-                    middle.position,
-                    end.position);
-                t += moveSpeed * Time.deltaTime;
+                this.toMove.position = ExtMathf.LerpPosition(this.curve, this.t, this.start.position, this.middle.position, this.end.position);
+                this.t += this.moveSpeed * Time.deltaTime;
                 yield return null;
             }
 
-            done = true;
+            this.done = true;
         }
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public float GetTimeToComplete()
         {
-            return 1 / moveSpeed;
+            return 1 / this.moveSpeed;
         }
 
         #endregion

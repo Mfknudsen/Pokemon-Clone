@@ -30,12 +30,12 @@ namespace Runtime.Player.Camera
 
         public override IEnumerator StartManager()
         {
-            currentSettings = CameraSettings.Default();
+            this.currentSettings = CameraSettings.Default();
 
             yield return new WaitWhile(() => this.defaultCameraRig is null);
 
-            currentRig = defaultCameraRig;
-            defaultCameraRig.enabled = true;
+            this.currentRig = this.defaultCameraRig;
+            this.defaultCameraRig.enabled = true;
 
             this.ready = true;
         }
@@ -46,22 +46,22 @@ namespace Runtime.Player.Camera
 
         public CinemachineFreeLook GetDefaultRig()
         {
-            return defaultCameraRig;
+            return this.defaultCameraRig;
         }
 
         public CinemachineVirtualCameraBase GetCurrentRig()
         {
-            return currentRig;
+            return this.currentRig;
         }
 
         public UnityEngine.Camera GetCurrentCamera()
         {
-            return currentCamera;
+            return this.currentCamera;
         }
 
         public CameraSettings GetCurrentSettings()
         {
-            return currentSettings;
+            return this.currentSettings;
         }
 
         #endregion
@@ -70,27 +70,25 @@ namespace Runtime.Player.Camera
 
         public void SetCurrentRigToDefault()
         {
-            if (currentRig != null)
-                currentRig.enabled = false;
-            defaultCameraRig.enabled = true;
-            currentRig = defaultCameraRig;
+            if (this.currentRig != null) this.currentRig.enabled = false;
+            this.defaultCameraRig.enabled = true;
+            this.currentRig = this.defaultCameraRig;
         }
 
         public void SetCurrentRig(CinemachineVirtualCameraBase set, bool disablePrevious = false)
         {
-            if (currentRig != null)
-                currentRig.enabled = !disablePrevious;
+            if (this.currentRig != null) this.currentRig.enabled = !disablePrevious;
 
             if (set != null)
                 set.enabled = true;
 
-            currentRig = set;
+            this.currentRig = set;
         }
 
         public void SetCameraSettings(CameraSettings cameraSettings)
         {
-            currentSettings = cameraSettings;
-            currentCamera.fieldOfView = cameraSettings.fov;
+            this.currentSettings = cameraSettings;
+            this.currentCamera.fieldOfView = cameraSettings.fov;
         }
 
         #endregion

@@ -26,21 +26,21 @@ namespace Runtime.Menu.StartMenu
 
         public void LoadScene(string sceneName)
         {
-            if (!ready) return;
+            if (!this.ready) return;
 
-            ready = true;
+            this.ready = true;
 
-            worldManager.LoadSceneAsync(sceneName);
-            uiManager.SwitchUI(UISelection.Overworld);
-            playerManager.EnableOverworld();
-            worldManager.UnloadSceneAsync("StartMenu");
+            this.worldManager.LoadSceneAsync(sceneName);
+            this.uiManager.SwitchUI(UISelection.Overworld);
+            this.playerManager.EnableOverworld();
+            this.worldManager.UnloadSceneAsync("StartMenu");
         }
 
         public void StartNewGame()
         {
-            if (!ready) return;
+            if (!this.ready) return;
 
-            ready = true;
+            this.ready = true;
 
             StartCoroutine(StartGame());
         }
@@ -53,18 +53,17 @@ namespace Runtime.Menu.StartMenu
         {
             const string sceneName = "Shayklind";
 
-            if (!worldManager.GetCurrentLoadedWorldScene().Equals(sceneName))
-                worldManager.LoadSceneAsync(sceneName);
+            if (!this.worldManager.GetCurrentLoadedWorldScene().Equals(sceneName)) this.worldManager.LoadSceneAsync(sceneName);
 
             yield return null;
 
-            yield return new WaitWhile(() => worldManager.GetIsLoading());
+            yield return new WaitWhile(() => this.worldManager.GetIsLoading());
 
-            worldManager.UnloadSceneAsync("StartMenu");
+            this.worldManager.UnloadSceneAsync("StartMenu");
 
             yield return null;
 
-            yield return new WaitWhile(() => worldManager.GetActiveUnloading());
+            yield return new WaitWhile(() => this.worldManager.GetActiveUnloading());
         }
 
         #endregion

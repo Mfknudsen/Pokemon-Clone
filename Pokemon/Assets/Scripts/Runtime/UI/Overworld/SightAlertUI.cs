@@ -29,7 +29,7 @@ namespace Runtime.UI.Overworld
             alertType.Trigger(transform, true);
             OperationsContainer container = new();
             container.Add(alertType);
-            operationManager.AddAsyncOperationsContainer(container);
+            this.operationManager.AddAsyncOperationsContainer(container);
         }
 
         public void DisableAlert(AlertType alertType)
@@ -37,7 +37,7 @@ namespace Runtime.UI.Overworld
             alertType.Trigger(transform, false);
             OperationsContainer container = new();
             container.Add(alertType);
-            operationManager.AddAsyncOperationsContainer(container);
+            this.operationManager.AddAsyncOperationsContainer(container);
         }
 
         #endregion

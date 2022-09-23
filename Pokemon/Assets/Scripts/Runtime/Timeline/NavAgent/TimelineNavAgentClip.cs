@@ -23,9 +23,9 @@ namespace Runtime.Timeline.NavAgent
         {
             base.TransferValues(behaviour);
 
-            behaviour.toMoveTo = toMoveTo;
-            behaviour.isStopped = isStopped;
-            behaviour.stopDistance = stopDistance;
+            behaviour.toMoveTo = this.toMoveTo;
+            behaviour.isStopped = this.isStopped;
+            behaviour.stopDistance = this.stopDistance;
         }
 
         #endregion

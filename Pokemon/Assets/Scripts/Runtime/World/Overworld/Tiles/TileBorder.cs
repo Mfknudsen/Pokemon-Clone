@@ -20,7 +20,7 @@ namespace Runtime.World.Overworld.Tiles
 
         public void Trigger(bool exitCurrentTile)
         {
-            tileManager.SetCurrentSubTile(exitCurrentTile ? toName : fromName);
+            this.tileManager.SetCurrentSubTile(exitCurrentTile ? this.toName : this.fromName);
         }
 
         #endregion

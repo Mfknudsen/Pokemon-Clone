@@ -25,21 +25,21 @@ namespace Runtime.UI.SceneTransitions.Transitions
         {
             if (start)
             {
-                animator = transitionUI.InstantiateObject(gameObjectToAnimate).GetComponent<Animator>();
-                instantiatedGameObject = animator.gameObject;
+                this.animator = this.transitionUI.InstantiateObject(this.gameObjectToAnimate).GetComponent<Animator>();
+                this.instantiatedGameObject = this.animator.gameObject;
             }
             else
-                onHide?.Invoke();
+                this.onHide?.Invoke();
 
-            SetAnimationBools(animator, start);
+            SetAnimationBools(this.animator, start);
 
             //Let Unity Update so we get the clip we want
             yield return null;
 
-            yield return new WaitForSeconds(GetTimeOfClipByName(animator));
+            yield return new WaitForSeconds(GetTimeOfClipByName(this.animator));
 
             if (!start)
-                Destroy(instantiatedGameObject);
+                Destroy(this.instantiatedGameObject);
         }
     }
 }

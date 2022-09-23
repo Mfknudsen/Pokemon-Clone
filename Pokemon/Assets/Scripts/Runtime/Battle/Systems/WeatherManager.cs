@@ -26,7 +26,7 @@ namespace Runtime.Battle.Systems
 
         public Weather[] GetAll()
         {
-            return new Weather[] { climateWeather, irritantWeather, energyWeather };
+            return new Weather[] { this.climateWeather, this.irritantWeather, this.energyWeather };
         }
 
         public List<T> GetWeatherWithInterface<T>()
@@ -44,9 +44,9 @@ namespace Runtime.Battle.Systems
 
         public bool GetAmplified()
         {
-            if (!amplifyNext) return false;
+            if (!this.amplifyNext) return false;
 
-            amplifyNext = false;
+            this.amplifyNext = false;
             return true;
         }
 
@@ -56,7 +56,7 @@ namespace Runtime.Battle.Systems
 
         public void SetAmplified(bool set)
         {
-            amplifyNext = set;
+            this.amplifyNext = set;
         }
 
         #endregion
@@ -65,26 +65,26 @@ namespace Runtime.Battle.Systems
 
         public void ApplyClimate(ClimateWeather set)
         {
-            ShiftWeather(climateWeather, set);
-            climateWeather = set;
+            ShiftWeather(this.climateWeather, set);
+            this.climateWeather = set;
         }
 
         public void ApplyIrritant(IrritantWeather set)
         {
-            ShiftWeather(irritantWeather, set);
-            irritantWeather = set;
+            ShiftWeather(this.irritantWeather, set);
+            this.irritantWeather = set;
         }
 
         public void ApplyEnergy(EnergyWeather set)
         {
-            ShiftWeather(energyWeather, set);
-            energyWeather = set;
+            ShiftWeather(this.energyWeather, set);
+            this.energyWeather = set;
         }
 
         public void ApplyTerrain(Terrain set)
         {
-            terrain = set;
-            terrain.Start();
+            this.terrain = set;
+            this.terrain.Start();
         }
 
         #endregion

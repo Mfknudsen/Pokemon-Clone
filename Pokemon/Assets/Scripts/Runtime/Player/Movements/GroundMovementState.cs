@@ -10,7 +10,7 @@ namespace Runtime.Player.Movements
 
         public override void ReceiveInputEvent(Event e)
         {
-            Debug.Log(controller);
+            Debug.Log(this.controller);
         }
 
         public override void TickMovement()

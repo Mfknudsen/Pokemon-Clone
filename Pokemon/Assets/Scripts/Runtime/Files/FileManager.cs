@@ -105,16 +105,15 @@ namespace Runtime.Files
             CharacterSheet characterSheet = manager.GetCharacterSheet();
             Team team = manager.GetTeam();
 
-            badgeCount = characterSheet.badgeCount;
-            pronouns = new[]
+            this.badgeCount = characterSheet.badgeCount;
+            this.pronouns = new[]
             {
                 characterSheet.pronoun1,
                 characterSheet.pronoun2,
                 characterSheet.pronoun3
             };
 
-            for (int i = 0; i < 6; i++)
-                inTeam[i] = team.GetPokemonByIndex(i);
+            for (int i = 0; i < 6; i++) this.inTeam[i] = team.GetPokemonByIndex(i);
         }
     }
 
@@ -134,9 +133,9 @@ namespace Runtime.Files
         {
             Dictionary<string, string> result = GetDictionary();
             for (int i = 0;
-                 i < keys.Length;
+                 i < this.keys.Length;
                  i++)
-                result.Add(keys[i], values[i]);
+                result.Add(this.keys[i], this.values[i]);
             return result;
         }
     }

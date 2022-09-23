@@ -16,7 +16,7 @@ namespace Runtime.AI
 
         public void Select(Team toAddTo)
         {
-            foreach (PossiblePokemon possiblePokemon in allPossible)
+            foreach (PossiblePokemon possiblePokemon in this.allPossible)
                 toAddTo.AddNewPokemonToTeam(possiblePokemon.GetRandomFromList());
         }
     }
@@ -28,7 +28,7 @@ namespace Runtime.AI
 
         public Pokemon GetRandomFromList()
         {
-            return pokemons[Random.Range(0, pokemons.Count - 1)];
+            return this.pokemons[Random.Range(0, this.pokemons.Count - 1)];
         }
     }
 }

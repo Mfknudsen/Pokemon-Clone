@@ -21,26 +21,26 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
             foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots()
-                .Where(spot => spot.GetBattleMember().GetTeam().PartOfTeam(target)))
+                .Where(spot => spot.GetBattleMember().GetTeam().PartOfTeam(this.target)))
             {
                 Team team = spot.GetBattleMember().GetTeam();
-                team.RemovePokemonFromTeam(target);
+                team.RemovePokemonFromTeam(this.target);
 
                 break;
             }
 
-            if (toReceive != null)
+            if (this.toReceive != null)
             {
-                toReceive.AddNewPokemonToTeam(target);
+                this.toReceive.AddNewPokemonToTeam(this.target);
             }
 
-            done = true;
+            this.done = true;
             yield break;
         }
 

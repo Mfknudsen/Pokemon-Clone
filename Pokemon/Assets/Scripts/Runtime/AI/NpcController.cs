@@ -30,12 +30,12 @@ namespace Runtime.AI
 
         private void OnEnable()
         {
-            unitManager.AddController(this);
+            this.unitManager.AddController(this);
         }
 
         private void OnDisable()
         {
-            unitManager.RemoveController(this);
+            this.unitManager.RemoveController(this);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace Runtime.AI
 
         public object GetStateByKey(string key)
         {
-            return stateList.ContainsKey(key) ? stateList[key] : null;
+            return this.stateList.ContainsKey(key) ? this.stateList[key] : null;
         }
 
         #endregion
@@ -53,10 +53,10 @@ namespace Runtime.AI
 
         public void SetState(string key, object value)
         {
-            if (stateList.ContainsKey(key))
-                stateList[key] = value;
+            if (this.stateList.ContainsKey(key))
+                this.stateList[key] = value;
             else
-                stateList.Add(key, value);
+                this.stateList.Add(key, value);
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Runtime.AI
 
         public void TriggerBehaviourUpdate()
         {
-            bto.UpdateBehaviour();
+            this.bto.UpdateBehaviour();
         }
 
         #endregion

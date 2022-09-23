@@ -20,27 +20,27 @@ namespace Runtime.UI.Overworld
 
         private void Awake()
         {
-            _playerInteractions = playerManager.GetInteractions();
+            this._playerInteractions = this.playerManager.GetInteractions();
 
-            rectTransform = GetComponent<RectTransform>();
+            this.rectTransform = GetComponent<RectTransform>();
 
-            cam = Camera.main;
+            this.cam = Camera.main;
         }
 
         private void Update()
         {
-            Vector3 worldPos = _playerInteractions.GetFocusedPosition();
+            Vector3 worldPos = this._playerInteractions.GetFocusedPosition();
 
             if (worldPos == Vector3.zero)
             {
-                visuals.SetActive(false);
+                this.visuals.SetActive(false);
                 return;
             }
 
-            visuals.SetActive(true);
+            this.visuals.SetActive(true);
 
-            Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
-            rectTransform.position = screenPos;
+            Vector3 screenPos = this.cam.WorldToScreenPoint(worldPos);
+            this.rectTransform.position = screenPos;
         }
     }
 }

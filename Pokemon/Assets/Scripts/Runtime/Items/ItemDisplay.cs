@@ -14,7 +14,7 @@ namespace Runtime.Items
     {
         #region Values
 
-        [SerializeField] TextMeshProUGUI nameText, countText;
+        [SerializeField] private TextMeshProUGUI nameText, countText;
         private ItemSelection itemSelection;
         private ItemContainer itemContainer;
         private ItemAction itemAction;
@@ -29,8 +29,8 @@ namespace Runtime.Items
             this.itemContainer = itemContainer;
             this.itemAction = itemAction;
 
-            nameText.text = itemContainer.item.GetItemName();
-            countText.text = "" + itemContainer.count;
+            this.nameText.text = itemContainer.item.GetItemName();
+            this.countText.text = "" + itemContainer.count;
         }
 
         #endregion
@@ -39,8 +39,8 @@ namespace Runtime.Items
 
         public void Trigger()
         {
-            itemAction.SetToUse(itemContainer.item);
-            itemSelection.ReceiveAction(itemAction);
+            this.itemAction.SetToUse(this.itemContainer.item);
+            this.itemSelection.ReceiveAction(this.itemAction);
         }
 
         #endregion

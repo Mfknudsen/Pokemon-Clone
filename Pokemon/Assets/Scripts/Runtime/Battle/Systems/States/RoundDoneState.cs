@@ -31,9 +31,9 @@ namespace Runtime.Battle.Systems.States
 
                 OperationsContainer container = new();
                 container.Add(iOperation);
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
 
-                yield return new WaitWhile(() => !operationManager.GetDone());
+                yield return new WaitWhile(() => !this.operationManager.GetDone());
             }
 
             #endregion
@@ -41,16 +41,16 @@ namespace Runtime.Battle.Systems.States
             #region End Battle
 
             if (this.battleManager.CheckTeamDefeated(true))
-                this.battleManager.SetState(new LostState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+                this.battleManager.SetState(new LostState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             else if (this.battleManager.CheckTeamDefeated(false))
-                this.battleManager.SetState(new WinState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+                this.battleManager.SetState(new WinState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             else
             {
                 SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                this.battleManager.SetState(new PlayerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+                this.battleManager.SetState(new PlayerTurnState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             }
 
             #endregion

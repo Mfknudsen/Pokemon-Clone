@@ -10,12 +10,12 @@ namespace Runtime.Battle.Systems
 
         public Transform GetAllyField()
         {
-            return allyField;
+            return this.allyField;
         }
 
         public Transform GetEnemyField()
         {
-            return enemyField;
+            return this.enemyField;
         }
 
         #endregion

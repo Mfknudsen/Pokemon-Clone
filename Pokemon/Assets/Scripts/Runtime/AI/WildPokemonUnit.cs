@@ -17,7 +17,7 @@ namespace Runtime.AI
 
         #region Getters
 
-        public Pokemon GetPokemon() => pokemon;
+        public Pokemon GetPokemon() => this.pokemon;
 
         #endregion
 

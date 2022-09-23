@@ -15,8 +15,8 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            navAgent.GetValue().isStopped = false;
-            navAgent.GetValue().SetDestination(target.value.position);
+            this.navAgent.GetValue().isStopped = false;
+            this.navAgent.GetValue().SetDestination(this.target.value.position);
             
             EndAction();
         }

@@ -14,8 +14,8 @@ namespace Runtime.PC
     public class BoxContainer : MonoBehaviour
     {
         #region Values
-        [SerializeField] string boxName = "";
-        [SerializeField] Pokemon[] list = new Pokemon[0];
+        [SerializeField] private string boxName = "";
+        [SerializeField] private Pokemon[] list = new Pokemon[0];
 
         //GUI
         [SerializeField]
@@ -28,18 +28,17 @@ namespace Runtime.PC
             {
                 BoxSpot spot = transform.GetChild(i).GetComponent<BoxSpot>();
 
-                if (spot != null)
-                    spots.Add(spot);
+                if (spot != null) this.spots.Add(spot);
             }
         }
         #endregion
 
         public void Setup(int number, Pokemon[] list)
         {
-            numberGUI.text = boxName;
-            for (int i = 0; i < spots.Count; i++)
+            this.numberGUI.text = this.boxName;
+            for (int i = 0; i < this.spots.Count; i++)
             {
-                spots[i].SetPokemon(list[i]);
+                this.spots[i].SetPokemon(list[i]);
             }
         }
     }

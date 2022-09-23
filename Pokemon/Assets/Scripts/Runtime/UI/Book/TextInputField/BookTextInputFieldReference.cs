@@ -9,8 +9,7 @@ namespace Runtime.UI.Book.TextInputField
         
         public void Setup(ICustomGUIElement element)
         {
-            if (element is BookTextInputField field)
-                bookField = field;
+            if (element is BookTextInputField field) this.bookField = field;
         }
     }
 }

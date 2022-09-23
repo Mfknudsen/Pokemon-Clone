@@ -33,7 +33,7 @@ namespace Runtime.Battle.Systems.States
             {
                 this.battleManager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
-                while (!conditionOversight.GetDone() || !chatManager.GetIsClear())
+                while (!conditionOversight.GetDone() || !this.chatManager.GetIsClear())
                     yield return null;
 
                 conditionOversight.Reset();
@@ -43,12 +43,11 @@ namespace Runtime.Battle.Systems.States
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
             {
-                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager, operationManager, chatManager,
-                    uiManager, playerManager));
+                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
                 yield break;
             }
 
-            this.battleManager.SetState(new RoundDoneState(battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

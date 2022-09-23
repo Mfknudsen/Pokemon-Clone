@@ -20,7 +20,7 @@ namespace Runtime.Timeline.Chat
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            chatManager.Add(clip);
+            this.chatManager.Add(this.clip);
         }
 
         #endregion

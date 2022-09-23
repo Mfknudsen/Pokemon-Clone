@@ -89,47 +89,47 @@ namespace Runtime.Battle.Systems
 
         public SelectionMenu GetSelectionMenu()
         {
-            return selectionMenu;
+            return this.selectionMenu;
         }
 
         public float GetSecPerPokeMove()
         {
-            return secondsPerPokemonMove;
+            return this.secondsPerPokemonMove;
         }
 
         public BattleStarter GetStarter()
         {
-            return starter;
+            return this.starter;
         }
 
         public WeatherManager GetWeatherManager()
         {
-            return weatherManager ??= new WeatherManager();
+            return this.weatherManager ??= new WeatherManager();
         }
 
         public SpotOversight GetSpotOversight()
         {
-            return spotOversight ??= new SpotOversight();
+            return this.spotOversight ??= new SpotOversight();
         }
 
         public AbilityOversight GetAbilityOversight()
         {
-            return abilityOversight;
+            return this.abilityOversight;
         }
 
         public DisplayManager GetDisplayManager()
         {
-            return displayManager;
+            return this.displayManager;
         }
 
         public Battlefield GetBattlefield()
         {
-            return battlefield;
+            return this.battlefield;
         }
 
         public CinemachineVirtualCameraBase GetBattleCamera()
         {
-            return battleCameraRig;
+            return this.battleCameraRig;
         }
 
         #endregion
@@ -156,7 +156,7 @@ namespace Runtime.Battle.Systems
             {
                 instance = this;
 
-                operationManager.AddAsyncOperationsContainer(
+                this.operationManager.AddAsyncOperationsContainer(
                     new OperationsContainer(CameraEvent.ReturnToDefaultBattle()));
 
                 BattleMathf.SetSuperEffective(this.superEffective);
@@ -167,7 +167,7 @@ namespace Runtime.Battle.Systems
                 BattleMathf.SetMissChat(this.miss);
 
 
-                SetState(new BeginState(this, operationManager, chatManager, uiManager, playerManager));
+                SetState(new BeginState(this, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             }
 
             Destroy(gameObject);
@@ -181,7 +181,7 @@ namespace Runtime.Battle.Systems
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
         {
-            Logger.AddLog(this.name, "Spawning: " + pokemon.GetName());
+            Logger.AddLog(name, "Spawning: " + pokemon.GetName());
 
             Transform sTransform = spot.GetTransform();
             GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), sTransform, true);

@@ -5,7 +5,6 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
 using UnityEngine;
-using Type = Runtime.Pokémon.Type;
 
 #endregion
 
@@ -41,7 +40,7 @@ namespace Runtime.Weathers.Energy
         //IBypassImmune
         public bool CanEffect(TypeName attackType, TypeName defendsType)
         {
-            if (!amplified)
+            if (!this.amplified)
                 return false;
 
             return (attackType == TypeName.Fighting || attackType == TypeName.Normal) &&

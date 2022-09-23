@@ -29,7 +29,7 @@ namespace Runtime.Battle.Systems.States
             Cursor.visible = true;
             List<SwitchAction> switchActions = new();
             SpotOversight oversight = this.battleManager.GetSpotOversight();
-            BattleMember playerTeam = playerManager.GetBattleMember();
+            BattleMember playerTeam = this.playerManager.GetBattleMember();
 
             if (playerTeam.GetTeam().CanSendMorePokemon())
             {
@@ -45,7 +45,7 @@ namespace Runtime.Battle.Systems.States
                     this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
                     yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
-                                                     !chatManager.GetIsClear());
+                                                     !this.chatManager.GetIsClear());
 
                     switchActions.Add(switchAction);
                 }
@@ -55,8 +55,7 @@ namespace Runtime.Battle.Systems.States
 
             Cursor.visible = false;
 
-            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, operationManager, chatManager,
-                uiManager, playerManager, switchActions));
+            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager, switchActions));
         }
     }
 }

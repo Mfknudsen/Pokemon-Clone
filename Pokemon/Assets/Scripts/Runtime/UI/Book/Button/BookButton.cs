@@ -41,7 +41,7 @@ namespace Runtime.UI.Book.Button
 
         public BookTurn GetBookTurn()
         {
-            return bookTurn;
+            return this.bookTurn;
         }
 
         #endregion
@@ -50,7 +50,7 @@ namespace Runtime.UI.Book.Button
 
         public void SetBookTurn(BookTurn set)
         {
-            bookTurn = set;
+            this.bookTurn = set;
         }
 
         #endregion

@@ -21,7 +21,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         {
             this.team = team;
 
-            rememberPokemons = new List<VirtualPokemon>();
+            this.rememberPokemons = new List<VirtualPokemon>();
 
             for (int i = 0; i < 6; i++)
             {
@@ -30,7 +30,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
                 if (pokemon == null)
                     continue;
 
-                rememberPokemons.Add(
+                this.rememberPokemons.Add(
                     new VirtualPokemon(pokemon)
                 );
             }
@@ -38,7 +38,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         
         public Pokemon[] GetRememberedPokemons()
         {
-            return rememberPokemons.Select(rememberPokemon => rememberPokemon.GetFakePokemon()).ToArray();
+            return this.rememberPokemons.Select(rememberPokemon => rememberPokemon.GetFakePokemon()).ToArray();
         }
     }
 }

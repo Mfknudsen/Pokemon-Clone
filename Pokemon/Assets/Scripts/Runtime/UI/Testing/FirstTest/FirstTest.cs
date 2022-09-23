@@ -36,11 +36,11 @@ namespace Runtime.UI.Testing.FirstTest
 
         public GameObject SpawnWildEncounter()
         {
-            GameObject obj = Instantiate(wildBasePrefab);
+            GameObject obj = Instantiate(this.wildBasePrefab);
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
 
-            Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
+            Pokemon pokemon = this.possibleEncounters[Random.Range(0, this.possibleEncounters.Count)];
             member.GetTeam().AddNewPokemonToTeam(pokemon);
 
             starter.onBattleEnd += _ => { Destroy(obj); };
@@ -50,13 +50,13 @@ namespace Runtime.UI.Testing.FirstTest
 
         public GameObject SpawnTrainerEncounter()
         {
-            GameObject obj = Instantiate(trainerBasePrefab);
+            GameObject obj = Instantiate(this.trainerBasePrefab);
             BattleMember member = obj.GetComponent<BattleMember>();
             BattleStarter starter = obj.GetComponent<BattleStarter>();
 
-            for (int i = 0; i < playerManager.GetTeam().GetTeamCount(); i++)
+            for (int i = 0; i < this.playerManager.GetTeam().GetTeamCount(); i++)
             {
-                Pokemon pokemon = possibleEncounters[Random.Range(0, possibleEncounters.Count)];
+                Pokemon pokemon = this.possibleEncounters[Random.Range(0, this.possibleEncounters.Count)];
                 member.GetTeam().AddNewPokemonToTeam(pokemon);
             }
 

@@ -20,28 +20,28 @@ namespace Runtime.UI.Pause
         [UsedImplicitly]
         public void Gameplay()
         {
-            gameplayTab.SetActive(true);
+            this.gameplayTab.SetActive(true);
 
-            audioTab.SetActive(false);
-            screenTab.SetActive(false);
+            this.audioTab.SetActive(false);
+            this.screenTab.SetActive(false);
         }
 
         [UsedImplicitly]
         public void Audio()
         {
-            audioTab.SetActive(true);
+            this.audioTab.SetActive(true);
 
-            gameplayTab.SetActive(false);
-            screenTab.SetActive(false);
+            this.gameplayTab.SetActive(false);
+            this.screenTab.SetActive(false);
         }
 
         [UsedImplicitly]
         public void Screen()
         {
-            screenTab.SetActive(true);
+            this.screenTab.SetActive(true);
 
-            gameplayTab.SetActive(false);
-            audioTab.SetActive(false);
+            this.gameplayTab.SetActive(false);
+            this.audioTab.SetActive(false);
         }
 
         #endregion

@@ -39,17 +39,17 @@ namespace Runtime.Pokémon.Conditions
 
         public Condition GetNonVolatileStatus()
         {
-            return nonVolatileStatus;
+            return this.nonVolatileStatus;
         }
 
         public bool GetDone()
         {
-            return done;
+            return this.done;
         }
 
         public bool GetIsStunned()
         {
-            return isStunned;
+            return this.isStunned;
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Runtime.Pokémon.Conditions
 
         public void SetIsStunned(bool set)
         {
-            isStunned = set;
+            this.isStunned = set;
         }
 
         #endregion
@@ -67,28 +67,28 @@ namespace Runtime.Pokémon.Conditions
 
         public void Setup(Pokemon pokemon)
         {
-            volatileStatus = new List<VolatileCondition>();
+            this.volatileStatus = new List<VolatileCondition>();
             this.pokemon = pokemon;
         }
 
         public void Reset()
         {
-            done = false;
+            this.done = false;
         }
 
         public void ApplyVolatileCondition(VolatileCondition condition)
         {
-            if (volatileStatus.Any(volatileCondition =>
+            if (this.volatileStatus.Any(volatileCondition =>
                 volatileCondition.GetConditionName().Equals(condition.GetConditionName()))) return;
 
-            volatileStatus.Add(condition);
+            this.volatileStatus.Add(condition);
 
             foreach (Ability ability in BattleManager.instance.GetAbilityOversight().GetAbilities())
             {
                 if (ability.GetActive())
-                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, pokemon);
+                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, this.pokemon);
                 else
-                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, pokemon);
+                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, this.pokemon);
             }
         }
 
@@ -98,53 +98,53 @@ namespace Runtime.Pokémon.Conditions
 
             if (condition is FaintedCondition)
             {
-                Destroy(nonVolatileStatus);
+                Destroy(this.nonVolatileStatus);
 
-                nonVolatileStatus = condition;
+                this.nonVolatileStatus = condition;
 
-                nonVolatileStatus.SetAffectedPokemon(pokemon);
+                this.nonVolatileStatus.SetAffectedPokemon(this.pokemon);
             }
             else
             {
-                if (!(condition is null) && nonVolatileStatus is null)
+                if (!(condition is null) && this.nonVolatileStatus is null)
                 {
-                    Destroy(nonVolatileStatus);
-                    nonVolatileStatus = condition.GetCondition();
-                    nonVolatileStatus.SetAffectedPokemon(pokemon);
+                    Destroy(this.nonVolatileStatus);
+                    this.nonVolatileStatus = condition.GetCondition();
+                    this.nonVolatileStatus.SetAffectedPokemon(this.pokemon);
                 }
-                else if (condition is null && !(nonVolatileStatus is null))
+                else if (condition is null && !(this.nonVolatileStatus is null))
                 {
-                    if (!(nonVolatileStatus is FaintedCondition)) return;
+                    if (!(this.nonVolatileStatus is FaintedCondition)) return;
 
-                    Destroy(nonVolatileStatus);
-                    nonVolatileStatus = null;
+                    Destroy(this.nonVolatileStatus);
+                    this.nonVolatileStatus = null;
                 }
             }
 
             foreach (Ability ability in BattleManager.instance.GetAbilityOversight().GetAbilities())
             {
                 if (ability.GetActive())
-                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, pokemon);
+                    ability.TriggerDisable(AbilityTrigger.OnStatusChange, this.pokemon);
                 else
-                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, pokemon);
+                    ability.TriggerEnable(AbilityTrigger.OnStatusChange, this.pokemon);
             }
         }
 
         public void RemoveFromCondition(Condition condition)
         {
-            if (volatileStatus.Contains(condition))
+            if (this.volatileStatus.Contains(condition))
             {
-                volatileStatus.Remove(condition as VolatileCondition);
+                this.volatileStatus.Remove(condition as VolatileCondition);
             }
-            else if (nonVolatileStatus == condition)
+            else if (this.nonVolatileStatus == condition)
             {
-                nonVolatileStatus = null;
+                this.nonVolatileStatus = null;
             }
         }
 
         public void ResetConditionList()
         {
-            volatileStatus.Clear();
+            this.volatileStatus.Clear();
         }
 
         #endregion
@@ -153,18 +153,18 @@ namespace Runtime.Pokémon.Conditions
 
         public IEnumerator CheckConditionBeforeMove()
         {
-            done = false;
+            this.done = false;
 
             #region Check To Play
 
             List<Condition> toPlay = new();
-            if (nonVolatileStatus != null)
+            if (this.nonVolatileStatus != null)
             {
-                if (!nonVolatileStatus.GetBeforeAttack())
-                    toPlay.Add(nonVolatileStatus);
+                if (!this.nonVolatileStatus.GetBeforeAttack())
+                    toPlay.Add(this.nonVolatileStatus);
             }
 
-            toPlay.AddRange(volatileStatus
+            toPlay.AddRange(this.volatileStatus
                 .Where(volatileStatus => !volatileStatus.GetBeforeAttack()));
 
             #endregion
@@ -178,9 +178,9 @@ namespace Runtime.Pokémon.Conditions
 
                 OperationsContainer container = new();
                 container.Add(iOperation);
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone() || !chatManager.GetIsClear())
+                while (!this.operationManager.GetDone() || !this.chatManager.GetIsClear())
                     yield return null;
 
                 condition.Reset();
@@ -188,24 +188,24 @@ namespace Runtime.Pokémon.Conditions
 
             #endregion
 
-            done = true;
+            this.done = true;
         }
 
         public IEnumerator CheckConditionEndTurn()
         {
-            done = false;
+            this.done = false;
 
             List<Condition> toPlay = new();
 
             #region Check To Play
 
-            if (!(nonVolatileStatus is null))
+            if (!(this.nonVolatileStatus is null))
             {
-                if (!nonVolatileStatus.GetBeforeAttack())
-                    toPlay.Add(nonVolatileStatus.GetCondition());
+                if (!this.nonVolatileStatus.GetBeforeAttack())
+                    toPlay.Add(this.nonVolatileStatus.GetCondition());
             }
 
-            toPlay.AddRange(volatileStatus
+            toPlay.AddRange(this.volatileStatus
                 .Where(volatileStatus => !toPlay.Contains(volatileStatus)));
 
             #endregion
@@ -219,9 +219,9 @@ namespace Runtime.Pokémon.Conditions
 
                 OperationsContainer container = new();
                 container.Add(iOperation);
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
 
-                while (!operationManager.GetDone() || !chatManager.GetIsClear())
+                while (!this.operationManager.GetDone() || !this.chatManager.GetIsClear())
                     yield return null;
 
                 condition.Reset();
@@ -229,22 +229,22 @@ namespace Runtime.Pokémon.Conditions
 
             #endregion
 
-            done = true;
+            this.done = true;
         }
 
         public void CheckFaintedCondition()
         {
-            done = false;
-            Condition condition = nonVolatileStatus;
+            this.done = false;
+            Condition condition = this.nonVolatileStatus;
 
             if (condition is FaintedCondition and IOperation iOperation)
             {
                 OperationsContainer container = new();
                 container.Add(iOperation);
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
             }
 
-            done = true;
+            this.done = true;
         }
 
         #endregion

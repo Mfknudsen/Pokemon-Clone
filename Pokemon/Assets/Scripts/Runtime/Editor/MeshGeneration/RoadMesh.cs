@@ -21,7 +21,7 @@ namespace Runtime.Editor.MeshGeneration
         public void UpdateRoad()
         {
             Path path = GetComponent<PathCreator>().path;
-            Vector3[] points = path.CalculateEvenlySpacedPoints(spacing);
+            Vector3[] points = path.CalculateEvenlySpacedPoints(this.spacing);
             GetComponent<MeshFilter>().mesh = CreateRoadMesh(points);
         }
 
@@ -49,8 +49,8 @@ namespace Runtime.Editor.MeshGeneration
 
                 Vector3 left = new(-forward.y, forward.x);
 
-                verts[vertIndex] = current + left * roadWidth * 0.5f;
-                verts[vertIndex + 1] = current - left * roadWidth * 0.5f;
+                verts[vertIndex] = current + left * this.roadWidth * 0.5f;
+                verts[vertIndex + 1] = current - left * this.roadWidth * 0.5f;
 
                 if (i < points.Length - 1)
                 {

@@ -31,9 +31,9 @@ namespace Runtime.Weathers.Irritants
 
             foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
                 .Select(spot => spot.GetActivePokemon()).Where(pokemon =>
-                    pokemon.GetTypes().Any(type => affectedTypes.Contains(type.GetTypeName()))))
+                    pokemon.GetTypes().Any(type => this.affectedTypes.Contains(type.GetTypeName()))))
             {
-                pokemon.GetConditionOversight().ApplyVolatileCondition(confusion);
+                pokemon.GetConditionOversight().ApplyVolatileCondition(this.confusion);
             }
         }
 
@@ -42,8 +42,8 @@ namespace Runtime.Weathers.Irritants
         //IStatModifier
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            return affectedStats.Contains(stat) &&
-                   pokemon.GetTypes().Any(type => affectedTypes.Contains(type.GetTypeName()))
+            return this.affectedStats.Contains(stat) &&
+                   pokemon.GetTypes().Any(type => this.affectedTypes.Contains(type.GetTypeName()))
                 ? 1.25f
                 : 1;
         }

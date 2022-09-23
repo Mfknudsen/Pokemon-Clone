@@ -27,8 +27,8 @@ namespace Runtime.Weathers.Irritants
         {
             base.Setup();
 
-            if (amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(misty);
+            if (this.amplified)
+                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.misty);
         }
 
         #region Interface Overrides
@@ -50,7 +50,7 @@ namespace Runtime.Weathers.Irritants
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (pokemon.GetTypes().Any(type => noEffectTypes.Contains(type.GetTypeName())))
+                if (pokemon.GetTypes().Any(type => this.noEffectTypes.Contains(type.GetTypeName())))
                     continue;
 
                 int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 16;

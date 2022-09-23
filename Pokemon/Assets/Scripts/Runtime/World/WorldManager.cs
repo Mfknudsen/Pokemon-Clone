@@ -97,22 +97,22 @@ namespace Runtime.World
 
         public void LoadSceneAsync(string sceneName)
         {
-            activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadWorldSceneAsync(sceneName)));
+            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            activeUnloading.Add(this.tileManager.GetSubManager().StartCoroutine(UnloadWorldSceneAsync(sceneName)));
+            this.activeUnloading.Add(this.tileManager.GetSubManager().StartCoroutine(UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadBattleSceneAsync(sceneName)));
+            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()
         {
-            activeUnloading.Add(this.tileManager.GetSubManager()
+            this.activeUnloading.Add(this.tileManager.GetSubManager()
                 .StartCoroutine(UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
         }
 
@@ -129,7 +129,7 @@ namespace Runtime.World
             //Start Transition
             yield return StartTransition();
 
-            playerManager.DisableOverworld();
+            this.playerManager.DisableOverworld();
 
             //Scene Loading
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -150,7 +150,7 @@ namespace Runtime.World
 
             this.currentLoadedBattleScene = sceneName;
 
-            playerManager.EnableOverworld();
+            this.playerManager.EnableOverworld();
 
             //End Transition
             yield return EndTransition();
@@ -179,7 +179,7 @@ namespace Runtime.World
             //End Transition
             yield return EndTransition();
 
-            playerManager.EnableOverworld();
+            this.playerManager.EnableOverworld();
         }
 
         #endregion
@@ -194,7 +194,7 @@ namespace Runtime.World
 
             this.progressMeter = 0;
 
-            uiManager.ActivateLoadingUI(true);
+            this.uiManager.ActivateLoadingUI(true);
 
             while (!asyncLoad.isDone)
             {
@@ -202,7 +202,7 @@ namespace Runtime.World
                 yield return null;
             }
 
-            uiManager.ActivateLoadingUI(false);
+            this.uiManager.ActivateLoadingUI(false);
 
             this.currentOperation = null;
         }
@@ -241,7 +241,7 @@ namespace Runtime.World
         {
             List<GameObject> toUnload = new();
 
-            TileSubController subController = tileManager.GetSubManagerByName(sceneName);
+            TileSubController subController = this.tileManager.GetSubManagerByName(sceneName);
             if (subController is not null)
                 toUnload.Add(subController.gameObject);
 

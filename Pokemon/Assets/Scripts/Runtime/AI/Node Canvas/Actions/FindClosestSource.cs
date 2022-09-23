@@ -16,7 +16,7 @@ namespace Runtime.AI.Node_Canvas.Actions
         protected override void OnExecute()
         {
             
-            EndAction(result.value != null);
+            EndAction(this.result.value != null);
         }
     }
 }

@@ -78,32 +78,32 @@ namespace Runtime.Items
             return result;
         }
 
-        public ItemType GetItemType() => type;
+        public ItemType GetItemType() => this.type;
 
-        public bool GetIsInstantiated() => isInstantiated;
+        public bool GetIsInstantiated() => this.isInstantiated;
 
-        public string GetItemName() => itemName;
+        public string GetItemName() => this.itemName;
 
         public string GetDescription()
         {
-            return description;
+            return this.description;
         }
 
         public bool GetInUse()
         {
-            return inUse;
+            return this.inUse;
         }
 
         public bool GetDone()
         {
-            return done;
+            return this.done;
         }
 
         public abstract bool IsUsableTarget(Pokemon pokemon);
 
         public GameObject GetInstantiatedVisualObject()
         {
-            return instantiateObject;
+            return this.instantiateObject;
         }
 
         public GameObject GetVisualPrefab() => this.visualPrefab;
@@ -114,17 +114,17 @@ namespace Runtime.Items
 
         public void SetIsInstantiated(bool set)
         {
-            isInstantiated = set;
+            this.isInstantiated = set;
         }
 
         public void SetInUse(bool set)
         {
-            inUse = set;
+            this.inUse = set;
         }
 
         public virtual void SetTarget(Pokemon set)
         {
-            target = set;
+            this.target = set;
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace Runtime.Items
 
         public void SpawnVisualObject()
         {
-            instantiateObject = Instantiate(visualPrefab);
+            this.instantiateObject = Instantiate(this.visualPrefab);
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace Runtime.Items
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public abstract IEnumerator Operation();

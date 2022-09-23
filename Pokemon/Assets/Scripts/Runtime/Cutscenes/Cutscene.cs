@@ -42,14 +42,14 @@ namespace Runtime.Cutscenes
 
         public void TriggerNext()
         {
-            if (delayTimes.Where(d => d.index.Equals(currentPlayIndex)).Select(d => d.delay).First() is float delayTime)
+            if (this.delayTimes.Where(d => d.index.Equals(this.currentPlayIndex)).Select(d => d.delay).First() is float delayTime)
             {
                 new Timer(delayTime).timerEvent.AddListener(PlayNext);
             }
             else
-                waitingForInput = true;
-            
-            currentPlayIndex++;
+                this.waitingForInput = true;
+
+            this.currentPlayIndex++;
         }
 
         #endregion

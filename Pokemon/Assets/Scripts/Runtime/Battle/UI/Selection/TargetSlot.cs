@@ -20,7 +20,7 @@ namespace Runtime.Battle.UI.Selection
 
         public Spot GetSpot()
         {
-            return spot;
+            return this.spot;
         }
 
         #endregion
@@ -35,12 +35,12 @@ namespace Runtime.Battle.UI.Selection
             // ReSharper disable once Unity.NoNullPropagation
             if (spot?.GetActivePokemon() is null) return;
 
-            gui.text = spot.GetActivePokemon().GetName();
+            this.gui.text = spot.GetActivePokemon().GetName();
         }
 
         public void Trigger()
         {
-            targetSelection.ReceiveSpot(spot);
+            this.targetSelection.ReceiveSpot(this.spot);
         }
     }
 }

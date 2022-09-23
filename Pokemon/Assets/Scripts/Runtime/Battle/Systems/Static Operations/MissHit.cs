@@ -17,26 +17,26 @@ namespace Runtime.Battle.Systems.Static_Operations
         {
             this.targetPokemon = targetPokemon;
 
-            missChat = Object.Instantiate(BattleMathf.GetMissChat());
+            this.missChat = Object.Instantiate(BattleMathf.GetMissChat());
         }
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            missChat.AddToOverride("<POKEMON_NAME>", targetPokemon.GetName());
+            this.missChat.AddToOverride("<POKEMON_NAME>", this.targetPokemon.GetName());
 
-            chatManager.Add(missChat);
+            this.chatManager.Add(this.missChat);
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

@@ -39,34 +39,34 @@ namespace Runtime.Items.Medicine
 
         public override IEnumerator Operation()
         {
-            done = false;
-            float curHeal = 0, healSpeed = healAmount / 200 * BattleManager.instance.GetSecPerPokeMove();
+            this.done = false;
+            float curHeal = 0, healSpeed = this.healAmount / 200 * BattleManager.instance.GetSecPerPokeMove();
 
-            while (curHeal < healAmount)
+            while (curHeal < this.healAmount)
             {
-                if (curHeal + healSpeed < healAmount)
+                if (curHeal + healSpeed < this.healAmount)
                 {
-                    target.ReceiveDamage(-healSpeed);
+                    this.target.ReceiveDamage(-healSpeed);
                     curHeal += healSpeed;
                     yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() /
                                                     (200 * BattleManager.instance.GetSecPerPokeMove()));
                 }
                 else
                 {
-                    target.ReceiveDamage(-(healAmount - curHeal));
+                    this.target.ReceiveDamage(-(this.healAmount - curHeal));
                     curHeal += healSpeed;
                     yield return null;
                 }
             }
 
-            Chat toSend = onActivation.GetChat();
-            toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
-            chatManager.Add(toSend);
+            Chat toSend = this.onActivation.GetChat();
+            toSend.AddToOverride("<POKEMON_NAME>", this.target.GetName());
+            this.chatManager.Add(toSend);
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         #endregion

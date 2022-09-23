@@ -23,7 +23,7 @@ namespace Runtime.AI.Battle.Evaluator
 
         public bool UsedForPokemon(Pokemon comparor)
         {
-            return pokemon == comparor;
+            return this.pokemon == comparor;
         }
 
         public Evaluator(Pokemon pokemon, EvaluatorSetting setting)
@@ -31,16 +31,14 @@ namespace Runtime.AI.Battle.Evaluator
             this.pokemon = pokemon;
             this.setting = setting;
 
-            preMoveName = "";
-            preValue = 0;
-            actions = new List<BattleAction>();
+            this.preMoveName = "";
+            this.preValue = 0;
+            this.actions = new List<BattleAction>();
 
-            actions.AddRange(pokemon.GetMoves().Where(move => move != null));
+            this.actions.AddRange(pokemon.GetMoves().Where(move => move != null));
 
-            if (setting.canSwitchOut)
-                actions.Add(BattleManager.instance.InstantiateSwitchAction());
-            if (setting.canUseItems)
-                actions.Add(BattleManager.instance.InstantiateItemAction());
+            if (setting.canSwitchOut) this.actions.Add(BattleManager.instance.InstantiateSwitchAction());
+            if (setting.canUseItems) this.actions.Add(BattleManager.instance.InstantiateItemAction());
         }
 
         public void EvaluateForPokemon()
@@ -49,11 +47,11 @@ namespace Runtime.AI.Battle.Evaluator
 
             List<VirtualMove> virtualMoves = new();
             VirtualSpotOversight spotOversight = virtualBattle.spotOversight;
-            VirtualSpot userSpot = spotOversight.GetPokemonSpot(pokemon);
+            VirtualSpot userSpot = spotOversight.GetPokemonSpot(this.pokemon);
             VirtualPokemon user = userSpot.virtualPokemon;
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (BattleAction battleAction in actions.Where(action => action != null))
+            foreach (BattleAction battleAction in this.actions.Where(action => action != null))
             {
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (VirtualSpot spot in spotOversight.spots.Where(s =>
@@ -65,17 +63,15 @@ namespace Runtime.AI.Battle.Evaluator
                     virtualMoves.Add(new VirtualMove(
                         rootAction,
                         0,
-                        battleAction,
-                        pokemon,
+                        battleAction, this.pokemon,
                         spot.virtualPokemon.GetFakePokemon(),
-                        virtualBattle,
-                        setting.personalitySetting)
+                        virtualBattle, this.setting.personalitySetting)
                     );
                 }
             }
 
-            setting.personalitySetting.Tick();
-            Evaluate(user, setting.depth, virtualMoves.ToArray());
+            this.setting.personalitySetting.Tick();
+            Evaluate(user, this.setting.depth, virtualMoves.ToArray());
         }
 
         private void Evaluate(VirtualPokemon user, int depth, VirtualMove[] toCheck)
@@ -93,16 +89,16 @@ namespace Runtime.AI.Battle.Evaluator
 
                 BattleAction rootAction = highest.rootAction;
 
-                if (rootAction.name == preMoveName)
+                if (rootAction.name == this.preMoveName)
                 {
-                    preValue += setting.continuesIncrease;
+                    this.preValue += this.setting.continuesIncrease;
 
-                    if (Random.Range(20, 100) < preValue)
+                    if (Random.Range(20, 100) < this.preValue)
                     {
                         for (int i = 1; i < toCheck.Length; i++)
                         {
                             if (toCheck[i].value <= highest.value ||
-                                toCheck[i].rootAction.name == preMoveName)
+                                toCheck[i].rootAction.name == this.preMoveName)
                                 continue;
 
                             highest = toCheck[i];
@@ -111,8 +107,8 @@ namespace Runtime.AI.Battle.Evaluator
                 }
                 else
                 {
-                    preMoveName = rootAction.name;
-                    preValue = 0;
+                    this.preMoveName = rootAction.name;
+                    this.preValue = 0;
                 }
 
                 user.GetActualPokemon().SetBattleAction(highest.rootAction);
@@ -127,7 +123,7 @@ namespace Runtime.AI.Battle.Evaluator
 
                 foreach (VirtualSpot spot in virtualMove.virtualBattle.spotOversight.spots)
                 {
-                    foreach (BattleAction battleAction in actions)
+                    foreach (BattleAction battleAction in this.actions)
                     {
                         nextMoves.Add(new VirtualMove(
                             virtualMove.rootAction,
@@ -135,8 +131,7 @@ namespace Runtime.AI.Battle.Evaluator
                             battleAction,
                             user.GetFakePokemon(),
                             spot.virtualPokemon.GetFakePokemon(),
-                            virtualMove.virtualBattle,
-                            setting.personalitySetting
+                            virtualMove.virtualBattle, this.setting.personalitySetting
                         ));
                     }
                 }

@@ -5,7 +5,6 @@ using Runtime.AI;
 using Runtime.Common;
 using Runtime.Pokémon;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 #endregion
 
@@ -26,7 +25,7 @@ namespace Runtime.World.Overworld.Spawner
 
         private void OnEnable() => CheckState();
 
-        private void OnDisable() => checkTimer?.Stop();
+        private void OnDisable() => this.checkTimer?.Stop();
 
         private void OnDrawGizmosSelected()
         {
@@ -41,7 +40,7 @@ namespace Runtime.World.Overworld.Spawner
             if (this.currentActiveEntities.Count < this.maxActiveEntities)
                 SpawnOverWorldPokemon();
 
-            checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), CheckState);
+            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), CheckState);
         }
 
         private Pokemon SelectPokemonFromList() => this.list[Random.Range(0, this.list.Length)];
@@ -67,7 +66,7 @@ namespace Runtime.World.Overworld.Spawner
                 Quaternion.LookRotation(Vector3.up * Random.Range(0, 360)));
 
             UnitBase unitBase = obj.GetFirstComponentTowardsRoot<UnitBase>();
-            currentActiveEntities.Add(unitBase);
+            this.currentActiveEntities.Add(unitBase);
             unitBase.AddDisableEventListener(() => this.currentActiveEntities.Remove(unitBase));
         }
     }

@@ -70,7 +70,7 @@ namespace Runtime.Weathers.Energy
             if (IsImmune(pokemon)) return;
 
             if (Random.Range(0, 100) <= 10)
-                pokemon.GetConditionOversight().ApplyVolatileCondition(flinch);
+                pokemon.GetConditionOversight().ApplyVolatileCondition(this.flinch);
         }
     }
 }

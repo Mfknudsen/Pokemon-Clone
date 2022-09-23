@@ -31,15 +31,15 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public float GetDamage()
         {
-            n += increaseN;
-            return damage * n;
+            this.n += this.increaseN;
+            return this.damage * this.n;
         }
         #endregion
 
         #region Setters
         public void SetDamage(int maxHP)
         {
-            damage = maxHP / 16;
+            this.damage = maxHP / 16;
         }
         #endregion
 

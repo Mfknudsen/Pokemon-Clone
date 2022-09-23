@@ -21,28 +21,28 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
             // ReSharper disable once InconsistentNaming
-            float splitEXP = points / 200, applied = 0;
+            float splitEXP = this.points / 200, applied = 0;
 
-            while (applied < points)
+            while (applied < this.points)
             {
-                if (applied + splitEXP > points)
-                    splitEXP = points - applied;
+                if (applied + splitEXP > this.points)
+                    splitEXP = this.points - applied;
 
-                pokemon.ReceiveExp((int)splitEXP);
+                this.pokemon.ReceiveExp((int)splitEXP);
                 applied += splitEXP;
 
-                yield return new WaitForSeconds(totalTime / 200);
+                yield return new WaitForSeconds(this.totalTime / 200);
             }
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

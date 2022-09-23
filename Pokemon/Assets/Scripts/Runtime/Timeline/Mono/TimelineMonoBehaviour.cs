@@ -24,10 +24,10 @@ namespace Runtime.Timeline.Mono
            
             if(monoBehaviour == null) return;
             
-            monoBehaviour.enabled = enable;
+            monoBehaviour.enabled = this.enable;
             
-            if(!functionToTrigger.Equals(""))
-                monoBehaviour.SendMessage(functionToTrigger);
+            if(!this.functionToTrigger.Equals(""))
+                monoBehaviour.SendMessage(this.functionToTrigger);
         }
 
         #endregion

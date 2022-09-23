@@ -58,8 +58,8 @@ namespace Runtime.UI.SceneTransitions.Transitions
         protected IEnumerator TriggerOnHide(float timeToHide)
         {
             yield return new WaitForSeconds(timeToHide);
-            
-            onHide?.Invoke();
+
+            this.onHide?.Invoke();
         }
 
         #endregion

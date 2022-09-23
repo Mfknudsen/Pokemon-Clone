@@ -22,7 +22,7 @@ namespace Runtime.Timeline.Chat
             ScriptPlayable<TimelineChatBehaviour> playable = ScriptPlayable<TimelineChatBehaviour>.Create(graph);
 
             TimelineChatBehaviour timelineChatBehaviour = playable.GetBehaviour();
-            timelineChatBehaviour.clip = clip;
+            timelineChatBehaviour.clip = this.clip;
             
             return playable;
         }

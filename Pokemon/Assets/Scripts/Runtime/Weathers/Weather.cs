@@ -29,7 +29,7 @@ namespace Runtime.Weathers
 
         public string GetEffectName()
         {
-            return effectName;
+            return this.effectName;
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace Runtime.Weathers
 
         public void TickTurn()
         {
-            currentEffectTurn++;
+            this.currentEffectTurn++;
         }
 
         #endregion
@@ -51,7 +51,7 @@ namespace Runtime.Weathers
 
         public bool EffectDone()
         {
-            return currentEffectTurn == maxEffectTurns;
+            return this.currentEffectTurn == this.maxEffectTurns;
         }
 
         #endregion

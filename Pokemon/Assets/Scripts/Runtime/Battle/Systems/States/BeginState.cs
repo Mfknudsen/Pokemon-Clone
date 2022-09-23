@@ -37,8 +37,8 @@ namespace Runtime.Battle.Systems.States
                 yield return null;
             }
 
-            this.battleManager.SetSelectionMenu(uiManager.GetSelectionMenu());
-            this.battleManager.SetDisplayManager(uiManager.GetDisplayManager());
+            this.battleManager.SetSelectionMenu(this.uiManager.GetSelectionMenu());
+            this.battleManager.SetDisplayManager(this.uiManager.GetDisplayManager());
 
             #region Setup Spots
 
@@ -50,7 +50,7 @@ namespace Runtime.Battle.Systems.States
 
             this.spotOversight = this.battleManager.GetSpotOversight();
 
-            BattleMember[] playerWithAllies = { playerManager.GetBattleMember() };
+            BattleMember[] playerWithAllies = { this.playerManager.GetBattleMember() };
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             playerWithAllies.Concat(battleStarter.GetAllies());
             this.spotOversight.SetupSpots(playerWithAllies, this.battleManager.GetBattlefield().GetAllyField());
@@ -66,16 +66,16 @@ namespace Runtime.Battle.Systems.States
             #region Start Log
 
             string playersMsg = "Starting Battle Between:";
-            string alliesMsg = " - " + playerManager.GetBattleMember().GetName(), enemiesMsg = "";
+            string alliesMsg = " - " + this.playerManager.GetBattleMember().GetName(), enemiesMsg = "";
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (Spot spot in this.battleManager.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
-                if (!battleMember || battleMember == playerManager.GetBattleMember()) continue;
+                if (!battleMember || battleMember == this.playerManager.GetBattleMember()) continue;
 
-                if (battleMember.GetTeamAffiliation() == playerManager.GetBattleMember().GetTeamAffiliation())
+                if (battleMember.GetTeamAffiliation() == this.playerManager.GetBattleMember().GetTeamAffiliation())
                     alliesMsg += ", " + battleMember.GetName();
                 else
                 {
@@ -96,7 +96,7 @@ namespace Runtime.Battle.Systems.States
 
             #endregion
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
             #region Start Actions
@@ -124,7 +124,7 @@ namespace Runtime.Battle.Systems.States
                 switchInActions.Add(container);
             }
 
-            operationManager.AddOperationsContainer(switchInActions.ToArray());
+            this.operationManager.AddOperationsContainer(switchInActions.ToArray());
 
             #endregion
 
@@ -137,12 +137,12 @@ namespace Runtime.Battle.Systems.States
             }
 
 
-            while (!chatManager.GetIsClear() || !operationManager.GetDone())
+            while (!this.chatManager.GetIsClear() || !this.operationManager.GetDone())
                 yield return null;
 
             this.spotOversight.Reorganise(false);
 
-            this.battleManager.SetState(new PlayerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new PlayerTurnState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

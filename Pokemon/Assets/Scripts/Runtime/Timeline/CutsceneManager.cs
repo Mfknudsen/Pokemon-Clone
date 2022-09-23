@@ -38,11 +38,10 @@ namespace Runtime.Timeline
             if (toPlay == null)
                 return;
 
-            if (currentPlaying != null)
-                currentPlaying.Disable();
+            if (this.currentPlaying != null) this.currentPlaying.Disable();
 
-            currentPlaying = toPlay;
-            currentPlaying.Enable();
+            this.currentPlaying = toPlay;
+            this.currentPlaying.Enable();
         }
 
         #endregion

@@ -26,7 +26,7 @@ namespace Runtime.World.Overworld.Interactions
 
         private void OnValidate()
         {
-            onTrigger = onTrigger
+            this.onTrigger = this.onTrigger
                 .OfType<IInteractable>()
                 .Where(i =>
                     !(i is InteractItem))
@@ -39,14 +39,14 @@ namespace Runtime.World.Overworld.Interactions
         {
             if (!other.tag.Equals("Player")) return;
 
-            playerManager.GetInteractions().OnEnter(this, transform);
+            this.playerManager.GetInteractions().OnEnter(this, transform);
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.tag.Equals("Player")) return;
 
-            playerManager.GetInteractions().OnExit(this);
+            this.playerManager.GetInteractions().OnExit(this);
         }
 
         #endregion
@@ -55,7 +55,7 @@ namespace Runtime.World.Overworld.Interactions
 
         public Vector3 GetPosition()
         {
-            return transform.position + iconOffset;
+            return transform.position + this.iconOffset;
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace Runtime.World.Overworld.Interactions
 
         public void Trigger()
         {
-            onTrigger
+            this.onTrigger
                 .Select(script =>
                     script as IInteractable)
                 .ForEach(i =>

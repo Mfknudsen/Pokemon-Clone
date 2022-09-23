@@ -64,10 +64,8 @@ namespace Runtime.Battle.Systems
 
         private void OnValidate()
         {
-            if (pokemonTeam == null)
-                pokemonTeam = GetComponent<Team>();
-            if (inventory == null)
-                inventory = GetComponent<Inventory>();
+            if (this.pokemonTeam == null) this.pokemonTeam = GetComponent<Team>();
+            if (this.inventory == null) this.inventory = GetComponent<Inventory>();
         }
 
         #endregion
@@ -76,57 +74,57 @@ namespace Runtime.Battle.Systems
 
         public string GetName()
         {
-            return memberName;
+            return this.memberName;
         }
 
         public bool IsWild()
         {
-            return isWild;
+            return this.isWild;
         }
 
         public Team GetTeam()
         {
-            return pokemonTeam;
+            return this.pokemonTeam;
         }
 
         public bool GetTeamAffiliation()
         {
-            return isAlly;
+            return this.isAlly;
         }
 
         public List<Spot> GetOwnedSpots()
         {
-            return ownedSpots;
+            return this.ownedSpots;
         }
 
         public bool OwnSpot(Spot spot)
         {
-            return ownedSpots.Contains(spot);
+            return this.ownedSpots.Contains(spot);
         }
 
         public bool IsPlayer()
         {
-            return isPlayer;
+            return this.isPlayer;
         }
 
         public bool HasAllSpots()
         {
-            return hasAllSpots;
+            return this.hasAllSpots;
         }
 
         public Inventory GetInventory()
         {
-            return inventory;
+            return this.inventory;
         }
 
         public int GetSpotsToOwn()
         {
-            return spotsToOwn;
+            return this.spotsToOwn;
         }
 
         public Chat GetOnDefeatedChats()
         {
-            return onDefeatedChats;
+            return this.onDefeatedChats;
         }
 
         #endregion
@@ -135,18 +133,17 @@ namespace Runtime.Battle.Systems
 
         public void SetTeamNumber(bool set)
         {
-            isAlly = set;
+            this.isAlly = set;
         }
 
         public void SetOwnedSpot(Spot set)
         {
             if (set != null)
             {
-                if (!ownedSpots.Contains(set))
-                    ownedSpots.Add(set);
+                if (!this.ownedSpots.Contains(set)) this.ownedSpots.Add(set);
             }
 
-            hasAllSpots = (ownedSpots.Count == spotsToOwn);
+            this.hasAllSpots = (this.ownedSpots.Count == this.spotsToOwn);
         }
 
         #endregion
@@ -155,23 +152,23 @@ namespace Runtime.Battle.Systems
 
         public void Setup()
         {
-            if (isPlayer)
+            if (this.isPlayer)
                 return;
 
             for (int i = 0; i < 6; i++)
             {
-                Pokemon pokemon = pokemonTeam.GetPokemonByIndex(i);
+                Pokemon pokemon = this.pokemonTeam.GetPokemonByIndex(i);
                 if (pokemon == null)
                     break;
                 EvaluatorSetting evaluatorSetting;
                 // ReSharper disable once LocalVariableHidesMember
-                PersonalitySetting personalitySetting = useDefaultPersonalitySetting
+                PersonalitySetting personalitySetting = this.useDefaultPersonalitySetting
                     ? new PersonalitySetting()
                     : this.personalitySetting;
 
                 try
                 {
-                    evaluatorSetting = evaluatorSettings[i];
+                    evaluatorSetting = this.evaluatorSettings[i];
                 }
                 catch
                 {
@@ -181,18 +178,18 @@ namespace Runtime.Battle.Systems
                 evaluatorSetting.SetPersonalitySetting(personalitySetting);
 
                 Evaluator evaluator = new(pokemon, evaluatorSetting);
-                evaluators.Add(evaluator);
+                this.evaluators.Add(evaluator);
             }
         }
 
         public void ForceHasAllSpots()
         {
-            hasAllSpots = true;
+            this.hasAllSpots = true;
         }
 
         public void ActivateAIBrain(Pokemon toTick)
         {
-            Evaluator evaluator = evaluators.FirstOrDefault(e => e.UsedForPokemon(toTick));
+            Evaluator evaluator = this.evaluators.FirstOrDefault(e => e.UsedForPokemon(toTick));
 
             if (evaluator == null)
             {

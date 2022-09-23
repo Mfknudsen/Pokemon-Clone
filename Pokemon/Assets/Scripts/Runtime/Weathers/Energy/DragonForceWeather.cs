@@ -24,7 +24,7 @@ namespace Runtime.Weathers.Energy
 
         public float Effect(PokemonMove pokemonMove)
         {
-            if (!amplified)
+            if (!this.amplified)
                 return 0.8f;
 
             return pokemonMove.GetMoveType().GetTypeName() == TypeName.Dragon
@@ -39,25 +39,25 @@ namespace Runtime.Weathers.Energy
 
         public bool MultiHit(PokemonMove pokemonMove)
         {
-            if (pokemonMove.GetCurrentPokemon() == affected)
-                hasHit = true;
+            if (pokemonMove.GetCurrentPokemon() == this.affected)
+                this.hasHit = true;
             else
             {
-                affected = pokemonMove.GetCurrentPokemon();
-                hasHit = false;
+                this.affected = pokemonMove.GetCurrentPokemon();
+                this.hasHit = false;
             }
 
-            return hasHit;
+            return this.hasHit;
         }
 
         public IEnumerator Operation()
         {
             float secPerPokeMove = 200 * BattleManager.instance.GetSecPerPokeMove();
             
-            if (affected == null || affected.GetTypes()
+            if (this.affected == null || this.affected.GetTypes()
                 .Any(type => type.GetTypeName() == TypeName.Dragon)) yield break;
 
-            int damagePerTarget = affected.GetCalculatedStat(Stat.HP) / 10;
+            int damagePerTarget = this.affected.GetCalculatedStat(Stat.HP) / 10;
             float damageApplied = 0, damageOverTime = damagePerTarget / secPerPokeMove;
 
             while (damageApplied < damagePerTarget)
@@ -67,7 +67,7 @@ namespace Runtime.Weathers.Energy
 
                 damageApplied += damageOverTime;
 
-                affected.ReceiveDamage(damageOverTime);
+                this.affected.ReceiveDamage(damageOverTime);
 
                 yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() / secPerPokeMove);
             }

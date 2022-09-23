@@ -17,9 +17,9 @@ namespace Runtime.PC
 
         public void SetPokemon(Pokemon set)
         {
-            onSpot = set;
+            this.onSpot = set;
 
-            visual.sprite = null;
+            this.visual.sprite = null;
         }
     }
 }

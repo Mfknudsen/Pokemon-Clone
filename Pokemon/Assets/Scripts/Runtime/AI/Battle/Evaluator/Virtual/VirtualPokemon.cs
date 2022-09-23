@@ -1,5 +1,5 @@
 using Runtime.Pokémon;
-using Object = UnityEngine.Object;
+using UnityEngine;
 using Type = System.Type;
 
 namespace Runtime.AI.Battle.Evaluator.Virtual
@@ -15,26 +15,26 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         public VirtualPokemon(Pokemon pokemon)
         {
             this.pokemon = pokemon;
-            fakePokemon = Object.Instantiate(pokemon);
-            fakePokemon.ResetForAIMemory();
-            isKnown = false;
+            this.fakePokemon = Object.Instantiate(pokemon);
+            this.fakePokemon.ResetForAIMemory();
+            this.isKnown = false;
         }
 
         #region Getters
 
         public Pokemon GetFakePokemon()
         {
-            return fakePokemon;
+            return this.fakePokemon;
         }
 
         public Pokemon GetActualPokemon()
         {
-            return pokemon;
+            return this.pokemon;
         }
 
         public bool GetKnown()
         {
-            return isKnown;
+            return this.isKnown;
         }
 
         #endregion
@@ -43,15 +43,15 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
         public void OnEnterCheck(Pokemon toCheck)
         {
-            if (pokemon != toCheck)
+            if (this.pokemon != toCheck)
                 return;
 
-            isKnown = true;
+            this.isKnown = true;
         }
 
         public void OnAbilityTrigger(Pokemon toCheck, Ability ability)
         {
-            if (pokemon != toCheck)
+            if (this.pokemon != toCheck)
                 return;
 
             try
@@ -59,11 +59,10 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
                 Ability[] abilities = toCheck.GetAbilities();
                 Type type = ability.GetType();
                 if (abilities[0].GetType() == type)
-                    fakePokemon.SetFirstAbility(ability);
+                    this.fakePokemon.SetFirstAbility(ability);
                 else if (abilities[1].GetType() == type)
-                    fakePokemon.SetSecondAbility(ability);
-                else if (abilities[2].GetType() == type)
-                    fakePokemon.SetHiddenAbility(ability);
+                    this.fakePokemon.SetSecondAbility(ability);
+                else if (abilities[2].GetType() == type) this.fakePokemon.SetHiddenAbility(ability);
             }
             catch
             {

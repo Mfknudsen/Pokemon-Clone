@@ -175,144 +175,144 @@ namespace Runtime.Pokémon
 
         public int GetMaxHealth()
         {
-            return maxHealth;
+            return this.maxHealth;
         }
 
         public bool GetIsInstantiated()
         {
-            return isInstantiated;
+            return this.isInstantiated;
         }
 
         public string GetName()
         {
-            return pokemonName;
+            return this.pokemonName;
         }
 
         public int GetStatRaw(Stat target)
         {
-            return stats[target];
+            return this.stats[target];
         }
 
         // ReSharper disable once InconsistentNaming
         public int GetIV(Stat target)
         {
-            return iv[(int)target];
+            return this.iv[(int)target];
         }
 
         // ReSharper disable once InconsistentNaming
         public int GetEV(Stat target)
         {
-            return ev[(int)target];
+            return this.ev[(int)target];
         }
 
         public int GetLevel()
         {
-            return level;
+            return this.level;
         }
 
         public Type[] GetTypes()
         {
-            if (types.Length == 1)
-                return (Type[])types.Concat(new Type[] { null });
+            if (this.types.Length == 1)
+                return (Type[])this.types.Concat(new Type[] { null });
 
-            return types;
+            return this.types;
         }
 
         public EggGroup GetEggGroup()
         {
-            return eggGroup;
+            return this.eggGroup;
         }
 
         public int GetMinHatchSteps()
         {
-            return hatchTimeMin;
+            return this.hatchTimeMin;
         }
 
         public int GetMaxHatchSteps()
         {
-            return hatchTimeMax;
+            return this.hatchTimeMax;
         }
 
         public float GetHeight()
         {
-            return height;
+            return this.height;
         }
 
         public float GetWeight()
         {
-            return weight;
+            return this.weight;
         }
 
         // ReSharper disable once IdentifierTypo
         public int GetPokedexIndex()
         {
-            return pokedexIndex;
+            return this.pokedexIndex;
         }
 
         public string GetPokemonCategory()
         {
-            return pokemonCategory;
+            return this.pokemonCategory;
         }
 
         // ReSharper disable once InconsistentNaming
         public int GetEVYield(Stat target)
         {
-            return evYield[(int)target];
+            return this.evYield[(int)target];
         }
 
         public int GetExpYield()
         {
-            return expYield;
+            return this.expYield;
         }
 
         public LevelRate GetLevelRate()
         {
-            return levelRate;
+            return this.levelRate;
         }
 
         public float GetGenderRate()
         {
-            return genderRate;
+            return this.genderRate;
         }
 
         public float GetCatchRate()
         {
-            return catchRate;
+            return this.catchRate;
         }
 
         public int[] GetLevelLearnedMovesKeys()
         {
-            return levelLearnableMoveKeys;
+            return this.levelLearnableMoveKeys;
         }
 
         public PokemonMove[] GetLevelLearnableMoveValue()
         {
-            return levelLearnableMove;
+            return this.levelLearnableMove;
         }
 
         public Pokemon[] GetBreedingLearnableMoveKeys()
         {
-            return breedingLearnedMoveKeys;
+            return this.breedingLearnedMoveKeys;
         }
 
         public PokemonMove[] GetBreedingLearnableMoveValue()
         {
-            return breedingLearnedMove;
+            return this.breedingLearnedMove;
         }
 
         public PokemonMove[] GetTMLearnableMoveValues()
         {
-            return tmLearnableMove;
+            return this.tmLearnableMove;
         }
 
         public PokemonMove[] GetTutorLearnableMoveValue()
         {
-            return tutorLearnableMove;
+            return this.tutorLearnableMove;
         }
 
         public Ability[] GetAbilities()
         {
-            return new[] { firstAbility, secondAbility, hiddenAbility };
+            return new[] { this.firstAbility, this.secondAbility, this.hiddenAbility };
         }
 
         #endregion
@@ -429,47 +429,47 @@ namespace Runtime.Pokémon
 
         public void SetIsInstantiated(bool set)
         {
-            isInstantiated = set;
+            this.isInstantiated = set;
         }
 
         public void SetSpawnedObject(GameObject set)
         {
-            spawnedObject = set;
+            this.spawnedObject = set;
         }
 
         public void SetBattleAction(BattleAction set)
         {
-            battleAction = set;
+            this.battleAction = set;
         }
 
         public void SetGettingSwitched(bool set)
         {
-            gettingSwitched = set;
+            this.gettingSwitched = set;
         }
 
         public void SetInBattle(bool set)
         {
-            inBattle = set;
+            this.inBattle = set;
         }
 
         public void SetRevived(bool set)
         {
-            gettingRevived = set;
+            this.gettingRevived = set;
         }
 
         public void SetFirstAbility(Ability set)
         {
-            firstAbility = set;
+            this.firstAbility = set;
         }
 
         public void SetSecondAbility(Ability set)
         {
-            secondAbility = set;
+            this.secondAbility = set;
         }
 
         public void SetHiddenAbility(Ability set)
         {
-            hiddenAbility = set;
+            this.hiddenAbility = set;
         }
 
         #endregion
@@ -509,7 +509,7 @@ namespace Runtime.Pokémon
 
             AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
 
-            this.instantiatedAbilities = new List<Ability> { firstAbility, secondAbility, hiddenAbility };
+            this.instantiatedAbilities = new List<Ability> { this.firstAbility, this.secondAbility, this.hiddenAbility };
 
             for (int i = 0; i < this.instantiatedAbilities.Count; i++)
             {
@@ -561,40 +561,40 @@ namespace Runtime.Pokémon
             if (affectedStat == Stat.Accuracy || affectedStat == Stat.Evasion || affectedStat == Stat.Critical)
                 return;
 
-            multipliers[(int)affectedStat] += stages;
+            this.multipliers[(int)affectedStat] += stages;
         }
 
         public void AffectAccuracy(int affect)
         {
-            accuracy = Mathf.Clamp(accuracy + affect, 0, 6);
+            this.accuracy = Mathf.Clamp(this.accuracy + affect, 0, 6);
         }
 
         public void AffectEvasion(int affect)
         {
-            evasion = Mathf.Clamp(evasion + affect, 0, 6);
+            this.evasion = Mathf.Clamp(this.evasion + affect, 0, 6);
         }
 
         public void AffectCritical(int affect)
         {
-            critical = Mathf.Clamp(critical + affect, 0, 6);
+            this.critical = Mathf.Clamp(this.critical + affect, 0, 6);
         }
 
         public void ResetForAIMemory()
         {
             for (int i = 0; i < 6; i++)
             {
-                iv[i] = 0;
-                ev[i] = 0;
+                this.iv[i] = 0;
+                this.ev[i] = 0;
             }
 
-            firstAbility = null;
-            secondAbility = null;
-            hiddenAbility = null;
+            this.firstAbility = null;
+            this.secondAbility = null;
+            this.hiddenAbility = null;
 
-            baseFriendship = 0;
+            this.baseFriendship = 0;
 
-            oversight = Instantiate(oversight);
-            oversight.Setup(this);
+            this.oversight = Instantiate(this.oversight);
+            this.oversight.Setup(this);
         }
 
         #endregion
@@ -603,7 +603,7 @@ namespace Runtime.Pokémon
 
         private void LevelUp()
         {
-            level++;
+            this.level++;
         }
 
         #endregion

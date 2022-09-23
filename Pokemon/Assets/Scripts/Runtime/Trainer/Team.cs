@@ -19,11 +19,11 @@ namespace Runtime.Trainer
 
         private void OnValidate()
         {
-            if (pokemons.Count == 6) return;
+            if (this.pokemons.Count == 6) return;
             
             List<Pokemon> tempList = new();
 
-            foreach (Pokemon p in pokemons)
+            foreach (Pokemon p in this.pokemons)
             {
                 if (p != null && tempList.Count != 6)
                     tempList.Add(p);
@@ -31,8 +31,7 @@ namespace Runtime.Trainer
                     break;
             }
 
-            for (int i = 0; i < tempList.Count; i++)
-                pokemons[i] = tempList[i];
+            for (int i = 0; i < tempList.Count; i++) this.pokemons[i] = tempList[i];
         }
 
         #endregion
@@ -41,17 +40,17 @@ namespace Runtime.Trainer
 
         public int GetTeamCount()
         {
-            return pokemons.Count(p => p != null);
+            return this.pokemons.Count(p => p != null);
         }
 
         public bool HasMorePokemon()
         {
-            return pokemons.FirstOrDefault(p => !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition));
+            return this.pokemons.FirstOrDefault(p => !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition));
         }
 
         public bool CanSendMorePokemon()
         {
-            foreach (Pokemon pokemon in pokemons)
+            foreach (Pokemon pokemon in this.pokemons)
             {
                 if (pokemon is null) continue;
 
@@ -69,7 +68,7 @@ namespace Runtime.Trainer
 
         public bool PartOfTeam(Pokemon pokemon)
         {
-            foreach (Pokemon p in pokemons)
+            foreach (Pokemon p in this.pokemons)
             {
                 if (p == pokemon)
                     return true;
@@ -80,7 +79,7 @@ namespace Runtime.Trainer
 
         public Pokemon GetFirstOut()
         {
-            foreach (Pokemon pokemon in pokemons)
+            foreach (Pokemon pokemon in this.pokemons)
             {
                 if (pokemon is null) continue;
 
@@ -97,16 +96,16 @@ namespace Runtime.Trainer
 
         public void Setup()
         {
-            for (int i = 0; i < pokemons.Count; i++)
+            for (int i = 0; i < this.pokemons.Count; i++)
             {
-                Pokemon pokemon = pokemons[i];
+                Pokemon pokemon = this.pokemons[i];
                 if (pokemon == null || pokemon.GetIsInstantiated()) continue;
 
                 pokemon = Instantiate(pokemon);
 
                 pokemon.SetIsInstantiated(true);
 
-                pokemons[i] = pokemon;
+                this.pokemons[i] = pokemon;
             }
         }
 
@@ -114,48 +113,48 @@ namespace Runtime.Trainer
         {
             if (index < 0 ||
                 index > 5 ||
-                index >= pokemons.Count) return null;
+                index >= this.pokemons.Count) return null;
             
-            return pokemons[index];
+            return this.pokemons[index];
         }
 
         public void SwitchTeamPlaces(Pokemon from, Pokemon to)
         {
-            int fromIndex = pokemons.IndexOf(from), toIndex = pokemons.IndexOf(to);
+            int fromIndex = this.pokemons.IndexOf(from), toIndex = this.pokemons.IndexOf(to);
 
-            (pokemons[toIndex], pokemons[fromIndex]) = (pokemons[fromIndex], pokemons[toIndex]);
+            (this.pokemons[toIndex], this.pokemons[fromIndex]) = (this.pokemons[fromIndex], this.pokemons[toIndex]);
         }
 
         public void AddNewPokemonToTeam(Pokemon toAdd)
         {
-            for (int i = 0; i < pokemons.Capacity; i++)
+            for (int i = 0; i < this.pokemons.Capacity; i++)
             {
-                if (pokemons[i] != null) continue;
+                if (this.pokemons[i] != null) continue;
 
-                pokemons[i] = toAdd;
+                this.pokemons[i] = toAdd;
                 return;
             }
 
-            if (boxContainers.Any(container => container.AddPokemon(toAdd)))
+            if (this.boxContainers.Any(container => container.AddPokemon(toAdd)))
                 return;
 
             BoxContainer c = new();
             c.AddPokemon(toAdd);
-            boxContainers.Add(c);
+            this.boxContainers.Add(c);
         }
 
         public void RemovePokemonFromTeam(Pokemon toRemove)
         {
-            for (int i = 0; i < pokemons.Capacity; i++)
+            for (int i = 0; i < this.pokemons.Capacity; i++)
             {
-                if (pokemons[i] != toRemove) continue;
+                if (this.pokemons[i] != toRemove) continue;
 
-                pokemons[i] = null;
+                this.pokemons[i] = null;
                 return;
             }
 
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            boxContainers.Any(boxContainer => boxContainer.RemovePokemon(toRemove));
+            this.boxContainers.Any(boxContainer => boxContainer.RemovePokemon(toRemove));
         }
 
         #endregion
@@ -167,11 +166,11 @@ namespace Runtime.Trainer
 
         public bool AddPokemon(Pokemon toAdd)
         {
-            for (int i = 0; i < pokemons.Capacity; i++)
+            for (int i = 0; i < this.pokemons.Capacity; i++)
             {
-                if (pokemons[i] != null) continue;
+                if (this.pokemons[i] != null) continue;
 
-                pokemons[i] = toAdd;
+                this.pokemons[i] = toAdd;
                 return true;
             }
 
@@ -180,11 +179,11 @@ namespace Runtime.Trainer
 
         public bool RemovePokemon(Pokemon toRemove)
         {
-            for (int i = 0; i < pokemons.Capacity; i++)
+            for (int i = 0; i < this.pokemons.Capacity; i++)
             {
-                if (pokemons[i] != toRemove) continue;
+                if (this.pokemons[i] != toRemove) continue;
 
-                pokemons[i] = toRemove;
+                this.pokemons[i] = toRemove;
                 return true;
             }
 

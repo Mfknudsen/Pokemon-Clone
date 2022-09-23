@@ -18,7 +18,7 @@ namespace Runtime.Pokémon.Abilities
 
         public bool CanAbsorb(TypeName attackTypeName, Pokemon pokemon)
         {
-            return attackTypeName == typeName;
+            return attackTypeName == this.typeName;
         }
 
         public bool ImmuneDamage()

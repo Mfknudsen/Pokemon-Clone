@@ -20,9 +20,9 @@ namespace Runtime.World.Overworld.Tiles
 
         private void Awake()
         {
-            border = transform.parent.GetComponent<TileBorder>();
+            this.border = transform.parent.GetComponent<TileBorder>();
 
-            if (border == null)
+            if (this.border == null)
             {
                 Destroy(gameObject);
                 Debug.LogError("Tile Border Trigger must be child of Tile Border");
@@ -32,8 +32,8 @@ namespace Runtime.World.Overworld.Tiles
         private void OnTriggerEnter(Collider other)
         {
             if(!other.transform.root.name.Equals("Player")) return;
-            
-            border.Trigger(exitCurrent);
+
+            this.border.Trigger(this.exitCurrent);
         }
 
         #endregion

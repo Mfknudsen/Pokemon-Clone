@@ -15,7 +15,7 @@ namespace Runtime.AI.Node_Canvas.Conditions
 
         protected override bool OnCheck()
         {
-            return index.value < list.value.Count;
+            return this.index.value < this.list.value.Count;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Runtime._Debug
             if (instance != null) return;
 
             instance = this;
-            textField.text = "";
+            this.textField.text = "";
 
             InputManager.instance.showHideEvent.AddListener(ShowHide);
             ShowHide();
@@ -38,7 +38,7 @@ namespace Runtime._Debug
         private void Awake()
         {
             foreach (Transform t in transform)
-                t.gameObject.SetActive(active);
+                t.gameObject.SetActive(this.active);
         }
 
         #region In
@@ -47,9 +47,9 @@ namespace Runtime._Debug
         public void AddNewLog(string script, string input)
         {
             string scriptText = script + "[" + System.DateTime.Now.ToLocalTime().ToString("HH:mm:ss") + "]: ";
-            textLog.Add(scriptText + input);
+            this.textLog.Add(scriptText + input);
 
-            textField.text += scriptText + "\n" + input + "\n";
+            this.textField.text += scriptText + "\n" + input + "\n";
 
             Invoke(nameof(ScrollControl), 0.01f);
         }
@@ -69,7 +69,7 @@ namespace Runtime._Debug
 
         private void ScrollControl()
         {
-            scroller.value = 0;
+            this.scroller.value = 0;
         }
 
         #endregion
@@ -79,9 +79,9 @@ namespace Runtime._Debug
         private void ShowHide()
         {
             foreach (Transform t in transform)
-                t.gameObject.SetActive(show);
+                t.gameObject.SetActive(this.show);
 
-            show = !show;
+            this.show = !this.show;
         }
 
         #endregion

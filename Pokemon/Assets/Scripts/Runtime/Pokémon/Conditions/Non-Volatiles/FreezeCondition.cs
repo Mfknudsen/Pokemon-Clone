@@ -46,41 +46,41 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public override void Reset()
         {
-            done = false;
+            this.done = false;
         }
 
         public IEnumerator Operation()
         {
-            n++;
+            this.n++;
 
-            if ((Random.Range(0.0f, 1.0f) <= 0.2f) && (n != 5))
+            if ((Random.Range(0.0f, 1.0f) <= 0.2f) && (this.n != 5))
             {
-                Chat toSend = abruptEndChat.GetChat();
-                toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                chatManager.Add(toSend);
+                Chat toSend = this.abruptEndChat.GetChat();
+                toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
+                this.chatManager.Add(toSend);
 
-                conditionOversight.RemoveFromCondition(this);
+                this.conditionOversight.RemoveFromCondition(this);
             }
-            else if (n < 5)
+            else if (this.n < 5)
             {
-                Chat toSend = onContinuousEffectChat.GetChat();
-                toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                chatManager.Add(toSend);
+                Chat toSend = this.onContinuousEffectChat.GetChat();
+                toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
+                this.chatManager.Add(toSend);
 
-                conditionOversight.SetIsStunned(true);
+                this.conditionOversight.SetIsStunned(true);
             }
             else
             {
-                Chat toSend = endEffectChat.GetChat();
-                toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-                chatManager.Add(endEffectChat);
+                Chat toSend = this.endEffectChat.GetChat();
+                toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
+                this.chatManager.Add(this.endEffectChat);
 
-                conditionOversight.RemoveFromCondition(this);
+                this.conditionOversight.RemoveFromCondition(this);
             }
 
             yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()
@@ -91,7 +91,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
     }
 }

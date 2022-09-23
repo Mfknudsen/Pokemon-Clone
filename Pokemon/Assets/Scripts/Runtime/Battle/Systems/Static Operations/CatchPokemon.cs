@@ -30,12 +30,12 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = true;
+            this.done = true;
 
             yield break;
         }

@@ -38,23 +38,23 @@ namespace Runtime.Items.Medicine
 
         public override IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            Chat toSend = onActivation.GetChat();
-            toSend.AddToOverride("<POKEMON_NAME>", target.GetName());
-            chatManager.Add(toSend);
+            Chat toSend = this.onActivation.GetChat();
+            toSend.AddToOverride("<POKEMON_NAME>", this.target.GetName());
+            this.chatManager.Add(toSend);
 
-            target.GetConditionOversight().TryApplyNonVolatileCondition(null);
+            this.target.GetConditionOversight().TryApplyNonVolatileCondition(null);
 
-            if (toFull)
-                target.ReceiveDamage(-Mathf.Infinity);
+            if (this.toFull)
+                this.target.ReceiveDamage(-Mathf.Infinity);
             else
-                target.ReceiveDamage(-(target.GetCalculatedStat(Stat.HP) / 2));
+                this.target.ReceiveDamage(-(this.target.GetCalculatedStat(Stat.HP) / 2));
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         #endregion

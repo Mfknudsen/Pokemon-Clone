@@ -54,7 +54,7 @@ namespace Runtime.Battle.Systems
 
         private void OnValidate()
         {
-            if (playerSpotCount is not (>= 1 and <= 3))
+            if (this.playerSpotCount is not (>= 1 and <= 3))
                 Debug.LogError("Player Spot Count Must Be Between 1 and 3");
         }
 
@@ -64,39 +64,39 @@ namespace Runtime.Battle.Systems
 
         public int GetPlayerSpotCount()
         {
-            return playerSpotCount;
+            return this.playerSpotCount;
         }
 
         public int GetAllySpotCount()
         {
-            return allies.Sum(battleMember => battleMember.GetSpotsToOwn());
+            return this.allies.Sum(battleMember => battleMember.GetSpotsToOwn());
         }
 
         public int GetEnemiesSpotCount()
         {
-            return enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
+            return this.enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
         }
 
         public bool GetPlayerWon()
         {
-            return playerWon;
+            return this.playerWon;
         }
 
         public BattleMember[] GetAllies()
         {
-            return allies;
+            return this.allies;
         }
 
         public BattleMember[] GetEnemies()
         {
-            return enemies;
+            return this.enemies;
         }
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new() { playerManager.GetBattleMember() };
-            result.AddRange(allies);
-            result.AddRange(enemies);
+            List<BattleMember> result = new() { this.playerManager.GetBattleMember() };
+            result.AddRange(this.allies);
+            result.AddRange(this.enemies);
             return result;
         }
 
@@ -106,29 +106,29 @@ namespace Runtime.Battle.Systems
 
         public void StartBattleNow()
         {
-            if (!ready) return;
+            if (!this.ready) return;
 
-            ready = false;
+            this.ready = false;
 
             Transform t = transform;
-            overworldParent = t.parent;
+            this.overworldParent = t.parent;
             t.parent = null;
 
-            transition.onHide = () =>
+            this.transition.onHide = () =>
             {
-                tileManager.HideTiles();
-                playerManager.DisableOverworld();
+                this.tileManager.HideTiles();
+                this.playerManager.DisableOverworld();
                 UIBook.instance.gameObject.SetActive(false);
-                uiManager.SwitchUI(UISelection.Battle);
+                this.uiManager.SwitchUI(UISelection.Battle);
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             };
 
-            onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
+            this.onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
 
-            worldManager.SetTransition(transition);
-            worldManager.LoadBattleScene(battleSceneName);
+            this.worldManager.SetTransition(this.transition);
+            this.worldManager.LoadBattleScene(this.battleSceneName);
 
             //Wait for the Battle Scene to load and apply settings from Battle Starter
             StartCoroutine(WaitForResponse());
@@ -140,9 +140,9 @@ namespace Runtime.Battle.Systems
 
             yield return new WaitWhile(() => !BattleManager.instance);
 
-            List<BattleMember> result = new() { playerManager.GetBattleMember() };
+            List<BattleMember> result = new() { this.playerManager.GetBattleMember() };
             result[0].SetTeamNumber(true);
-            foreach (BattleMember m in allies
+            foreach (BattleMember m in this.allies
                          .Where(m =>
                              m != null))
             {
@@ -151,7 +151,7 @@ namespace Runtime.Battle.Systems
                     result.Add(m);
             }
 
-            foreach (BattleMember m in enemies
+            foreach (BattleMember m in this.enemies
                          .Where(m =>
                              m != null))
             {
@@ -162,34 +162,34 @@ namespace Runtime.Battle.Systems
 
             BattleManager.instance.StartBattle(this);
 
-            Chat toSend = Instantiate(onStartChat);
-            toSend.AddToOverride("<TRAINER_NAME>", enemies[0].GetName());
-            chatManager.Add(new[] { toSend });
+            Chat toSend = Instantiate(this.onStartChat);
+            toSend.AddToOverride("<TRAINER_NAME>", this.enemies[0].GetName());
+            this.chatManager.Add(new[] { toSend });
         }
 
         public void EndBattle(bool playerVictory)
         {
-            transition.onHide = () =>
+            this.transition.onHide = () =>
             {
-                tileManager.ShowTiles();
-                playerManager.EnableOverworld();
+                this.tileManager.ShowTiles();
+                this.playerManager.EnableOverworld();
                 UIBook.instance.gameObject.SetActive(true);
-                uiManager.SwitchUI(UISelection.Overworld);
-                cameraManager.SetCurrentRigToDefault();
+                this.uiManager.SwitchUI(UISelection.Overworld);
+                this.cameraManager.SetCurrentRigToDefault();
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 //UIBook.instance.gameObject.SetActive(true);
                 //UIManager.instance.SwitchUI(UISelection.Start);
                 //UIBook.instance.Effect(BookTurn.Open);
-                transform.parent = overworldParent;
+                transform.parent = this.overworldParent;
             };
 
-            worldManager.SetTransition(transition);
-            worldManager.UnloadCurrentBattleScene();
+            this.worldManager.SetTransition(this.transition);
+            this.worldManager.UnloadCurrentBattleScene();
 
-            playerWon = playerVictory;
+            this.playerWon = playerVictory;
 
-            onBattleEnd?.Invoke(playerVictory);
+            this.onBattleEnd?.Invoke(playerVictory);
         }
 
         #endregion

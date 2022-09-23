@@ -26,59 +26,59 @@ namespace Runtime.Items
 
         public ItemContainer[] GetAllItems()
         {
-            return items.ToArray();
+            return this.items.ToArray();
         }
 
         public Item GetItemByIndex(int i)
         {
-            return items[i].item;
+            return this.items[i].item;
         }
 
         public bool IsItemInBag(Item i)
         {
-            return items.Any(container => container.item.GetItemName() == i.GetItemName());
+            return this.items.Any(container => container.item.GetItemName() == i.GetItemName());
         }
 
         #region - Bag Categories
 
         public ItemContainer[] GetMedicine()
         {
-            return items.Where(i => medicine.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.medicine.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetPokeballs()
         {
-            return items.Where(i => balls.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.balls.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetBattleItems()
         {
-            return items.Where(i => battle.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.battle.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetBerries()
         {
-            return items.Where(i => berries.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.berries.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetOther()
         {
-            return items.Where(i => other.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.other.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetTM()
         {
-            return items.Where(i => tm.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.tm.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetTreasure()
         {
-            return items.Where(i => treasure.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.treasure.Contains(i.item.GetItemType())).ToArray();
         }
 
         public ItemContainer[] GetKeyItems()
         {
-            return items.Where(i => key.Contains(i.item.GetItemType())).ToArray();
+            return this.items.Where(i => this.key.Contains(i.item.GetItemType())).ToArray();
         }
 
         #endregion
@@ -94,7 +94,7 @@ namespace Runtime.Items
         public void AddItem(Item i)
         {
             bool foundExisting = false;
-            foreach (ItemContainer container in items.Where(
+            foreach (ItemContainer container in this.items.Where(
                 container => container.item.GetItemName() == i.GetItemName()))
             {
                 foundExisting = true;
@@ -105,12 +105,12 @@ namespace Runtime.Items
             if (foundExisting) return;
 
             ItemContainer itemContainer = new(i);
-            items.Add(itemContainer);
+            this.items.Add(itemContainer);
         }
 
         public void RemoveItem(Item i)
         {
-            foreach (ItemContainer container in items.Where(
+            foreach (ItemContainer container in this.items.Where(
                 container => container.item.GetItemName() == i.GetItemName()))
             {
                 container.count--;
@@ -126,7 +126,7 @@ namespace Runtime.Items
         public ItemContainer(Item item)
         {
             this.item = item;
-            count = 1;
+            this.count = 1;
         }
         
         public Item item;

@@ -33,45 +33,45 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            oversight = BattleManager.instance.GetSpotOversight();
-            isAlly = playerManager.GetBattleMember().GetTeamAffiliation();
+            this.oversight = BattleManager.instance.GetSpotOversight();
+            this.isAlly = this.playerManager.GetBattleMember().GetTeamAffiliation();
         }
 
         public void DisplaySelection(BattleAction action)
         {
             this.action = action;
 
-            background.SetActive(true);
+            this.background.SetActive(true);
 
             Spot currentSpot = null;
 
             List<Spot> eSpots = new(), aSpots = new();
 
-            foreach (Spot spot in oversight.GetSpots())
+            foreach (Spot spot in this.oversight.GetSpots())
             {
                 if (spot.GetActivePokemon() == action.GetCurrentPokemon())
                     currentSpot = spot;
 
-                if (spot.GetIsAlly() == isAlly)
+                if (spot.GetIsAlly() == this.isAlly)
                     aSpots.Add(spot);
                 else
                     eSpots.Add(spot);
             }
 
-            for (int i = 0; i < enemies.Length; i++)
+            for (int i = 0; i < this.enemies.Length; i++)
             {
                 if (i < eSpots.Count)
-                    enemies[i].SetPokemon(this, eSpots[i]);
+                    this.enemies[i].SetPokemon(this, eSpots[i]);
                 else
-                    enemies[i].gameObject.SetActive(false);
+                    this.enemies[i].gameObject.SetActive(false);
             }
 
-            for (int i = 0; i < allies.Length; i++)
+            for (int i = 0; i < this.allies.Length; i++)
             {
                 if (i < aSpots.Count)
-                    allies[i].SetPokemon(this, aSpots[i]);
+                    this.allies[i].SetPokemon(this, aSpots[i]);
                 else
-                    allies[i].gameObject.SetActive(false);
+                    this.allies[i].gameObject.SetActive(false);
             }
 
             if (action is PokemonMove pokemonMove)
@@ -81,7 +81,7 @@ namespace Runtime.Battle.UI.Selection
                 bool selfTarget = targetable[5], allyClose = targetable[3], allyLong = targetable[4];
                 bool enemyFront = targetable[0], enemyStrafe = targetable[1], enemyLong = targetable[2];
 
-                foreach (TargetSlot targetSlot in enemies)
+                foreach (TargetSlot targetSlot in this.enemies)
                 {
                     Button button = targetSlot.gameObject.GetComponent<Button>();
                     Spot targetSpot = targetSlot.GetSpot();
@@ -94,7 +94,7 @@ namespace Runtime.Battle.UI.Selection
                         button.enabled = enemyLong;
                 }
 
-                foreach (TargetSlot targetSlot in allies)
+                foreach (TargetSlot targetSlot in this.allies)
                 {
                     Button button = targetSlot.gameObject.GetComponent<Button>();
                     Spot targetSpot = targetSlot.GetSpot();
@@ -111,18 +111,18 @@ namespace Runtime.Battle.UI.Selection
 
         public void DisableDisplaySelection()
         {
-            background.SetActive(false);
+            this.background.SetActive(false);
         }
 
         public void ReceiveSpot(Spot spot)
         {
-            Pokemon pokemon = action.GetCurrentPokemon();
+            Pokemon pokemon = this.action.GetCurrentPokemon();
 
             if (pokemon is null) return;
 
-            action.SetTargets(spot.GetActivePokemon());
+            this.action.SetTargets(spot.GetActivePokemon());
 
-            pokemon.SetBattleAction(action);
+            pokemon.SetBattleAction(this.action);
         }
 
         #endregion

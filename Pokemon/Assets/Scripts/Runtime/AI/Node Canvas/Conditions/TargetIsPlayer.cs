@@ -13,7 +13,7 @@ namespace Runtime.AI.Node_Canvas.Conditions
 
         protected override bool OnCheck()
         {
-            return target.value.transform.root.name.Equals("Player");
+            return this.target.value.transform.root.name.Equals("Player");
         }
     }
 }

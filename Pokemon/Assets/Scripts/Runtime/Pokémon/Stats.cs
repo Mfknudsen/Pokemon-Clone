@@ -27,15 +27,15 @@ namespace Runtime.Pokémon
             {
                 return stat switch
                 {
-                    Stat.HP => hp,
-                    Stat.Attack => attack,
-                    Stat.Defence => defence,
-                    Stat.SpAtk => spAtk,
-                    Stat.SpDef => spDef,
-                    Stat.Speed => speed,
-                    Stat.Accuracy => accuracy,
-                    Stat.Evasion => evasion,
-                    Stat.Critical => critical,
+                    Stat.HP => this.hp,
+                    Stat.Attack => this.attack,
+                    Stat.Defence => this.defence,
+                    Stat.SpAtk => this.spAtk,
+                    Stat.SpDef => this.spDef,
+                    Stat.Speed => this.speed,
+                    Stat.Accuracy => this.accuracy,
+                    Stat.Evasion => this.evasion,
+                    Stat.Critical => this.critical,
                     _ => throw new ArgumentOutOfRangeException(nameof(stat), stat, null)
                 };
             }

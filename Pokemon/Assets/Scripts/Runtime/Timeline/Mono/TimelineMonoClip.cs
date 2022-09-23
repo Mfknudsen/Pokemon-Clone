@@ -34,8 +34,8 @@ namespace Runtime.Timeline.Mono
 
         protected virtual void TransferValues(TBehaviour behaviour)
         {
-            behaviour.enable = enable;
-            behaviour.functionToTrigger = functionToTrigger;
+            behaviour.enable = this.enable;
+            behaviour.functionToTrigger = this.functionToTrigger;
         }
 
         #endregion

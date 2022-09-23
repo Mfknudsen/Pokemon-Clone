@@ -19,7 +19,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         {
             this.rootAction = rootAction;
             this.virtualBattle = new VirtualBattle(virtualBattle);
-            value = preValue + action.Evaluate(user, target, this.virtualBattle, personalitySetting);
+            this.value = preValue + action.Evaluate(user, target, this.virtualBattle, personalitySetting);
         }
     }
 }

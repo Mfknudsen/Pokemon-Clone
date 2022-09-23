@@ -40,9 +40,9 @@ namespace Runtime.AI.Battle
 
         private void OnValidate()
         {
-            beforeEffects.ForEach(e =>
+            this.beforeEffects.ForEach(e =>
                 e.OnValidate());
-            afterEffects.ForEach(e =>
+            this.afterEffects.ForEach(e =>
                 e.OnValidate());
         }
 
@@ -52,13 +52,13 @@ namespace Runtime.AI.Battle
             Dictionary<string, string> chatInput = SetupChatInput();
 
             //Apply
-            foreach (BeforeEffectContainer container in beforeEffects)
+            foreach (BeforeEffectContainer container in this.beforeEffects)
                 container.SetInput<TriggerBeforeChat>(chatInput);
 
-            foreach (AfterEffectContainer container in afterEffects)
+            foreach (AfterEffectContainer container in this.afterEffects)
                 container.SetInput<TriggerAfterChat>(chatInput);
 
-            battleStarter ??= GetComponent<BattleStarter>();
+            this.battleStarter ??= GetComponent<BattleStarter>();
         }
 
         #endregion
@@ -67,8 +67,8 @@ namespace Runtime.AI.Battle
 
         public override void Trigger()
         {
-            if (battleStarter.GetPlayerWon())
-                chatManager.Add(idleChat);
+            if (this.battleStarter.GetPlayerWon())
+                this.chatManager.Add(this.idleChat);
             else
                 StartCoroutine(BeforeBattle());
         }
@@ -81,12 +81,12 @@ namespace Runtime.AI.Battle
 
         private Dictionary<string, string> SetupChatInput()
         {
-            if (chatKeys == null)
+            if (this.chatKeys == null)
                 return null;
 
             Dictionary<string, string> chatInput = new();
-            for (int i = 0; i < chatKeys.Length && i < chatValues.Length; i++)
-                chatInput.Add(chatKeys[i], chatValues[i]);
+            for (int i = 0; i < this.chatKeys.Length && i < this.chatValues.Length; i++)
+                chatInput.Add(this.chatKeys[i], this.chatValues[i]);
 
             return chatInput;
         }
@@ -95,7 +95,7 @@ namespace Runtime.AI.Battle
 
         private IEnumerator BeforeBattle()
         {
-            foreach (BeforeEffectContainer container in beforeEffects)
+            foreach (BeforeEffectContainer container in this.beforeEffects)
             {
                 container.Trigger();
 
@@ -104,12 +104,12 @@ namespace Runtime.AI.Battle
                 yield return new WaitWhile(() => !container.AllDone());
             }
 
-            battleStarter.StartBattleNow();
+            this.battleStarter.StartBattleNow();
         }
 
         public IEnumerator AfterBattle()
         {
-            foreach (AfterEffectContainer container in afterEffects)
+            foreach (AfterEffectContainer container in this.afterEffects)
             {
                 container.Trigger();
 

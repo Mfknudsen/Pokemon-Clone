@@ -24,7 +24,7 @@ namespace Runtime.ScriptableVariables
             get
             {
                 if (this.componentTransform == null)
-                    this.componentTransform = this.value.transform;
+                    this.componentTransform = value.transform;
 
                 return this.componentTransform;
             }
@@ -35,7 +35,7 @@ namespace Runtime.ScriptableVariables
             get
             {
                 if (this.componentGameObject == null)
-                    this.componentGameObject = this.value.gameObject;
+                    this.componentGameObject = value.gameObject;
 
                 return this.componentGameObject;
             }

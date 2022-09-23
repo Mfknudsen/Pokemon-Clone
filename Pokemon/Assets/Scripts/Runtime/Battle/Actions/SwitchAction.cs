@@ -32,12 +32,12 @@ namespace Runtime.Battle.Actions
 
         public Pokemon GetNextPokemon()
         {
-            return nextPokemon;
+            return this.nextPokemon;
         }
 
         public Spot GetSpot()
         {
-            return spot;
+            return this.spot;
         }
 
         #endregion
@@ -49,14 +49,14 @@ namespace Runtime.Battle.Actions
             if (next == null)
                 return;
 
-            nextPokemon = next;
+            this.nextPokemon = next;
 
             next.SetGettingSwitched(true);
         }
 
         public void SetTeam(Trainer.Team set)
         {
-            team = set;
+            this.team = set;
         }
 
         public void SetSpot(Spot set)
@@ -64,7 +64,7 @@ namespace Runtime.Battle.Actions
             if (set == null)
                 return;
 
-            spot = set;
+            this.spot = set;
         }
 
         #endregion
@@ -73,53 +73,53 @@ namespace Runtime.Battle.Actions
 
         public override IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
             List<Chat> toSend = new();
 
             //Start of match there will be no current pokemon
-            if (currentPokemon != null)
+            if (this.currentPokemon != null)
             {
                 //Switch team member places
-                team.SwitchTeamPlaces(currentPokemon, nextPokemon);
+                this.team.SwitchTeamPlaces(this.currentPokemon, this.nextPokemon);
                 
-                if (currentPokemon.GetSpawnedObject() != null)
+                if (this.currentPokemon.GetSpawnedObject() != null)
                 {
-                    foreach (Chat t in chatOnActivation)
+                    foreach (Chat t in this.chatOnActivation)
                     {
                         Chat c = Instantiate(t);
-                        c.AddToOverride("<POKEMON_NAME>", currentPokemon.GetName());
+                        c.AddToOverride("<POKEMON_NAME>", this.currentPokemon.GetName());
                         toSend.Add(c);
                     }
 
-                    chatManager.Add(toSend.ToArray());
+                    this.chatManager.Add(toSend.ToArray());
 
-                    GameObject obj = currentPokemon.GetSpawnedObject();
+                    GameObject obj = this.currentPokemon.GetSpawnedObject();
 
-                    while (!chatManager.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
+                    while (!this.chatManager.GetIsClear() && obj.transform.localScale.magnitude > 0.01f)
                     {
                         obj.transform.localScale += -Vector3.one * Time.deltaTime;
                         yield return null;
                     }
-                    
-                    currentPokemon.DespawnPokemon();
+
+                    this.currentPokemon.DespawnPokemon();
                 }
             }
 
-            nextPokemon.Setup();
+            this.nextPokemon.Setup();
 
             //Out text + Spawn new Pokemon
             toSend.Clear();
-            foreach (Chat t in nextChat)
+            foreach (Chat t in this.nextChat)
             {
                 Chat c = Instantiate(t);
-                c.AddToOverride("<NEXT_POKEMON>", nextPokemon.GetName());
+                c.AddToOverride("<NEXT_POKEMON>", this.nextPokemon.GetName());
                 toSend.Add(c);
             }
 
-            chatManager.Add(toSend.ToArray());
+            this.chatManager.Add(toSend.ToArray());
 
-            BattleManager.instance.SpawnPokemon(nextPokemon, spot);
-            Transform inTrans = nextPokemon.GetSpawnedObject().transform;
+            BattleManager.instance.SpawnPokemon(this.nextPokemon, this.spot);
+            Transform inTrans = this.nextPokemon.GetSpawnedObject().transform;
             inTrans.localScale = Vector3.one * 0.1f;
 
             while (inTrans.localScale.y < 1)
@@ -132,7 +132,7 @@ namespace Runtime.Battle.Actions
 
             yield return new WaitForSeconds(1);
 
-            done = true;
+            this.done = true;
         }
 
         #endregion

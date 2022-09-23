@@ -21,17 +21,16 @@ namespace Runtime.Weathers.Irritants
             base.Setup();
 
             foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
-                .Select(spot => spot.GetActivePokemon()).Where(pokemon =>
-                    amplified || !pokemon.GetTypes().Any(type => type.GetTypeName() == TypeName.Poison)))
+                .Select(spot => spot.GetActivePokemon()).Where(pokemon => this.amplified || !pokemon.GetTypes().Any(type => type.GetTypeName() == TypeName.Poison)))
             {
-                pokemon.GetConditionOversight().TryApplyNonVolatileCondition(poison);
+                pokemon.GetConditionOversight().TryApplyNonVolatileCondition(this.poison);
             }
         }
 
         public void Trigger(Pokemon pokemon)
         {
-            if (amplified || !pokemon.GetTypes().Any(type => type.GetTypeName() == TypeName.Poison))
-                pokemon.GetConditionOversight().TryApplyNonVolatileCondition(poison);
+            if (this.amplified || !pokemon.GetTypes().Any(type => type.GetTypeName() == TypeName.Poison))
+                pokemon.GetConditionOversight().TryApplyNonVolatileCondition(this.poison);
         }
     }
 }

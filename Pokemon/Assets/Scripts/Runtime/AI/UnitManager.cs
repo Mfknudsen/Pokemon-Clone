@@ -34,8 +34,8 @@ namespace Runtime.AI
 
         private void OnValidate()
         {
-            mediumDelay = mediumDelay > 0 ? mediumDelay : 1;
-            farDelay = farDelay > 0 ? farDelay : 1;
+            this.mediumDelay = this.mediumDelay > 0 ? this.mediumDelay : 1;
+            this.farDelay = this.farDelay > 0 ? this.farDelay : 1;
         }
 
         public override IEnumerator StartManager()
@@ -47,17 +47,15 @@ namespace Runtime.AI
 
         public override void UpdateManager()
         {
-            close.ForEach(c => c.TriggerBehaviourUpdate());
+            this.close.ForEach(c => c.TriggerBehaviourUpdate());
 
-            if (count % farDelay == 0)
-                far.ForEach(c => c.TriggerBehaviourUpdate());
+            if (this.count % this.farDelay == 0) this.far.ForEach(c => c.TriggerBehaviourUpdate());
 
-            if (count % mediumDelay == 0)
+            if (this.count % this.mediumDelay == 0)
             {
-                medium.ForEach(c => c.TriggerBehaviourUpdate());
+                this.medium.ForEach(c => c.TriggerBehaviourUpdate());
 
-                if (count % farDelay == 0)
-                    count = 0;
+                if (this.count % this.farDelay == 0) this.count = 0;
             }
         }
 
@@ -67,17 +65,17 @@ namespace Runtime.AI
 
         public void AddController(NpcController add)
         {
-            if (add == null || controllers.Contains(add))
+            if (add == null || this.controllers.Contains(add))
                 return;
 
-            controllers.Add(add);
+            this.controllers.Add(add);
 
             Transform cTrans = add.transform;
             cTrans.root.parent = this.parentTransform.transform;
 
             Vector3 cPos = cTrans.position,
-                pPos = playerManager.GetAgent() != null
-                    ? playerManager.GetAgent().transform.position
+                pPos = this.playerManager.GetAgent() != null
+                    ? this.playerManager.GetAgent().transform.position
                     : Vector3.zero;
 
             float distance = Vector3.Distance(cPos, pPos);
@@ -85,23 +83,23 @@ namespace Runtime.AI
             switch (distance)
             {
                 case < 50:
-                    close.Add(add);
+                    this.close.Add(add);
                     break;
                 case < 100:
-                    medium.Add(add);
+                    this.medium.Add(add);
                     break;
                 default:
-                    far.Add(add);
+                    this.far.Add(add);
                     break;
             }
         }
 
         public void RemoveController(NpcController remove)
         {
-            if (remove == null || !controllers.Contains(remove))
+            if (remove == null || !this.controllers.Contains(remove))
                 return;
 
-            controllers.Remove(remove);
+            this.controllers.Remove(remove);
         }
 
         #endregion

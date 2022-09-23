@@ -46,7 +46,7 @@ namespace Runtime.Battle.Systems.States
                 OperationsContainer container = new(action);
                 this.operationManager.AddOperationsContainer(container);
 
-                while (!this.operationManager.GetDone() || !chatManager.GetIsClear())
+                while (!this.operationManager.GetDone() || !this.chatManager.GetIsClear())
                     yield return null;
 
                 #endregion
@@ -84,12 +84,12 @@ namespace Runtime.Battle.Systems.States
             if (this.battleManager.CheckTeamDefeated(true) ||
                 this.battleManager.CheckTeamDefeated(false))
             {
-                this.battleManager.SetState(new RoundDoneState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+                this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
 
                 yield break;
             }
 
-            this.battleManager.SetState(new AfterConditionState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new AfterConditionState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

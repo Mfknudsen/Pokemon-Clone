@@ -38,17 +38,17 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
             OperationsContainer container = new();
 
             #region Trap Target
 
-            Transform targetTransform = target.GetSpawnedObject().transform;
+            Transform targetTransform = this.target.GetSpawnedObject().transform;
             while (targetTransform.localScale.x > 0.1f)
             {
                 targetTransform.localScale -= Vector3.one * Time.deltaTime;
@@ -65,7 +65,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
                 yield return new WaitForSeconds(1.5f);
 
-                if (i == clicks)
+                if (i == this.clicks)
                     break;
             }
 
@@ -73,19 +73,19 @@ namespace Runtime.Battle.Systems.Static_Operations
 
             #region Final
 
-            ChatOperation chatOperation = new(resultChat);
+            ChatOperation chatOperation = new(this.resultChat);
             container.Add(chatOperation);
-            operationManager.AddOperationsContainer(container);
+            this.operationManager.AddOperationsContainer(container);
 
-            if (clicks == 4)
+            if (this.clicks == 4)
             {
                 Debug.Log("TICK");
 
-                BattleManager.instance.DespawnPokemon(target);
+                BattleManager.instance.DespawnPokemon(this.target);
 
                 container = new OperationsContainer();
-                container.Add(new CaughtPokemon(target, playerManager.GetTeam()));
-                operationManager.AddOperationsContainer(container);
+                container.Add(new CaughtPokemon(this.target, this.playerManager.GetTeam()));
+                this.operationManager.AddOperationsContainer(container);
             }
             else
             {
@@ -103,7 +103,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
             yield return new WaitForSeconds(1);
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

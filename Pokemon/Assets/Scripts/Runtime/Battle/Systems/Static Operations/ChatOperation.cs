@@ -26,19 +26,19 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            chatManager.Add(toPlay);
+            this.chatManager.Add(this.toPlay);
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

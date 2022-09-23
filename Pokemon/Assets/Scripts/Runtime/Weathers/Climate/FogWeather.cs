@@ -27,7 +27,7 @@ namespace Runtime.Weathers.Climate
         //IAccuracyModify
         public bool CanEffect(PokemonMove pokemonMove)
         {
-            return pokemonMove.GetAccuracy() != -1 || typesUnaffected.Contains(pokemonMove.GetMoveType());
+            return pokemonMove.GetAccuracy() != -1 || this.typesUnaffected.Contains(pokemonMove.GetMoveType());
         }
 
         public float Effect(PokemonMove pokemonMove)
@@ -38,7 +38,7 @@ namespace Runtime.Weathers.Climate
         //IFinalModifier
         public float Modify(PokemonMove pokemonMove)
         {
-            return pokemonMove.GetSpecialAddons().Contains(addonEffected) ? 1.5f : 1;
+            return pokemonMove.GetSpecialAddons().Contains(this.addonEffected) ? 1.5f : 1;
         }
 
         #endregion

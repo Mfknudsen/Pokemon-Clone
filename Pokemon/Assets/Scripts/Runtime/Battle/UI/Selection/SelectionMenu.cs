@@ -40,11 +40,11 @@ namespace Runtime.Battle.UI.Selection
             yield return new WaitWhile(() => BattleManager.instance == null);
             
             BattleManager.instance.SetSelectionMenu(this);
-            
-            pokemonSelection.Setup();
-            itemSelection.Setup();
-            targetSelection.Setup();
-            turnSelection.Setup();
+
+            this.pokemonSelection.Setup();
+            this.itemSelection.Setup();
+            this.targetSelection.Setup();
+            this.turnSelection.Setup();
         }
 
         #endregion
@@ -59,29 +59,29 @@ namespace Runtime.Battle.UI.Selection
             switch (goal)
             {
                 case SelectorGoal.Switch:
-                    pokemonSelection.DisplaySelection((SwitchAction) parse);
+                    this.pokemonSelection.DisplaySelection((SwitchAction) parse);
                     break;
 
                 case SelectorGoal.Item:
-                    itemSelection.DisplaySelection((ItemAction) parse);
+                    this.itemSelection.DisplaySelection((ItemAction) parse);
                     break;
 
                 case SelectorGoal.Target:
-                    targetSelection.DisplaySelection((BattleAction) parse);
+                    this.targetSelection.DisplaySelection((BattleAction) parse);
                     break;
 
                 case SelectorGoal.Turn:
-                    turnSelection.DisplaySelection((Pokemon) parse);
+                    this.turnSelection.DisplaySelection((Pokemon) parse);
                     break;
             }
         }
 
         public void DisableDisplaySelection()
         {
-            pokemonSelection.DisableDisplaySelection();
-            itemSelection.DisableDisplaySelection();
-            targetSelection.DisableDisplaySelection();
-            turnSelection.DisableDisplaySelection();
+            this.pokemonSelection.DisableDisplaySelection();
+            this.itemSelection.DisableDisplaySelection();
+            this.targetSelection.DisableDisplaySelection();
+            this.turnSelection.DisableDisplaySelection();
         }
 
         #endregion

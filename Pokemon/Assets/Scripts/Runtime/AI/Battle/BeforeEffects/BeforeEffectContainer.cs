@@ -24,22 +24,22 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         public void OnValidate()
         {
-            for (int i = 0; i < effects.Length; i++)
+            for (int i = 0; i < this.effects.Length; i++)
             {
-                NpcBattleBeforeEffect effect = effects[i];
-                effects[i] = effect.GetIsInstantiated() ? effect : effect.GetInstantiatedEffect();
+                NpcBattleBeforeEffect effect = this.effects[i];
+                this.effects[i] = effect.GetIsInstantiated() ? effect : effect.GetInstantiatedEffect();
             }
         }
 
         public void SetInput<T>(object i) where T : NpcBattleBeforeEffect
         {
-            foreach (NpcBattleBeforeEffect effect in effects.Where(e => e is T))
+            foreach (NpcBattleBeforeEffect effect in this.effects.Where(e => e is T))
                 effect.SetInput(i);
         }
 
         public void Trigger()
         {
-            operationManager.AddOperationsContainer(new OperationsContainer(effects));
+            this.operationManager.AddOperationsContainer(new OperationsContainer(this.effects));
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         public bool AllDone()
         {
-            return !effects.Any(e => !e.IsOperationDone());
+            return !this.effects.Any(e => !e.IsOperationDone());
         }
 
         #endregion

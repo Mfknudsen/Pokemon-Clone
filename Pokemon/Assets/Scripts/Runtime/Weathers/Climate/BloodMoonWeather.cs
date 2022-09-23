@@ -32,9 +32,9 @@ namespace Runtime.Weathers.Climate
         //IBypassStatus
         public bool CanEffect(Type type)
         {
-            if (!amplified) return false;
+            if (!this.amplified) return false;
 
-            return type == statusType;
+            return type == this.statusType;
         }
 
         //IPriorityModify
@@ -45,10 +45,10 @@ namespace Runtime.Weathers.Climate
             if (!isStatus)
                 return 0;
 
-            if (amplified)
+            if (this.amplified)
                 return 1;
 
-            return priorityType == pokemonMove.GetMoveType()
+            return this.priorityType == pokemonMove.GetMoveType()
                 ? 1
                 : 0;
         }

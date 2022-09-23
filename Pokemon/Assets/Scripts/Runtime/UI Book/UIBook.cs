@@ -105,17 +105,17 @@ namespace Runtime.UI_Book
             instance = this;
             this.transition.CheckMiddle();
 
-            cameraManager.SetCurrentRig(this.bookCameraRig, true);
+            this.cameraManager.SetCurrentRig(this.bookCameraRig, true);
             Cursor.visible = true;
 
-            yield return new WaitWhile(() => playerManager.GetController() is null);
+            yield return new WaitWhile(() => this.playerManager.GetController() is null);
 
-            playerManager.DisablePlayerControl();
+            this.playerManager.DisablePlayerControl();
 
             ConstructUI();
             GameObject bookHolder = new("Book Holder")
             {
-                transform = { parent = playerManager.GetController().transform }
+                transform = { parent = this.playerManager.GetController().transform }
             };
 
             transform.parent = bookHolder.transform;
@@ -162,23 +162,23 @@ namespace Runtime.UI_Book
             switch (turn)
             {
                 case BookTurn.Open:
-                    container.Add(new OpenBook(transition, bookCameraRig, bookLight, operationManager, playerManager));
+                    container.Add(new OpenBook(this.transition, this.bookCameraRig, this.bookLight, this.operationManager, this.playerManager));
                     break;
 
                 case BookTurn.Close:
-                    container.Add(new CloseBook(transition, bookLight, operationManager, uiManager, playerManager));
+                    container.Add(new CloseBook(this.transition, this.bookLight, this.operationManager, this.uiManager, this.playerManager));
                     break;
 
                 case BookTurn.Left:
-                    container.Add(new TurnPage(false, turnLeft, turnRight, openLeft, openRight));
+                    container.Add(new TurnPage(false, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
                     break;
 
                 case BookTurn.Right:
-                    container.Add(new TurnPage(true, turnLeft, turnRight, openLeft, openRight));
+                    container.Add(new TurnPage(true, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
                     break;
             }
 
-            operationManager.AddOperationsContainer(container);
+            this.operationManager.AddOperationsContainer(container);
         }
 
         private void CopyTextures() => Graphics.CopyTexture(this.curRenderTexture, this.preRenderTexture);
@@ -215,10 +215,9 @@ namespace Runtime.UI_Book
                 _ => throw new ArgumentOutOfRangeException(nameof(trigger), trigger, null)
             };
 
-            if (trigger is BookTurn.Close or BookTurn.Open)
-                playerManager.GetController().TriggerAnimator(hash);
+            if (trigger is BookTurn.Close or BookTurn.Open) this.playerManager.GetController().TriggerAnimator(hash);
 
-            bookAnimator.SetTrigger(hash);
+            this.bookAnimator.SetTrigger(hash);
         }
 
         private static void AddToReference<TElement>(GameObject obj, IDictionary<string, TElement> dictionary)
@@ -256,7 +255,7 @@ namespace Runtime.UI_Book
 
         private IEnumerator ConstructAsync()
         {
-            invisiblyUI.SetActive(false);
+            this.invisiblyUI.SetActive(false);
 
             GameObject uiCanvas = GameObject.Find("Book UI Canvas");
 
@@ -266,7 +265,7 @@ namespace Runtime.UI_Book
                 uiCanvas = GameObject.Find("UI Canvas");
             }
 
-            foreach (Transform t in invisiblyUI.transform)
+            foreach (Transform t in this.invisiblyUI.transform)
                 Destroy(t.gameObject);
 
             foreach (Transform t in uiCanvas.transform)
@@ -279,16 +278,16 @@ namespace Runtime.UI_Book
                     objName.Equals("Template"))
                     continue;
 
-                GameObject obj = Instantiate(t.gameObject, invisiblyUI.transform);
+                GameObject obj = Instantiate(t.gameObject, this.invisiblyUI.transform);
 
-                buttonReferences.Clear();
-                sliderReferences.Clear();
-                textInputFieldReferences.Clear();
+                this.buttonReferences.Clear();
+                this.sliderReferences.Clear();
+                this.textInputFieldReferences.Clear();
                 foreach (GameObject o in GetAllByRoot(t.gameObject))
                 {
-                    AddToReference(o, buttonReferences);
-                    AddToReference(o, sliderReferences);
-                    AddToReference(o, textInputFieldReferences);
+                    AddToReference(o, this.buttonReferences);
+                    AddToReference(o, this.sliderReferences);
+                    AddToReference(o, this.textInputFieldReferences);
                 }
 
                 //Clean the copied ui
@@ -300,9 +299,9 @@ namespace Runtime.UI_Book
                         continue;
                     }
 
-                    Replace<BookButton, BookButtonReference>(o, buttonReferences);
-                    Replace<BookSlider, BookSliderReference>(o, sliderReferences);
-                    Replace<BookTextInputField, BookTextInputFieldReference>(o, textInputFieldReferences);
+                    Replace<BookButton, BookButtonReference>(o, this.buttonReferences);
+                    Replace<BookSlider, BookSliderReference>(o, this.sliderReferences);
+                    Replace<BookTextInputField, BookTextInputFieldReference>(o, this.textInputFieldReferences);
 
                     if (o.GetComponent<Outline>() is { } outline)
                         Destroy(outline);
@@ -314,7 +313,7 @@ namespace Runtime.UI_Book
                 break;
             }
 
-            invisiblyUI.SetActive(true);
+            this.invisiblyUI.SetActive(true);
         }
 
         #endregion
@@ -346,7 +345,7 @@ namespace Runtime.UI_Book
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
             UIBook book = UIBook.instance;
 
             SetOpens(false);
@@ -415,7 +414,7 @@ namespace Runtime.UI_Book
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
@@ -430,13 +429,13 @@ namespace Runtime.UI_Book
             this.transition.Direction(true, true);
             container.Add(this.transition);
 
-            CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld(playerManager);
+            CameraEvent cameraEvent = CameraEvent.ReturnToDefaultOverworld(this.playerManager);
             container.Add(cameraEvent);
-            operationManager.AddAsyncOperationsContainer(container);
+            this.operationManager.AddAsyncOperationsContainer(container);
 
             yield return new WaitUntil(this.transition.IsOperationDone);
 
-            uiManager.SwitchUI(UISelection.Overworld);
+            this.uiManager.SwitchUI(UISelection.Overworld);
 
             this.done = true;
         }
@@ -444,8 +443,8 @@ namespace Runtime.UI_Book
         public void OperationEnd()
         {
             UIBook.instance.GetVisuals().SetActive(false);
-            uiManager.SetReadyToPause(true);
-            playerManager.EnablePlayerControl();
+            this.uiManager.SetReadyToPause(true);
+            this.playerManager.EnablePlayerControl();
         }
     }
 
@@ -481,7 +480,7 @@ namespace Runtime.UI_Book
         {
             this.done = false;
 
-            playerManager.DisablePlayerControl();
+            this.playerManager.DisablePlayerControl();
 
             OperationsContainer container = new();
             this.transition.CheckMiddle();
@@ -496,7 +495,7 @@ namespace Runtime.UI_Book
             );
             container.Add(cameraEvent);
 
-            operationManager.AddAsyncOperationsContainer(container);
+            this.operationManager.AddAsyncOperationsContainer(container);
 
             UIBook book = UIBook.instance;
             book.GetVisuals().SetActive(true);

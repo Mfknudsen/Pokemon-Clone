@@ -18,16 +18,16 @@ namespace Runtime.Pokémon
         
         public PokemonBattleInstance(Pokemon pokemon)
         {
-            multipliers = new int[6];
-            spotIndex = 0;
-            prefab = null;
-            spawnedObject = null;
-            anim = null;
-            gettingSwitched = false;
-            inBattle = false;
-            battleAction = null;
-            gettingRevived = false;
-            instantiatedAbilities = null;
+            this.multipliers = new int[6];
+            this.spotIndex = 0;
+            this.prefab = null;
+            this.spawnedObject = null;
+            this.anim = null;
+            this.gettingSwitched = false;
+            this.inBattle = false;
+            this.battleAction = null;
+            this.gettingRevived = false;
+            this.instantiatedAbilities = null;
         }
     }
 }

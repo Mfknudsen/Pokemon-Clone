@@ -14,14 +14,14 @@ namespace Runtime.Weathers._Extra
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            done = true;
+            this.done = true;
 
             yield break;
         }

@@ -129,7 +129,7 @@ namespace Runtime.Player
 
             float lerpCurrent = this.lerpCurve.Evaluate(this.current);
 
-            this.bodyComponent.CameraDistance = current < .5f
+            this.bodyComponent.CameraDistance = this.current < .5f
                 ? Mathf.Lerp(this.bot.y, this.mid.y, lerpCurrent)
                 : Mathf.Lerp(this.mid.y, this.top.y, 1f - lerpCurrent);
 
@@ -170,8 +170,7 @@ namespace Runtime.Player
         {
             if (!this.allowed.value) return;
 
-            if (this.cameraSwitchAsyncContainer != null)
-                operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
+            if (this.cameraSwitchAsyncContainer != null) this.operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
 
             CameraEvent cameraEvent;
@@ -191,14 +190,13 @@ namespace Runtime.Player
                 this.defaultOverworldRig.value.m_YAxis.Value = this.current;
                 this.defaultOverworldRig.value.m_XAxis.Value = this.cameraBrain.getTransform.rotation.eulerAngles.y;
 
-                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(
-                    playerManager.GetOverworldCameraRig(),
+                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(this.playerManager.GetOverworldCameraRig(),
                     CameraSettings.Default(),
                     .5f);
             }
 
             this.cameraSwitchAsyncContainer.Add(cameraEvent);
-            operationManager.AddAsyncOperationsContainer(this.cameraSwitchAsyncContainer);
+            this.operationManager.AddAsyncOperationsContainer(this.cameraSwitchAsyncContainer);
         }
 
         #endregion

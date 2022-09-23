@@ -17,10 +17,10 @@ namespace Runtime.Pokémon
 
         public float GetNatureStat(Stat stat)
         {
-            if (stat == positiveStat)
-                return positiveBonus;
+            if (stat == this.positiveStat)
+                return this.positiveBonus;
 
-            return stat == negativeStat ? negativeReduction : 1;
+            return stat == this.negativeStat ? this.negativeReduction : 1;
         }
     }
 }

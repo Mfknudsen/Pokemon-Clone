@@ -22,19 +22,19 @@ namespace Runtime.Battle.Systems.Spots
 
         public SpotOversight()
         {
-            list = new List<Spot>();
-            counts = 0;
+            this.list = new List<Spot>();
+            this.counts = 0;
         }
 
         // ReSharper disable once ReturnTypeCanBeEnumerable.Global
         public List<Spot> GetSpots()
         {
-            return list;
+            return this.list;
         }
 
         public bool GetToDefaultTargeting()
         {
-            return defaultTargets;
+            return this.defaultTargets;
         }
 
         #endregion
@@ -46,10 +46,10 @@ namespace Runtime.Battle.Systems.Spots
             if(spot == null)
                 return;
             
-            spot.SetID(counts);
-            counts += 1;
+            spot.SetID(this.counts);
+            this.counts += 1;
 
-            list.Add(spot);
+            this.list.Add(spot);
         }
 
         #endregion
@@ -83,7 +83,7 @@ namespace Runtime.Battle.Systems.Spots
                 allies = new(),
                 toRemove = new();
 
-            foreach (Spot spot in list)
+            foreach (Spot spot in this.list)
             {
                 if (spot.GetActivePokemon() is null && removeEmpty)
                     toRemove.Add(spot);
@@ -100,7 +100,7 @@ namespace Runtime.Battle.Systems.Spots
             {
                 foreach (Spot spot in toRemove)
                 {
-                    list.Remove(spot);
+                    this.list.Remove(spot);
 
                     if (allies.Contains(spot))
                         allies.Remove(spot);
@@ -130,7 +130,7 @@ namespace Runtime.Battle.Systems.Spots
 
             #endregion
 
-            defaultTargets = list.Count == 2;
+            this.defaultTargets = this.list.Count == 2;
         }
 
         #endregion

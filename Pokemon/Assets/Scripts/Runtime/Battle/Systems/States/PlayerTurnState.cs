@@ -25,7 +25,7 @@ namespace Runtime.Battle.Systems.States
         public override IEnumerator Tick()
         {
             Cursor.visible = true;
-            Team playerTeam = playerManager.GetTeam();
+            Team playerTeam = this.playerManager.GetTeam();
             SpotOversight spotOversight = this.battleManager.GetSpotOversight();
 
             foreach (Pokemon pokemon in spotOversight.GetSpots()
@@ -40,7 +40,7 @@ namespace Runtime.Battle.Systems.States
 
             this.battleManager.GetSelectionMenu().DisableDisplaySelection();
 
-            this.battleManager.SetState(new ComputerTurnState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new ComputerTurnState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

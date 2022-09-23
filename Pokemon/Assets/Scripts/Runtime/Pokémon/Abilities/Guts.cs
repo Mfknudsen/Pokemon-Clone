@@ -22,9 +22,9 @@ namespace Runtime.Pokémon.Abilities
 
         public override void TriggerEnable(AbilityTrigger trigger, Pokemon currentPokemon)
         {
-            if (trigger != enableTrigger) return;
+            if (trigger != this.enableTrigger) return;
 
-            Condition condition = affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
+            Condition condition = this.affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
 
             if (!(condition is null) && !(condition is FaintedCondition))
             {
@@ -35,9 +35,9 @@ namespace Runtime.Pokémon.Abilities
 
         public override void TriggerDisable(AbilityTrigger trigger, Pokemon currentPokemon)
         {
-            if (trigger != enableTrigger) return;
+            if (trigger != this.enableTrigger) return;
 
-            Condition condition = affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
+            Condition condition = this.affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
 
             if (condition is null || condition is FaintedCondition)
                 SetActive(false);
@@ -49,12 +49,12 @@ namespace Runtime.Pokémon.Abilities
 
         public bool CanStopBurn(Pokemon pokemon)
         {
-            return pokemon == affectedPokemon;
+            return pokemon == this.affectedPokemon;
         }
 
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            return (pokemon == affectedPokemon && stat == Stat.Attack && GetActive()) ? damageModification : 1;
+            return (pokemon == this.affectedPokemon && stat == Stat.Attack && GetActive()) ? this.damageModification : 1;
         }
 
         #endregion

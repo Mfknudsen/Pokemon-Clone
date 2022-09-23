@@ -25,7 +25,7 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         public void Trigger()
         {
-            playerManager.DisablePlayerControl();
+            this.playerManager.DisablePlayerControl();
 
             StartCoroutine(GoThroughDoor());
         }
@@ -36,19 +36,18 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         private IEnumerator GoThroughDoor()
         {
-            AnimationClip toPlay =
-                bothWays
-                    ? frontAnim
-                    : Vector3.Angle(transform.position, playerManager.GetController().transform.position) <= 90
-                        ? frontAnim
-                        : backAnim;
+            AnimationClip toPlay = this.bothWays
+                    ? this.frontAnim
+                    : Vector3.Angle(transform.position, this.playerManager.GetController().transform.position) <= 90
+                        ? this.frontAnim
+                        : this.backAnim;
 
-            playerManager.PlayAnimationClip(toPlay);
-            anim.Play(toPlay.name);
+            this.playerManager.PlayAnimationClip(toPlay);
+            this.anim.Play(toPlay.name);
 
             yield return new WaitForSeconds(toPlay.length);
 
-            playerManager.EnablePlayerControl();
+            this.playerManager.EnablePlayerControl();
         }
 
         #endregion

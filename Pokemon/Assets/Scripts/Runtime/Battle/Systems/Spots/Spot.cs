@@ -28,47 +28,47 @@ namespace Runtime.Battle.Systems.Spots
 
         public Spot GetLeft()
         {
-            return left;
+            return this.left;
         }
 
         public Spot GetRight()
         {
-            return right;
+            return this.right;
         }
 
         public Spot GetFront()
         {
-            return front;
+            return this.front;
         }
 
         public Spot GetStrafeLeft()
         {
-            return strafeLeft;
+            return this.strafeLeft;
         }
 
         public Spot GetStrafeRight()
         {
-            return strafeRight;
+            return this.strafeRight;
         }
 
         public List<Spot> GetAllAdjacentSpots()
         {
             List<Spot> result = new();
 
-            if (!(front is null))
-                result.Add(front);
+            if (!(this.front is null))
+                result.Add(this.front);
 
-            if (!(left is null))
-                result.Add(left);
+            if (!(this.left is null))
+                result.Add(this.left);
 
-            if (!(right is null))
-                result.Add(right);
+            if (!(this.right is null))
+                result.Add(this.right);
 
-            if (!(strafeLeft is null))
-                result.Add(strafeLeft);
+            if (!(this.strafeLeft is null))
+                result.Add(this.strafeLeft);
 
-            if (!(strafeRight is null))
-                result.Add(strafeRight);
+            if (!(this.strafeRight is null))
+                result.Add(this.strafeRight);
 
             return result;
         }
@@ -94,32 +94,32 @@ namespace Runtime.Battle.Systems.Spots
 
         public bool GetNeedNew()
         {
-            return needNew;
+            return this.needNew;
         }
 
         public Pokemon GetActivePokemon()
         {
-            return activePokemon;
+            return this.activePokemon;
         }
 
         public Transform GetTransform()
         {
-            return currentTransform;
+            return this.currentTransform;
         }
 
         public BattleMember GetBattleMember()
         {
-            return battleMember;
+            return this.battleMember;
         }
 
         public bool GetIsAlly()
         {
-            return battleMember.GetTeamAffiliation();
+            return this.battleMember.GetTeamAffiliation();
         }
 
         public int GetID()
         {
-            return id;
+            return this.id;
         }
 
         #endregion
@@ -128,52 +128,52 @@ namespace Runtime.Battle.Systems.Spots
 
         public void SetLeft(Spot set)
         {
-            left = set;
+            this.left = set;
         }
 
         public void SetRight(Spot set)
         {
-            right = set;
+            this.right = set;
         }
 
         public void SetFront(Spot set)
         {
-            front = set;
+            this.front = set;
         }
 
         public void SetStrafeLeft(Spot set)
         {
-            strafeLeft = set;
+            this.strafeLeft = set;
         }
 
         public void SetStrafeRight(Spot set)
         {
-            strafeRight = set;
+            this.strafeRight = set;
         }
 
         public void SetNeedNew(bool set)
         {
-            needNew = set;
+            this.needNew = set;
         }
 
         public void SetActivePokemon(Pokemon set)
         {
-            activePokemon = set;
+            this.activePokemon = set;
         }
 
         public void SetTransform()
         {
-            currentTransform = transform;
+            this.currentTransform = transform;
         }
 
         public void SetBattleMember(BattleMember member)
         {
-            battleMember = member;
+            this.battleMember = member;
         }
 
         public void SetID(int set)
         {
-            id = set;
+            this.id = set;
         }
 
         #endregion

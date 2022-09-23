@@ -28,21 +28,21 @@ namespace Runtime.Battle.UI.Information_Display
 
         private void Start()
         {
-            healthDisplay.gameObject.SetActive(!hideHealthText);
+            this.healthDisplay.gameObject.SetActive(!this.hideHealthText);
         }
 
         private void Update()
         {
-            if (pokemon == null) return;
+            if (this.pokemon == null) return;
 
-            float healthToDisplay = pokemon.GetCurrentHealth();
+            float healthToDisplay = this.pokemon.GetCurrentHealth();
 
             if (healthToDisplay is < 1 and > 0)
                 healthToDisplay = 1;
 
-            healthDisplay.text = maxHPStat + " / " + (int) healthToDisplay;
+            this.healthDisplay.text = this.maxHPStat + " / " + (int) healthToDisplay;
 
-            healthBar.SetCurrentBar(healthToDisplay);
+            this.healthBar.SetCurrentBar(healthToDisplay);
         }
 
         #endregion
@@ -51,13 +51,13 @@ namespace Runtime.Battle.UI.Information_Display
 
         public bool GetActive()
         {
-            return active;
+            return this.active;
         }
 
 
         public Vector3 GetOriginPosition()
         {
-            return originPosition;
+            return this.originPosition;
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace Runtime.Battle.UI.Information_Display
 
         public void SetOriginPosition(Vector3 pos)
         {
-            originPosition = pos;
+            this.originPosition = pos;
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace Runtime.Battle.UI.Information_Display
 
         public void Setup()
         {
-            originPosition = gameObject.transform.position;
+            this.originPosition = gameObject.transform.position;
         }
 
         // ReSharper disable once ParameterHidesMember
@@ -83,16 +83,16 @@ namespace Runtime.Battle.UI.Information_Display
         {
             if (pokemon == null)
             {
-                active = false;
+                this.active = false;
                 return;
             }
 
-            maxHPStat = pokemon.GetMaxHealth();
-            healthBar.SetBarMax(maxHPStat);
+            this.maxHPStat = pokemon.GetMaxHealth();
+            this.healthBar.SetBarMax(this.maxHPStat);
             this.pokemon = pokemon;
-            nameDisplay.text = pokemon.GetName() + " " + pokemon.GetLevel() + "Lv";
+            this.nameDisplay.text = pokemon.GetName() + " " + pokemon.GetLevel() + "Lv";
 
-            active = true;
+            this.active = true;
         }
 
         #endregion

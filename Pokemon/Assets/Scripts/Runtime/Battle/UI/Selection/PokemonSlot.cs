@@ -17,15 +17,15 @@ namespace Runtime.Battle.UI.Selection
 
         public void SetPokemon(PokemonSelection _pokemonSelection, Pokemon _pokemon)
         {
-            pokemonSelection = _pokemonSelection;
-            pokemon = _pokemon;
+            this.pokemonSelection = _pokemonSelection;
+            this.pokemon = _pokemon;
 
-            gui.text = _pokemon is null ? "" : _pokemon.GetName();
+            this.gui.text = _pokemon is null ? "" : _pokemon.GetName();
         }
 
         public void Trigger()
         {
-            pokemonSelection.SendPokemon(pokemon);
+            this.pokemonSelection.SendPokemon(this.pokemon);
         }
     }
 }

@@ -25,26 +25,26 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            float damageApplied = 0, damageOverTime = damage / SplitTime;
+            float damageApplied = 0, damageOverTime = this.damage / SplitTime;
 
-            while (damageApplied < damage)
+            while (damageApplied < this.damage)
             {
-                if (damageApplied + damageOverTime >= damage)
-                    damageOverTime = damage - damageApplied;
+                if (damageApplied + damageOverTime >= this.damage)
+                    damageOverTime = this.damage - damageApplied;
                 
                 damageApplied += damageOverTime;
 
-                target.ReceiveDamage(damageOverTime);
+                this.target.ReceiveDamage(damageOverTime);
 
-                yield return new WaitForSeconds(totalTime / SplitTime);
+                yield return new WaitForSeconds(this.totalTime / SplitTime);
             }
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

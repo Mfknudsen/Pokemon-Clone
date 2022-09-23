@@ -42,23 +42,23 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public override void Reset()
         {
-            done = false;
+            this.done = false;
         }
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation ()
         {
-            Chat toSend = onEffectChat.GetChat();
-            toSend.AddToOverride("<POKEMON_NAME>", affectedPokemon.GetName());
-            chatManager.Add(toSend);
+            Chat toSend = this.onEffectChat.GetChat();
+            toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
+            this.chatManager.Add(toSend);
 
-            GameObject obj = affectedPokemon.GetSpawnedObject();
+            GameObject obj = this.affectedPokemon.GetSpawnedObject();
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
             {
                 if (obj.transform.localScale.y > 0.01f)
                     obj.transform.localScale += -Vector3.one * Time.deltaTime;
@@ -66,11 +66,11 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
                 yield return null;
             }
 
-            BattleManager.instance.DespawnPokemon(affectedPokemon);
+            BattleManager.instance.DespawnPokemon(this.affectedPokemon);
 
             yield return new WaitForSeconds(1);
 
-            done = true;
+            this.done = true;
         }
 
         public void OperationEnd()

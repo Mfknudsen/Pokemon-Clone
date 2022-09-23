@@ -24,31 +24,30 @@ namespace Runtime.AI.Battle.AfterEffects
         {
             try
             {
-                input = i as Dictionary<string, string>;
+                this.input = i as Dictionary<string, string>;
             }
             catch (Exception e)
             {
                 Debug.LogError("Input was not Dictionary of string/string\n" + e.Message);
-                input = null;
+                this.input = null;
             }
         }
 
         public override IEnumerator Operation()
         {
-            if (input == null) yield break;
+            if (this.input == null) yield break;
 
             // ReSharper disable once AccessToStaticMemberViaDerivedType
-            chat = Instantiate(chat);
-            foreach (string inputKey in input.Keys)
-                chat.AddToOverride(
-                    inputKey,
-                    input[inputKey]);
+            this.chat = Instantiate(this.chat);
+            foreach (string inputKey in this.input.Keys)
+                this.chat.AddToOverride(
+                    inputKey, this.input[inputKey]);
 
-            chatManager.Add(chat);
+            this.chatManager.Add(this.chat);
 
             yield return new WaitWhile(() =>
-                !chatManager.GetIsClear());
-            done = true;
+                !this.chatManager.GetIsClear());
+            this.done = true;
         }
 
         #endregion

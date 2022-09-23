@@ -11,25 +11,22 @@ namespace Runtime.Systems
     {
         #region Values
 
-        [SerializeField] private bool includeAsInactive;
         protected bool ready;
         private bool isStarted;
 
         #endregion
 
         #region Getters
+        
+        public bool GetReady() => this.ready;
 
-        public bool GetInclude() => includeAsInactive;
-
-        public bool GetReady() => ready;
-
-        public bool GetIsStarted() => isStarted;
+        public bool GetIsStarted() => this.isStarted;
 
         #endregion
 
         #region Setters
 
-        public void SetIsStarted(bool set) => isStarted = set;
+        public void SetIsStarted(bool set) => this.isStarted = set;
 
         #endregion
 

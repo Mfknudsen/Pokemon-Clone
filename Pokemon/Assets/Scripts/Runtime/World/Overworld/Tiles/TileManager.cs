@@ -36,12 +36,12 @@ namespace Runtime.World.Overworld.Tiles
 
         public TileSubController GetSubManager()
         {
-            return currentTile;
+            return this.currentTile;
         }
 
         public TileSubController[] GetSubManagers()
         {
-            return allSubManagers.ToArray();
+            return this.allSubManagers.ToArray();
         }
 
         #endregion
@@ -50,23 +50,23 @@ namespace Runtime.World.Overworld.Tiles
 
         public void AddSubManager(TileSubController add)
         {
-            if (add == null || allSubManagers.Contains(add))
+            if (add == null || this.allSubManagers.Contains(add))
                 return;
 
-            allSubManagers.Add(add);
+            this.allSubManagers.Add(add);
 
-            if (allSubManagers.Count != 1) return;
+            if (this.allSubManagers.Count != 1) return;
 
-            currentTile = add;
+            this.currentTile = add;
             UpdateNavmesh();
         }
 
         public void RemoveSubManager(TileSubController remove)
         {
-            if (remove == null || !allSubManagers.Contains(remove))
+            if (remove == null || !this.allSubManagers.Contains(remove))
                 return;
 
-            allSubManagers.Remove(remove);
+            this.allSubManagers.Remove(remove);
         }
 
         private void UpdateNavmesh()
@@ -76,50 +76,49 @@ namespace Runtime.World.Overworld.Tiles
 
         public void HideTiles()
         {
-            foreach (TileSubController tileSubController in allSubManagers)
+            foreach (TileSubController tileSubController in this.allSubManagers)
                 tileSubController.gameObject.SetActive(false);
         }
 
         public void ShowTiles()
         {
-            foreach (TileSubController tileSubController in allSubManagers)
+            foreach (TileSubController tileSubController in this.allSubManagers)
                 tileSubController.gameObject.SetActive(true);
         }
 
         public void SetCurrentSubTile(string newSubManagerName)
         {
-            if (toLoadName.Equals(newSubManagerName)) return;
+            if (this.toLoadName.Equals(newSubManagerName)) return;
 
-            toLoadName = newSubManagerName;
+            this.toLoadName = newSubManagerName;
 
-            resetWorldPositionTimer?.Stop();
+            this.resetWorldPositionTimer?.Stop();
 
-            resetWorldPositionTimer = new Timer(waitTime);
-            resetWorldPositionTimer.timerEvent.AddListener(() =>
+            this.resetWorldPositionTimer = new Timer(this.waitTime);
+            this.resetWorldPositionTimer.timerEvent.AddListener(() =>
             {
-                currentTile.DisableDividers();
+                this.currentTile.DisableDividers();
 
                 List<Neighbor> toUnload = new(),
                     loaded = new(),
                     toLoad = new();
-                toUnload.AddRange(currentTile.GetNeighbors());
-                loaded.AddRange(currentTile.GetNeighbors());
+                toUnload.AddRange(this.currentTile.GetNeighbors());
+                loaded.AddRange(this.currentTile.GetNeighbors());
 
-                currentTile = allSubManagers.First(m => m.GetTileName().Equals(newSubManagerName));
-                currentTile.EnableDividers();
+                this.currentTile = this.allSubManagers.First(m => m.GetTileName().Equals(newSubManagerName));
+                this.currentTile.EnableDividers();
 
-                foreach (Neighbor neighbor in currentTile.GetNeighbors().Where(n => toUnload.Contains(n)))
+                foreach (Neighbor neighbor in this.currentTile.GetNeighbors().Where(n => toUnload.Contains(n)))
                     toUnload.Remove(neighbor);
 
                 foreach (Neighbor neighbor in toUnload.Where(n => loaded.Contains(n)))
                     loaded.Remove(neighbor);
 
-                toLoad.AddRange(currentTile.GetNeighbors().Where(n => loaded.Contains(n)));
+                toLoad.AddRange(this.currentTile.GetNeighbors().Where(n => loaded.Contains(n)));
 
                 #region Unload Unneeded Neighbors
 
-                foreach (TileSubController unload in toUnload.Select(neighbor =>
-                             allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
+                foreach (TileSubController unload in toUnload.Select(neighbor => this.allSubManagers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
                     unload.Unload();
 
                 #endregion
@@ -128,7 +127,7 @@ namespace Runtime.World.Overworld.Tiles
 
                 foreach (Neighbor neighbor in toLoad)
                 {
-                    worldManager.LoadSceneAsync(neighbor.GetSceneName());
+                    this.worldManager.LoadSceneAsync(neighbor.GetSceneName());
                 }
 
                 #endregion
@@ -142,7 +141,7 @@ namespace Runtime.World.Overworld.Tiles
 
         #region Out
 
-        public TileSubController GetSubManagerByName(string tileName) => allSubManagers.FirstOrDefault(tileSubManager => tileSubManager.GetTileName().Equals(tileName));
+        public TileSubController GetSubManagerByName(string tileName) => this.allSubManagers.FirstOrDefault(tileSubManager => tileSubManager.GetTileName().Equals(tileName));
 
         #endregion
 
@@ -150,7 +149,7 @@ namespace Runtime.World.Overworld.Tiles
 
         private IEnumerator BeginUpdate()
         {
-            yield return this.navMeshManager.RebakeWait(currentTile.GetSurface ());
+            yield return this.navMeshManager.RebakeWait(this.currentTile.GetSurface ());
         }
 
         private void ResetWorldCenter()

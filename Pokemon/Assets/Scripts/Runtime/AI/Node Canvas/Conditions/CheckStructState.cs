@@ -13,7 +13,7 @@ namespace Runtime.AI.Node_Canvas.Conditions
 
         protected override bool OnCheck()
         {
-            return checkAgainst.value.Equals(agent.GetComponent<NpcController>().GetStateByKey(key.GetValue()));
+            return this.checkAgainst.value.Equals(agent.GetComponent<NpcController>().GetStateByKey(this.key.GetValue()));
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Runtime.AI.Senses
 
         public GameObject[] GetInSight()
         {
-            return objectsInSight.ToArray();
+            return this.objectsInSight.ToArray();
         }
 
         #endregion

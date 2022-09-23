@@ -21,7 +21,7 @@ namespace Runtime.Weathers.Climate
         
         private bool IsImmune(Pokemon pokemon)
         {
-            return pokemon.GetTypes().Any(type => immuneTypes.Contains(type));
+            return pokemon.GetTypes().Any(type => this.immuneTypes.Contains(type));
         }
 
         #endregion

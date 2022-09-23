@@ -39,12 +39,12 @@ namespace Runtime.AI
 
         private void OnEnable()
         {
-            this.unitManager.AddController(controller);
+            this.unitManager.AddController(this.controller);
         }
 
         private void OnDisable()
         {
-            this.unitManager.RemoveController(controller);
+            this.unitManager.RemoveController(this.controller);
         }
 
         #endregion
@@ -53,14 +53,14 @@ namespace Runtime.AI
 
         public NavMeshAgent GetAgent()
         {
-            return agent;
+            return this.agent;
         }
 
         public TObject GetFromMemory<TObject>(string key) where TObject : Object
         {
-            if (!memoryBank.ContainsKey(key)) return null;
+            if (!this.memoryBank.ContainsKey(key)) return null;
 
-            return memoryBank[key] as TObject;
+            return this.memoryBank[key] as TObject;
         }
 
         #endregion
@@ -69,13 +69,13 @@ namespace Runtime.AI
 
         public void SetMemory(string key, object value)
         {
-            if (memoryBank.ContainsKey(key))
+            if (this.memoryBank.ContainsKey(key))
             {
-                memoryBank[key] = value;
+                this.memoryBank[key] = value;
                 return;
             }
 
-            memoryBank.Add(key, value);
+            this.memoryBank.Add(key, value);
         }
 
         #endregion
@@ -86,12 +86,12 @@ namespace Runtime.AI
 
         public void HideVisual()
         {
-            visualsObject.SetActive(false);
+            this.visualsObject.SetActive(false);
         }
 
         public void ShowVisual()
         {
-            visualsObject.SetActive(true);
+            this.visualsObject.SetActive(true);
         }
 
         public void AddDisableEventListener(UnityAction action)

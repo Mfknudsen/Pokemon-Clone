@@ -24,15 +24,15 @@ namespace Runtime.Weathers.Irritants
             base.Setup();
 
 
-            if (amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(terrain);
+            if (this.amplified)
+                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.terrain);
         }
 
         #region Interface Overrides
 
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            return pokemon.GetTypes().Any(type => immuneTypes.Contains(type.GetTypeName()) && stat == Stat.SpAtk)
+            return pokemon.GetTypes().Any(type => this.immuneTypes.Contains(type.GetTypeName()) && stat == Stat.SpAtk)
                 ? 0.75f
                 : 1;
         }

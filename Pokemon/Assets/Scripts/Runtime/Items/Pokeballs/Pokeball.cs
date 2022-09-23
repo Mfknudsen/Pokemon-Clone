@@ -32,7 +32,7 @@ namespace Runtime.Items.Pokeballs
 
         public int GetCatchStat()
         {
-            return catchStat;
+            return this.catchStat;
         }
 
         #endregion
@@ -51,7 +51,7 @@ namespace Runtime.Items.Pokeballs
 
             Debug.Log("Hit Pokemon: " + pokemonHit.GetPokemon().name);
 
-            operationManager.AddAsyncOperationsContainer(
+            this.operationManager.AddAsyncOperationsContainer(
                 new OperationsContainer(new CatchPokemon(
                     pokemonHit.GetPokemon(),
                     this,
@@ -70,28 +70,28 @@ namespace Runtime.Items.Pokeballs
 
         public override IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
             #region Preparing Values
 
-            int clickStage = clicks = BattleMathf.CalculateCatch(target, this);
-            Chat selectedChat = clicks switch
+            int clickStage = this.clicks = BattleMathf.CalculateCatch(this.target, this);
+            Chat selectedChat = this.clicks switch
             {
-                0 => noClickBreak,
-                1 => oneClickBreak,
-                2 => twoClickBreak,
-                3 => threeClickBreak,
-                _ => caught
+                0 => this.noClickBreak,
+                1 => this.oneClickBreak,
+                2 => this.twoClickBreak,
+                3 => this.threeClickBreak,
+                _ => this.caught
             };
             selectedChat = selectedChat.GetChat();
-            selectedChat.AddToOverride("<TARGET_NAME>", target.GetName());
+            selectedChat.AddToOverride("<TARGET_NAME>", this.target.GetName());
 
             List<Chat> chats = new();
-            foreach (Chat chat in chatOnUse)
+            foreach (Chat chat in this.chatOnUse)
             {
                 Chat c = chat.GetChat();
-                c.AddToOverride("<USER_NAME>", userName);
-                c.AddToOverride("<ITEM_NAME>", itemName);
+                c.AddToOverride("<USER_NAME>", this.userName);
+                c.AddToOverride("<ITEM_NAME>", this.itemName);
                 chats.Add(c);
             }
 
@@ -101,17 +101,17 @@ namespace Runtime.Items.Pokeballs
 
             OperationsContainer container = new();
 
-            ThrowPokeball throwPokeball = new(playerManager, operationManager, target, clickStage, selectedChat);
+            ThrowPokeball throwPokeball = new(this.playerManager, this.operationManager, this.target, clickStage, selectedChat);
             container.Add(throwPokeball);
 
             ChatOperation chatOperation = new(chats.ToArray());
             container.Add(chatOperation);
 
-            operationManager.AddOperationsContainer(container);
+            this.operationManager.AddOperationsContainer(container);
 
             #endregion
 
-            done = true;
+            this.done = true;
 
             yield break;
         }

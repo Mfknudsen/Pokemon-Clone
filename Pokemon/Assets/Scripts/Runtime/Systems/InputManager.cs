@@ -44,29 +44,25 @@ namespace Runtime.Systems
 
             playerInput.Player.Enable();
 
-            playerInput.Player.MoveAxis.performed += context =>
-                moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
-            playerInput.Player.MoveAxis.canceled += context =>
-                moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            playerInput.Player.MoveAxis.performed += context => this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            playerInput.Player.MoveAxis.canceled += context => this.moveAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
-            playerInput.Player.TurnAxis.performed += context =>
-                turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
-            playerInput.Player.TurnAxis.canceled += context =>
-                turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            playerInput.Player.TurnAxis.performed += context => this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
+            playerInput.Player.TurnAxis.canceled += context => this.turnAxisInputEvent.Invoke(context.ReadValue<Vector2>());
 
-            playerInput.Player.Run.performed += _ => runInputEvent.Invoke(true);
-            playerInput.Player.Run.canceled += _ => runInputEvent.Invoke(false);
+            playerInput.Player.Run.performed += _ => this.runInputEvent.Invoke(true);
+            playerInput.Player.Run.canceled += _ => this.runInputEvent.Invoke(false);
 
-            playerInput.Player.NextChat.performed += _ => nextChatInputEvent.Invoke();
-            playerInput.Player.Pause.performed += _ => pauseInputEvent.Invoke();
-            playerInput.Player.Interact.performed += _ => interactInputEvent.Invoke();
-            playerInput.Player.ShowHide.performed += _ => showHideEvent.Invoke();
+            playerInput.Player.NextChat.performed += _ => this.nextChatInputEvent.Invoke();
+            playerInput.Player.Pause.performed += _ => this.pauseInputEvent.Invoke();
+            playerInput.Player.Interact.performed += _ => this.interactInputEvent.Invoke();
+            playerInput.Player.ShowHide.performed += _ => this.showHideEvent.Invoke();
 
-            playerInput.Player.RightClick.performed += _ => rightClickEvent.Invoke(true);
-            playerInput.Player.RightClick.canceled += _ => rightClickEvent.Invoke(false);
+            playerInput.Player.RightClick.performed += _ => this.rightClickEvent.Invoke(true);
+            playerInput.Player.RightClick.canceled += _ => this.rightClickEvent.Invoke(false);
 
-            playerInput.Player.LeftClick.performed += _ => leftClickEvent.Invoke(true);
-            playerInput.Player.LeftClick.canceled += _ => leftClickEvent.Invoke(false);
+            playerInput.Player.LeftClick.performed += _ => this.leftClickEvent.Invoke(true);
+            playerInput.Player.LeftClick.canceled += _ => this.leftClickEvent.Invoke(false);
         }
 
         #endregion

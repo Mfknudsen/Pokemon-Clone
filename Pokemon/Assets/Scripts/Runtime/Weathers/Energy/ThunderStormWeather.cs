@@ -30,20 +30,20 @@ namespace Runtime.Weathers.Energy
         {
             base.Setup();
 
-            if (amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(elTerrain);
+            if (this.amplified)
+                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.elTerrain);
         }
 
         #endregion
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
             WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
             bool raining = weatherManager.GetAll()[0] is RainWeather;
 
@@ -54,7 +54,7 @@ namespace Runtime.Weathers.Energy
 
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (!raining && pokemon.GetTypes().Any(type => immuneTypes.Contains(type.GetTypeName())))
+                if (!raining && pokemon.GetTypes().Any(type => this.immuneTypes.Contains(type.GetTypeName())))
                     continue;
                 
                 //Damage
@@ -64,14 +64,14 @@ namespace Runtime.Weathers.Energy
                 container.Add(damagePokemon);
 
                 //Visual
-                GameObject obj = Instantiate(lightingPrefab);
+                GameObject obj = Instantiate(this.lightingPrefab);
                 ThunderStormLighting lighting = obj.GetComponent<ThunderStormLighting>();
                 container.Add(lighting);
 
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
             }
 
-            done = true;
+            this.done = true;
 
             yield break;
         }

@@ -10,31 +10,31 @@ namespace Runtime.Battle.UI.Information_Display
 
         public void SetBarMax(float max)
         {
-            maxBar = max;
-            curBar = maxBar;
+            this.maxBar = max;
+            this.curBar = this.maxBar;
 
-            SetCurrentBar(curBar);
+            SetCurrentBar(this.curBar);
         }
 
         public void SetCurrentBar(float input)
         {
-            curBar = Mathf.Clamp(input, 0, Mathf.Infinity);
+            this.curBar = Mathf.Clamp(input, 0, Mathf.Infinity);
             
-            if(maxBar == 0) return;
+            if(this.maxBar == 0) return;
             
-            float procent = (100 / maxBar) * curBar / 100;
+            float procent = (100 / this.maxBar) * this.curBar / 100;
             
             if (procent < 0.25)
-                bar.color = Color.red;
+                this.bar.color = Color.red;
             else if (procent < 0.7)
-                bar.color = Color.yellow;
+                this.bar.color = Color.yellow;
             else
-                bar.color = Color.green;
+                this.bar.color = Color.green;
 
             procent = Mathf.Clamp(procent, 0.0f, 1.0f);
 
-            
-            bar.transform.localScale = new Vector3(procent, 1, 1);
+
+            this.bar.transform.localScale = new Vector3(procent, 1, 1);
         }
     }
 }

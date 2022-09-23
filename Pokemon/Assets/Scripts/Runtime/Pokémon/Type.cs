@@ -46,18 +46,18 @@ namespace Runtime.Pokémon
 
         public TypeName GetTypeName()
         {
-            return typeName;
+            return this.typeName;
         }
 
         public Color GetTypeColor()
         {
-            return typeColor;
+            return this.typeColor;
         }
 
         public bool GetNoEffect(TypeName input)
         {
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Type t in noEffect)
+            foreach (Type t in this.noEffect)
             {
                 if (t.GetTypeName() == input)
                     return true;
@@ -69,7 +69,7 @@ namespace Runtime.Pokémon
         public int GetResistance(TypeName input)
         {
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Type t in resistances)
+            foreach (Type t in this.resistances)
             {
                 if (t.typeName == input)
                     return 1;
@@ -81,7 +81,7 @@ namespace Runtime.Pokémon
         public int GetWeakness(TypeName input)
         {
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Type t in weakness)
+            foreach (Type t in this.weakness)
             {
                 if (t.typeName == input)
                     return 1;

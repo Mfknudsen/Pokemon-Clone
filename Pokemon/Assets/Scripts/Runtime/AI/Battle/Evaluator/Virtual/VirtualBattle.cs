@@ -17,23 +17,22 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
         public VirtualBattle()
         {
-            spotOversight = new VirtualSpotOversight();
+            this.spotOversight = new VirtualSpotOversight();
             BattleManager battleManager = BattleManager.instance;
 
-            weathers = new List<Weather>();
-            weathers.AddRange(battleManager.GetWeatherManager().GetAll()
+            this.weathers = new List<Weather>();
+            this.weathers.AddRange(battleManager.GetWeatherManager().GetAll()
                 .Where(o => o != null)
                 .Select(Object.Instantiate));
         }
 
         public VirtualBattle(VirtualBattle oldBattle)
         {
-            spotOversight = new VirtualSpotOversight();
+            this.spotOversight = new VirtualSpotOversight();
 
-            foreach (VirtualSpot spot in oldBattle.spotOversight.spots)
-                spotOversight.spots.Add(new VirtualSpot(spot.virtualPokemon));
+            foreach (VirtualSpot spot in oldBattle.spotOversight.spots) this.spotOversight.spots.Add(new VirtualSpot(spot.virtualPokemon));
 
-            weathers = new List<Weather>();
+            this.weathers = new List<Weather>();
             foreach (Weather w in oldBattle.weathers.Select(Object.Instantiate))
             {
                 w.TickTurn();
@@ -41,7 +40,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
                 if (w.EffectDone())
                     continue;
 
-                weathers.Add(w);
+                this.weathers.Add(w);
             }
         }
     }

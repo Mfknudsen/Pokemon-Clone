@@ -19,10 +19,10 @@ namespace Runtime.Common.CommonPath.Road
         public void UpdateRoad()
         {
             Path path = GetComponent<PathCreator>().path;
-            Vector3[] points = path.CalculateEvenlySpacedPoints(spacing);
+            Vector3[] points = path.CalculateEvenlySpacedPoints(this.spacing);
             GetComponent<MeshFilter>().mesh = CreateRoadMesh(points, path.IsClosed);
 
-            int textureRepeat = Mathf.RoundToInt(tiling * points.Length * spacing * .05f);
+            int textureRepeat = Mathf.RoundToInt(this.tiling * points.Length * this.spacing * .05f);
             GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(1, textureRepeat);
         }
 
@@ -48,8 +48,8 @@ namespace Runtime.Common.CommonPath.Road
                 forward.Normalize();
                 Vector3 left = new(-forward.y, forward.x);
 
-                verts[vertIndex] = points[i] + left * (roadWidth * .5f);
-                verts[vertIndex + 1] = points[i] - left * (roadWidth * .5f);
+                verts[vertIndex] = points[i] + left * (this.roadWidth * .5f);
+                verts[vertIndex + 1] = points[i] - left * (this.roadWidth * .5f);
 
                 float completionPercent = i / (float)(points.Length - 1);
                 float v = 1 - Mathf.Abs(2 * completionPercent - 1);

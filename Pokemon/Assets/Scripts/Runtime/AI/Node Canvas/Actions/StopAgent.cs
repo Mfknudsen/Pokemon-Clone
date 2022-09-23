@@ -13,7 +13,7 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            navAgent.GetValue().isStopped = true;
+            this.navAgent.GetValue().isStopped = true;
             
             EndAction(true);
         }

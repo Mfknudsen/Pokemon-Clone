@@ -28,15 +28,14 @@ namespace Runtime.UI.Pause
             //Cursor.visible = !showMouse;
             //Cursor.lockState = showMouse ? CursorLockMode.Confined : CursorLockMode.None;
 
-            showMouse = !showMouse;
+            this.showMouse = !this.showMouse;
             
-            if (toReturnSelection != UISelection.Pause)
-                preSelection = toReturnSelection;
+            if (toReturnSelection != UISelection.Pause) this.preSelection = toReturnSelection;
 
-            defaultPage.SetActive(true);
-            optionsPage.SetActive(false);
-            savePage.SetActive(false);
-            exitPage.SetActive(false);
+            this.defaultPage.SetActive(true);
+            this.optionsPage.SetActive(false);
+            this.savePage.SetActive(false);
+            this.exitPage.SetActive(false);
         }
 
         #region Navigation
@@ -44,31 +43,31 @@ namespace Runtime.UI.Pause
         [UsedImplicitly]
         public void Unpause()
         {
-            uiManager.SwitchUI(preSelection);
+            this.uiManager.SwitchUI(this.preSelection);
         }
 
         [UsedImplicitly]
         public void ActivateOptions(bool toActivate)
         {
-            defaultPage.SetActive(!toActivate);
-            optionsPage.SetActive(toActivate);
+            this.defaultPage.SetActive(!toActivate);
+            this.optionsPage.SetActive(toActivate);
 
-            optionsPage.GetComponent<Options>().Gameplay();
+            this.optionsPage.GetComponent<Options>().Gameplay();
         }
 
 
         [UsedImplicitly]
         public void ActivateSave(bool toActivate)
         {
-            defaultPage.SetActive(!toActivate);
-            savePage.SetActive(toActivate);
+            this.defaultPage.SetActive(!toActivate);
+            this.savePage.SetActive(toActivate);
         }
 
 
         [UsedImplicitly]
         public void Exit()
         {
-            exitPage.SetActive(true);
+            this.exitPage.SetActive(true);
         }
 
         #endregion

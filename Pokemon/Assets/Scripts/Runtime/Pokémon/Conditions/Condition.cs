@@ -27,7 +27,7 @@ namespace Runtime.Pokémon.Conditions
 
         public string GetConditionName()
         {
-            return conditionName;
+            return this.conditionName;
         }
 
         public virtual Condition GetCondition()
@@ -38,12 +38,12 @@ namespace Runtime.Pokémon.Conditions
 
         public bool GetIsInstantiated()
         {
-            return isInstantiated;
+            return this.isInstantiated;
         }
 
         public bool GetBeforeAttack()
         {
-            return beforeAttack;
+            return this.beforeAttack;
         }
 
         #endregion
@@ -52,12 +52,12 @@ namespace Runtime.Pokémon.Conditions
 
         public void SetIsInstantiated(bool set)
         {
-            isInstantiated = set;
+            this.isInstantiated = set;
         }
 
         public void SetAffectedPokemon(Pokemon pokemon)
         {
-            affectedPokemon = pokemon;
+            this.affectedPokemon = pokemon;
         }
 
         #endregion

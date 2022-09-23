@@ -13,7 +13,7 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            counter.SetValue(counter.value + Time.deltaTime);
+            this.counter.SetValue(this.counter.value + Time.deltaTime);
         }
     }
 }

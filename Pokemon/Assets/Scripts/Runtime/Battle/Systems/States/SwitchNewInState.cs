@@ -30,13 +30,13 @@ namespace Runtime.Battle.Systems.States
             {
                 OperationsContainer container = new();
                 container.Add(switchAction);
-                operationManager.AddOperationsContainer(container);
+                this.operationManager.AddOperationsContainer(container);
 
-                while (!switchAction.IsOperationDone() || !chatManager.GetIsClear())
+                while (!switchAction.IsOperationDone() || !this.chatManager.GetIsClear())
                     yield return null;
             }
 
-            this.battleManager.SetState(new RoundDoneState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

@@ -29,12 +29,12 @@ namespace Runtime.Player
         {
             try
             {
-                badgeCount = data.badgeCount;
+                this.badgeCount = data.badgeCount;
 
                 string[] pronouns = data.pronouns;
-                pronoun1 = pronouns[0];
-                pronoun2 = pronouns[1];
-                pronoun3 = pronouns[2];
+                this.pronoun1 = pronouns[0];
+                this.pronoun2 = pronouns[1];
+                this.pronoun3 = pronouns[2];
             }
             catch (Exception)
             {

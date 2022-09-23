@@ -24,11 +24,11 @@ namespace Runtime.Battle.Systems.States
                              s.GetBattleMember())
                          .Where(bm =>
                              !bm.GetTeamAffiliation()))
-                chatManager.Add(battleMember.GetOnDefeatedChats());
+                this.chatManager.Add(battleMember.GetOnDefeatedChats());
 
             yield return null;
 
-            while (!chatManager.GetIsClear())
+            while (!this.chatManager.GetIsClear())
                 yield return null;
 
             this.battleManager.EndBattle(true);

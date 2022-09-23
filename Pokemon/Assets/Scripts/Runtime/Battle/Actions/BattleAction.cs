@@ -51,22 +51,22 @@ namespace Runtime.Battle.Actions
 
         public Pokemon GetCurrentPokemon()
         {
-            return currentPokemon;
+            return this.currentPokemon;
         }
 
         public bool GetIsInstantiated()
         {
-            return isInstantiated;
+            return this.isInstantiated;
         }
 
         public int GetPriority()
         {
-            return priority;
+            return this.priority;
         }
 
         public bool GetDefaultTargetEnemy()
         {
-            return defaultTargetEnemy;
+            return this.defaultTargetEnemy;
         }
 
         #endregion
@@ -75,25 +75,25 @@ namespace Runtime.Battle.Actions
 
         public void SetTargets(Pokemon pokemon)
         {
-            targets ??= new List<Spot>();
-            
-            targets.Add(BattleManager.instance.GetSpotOversight().GetSpots()
+            this.targets ??= new List<Spot>();
+
+            this.targets.Add(BattleManager.instance.GetSpotOversight().GetSpots()
                 .FirstOrDefault(s => s.GetActivePokemon() == pokemon));
         }
 
         public void SetCurrentPokemon(Pokemon pokemon)
         {
-            currentPokemon = pokemon;
+            this.currentPokemon = pokemon;
         }
 
         public void SetIsInstantiated(bool set)
         {
-            isInstantiated = set;
+            this.isInstantiated = set;
         }
 
         public void SetPriority(int set)
         {
-            priority = set;
+            this.priority = set;
         }
 
         #endregion
@@ -109,8 +109,7 @@ namespace Runtime.Battle.Actions
 
         protected void SetupChats()
         {
-            for (int i = 0; i < chatOnActivation.Length; i++)
-                chatOnActivation[i] = Instantiate(chatOnActivation[i]);
+            for (int i = 0; i < this.chatOnActivation.Length; i++) this.chatOnActivation[i] = Instantiate(this.chatOnActivation[i]);
         }
 
         protected virtual Chat[] TransferInformationToChat()
@@ -125,7 +124,7 @@ namespace Runtime.Battle.Actions
 
         public bool IsOperationDone()
         {
-            return done;
+            return this.done;
         }
 
         public virtual IEnumerator Operation()

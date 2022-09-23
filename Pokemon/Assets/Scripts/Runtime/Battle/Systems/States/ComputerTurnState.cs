@@ -36,7 +36,7 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-            this.battleManager.SetState(new ActionState(this.battleManager, operationManager, chatManager, uiManager, playerManager));
+            this.battleManager.SetState(new ActionState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

@@ -98,8 +98,8 @@ namespace Runtime.Player
         {
             this.allowed.value = true;
 
-            this.cameraRig.m_YAxis.m_MaxSpeed = yCamSpeed;
-            this.cameraRig.m_XAxis.m_MaxSpeed = xCamSpeed;
+            this.cameraRig.m_YAxis.m_MaxSpeed = this.yCamSpeed;
+            this.cameraRig.m_XAxis.m_MaxSpeed = this.xCamSpeed;
         }
 
         public void Disable()

@@ -47,80 +47,79 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            playerInventory = playerManager.GetBattleMember().GetInventory();
-            spotOversight = BattleManager.instance.GetSpotOversight();
+            this.playerInventory = this.playerManager.GetBattleMember().GetInventory();
+            this.spotOversight = BattleManager.instance.GetSpotOversight();
         }
 
         public void DisplaySelection(ItemAction itemAction)
         {
-            background.SetActive(true);
+            this.background.SetActive(true);
 
             this.itemAction = itemAction;
 
-            foreach (ItemContainer itemContainer in playerInventory.GetAllItems()
+            foreach (ItemContainer itemContainer in this.playerInventory.GetAllItems()
                          .Where(container => container.item is BattleItem))
             {
                 BattleBagSlot slot = ((BattleItem)itemContainer.item).GetBattleBagSlot();
 
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
-                if (slot == BattleBagSlot.Battle && !potionList.Contains(itemContainer))
-                    potionList.Add(itemContainer);
-                else if (slot == BattleBagSlot.Pokeball && !pokeballList.Contains(itemContainer))
-                    pokeballList.Add(itemContainer);
-                else if (slot == BattleBagSlot.Berries && !otherList.Contains(itemContainer))
-                    otherList.Add(itemContainer);
-                else if (slot == BattleBagSlot.Medicine && !medicineList.Contains(itemContainer))
-                    medicineList.Add(itemContainer);
+                if (slot == BattleBagSlot.Battle && !this.potionList.Contains(itemContainer))
+                    this.potionList.Add(itemContainer);
+                else if (slot == BattleBagSlot.Pokeball && !this.pokeballList.Contains(itemContainer))
+                    this.pokeballList.Add(itemContainer);
+                else if (slot == BattleBagSlot.Berries && !this.otherList.Contains(itemContainer))
+                    this.otherList.Add(itemContainer);
+                else if (slot == BattleBagSlot.Medicine && !this.medicineList.Contains(itemContainer)) this.medicineList.Add(itemContainer);
             }
 
-            itemDisplay.SetActive(false);
-            bagSlotSelection.SetActive(true);
+            this.itemDisplay.SetActive(false);
+            this.bagSlotSelection.SetActive(true);
         }
 
         public void DisplayByBagSlot(int i)
         {
             BattleBagSlot battleBagSlot = (BattleBagSlot)i;
 
-            bagSlotSelection.SetActive(false);
-            itemDisplay.SetActive(true);
+            this.bagSlotSelection.SetActive(false);
+            this.itemDisplay.SetActive(true);
 
             List<ItemContainer> toDisplay;
 
             if (battleBagSlot == BattleBagSlot.Battle)
-                toDisplay = potionList;
+                toDisplay = this.potionList;
             else if (battleBagSlot == BattleBagSlot.Pokeball)
-                toDisplay = pokeballList;
+                toDisplay = this.pokeballList;
             else if (battleBagSlot == BattleBagSlot.Berries)
-                toDisplay = otherList;
+                toDisplay = this.otherList;
             else
-                toDisplay = medicineList;
+                toDisplay = this.medicineList;
 
             foreach (ItemContainer itemContainer in toDisplay)
             {
-                ItemDisplay display = Instantiate(itemUIPrefab, parentTransform).GetComponent<ItemDisplay>();
+                ItemDisplay display = Instantiate(this.itemUIPrefab, this.parentTransform).GetComponent<ItemDisplay>();
 
-                display.Setup(this, itemContainer, itemAction);
+                display.Setup(this, itemContainer, this.itemAction);
 
-                displays.Add(display);
+                this.displays.Add(display);
             }
         }
 
         public void DisableDisplaySelection()
         {
-            foreach (ItemDisplay display in displays)
+            foreach (ItemDisplay display in this.displays)
                 Destroy(display.gameObject);
 
-            displays.Clear();
+            this.displays.Clear();
 
-            background.SetActive(false);
+            this.background.SetActive(false);
         }
 
         public void ReceiveAction(BattleAction battleAction)
         {
-            if (spotOversight.GetToDefaultTargeting())
+            if (this.spotOversight.GetToDefaultTargeting())
             {
                 // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-                foreach (Spot spot in spotOversight.GetSpots())
+                foreach (Spot spot in this.spotOversight.GetSpots())
                 {
                     bool enemy = spot.GetActivePokemon() != battleAction.GetCurrentPokemon();
 
@@ -135,7 +134,7 @@ namespace Runtime.Battle.UI.Selection
                 }
             }
             else
-                selectionMenu.DisplaySelection(SelectorGoal.Target, battleAction);
+                this.selectionMenu.DisplaySelection(SelectorGoal.Target, battleAction);
         }
 
         #endregion

@@ -25,8 +25,7 @@ namespace Runtime.Common
 
         private void OnValidate()
         {
-            if (!hasTags)
-                tags = Array.Empty<string>();
+            if (!this.hasTags) this.tags = Array.Empty<string>();
         }
 
         #endregion
@@ -35,8 +34,8 @@ namespace Runtime.Common
 
         private void Awake()
         {
-            if (hasComponents)
-                allComponents.AddRange(
+            if (this.hasComponents)
+                this.allComponents.AddRange(
                     gameObject.GetComponents<MonoBehaviour>());
         }
 
@@ -46,28 +45,28 @@ namespace Runtime.Common
 
         public bool HasComponents()
         {
-            return hasComponents;
+            return this.hasComponents;
         }
 
         public bool ContainsTag(string tagReference)
         {
-            return tags.Contains(tagReference);
+            return this.tags.Contains(tagReference);
         }
 
         public bool HasTags()
         {
-            return hasTags;
+            return this.hasTags;
         }
 
         public MonoBehaviour[] GetAllComponents()
         {
-            return allComponents.ToArray();
+            return this.allComponents.ToArray();
         }
 
         public T[] GetComponentsOfType<T>()
             where T : MonoBehaviour
         {
-            return allComponents.OfType<T>().ToArray();
+            return this.allComponents.OfType<T>().ToArray();
         }
 
         #endregion

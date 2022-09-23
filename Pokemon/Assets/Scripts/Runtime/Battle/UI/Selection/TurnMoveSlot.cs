@@ -22,19 +22,19 @@ namespace Runtime.Battle.UI.Selection
         {
             this.move = move;
 
-            background.color = Color.white;
-            gui.text = "";
+            this.background.color = Color.white;
+            this.gui.text = "";
 
             if (move is null) return;
 
-            gui.text = move.GetName();
+            this.gui.text = move.GetName();
 
-            background.color = move.GetMoveType().GetTypeColor();
+            this.background.color = move.GetMoveType().GetTypeColor();
         }
 
         public void Trigger()
         {
-            turnSelection.ReceiveAction(move);
+            this.turnSelection.ReceiveAction(this.move);
         }
     }
 }

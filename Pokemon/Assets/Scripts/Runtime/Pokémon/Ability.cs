@@ -47,7 +47,7 @@ namespace Runtime.Pokémon
 
         public bool GetActive()
         {
-            return active;
+            return this.active;
         }
 
         #endregion
@@ -56,12 +56,12 @@ namespace Runtime.Pokémon
 
         public void SetAffectedPokemon(Pokemon pokemon)
         {
-            affectedPokemon = pokemon;
+            this.affectedPokemon = pokemon;
         }
 
         public void SetActive(bool set)
         {
-            active = set;
+            this.active = set;
         }
 
         #endregion

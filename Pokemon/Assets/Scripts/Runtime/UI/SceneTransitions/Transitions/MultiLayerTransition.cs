@@ -19,10 +19,9 @@ namespace Runtime.UI.SceneTransitions.Transitions
 
         public override IEnumerator Trigger(bool start)
         {
-            foreach (TransitionLayer layer in transitionLayers)
-                transitionUI.StartCoroutine(layer.Trigger(start, transitionUI));
+            foreach (TransitionLayer layer in this.transitionLayers) this.transitionUI.StartCoroutine(layer.Trigger(start, this.transitionUI));
 
-            foreach (TransitionLayer layer in transitionLayers)
+            foreach (TransitionLayer layer in this.transitionLayers)
             {
                 while (!layer.Done())
                     yield return null;
@@ -48,31 +47,30 @@ namespace Runtime.UI.SceneTransitions.Transitions
 
         public IEnumerator Trigger(bool start, SceneTransitionUI transitionUI)
         {
-            done = false;
+            this.done = false;
 
-            yield return new WaitForSeconds(timeFromStart);
+            yield return new WaitForSeconds(this.timeFromStart);
 
-            if (start)
-                animator = transitionUI.InstantiateObject(gameObjectToAnimate).GetComponent<Animator>();
+            if (start) this.animator = transitionUI.InstantiateObject(this.gameObjectToAnimate).GetComponent<Animator>();
 
-            Transition.SetAnimationBools(animator, start);
+            Transition.SetAnimationBools(this.animator, start);
 
             //Let Unity Update so we get the clip we want
             yield return null;
 
-            yield return new WaitForSeconds(Transition.GetTimeOfClipByName(animator));
+            yield return new WaitForSeconds(Transition.GetTimeOfClipByName(this.animator));
 
-            done = true;
+            this.done = true;
         }
 
         public bool Done()
         {
-            return done;
+            return this.done;
         }
 
         public void End()
         {
-            Destroy(animator.gameObject);
+            Destroy(this.animator.gameObject);
         }
 
         #endregion

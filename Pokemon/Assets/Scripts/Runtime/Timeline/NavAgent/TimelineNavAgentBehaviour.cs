@@ -29,11 +29,11 @@ namespace Runtime.Timeline.NavAgent
 
             if(navMeshAgent == null) return;
             
-            if (toMoveTo != null)
-                navMeshAgent.SetDestination(toMoveTo.position);
+            if (this.toMoveTo != null)
+                navMeshAgent.SetDestination(this.toMoveTo.position);
 
-            navMeshAgent.isStopped = isStopped;
-            navMeshAgent.stoppingDistance = stopDistance;
+            navMeshAgent.isStopped = this.isStopped;
+            navMeshAgent.stoppingDistance = this.stopDistance;
         }
 
         #endregion       

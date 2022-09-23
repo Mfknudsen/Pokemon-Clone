@@ -47,7 +47,7 @@ namespace Runtime.Battle.UI.Information_Display
             }
 
             this. battleManager.SetDisplayManager(this);
-            this. spotOversight = battleManager.GetSpotOversight();
+            this. spotOversight = this.battleManager.GetSpotOversight();
 
             this. ready = true;
 

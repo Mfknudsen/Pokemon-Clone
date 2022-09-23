@@ -31,7 +31,7 @@ namespace Runtime.Battle.Actions
 
         public bool GetToUse()
         {
-            return toUse;
+            return this.toUse;
         }
 
         #endregion
@@ -40,12 +40,12 @@ namespace Runtime.Battle.Actions
 
         public void SetToUse(Item set)
         {
-            toUse = set;
+            this.toUse = set;
         }
 
         public void SetBattleMember(BattleMember set)
         {
-            battleMember = set;
+            this.battleMember = set;
         }
 
         #endregion
@@ -63,29 +63,29 @@ namespace Runtime.Battle.Actions
 
         public override IEnumerator Operation()
         {
-            done = false;
+            this.done = false;
 
-            BattleItem battleItem = (BattleItem) toUse;
+            BattleItem battleItem = (BattleItem)this.toUse;
 
             foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots()
-                         .Where(spot => spot.GetActivePokemon() == currentPokemon))
+                         .Where(spot => spot.GetActivePokemon() == this.currentPokemon))
             {
                 battleItem.SetUserName(spot.GetBattleMember().GetName());
                 break;
             }
 
-            battleItem.SetTarget(targets[0].GetActivePokemon());
-            battleItem.SetOnUse(chatOnActivation);
+            battleItem.SetTarget(this.targets[0].GetActivePokemon());
+            battleItem.SetOnUse(this.chatOnActivation);
 
             OperationsContainer container = new();
-            container.Add(toUse);
-            operationManager.AddAsyncOperationsContainer(container);
-            while (!toUse.IsOperationDone())
+            container.Add(this.toUse);
+            this.operationManager.AddAsyncOperationsContainer(container);
+            while (!this.toUse.IsOperationDone())
                 yield return null;
 
-            battleMember.GetInventory().RemoveItem(toUse);
+            this.battleMember.GetInventory().RemoveItem(this.toUse);
 
-            done = true;
+            this.done = true;
         }
 
         #endregion

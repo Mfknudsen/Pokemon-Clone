@@ -21,9 +21,9 @@ namespace Runtime.AI.Battle.Evaluator
 
         public void Tick()
         {
-            aggressionLevel += aggressionIncrease;
-            setupLevel += setupIncrease;
-            survivalLevel += survivalIncrease;
+            this.aggressionLevel += this.aggressionIncrease;
+            this.setupLevel += this.setupIncrease;
+            this.survivalLevel += this.survivalIncrease;
         }
     }
 }

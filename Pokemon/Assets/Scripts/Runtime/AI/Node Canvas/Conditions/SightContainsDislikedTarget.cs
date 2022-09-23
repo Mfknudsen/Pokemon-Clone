@@ -16,9 +16,9 @@ namespace Runtime.AI.Node_Canvas.Conditions
 
         protected override bool OnCheck()
         {
-            foreach (GameObject gameObject in sight.value.GetInSight())
+            foreach (GameObject gameObject in this.sight.value.GetInSight())
             {
-                if (disliked.value.Contains(gameObject.name))
+                if (this.disliked.value.Contains(gameObject.name))
                     return true;
             }
 

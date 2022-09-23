@@ -26,11 +26,11 @@ namespace Runtime.UI.Book.Button
 
             ColorBlock colorBlock = colors;
 
-            colorBlock.normalColor = color;
-            colorBlock.highlightedColor = color;
-            colorBlock.pressedColor = color;
-            colorBlock.disabledColor = color;
-            colorBlock.selectedColor = color;
+            colorBlock.normalColor = this.color;
+            colorBlock.highlightedColor = this.color;
+            colorBlock.pressedColor = this.color;
+            colorBlock.disabledColor = this.color;
+            colorBlock.selectedColor = this.color;
 
             colors = colorBlock;
 
@@ -41,8 +41,7 @@ namespace Runtime.UI.Book.Button
 
         public void Setup(ICustomGUIElement element)
         {
-            if(element is BookButton button)
-                bookButton = button;
+            if(element is BookButton button) this.bookButton = button;
         }
 
         #endregion
@@ -53,12 +52,12 @@ namespace Runtime.UI.Book.Button
         {
             base.DoStateTransition(state, instant);
 
-            if (bookButton == null) return;
+            if (this.bookButton == null) return;
 
             if (state == SelectionState.Pressed)
-                UIBook.instance.Effect(bookButton.GetBookTurn());
+                UIBook.instance.Effect(this.bookButton.GetBookTurn());
 
-            bookButton.SetPressedState(state.ToString());
+            this.bookButton.SetPressedState(state.ToString());
         }
 
         #endregion

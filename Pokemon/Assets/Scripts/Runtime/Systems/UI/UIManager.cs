@@ -64,12 +64,12 @@ namespace Runtime.Systems.UI
 
         public SelectionMenu GetSelectionMenu()
         {
-            return selectionMenu;
+            return this.selectionMenu;
         }
 
         public DisplayManager GetDisplayManager()
         {
-            return displayManager;
+            return this.displayManager;
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace Runtime.Systems.UI
 
         public void SetReadyToPause(bool set)
         {
-            readyToPause = set;
+            this.readyToPause = set;
         }
 
         #endregion
@@ -101,41 +101,41 @@ namespace Runtime.Systems.UI
 
         public void SwitchUI(UISelection selection)
         {
-            battleUI.SetActive(false);
-            overworldUI.SetActive(false);
-            pauseUI.SetActive(false);
-            startUI.SetActive(false);
+            this.battleUI.SetActive(false);
+            this.overworldUI.SetActive(false);
+            this.pauseUI.SetActive(false);
+            this.startUI.SetActive(false);
 
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (selection)
             {
                 case UISelection.Start:
-                    startUI.SetActive(true);
+                    this.startUI.SetActive(true);
                     break;
 
                 case UISelection.Battle:
-                    battleUI.SetActive(true);
+                    this.battleUI.SetActive(true);
                     break;
 
                 case UISelection.Overworld:
-                    overworldUI.SetActive(true);
+                    this.overworldUI.SetActive(true);
                     break;
 
                 case UISelection.Pause:
-                    pauseUI.SetActive(true);
-                    pauseUI.GetComponent<PauseMenu>().OnDisplay(currentSelection);
+                    this.pauseUI.SetActive(true);
+                    this.pauseUI.GetComponent<PauseMenu>().OnDisplay(this.currentSelection);
                     break;
 
                 case UISelection.Box:
                     break;
             }
 
-            currentSelection = selection;
+            this.currentSelection = selection;
         }
 
         public void ActivateLoadingUI(bool set)
         {
-            loadingUI.SetActive(set);
+            this.loadingUI.SetActive(set);
         }
 
         #endregion
