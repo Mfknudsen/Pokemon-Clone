@@ -5,6 +5,10 @@ Pokemon/Logs
 Pokemon/obj
 Builds
 
+!Pokemon/Assets/_Packages/.gitkeep
+!Pokemon/Assets/_Packages/_Packages.asmdef.gitkeep
+!Pokemon/Assets/_Packages/_Packages.asmdef.meta.gitkeep
+
 # Created by https://www.toptal.com/developers/gitignore/api/unity,rider
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,rider
 
