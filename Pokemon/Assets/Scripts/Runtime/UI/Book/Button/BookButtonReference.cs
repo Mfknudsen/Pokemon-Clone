@@ -13,6 +13,7 @@ namespace Runtime.UI.Book.Button
     {
         #region Values
 
+        private UIBook uiBook;
         private BookButton bookButton;
         private readonly Color color = new(0, 0, 0, 0);
 
@@ -39,9 +40,11 @@ namespace Runtime.UI.Book.Button
 
         #region In
 
-        public void Setup(ICustomGUIElement element)
+        public void Setup(UIBook uiBook, ICustomGUIElement element)
         {
-            if(element is BookButton button) this.bookButton = button;
+            this.uiBook = uiBook;
+
+            if (element is BookButton button) this.bookButton = button;
         }
 
         #endregion
@@ -55,7 +58,7 @@ namespace Runtime.UI.Book.Button
             if (this.bookButton == null) return;
 
             if (state == SelectionState.Pressed)
-                UIBook.instance.Effect(this.bookButton.GetBookTurn());
+                this.uiBook.Effect(this.bookButton.GetBookTurn());
 
             this.bookButton.SetPressedState(state.ToString());
         }

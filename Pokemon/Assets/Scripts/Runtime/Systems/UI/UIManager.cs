@@ -33,6 +33,8 @@ namespace Runtime.Systems.UI
     {
         #region Values
 
+        private UIBook uiBook;
+
         [ShowInInspector, ReadOnly] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
         [ShowInInspector, ReadOnly] private SelectionMenu selectionMenu;
@@ -60,6 +62,8 @@ namespace Runtime.Systems.UI
 
         #region Getters
 
+        public UIBook UIBook => this.uiBook;
+
         #region Battle
 
         public SelectionMenu GetSelectionMenu()
@@ -78,10 +82,9 @@ namespace Runtime.Systems.UI
 
         #region Setters
 
-        public void SetReadyToPause(bool set)
-        {
-            this.readyToPause = set;
-        }
+        public void SetReadyToPause(bool set) => this.readyToPause = set;
+
+        public void SetUIBook(UIBook set) => this.uiBook = set;
 
         #endregion
 
@@ -154,7 +157,7 @@ namespace Runtime.Systems.UI
 
             SwitchUI(UISelection.Pause);
 
-            UIBook.instance.Effect(BookTurn.Open);
+            this.uiBook.Effect(BookTurn.Open);
         }
 
         #endregion

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Runtime.Player;
 using Runtime.Player.Camera;
+using Runtime.Systems;
 using Runtime.Systems.Operation;
 using Runtime.Systems.UI;
 using Runtime.UI.Book.Button;
@@ -38,8 +39,6 @@ namespace Runtime.UI_Book
     public class UIBook : MonoBehaviour
     {
         #region Values
-
-        public static UIBook instance;
 
         [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField, Required] private OperationManager operationManager;
@@ -90,10 +89,8 @@ namespace Runtime.UI_Book
 
         private IEnumerator Start()
         {
-            if (instance != null)
-                Destroy(gameObject);
-
             DontDestroyOnLoad(gameObject);
+            this.uiManager.SetUIBook(this);
 
             this.invisiblyUI.transform.localScale /= 10000;
 
@@ -101,14 +98,12 @@ namespace Runtime.UI_Book
             this.turnLeft.SetActive(false);
 
             this.bookLight.Calculate();
-
-            instance = this;
             this.transition.CheckMiddle();
 
             this.cameraManager.SetCurrentRig(this.bookCameraRig, true);
             Cursor.visible = true;
 
-            yield return new WaitWhile(() => this.playerManager.GetController() is null);
+            yield return new WaitWhile(() => this.playerManager.GetController() == null);
 
             this.playerManager.DisablePlayerControl();
 
@@ -119,8 +114,6 @@ namespace Runtime.UI_Book
             };
 
             transform.parent = bookHolder.transform;
-
-            yield break;
         }
 
         #endregion
@@ -162,19 +155,24 @@ namespace Runtime.UI_Book
             switch (turn)
             {
                 case BookTurn.Open:
-                    container.Add(new OpenBook(this.transition, this.bookCameraRig, this.bookLight, this.operationManager, this.playerManager));
+                    container.Add(new OpenBook(this, this.transition, this.bookCameraRig, this.bookLight,
+                        this.operationManager, this.playerManager));
                     break;
 
                 case BookTurn.Close:
-                    container.Add(new CloseBook(this.transition, this.bookLight, this.operationManager, this.uiManager, this.playerManager));
+                    container.Add(new CloseBook(this, this.transition, this.bookLight, this.operationManager,
+                        this.uiManager,
+                        this.playerManager));
                     break;
 
                 case BookTurn.Left:
-                    container.Add(new TurnPage(false, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
+                    container.Add(new TurnPage(this, false, this.turnLeft, this.turnRight, this.openLeft,
+                        this.openRight));
                     break;
 
                 case BookTurn.Right:
-                    container.Add(new TurnPage(true, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
+                    container.Add(
+                        new TurnPage(this, true, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
                     break;
             }
 
@@ -240,21 +238,22 @@ namespace Runtime.UI_Book
             if (element is null) return;
 
             Destroy(obj.GetComponent<TReference>());
-            StartCoroutine(AddGUIReferenceComponent<TElement>(obj, element));
+            StartCoroutine(AddGUIReferenceComponent<TElement>(obj, this, element));
         }
 
-        private static IEnumerator AddGUIReferenceComponent<T>(GameObject obj, ICustomGUIElement element)
+        private static IEnumerator AddGUIReferenceComponent<T>(GameObject obj, UIBook uiBook, ICustomGUIElement element)
             where T : MonoBehaviour, ICustomGUIElementReference
         {
             yield return null;
 
             if (obj is null || element is null) yield break;
-            
-            obj.AddComponent<T>().Setup(element);
+
+            obj.AddComponent<T>().Setup(uiBook, element);
         }
 
         private IEnumerator ConstructAsync()
         {
+            Debug.Log("Start");
             this.invisiblyUI.SetActive(false);
 
             GameObject uiCanvas = GameObject.Find("Book UI Canvas");
@@ -314,23 +313,26 @@ namespace Runtime.UI_Book
             }
 
             this.invisiblyUI.SetActive(true);
+            Debug.Log("Complete");
         }
 
         #endregion
     }
 
-    internal class TurnPage : IOperation
+    internal sealed class TurnPage : IOperation
     {
+        private readonly UIBook uiBook;
         private readonly bool fromLeftToRight;
         private bool done;
         private readonly GameObject turnLeftPaper, turnRightPaper, openLeft, openRight;
 
         private static readonly int InvertPageID = Shader.PropertyToID("InvertPage");
 
-        public TurnPage(bool fromLeftToRight, GameObject turnLeftPaper, GameObject turnRightPaper,
+        public TurnPage(UIBook uiBook, bool fromLeftToRight, GameObject turnLeftPaper, GameObject turnRightPaper,
             GameObject openLeft,
             GameObject openRight)
         {
+            this.uiBook = uiBook;
             this.fromLeftToRight = fromLeftToRight;
             this.turnLeftPaper = turnLeftPaper;
             this.turnRightPaper = turnRightPaper;
@@ -346,7 +348,6 @@ namespace Runtime.UI_Book
         public IEnumerator Operation()
         {
             this.done = false;
-            UIBook book = UIBook.instance;
 
             SetOpens(false);
             SetTurns(true);
@@ -368,7 +369,7 @@ namespace Runtime.UI_Book
             //SetTurns(false);
             SetOpens(true);
 
-            book.ConstructUI();
+            this.uiBook.ConstructUI();
             this.done = true;
         }
 
@@ -393,18 +394,21 @@ namespace Runtime.UI_Book
         #endregion
     }
 
-    internal class CloseBook : IOperation
+    internal sealed class CloseBook : IOperation
     {
         private bool done;
+        private readonly UIBook uiBook;
         private readonly UIBookCameraTransition transition;
         private readonly UIBookLight bookLight;
         private readonly OperationManager operationManager;
         private readonly UIManager uiManager;
         private readonly PlayerManager playerManager;
 
-        public CloseBook(UIBookCameraTransition transition, UIBookLight bookLight, OperationManager operationManager,
+        public CloseBook(UIBook uiBook, UIBookCameraTransition transition, UIBookLight bookLight,
+            OperationManager operationManager,
             UIManager uiManager, PlayerManager playerManager)
         {
+            this.uiBook = uiBook;
             this.transition = transition;
             this.bookLight = bookLight;
             this.operationManager = operationManager;
@@ -412,10 +416,7 @@ namespace Runtime.UI_Book
             this.playerManager = playerManager;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone() => this.done;
 
         public IEnumerator Operation()
         {
@@ -442,39 +443,39 @@ namespace Runtime.UI_Book
 
         public void OperationEnd()
         {
-            UIBook.instance.GetVisuals().SetActive(false);
+            this.uiBook.GetVisuals().SetActive(false);
             this.uiManager.SetReadyToPause(true);
             this.playerManager.EnablePlayerControl();
         }
     }
 
-    internal class OpenBook : IOperation
+    internal sealed class OpenBook : IOperation
     {
         private bool done;
+        private readonly UIBook uiBook;
         private readonly CinemachineVirtualCameraBase bookRig;
         private readonly UIBookCameraTransition transition;
         private readonly UIBookLight bookLight;
         private readonly OperationManager operationManager;
         private readonly PlayerManager playerManager;
 
-        public OpenBook(UIBookCameraTransition transition, CinemachineVirtualCameraBase bookRig, UIBookLight bookLight,
+        public OpenBook(UIBook uiBook, UIBookCameraTransition transition, CinemachineVirtualCameraBase bookRig,
+            UIBookLight bookLight,
             OperationManager operationManager, PlayerManager playerManager)
         {
+            this.uiBook = uiBook;
             this.bookLight = bookLight;
             this.transition = transition;
             this.bookRig = bookRig;
             this.operationManager = operationManager;
             this.playerManager = playerManager;
 
-            Transform book = UIBook.instance.transform, player = playerManager.GetController().transform;
+            Transform book = this.uiBook.transform, player = playerManager.GetController().transform;
             book.position = player.position;
             book.rotation = player.GetChild(0).rotation;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone() => this.done;
 
         public IEnumerator Operation()
         {
@@ -497,12 +498,11 @@ namespace Runtime.UI_Book
 
             this.operationManager.AddAsyncOperationsContainer(container);
 
-            UIBook book = UIBook.instance;
-            book.GetVisuals().SetActive(true);
+            this.uiBook.GetVisuals().SetActive(true);
 
             yield return new WaitUntil(this.transition.IsOperationDone);
 
-            book.ConstructUI();
+            this.uiBook.ConstructUI();
             this.done = true;
         }
 

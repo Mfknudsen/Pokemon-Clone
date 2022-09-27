@@ -1,9 +1,14 @@
+#region Packages
+
 using System.Collections;
+using System.Linq;
 using DG.Tweening;
 using Runtime.ScriptableVariables.Structs;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.VFX;
+
+#endregion
 
 namespace Runtime.VFX.Foliage
 {
@@ -12,7 +17,7 @@ namespace Runtime.VFX.Foliage
         #region Values
 
         [BoxGroup("Leaf Effect")] [SerializeField, Required]
-        private VisualEffect particles;
+        private VisualEffect[] particles;
 
         [BoxGroup("Leaf Effect")] [SerializeField]
         private float time;
@@ -26,21 +31,27 @@ namespace Runtime.VFX.Foliage
 
         protected override void Enable()
         {
-            this.particles.Play();
-            Fade(this.particles, 1, this.time);
+            foreach (VisualEffect effect in this.particles)
+            {
+                effect.Play();
+                Fade(effect, 1, this.time);
+            }
         }
 
         protected override void OnStopDisable() => Enable();
 
         protected override IEnumerator DisableCoroutine()
         {
-            Tweener tweener = Fade(this.particles, 0, this.time);
+            Tweener[] tweeners = new Tweener[this.particles.Length];
+            for (int i = 0; i < this.particles.Length; i++)
+                tweeners[i] = Fade(this.particles[i], 0, this.time);
 
             yield return null;
 
-            yield return new WaitWhile(() => tweener.active);
+            yield return new WaitWhile(() => tweeners.Any(t => t.active));
 
-            this.particles.Stop();
+            foreach (VisualEffect effect in this.particles)
+                effect.Stop();
         }
 
         #endregion

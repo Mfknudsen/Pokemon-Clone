@@ -6,9 +6,8 @@ using System.Linq;
 using Runtime.AI.Battle;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Player.Camera;
+using Runtime.Systems;
 using Runtime.Systems.UI;
-using Runtime.UI_Book;
 using Runtime.UI.SceneTransitions.Transitions;
 using Runtime.World;
 using Runtime.World.Overworld.Tiles;
@@ -118,7 +117,7 @@ namespace Runtime.Battle.Systems
             {
                 this.tileManager.HideTiles();
                 this.playerManager.DisableOverworld();
-                UIBook.instance.gameObject.SetActive(false);
+                this.uiManager.UIBook.gameObject.SetActive(false);
                 this.uiManager.SwitchUI(UISelection.Battle);
 
                 Cursor.lockState = CursorLockMode.None;
@@ -173,7 +172,7 @@ namespace Runtime.Battle.Systems
             {
                 this.tileManager.ShowTiles();
                 this.playerManager.EnableOverworld();
-                UIBook.instance.gameObject.SetActive(true);
+                this.uiManager.UIBook.gameObject.SetActive(true);
                 this.uiManager.SwitchUI(UISelection.Overworld);
                 this.cameraManager.SetCurrentRigToDefault();
                 Cursor.visible = false;

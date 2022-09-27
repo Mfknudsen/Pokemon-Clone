@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Runtime.Items;
 using Runtime.Player;
 using Runtime.Systems.UI;
-using Runtime.UI_Book;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,9 +40,6 @@ namespace Runtime
             foreach (Item item in this.items)
                 inventory.AddItem(item);
 
-
-            yield return new WaitWhile(() => !UIBook.instance);
-            
             this.uiManager.SwitchUI(UISelection.Start);
         }
     }

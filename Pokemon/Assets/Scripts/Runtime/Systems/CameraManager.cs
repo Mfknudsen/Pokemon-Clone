@@ -2,13 +2,13 @@
 
 using System.Collections;
 using Cinemachine;
-using Runtime.Systems;
+using Runtime.Player.Camera;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Runtime.Player.Camera
+namespace Runtime.Systems
 {
     [CreateAssetMenu(menuName = "Manager/Camera")]
     public class CameraManager : Manager
@@ -16,7 +16,7 @@ namespace Runtime.Player.Camera
         #region Values
 
         [FoldoutGroup("Camera")] [SerializeField]
-        private UnityEngine.Camera currentCamera;
+        private Camera currentCamera;
 
         [FoldoutGroup("Camera")] [SerializeField]
         private CinemachineFreeLook defaultCameraRig;
@@ -54,7 +54,7 @@ namespace Runtime.Player.Camera
             return this.currentRig;
         }
 
-        public UnityEngine.Camera GetCurrentCamera()
+        public Camera GetCurrentCamera()
         {
             return this.currentCamera;
         }
