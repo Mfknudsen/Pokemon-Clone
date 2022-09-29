@@ -332,26 +332,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 984048291}
-  - component: {fileID: 984048290}
+  - component: {fileID: 984048292}
   m_Layer: 0
-  m_Name: Manager Updater
+  m_Name: Persistant Runner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &984048290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 984048289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae599d2930fc704bbc464e6b46ca4c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &984048291
 Transform:
   m_ObjectHideFlags: 0
@@ -367,6 +355,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &984048292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984048289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd0e066bbbde704fa5e455b8f0f1b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  managersToUpdate: []
 --- !u!20 &1124092128 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 565465646, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
@@ -580,6 +581,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2136041016
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3481430664301409130, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_Name
+      value: Falling Leafs
+      objectReference: {fileID: 0}
+    - target: {fileID: 4510712812051108396, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_Name
+      value: FallingLeafsEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268731533483260395, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516131642222712615, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: effectRule
+      value: 
+      objectReference: {fileID: 11400000, guid: b3f39ba6e7343f24f9626d2507a1b52f, type: 2}
+    - target: {fileID: 6516131642222712615, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+      propertyPath: effectProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: e6f85b787127e924cacebbef7982a734, type: 2}
+    m_RemovedComponents:
+    - {fileID: 6516131642222712615, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 17b3dc628aa9fe54caebc3c0ae7b5c04, type: 3}
 --- !u!1001 &399740840918858724
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -682,11 +753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 436971408, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000009187139
+      value: -0.000009187138
       objectReference: {fileID: 0}
     - target: {fileID: 436971408, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000002468468
+      value: 0.0000024684675
       objectReference: {fileID: 0}
     - target: {fileID: 436971409, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_Enabled
@@ -1019,11 +1090,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 565465643, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000009187139
+      value: -0.000009187138
       objectReference: {fileID: 0}
     - target: {fileID: 565465643, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000002468468
+      value: 0.0000024684675
       objectReference: {fileID: 0}
     - target: {fileID: 5921889010027575650, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_RootOrder

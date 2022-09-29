@@ -1,123 +1,138 @@
-#region Package
+#region Packages
 
+using System;
 using System.Collections;
-using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
 using Runtime.Systems;
+using Runtime.VFX.Profiles;
+using Runtime.VFX.Rules;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.VFX;
 
 #endregion
 
 namespace Runtime.VFX
 {
-    public class EffectBase : MonoBehaviour
+    public sealed class EffectBase : MonoBehaviour
     {
-        #region Values
+        private string effectCallEffectName;
+        private bool active, callRunning;
+        private Coroutine managerCall;
 
-        [BoxGroup("Base Effect")] [SerializeField, Required]
-        protected EffectManager effectManager;
+        [SerializeField, Required] private EffectManager effectManager;
+        
+        [SerializeField, Required] private EffectProfile effectProfile;
 
-        [BoxGroup("Base Effect"), Min(0)] [SerializeField]
-        private float activeDistanceFromPlayer;
+        [SerializeField, Required]
+        private ParticleSystem[] systems;
 
-        [BoxGroup("Base Effect")] [SerializeField]
-        private bool isStatic;
+        [SerializeReference, FoldoutGroup("Rules"), TableList]
+        private List<EffectRule> currentRules = new();
 
-        private Coroutine coroutine;
-        private bool isDisablingSelf;
+        #if UNITY_EDITOR
+        [ShowInInspector, HorizontalGroup("Rules/Setup"), ValueDropdown("AllRuleTypes")]
+        private Type createType = typeof(ScriptableBoolRule);
 
-        #endregion
+        [HorizontalGroup("Rules/Setup"), Button("Create New Rule")]
+        private void CreateRule() =>
+            this.currentRules.Add(Activator.CreateInstance(this.createType) as EffectRule);
 
-        #region Build In States
+        // ReSharper disable once UnusedMember.Local
+        private IEnumerable<Type> AllRuleTypes() =>
+            (from Type type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+             where type.IsSubclassOf(typeof(EffectRule)) && type != typeof(TriggerRule) 
+             select type)
+            .ToArray();
+        #endif
+
+        private void Start() => this.effectProfile.ObjectStart(this.systems);
 
         private void OnEnable()
         {
-            this.effectManager.RegisterEffect(this);
-            Enable();
-            this.coroutine = StartCoroutine(EnableCoroutine());
+            
+            if (this.callRunning)
+                this.managerCall = this.StartCoroutine(this.StartCall(this.ContinueCall));
         }
 
         private void OnDisable()
         {
-            this.effectManager.UnregisterEffect(this);
-            Disable();
+            if (this.managerCall != null)
+                this.StopCoroutine(this.managerCall);
+
         }
 
-        #endregion
-
-        #region Getters
-
-        public float getMaxDistance => this.activeDistanceFromPlayer;
-
-        public bool getIsDisablingSelf => this.isDisablingSelf;
-
-        #endregion
-
-        #region In
-
-        public void StartDisable()
+        private void OnTriggerEnter(Collider other)
         {
-            this.isDisablingSelf = true;
-            if (this.coroutine != null)
-                StopCoroutine(this.coroutine);
-            this.coroutine = StartCoroutine(PrivateDisableCoroutine());
+            foreach (TriggerRule triggerRule in this.currentRules
+                .OfType<TriggerRule>())
+                triggerRule.Add(other);
         }
 
-        public void StopDisable()
+        private void OnTriggerExit(Collider other)
         {
-            this.isDisablingSelf = false;
-            StopCoroutine(this.coroutine);
-            OnStopDisable();
+            foreach (TriggerRule triggerRule in this.currentRules
+                .OfType<TriggerRule>())
+                triggerRule.Remove(other);
         }
 
-        #endregion
+        public string EffectName() => this.effectCallEffectName;
 
-        #region Internal
-
-        protected virtual void Enable()
+        public void Play()
         {
+            if (this.active) return;
+
+            if (this.managerCall != null)
+                this.StopCoroutine(this.managerCall);
+
+            this.managerCall = this.StartCoroutine(
+                this.StartCall(() => this.effectProfile.Startup(this.systems)));
+
+            this.active = true;
         }
 
-        protected virtual void Disable()
+        public void Stop()
         {
+            if (!this.active) return;
+
+            if (this.managerCall != null)
+                this.StopCoroutine(this.managerCall);
+
+            this.managerCall = this.StartCoroutine(
+                this.StartCall(() => this.effectProfile.Shutdown(this.systems)));
+
+            this.active = false;
         }
 
-        protected virtual void OnStopDisable()
+        public void EnableRules()
         {
+            foreach (EffectRule effectRule in this.currentRules)
+                effectRule.Enable();
         }
 
-        private IEnumerator PrivateDisableCoroutine()
+        public void DisableRules()
         {
-            yield return DisableCoroutine();
-
-            if (!this.isStatic)
-                gameObject.SetActive(false);
+            foreach (EffectRule effectRule in this.currentRules)
+                effectRule.Disable();
         }
 
-        protected virtual IEnumerator DisableCoroutine()
+        public bool CheckAllRules() => this.currentRules.All(rule => rule.CheckRule(this.gameObject));
+
+        private void ContinueCall()
         {
-            yield break;
+            if (this.active)
+                this.effectProfile.Startup(this.systems);
+            else
+                this.effectProfile.Shutdown(this.systems);
         }
 
-        protected virtual IEnumerator EnableCoroutine()
+        private IEnumerator StartCall(Action onTrue)
         {
-            yield break;
+            this.callRunning = true;
+            yield return new WaitUntil(() => !this.effectProfile.IsRunning);
+
+            onTrue?.Invoke();
+            this.callRunning = false;
         }
-
-        #region Statics
-
-        protected static Tweener Fade(VisualEffect particleSystem, float endValue, float time)
-        {
-            return DOTween.To(
-                () => particleSystem.GetFloat("FadeAlpha"),
-                f => particleSystem.SetFloat("FadeAlpha", f),
-                endValue,
-                time);
-        }
-
-        #endregion
-
-        #endregion
     }
 }

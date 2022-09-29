@@ -1,5 +1,6 @@
 #region Packages
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
@@ -25,6 +26,8 @@ namespace Runtime.AI
             close = new(),
             medium = new(),
             far = new();
+
+        private readonly Dictionary<Type, List<NpcController>> controllersByType = new();
 
         private int count;
 
@@ -65,7 +68,7 @@ namespace Runtime.AI
 
         public void AddController(NpcController add)
         {
-            if (add == null || this.controllers.Contains(add))
+            if (add is null || this.controllers.Contains(add))
                 return;
 
             this.controllers.Add(add);
@@ -92,6 +95,11 @@ namespace Runtime.AI
                     this.far.Add(add);
                     break;
             }
+
+            if (this.controllersByType.ContainsKey(add.GetType()))
+                this.controllersByType.Add(add.GetType(), new List<NpcController> { add });
+            else
+                this.controllersByType[add.GetType()].Add(add);
         }
 
         public void RemoveController(NpcController remove)
@@ -100,6 +108,18 @@ namespace Runtime.AI
                 return;
 
             this.controllers.Remove(remove);
+        }
+
+        #endregion
+
+        #region Out
+
+        public T[] GetAllControllersOfType<T>() where T : NpcController
+        {
+            if (!this.controllersByType.ContainsKey(typeof(T)))
+                return Array.Empty<T>();
+
+            return this.controllersByType[typeof(T)].ToArray() as T[];
         }
 
         #endregion

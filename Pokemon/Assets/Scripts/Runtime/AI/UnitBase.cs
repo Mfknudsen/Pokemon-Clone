@@ -17,10 +17,10 @@ namespace Runtime.AI
     {
         #region Values
 
-        [FoldoutGroup("Base")] [SerializeField]
+        [SerializeField, FoldoutGroup("Base"), Required]
         private UnitManager unitManager;
 
-        [FoldoutGroup("Base")] [SerializeField]
+        [SerializeField, FoldoutGroup("Base")]
         protected Chat idleChat;
 
         [FoldoutGroup("Base/Visual")] protected GameObject visualsObject;
