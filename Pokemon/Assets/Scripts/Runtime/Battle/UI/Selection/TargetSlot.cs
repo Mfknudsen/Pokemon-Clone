@@ -27,7 +27,7 @@ namespace Runtime.Battle.UI.Selection
         
         public void SetPokemon(TargetSelection targetSelection, Spot spot)
         {
-            gameObject.SetActive(true);
+            this.gameObject.SetActive(true);
 
             this.targetSelection = targetSelection;
             this.spot = spot;

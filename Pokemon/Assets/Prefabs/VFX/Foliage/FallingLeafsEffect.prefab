@@ -152,12 +152,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4510712812051108396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d038eb2c5f6d35429f6582638580255, type: 3}
+  m_Script: {fileID: 11500000, guid: 67b649ef85f85d645b40c790b67c5e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   effectManager: {fileID: 11400000, guid: 6a23eb9547fc89e41835084110249d9c, type: 2}
-  activeDistanceFromPlayer: 30
-  isStatic: 1
-  particles: {fileID: 803752615177510405}
-  time: 2
-  windDirection: {fileID: 11400000, guid: 2e6654c7be46ecf4c833068fbcb674f4, type: 2}
+  disableRules: 0
+  leafEffect: {fileID: 803752615177510405}
+  playerTransform: {fileID: 11400000, guid: 5a394f0846ad4ca4782e02790ce8cefd, type: 2}
+  maxDistance: 25

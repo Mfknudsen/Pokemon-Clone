@@ -16,10 +16,10 @@ namespace Runtime.Common
         private void Start()
         {
             if (instance != null)
-                Destroy(gameObject);
+                Destroy(this.gameObject);
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
 
         private void Update()

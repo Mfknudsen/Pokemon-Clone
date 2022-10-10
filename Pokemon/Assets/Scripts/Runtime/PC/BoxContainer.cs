@@ -24,9 +24,9 @@ namespace Runtime.PC
 
         private void OnValidate()
         {
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = 0; i < this.transform.childCount; i++)
             {
-                BoxSpot spot = transform.GetChild(i).GetComponent<BoxSpot>();
+                BoxSpot spot = this.transform.GetChild(i).GetComponent<BoxSpot>();
 
                 if (spot != null) this.spots.Add(spot);
             }

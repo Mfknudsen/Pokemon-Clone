@@ -31,13 +31,13 @@ namespace Runtime._Debug
             instance = this;
             this.textField.text = "";
 
-            InputManager.instance.showHideEvent.AddListener(ShowHide);
-            ShowHide();
+            InputManager.instance.showHideEvent.AddListener(this.ShowHide);
+            this.ShowHide();
         }
 
         private void Awake()
         {
-            foreach (Transform t in transform)
+            foreach (Transform t in this.transform)
                 t.gameObject.SetActive(this.active);
         }
 
@@ -51,7 +51,7 @@ namespace Runtime._Debug
 
             this.textField.text += scriptText + "\n" + input + "\n";
 
-            Invoke(nameof(ScrollControl), 0.01f);
+            this.Invoke(nameof(this.ScrollControl), 0.01f);
         }
 
         #region Statics
@@ -78,7 +78,7 @@ namespace Runtime._Debug
 
         private void ShowHide()
         {
-            foreach (Transform t in transform)
+            foreach (Transform t in this.transform)
                 t.gameObject.SetActive(this.show);
 
             this.show = !this.show;

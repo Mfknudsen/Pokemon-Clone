@@ -18,12 +18,12 @@ namespace Runtime.Common.CommonPath.Road
 
         public void UpdateRoad()
         {
-            Path path = GetComponent<PathCreator>().path;
+            Path path = this.GetComponent<PathCreator>().path;
             Vector3[] points = path.CalculateEvenlySpacedPoints(this.spacing);
-            GetComponent<MeshFilter>().mesh = CreateRoadMesh(points, path.IsClosed);
+            this.GetComponent<MeshFilter>().mesh = this.CreateRoadMesh(points, path.IsClosed);
 
             int textureRepeat = Mathf.RoundToInt(this.tiling * points.Length * this.spacing * .05f);
-            GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(1, textureRepeat);
+            this.GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(1, textureRepeat);
         }
 
         private Mesh CreateRoadMesh(Vector3[] points, bool isClosed)

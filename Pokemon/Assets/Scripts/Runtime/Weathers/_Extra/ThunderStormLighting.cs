@@ -28,7 +28,7 @@ namespace Runtime.Weathers._Extra
 
         public void OperationEnd()
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

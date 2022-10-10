@@ -22,7 +22,7 @@ namespace Runtime.UI.Overworld
         {
             this._playerInteractions = this.playerManager.GetInteractions();
 
-            this.rectTransform = GetComponent<RectTransform>();
+            this.rectTransform = this.GetComponent<RectTransform>();
 
             this.cam = Camera.main;
         }

@@ -13,7 +13,7 @@ namespace Runtime.Battle.UI.Information_Display
             this.maxBar = max;
             this.curBar = this.maxBar;
 
-            SetCurrentBar(this.curBar);
+            this.SetCurrentBar(this.curBar);
         }
 
         public void SetCurrentBar(float input)

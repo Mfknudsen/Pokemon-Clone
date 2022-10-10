@@ -30,12 +30,12 @@ namespace Runtime.Cutscenes
 
         public void Enable()
         {
-            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatUpdate);
+            InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatUpdate);
         }
 
         public void Disable()
         {
-            InputManager.instance.nextChatInputEvent.RemoveListener(OnNextChatUpdate);
+            InputManager.instance.nextChatInputEvent.RemoveListener(this.OnNextChatUpdate);
         }
         
         public void DeployCutscene(){}
@@ -44,7 +44,7 @@ namespace Runtime.Cutscenes
         {
             if (this.delayTimes.Where(d => d.index.Equals(this.currentPlayIndex)).Select(d => d.delay).First() is float delayTime)
             {
-                new Timer(delayTime).timerEvent.AddListener(PlayNext);
+                new Timer(delayTime).timerEvent.AddListener(this.PlayNext);
             }
             else
                 this.waitingForInput = true;

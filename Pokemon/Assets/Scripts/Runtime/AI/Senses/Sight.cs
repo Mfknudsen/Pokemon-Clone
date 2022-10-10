@@ -31,7 +31,7 @@ namespace Runtime.AI.Senses
 
         private void Start()
         {
-            GetComponent<BehaviourTreeOwner>().blackboard.SetVariableValue("sightLine", this);
+            this.GetComponent<BehaviourTreeOwner>().blackboard.SetVariableValue("sightLine", this);
         }
 
         #endregion

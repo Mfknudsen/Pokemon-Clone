@@ -19,16 +19,16 @@ namespace Runtime.AI.World
 
         private void OnDrawGizmos()
         {
-            if (transform.childCount < 2)
+            if (this.transform.childCount < 2)
                 return;
 
-            for (int i = 0; i < transform.childCount - 1; i++)
-                Debug.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position, Color.red);
+            for (int i = 0; i < this.transform.childCount - 1; i++)
+                Debug.DrawLine(this.transform.GetChild(i).position, this.transform.GetChild(i + 1).position, Color.red);
         }
 
         private void Start()
         {
-            foreach (Transform t in transform) this.points.Add(t);
+            foreach (Transform t in this.transform) this.points.Add(t);
         }
 
         #endregion

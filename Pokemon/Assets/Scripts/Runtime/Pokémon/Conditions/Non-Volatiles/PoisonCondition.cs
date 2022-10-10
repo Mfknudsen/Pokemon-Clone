@@ -83,10 +83,9 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             toSend.AddToOverride("<TARGET_NAME>", this.affectedPokemon.GetName());
             this.chatManager.Add(toSend);
 
-            if (this.damage == 0)
-                SetDamage(this.affectedPokemon.GetCalculatedStat(Stat.HP));
+            if (this.damage == 0) this.SetDamage(this.affectedPokemon.GetCalculatedStat(Stat.HP));
 
-            this.damage = GetDamage();
+            this.damage = this.GetDamage();
             float divide = 200;
             float reletivSpeed = BattleManager.instance.GetSecPerPokeMove() / divide;
             float relativeDamage = this.damage / divide;

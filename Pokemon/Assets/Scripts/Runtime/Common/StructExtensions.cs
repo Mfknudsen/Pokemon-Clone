@@ -8,19 +8,44 @@ namespace Runtime.Common
 {
     public static class StructExtensions
     {
-        public static float PercentageOf(this float check, float max) => check / (max / 100);
+        #region int
 
         public static int RandomUniqueIndex(this int currentIndex, int listCount) =>
             currentIndex + (currentIndex + Random.Range(1, listCount - 1)) % listCount;
+
+        #endregion
+
+        #region float
+
+        public static float PercentageOf(this float check, float max) => check / (max / 100);
 
         public static float Clamp(this Vector2 bounds, float current) => Mathf.Clamp(current, bounds.x, bounds.y);
 
         public static float Clamp(this float current, float min, float max) => Mathf.Clamp(current, min, max);
 
-        public static void RefClamp(this ref float current, float min, float max) => current = Mathf.Clamp(current, min, max);
+        public static void RefClamp(this ref float current, float min, float max) =>
+            current = Mathf.Clamp(current, min, max);
 
-        public static Vector3 Forward(this Quaternion quaternion) => quaternion * Vector3.forward;
-        public static Vector3 Up(this Quaternion quaternion) => quaternion * Vector3.up;
-        public static Vector3 Right(this Quaternion quaternion) => quaternion * Vector3.right;
+        #endregion
+
+        #region Vector3
+
+        public static float QuickSquareDistance(this Vector3 point1, Vector3 point2) => (point1 - point2).sqrMagnitude;
+
+        public static bool QuickDistanceLessThen(this Vector3 point1, Vector3 point2, float distance) =>
+            QuickSquareDistance(point1, point2) < distance * distance;
+
+        public static bool QuickDistanceGreaterThen(this Vector3 point1, Vector3 point2, float distance) =>
+            QuickSquareDistance(point1, point2) > distance * distance;
+
+        #endregion
+
+        #region Quaternion
+
+        public static Vector3 ForwardFromRotation(this Quaternion quaternion) => quaternion * Vector3.forward;
+        public static Vector3 UpFromRotation(this Quaternion quaternion) => quaternion * Vector3.up;
+        public static Vector3 RightFromRotation(this Quaternion quaternion) => quaternion * Vector3.right;
+
+        #endregion
     }
 }

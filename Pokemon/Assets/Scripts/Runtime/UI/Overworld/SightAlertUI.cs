@@ -19,14 +19,14 @@ namespace Runtime.UI.Overworld
             if (instance == null)
                 instance = this;
             else
-                Destroy(gameObject);
+                Destroy(this.gameObject);
         }
 
         #region In
 
         public void EnableAlert(AlertType alertType)
         {
-            alertType.Trigger(transform, true);
+            alertType.Trigger(this.transform, true);
             OperationsContainer container = new();
             container.Add(alertType);
             this.operationManager.AddAsyncOperationsContainer(container);
@@ -34,7 +34,7 @@ namespace Runtime.UI.Overworld
 
         public void DisableAlert(AlertType alertType)
         {
-            alertType.Trigger(transform, false);
+            alertType.Trigger(this.transform, false);
             OperationsContainer container = new();
             container.Add(alertType);
             this.operationManager.AddAsyncOperationsContainer(container);

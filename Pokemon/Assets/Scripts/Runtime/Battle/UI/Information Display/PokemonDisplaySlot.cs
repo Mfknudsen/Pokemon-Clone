@@ -75,7 +75,7 @@ namespace Runtime.Battle.UI.Information_Display
 
         public void Setup()
         {
-            this.originPosition = gameObject.transform.position;
+            this.originPosition = this.gameObject.transform.position;
         }
 
         // ReSharper disable once ParameterHidesMember

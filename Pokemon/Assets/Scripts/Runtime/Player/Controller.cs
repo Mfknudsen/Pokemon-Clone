@@ -66,10 +66,10 @@ namespace Runtime.Player
         {
             if (!this.ready || !this.allowed.value) return;
 
-            UpdateMoveTransform();
-            Move();
-            Turn();
-            UpdateAnimController();
+            this.UpdateMoveTransform();
+            this.Move();
+            this.Turn();
+            this.UpdateAnimController();
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace Runtime.Player
 
         public void Setup()
         {
-            this.playerTransform = transform;
+            this.playerTransform = this.transform;
 
             this.agent ??= this.playerTransform.GetComponent<NavMeshAgent>();
 

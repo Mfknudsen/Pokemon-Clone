@@ -20,9 +20,9 @@ namespace Runtime.Editor.MeshGeneration
 
         public void UpdateRoad()
         {
-            Path path = GetComponent<PathCreator>().path;
+            Path path = this.GetComponent<PathCreator>().path;
             Vector3[] points = path.CalculateEvenlySpacedPoints(this.spacing);
-            GetComponent<MeshFilter>().mesh = CreateRoadMesh(points);
+            this.GetComponent<MeshFilter>().mesh = this.CreateRoadMesh(points);
         }
 
         #endregion

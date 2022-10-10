@@ -33,7 +33,7 @@ namespace Runtime.Battle.Systems
         {
             List<T> result = new();
 
-            foreach (Weather weather in GetAll())
+            foreach (Weather weather in this.GetAll())
             {
                 if (weather is T t)
                     result.Add(t);
@@ -65,19 +65,19 @@ namespace Runtime.Battle.Systems
 
         public void ApplyClimate(ClimateWeather set)
         {
-            ShiftWeather(this.climateWeather, set);
+            this.ShiftWeather(this.climateWeather, set);
             this.climateWeather = set;
         }
 
         public void ApplyIrritant(IrritantWeather set)
         {
-            ShiftWeather(this.irritantWeather, set);
+            this.ShiftWeather(this.irritantWeather, set);
             this.irritantWeather = set;
         }
 
         public void ApplyEnergy(EnergyWeather set)
         {
-            ShiftWeather(this.energyWeather, set);
+            this.ShiftWeather(this.energyWeather, set);
             this.energyWeather = set;
         }
 

@@ -39,7 +39,7 @@ namespace Runtime.World.Overworld.Interactions
         {
             if (!other.tag.Equals("Player")) return;
 
-            this.playerManager.GetInteractions().OnEnter(this, transform);
+            this.playerManager.GetInteractions().OnEnter(this, this.transform);
         }
 
         private void OnTriggerExit(Collider other)
@@ -55,7 +55,7 @@ namespace Runtime.World.Overworld.Interactions
 
         public Vector3 GetPosition()
         {
-            return transform.position + this.iconOffset;
+            return this.transform.position + this.iconOffset;
         }
 
         #endregion

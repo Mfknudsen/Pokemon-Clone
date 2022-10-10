@@ -35,8 +35,7 @@ namespace Runtime.Common
         private void Awake()
         {
             if (this.hasComponents)
-                this.allComponents.AddRange(
-                    gameObject.GetComponents<MonoBehaviour>());
+                this.allComponents.AddRange(this.gameObject.GetComponents<MonoBehaviour>());
         }
 
         #endregion

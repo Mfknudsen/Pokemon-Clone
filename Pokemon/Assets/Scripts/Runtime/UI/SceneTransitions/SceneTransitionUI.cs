@@ -11,12 +11,12 @@ namespace Runtime.UI.SceneTransitions
             if (instance == null)
                 instance = this;
             else
-                Destroy(gameObject);
+                Destroy(this.gameObject);
         }
 
         public GameObject InstantiateObject(GameObject obj)
         {
-            return Instantiate(obj, transform);
+            return Instantiate(obj, this.transform);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Runtime.Weathers.Irritants
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (pokemon == null || IsImmune(pokemon))
+                if (pokemon == null || this.IsImmune(pokemon))
                     continue;
 
                 int partsDealt = this.amplified ? 8 : 16;

@@ -27,7 +27,7 @@ namespace Runtime.World.Overworld.Interactions.Doors
         {
             this.playerManager.DisablePlayerControl();
 
-            StartCoroutine(GoThroughDoor());
+            this.StartCoroutine(this.GoThroughDoor());
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace Runtime.World.Overworld.Interactions.Doors
         {
             AnimationClip toPlay = this.bothWays
                     ? this.frontAnim
-                    : Vector3.Angle(transform.position, this.playerManager.GetController().transform.position) <= 90
+                    : Vector3.Angle(this.transform.position, this.playerManager.GetController().transform.position) <= 90
                         ? this.frontAnim
                         : this.backAnim;
 

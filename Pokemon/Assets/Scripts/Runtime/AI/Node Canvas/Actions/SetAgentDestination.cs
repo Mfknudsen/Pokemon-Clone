@@ -17,8 +17,8 @@ namespace Runtime.AI.Node_Canvas.Actions
         {
             this.navAgent.GetValue().isStopped = false;
             this.navAgent.GetValue().SetDestination(this.target.value.position);
-            
-            EndAction();
+
+            this.EndAction();
         }
     }
 }

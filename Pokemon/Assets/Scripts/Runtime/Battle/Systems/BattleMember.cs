@@ -64,8 +64,8 @@ namespace Runtime.Battle.Systems
 
         private void OnValidate()
         {
-            if (this.pokemonTeam == null) this.pokemonTeam = GetComponent<Team>();
-            if (this.inventory == null) this.inventory = GetComponent<Inventory>();
+            if (this.pokemonTeam == null) this.pokemonTeam = this.GetComponent<Team>();
+            if (this.inventory == null) this.inventory = this.GetComponent<Inventory>();
         }
 
         #endregion

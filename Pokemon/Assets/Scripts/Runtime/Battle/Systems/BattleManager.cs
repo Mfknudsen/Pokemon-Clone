@@ -167,10 +167,10 @@ namespace Runtime.Battle.Systems
                 BattleMathf.SetMissChat(this.miss);
 
 
-                SetState(new BeginState(this, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.SetState(new BeginState(this, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             }
 
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
 
@@ -181,7 +181,7 @@ namespace Runtime.Battle.Systems
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
         {
-            Logger.AddLog(name, "Spawning: " + pokemon.GetName());
+            Logger.AddLog(this.name, "Spawning: " + pokemon.GetName());
 
             Transform sTransform = spot.GetTransform();
             GameObject obj = Instantiate(pokemon.GetPokemonPrefab(), sTransform, true);
@@ -232,10 +232,9 @@ namespace Runtime.Battle.Systems
 
         public void SetState(State set)
         {
-            if (this.stateManager != null)
-                StopCoroutine(this.stateManager);
+            if (this.stateManager != null) this.StopCoroutine(this.stateManager);
 
-            this.stateManager = StartCoroutine(set.Tick());
+            this.stateManager = this.StartCoroutine(set.Tick());
         }
 
         public void EndBattle(bool playerVictory)

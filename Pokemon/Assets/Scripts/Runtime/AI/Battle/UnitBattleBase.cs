@@ -49,7 +49,7 @@ namespace Runtime.AI.Battle
         private void Start()
         {
             //Setup Input
-            Dictionary<string, string> chatInput = SetupChatInput();
+            Dictionary<string, string> chatInput = this.SetupChatInput();
 
             //Apply
             foreach (BeforeEffectContainer container in this.beforeEffects)
@@ -58,7 +58,7 @@ namespace Runtime.AI.Battle
             foreach (AfterEffectContainer container in this.afterEffects)
                 container.SetInput<TriggerAfterChat>(chatInput);
 
-            this.battleStarter ??= GetComponent<BattleStarter>();
+            this.battleStarter ??= this.GetComponent<BattleStarter>();
         }
 
         #endregion
@@ -70,7 +70,7 @@ namespace Runtime.AI.Battle
             if (this.battleStarter.GetPlayerWon())
                 this.chatManager.Add(this.idleChat);
             else
-                StartCoroutine(BeforeBattle());
+                this.StartCoroutine(this.BeforeBattle());
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace Runtime.World.Overworld.Decorations
         private void Start()
         {
             Transform tempTrans;
-            this.wings = (tempTrans = transform).GetChild(1);
+            this.wings = (tempTrans = this.transform).GetChild(1);
             this.forward = tempTrans.up;
             this.wings.Rotate(this.forward, Random.Range(1f, 100f));
             this.speed += Random.Range(-5f, 5f);

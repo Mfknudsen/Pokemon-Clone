@@ -21,11 +21,11 @@ namespace Runtime.UI.Book.Button
 
         protected override void Awake()
         {
-            Navigation nav = navigation;
+            Navigation nav = this.navigation;
             nav.mode = Navigation.Mode.None;
-            navigation = nav;
+            this.navigation = nav;
 
-            ColorBlock colorBlock = colors;
+            ColorBlock colorBlock = this.colors;
 
             colorBlock.normalColor = this.color;
             colorBlock.highlightedColor = this.color;
@@ -33,7 +33,7 @@ namespace Runtime.UI.Book.Button
             colorBlock.disabledColor = this.color;
             colorBlock.selectedColor = this.color;
 
-            colors = colorBlock;
+            this.colors = colorBlock;
 
             base.Awake();
         }

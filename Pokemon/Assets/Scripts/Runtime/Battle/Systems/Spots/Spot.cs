@@ -79,16 +79,15 @@ namespace Runtime.Battle.Systems.Spots
             {
                 return new List<Spot>
                 {
-                    GetFront(),
-                    GetStrafeLeft(),
-                    GetStrafeRight()
+                    this.GetFront(),
+                    this.GetStrafeLeft(),
+                    this.GetStrafeRight()
                 };
             }
 
             return new List<Spot>
             {
-                GetStrafeLeft(),
-                GetStrafeRight()
+                this.GetStrafeLeft(), this.GetStrafeRight()
             };
         }
 
@@ -163,7 +162,7 @@ namespace Runtime.Battle.Systems.Spots
 
         public void SetTransform()
         {
-            this.currentTransform = transform;
+            this.currentTransform = this.transform;
         }
 
         public void SetBattleMember(BattleMember member)
@@ -186,18 +185,18 @@ namespace Runtime.Battle.Systems.Spots
                 return;
 
             if (opponentSpots.Count == 1)
-                SetFront(opponentSpots[0]);
+                this.SetFront(opponentSpots[0]);
             else if (opponentSpots.Count == 2)
             {
                 if (selfIndex > 1)
                 {
-                    SetFront(opponentSpots[0]);
-                    SetStrafeLeft(opponentSpots[1]);
+                    this.SetFront(opponentSpots[0]);
+                    this.SetStrafeLeft(opponentSpots[1]);
                 }
                 else
                 {
-                    SetFront(opponentSpots[1]);
-                    SetStrafeRight(opponentSpots[0]);
+                    this.SetFront(opponentSpots[1]);
+                    this.SetStrafeRight(opponentSpots[0]);
                 }
             }
             else
@@ -206,46 +205,46 @@ namespace Runtime.Battle.Systems.Spots
                 {
                     if (selfIndex == 1)
                     {
-                        SetFront(opponentSpots[2]);
-                        SetStrafeRight(opponentSpots[1]);
+                        this.SetFront(opponentSpots[2]);
+                        this.SetStrafeRight(opponentSpots[1]);
                     }
                     else if (selfIndex == 2)
                     {
-                        SetFront(opponentSpots[1]);
-                        SetStrafeLeft(opponentSpots[2]);
-                        SetStrafeRight(opponentSpots[0]);
+                        this.SetFront(opponentSpots[1]);
+                        this.SetStrafeLeft(opponentSpots[2]);
+                        this.SetStrafeRight(opponentSpots[0]);
                     }
                     else
                     {
-                        SetFront(opponentSpots[0]);
-                        SetStrafeLeft(opponentSpots[1]);
+                        this.SetFront(opponentSpots[0]);
+                        this.SetStrafeLeft(opponentSpots[1]);
                     }
                 }
                 else if (allyCount == 2)
                 {
                     if (selfIndex == 1)
                     {
-                        SetFront(opponentSpots[2]);
-                        SetStrafeRight(opponentSpots[1]);
+                        this.SetFront(opponentSpots[2]);
+                        this.SetStrafeRight(opponentSpots[1]);
                     }
                     else
                     {
-                        SetFront(opponentSpots[0]);
-                        SetStrafeLeft(opponentSpots[1]);
+                        this.SetFront(opponentSpots[0]);
+                        this.SetStrafeLeft(opponentSpots[1]);
                     }
                 }
                 else
                 {
-                    SetFront(opponentSpots[1]);
-                    SetStrafeLeft(opponentSpots[2]);
-                    SetStrafeRight(opponentSpots[0]);
+                    this.SetFront(opponentSpots[1]);
+                    this.SetStrafeLeft(opponentSpots[2]);
+                    this.SetStrafeRight(opponentSpots[0]);
                 }
             }
         }
 
         public void DestroySelf()
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         #endregion

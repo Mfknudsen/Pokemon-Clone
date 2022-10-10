@@ -57,14 +57,14 @@ namespace Runtime.Player
             this.bodyComponent = this.cameraRig.CinemachineComponent<Cinemachine3rdPersonFollow>();
             this.aimComponent = this.cameraRig.CinemachineComponent<CinemachineComposer>();
 
-            MoveCamera();
+            this.MoveCamera();
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
 
-            Transform t = transform;
+            Transform t = this.transform;
             for (float i = 0.05f; i <= 1; i += .05f)
             {
                 float l = this.lerpCurve.Evaluate(i);
@@ -94,10 +94,10 @@ namespace Runtime.Player
         {
             InputManager inputManager = InputManager.instance;
             inputManager.rightClickEvent.AddListener(input => this.aiming.value = input);
-            inputManager.leftClickEvent.AddListener(_ => ThrowItem());
-            inputManager.turnAxisInputEvent.AddListener(input => MoveCamera(input.y));
+            inputManager.leftClickEvent.AddListener(_ => this.ThrowItem());
+            inputManager.turnAxisInputEvent.AddListener(input => this.MoveCamera(input.y));
 
-            this.aiming.AddListener(SwitchToAiming);
+            this.aiming.AddListener(this.SwitchToAiming);
 
             this.bodyComponent = this.cameraRig.CinemachineComponent<Cinemachine3rdPersonFollow>();
             this.aimComponent = this.cameraRig.CinemachineComponent<CinemachineComposer>();
@@ -107,10 +107,10 @@ namespace Runtime.Player
         {
             InputManager inputManager = InputManager.instance;
             inputManager.rightClickEvent.RemoveListener(input => this.aiming.value = input);
-            inputManager.leftClickEvent.RemoveListener(_ => ThrowItem());
-            inputManager.turnAxisInputEvent.RemoveListener(input => MoveCamera(input.y));
+            inputManager.leftClickEvent.RemoveListener(_ => this.ThrowItem());
+            inputManager.turnAxisInputEvent.RemoveListener(input => this.MoveCamera(input.y));
 
-            this.aiming.RemoveListener(SwitchToAiming);
+            this.aiming.RemoveListener(this.SwitchToAiming);
 
             this.throwDelay?.Stop();
         }
@@ -178,7 +178,7 @@ namespace Runtime.Player
             if (this.aiming.value)
             {
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;
-                MoveCamera();
+                this.MoveCamera();
 
                 cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(
                     this.cameraRig,

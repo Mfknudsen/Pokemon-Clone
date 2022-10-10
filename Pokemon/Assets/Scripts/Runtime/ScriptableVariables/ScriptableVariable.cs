@@ -26,11 +26,11 @@ namespace Runtime.ScriptableVariables
             get => this.localValue;
             set
             {
-                if (value.Equals(this.localValue) || !ValueAcceptable(value)) return;
+                if (value.Equals(this.localValue) || !this.ValueAcceptable(value)) return;
 
                 this.localValue = value;
 
-                InvokeEvents(value);
+                this.InvokeEvents(value);
 
                 if (this.debugSetter)
                     Debug.Log(value, this);

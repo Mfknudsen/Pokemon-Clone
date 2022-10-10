@@ -11,7 +11,7 @@ namespace Runtime.AI.Node_Canvas.Conditions
     {
         protected override bool OnCheck()
         {
-            return agent.isOnNavMesh;
+            return this.agent.isOnNavMesh;
         }
     }
 }

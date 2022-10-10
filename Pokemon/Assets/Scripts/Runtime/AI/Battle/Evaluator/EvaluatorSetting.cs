@@ -33,7 +33,7 @@ namespace Runtime.AI.Battle.Evaluator
             this.continuesIncrease = continuesIncrease;
             this.canSwitchOut = canSwitchOut;
             this.canUseItems = canUseItems;
-            personalitySetting = null;
+            this.personalitySetting = null;
         }
 
         public EvaluatorSetting(int depth, float continuesIncrease, bool canSwitchOut, bool canUseItems,
@@ -50,7 +50,7 @@ namespace Runtime.AI.Battle.Evaluator
 
         public void SetPersonalitySetting(PersonalitySetting set)
         {
-            personalitySetting = set;
+            this.personalitySetting = set;
         }
     }
 }

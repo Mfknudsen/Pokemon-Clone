@@ -23,7 +23,7 @@ namespace Runtime.Timeline.Mono
             ScriptPlayable<TBehaviour> playable =
                 ScriptPlayable<TBehaviour>.Create(graph);
 
-            TransferValues(playable.GetBehaviour());
+            this.TransferValues(playable.GetBehaviour());
             
             return playable;
         }

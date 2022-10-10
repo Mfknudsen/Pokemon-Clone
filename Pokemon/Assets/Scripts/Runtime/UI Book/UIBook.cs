@@ -89,7 +89,7 @@ namespace Runtime.UI_Book
 
         private IEnumerator Start()
         {
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this.gameObject);
             this.uiManager.SetUIBook(this);
 
             this.invisiblyUI.transform.localScale /= 10000;
@@ -107,13 +107,13 @@ namespace Runtime.UI_Book
 
             this.playerManager.DisablePlayerControl();
 
-            ConstructUI();
+            this.ConstructUI();
             GameObject bookHolder = new("Book Holder")
             {
                 transform = { parent = this.playerManager.GetController().transform }
             };
 
-            transform.parent = bookHolder.transform;
+            this.transform.parent = bookHolder.transform;
         }
 
         #endregion
@@ -131,8 +131,8 @@ namespace Runtime.UI_Book
 
         public void ConstructUI()
         {
-            CopyTextures();
-            StartCoroutine(ConstructAsync());
+            this.CopyTextures();
+            this.StartCoroutine(this.ConstructAsync());
         }
 
         public void Effect(BookTurn turn)
@@ -140,9 +140,9 @@ namespace Runtime.UI_Book
             if (turn == BookTurn.Null) return;
 
             this.invisiblyUI.SetActive(false);
-            StartCoroutine(AnimationTrigger(turn, 0.5f));
+            this.StartCoroutine(this.AnimationTrigger(turn, 0.5f));
 
-            CopyTextures();
+            this.CopyTextures();
 
             if (turn == BookTurn.Close)
             {
@@ -238,7 +238,7 @@ namespace Runtime.UI_Book
             if (element is null) return;
 
             Destroy(obj.GetComponent<TReference>());
-            StartCoroutine(AddGUIReferenceComponent<TElement>(obj, this, element));
+            this.StartCoroutine(AddGUIReferenceComponent<TElement>(obj, this, element));
         }
 
         private static IEnumerator AddGUIReferenceComponent<T>(GameObject obj, UIBook uiBook, ICustomGUIElement element)
@@ -298,9 +298,9 @@ namespace Runtime.UI_Book
                         continue;
                     }
 
-                    Replace<BookButton, BookButtonReference>(o, this.buttonReferences);
-                    Replace<BookSlider, BookSliderReference>(o, this.sliderReferences);
-                    Replace<BookTextInputField, BookTextInputFieldReference>(o, this.textInputFieldReferences);
+                    this.Replace<BookButton, BookButtonReference>(o, this.buttonReferences);
+                    this.Replace<BookSlider, BookSliderReference>(o, this.sliderReferences);
+                    this.Replace<BookTextInputField, BookTextInputFieldReference>(o, this.textInputFieldReferences);
 
                     if (o.GetComponent<Outline>() is { } outline)
                         Destroy(outline);
@@ -349,8 +349,8 @@ namespace Runtime.UI_Book
         {
             this.done = false;
 
-            SetOpens(false);
-            SetTurns(true);
+            this.SetOpens(false);
+            this.SetTurns(true);
 
             this.turnLeftPaper.GetComponent<Renderer>().material.SetInt(InvertPageID, this.fromLeftToRight ? 0 : 1);
             this.turnRightPaper.GetComponent<Renderer>().material.SetInt(InvertPageID, this.fromLeftToRight ? 1 : 0);
@@ -367,7 +367,7 @@ namespace Runtime.UI_Book
             yield return new WaitForSeconds(animationTime * 0.9f);
 
             //SetTurns(false);
-            SetOpens(true);
+            this.SetOpens(true);
 
             this.uiBook.ConstructUI();
             this.done = true;

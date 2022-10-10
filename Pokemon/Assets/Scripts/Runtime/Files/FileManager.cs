@@ -131,7 +131,7 @@ namespace Runtime.Files
         // ReSharper disable once FunctionRecursiveOnAllPaths
         public Dictionary<string, string> GetDictionary()
         {
-            Dictionary<string, string> result = GetDictionary();
+            Dictionary<string, string> result = this.GetDictionary();
             for (int i = 0;
                  i < this.keys.Length;
                  i++)

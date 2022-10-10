@@ -104,7 +104,7 @@ namespace Runtime.Communication
             if (!this.active)
             {
                 this.index = 0;
-                CheckTextOverride();
+                this.CheckTextOverride();
                 this.active = true;
             }
 
@@ -152,11 +152,11 @@ namespace Runtime.Communication
 
         public IEnumerator PlayNext()
         {
-            IncreaseIndex();
+            this.IncreaseIndex();
 
             this.done = false;
 
-            return Play();
+            return this.Play();
         }
 
         #endregion
@@ -165,7 +165,7 @@ namespace Runtime.Communication
 
         protected virtual void CheckTextOverride()
         {
-            AddPronounsToOverride();
+            this.AddPronounsToOverride();
 
             for (int i = 0; i < this.textList.Length; i++)
             {
@@ -180,8 +180,8 @@ namespace Runtime.Communication
         {
             string[] pronouns = this.playerManager.GetPronouns();
 
-            AddToOverride("P_ONE", pronouns[0]);
-            AddToOverride("P_TWO", pronouns[1]);
+            this.AddToOverride("P_ONE", pronouns[0]);
+            this.AddToOverride("P_TWO", pronouns[1]);
         }
 
         #endregion

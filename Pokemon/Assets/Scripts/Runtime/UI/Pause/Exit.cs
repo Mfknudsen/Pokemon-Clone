@@ -14,7 +14,7 @@ namespace Runtime.UI.Pause
         [UsedImplicitly]
         public void Cancel()
         {
-            gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
         }
 
         [UsedImplicitly]

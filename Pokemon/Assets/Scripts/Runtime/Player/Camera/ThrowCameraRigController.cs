@@ -26,7 +26,7 @@ namespace Runtime.Player.Camera
 
         private void Awake()
         {
-            this.controllerTransform = transform;
+            this.controllerTransform = this.transform;
         }
 
         private void Update()

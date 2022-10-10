@@ -12,10 +12,10 @@ namespace Runtime.Menu
             if (instance)
             {
                 instance = this;
-                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(this.gameObject);
             }
             else
-                Destroy(gameObject);
+                Destroy(this.gameObject);
         }
     }
 }

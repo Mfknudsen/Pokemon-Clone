@@ -35,7 +35,7 @@ namespace Runtime.Weathers.Climate
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (pokemon == null || IsImmune(pokemon))
+                if (pokemon == null || this.IsImmune(pokemon))
                     continue;
 
                 int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 16;

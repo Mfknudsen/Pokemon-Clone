@@ -16,9 +16,7 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnUpdate()
         {
-            
-            
-            EndAction(true);
+            this.EndAction(true);
         }
     }
 }

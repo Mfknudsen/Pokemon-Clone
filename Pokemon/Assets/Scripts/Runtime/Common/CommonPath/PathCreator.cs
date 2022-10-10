@@ -21,12 +21,12 @@ namespace Runtime.Common.CommonPath
 
         public void CreatePath()
         {
-            this.path = new Path(transform.position);
+            this.path = new Path(this.transform.position);
         }
 
         private void Reset()
         {
-            CreatePath();
+            this.CreatePath();
         }
     }
 }

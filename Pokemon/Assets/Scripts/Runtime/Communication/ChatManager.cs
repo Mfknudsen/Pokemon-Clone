@@ -36,12 +36,12 @@ namespace Runtime.Communication
         {
             this.controller = new GameObject("Chat Controller").AddComponent<ChatController>();
 
-            InputManager.instance.nextChatInputEvent.AddListener(OnNextChatChange);
+            InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
             
             yield break;
         }
 
-        private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(OnNextChatChange);
+        private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(this.OnNextChatChange);
 
         #endregion
 
@@ -102,7 +102,7 @@ namespace Runtime.Communication
             }
             else if (this.running is null && this.waitList.Count > 0)
             {
-                PlayNextInLine();
+                this.PlayNextInLine();
             }
         }
 
@@ -143,7 +143,7 @@ namespace Runtime.Communication
             this.running = this.waitList[0];
             this.waitList.RemoveAt(0);
 
-            Play(this.running);
+            this.Play(this.running);
         }
 
         private void Play(Chat toPlay)

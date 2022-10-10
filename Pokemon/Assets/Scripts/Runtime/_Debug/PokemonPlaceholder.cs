@@ -24,15 +24,14 @@ namespace Runtime._Debug
 
         public void CheckPlaceholder(Pokemon pokemon)
         {
-            SetText(pokemon.GetName());
+            this.SetText(pokemon.GetName());
 
-            Vector3 targetVector = transform.GetChild(0).transform.position +
-                                   (transform.GetChild(0).transform.position - this.cameraManager.GetCurrentCamera().transform.position);
+            Vector3 targetVector = this.transform.GetChild(0).transform.position +
+                                   (this.transform.GetChild(0).transform.position - this.cameraManager.GetCurrentCamera().transform.position);
             targetVector = new Vector3(
-                targetVector.x,
-                transform.GetChild(0).transform.position.y,
+                targetVector.x, this.transform.GetChild(0).transform.position.y,
                 targetVector.z);
-            transform.GetChild(0).transform.LookAt(targetVector);
+            this.transform.GetChild(0).transform.LookAt(targetVector);
         }
     }
 }

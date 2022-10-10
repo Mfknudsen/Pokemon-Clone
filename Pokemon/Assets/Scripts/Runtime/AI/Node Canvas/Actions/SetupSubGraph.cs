@@ -16,23 +16,23 @@ namespace Runtime.AI.Node_Canvas.Actions
         {
             if (this.navAgent.value != null && this.controller.value != null)
             {
-                EndAction(true);
+                this.EndAction(true);
                 return;
             }
             
             try
             {
-                this.navAgent.value = agent;
+                this.navAgent.value = this.agent;
 
-                this.controller.value = agent.GetComponent<NpcController>();
+                this.controller.value = this.agent.GetComponent<NpcController>();
             }
             catch
             {
-                EndAction(false);
+                this.EndAction(false);
                 return;
             }
 
-            EndAction(true);
+            this.EndAction(true);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Runtime.Player
             while (InputManager.instance == null)
                 yield return null;
 
-            InputManager.instance.interactInputEvent.AddListener(TriggerClosest);
+            InputManager.instance.interactInputEvent.AddListener(this.TriggerClosest);
         }
 
         public void OnEnter(InteractItem interactable, Transform trans)
@@ -45,7 +45,7 @@ namespace Runtime.Player
 
             this.interactableInRange.Add(interactable, trans.position);
 
-            Evaluate();
+            this.Evaluate();
         }
 
         public void OnExit(InteractItem interactable)
@@ -54,7 +54,7 @@ namespace Runtime.Player
 
             this.interactableInRange.Remove(interactable);
 
-            Evaluate();
+            this.Evaluate();
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace Runtime.Player
                 if (!this.interactableInRange.ContainsKey(this.focusedInteractable)) this.focusedInteractable = null;
             }
 
-            Vector3 playerPos = transform.position;
+            Vector3 playerPos = this.transform.position;
 
             float dist = this.focusedInteractable == null
                 ? Mathf.Infinity

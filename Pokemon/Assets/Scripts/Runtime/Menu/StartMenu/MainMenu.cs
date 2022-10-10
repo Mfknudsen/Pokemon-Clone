@@ -42,7 +42,7 @@ namespace Runtime.Menu.StartMenu
 
             this.ready = true;
 
-            StartCoroutine(StartGame());
+            this.StartCoroutine(this.StartGame());
         }
 
         #endregion

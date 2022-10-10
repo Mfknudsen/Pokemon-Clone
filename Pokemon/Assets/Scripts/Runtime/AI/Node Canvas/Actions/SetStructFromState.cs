@@ -13,16 +13,16 @@ namespace Runtime.AI.Node_Canvas.Actions
 
         protected override void OnExecute()
         {
-            object o = agent.GetStateByKey(this.key.GetValue());
+            object o = this.agent.GetStateByKey(this.key.GetValue());
 
             if (o is T t)
             {
                 this.toSet.SetValue(t);
 
-                EndAction(true);
+                this.EndAction(true);
             }
 
-            EndAction(false);
+            this.EndAction(false);
         }
     }
 }

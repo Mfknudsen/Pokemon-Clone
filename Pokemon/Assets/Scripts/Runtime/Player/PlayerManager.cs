@@ -70,9 +70,9 @@ namespace Runtime.Player
         public override IEnumerator StartManager()
         {
             InputManager inputManager = InputManager.instance;
-            inputManager.moveAxisInputEvent.AddListener(OnMoveAxisChange);
-            inputManager.turnAxisInputEvent.AddListener(OnTurnAxisChange);
-            inputManager.runInputEvent.AddListener(OnRunChange);
+            inputManager.moveAxisInputEvent.AddListener(this.OnMoveAxisChange);
+            inputManager.turnAxisInputEvent.AddListener(this.OnTurnAxisChange);
+            inputManager.runInputEvent.AddListener(this.OnRunChange);
 
             this.overworldGameObject = GameObject.Find("Player");
 
@@ -102,9 +102,9 @@ namespace Runtime.Player
         private void OnDisable()
         {
             InputManager inputManager = InputManager.instance;
-            inputManager.moveAxisInputEvent.RemoveListener(OnMoveAxisChange);
-            inputManager.turnAxisInputEvent.RemoveListener(OnTurnAxisChange);
-            inputManager.runInputEvent.RemoveListener(OnRunChange);
+            inputManager.moveAxisInputEvent.RemoveListener(this.OnMoveAxisChange);
+            inputManager.turnAxisInputEvent.RemoveListener(this.OnTurnAxisChange);
+            inputManager.runInputEvent.RemoveListener(this.OnRunChange);
         }
 
         #endregion

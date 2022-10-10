@@ -40,7 +40,7 @@ namespace Runtime.Weathers.Energy
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
-                if (pokemon == null || IsImmune(pokemon))
+                if (pokemon == null || this.IsImmune(pokemon))
                     continue;
                 
                 int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 16;
@@ -67,7 +67,7 @@ namespace Runtime.Weathers.Energy
 
         public void Modify(Pokemon pokemon)
         {
-            if (IsImmune(pokemon)) return;
+            if (this.IsImmune(pokemon)) return;
 
             if (Random.Range(0, 100) <= 10)
                 pokemon.GetConditionOversight().ApplyVolatileCondition(this.flinch);

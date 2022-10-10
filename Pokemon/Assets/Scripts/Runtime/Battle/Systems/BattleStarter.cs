@@ -109,7 +109,7 @@ namespace Runtime.Battle.Systems
 
             this.ready = false;
 
-            Transform t = transform;
+            Transform t = this.transform;
             this.overworldParent = t.parent;
             t.parent = null;
 
@@ -124,13 +124,13 @@ namespace Runtime.Battle.Systems
                 Cursor.visible = true;
             };
 
-            this.onBattleEnd += delegate { StartCoroutine(gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
+            this.onBattleEnd += delegate { this.StartCoroutine(this.gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
 
             this.worldManager.SetTransition(this.transition);
             this.worldManager.LoadBattleScene(this.battleSceneName);
 
             //Wait for the Battle Scene to load and apply settings from Battle Starter
-            StartCoroutine(WaitForResponse());
+            this.StartCoroutine(this.WaitForResponse());
         }
 
         private IEnumerator WaitForResponse()
@@ -180,7 +180,7 @@ namespace Runtime.Battle.Systems
                 //UIBook.instance.gameObject.SetActive(true);
                 //UIManager.instance.SwitchUI(UISelection.Start);
                 //UIBook.instance.Effect(BookTurn.Open);
-                transform.parent = this.overworldParent;
+                this.transform.parent = this.overworldParent;
             };
 
             this.worldManager.SetTransition(this.transition);

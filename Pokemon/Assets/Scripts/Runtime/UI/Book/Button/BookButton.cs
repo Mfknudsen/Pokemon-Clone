@@ -32,9 +32,9 @@ namespace Runtime.UI.Book.Button
         {
             base.Awake();
 
-            Navigation nav = navigation;
+            Navigation nav = this.navigation;
             nav.mode = Navigation.Mode.None;
-            navigation = nav;
+            this.navigation = nav;
         }
 
         #region Getters
@@ -64,8 +64,7 @@ namespace Runtime.UI.Book.Button
 
             base.DoStateTransition(state, false);
 
-            if (state == SelectionState.Pressed)
-                Invoke(nameof(TriggerOnClick), 0.1f);
+            if (state == SelectionState.Pressed) this.Invoke(nameof(this.TriggerOnClick), 0.1f);
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace Runtime.UI.Book.Button
 
         private void TriggerOnClick()
         {
-            onClick.Invoke();
+            this.onClick.Invoke();
         }
 
         #endregion

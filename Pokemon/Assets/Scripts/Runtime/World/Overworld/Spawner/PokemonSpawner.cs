@@ -23,36 +23,36 @@ namespace Runtime.World.Overworld.Spawner
 
         #region Build In States
 
-        private void OnEnable() => CheckState();
+        private void OnEnable() => this.CheckState();
 
         private void OnDisable() => this.checkTimer?.Stop();
 
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = new Color(1, 0, 0, .25f);
-            Gizmos.DrawSphere(transform.position, this.radius);
+            Gizmos.DrawSphere(this.transform.position, this.radius);
         }
 
         #endregion
 
         private void CheckState()
         {
-            if (this.currentActiveEntities.Count < this.maxActiveEntities)
-                SpawnOverWorldPokemon();
+            if (this.currentActiveEntities.Count < this.maxActiveEntities) this.SpawnOverWorldPokemon();
 
-            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), CheckState);
+            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), this.CheckState);
         }
 
         private Pokemon SelectPokemonFromList() => this.list[Random.Range(0, this.list.Length)];
 
-        private Vector3 RandomPositionFromArea() => transform.position + new Vector3(
+        private Vector3 RandomPositionFromArea() =>
+            this.transform.position + new Vector3(
             Random.Range(-this.radius, this.radius),
             0,
             Random.Range(-this.radius, this.radius));
 
         private void SpawnOverWorldPokemon()
         {
-            Pokemon toSpawn = SelectPokemonFromList();
+            Pokemon toSpawn = this.SelectPokemonFromList();
 
             if (toSpawn.GetPokemonPrefab() == null)
             {
@@ -61,8 +61,7 @@ namespace Runtime.World.Overworld.Spawner
             }
             
             GameObject obj = Instantiate(
-                toSpawn.GetPokemonPrefab(),
-                RandomPositionFromArea(),
+                toSpawn.GetPokemonPrefab(), this.RandomPositionFromArea(),
                 Quaternion.LookRotation(Vector3.up * Random.Range(0, 360)));
 
             UnitBase unitBase = obj.GetFirstComponentTowardsRoot<UnitBase>();

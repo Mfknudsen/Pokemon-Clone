@@ -52,11 +52,11 @@ namespace Runtime.Systems.UI
 
         public override IEnumerator StartManager()
         {
-            InputManager.instance.pauseInputEvent.AddListener(PauseTrigger);
+            InputManager.instance.pauseInputEvent.AddListener(this.PauseTrigger);
             yield break;
         }
 
-        private void OnDisable() => InputManager.instance.pauseInputEvent.RemoveListener(PauseTrigger);
+        private void OnDisable() => InputManager.instance.pauseInputEvent.RemoveListener(this.PauseTrigger);
 
         #endregion
 
@@ -155,7 +155,7 @@ namespace Runtime.Systems.UI
 
             this.readyToPause = false;
 
-            SwitchUI(UISelection.Pause);
+            this.SwitchUI(UISelection.Pause);
 
             this.uiBook.Effect(BookTurn.Open);
         }

@@ -19,7 +19,7 @@ namespace Runtime.ScriptableVariables.Objects.Items
 
         #region Getters
 
-        public GameObject GetVisual() => value.GetVisualPrefab();
+        public GameObject GetVisual() => this.value.GetVisualPrefab();
 
         #endregion
 

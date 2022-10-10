@@ -12,7 +12,7 @@ namespace Runtime.World.Overworld
 
         private void OnValidate()
         {
-            name = "ConnectionPoint - " + this.connectTo;
+            this.name = "ConnectionPoint - " + this.connectTo;
         }
     }
 }

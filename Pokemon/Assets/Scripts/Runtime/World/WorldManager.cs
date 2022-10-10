@@ -97,23 +97,23 @@ namespace Runtime.World
 
         public void LoadSceneAsync(string sceneName)
         {
-            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadWorldSceneAsync(sceneName)));
+            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(this.LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            this.activeUnloading.Add(this.tileManager.GetSubManager().StartCoroutine(UnloadWorldSceneAsync(sceneName)));
+            this.activeUnloading.Add(this.tileManager.GetSubManager().StartCoroutine(this.UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(LoadBattleSceneAsync(sceneName)));
+            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(this.LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()
         {
             this.activeUnloading.Add(this.tileManager.GetSubManager()
-                .StartCoroutine(UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
+                .StartCoroutine(this.UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
         }
 
         #endregion
@@ -124,10 +124,10 @@ namespace Runtime.World
 
         private IEnumerator LoadBattleSceneAsync(string sceneName)
         {
-            Logger.AddLog(ToString(), "Loading Battle Scene Async: \n" + sceneName);
+            Logger.AddLog(this.ToString(), "Loading Battle Scene Async: \n" + sceneName);
 
             //Start Transition
-            yield return StartTransition();
+            yield return this.StartTransition();
 
             this.playerManager.DisableOverworld();
 
@@ -153,15 +153,15 @@ namespace Runtime.World
             this.playerManager.EnableOverworld();
 
             //End Transition
-            yield return EndTransition();
+            yield return this.EndTransition();
         }
 
         private IEnumerator UnloadBattleSceneAsync(string sceneName)
         {
-            Logger.AddLog(ToString(), "Unloading Battle Scene Async: \n" + sceneName);
+            Logger.AddLog(this.ToString(), "Unloading Battle Scene Async: \n" + sceneName);
 
             //Start Transition
-            yield return StartTransition();
+            yield return this.StartTransition();
 
             //Scene Unloading
             AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
@@ -177,7 +177,7 @@ namespace Runtime.World
             this.currentOperation = null;
 
             //End Transition
-            yield return EndTransition();
+            yield return this.EndTransition();
 
             this.playerManager.EnableOverworld();
         }
@@ -188,7 +188,7 @@ namespace Runtime.World
 
         private IEnumerator LoadWorldSceneAsync(string sceneName)
         {
-            Logger.AddLog(ToString(), "Loading World Scene Async: \n" + sceneName);
+            Logger.AddLog(this.ToString(), "Loading World Scene Async: \n" + sceneName);
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
@@ -209,9 +209,9 @@ namespace Runtime.World
 
         private IEnumerator UnloadWorldSceneAsync(string sceneName)
         {
-            Logger.AddLog(ToString(), "Unloading World Scene Async: \n" + sceneName);
+            Logger.AddLog(this.ToString(), "Unloading World Scene Async: \n" + sceneName);
 
-            UnloadWorldInterfaces(sceneName);
+            this.UnloadWorldInterfaces(sceneName);
 
             AsyncOperation asyncOperation = SceneManager.UnloadSceneAsync(sceneName);
 

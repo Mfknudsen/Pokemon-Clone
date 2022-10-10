@@ -457,7 +457,7 @@ namespace Runtime.Battle.Actions
                 if (this.category != Category.Status)
                 {
                     bool isCritical = this.canCrit && BattleMathf.CalculateCriticalRoll(this.currentPokemon, pokemon);
-                    float damagePerTarget = GetDamageForTarget(this.currentPokemon, pokemon, isCritical);
+                    float damagePerTarget = this.GetDamageForTarget(this.currentPokemon, pokemon, isCritical);
 
                     DamagePokemon damagePokemon = new(pokemon, damagePerTarget, secPerPokeMove);
                     container.Add(damagePokemon);

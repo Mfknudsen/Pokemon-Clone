@@ -29,7 +29,7 @@ namespace Runtime.Pokémon.Abilities
             if (!(condition is null) && !(condition is FaintedCondition))
             {
                 Debug.Log("Trigger");
-                SetActive(true);
+                this.SetActive(true);
             }
         }
 
@@ -39,8 +39,7 @@ namespace Runtime.Pokémon.Abilities
 
             Condition condition = this.affectedPokemon.GetConditionOversight().GetNonVolatileStatus();
 
-            if (condition is null || condition is FaintedCondition)
-                SetActive(false);
+            if (condition is null || condition is FaintedCondition) this.SetActive(false);
         }
 
         #endregion
@@ -54,7 +53,7 @@ namespace Runtime.Pokémon.Abilities
 
         public float Modify(Pokemon pokemon, Stat stat)
         {
-            return (pokemon == this.affectedPokemon && stat == Stat.Attack && GetActive()) ? this.damageModification : 1;
+            return (pokemon == this.affectedPokemon && stat == Stat.Attack && this.GetActive()) ? this.damageModification : 1;
         }
 
         #endregion

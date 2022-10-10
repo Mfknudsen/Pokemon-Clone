@@ -10,7 +10,7 @@ namespace Runtime.Communication
         private void Start()
         {
             if (instance == null)
-                instance = GetComponent<TextMeshProUGUI>();
+                instance = this.GetComponent<TextMeshProUGUI>();
         }
     }
 }

@@ -20,11 +20,11 @@ namespace Runtime.World.Overworld.Tiles
 
         private void Awake()
         {
-            this.border = transform.parent.GetComponent<TileBorder>();
+            this.border = this.transform.parent.GetComponent<TileBorder>();
 
             if (this.border == null)
             {
-                Destroy(gameObject);
+                Destroy(this.gameObject);
                 Debug.LogError("Tile Border Trigger must be child of Tile Border");
             }
         }

@@ -58,7 +58,7 @@ namespace Runtime.World.Overworld.Tiles
             if (this.allSubManagers.Count != 1) return;
 
             this.currentTile = add;
-            UpdateNavmesh();
+            this.UpdateNavmesh();
         }
 
         public void RemoveSubManager(TileSubController remove)
@@ -71,7 +71,7 @@ namespace Runtime.World.Overworld.Tiles
 
         private void UpdateNavmesh()
         {
-            this.currentTile.StartCoroutine(BeginUpdate());
+            this.currentTile.StartCoroutine(this.BeginUpdate());
         }
 
         public void HideTiles()
@@ -132,8 +132,8 @@ namespace Runtime.World.Overworld.Tiles
 
                 #endregion
 
-                ResetWorldCenter();
-                UpdateNavmesh();
+                this.ResetWorldCenter();
+                this.UpdateNavmesh();
             });
         }
 

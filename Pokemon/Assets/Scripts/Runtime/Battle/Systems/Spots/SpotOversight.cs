@@ -71,7 +71,7 @@ namespace Runtime.Battle.Systems.Spots
 
                     Spot spot = BattleManager.instance.CreateSpot(parent);
                     spot.SetBattleMember(battleMember);
-                    SetSpot(spot);
+                    this.SetSpot(spot);
                     battleMember.SetOwnedSpot(spot);
                 }
             }

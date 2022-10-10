@@ -505,7 +505,7 @@ namespace Runtime.Pokémon
             this.oversight ??= CreateInstance<ConditionOversight>();
             this.oversight.Setup(this);
 
-            this.maxHealth = GetCalculatedStat(Stat.HP);
+            this.maxHealth = this.GetCalculatedStat(Stat.HP);
 
             AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
 
@@ -551,7 +551,7 @@ namespace Runtime.Pokémon
             else
             {
                 points -= expNeeded;
-                LevelUp();
+                this.LevelUp();
                 this.currentExp = points;
             }
         }

@@ -53,7 +53,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void DisplaySelection(SelectorGoal goal, object parse)
         {
-            DisableDisplaySelection();
+            this.DisableDisplaySelection();
 
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (goal)

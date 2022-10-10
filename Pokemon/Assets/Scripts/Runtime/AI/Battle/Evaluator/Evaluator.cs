@@ -71,7 +71,7 @@ namespace Runtime.AI.Battle.Evaluator
             }
 
             this.setting.personalitySetting.Tick();
-            Evaluate(user, this.setting.depth, virtualMoves.ToArray());
+            this.Evaluate(user, this.setting.depth, virtualMoves.ToArray());
         }
 
         private void Evaluate(VirtualPokemon user, int depth, VirtualMove[] toCheck)
@@ -138,7 +138,7 @@ namespace Runtime.AI.Battle.Evaluator
             }
 
             // ReSharper disable once TailRecursiveCall
-            Evaluate(user, depth - 1, nextMoves.ToArray());
+            this.Evaluate(user, depth - 1, nextMoves.ToArray());
         }
 
         private static BattleAction SetupRootAction(BattleAction battleAction, Pokemon user, Pokemon target)

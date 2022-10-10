@@ -32,7 +32,7 @@ namespace Runtime.Pokémon.Conditions
 
         public virtual Condition GetCondition()
         {
-            Debug.Log(name + "\nGet Condition Need Override!");
+            Debug.Log(this.name + "\nGet Condition Need Override!");
             return null;
         }
 
