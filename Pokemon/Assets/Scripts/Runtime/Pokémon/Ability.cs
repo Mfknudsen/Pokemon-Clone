@@ -1,4 +1,4 @@
-﻿#region SDK
+﻿#region Packages
 
 using UnityEngine;
 
@@ -6,23 +6,6 @@ using UnityEngine;
 
 namespace Runtime.Pokémon
 {
-    #region Enums
-
-    public enum AbilityTrigger
-    {
-        OnEnterBattle,
-        OnExitBattle,
-        OnFainted,
-        OnHitSelf,
-        OnHitEnemy,
-        OnHitAny,
-        OnStatusEnable,
-        OnStatusDisable,
-        OnStatusChange
-    }
-
-    #endregion
-
     [CreateAssetMenu(fileName = "Ability", menuName = "Pokemon/Create New Ability", order = 2)]
     public abstract class Ability : ScriptableObject
     {

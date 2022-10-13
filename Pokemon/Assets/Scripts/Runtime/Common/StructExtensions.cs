@@ -26,6 +26,8 @@ namespace Runtime.Common
         public static void RefClamp(this ref float current, float min, float max) =>
             current = Mathf.Clamp(current, min, max);
 
+        public static float Squared(this float current) => current * current;
+
         #endregion
 
         #region Vector3

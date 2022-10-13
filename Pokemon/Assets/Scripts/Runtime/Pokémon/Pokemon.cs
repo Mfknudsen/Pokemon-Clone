@@ -70,65 +70,47 @@ namespace Runtime.Pokémon
 
         [SerializeField] private bool isInstantiated;
 
-        [BoxGroup("Basic")] [SerializeField] private string pokemonName;
+        [SerializeField, BoxGroup("Basic")] private string pokemonName;
 
-        [BoxGroup("Basic")] [SerializeField] private int pokedexIndex;
+        [SerializeField, BoxGroup("Basic")] private int pokedexIndex;
 
-        [BoxGroup("Basic")] [SerializeField] private Type[] types = new Type[1];
+        [SerializeField, BoxGroup("Basic")] private Type[] types = new Type[1];
 
-        [BoxGroup("Basic")] [SerializeField, TextArea]
+        [SerializeField, BoxGroup("Basic"), TextArea]
         private string description;
 
-        [HorizontalGroup("Basic/H1"), VerticalGroup("Basic/H1/V1")] [SerializeField]
+        [SerializeField, HorizontalGroup("Basic/H1"), VerticalGroup("Basic/H1/V1")]
         private float height;
 
-        [VerticalGroup("Basic/H1/V1")] [SerializeField]
+        [SerializeField, VerticalGroup("Basic/H1/V1")]
         private float weight;
 
-        [VerticalGroup("Basic/H1/V2")] [SerializeField]
+        [SerializeField, VerticalGroup("Basic/H1/V2")]
         private Shape shape;
 
-        [VerticalGroup("Basic/H1/V2")] [SerializeField]
+        [SerializeField, VerticalGroup("Basic/H1/V2")]
         private Footprint footprint;
 
         [BoxGroup("Basic")] [SerializeField] private Color pokedexColor = Color.green;
 
-        [HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0)] [SerializeField, Required]
+        [SerializeField, HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0), Required]
         private GameObject prefab;
 
-        [BoxGroup("Moves")] [SerializeField] private string pokemonCategory;
+        [SerializeField, BoxGroup("Moves")] private string pokemonCategory;
 
-        [VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)] [SerializeField]
+        [SerializeField, VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)]
         private Ability firstAbility, secondAbility, hiddenAbility;
 
-        [BoxGroup("Stats")] [SerializeField] private Stats stats;
-        [BoxGroup("Stats")] [SerializeField] private int[] iv = new int[6];
-        [BoxGroup("Stats")] [SerializeField] private int[] ev = new int[6];
+        [SerializeField, BoxGroup("Stats")] private Stats stats;
+        [SerializeField, BoxGroup("Stats")] private int[] iv = new int[6];
+        [SerializeField, BoxGroup("Stats")] private int[] ev = new int[6];
 
-        [BoxGroup("Evolution")] [SerializeField]
+        [SerializeField, BoxGroup("Evolution")]
         private EvolutionMethod[] method;
 
-        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] learnedMoves = new PokemonMove[4];
+        [SerializeField, BoxGroup("Moves")] private MoveStats moveStats;
 
-        [BoxGroup("Moves")] [SerializeField] private int[] levelLearnableMoveKeys;
-
-        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] levelLearnableMove;
-
-        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] tmLearnableMove;
-
-        [BoxGroup("Moves")] [SerializeField] private PokemonMove[] tutorLearnableMove;
-
-        [BoxGroup("Breeding")] [SerializeField]
-        private Pokemon[] breedingLearnedMoveKeys;
-
-        [BoxGroup("Breeding")] [SerializeField]
-        private PokemonMove[] breedingLearnedMove;
-
-        [BoxGroup("Breeding")] [SerializeField]
-        private EggGroup eggGroup;
-
-        [BoxGroup("Breeding")] [SerializeField]
-        private int hatchTimeMin, hatchTimeMax;
+        [SerializeField, BoxGroup("Breeding")] private BreedingStats breedingStats;
 
         private int maxHealth;
 
@@ -218,102 +200,9 @@ namespace Runtime.Pokémon
             return this.types;
         }
 
-        public EggGroup GetEggGroup()
-        {
-            return this.eggGroup;
-        }
+        public float GetCatchRate() => this.catchRate;
 
-        public int GetMinHatchSteps()
-        {
-            return this.hatchTimeMin;
-        }
-
-        public int GetMaxHatchSteps()
-        {
-            return this.hatchTimeMax;
-        }
-
-        public float GetHeight()
-        {
-            return this.height;
-        }
-
-        public float GetWeight()
-        {
-            return this.weight;
-        }
-
-        // ReSharper disable once IdentifierTypo
-        public int GetPokedexIndex()
-        {
-            return this.pokedexIndex;
-        }
-
-        public string GetPokemonCategory()
-        {
-            return this.pokemonCategory;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public int GetEVYield(Stat target)
-        {
-            return this.evYield[(int)target];
-        }
-
-        public int GetExpYield()
-        {
-            return this.expYield;
-        }
-
-        public LevelRate GetLevelRate()
-        {
-            return this.levelRate;
-        }
-
-        public float GetGenderRate()
-        {
-            return this.genderRate;
-        }
-
-        public float GetCatchRate()
-        {
-            return this.catchRate;
-        }
-
-        public int[] GetLevelLearnedMovesKeys()
-        {
-            return this.levelLearnableMoveKeys;
-        }
-
-        public PokemonMove[] GetLevelLearnableMoveValue()
-        {
-            return this.levelLearnableMove;
-        }
-
-        public Pokemon[] GetBreedingLearnableMoveKeys()
-        {
-            return this.breedingLearnedMoveKeys;
-        }
-
-        public PokemonMove[] GetBreedingLearnableMoveValue()
-        {
-            return this.breedingLearnedMove;
-        }
-
-        public PokemonMove[] GetTMLearnableMoveValues()
-        {
-            return this.tmLearnableMove;
-        }
-
-        public PokemonMove[] GetTutorLearnableMoveValue()
-        {
-            return this.tutorLearnableMove;
-        }
-
-        public Ability[] GetAbilities()
-        {
-            return new[] { this.firstAbility, this.secondAbility, this.hiddenAbility };
-        }
+        public Ability[] GetAbilities() => new[] { this.firstAbility, this.secondAbility, this.hiddenAbility };
 
         #endregion
 
@@ -351,75 +240,40 @@ namespace Runtime.Pokémon
             return Mathf.FloorToInt(result);
         }
 
-        public ConditionOversight GetConditionOversight()
-        {
-            return this.oversight ? this.oversight : this.oversight = CreateInstance<ConditionOversight>();
-        }
+        public ConditionOversight GetConditionOversight() => this.oversight ? this.oversight : this.oversight = CreateInstance<ConditionOversight>();
 
-        public float GetCurrentHealth()
-        {
-            return this.currentHealth;
-        }
+        public float GetCurrentHealth() => this.currentHealth;
 
-        public IEnumerable<PokemonMove> GetMoves()
-        {
-            return this.learnedMoves;
-        }
+        public IEnumerable<PokemonMove> GetMoves() => this.moveStats.learnedMoves;
 
         public PokemonMove GetMoveByIndex(int index)
         {
-            if (this.learnedMoves.Length <= 0 || index < 0 || index >= this.learnedMoves.Length) return null;
+            if (this.moveStats.learnedMoves.Length <= 0 || index < 0 || index >= this.moveStats.learnedMoves.Length)
+                return null;
 
-            if (this.learnedMoves[index] != null)
-                return this.learnedMoves[index].GetAction() as PokemonMove;
+            if (this.moveStats.learnedMoves[index] is not null)
+                return this.moveStats.learnedMoves[index].GetAction() as PokemonMove;
 
             return null;
         }
 
-        public GameObject GetPokemonPrefab()
-        {
-            return this.prefab;
-        }
+        public GameObject GetPokemonPrefab() => this.prefab;
 
-        public GameObject GetSpawnedObject()
-        {
-            return this.spawnedObject;
-        }
+        public GameObject GetSpawnedObject() => this.spawnedObject;
 
-        public BattleAction GetBattleAction()
-        {
-            return this.battleAction;
-        }
+        public BattleAction GetBattleAction() => this.battleAction;
 
-        public bool GetGettingSwitched()
-        {
-            return this.gettingSwitched;
-        }
+        public bool GetGettingSwitched() => this.gettingSwitched;
 
-        public bool GetInBattle()
-        {
-            return this.inBattle;
-        }
+        public bool GetInBattle() => this.inBattle;
 
-        public bool GetRevived()
-        {
-            return this.gettingRevived;
-        }
+        public bool GetRevived() => this.gettingRevived;
 
-        public int GetAccuracy()
-        {
-            return this.accuracy;
-        }
+        public int GetAccuracy() => this.accuracy;
 
-        public int GetEvasion()
-        {
-            return this.evasion;
-        }
+        public int GetEvasion() => this.evasion;
 
-        public int GetCritical()
-        {
-            return this.critical;
-        }
+        public int GetCritical() => this.critical;
 
         #endregion
 
@@ -427,50 +281,23 @@ namespace Runtime.Pokémon
 
         #region Setters
 
-        public void SetIsInstantiated(bool set)
-        {
-            this.isInstantiated = set;
-        }
+        public void SetIsInstantiated(bool set) => this.isInstantiated = set;
 
-        public void SetSpawnedObject(GameObject set)
-        {
-            this.spawnedObject = set;
-        }
+        public void SetSpawnedObject(GameObject set) => this.spawnedObject = set;
 
-        public void SetBattleAction(BattleAction set)
-        {
-            this.battleAction = set;
-        }
+        public void SetBattleAction(BattleAction set) => this.battleAction = set;
 
-        public void SetGettingSwitched(bool set)
-        {
-            this.gettingSwitched = set;
-        }
+        public void SetGettingSwitched(bool set) => this.gettingSwitched = set;
 
-        public void SetInBattle(bool set)
-        {
-            this.inBattle = set;
-        }
+        public void SetInBattle(bool set) => this.inBattle = set;
 
-        public void SetRevived(bool set)
-        {
-            this.gettingRevived = set;
-        }
+        public void SetRevived(bool set) => this.gettingRevived = set;
 
-        public void SetFirstAbility(Ability set)
-        {
-            this.firstAbility = set;
-        }
+        public void SetFirstAbility(Ability set) => this.firstAbility = set;
 
-        public void SetSecondAbility(Ability set)
-        {
-            this.secondAbility = set;
-        }
+        public void SetSecondAbility(Ability set) => this.secondAbility = set;
 
-        public void SetHiddenAbility(Ability set)
-        {
-            this.hiddenAbility = set;
-        }
+        public void SetHiddenAbility(Ability set) => this.hiddenAbility = set;
 
         #endregion
 
@@ -486,16 +313,8 @@ namespace Runtime.Pokémon
             return this.types[1].GetTypeName() == typeName;
         }
 
-        public T[] GetAbilitiesOfType<T>()
-        {
-            return new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
-        }
-
-        public PokemonBattleInstance CreateBattleInstance()
-        {
-            return new PokemonBattleInstance(this);
-        }
-
+        public T[] GetAbilitiesOfType<T>() => new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
+        
         #endregion
 
         #region In
@@ -509,7 +328,8 @@ namespace Runtime.Pokémon
 
             AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
 
-            this.instantiatedAbilities = new List<Ability> { this.firstAbility, this.secondAbility, this.hiddenAbility };
+            this.instantiatedAbilities = new List<Ability>
+                { this.firstAbility, this.secondAbility, this.hiddenAbility };
 
             for (int i = 0; i < this.instantiatedAbilities.Count; i++)
             {
@@ -534,10 +354,7 @@ namespace Runtime.Pokémon
             this.oversight.ResetConditionList();
         }
 
-        public void ReceiveDamage(float damage)
-        {
-            this.currentHealth = Mathf.Clamp(this.currentHealth - damage, 0, this.maxHealth);
-        }
+        public void ReceiveDamage(float damage) => this.currentHealth = Mathf.Clamp(this.currentHealth - damage, 0, this.maxHealth);
 
         public void ReceiveExp(int points)
         {
@@ -564,21 +381,6 @@ namespace Runtime.Pokémon
             this.multipliers[(int)affectedStat] += stages;
         }
 
-        public void AffectAccuracy(int affect)
-        {
-            this.accuracy = Mathf.Clamp(this.accuracy + affect, 0, 6);
-        }
-
-        public void AffectEvasion(int affect)
-        {
-            this.evasion = Mathf.Clamp(this.evasion + affect, 0, 6);
-        }
-
-        public void AffectCritical(int affect)
-        {
-            this.critical = Mathf.Clamp(this.critical + affect, 0, 6);
-        }
-
         public void ResetForAIMemory()
         {
             for (int i = 0; i < 6; i++)
@@ -601,10 +403,7 @@ namespace Runtime.Pokémon
 
         #region Internal
 
-        private void LevelUp()
-        {
-            this.level++;
-        }
+        private void LevelUp() => this.level++;
 
         #endregion
     }

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.ScriptableVariables.Objects;
 using Runtime.Systems.PersistantRunner;
 using Runtime.VFX;
-using Runtime.VFX.World;
+using Runtime.VFX.Reuseable;
+using Runtime.VFX.Scene;
+using Runtime.VFX.SingleUSe;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,120 +15,243 @@ namespace Runtime.Systems
     [CreateAssetMenu, Serializable]
     public sealed class EffectManager : ScriptableObject, IFrameUpdate
     {
+        [SerializeField, Required] private TransformVariable playerTransform;
         [SerializeField] private List<EffectLimit> effectsLimits = new();
 
-        private readonly Dictionary<string, int> maxPerEffect = new();
-        private readonly Dictionary<string, List<GameObject>> currentEffects = new();
-        private readonly List<EffectBase> staticEffects = new();
+        private readonly Dictionary<Type, SceneEffectHolder> sceneEffects = new();
+        private readonly Dictionary<Type, SingleUseEffectHolder> singleUseEffects = new();
+        private readonly Dictionary<Type, ReuseableEffect> reuseableEffects = new();
+
+        #region IFrameUpdate
 
         public void Start()
         {
             foreach (EffectLimit effectsLimit in this.effectsLimits)
             {
-                this.maxPerEffect.Add(effectsLimit.effect.name, effectsLimit.max);
-                this.currentEffects.Add(effectsLimit.effect.name, new List<GameObject>());
+                switch (effectsLimit.effect)
+                {
+                    case SceneEffect sceneEffect:
+                        this.sceneEffects.Add(sceneEffect.GetType(),
+                            new SceneEffectHolder(effectsLimit.max, sceneEffect));
+                        break;
+                    case SingleUseEffect singleUseEffect:
+                        this.singleUseEffects.Add(singleUseEffect.GetType(),
+                            new SingleUseEffectHolder(effectsLimit.max, singleUseEffect));
+                        break;
+                }
             }
         }
 
         public void Update()
         {
-            foreach (WorldEffect worldEffect in this.staticEffects.OfType<WorldEffect>())
-                worldEffect.CheckRules();
+            foreach (SceneEffectHolder sceneEffectHolder in this.sceneEffects.Values)
+                sceneEffectHolder.UpdateEffects();
         }
 
         public void LateUpdate()
         {
+            foreach (SceneEffectHolder sceneEffectHolder in this.sceneEffects.Values)
+                sceneEffectHolder.UpdateActives();
+
+            foreach (SingleUseEffectHolder singleUseEffectHolder in this.singleUseEffects.Values)
+                singleUseEffectHolder.UpdateActives();
         }
 
-        private GameObject CheckMaxAndReturn(GameObject toCheck, int manualMax = -1)
+        #endregion
+
+        #region In
+
+        public void RegisterEffect(EffectBase effectBase)
         {
-            string objectName = toCheck.name.Replace("(Clone)", "");
-
-            if (manualMax == -1)
+            switch (effectBase)
             {
-                if (!this.maxPerEffect.ContainsKey(objectName))
-                    return null;
+                case SceneEffect sceneEffect:
+                {
+                    Type type = sceneEffect.GetType();
+                    if (!this.sceneEffects.ContainsKey(type))
+                    {
+                        EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
+                        this.sceneEffects.Add(type, new SceneEffectHolder(limit?.max ?? 0, sceneEffect));
+                    }
 
-                if (this.maxPerEffect[objectName] == 0)
-                    return null;
+                    this.sceneEffects[type].Add(sceneEffect);
+                    sceneEffect.CheckRules();
+                    break;
+                }
+                case SingleUseEffect singleUseEffect:
+                {
+                    Type type = singleUseEffect.GetType();
+                    if (!this.singleUseEffects.ContainsKey(type))
+                    {
+                        EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
+                        this.singleUseEffects.Add(type, new SingleUseEffectHolder(limit?.max ?? 0, singleUseEffect));
+                    }
 
-                if (this.currentEffects[objectName].Count < this.maxPerEffect[objectName]) return null;
+                    this.singleUseEffects[type].Add(singleUseEffect);
+                    break;
+                }
+                case ReuseableEffect reuseableEffect:
+                {
+                    this.reuseableEffects.Add(reuseableEffect.GetType(), reuseableEffect);
+                    break;
+                }
             }
-            else
-            {
-                if (!this.currentEffects.ContainsKey(objectName))
-                    return null;
-
-                if (manualMax == 0)
-                    return null;
-
-                if (this.currentEffects[objectName].Count < manualMax)
-                    return null;
-            }
-
-            GameObject toReturn = this.currentEffects[objectName][0];
-            this.currentEffects[objectName].RemoveAt(0);
-            this.currentEffects[objectName].Add(toReturn);
-
-            toReturn.SetActive(false);
-            toReturn.SetActive(true);
-
-            return toReturn;
         }
 
-        private GameObject CheckMaxAndReturn(string toCheck, int manualMax = -1)
+        public void UnregisterEffect(EffectBase effectBase)
         {
-            string objectName = toCheck.Replace("(Clone)", "");
-
-            if (manualMax == -1)
+            switch (effectBase)
             {
-                if (!this.maxPerEffect.ContainsKey(objectName))
-                    return null;
-
-                if (this.maxPerEffect[objectName] == 0)
-                    return null;
-
-                if (this.currentEffects[objectName].Count < this.maxPerEffect[objectName]) return null;
+                case SceneEffect sceneEffect:
+                    this.sceneEffects[sceneEffect.GetType()].Remove(sceneEffect);
+                    break;
+                case SingleUseEffect singleUseEffect:
+                    this.singleUseEffects[singleUseEffect.GetType()].Remove(singleUseEffect);
+                    break;
+                case ReuseableEffect reuseableEffect:
+                    this.reuseableEffects.Remove(reuseableEffect.GetType());
+                    break;
             }
-            else
-            {
-                if (!this.currentEffects.ContainsKey(objectName))
-                    return null;
-
-                if (manualMax == 0)
-                    return null;
-
-                if (this.currentEffects[objectName].Count < manualMax)
-                    return null;
-            }
-
-            GameObject toReturn = this.currentEffects[objectName][0];
-            this.currentEffects[objectName].RemoveAt(0);
-            this.currentEffects[objectName].Add(toReturn);
-
-            toReturn.SetActive(false);
-            toReturn.SetActive(true);
-
-            return toReturn;
         }
 
+        #region Reuseable
 
-        public void RegisterStaticEffect(EffectBase effectBase)
+        public void PlayOne(ReuseableEffect reuseableEffect, Vector3 position)
         {
-            this.staticEffects.Add(effectBase);
+            if (reuseableEffect is null) return;
 
-            if (effectBase is WorldEffect worldEffect)
-                worldEffect.CheckRules();
+            Type type = reuseableEffect.GetType();
+            if (!this.reuseableEffects.ContainsKey(type))
+                this.InstantiateNew(reuseableEffect);
+
+            this.reuseableEffects[type]
+                .PlayOne(this.playerTransform.Position, position, Quaternion.identity);
         }
 
-        public void UnregisterStaticEffect(EffectBase effectBase) => this.staticEffects.Remove(effectBase);
+        public void PlayOne(ReuseableEffect reuseableEffect, Vector3 position, Quaternion rotation)
+        {
+            if (reuseableEffect is null) return;
+
+            Type type = reuseableEffect.GetType();
+            if (!this.reuseableEffects.ContainsKey(type))
+                this.InstantiateNew(reuseableEffect);
+
+            this.reuseableEffects[type]
+                .PlayOne(this.playerTransform.Position, position, rotation);
+        }
+
+        public void PlayOne(ReuseableEffect reuseableEffect, Vector3 position, Vector3 forwardDirection)
+        {
+            if (reuseableEffect is null) return;
+
+            Type type = reuseableEffect.GetType();
+            if (!this.reuseableEffects.ContainsKey(type))
+                this.InstantiateNew(reuseableEffect);
+
+            this.reuseableEffects[type]
+                .PlayOne(this.playerTransform.Position, position, Quaternion.LookRotation(forwardDirection));
+        }
+
+        #endregion
+
+        #region Single Use
+
+        public void PlayAtLocation(SingleUseEffect singleUseEffect, Vector3 position)
+        {
+            if (singleUseEffect is null) return;
+
+            Type type = singleUseEffect.GetType();
+            if (!this.singleUseEffects.ContainsKey(type))
+                this.InstantiateNew(singleUseEffect);
+
+            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+
+            selected ??= this.InstantiateNew(singleUseEffect);
+
+            selected.transform.position = position;
+            selected.Play(this.playerTransform.Position);
+            this.singleUseEffects[type].Switch(selected);
+        }
+
+        public void PlayAtLocationAndRotation(SingleUseEffect singleUseEffect, Vector3 position, Quaternion rotation)
+        {
+            if (singleUseEffect is null) return;
+
+            Type type = singleUseEffect.GetType();
+            if (!this.singleUseEffects.ContainsKey(type))
+                this.InstantiateNew(singleUseEffect);
+
+            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+
+            selected ??= this.InstantiateNew(singleUseEffect);
+            Transform selectedTransform = selected.transform;
+            selectedTransform.position = position;
+            selectedTransform.rotation = rotation;
+            selected.Play(this.playerTransform.Position);
+            this.singleUseEffects[type].Switch(selected);
+        }
+
+        public void PlayAtLocationAndDirection(SingleUseEffect singleUseEffect, Vector3 position, Vector3 direction)
+        {
+            if (singleUseEffect is null) return;
+
+            Type type = singleUseEffect.GetType();
+            if (!this.singleUseEffects.ContainsKey(type))
+                this.InstantiateNew(singleUseEffect);
+
+            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+
+            selected ??= this.InstantiateNew(singleUseEffect);
+            Transform selectedTransform = selected.transform;
+            selectedTransform.position = position;
+            selectedTransform.rotation = Quaternion.LookRotation(direction);
+            selected.Play(this.playerTransform.Position);
+            this.singleUseEffects[type].Switch(selected);
+        }
+
+        public void PlayAtTransform(SingleUseEffect singleUseEffect, Transform parent)
+        {
+            if (singleUseEffect is null) return;
+
+            Type type = singleUseEffect.GetType();
+            if (!this.singleUseEffects.ContainsKey(type))
+                this.InstantiateNew(singleUseEffect);
+
+            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+
+            selected ??= this.InstantiateNew(singleUseEffect);
+            Transform selectedTransform = selected.transform;
+            selectedTransform.parent = parent;
+            selectedTransform.position = parent.position;
+            selectedTransform.rotation = parent.rotation;
+            selected.Play(this.playerTransform.Position);
+            this.singleUseEffects[type].Switch(selected);
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region Internal
+
+        private T InstantiateNew<T>(T effect) where T : EffectBase
+        {
+            T effectBase = Instantiate(effect);
+
+            effectBase.gameObject.SetActive(true);
+
+            return effectBase;
+        }
+
+        #endregion
     }
 
     [Serializable]
-    internal struct EffectLimit
+    internal class EffectLimit
     {
         [SerializeField, AssetSelector(Paths = "Assets/Prefabs/VFX"), AssetsOnly]
-        public GameObject effect;
+        public EffectBase effect;
 
         [SerializeField, Min(0), Tooltip("Maximum allowed instances of the effect prefab. 0 = No limit")]
         public int max;
