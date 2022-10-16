@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -12,7 +13,7 @@ namespace Runtime.Systems.PersistantRunner
     {
         #region Values
 
-        [SerializeField] private List<Manager> managersToUpdate = new();
+        [SerializeField, AssetsOnly] private List<Manager> managersToUpdate = new();
 
         #endregion
 
@@ -29,21 +30,21 @@ namespace Runtime.Systems.PersistantRunner
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             foreach (IFrameUpdate frameUpdate in this.managersToUpdate.Select(m => m as IFrameUpdate))
-                frameUpdate?.Start();
+                frameUpdate?.FrameStart();
         }
 
         private void Update()
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             foreach (IFrameUpdate frameUpdate in this.managersToUpdate.Select(m => m as IFrameUpdate))
-                frameUpdate?.Update();
+                frameUpdate?.FrameUpdate();
         }
 
         private void LateUpdate()
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             foreach (IFrameUpdate frameUpdate in this.managersToUpdate.Select(m => m as IFrameUpdate))
-                frameUpdate?.LateUpdate();
+                frameUpdate?.FrameLateUpdate();
         }
 
         #endregion

@@ -1,8 +1,11 @@
+#region Packages
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.ScriptableVariables.Objects;
 using Runtime.Systems.PersistantRunner;
+using Runtime.Systems.Pooling;
 using Runtime.VFX;
 using Runtime.VFX.Reuseable;
 using Runtime.VFX.Scene;
@@ -10,10 +13,12 @@ using Runtime.VFX.SingleUSe;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+#endregion
+
 namespace Runtime.Systems
 {
-    [CreateAssetMenu, Serializable]
-    public sealed class EffectManager : ScriptableObject, IFrameUpdate
+    [CreateAssetMenu(menuName = "Managers/Effect Manager"), Serializable]
+    public sealed class EffectManager : Manager, IFrameUpdate
     {
         [SerializeField, Required] private TransformVariable playerTransform;
         [SerializeField] private List<EffectLimit> effectsLimits = new();
@@ -24,7 +29,7 @@ namespace Runtime.Systems
 
         #region IFrameUpdate
 
-        public void Start()
+        public void FrameStart()
         {
             foreach (EffectLimit effectsLimit in this.effectsLimits)
             {
@@ -32,7 +37,7 @@ namespace Runtime.Systems
                 {
                     case SceneEffect sceneEffect:
                         this.sceneEffects.Add(sceneEffect.GetType(),
-                            new SceneEffectHolder(effectsLimit.max, sceneEffect));
+                            new SceneEffectHolder(effectsLimit.max, sceneEffect, this));
                         break;
                     case SingleUseEffect singleUseEffect:
                         this.singleUseEffects.Add(singleUseEffect.GetType(),
@@ -42,19 +47,22 @@ namespace Runtime.Systems
             }
         }
 
-        public void Update()
+        public void FrameUpdate()
         {
             foreach (SceneEffectHolder sceneEffectHolder in this.sceneEffects.Values)
                 sceneEffectHolder.UpdateEffects();
+
+            foreach (SingleUseEffectHolder singleUseEffectHolder in this.singleUseEffects.Values)
+                singleUseEffectHolder.UpdateEffects();
         }
 
-        public void LateUpdate()
+        public void FrameLateUpdate()
         {
             foreach (SceneEffectHolder sceneEffectHolder in this.sceneEffects.Values)
                 sceneEffectHolder.UpdateActives();
 
             foreach (SingleUseEffectHolder singleUseEffectHolder in this.singleUseEffects.Values)
-                singleUseEffectHolder.UpdateActives();
+                singleUseEffectHolder.CheckActives();
         }
 
         #endregion
@@ -71,7 +79,7 @@ namespace Runtime.Systems
                     if (!this.sceneEffects.ContainsKey(type))
                     {
                         EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
-                        this.sceneEffects.Add(type, new SceneEffectHolder(limit?.max ?? 0, sceneEffect));
+                        this.sceneEffects.Add(type, new SceneEffectHolder(limit?.max ?? 0, sceneEffect, this));
                     }
 
                     this.sceneEffects[type].Add(sceneEffect);
@@ -120,11 +128,7 @@ namespace Runtime.Systems
         {
             if (reuseableEffect is null) return;
 
-            Type type = reuseableEffect.GetType();
-            if (!this.reuseableEffects.ContainsKey(type))
-                this.InstantiateNew(reuseableEffect);
-
-            this.reuseableEffects[type]
+            this.GetOrInstanceEffect(reuseableEffect)
                 .PlayOne(this.playerTransform.Position, position, Quaternion.identity);
         }
 
@@ -132,11 +136,7 @@ namespace Runtime.Systems
         {
             if (reuseableEffect is null) return;
 
-            Type type = reuseableEffect.GetType();
-            if (!this.reuseableEffects.ContainsKey(type))
-                this.InstantiateNew(reuseableEffect);
-
-            this.reuseableEffects[type]
+            this.GetOrInstanceEffect(reuseableEffect)
                 .PlayOne(this.playerTransform.Position, position, rotation);
         }
 
@@ -144,11 +144,7 @@ namespace Runtime.Systems
         {
             if (reuseableEffect is null) return;
 
-            Type type = reuseableEffect.GetType();
-            if (!this.reuseableEffects.ContainsKey(type))
-                this.InstantiateNew(reuseableEffect);
-
-            this.reuseableEffects[type]
+            this.GetOrInstanceEffect(reuseableEffect)
                 .PlayOne(this.playerTransform.Position, position, Quaternion.LookRotation(forwardDirection));
         }
 
@@ -164,13 +160,10 @@ namespace Runtime.Systems
             if (!this.singleUseEffects.ContainsKey(type))
                 this.InstantiateNew(singleUseEffect);
 
-            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
-
-            selected ??= this.InstantiateNew(singleUseEffect);
+            SingleUseEffect selected = this.GetOrInstanceEffect(singleUseEffect);
 
             selected.transform.position = position;
             selected.Play(this.playerTransform.Position);
-            this.singleUseEffects[type].Switch(selected);
         }
 
         public void PlayAtLocationAndRotation(SingleUseEffect singleUseEffect, Vector3 position, Quaternion rotation)
@@ -181,14 +174,13 @@ namespace Runtime.Systems
             if (!this.singleUseEffects.ContainsKey(type))
                 this.InstantiateNew(singleUseEffect);
 
-            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+            SingleUseEffect selected = this.GetOrInstanceEffect(singleUseEffect);
 
             selected ??= this.InstantiateNew(singleUseEffect);
             Transform selectedTransform = selected.transform;
             selectedTransform.position = position;
             selectedTransform.rotation = rotation;
             selected.Play(this.playerTransform.Position);
-            this.singleUseEffects[type].Switch(selected);
         }
 
         public void PlayAtLocationAndDirection(SingleUseEffect singleUseEffect, Vector3 position, Vector3 direction)
@@ -199,14 +191,13 @@ namespace Runtime.Systems
             if (!this.singleUseEffects.ContainsKey(type))
                 this.InstantiateNew(singleUseEffect);
 
-            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+            SingleUseEffect selected = this.GetOrInstanceEffect(singleUseEffect);
 
             selected ??= this.InstantiateNew(singleUseEffect);
             Transform selectedTransform = selected.transform;
             selectedTransform.position = position;
             selectedTransform.rotation = Quaternion.LookRotation(direction);
             selected.Play(this.playerTransform.Position);
-            this.singleUseEffects[type].Switch(selected);
         }
 
         public void PlayAtTransform(SingleUseEffect singleUseEffect, Transform parent)
@@ -217,7 +208,7 @@ namespace Runtime.Systems
             if (!this.singleUseEffects.ContainsKey(type))
                 this.InstantiateNew(singleUseEffect);
 
-            SingleUseEffect selected = this.singleUseEffects[type].TryGetEffect();
+            SingleUseEffect selected = this.GetOrInstanceEffect(singleUseEffect);
 
             selected ??= this.InstantiateNew(singleUseEffect);
             Transform selectedTransform = selected.transform;
@@ -225,23 +216,44 @@ namespace Runtime.Systems
             selectedTransform.position = parent.position;
             selectedTransform.rotation = parent.rotation;
             selected.Play(this.playerTransform.Position);
-            this.singleUseEffects[type].Switch(selected);
         }
 
         #endregion
 
         #endregion
 
-
         #region Internal
 
-        private T InstantiateNew<T>(T effect) where T : EffectBase
+        private T InstantiateNew<T>(T prefab, Transform parent = null) where T : EffectBase
         {
-            T effectBase = Instantiate(effect);
+            this.RegisterEffect(prefab);
+            return PoolManager.Create(prefab, parent, true);
+        }
 
-            effectBase.gameObject.SetActive(true);
+        private T GetOrInstanceEffect<T>(T prefab) where T : EffectBase
+        {
+            Type type = prefab.GetType();
 
-            return effectBase;
+            T selected = prefab switch
+            {
+                SingleUseEffect when !this.singleUseEffects.ContainsKey(type) =>
+                    this.InstantiateNew(prefab),
+                SingleUseEffect =>
+                    this.singleUseEffects[type].TryGetEffect() as T,
+                SceneEffect when !this.sceneEffects.ContainsKey(type) =>
+                    this.InstantiateNew(prefab),
+                SceneEffect =>
+                    this.sceneEffects[type].TryGetEffect() as T,
+                ReuseableEffect when !this.reuseableEffects.ContainsKey(type) =>
+                    this.InstantiateNew(prefab),
+                ReuseableEffect =>
+                    this.reuseableEffects[type] as T,
+                _ => null
+            };
+
+            if (selected != null)
+                selected.ResetEffect();
+            return selected;
         }
 
         #endregion

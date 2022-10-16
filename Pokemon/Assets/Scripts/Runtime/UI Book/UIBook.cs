@@ -151,7 +151,6 @@ namespace Runtime.UI_Book
             }
 
             OperationsContainer container = new();
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (turn)
             {
                 case BookTurn.Open:
@@ -174,6 +173,9 @@ namespace Runtime.UI_Book
                     container.Add(
                         new TurnPage(this, true, this.turnLeft, this.turnRight, this.openLeft, this.openRight));
                     break;
+                case BookTurn.Null:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(turn), turn, null);
             }
 
             this.operationManager.AddOperationsContainer(container);

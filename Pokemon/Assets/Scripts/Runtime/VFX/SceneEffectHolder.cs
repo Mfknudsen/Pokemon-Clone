@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Systems;
 using Runtime.VFX.Scene;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Runtime.VFX
 {
-    public class SceneEffectHolder 
+    public class SceneEffectHolder
     {
         private readonly int maxCount;
         private readonly List<SceneEffect> actives, disabled;
@@ -19,8 +20,11 @@ namespace Runtime.VFX
         private readonly SceneEffect prefab;
         private readonly SceneEffect[] prefabs;
 
-        public SceneEffectHolder(int maxCount, SceneEffect prefab)
+        private readonly EffectManager effectManager;
+
+        public SceneEffectHolder(int maxCount, SceneEffect prefab, EffectManager effectManager)
         {
+            this.effectManager = effectManager;
             this.multiplyPrefabs = false;
 
             this.maxCount = maxCount;
@@ -29,8 +33,9 @@ namespace Runtime.VFX
             this.actives = new List<SceneEffect>();
         }
 
-        public SceneEffectHolder(int maxCount, SceneEffect[] prefabs)
+        public SceneEffectHolder(int maxCount, SceneEffect[] prefabs, EffectManager effectManager)
         {
+            this.effectManager = effectManager;
             this.multiplyPrefabs = true;
 
             this.maxCount = maxCount;
@@ -75,7 +80,7 @@ namespace Runtime.VFX
 
         public void UpdateEffects()
         {
-            foreach (SceneEffect sceneEffect in this.actives) 
+            foreach (SceneEffect sceneEffect in this.actives)
                 sceneEffect.UpdateEffect();
         }
 
@@ -87,29 +92,30 @@ namespace Runtime.VFX
 
         public SceneEffect TryGetEffect()
         {
-            SceneEffect selected;
+            SceneEffect selected = null;
 
             if (this.TotalCount == this.maxCount && this.disabled.Count == 0)
             {
                 selected = this.actives[0];
                 this.actives.RemoveAt(0);
                 this.actives.Add(selected);
-                return selected;
             }
 
             if (this.TotalCount < this.maxCount && this.disabled.Count == 0)
             {
-                selected = !this.multiplyPrefabs ? Object.Instantiate(this.prefab) : this.prefabs[Random.Range(0, this.prefabs.Length)];
-
+                selected = !this.multiplyPrefabs
+                    ? Object.Instantiate(this.prefab)
+                    : this.prefabs[Random.Range(0, this.prefabs.Length)];
                 this.Add(selected);
-                return selected;
             }
 
-            if (this.disabled.Count == 0) return null;
+            if (this.disabled.Count == 0)
+            {
+                selected = this.disabled[0];
+                this.disabled.RemoveAt(0);
+                this.actives.Add(selected);
+            }
 
-            selected = this.disabled[0];
-            this.disabled.RemoveAt(0);
-            this.actives.Add(selected);
             return selected;
         }
     }

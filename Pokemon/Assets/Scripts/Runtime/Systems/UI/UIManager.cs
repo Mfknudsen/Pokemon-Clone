@@ -136,10 +136,8 @@ namespace Runtime.Systems.UI
             this.currentSelection = selection;
         }
 
-        public void ActivateLoadingUI(bool set)
-        {
+        public void ActivateLoadingUI(bool set) => 
             this.loadingUI.SetActive(set);
-        }
 
         #endregion
 

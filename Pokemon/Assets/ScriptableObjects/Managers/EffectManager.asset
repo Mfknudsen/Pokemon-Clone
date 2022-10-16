@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835d05e738a906b4ebed3f4bfebb3f7c, type: 3}
   m_Name: EffectManager
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  playerTransform: {fileID: 11400000, guid: 5a394f0846ad4ca4782e02790ce8cefd, type: 2}
+  effectsLimits: []

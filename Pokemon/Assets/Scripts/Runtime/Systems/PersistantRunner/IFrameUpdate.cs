@@ -2,8 +2,8 @@ namespace Runtime.Systems.PersistantRunner
 {
     public interface IFrameUpdate
     {
-        public void Start();
-        public void Update();
-        public void LateUpdate();
+        public void FrameStart();
+        public void FrameUpdate();
+        public void FrameLateUpdate();
     }
 }

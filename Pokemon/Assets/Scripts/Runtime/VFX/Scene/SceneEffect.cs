@@ -5,7 +5,7 @@ namespace Runtime.VFX.Scene
         #region Values
 
         protected bool isSwitching, active;
-        
+
         #endregion
 
         #region Getters
@@ -16,8 +16,10 @@ namespace Runtime.VFX.Scene
 
         #region In
 
-        public virtual void UpdateEffect(){}
-        
+        public virtual void UpdateEffect()
+        {
+        }
+
         public void CheckRules()
         {
             if (this.isSwitching) return;
@@ -27,6 +29,7 @@ namespace Runtime.VFX.Scene
             if (check == this.active) return;
 
             this.isSwitching = true;
+            this.active = true;
 
             if (this.active)
                 this.Play();

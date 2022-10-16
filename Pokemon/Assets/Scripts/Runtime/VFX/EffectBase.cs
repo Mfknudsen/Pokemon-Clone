@@ -44,6 +44,14 @@ namespace Runtime.VFX
 
         #endregion
 
+        #region In
+
+        public virtual void ResetEffect()
+        {
+        }
+
+        #endregion
+
         #region Internal
 
         protected virtual void Enable()

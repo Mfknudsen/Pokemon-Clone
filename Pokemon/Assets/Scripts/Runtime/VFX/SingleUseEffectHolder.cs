@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Systems.Pooling;
 using Runtime.VFX.SingleUSe;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Runtime.VFX
 {
-    public class SingleUseEffectHolder 
+    public class SingleUseEffectHolder
     {
         private readonly int maxCount;
         private readonly List<SingleUseEffect> actives, disabled;
@@ -31,6 +32,8 @@ namespace Runtime.VFX
 
         private int TotalCount => this.disabled.Count + this.actives.Count;
 
+        #region In
+
         public void Add(SingleUseEffect worldEffect)
         {
             if (worldEffect.gameObject.activeInHierarchy)
@@ -47,25 +50,22 @@ namespace Runtime.VFX
                 this.disabled.Remove(worldEffect);
         }
 
-        public void Switch(SingleUseEffect worldEffect)
+        public void CheckActives()
         {
-            if (worldEffect.IsActive)
-            {
-                this.actives.Add(worldEffect);
-                this.disabled.Remove(worldEffect);
-            }
-            else
-            {
-                this.disabled.Add(worldEffect);
-                this.actives.Remove(worldEffect);
-            }
-        }
-
-        public void UpdateActives()
-        {
-            foreach (SingleUseEffect singleUseEffect in this.actives.Where(singleUseEffect => singleUseEffect.CheckActive()))
+            foreach (SingleUseEffect singleUseEffect in this.actives
+                         .Where(singleUseEffect => singleUseEffect.CheckActive()))
                 this.Switch(singleUseEffect);
         }
+
+        public void UpdateEffects()
+        {
+            foreach (SingleUseEffect singleUseEffect in this.actives)
+                singleUseEffect.UpdateEffect();
+        }
+
+        #endregion
+
+        #region Out
 
         public SingleUseEffect TryGetEffect()
         {
@@ -80,9 +80,11 @@ namespace Runtime.VFX
                 return selected;
             }
 
-            if (this.TotalCount < this.maxCount && this.disabled.Count == 0)
+            if ((this.TotalCount < this.maxCount || this.maxCount == 0) && this.disabled.Count == 0)
             {
-                selected = !this.multiplyPrefabs ? Object.Instantiate(this.prefab) : this.prefabs[Random.Range(0, this.prefabs.Length)];
+                selected = PoolManager.Create((!this.multiplyPrefabs
+                    ? this.prefab
+                    : this.prefabs[Random.Range(0, this.prefabs.Length)]), activate: true);
 
                 this.Add(selected);
                 selected.ResetEffect();
@@ -97,5 +99,25 @@ namespace Runtime.VFX
             selected.ResetEffect();
             return selected;
         }
+
+        #endregion
+
+        #region Internal
+
+        private void Switch(SingleUseEffect worldEffect)
+        {
+            if (worldEffect.IsActive)
+            {
+                this.actives.Add(worldEffect);
+                this.disabled.Remove(worldEffect);
+            }
+            else
+            {
+                this.disabled.Add(worldEffect);
+                this.actives.Remove(worldEffect);
+            }
+        }
+
+        #endregion
     }
 }

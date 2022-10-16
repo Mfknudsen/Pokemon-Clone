@@ -25,7 +25,11 @@ namespace Runtime.VFX.SingleUSe
             this.currentLevel = level;
         }
 
-        public void ResetEffect()
+        public virtual void UpdateEffect()
+        {
+        }
+
+        public override void ResetEffect()
         {
             foreach (VisualEffect system in this.effectLoDs.GetAll())
             {
