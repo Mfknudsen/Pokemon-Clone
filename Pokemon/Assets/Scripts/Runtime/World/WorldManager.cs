@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Runtime.Files;
 using Runtime.Player;
 using Runtime.Systems;
+using Runtime.Systems.PersistantRunner;
 using Runtime.Systems.UI;
 using Runtime.UI.SceneTransitions;
 using Runtime.UI.SceneTransitions.Transitions;
@@ -18,7 +19,7 @@ using Logger = Runtime._Debug.Logger;
 namespace Runtime.World
 {
     [CreateAssetMenu(menuName = "Manager/World")]
-    public class WorldManager : Manager
+    public class WorldManager : Manager, IFrameStart
     {
         #region Values
 
@@ -45,11 +46,8 @@ namespace Runtime.World
 
         #region Build In States
 
-        public override IEnumerator StartManager()
-        {
+        public void FrameStart() =>
             this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
-            yield break;
-        }
 
         #endregion
 
@@ -97,17 +95,20 @@ namespace Runtime.World
 
         public void LoadSceneAsync(string sceneName)
         {
-            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(this.LoadWorldSceneAsync(sceneName)));
+            this.activeLoading.Add(this.tileManager.GetSubManager()
+                .StartCoroutine(this.LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            this.activeUnloading.Add(this.tileManager.GetSubManager().StartCoroutine(this.UnloadWorldSceneAsync(sceneName)));
+            this.activeUnloading.Add(this.tileManager.GetSubManager()
+                .StartCoroutine(this.UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
-            this.activeLoading.Add(this.tileManager.GetSubManager().StartCoroutine(this.LoadBattleSceneAsync(sceneName)));
+            this.activeLoading.Add(
+                this.tileManager.GetSubManager().StartCoroutine(this.LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()

@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Runtime.Systems.PersistantRunner;
 using UnityEngine;
 
 #endregion
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace Runtime.Systems.Operation
 {
     [CreateAssetMenu(menuName = "Manager/Operation")]
-    public class OperationManager : Manager
+    public class OperationManager : Manager, IFrameStart, IFrameUpdate
     {
         #region Values
 
@@ -26,14 +27,11 @@ namespace Runtime.Systems.Operation
 
         #region Build In States
 
-        public override IEnumerator StartManager()
-        {
+        public void FrameStart() =>
             this.operationController = new GameObject("Operation Controller").AddComponent<OperationController>();
-            yield break;
-        }
 
 
-        public override void UpdateManager()
+        public void FrameUpdate()
         {
             if (this.currentContainer == null)
             {

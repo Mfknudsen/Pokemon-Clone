@@ -1,10 +1,10 @@
 #region Packages
 
-using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
 using Runtime.ScriptableVariables.Structs;
+using Runtime.Systems.PersistantRunner;
 using Runtime.UI_Book;
 using Runtime.UI.Pause;
 using Sirenix.OdinInspector;
@@ -29,7 +29,7 @@ namespace Runtime.Systems.UI
     #endregion
 
     [CreateAssetMenu(menuName = "Manager/UI")]
-    public class UIManager : Manager
+    public class UIManager : Manager, IFrameStart
     {
         #region Values
 
@@ -50,13 +50,11 @@ namespace Runtime.Systems.UI
 
         #region Build In States
 
-        public override IEnumerator StartManager()
-        {
+        public void FrameStart() =>
             InputManager.instance.pauseInputEvent.AddListener(this.PauseTrigger);
-            yield break;
-        }
 
-        private void OnDisable() => InputManager.instance.pauseInputEvent.RemoveListener(this.PauseTrigger);
+        private void OnDisable() => 
+            InputManager.instance.pauseInputEvent.RemoveListener(this.PauseTrigger);
 
         #endregion
 
@@ -136,7 +134,7 @@ namespace Runtime.Systems.UI
             this.currentSelection = selection;
         }
 
-        public void ActivateLoadingUI(bool set) => 
+        public void ActivateLoadingUI(bool set) =>
             this.loadingUI.SetActive(set);
 
         #endregion

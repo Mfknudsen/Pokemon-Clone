@@ -1,6 +1,5 @@
 ﻿#region Packages
 
-using System.Collections;
 using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Common;
@@ -8,6 +7,7 @@ using Runtime.Files;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
+using Runtime.Systems.PersistantRunner;
 using Runtime.Trainer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -18,7 +18,7 @@ using UnityEngine.AI;
 namespace Runtime.Player
 {
     [CreateAssetMenu(menuName = "Manager/Player")]
-    public sealed class PlayerManager : Manager
+    public sealed class PlayerManager : Manager, IFrameStart
     {
         #region Values
 
@@ -67,7 +67,7 @@ namespace Runtime.Player
         #region Build In State
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override IEnumerator StartManager()
+        public void FrameStart()
         {
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(this.OnMoveAxisChange);
@@ -85,18 +85,17 @@ namespace Runtime.Player
             this.moveController = overworld.GetComponent<Controller>();
 
             this.playerInteractions = overworld.GetComponent<PlayerInteractions>();
-            
+
             this.cameraBrain.value = this.overworldGameObject.GetComponentInChildren<CinemachineBrain>();
 
             this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
             this.overworldCameraRig.enabled = false;
             this.moveController.Setup();
 
+            Debug.Log("d: " + this.overworldGameObject.GetFirstComponentByRoot<BattleMember>());
             this.battleMember = this.overworldGameObject.GetFirstComponentByRoot<BattleMember>();
 
             this.playerInteractions.StartCoroutine(this.playerInteractions.Setup());
-            
-            yield break;
         }
 
         private void OnDisable()

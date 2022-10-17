@@ -1,8 +1,8 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using Runtime.Systems;
+using Runtime.Systems.PersistantRunner;
 using TMPro;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Runtime.Communication
 {
     [CreateAssetMenu(menuName = "Manager/Chat")]
-    public class ChatManager : Manager
+    public class ChatManager : Manager, IFrameStart
     {
         #region Values
 
@@ -32,13 +32,11 @@ namespace Runtime.Communication
 
         #region Build In States
 
-        public override IEnumerator StartManager()
+        public void FrameStart()
         {
             this.controller = new GameObject("Chat Controller").AddComponent<ChatController>();
 
             InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
-            
-            yield break;
         }
 
         private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(this.OnNextChatChange);
@@ -81,7 +79,7 @@ namespace Runtime.Communication
 
         #region In
 
-        public override void UpdateManager()
+        public void FrameUpdate()
         {
             if (this.textField is null)
             {

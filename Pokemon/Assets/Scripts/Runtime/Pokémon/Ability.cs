@@ -18,11 +18,7 @@ namespace Runtime.Pokémon
 
         protected Pokemon affectedPokemon;
 
-        #region Battle
-
-      [SerializeField]  private bool active;
-
-        #endregion
+        [SerializeField] private bool active;
 
         #endregion
 

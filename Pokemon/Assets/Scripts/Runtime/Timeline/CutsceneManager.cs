@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections;
 using Runtime.Cutscenes;
 using Runtime.Systems;
 using UnityEngine;
@@ -18,16 +17,6 @@ namespace Runtime.Timeline
         private PlayableDirector director;
 
         private Cutscene currentPlaying;
-
-        #endregion
-
-        #region Build In States
-
-        public override IEnumerator StartManager()
-        {
-//            director ??= GetComponent<PlayableDirector>();
-            yield break;
-        }
 
         #endregion
 

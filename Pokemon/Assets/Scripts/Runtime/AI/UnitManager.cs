@@ -1,10 +1,10 @@
 #region Packages
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
 using Runtime.Systems;
+using Runtime.Systems.PersistantRunner;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Runtime.AI
 {
     [CreateAssetMenu(menuName = "Manager/Unit")]
-    public sealed class UnitManager : Manager
+    public sealed class UnitManager : Manager, IFrameStart, IFrameUpdate
     {
         #region Values
 
@@ -41,14 +41,10 @@ namespace Runtime.AI
             this.farDelay = this.farDelay > 0 ? this.farDelay : 1;
         }
 
-        public override IEnumerator StartManager()
-        {
+        public void FrameStart() =>
             this.parentTransform = new GameObject("Units").transform;
 
-            yield break;
-        }
-
-        public override void UpdateManager()
+        public void FrameUpdate()
         {
             this.close.ForEach(c => c.TriggerBehaviourUpdate());
 

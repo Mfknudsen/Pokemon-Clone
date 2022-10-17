@@ -1,8 +1,8 @@
 #region Packages
 
-using System.Collections;
 using Cinemachine;
 using Runtime.Player.Camera;
+using Runtime.Systems.PersistantRunner;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Runtime.Systems
 {
     [CreateAssetMenu(menuName = "Manager/Camera")]
-    public class CameraManager : Manager
+    public class CameraManager : Manager, IFrameStart
     {
         #region Values
 
@@ -28,12 +28,10 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        public override IEnumerator StartManager()
+        public void FrameStart()
         {
             this.currentSettings = CameraSettings.Default();
-
-            yield return new WaitWhile(() => this.defaultCameraRig is null);
-
+            
             this.currentRig = this.defaultCameraRig;
             this.defaultCameraRig.enabled = true;
 

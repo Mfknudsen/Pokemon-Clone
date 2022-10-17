@@ -1,6 +1,5 @@
 #region Packages
 
-using System.Collections;
 using UnityEngine;
 
 #endregion
@@ -17,7 +16,7 @@ namespace Runtime.Systems
         #endregion
 
         #region Getters
-        
+
         public bool GetReady() => this.ready;
 
         public bool GetIsStarted() => this.isStarted;
@@ -27,23 +26,6 @@ namespace Runtime.Systems
         #region Setters
 
         public void SetIsStarted(bool set) => this.isStarted = set;
-
-        #endregion
-
-        #region In
-
-        public virtual IEnumerator StartManager()
-        {
-            yield break;
-        }
-
-        public virtual void UpdateManager()
-        {
-        }
-
-        public virtual void FixedUpdateManager()
-        {
-        }
 
         #endregion
     }
