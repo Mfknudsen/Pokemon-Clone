@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f591919c2ae8344b16ad550f01954f, type: 3}
   m_Name: UIManager
   m_EditorClassIdentifier: 
-  includeAsInactive: 0
+  ready: 1
   playerThrowingItem: {fileID: 11400000, guid: a6d79683a78e3ec48be4618be35c7b04, type: 2}

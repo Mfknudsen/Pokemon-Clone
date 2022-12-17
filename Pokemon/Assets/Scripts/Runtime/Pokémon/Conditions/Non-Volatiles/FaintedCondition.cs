@@ -3,7 +3,7 @@
 using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Communication;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -45,10 +45,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             this.done = false;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation ()
         {
@@ -66,7 +63,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
                 yield return null;
             }
 
-            BattleManager.instance.DespawnPokemon(this.affectedPokemon);
+            BattleSystem.instance.DespawnPokemon(this.affectedPokemon);
 
             yield return new WaitForSeconds(1);
 

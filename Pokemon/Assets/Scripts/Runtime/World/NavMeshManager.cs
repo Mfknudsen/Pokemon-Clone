@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Runtime.World
 {
     [CreateAssetMenu(menuName = "Manager/Navigation")]
-    public class NavMeshManager : Manager
+    public sealed class NavMeshManager : Manager
     {
         public void Rebake(NavMeshSurface surface)
         {
@@ -23,7 +23,8 @@ namespace Runtime.World
         {
             if (surface.navMeshData != null)
                 surface.UpdateNavMesh(surface.navMeshData);
-            else surface.BuildNavMesh();
+            else 
+                surface.BuildNavMesh();
 
             yield break;
         }

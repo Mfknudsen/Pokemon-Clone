@@ -8,7 +8,7 @@ using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Items;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -67,7 +67,7 @@ namespace Runtime.Battle.Actions
 
             BattleItem battleItem = (BattleItem)this.toUse;
 
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots()
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots()
                          .Where(spot => spot.GetActivePokemon() == this.currentPokemon))
             {
                 battleItem.SetUserName(spot.GetBattleMember().GetName());
@@ -80,7 +80,7 @@ namespace Runtime.Battle.Actions
             OperationsContainer container = new();
             container.Add(this.toUse);
             this.operationManager.AddAsyncOperationsContainer(container);
-            while (!this.toUse.IsOperationDone())
+            while (!this.toUse.IsOperationDone)
                 yield return null;
 
             this.battleMember.GetInventory().RemoveItem(this.toUse);

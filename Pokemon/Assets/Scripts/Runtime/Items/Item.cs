@@ -4,7 +4,7 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -140,10 +140,7 @@ namespace Runtime.Items
 
         #region IOperation
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public abstract IEnumerator Operation();
 

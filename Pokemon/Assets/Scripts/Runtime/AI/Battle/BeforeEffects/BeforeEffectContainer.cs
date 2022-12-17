@@ -2,7 +2,7 @@
 
 using System;
 using System.Linq;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -48,7 +48,7 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         public bool AllDone()
         {
-            return !this.effects.Any(e => !e.IsOperationDone());
+            return !this.effects.Any(e => !e.IsOperationDone);
         }
 
         #endregion

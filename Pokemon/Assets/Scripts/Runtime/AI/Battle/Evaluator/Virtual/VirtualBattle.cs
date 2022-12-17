@@ -18,10 +18,10 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         public VirtualBattle()
         {
             this.spotOversight = new VirtualSpotOversight();
-            BattleManager battleManager = BattleManager.instance;
+            BattleSystem battleSystem = BattleSystem.instance;
 
             this.weathers = new List<Weather>();
-            this.weathers.AddRange(battleManager.GetWeatherManager().GetAll()
+            this.weathers.AddRange(battleSystem.GetWeatherManager().GetAll()
                 .Where(o => o != null)
                 .Select(Object.Instantiate));
         }

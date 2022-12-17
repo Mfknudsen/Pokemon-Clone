@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9013363632742746811
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3606496160103842069, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: size
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606496160103842069, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: radius
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedBlackboard
+      value: '{"_variables":{"_patrolCircle":{"_value":true,"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_waypoints":{"_value":[null,null,null],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _objectReferences.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _objectReferences.Array.data[2]
+      value: 
+      objectReference: {fileID: 5699656477778807726}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.data[0]._json
+      value: '{"_value":true,"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.data[1]._json
+      value: '{"_value":[null,null,null],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.data[3]._json
+      value: '{"_value":1,"_name":"_sight","_id":"d127f2c3-4f2c-4011-bd27-5263d81899af","$type":"NodeCanvas.Framework.Variable`1[[Runtime.AI.Senses.Sight.UnitSight,
+        Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.data[3]._references.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedVariables.Array.data[3]._references.Array.data[1]
+      value: 
+      objectReference: {fileID: 5699656477778807726}
+    - target: {fileID: 4594542893547573555, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_Name
+      value: Human_Unit_Patrol_Circle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.403
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 63.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573556, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573558, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4594542893547573558, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+--- !u!114 &5699656477778807726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3606496160103842069, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+  m_PrefabInstance: {fileID: 9013363632742746811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a70e41d8ca74b84c87efcc244d5ee65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -9,7 +9,7 @@ using Runtime.Battle.Systems.Static_Operations;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -417,7 +417,7 @@ namespace Runtime.Battle.Actions
         {
             this.done = false;
 
-            float secPerPokeMove = BattleManager.instance.GetSecPerPokeMove();
+            float secPerPokeMove = BattleSystem.instance.GetSecPerPokeMove();
 
             foreach (Spot target in this.targets)
             {

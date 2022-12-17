@@ -7,7 +7,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -26,15 +26,12 @@ namespace Runtime.Weathers.Energy
                                                   type.GetTypeName() == TypeName.Normal);
         }
 
-        public bool IsOperationDone()
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool IsOperationDone => throw new System.NotImplementedException();
 
         public IEnumerator Operation()
         {
-            SpotOversight oversight = BattleManager.instance.GetSpotOversight();
-            float secPerPokeMove = 200 * BattleManager.instance.GetSecPerPokeMove();
+            SpotOversight oversight = BattleSystem.instance.GetSpotOversight();
+            float secPerPokeMove = 200 * BattleSystem.instance.GetSecPerPokeMove();
 
             foreach (Spot spot in oversight.GetSpots())
             {
@@ -56,7 +53,7 @@ namespace Runtime.Weathers.Energy
 
                     pokemon.ReceiveDamage(damageOverTime);
 
-                    yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() / secPerPokeMove);
+                    yield return new WaitForSeconds(BattleSystem.instance.GetSecPerPokeMove() / secPerPokeMove);
                 }
             }
         }

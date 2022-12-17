@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Runtime.AI.Node_Canvas.Actions
 {
-    public class SetObjectFromState<T> : ActionTask<NpcController> where T : Object
+    public class SetObjectFromState<T> : ActionTask<UnitBase> where T : Object
     {
         public BBParameter<string> key;
         public BBParameter<T> toSet;

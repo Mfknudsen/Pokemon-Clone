@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.AI.Battle;
+using Runtime.AI;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Systems;
@@ -30,6 +30,9 @@ namespace Runtime.Battle.Systems
 
         #endregion
 
+        [SerializeField, Required] private BattleSystem battleSystem;
+
+        [SerializeField, Required] private UnitManager unitManager;
         [SerializeField, Required] private TileManager tileManager;
         [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField, Required] private UIManager uiManager;
@@ -37,59 +40,35 @@ namespace Runtime.Battle.Systems
         [SerializeField, Required] private ChatManager chatManager;
         [SerializeField, Required] private WorldManager worldManager;
 
-
-        [SerializeField] private string battleSceneName = "";
-        [SerializeField] private int playerSpotCount = 1;
+        [SerializeField, Min(1), MaxValue(3)] private int playerSpotCount = 1;
 
         [FoldoutGroup("BattleMembers")] [SerializeField]
         private BattleMember[] allies, enemies;
 
-        [SerializeField] private Chat onStartChat;
+        [SerializeField] private Chat onStartChat, onEndChat;
         [SerializeField] private Transition transition;
 
         private bool ready = true, playerWon;
-
-        private Transform overworldParent;
-
-        private void OnValidate()
-        {
-            if (this.playerSpotCount is not (>= 1 and <= 3))
-                Debug.LogError("Player Spot Count Must Be Between 1 and 3");
-        }
+        
+        private BattleSystem instantiatedBattleSystem;
 
         #endregion
 
         #region Getters
 
-        public int GetPlayerSpotCount()
-        {
-            return this.playerSpotCount;
-        }
+        public bool GetIsBattleReady() => this.ready;
 
-        public int GetAllySpotCount()
-        {
-            return this.allies.Sum(battleMember => battleMember.GetSpotsToOwn());
-        }
+        public int GetPlayerSpotCount() => this.playerSpotCount;
 
-        public int GetEnemiesSpotCount()
-        {
-            return this.enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
-        }
+        public int GetAllySpotCount() => this.allies.Sum(battleMember => battleMember.GetSpotsToOwn());
 
-        public bool GetPlayerWon()
-        {
-            return this.playerWon;
-        }
+        public int GetEnemiesSpotCount() => this.enemies.Sum(battleMember => battleMember.GetSpotsToOwn());
 
-        public BattleMember[] GetAllies()
-        {
-            return this.allies;
-        }
+        public bool GetPlayerWon() => this.playerWon;
 
-        public BattleMember[] GetEnemies()
-        {
-            return this.enemies;
-        }
+        public BattleMember[] GetAllies() => this.allies;
+
+        public BattleMember[] GetEnemies() => this.enemies;
 
         public List<BattleMember> GetAllBattleMembers()
         {
@@ -103,12 +82,20 @@ namespace Runtime.Battle.Systems
 
         #region In
 
-        public void StartBattleNow()
+        public void TriggerBattle()
         {
             if (!this.ready) return;
 
+            this.unitManager.PauseAllUnits();
+            this.playerManager.DisableOverworld();
+
             this.ready = false;
 
+            Debug.Log("Setting up battle");
+            
+            this.StartCoroutine(this.SetupBattle());
+
+            /*
             Transform t = this.transform;
             this.overworldParent = t.parent;
             t.parent = null;
@@ -124,20 +111,37 @@ namespace Runtime.Battle.Systems
                 Cursor.visible = true;
             };
 
-            this.onBattleEnd += delegate { this.StartCoroutine(this.gameObject.GetComponent<UnitBattleBase>()?.AfterBattle()); };
+            this.onBattleEnd += delegate
+            {
+                this.StartCoroutine(this.gameObject.GetComponent<UnitBattleBase>()?.AfterBattle());
+                this.unitManager.ResumeAllUnits();
+            };
 
             this.worldManager.SetTransition(this.transition);
             this.worldManager.LoadBattleScene(this.battleSceneName);
 
             //Wait for the Battle Scene to load and apply settings from Battle Starter
             this.StartCoroutine(this.WaitForResponse());
+            */
+        }
+
+        private IEnumerator SetupBattle()
+        {
+            this.instantiatedBattleSystem = Instantiate(this.battleSystem);
+
+            Chat instantiatedChat = Instantiate(this.onStartChat);
+            this.chatManager.Add(instantiatedChat);
+
+            yield return null;
+
+            yield return new WaitUntil(() => instantiatedChat.GetDone());
         }
 
         private IEnumerator WaitForResponse()
         {
             yield return null;
 
-            yield return new WaitWhile(() => !BattleManager.instance);
+            yield return new WaitWhile(() => !BattleSystem.instance);
 
             List<BattleMember> result = new() { this.playerManager.GetBattleMember() };
             result[0].SetTeamNumber(true);
@@ -159,7 +163,7 @@ namespace Runtime.Battle.Systems
                     result.Add(m);
             }
 
-            BattleManager.instance.StartBattle(this);
+            BattleSystem.instance.StartBattle(this);
 
             Chat toSend = Instantiate(this.onStartChat);
             toSend.AddToOverride("<TRAINER_NAME>", this.enemies[0].GetName());
@@ -180,7 +184,6 @@ namespace Runtime.Battle.Systems
                 //UIBook.instance.gameObject.SetActive(true);
                 //UIManager.instance.SwitchUI(UISelection.Start);
                 //UIBook.instance.Effect(BookTurn.Open);
-                this.transform.parent = this.overworldParent;
             };
 
             this.worldManager.SetTransition(this.transition);

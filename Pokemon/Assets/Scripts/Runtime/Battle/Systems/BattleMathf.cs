@@ -166,7 +166,7 @@ namespace Runtime.Battle.Systems
                     return totals.Count > 1;
 
                 case HitType.AllExceptUser:
-                    totals = BattleManager.instance.GetSpotOversight().GetSpots();
+                    totals = BattleSystem.instance.GetSpotOversight().GetSpots();
 
                     if (totals.Contains(user))
                         totals.Remove(user);
@@ -174,7 +174,7 @@ namespace Runtime.Battle.Systems
                     return totals.Count > 1;
 
                 case HitType.All:
-                    totals = BattleManager.instance.GetSpotOversight().GetSpots();
+                    totals = BattleSystem.instance.GetSpotOversight().GetSpots();
 
                     return totals.Count > 1;
 
@@ -244,8 +244,8 @@ namespace Runtime.Battle.Systems
         {
             TypeName attackType = attackMove.GetMoveType().GetTypeName();
             List<float> result = new();
-            AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
-            WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
+            AbilityOversight abilityOversight = BattleSystem.instance.GetAbilityOversight();
+            WeatherManager weatherManager = BattleSystem.instance.GetWeatherManager();
 
             #region Targets
 
@@ -293,16 +293,16 @@ namespace Runtime.Battle.Systems
             List<IBypassImmune> bypassImmune = new();
             List<IImmuneAttackType> immuneAttackType = new();
 
-            foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
+            foreach (Pokemon pokemon in BattleSystem.instance.GetSpotOversight().GetSpots()
                          .Select(spot => spot.GetActivePokemon()).Where(pokemon => pokemon != null))
             {
                 bypassImmune.AddRange(pokemon.GetAbilitiesOfType<IBypassImmune>());
                 immuneAttackType.AddRange(pokemon.GetAbilitiesOfType<IImmuneAttackType>());
             }
 
-            bypassImmune.AddRange(BattleManager.instance.GetWeatherManager()
+            bypassImmune.AddRange(BattleSystem.instance.GetWeatherManager()
                 .GetWeatherWithInterface<IBypassImmune>());
-            immuneAttackType.AddRange(BattleManager.instance.GetWeatherManager()
+            immuneAttackType.AddRange(BattleSystem.instance.GetWeatherManager()
                 .GetWeatherWithInterface<IImmuneAttackType>());
 
             if (target.GetTypes().Where(t => t != null)
@@ -370,7 +370,7 @@ namespace Runtime.Battle.Systems
                 burn = 0.5f;
 
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                foreach (IBurnStop ability in BattleManager.instance.GetAbilityOversight().ListOfSpecific<IBurnStop>())
+                foreach (IBurnStop ability in BattleSystem.instance.GetAbilityOversight().ListOfSpecific<IBurnStop>())
                 {
                     if (!ability.CanStopBurn(attacker)) continue;
 
@@ -410,7 +410,7 @@ namespace Runtime.Battle.Systems
                 _ => 50
             };
 
-            chance = BattleManager.instance.GetAbilityOversight().ListOfSpecific<ICritModifier>()
+            chance = BattleSystem.instance.GetAbilityOversight().ListOfSpecific<ICritModifier>()
                 .Aggregate(chance, (current, critModifier) => current * critModifier.Modify(user));
 
             int random = Random.Range(0, 100);

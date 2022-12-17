@@ -8,7 +8,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.Systems.Static_Operations;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Weathers._Extra;
 using Runtime.Weathers.Climate;
 using UnityEngine;
@@ -31,23 +31,20 @@ namespace Runtime.Weathers.Energy
             base.Setup();
 
             if (this.amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.elTerrain);
+                BattleSystem.instance.GetWeatherManager().ApplyTerrain(this.elTerrain);
         }
 
         #endregion
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {
             this.done = false;
-            WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
+            WeatherManager weatherManager = BattleSystem.instance.GetWeatherManager();
             bool raining = weatherManager.GetAll()[0] is RainWeather;
 
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots())
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots())
             {
                 if (Random.Range(0, 10) > 1)
                     continue;

@@ -11,9 +11,8 @@ namespace Runtime.ScriptableVariables
 {
     public abstract class ScriptableVariable<TGeneric> : ScriptableObject
     {
-        #region Packages
+        #region Values
 
-        // ReSharper disable once NotAccessedField.Local
         [SerializeField, TextArea] private string description;
 
         [SerializeField] private TGeneric defaultValue;
@@ -39,6 +38,7 @@ namespace Runtime.ScriptableVariables
 
         [SerializeField] protected bool debugSetter;
 
+        private UnityEvent<TGeneric, TGeneric> valueChangeEventWithHistory;
         private UnityEvent<TGeneric> valueChangeEventWithValue;
         private UnityEvent valueChangeEvent;
 
@@ -57,6 +57,18 @@ namespace Runtime.ScriptableVariables
         #endregion
 
         #region In
+
+        public void AddListener(UnityAction<TGeneric, TGeneric> action)
+        {
+            this.valueChangeEventWithHistory ??= new UnityEvent<TGeneric, TGeneric>();
+
+            this.valueChangeEventWithHistory.AddListener(action);
+        }
+
+        public void RemoveListener(UnityAction<TGeneric, TGeneric> action)
+        {
+            this.valueChangeEventWithHistory?.RemoveListener(action);
+        }
 
         public void AddListener(UnityAction<TGeneric> action)
         {
@@ -81,9 +93,12 @@ namespace Runtime.ScriptableVariables
 
         public void RemoveListener(UnityAction action)
         {
-            this.valueChangeEvent ??= new UnityEvent();
+            if (this.valueChangeEvent == null) return;
 
             this.valueChangeEvent.RemoveListener(action);
+
+            if (this.valueChangeEvent.GetPersistentEventCount() == 0)
+                this.valueChangeEvent = null;
         }
 
         #endregion

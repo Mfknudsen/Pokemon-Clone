@@ -5,7 +5,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
-        public RoundDoneState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
+        public RoundDoneState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Runtime.Battle.Systems.States
         {
             #region End Turn Abilities
 
-            AbilityOversight abilityOversight = this.battleManager.GetAbilityOversight();
+            AbilityOversight abilityOversight = this.battleSystem.GetAbilityOversight();
             foreach (IOnTurnEnd onTurnEnd in abilityOversight.ListOfSpecific<IOnTurnEnd>())
             {
                 if (onTurnEnd is not IOperation iOperation) continue;
@@ -40,17 +40,17 @@ namespace Runtime.Battle.Systems.States
 
             #region End Battle
 
-            if (this.battleManager.CheckTeamDefeated(true))
-                this.battleManager.SetState(new LostState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
-            else if (this.battleManager.CheckTeamDefeated(false))
-                this.battleManager.SetState(new WinState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            if (this.battleSystem.CheckTeamDefeated(true))
+                this.battleSystem.SetState(new LostState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            else if (this.battleSystem.CheckTeamDefeated(false))
+                this.battleSystem.SetState(new WinState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             else
             {
-                SpotOversight spotOversight = this.battleManager.GetSpotOversight();
+                SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                this.battleManager.SetState(new PlayerTurnState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
             }
 
             #endregion

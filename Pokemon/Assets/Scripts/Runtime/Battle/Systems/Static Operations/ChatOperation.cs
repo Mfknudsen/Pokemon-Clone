@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 
 #endregion
 
@@ -24,10 +24,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.toPlay = new[] { toPlay };
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {

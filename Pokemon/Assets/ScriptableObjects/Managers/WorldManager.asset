@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86faff05aedfc584880a11ab699d36b5, type: 3}
   m_Name: WorldManager
   m_EditorClassIdentifier: 
-  includeAsInactive: 0
-  playerManager: {fileID: 0}
-  uiManager: {fileID: 0}
-  tileManager: {fileID: 0}
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  uiManager: {fileID: 11400000, guid: f5938af1dcb402b7494499cb2206b3cc, type: 2}
+  tileManager: {fileID: 11400000, guid: c9cd88d08bd12ad1e8ee74a3316a51c6, type: 2}
   progressMeter: 0
   currentLoadedBattleScene: 
   currentLoadedWorldScene: 

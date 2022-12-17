@@ -8,17 +8,18 @@ using UnityEngine.AI;
 
 namespace Runtime.AI.Node_Canvas.Actions
 {
-    public class SetAgentDestination : ActionTask
+    public class SetAgentDestination : ActionTask<NavMeshAgent>
     {
-        public BBParameter<NavMeshAgent> navAgent;
         public BBParameter<Transform> target;
 
         protected override void OnExecute()
         {
-            this.navAgent.GetValue().isStopped = false;
-            this.navAgent.GetValue().SetDestination(this.target.value.position);
+            NavMeshAgent navAgent = this.agent;
+            
+            navAgent.isStopped = false;
+            navAgent.SetDestination(this.target.value.position);
 
-            this.EndAction();
+            this.EndAction(true);
         }
     }
 }

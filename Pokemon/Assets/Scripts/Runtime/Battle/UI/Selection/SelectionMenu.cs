@@ -37,9 +37,9 @@ namespace Runtime.Battle.UI.Selection
 
         private IEnumerator Start()
         {
-            yield return new WaitWhile(() => BattleManager.instance == null);
+            yield return new WaitWhile(() => BattleSystem.instance == null);
             
-            BattleManager.instance.SetSelectionMenu(this);
+            BattleSystem.instance.SetSelectionMenu(this);
 
             this.pokemonSelection.Setup();
             this.itemSelection.Setup();

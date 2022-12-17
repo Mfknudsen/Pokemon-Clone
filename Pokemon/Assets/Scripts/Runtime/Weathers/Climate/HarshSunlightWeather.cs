@@ -30,7 +30,7 @@ namespace Runtime.Weathers.Climate
 
         public override void Setup()
         {
-            this.amplified = BattleManager.instance.GetWeatherManager().GetAmplified();
+            this.amplified = BattleSystem.instance.GetWeatherManager().GetAmplified();
         }
 
         #region Interface Overrides

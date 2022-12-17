@@ -69,7 +69,7 @@ namespace Runtime.Battle.Systems.Spots
                         break;
                     }
 
-                    Spot spot = BattleManager.instance.CreateSpot(parent);
+                    Spot spot = BattleSystem.instance.CreateSpot(parent);
                     spot.SetBattleMember(battleMember);
                     this.SetSpot(spot);
                     battleMember.SetOwnedSpot(spot);

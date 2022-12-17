@@ -6,7 +6,7 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -15,13 +15,13 @@ namespace Runtime.Battle.Systems.States
 {
     public class ComputerTurnState : State
     {
-        public ComputerTurnState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
+        public ComputerTurnState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            SpotOversight spotOversight = this.battleManager.GetSpotOversight();
+            SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 
             foreach (Spot spot in spotOversight.GetSpots().Where(spot =>
                 spot.GetActivePokemon() != null &&
@@ -36,7 +36,7 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-            this.battleManager.SetState(new ActionState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new ActionState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

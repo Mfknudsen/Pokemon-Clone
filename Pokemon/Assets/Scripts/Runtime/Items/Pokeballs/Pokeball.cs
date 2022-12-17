@@ -9,7 +9,7 @@ using Runtime.Battle.Systems.Static_Operations;
 using Runtime.Common;
 using Runtime.Communication;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -55,7 +55,7 @@ namespace Runtime.Items.Pokeballs
                 new OperationsContainer(new CatchPokemon(
                     pokemonHit.GetPokemon(),
                     this,
-                    pokemonHit.DisableUnit)));
+                    pokemonHit.PauseUnit)));
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace Runtime.Items.Pokeballs
 
         public override bool IsUsableTarget(Pokemon pokemon)
         {
-            return BattleManager.instance.GetSpotOversight().GetSpots().Any(spot =>
+            return BattleSystem.instance.GetSpotOversight().GetSpots().Any(spot =>
                 spot.GetActivePokemon() == pokemon && spot.GetBattleMember().IsWild());
         }
 

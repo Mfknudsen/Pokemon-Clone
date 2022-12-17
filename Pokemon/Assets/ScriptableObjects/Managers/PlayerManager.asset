@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca8cc52cad8d0f49bef4bdae8f6b1ec, type: 3}
   m_Name: PlayerManager
   m_EditorClassIdentifier: 
-  includeAsInactive: 0
+  ready: 1
   team: {fileID: 0}
   controller: {fileID: 0}
   agent: {fileID: 0}
   battleMember: {fileID: 0}
   playerInteractions: {fileID: 0}
-  moveController: {fileID: 0}
   overworldCameraRig: {fileID: 0}
   characterSheet:
     badgeCount: 0

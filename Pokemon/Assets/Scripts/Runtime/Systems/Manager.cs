@@ -1,5 +1,7 @@
 #region Packages
 
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -10,23 +12,46 @@ namespace Runtime.Systems
     {
         #region Values
 
-        protected bool ready;
-        private bool isStarted;
+        [ShowInInspector, ReadOnly] protected bool ready;
 
         #endregion
+
+
+#if UNITY_EDITOR
+
+        #region Build In States
+
+        private void OnEnable() =>
+            EditorApplication.playModeStateChanged += this.ResetManager;
+
+        private void OnDisable() =>
+            EditorApplication.playModeStateChanged -= this.ResetManager;
+
+        #endregion
+
+#endif
+
 
         #region Getters
 
-        public bool GetReady() => this.ready;
-
-        public bool GetIsStarted() => this.isStarted;
+        public bool Ready => this.ready;
 
         #endregion
 
-        #region Setters
+#if UNITY_EDITOR
 
-        public void SetIsStarted(bool set) => this.isStarted = set;
+        #region Internal
+
+        private void ResetManager(PlayModeStateChange state)
+        {
+            if (state != PlayModeStateChange.ExitingPlayMode)
+                return;
+
+            this.ready = false;
+        }
 
         #endregion
+
+#endif
     }
 }

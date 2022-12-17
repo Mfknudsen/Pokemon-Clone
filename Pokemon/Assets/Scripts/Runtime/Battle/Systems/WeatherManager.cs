@@ -12,7 +12,7 @@ namespace Runtime.Battle.Systems
     {
         #region Values
 
-        private BattleManager battleManager;
+        private BattleSystem battleSystem;
         private ClimateWeather climateWeather;
         private IrritantWeather irritantWeather;
         private EnergyWeather energyWeather;

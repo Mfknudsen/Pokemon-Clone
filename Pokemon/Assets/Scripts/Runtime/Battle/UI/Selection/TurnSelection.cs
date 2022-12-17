@@ -29,7 +29,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            this.spotOversight = BattleManager.instance.GetSpotOversight();
+            this.spotOversight = BattleSystem.instance.GetSpotOversight();
         }
 
         public void DisplaySelection(Pokemon pokemon)
@@ -80,7 +80,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void SwitchButton()
         {
-            SwitchAction action = BattleManager.instance.InstantiateSwitchAction();
+            SwitchAction action = BattleSystem.instance.InstantiateSwitchAction();
 
             action.SetCurrentPokemon(this.pokemon);
 
@@ -89,9 +89,9 @@ namespace Runtime.Battle.UI.Selection
 
         public void ItemButton()
         {
-            BattleManager manager = BattleManager.instance;
-            ItemAction action = manager.InstantiateItemAction();
-            foreach (Spot spot in manager.GetSpotOversight().GetSpots()
+            BattleSystem battleSystem = BattleSystem.instance;
+            ItemAction action = battleSystem.InstantiateItemAction();
+            foreach (Spot spot in battleSystem.GetSpotOversight().GetSpots()
                 .Where(spot => spot.GetActivePokemon() == this.pokemon))
             {
                 action.SetBattleMember(spot.GetBattleMember());

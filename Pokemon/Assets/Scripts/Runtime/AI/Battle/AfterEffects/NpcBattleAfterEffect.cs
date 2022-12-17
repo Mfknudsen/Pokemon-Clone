@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -17,10 +17,7 @@ namespace Runtime.AI.Battle.AfterEffects
 
         #region Getters
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public bool GetIsInstantiated()
         {

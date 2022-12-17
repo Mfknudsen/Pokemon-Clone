@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System.Collections;
 using System.Collections.Generic;
 using Runtime.Systems;
 using Runtime.Systems.PersistantRunner;
@@ -14,9 +15,7 @@ namespace Runtime.Communication
     public class ChatManager : Manager, IFrameStart
     {
         #region Values
-
-        private ChatController controller;
-
+        
         [Header("Object Reference:")] [SerializeField]
         private Chat running;
 
@@ -28,18 +27,20 @@ namespace Runtime.Communication
         [Header("Chat Settings:")] [SerializeField]
         private int textPerSecond = 30;
 
+        private PersistantRunner persistantRunner;
+        
         #endregion
 
         #region Build In States
 
-        public void FrameStart()
+        public IEnumerator FrameStart(PersistantRunner persistantRunner)
         {
-            this.controller = new GameObject("Chat Controller").AddComponent<ChatController>();
-
+            this.persistantRunner = persistantRunner;
             InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
-        }
 
-        private void OnDisable() => InputManager.instance.nextChatInputEvent.RemoveListener(this.OnNextChatChange);
+            this.ready = true;
+            yield break;
+        }
 
         #endregion
 
@@ -94,7 +95,7 @@ namespace Runtime.Communication
                 if (this.running.GetDone())
                     this.running = null;
                 else
-                    this.controller.StartCoroutine(this.running.PlayNext());
+                    this.persistantRunner.StartCoroutine(this.running.PlayNext());
 
                 this.waitForInput = false;
             }
@@ -126,7 +127,7 @@ namespace Runtime.Communication
             if (this.running.GetDone())
                 this.running = null;
             else
-                this.controller.StartCoroutine(this.running.PlayNext());
+                this.persistantRunner.StartCoroutine(this.running.PlayNext());
 
             this.waitForInput = false;
         }
@@ -149,7 +150,7 @@ namespace Runtime.Communication
             this.textField.gameObject.SetActive(true);
 
             this.running = toPlay;
-            this.controller.StartCoroutine(this.running.Play());
+            this.persistantRunner.StartCoroutine(this.running.Play());
         }
 
         #endregion

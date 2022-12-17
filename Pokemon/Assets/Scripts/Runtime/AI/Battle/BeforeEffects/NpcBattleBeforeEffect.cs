@@ -3,7 +3,7 @@
 using System;
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -21,10 +21,7 @@ namespace Runtime.AI.Battle.BeforeEffects
 
         #region Getters
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public bool GetIsInstantiated()
         {

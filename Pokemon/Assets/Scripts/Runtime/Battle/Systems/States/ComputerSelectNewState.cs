@@ -6,7 +6,7 @@ using Runtime.Battle.Actions;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -17,9 +17,9 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly List<SwitchAction> switchActions;
 
-        public ComputerSelectNewState(BattleManager battleManager, OperationManager operationManager,
+        public ComputerSelectNewState(BattleSystem battleSystem, OperationManager operationManager,
             ChatManager chatManager, UIManager uiManager, PlayerManager playerManager, List<SwitchAction> switchActions)
-            : base(battleManager,
+            : base(battleSystem,
                 operationManager, chatManager, uiManager, playerManager)
         {
             this.switchActions = switchActions;
@@ -29,7 +29,7 @@ namespace Runtime.Battle.Systems.States
         {
             BattleMember playerBattleMember = this.playerManager.GetBattleMember();
 
-            foreach (Spot spot in this.battleManager.GetSpotOversight().GetSpots())
+            foreach (Spot spot in this.battleSystem.GetSpotOversight().GetSpots())
             {
                 BattleMember battleMember = spot.GetBattleMember();
 
@@ -40,7 +40,7 @@ namespace Runtime.Battle.Systems.States
                 battleMember.ActivateAIBrain(spot.GetActivePokemon());
             }
 
-            this.battleManager.SetState(new SwitchNewInState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager, this.switchActions));
+            this.battleSystem.SetState(new SwitchNewInState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager, this.switchActions));
 
             yield break;
         }

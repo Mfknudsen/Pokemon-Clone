@@ -28,7 +28,7 @@ namespace Runtime.Weathers.Irritants
             base.Setup();
 
             if (this.amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.misty);
+                BattleSystem.instance.GetWeatherManager().ApplyTerrain(this.misty);
         }
 
         #region Interface Overrides
@@ -44,9 +44,9 @@ namespace Runtime.Weathers.Irritants
         //IOnTurnEnd
         public IEnumerator Operation()
         {
-            float secPerPokeMove = 200 * BattleManager.instance.GetSecPerPokeMove();
+            float secPerPokeMove = 200 * BattleSystem.instance.GetSecPerPokeMove();
 
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots())
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots())
             {
                 Pokemon pokemon = spot.GetActivePokemon();
 
@@ -66,7 +66,7 @@ namespace Runtime.Weathers.Irritants
 
                     pokemon.ReceiveDamage(-damageOverTime);
 
-                    yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() / secPerPokeMove);
+                    yield return new WaitForSeconds(BattleSystem.instance.GetSecPerPokeMove() / secPerPokeMove);
                 }
             }
         }

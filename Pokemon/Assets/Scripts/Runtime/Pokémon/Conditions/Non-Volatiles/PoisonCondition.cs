@@ -3,7 +3,7 @@
 using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Communication;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -72,10 +72,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             this.done = false;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {
@@ -87,7 +84,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
             this.damage = this.GetDamage();
             float divide = 200;
-            float reletivSpeed = BattleManager.instance.GetSecPerPokeMove() / divide;
+            float reletivSpeed = BattleSystem.instance.GetSecPerPokeMove() / divide;
             float relativeDamage = this.damage / divide;
             float appliedDamage = 0;
 

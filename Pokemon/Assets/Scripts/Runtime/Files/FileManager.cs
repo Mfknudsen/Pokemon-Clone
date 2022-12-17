@@ -38,20 +38,8 @@ namespace Runtime.Files
             }
         }
 
-        public static T LoadData<T>(string fileName) where T : class
-        {
-            return null;
-            try
-            {
-                return LoadFromFile<T>(
-                    fileName);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-                return null;
-            }
-        }
+        public static T LoadData<T>(string fileName) => 
+            default;
 
         #endregion
 
@@ -94,11 +82,11 @@ namespace Runtime.Files
         #endregion
     }
 
-    public class PlayerData
+    public sealed class PlayerData
     {
         public readonly int badgeCount;
         public readonly string[] pronouns;
-        public readonly Pokemon[] inTeam = new Pokemon[6], inBox = new Pokemon[0];
+        public readonly Pokemon[] inTeam = new Pokemon[6], inBox = Array.Empty<Pokemon>();
 
         public PlayerData(PlayerManager manager)
         {

@@ -1,7 +1,7 @@
 #region Packages
 
 using System.Linq;
-using Runtime.Player;
+using Runtime.ScriptableVariables.Structs.ListVariables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -14,49 +14,47 @@ namespace Runtime.World.Overworld.Interactions
     {
         #region Values
 
-        [SerializeField, Required] private PlayerManager playerManager;
+        [SerializeField, Required] private InteractItemListVariable itemListVariable;
 
-        [FoldoutGroup(" ")] [SerializeField] private Vector3 iconOffset;
+        [SerializeField] private Vector3 iconOffset, triggerOffset;
 
-        [FoldoutGroup(" ")] [SerializeField] private MonoBehaviour[] onTrigger;
+        [SerializeField] private MonoBehaviour[] onTrigger;
+
+        [SerializeField] private float radius;
 
         #endregion
 
         #region Build In States
 
+#if UNITY_EDITOR
+
+        private void OnDrawGizmosSelected() =>
+            Gizmos.DrawWireSphere(this.transform.position + this.triggerOffset, this.radius);
+
         private void OnValidate()
         {
             this.onTrigger = this.onTrigger
                 .OfType<IInteractable>()
-                .Where(i =>
-                    !(i is InteractItem))
-                .Select(i =>
-                    i as MonoBehaviour)
+                .Select(i => i as MonoBehaviour)
                 .ToArray();
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (!other.tag.Equals("Player")) return;
+#endif
 
-            this.playerManager.GetInteractions().OnEnter(this, this.transform);
-        }
+        private void OnEnable() => this.itemListVariable.AddElement(this);
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!other.tag.Equals("Player")) return;
-
-            this.playerManager.GetInteractions().OnExit(this);
-        }
+        private void OnDisable() => this.itemListVariable.RemoveElement(this);
 
         #endregion
 
         #region Getters
 
-        public Vector3 GetPosition()
-        {
-            return this.transform.position + this.iconOffset;
-        }
+        public Vector3 GetPosition() =>
+            this.transform.position + this.triggerOffset;
+
+        public Vector3 GetIconPosition() => this.transform.position + this.iconOffset;
+
+        public float GetRadius() => this.radius;
 
         #endregion
 

@@ -23,7 +23,7 @@ namespace Runtime.Weathers.Energy
         {
             base.Setup();
 
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots())
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots())
                 IncreaseCritical(spot.GetActivePokemon());
         }
 

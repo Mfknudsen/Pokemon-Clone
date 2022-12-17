@@ -1,8 +1,10 @@
 #region Packages
 
+using System.Collections;
 using Runtime.Battle.Systems;
 using Runtime.Battle.UI.Information_Display;
 using Runtime.Battle.UI.Selection;
+using Runtime.Common;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems.PersistantRunner;
 using Runtime.UI_Book;
@@ -43,6 +45,8 @@ namespace Runtime.Systems.UI
 
         [SerializeField, Required] private BoolVariable playerThrowingItem;
 
+        [ShowInInspector] private GameObject bookCanvasObject, overworldCanvasObject;
+
         private UISelection currentSelection = UISelection.Start;
         private bool readyToPause;
 
@@ -50,17 +54,38 @@ namespace Runtime.Systems.UI
 
         #region Build In States
 
-        public void FrameStart() =>
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
+        {
             InputManager.instance.pauseInputEvent.AddListener(this.PauseTrigger);
 
-        private void OnDisable() => 
-            InputManager.instance.pauseInputEvent.RemoveListener(this.PauseTrigger);
+            while (this.bookCanvasObject == null)
+            {
+                this.bookCanvasObject = GameObject.Find("Book UI Canvas");
+                yield return null;
+            }
+
+            while (this.overworldCanvasObject == null)
+            {
+                this.overworldCanvasObject = GameObject.Find("Overworld UI Canvas");
+                yield return null;
+            }
+
+            this.battleUI = this.overworldCanvasObject.GetChildByName("Battle");
+            this.overworldUI = this.overworldCanvasObject.GetChildByName("Overworld");
+            this.pauseUI = this.bookCanvasObject.GetChildByName("Pause Menu");
+            this.startUI = this.bookCanvasObject.GetChildByName("Start Menu");
+            this.loadingUI = this.bookCanvasObject.GetChildByName("Loading UI");
+            
+            this.ready = true;
+        }
 
         #endregion
 
         #region Getters
 
         public UIBook UIBook => this.uiBook;
+
+        public GameObject CanvasObject => this.bookCanvasObject;
 
         #region Battle
 
@@ -145,7 +170,7 @@ namespace Runtime.Systems.UI
         {
             if (this.playerThrowingItem.value) return;
 
-            if (BattleManager.instance is not null) return;
+            if (BattleSystem.instance is not null) return;
 
             if (!this.readyToPause) return;
 

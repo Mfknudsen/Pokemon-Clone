@@ -118,7 +118,7 @@ namespace Runtime.Battle.Actions
 
             this.chatManager.Add(toSend.ToArray());
 
-            BattleManager.instance.SpawnPokemon(this.nextPokemon, this.spot);
+            BattleSystem.instance.SpawnPokemon(this.nextPokemon, this.spot);
             Transform inTrans = this.nextPokemon.GetSpawnedObject().transform;
             inTrans.localScale = Vector3.one * 0.1f;
 

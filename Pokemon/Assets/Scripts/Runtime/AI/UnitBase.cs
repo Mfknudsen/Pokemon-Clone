@@ -1,6 +1,8 @@
 #region Packages
 
 using System.Collections.Generic;
+using NodeCanvas.BehaviourTrees;
+using Runtime.AI.Senses.Sight;
 using Runtime.Communication;
 using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
@@ -12,7 +14,6 @@ using UnityEngine.Events;
 
 namespace Runtime.AI
 {
-    [RequireComponent(typeof(NpcController))]
     public abstract class UnitBase : MonoBehaviour, IInteractable
     {
         #region Values
@@ -20,32 +21,36 @@ namespace Runtime.AI
         [SerializeField, FoldoutGroup("Base"), Required]
         private UnitManager unitManager;
 
-        [SerializeField, FoldoutGroup("Base")]
-        protected Chat idleChat;
+        [SerializeField, FoldoutGroup("Base")] protected Chat idleChat;
 
-        [FoldoutGroup("Base/Visual")] protected GameObject visualsObject;
+        [SerializeField, FoldoutGroup("Base/Visual")]
+        protected GameObject visualsObject;
 
-        [FoldoutGroup("Base/Navmesh")] protected NavMeshAgent agent;
+        [SerializeField, FoldoutGroup("Base/Navmesh")]
+        protected NavMeshAgent agent;
 
-        private Dictionary<string, object> memoryBank = new();
+        [SerializeField, FoldoutGroup("Base/Senses")]
+        private UnitSight sightCone;
+
+        [SerializeField, FoldoutGroup("Base")] private BehaviourTreeOwner behaviourTreeOwner;
+
+        [SerializeField, FoldoutGroup("Base")] private UnitState unitState;
+
+        private readonly Dictionary<string, object> memoryBank = new();
 
         private UnityEvent disableEvent;
 
-        private NpcController controller;
+        private bool previousStoppedState;
 
         #endregion
 
         #region Build In States
 
-        private void OnEnable()
-        {
-            this.unitManager.AddController(this.controller);
-        }
+        private void OnEnable() =>
+            this.unitManager.Register(this);
 
-        private void OnDisable()
-        {
-            this.unitManager.RemoveController(this.controller);
-        }
+        private void OnDisable() =>
+            this.unitManager.Unregister(this);
 
         #endregion
 
@@ -63,6 +68,8 @@ namespace Runtime.AI
             return this.memoryBank[key] as TObject;
         }
 
+        public UnitState GetUnitState() => this.unitState;
+
         #endregion
 
         #region Setters
@@ -78,21 +85,24 @@ namespace Runtime.AI
             this.memoryBank.Add(key, value);
         }
 
+        public void SetUnitState(UnitState set) =>
+            this.unitState = set;
+
         #endregion
 
         #region In
 
+        // ReSharper disable Unity.PerformanceAnalysis
+        public void UpdateUnit()
+        {
+            if (this.sightCone != null)
+                this.sightCone.UpdateSight();
+
+            if (this.behaviourTreeOwner != null)
+                this.behaviourTreeOwner.UpdateBehaviour();
+        }
+
         public abstract void Trigger();
-
-        public void HideVisual()
-        {
-            this.visualsObject.SetActive(false);
-        }
-
-        public void ShowVisual()
-        {
-            this.visualsObject.SetActive(true);
-        }
 
         public void AddDisableEventListener(UnityAction action)
         {
@@ -106,8 +116,25 @@ namespace Runtime.AI
             this.disableEvent?.RemoveListener(action);
         }
 
-        public void DisableUnit()
+        public void PauseUnit()
         {
+            this.previousStoppedState = this.agent.isStopped;
+
+            this.agent.isStopped = true;
+        }
+
+        public void ResumeUnit()
+        {
+            this.agent.isStopped = this.previousStoppedState;
+        }
+
+        #endregion
+
+        #region Out
+
+        public object GetStateByKey(string s)
+        {
+            return null;
         }
 
         #endregion

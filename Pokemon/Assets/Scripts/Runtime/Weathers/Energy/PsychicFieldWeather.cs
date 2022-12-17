@@ -17,7 +17,7 @@ namespace Runtime.Weathers.Energy
             base.Setup();
 
             if (this.amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.psyTerrain);
+                BattleSystem.instance.GetWeatherManager().ApplyTerrain(this.psyTerrain);
         }
 
         public float Modify(PokemonMove pokemonMove)

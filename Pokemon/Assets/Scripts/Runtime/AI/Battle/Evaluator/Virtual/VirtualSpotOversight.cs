@@ -17,7 +17,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         {
             this.spots = new List<VirtualSpot>();
 
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots())
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots())
             {
                 VirtualSpot virtualSpot = new(spot.GetActivePokemon());
                 virtualSpot.SetRelations(

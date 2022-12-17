@@ -1,6 +1,7 @@
 #region Packages
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.ScriptableVariables.Objects;
@@ -18,7 +19,7 @@ using UnityEngine;
 namespace Runtime.Systems
 {
     [CreateAssetMenu(menuName = "Managers/Effect Manager"), Serializable]
-    public sealed class EffectManager : Manager, IFrameUpdate
+    public sealed class EffectManager : Manager, IFrameStart, IFrameUpdate, IFrameLateUpdate
     {
         [SerializeField, Required] private TransformVariable playerTransform;
         [SerializeField] private List<EffectLimit> effectsLimits = new();
@@ -29,7 +30,7 @@ namespace Runtime.Systems
 
         #region IFrameUpdate
 
-        public void FrameStart()
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
         {
             foreach (EffectLimit effectsLimit in this.effectsLimits)
             {
@@ -45,6 +46,10 @@ namespace Runtime.Systems
                         break;
                 }
             }
+
+            this.ready = true;
+
+            yield break;
         }
 
         public void FrameUpdate()

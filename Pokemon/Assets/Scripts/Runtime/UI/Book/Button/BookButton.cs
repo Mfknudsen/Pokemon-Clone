@@ -71,10 +71,8 @@ namespace Runtime.UI.Book.Button
 
         #region Internal
 
-        private void TriggerOnClick()
-        {
+        private void TriggerOnClick() => 
             this.onClick.Invoke();
-        }
 
         #endregion
     }

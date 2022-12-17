@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -13,13 +13,13 @@ namespace Runtime.Battle.Systems.States
 {
     public class WinState : State
     {
-        public WinState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
+        public WinState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
-            foreach (BattleMember battleMember in this.battleManager.GetSpotOversight().GetSpots()
+            foreach (BattleMember battleMember in this.battleSystem.GetSpotOversight().GetSpots()
                          .Select(s =>
                              s.GetBattleMember())
                          .Where(bm =>
@@ -31,7 +31,7 @@ namespace Runtime.Battle.Systems.States
             while (!this.chatManager.GetIsClear())
                 yield return null;
 
-            this.battleManager.EndBattle(true);
+            this.battleSystem.EndBattle(true);
         }
     }
 }

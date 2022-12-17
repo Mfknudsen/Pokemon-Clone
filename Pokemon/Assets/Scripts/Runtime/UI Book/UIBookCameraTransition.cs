@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using Runtime.Common;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -103,15 +103,13 @@ namespace Runtime.UI_Book
 
         #region In
 
-        public void Direction(bool awayFromBook, bool? resetTime = false)
+        public void Direction(bool awayFromBook)
         {
             if (awayFromBook && this.moveSpeed < 0 ||
                 !awayFromBook && this.moveSpeed > 0)
                 this.moveSpeed *= -1;
-
-            if (resetTime != null &&
-                resetTime.Value)
-                this.t = this.moveSpeed > 0 ? 0 : 1;
+            
+            this.t = this.moveSpeed > 0 ? 0 : 1;
         }
 
         public void OperationEnd()
@@ -147,10 +145,7 @@ namespace Runtime.UI_Book
             this.done = true;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public float GetTimeToComplete()
         {

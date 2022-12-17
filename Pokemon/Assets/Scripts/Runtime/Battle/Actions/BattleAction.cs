@@ -11,7 +11,7 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -77,7 +77,7 @@ namespace Runtime.Battle.Actions
         {
             this.targets ??= new List<Spot>();
 
-            this.targets.Add(BattleManager.instance.GetSpotOversight().GetSpots()
+            this.targets.Add(BattleSystem.instance.GetSpotOversight().GetSpots()
                 .FirstOrDefault(s => s.GetActivePokemon() == pokemon));
         }
 
@@ -122,10 +122,7 @@ namespace Runtime.Battle.Actions
 
         #region IOperation
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public virtual IEnumerator Operation()
         {

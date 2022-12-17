@@ -233,7 +233,7 @@ namespace Runtime.Pokémon
 
             if (stat == Stat.HP) return Mathf.FloorToInt(result);
 
-            result = BattleManager.instance.GetAbilityOversight()
+            result = BattleSystem.instance.GetAbilityOversight()
                 .ListOfSpecific<IStatModifier>()
                 .Aggregate(result, (current, statModifier) => current * statModifier.Modify(this, stat));
 
@@ -257,7 +257,7 @@ namespace Runtime.Pokémon
             return null;
         }
 
-        public GameObject GetPokemonPrefab() => this.prefab;
+        public GameObject GetVisuelPrefab() => this.prefab;
 
         public GameObject GetSpawnedObject() => this.spawnedObject;
 
@@ -326,7 +326,7 @@ namespace Runtime.Pokémon
 
             this.maxHealth = this.GetCalculatedStat(Stat.HP);
 
-            AbilityOversight abilityOversight = BattleManager.instance.GetAbilityOversight();
+            AbilityOversight abilityOversight = BattleSystem.instance.GetAbilityOversight();
 
             this.instantiatedAbilities = new List<Ability>
                 { this.firstAbility, this.secondAbility, this.hiddenAbility };

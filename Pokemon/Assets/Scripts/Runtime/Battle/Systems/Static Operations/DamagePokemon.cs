@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -23,10 +23,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.target = target;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {

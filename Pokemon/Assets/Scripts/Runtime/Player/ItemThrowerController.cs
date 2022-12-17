@@ -7,7 +7,6 @@ using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Objects.Items;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
-using Runtime.Systems.Operation;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -20,7 +19,6 @@ namespace Runtime.Player
         #region Values
 
         [SerializeField, Required] private OperationManager operationManager;
-        [SerializeField, Required] private PlayerManager playerManager;
 
         [SerializeField, Required] private CinemachineVirtualCameraBase cameraRig;
         [SerializeField, Required] private BoolVariable aiming, throwing, allowed;
@@ -31,6 +29,8 @@ namespace Runtime.Player
         [SerializeField, Required] private Transform throwTransform;
 
         //Cam
+        [SerializeField] private CameraEvent intoThrowCameraEvent, outThrowCameraEvent;
+
         [SerializeField] private float shoulderOffset;
         [SerializeField] private Vector2 top, mid, bot;
         [SerializeField] private AnimationCurve lerpCurve;
@@ -170,32 +170,28 @@ namespace Runtime.Player
         {
             if (!this.allowed.value) return;
 
-            if (this.cameraSwitchAsyncContainer != null) this.operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
+            if (this.cameraSwitchAsyncContainer != null)
+                this.operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
             this.cameraSwitchAsyncContainer = new OperationsContainer();
 
-            CameraEvent cameraEvent;
+            CameraEvent selectedCameraEvent;
 
             if (this.aiming.value)
             {
                 this.current = this.defaultOverworldRig.value.m_YAxis.Value;
                 this.MoveCamera();
 
-                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(
-                    this.cameraRig,
-                    CameraSettings.Default(),
-                    .5f);
+                selectedCameraEvent = this.intoThrowCameraEvent;
             }
             else
             {
                 this.defaultOverworldRig.value.m_YAxis.Value = this.current;
                 this.defaultOverworldRig.value.m_XAxis.Value = this.cameraBrain.getTransform.rotation.eulerAngles.y;
 
-                cameraEvent = ScriptableObject.CreateInstance<CameraEvent>().Setup(this.playerManager.GetOverworldCameraRig(),
-                    CameraSettings.Default(),
-                    .5f);
+                selectedCameraEvent = this.outThrowCameraEvent;
             }
 
-            this.cameraSwitchAsyncContainer.Add(cameraEvent);
+            this.cameraSwitchAsyncContainer.Add(selectedCameraEvent);
             this.operationManager.AddAsyncOperationsContainer(this.cameraSwitchAsyncContainer);
         }
 

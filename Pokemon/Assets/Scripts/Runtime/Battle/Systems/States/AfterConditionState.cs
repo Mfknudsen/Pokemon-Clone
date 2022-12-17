@@ -6,7 +6,7 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -17,11 +17,11 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly SpotOversight oversight;
 
-        public AfterConditionState(BattleManager battleManager, OperationManager operationManager,
-            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager,
+        public AfterConditionState(BattleSystem battleSystem, OperationManager operationManager,
+            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem,
             operationManager, chatManager, uiManager, playerManager)
         {
-            this.oversight = battleManager.GetSpotOversight();
+            this.oversight = battleSystem.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
@@ -31,7 +31,7 @@ namespace Runtime.Battle.Systems.States
                          .Select(s =>
                              s.GetActivePokemon().GetConditionOversight()))
             {
-                this.battleManager.StartCoroutine(conditionOversight.CheckConditionEndTurn());
+                this.battleSystem.StartCoroutine(conditionOversight.CheckConditionEndTurn());
 
                 while (!conditionOversight.GetDone() || !this.chatManager.GetIsClear())
                     yield return null;
@@ -43,11 +43,11 @@ namespace Runtime.Battle.Systems.States
                     spot.GetActivePokemon() == null &&
                     spot.GetBattleMember().GetTeam().CanSendMorePokemon()))
             {
-                this.battleManager.SetState(new PlayerSelectNewState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new PlayerSelectNewState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
                 yield break;
             }
 
-            this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new RoundDoneState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

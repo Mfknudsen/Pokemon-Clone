@@ -13,66 +13,62 @@ using UnityEngine;
 namespace Runtime.AI
 {
     [CreateAssetMenu(menuName = "Manager/Unit")]
-    public sealed class UnitManager : Manager, IFrameStart, IFrameUpdate
+    public sealed class UnitManager : Manager, IFrameUpdate, IFrameLateUpdate
     {
         #region Values
 
-        private Transform parentTransform;
-
         [SerializeField, Required] private PlayerManager playerManager;
-        [SerializeField] private int mediumDelay = 1, farDelay = 1;
 
-        private readonly List<NpcController> controllers = new(),
+        [SerializeField, Min(1)] private int mediumDelay = 1, farDelay = 1;
+
+        [SerializeField] private float closeDistance, mediumDistance;
+
+        private readonly List<UnitBase> controllers = new(),
             close = new(),
             medium = new(),
             far = new();
 
-        private readonly Dictionary<Type, List<NpcController>> controllersByType = new();
+        private readonly Dictionary<Type, List<UnitBase>> controllersByType = new();
 
         private int count;
+
+        private bool shouldUpdate = true;
 
         #endregion
 
         #region Build In States
 
-        private void OnValidate()
-        {
-            this.mediumDelay = this.mediumDelay > 0 ? this.mediumDelay : 1;
-            this.farDelay = this.farDelay > 0 ? this.farDelay : 1;
-        }
-
-        public void FrameStart() =>
-            this.parentTransform = new GameObject("Units").transform;
-
         public void FrameUpdate()
         {
-            this.close.ForEach(c => c.TriggerBehaviourUpdate());
+            if (!this.shouldUpdate)
+                return;
 
-            if (this.count % this.farDelay == 0) this.far.ForEach(c => c.TriggerBehaviourUpdate());
+            this.close.ForEach(unit => unit.UpdateUnit());
+
+            if (this.count % this.farDelay == 0)
+                this.far.ForEach(unit => unit.UpdateUnit());
 
             if (this.count % this.mediumDelay == 0)
-            {
-                this.medium.ForEach(c => c.TriggerBehaviourUpdate());
+                this.medium.ForEach(unit => unit.UpdateUnit());
 
-                if (this.count % this.farDelay == 0) this.count = 0;
-            }
+            if (this.count * this.farDelay == this.count) this.count = 0;
         }
+
+        public void FrameLateUpdate() =>
+            this.UpdateUnitDistanceLists();
 
         #endregion
 
         #region In
 
-        public void AddController(NpcController add)
+        public void Register(UnitBase add)
         {
-            if (add is null || this.controllers.Contains(add))
+            if (add == null || this.controllers.Contains(add))
                 return;
 
             this.controllers.Add(add);
 
-            Transform cTrans = add.transform;
-            cTrans.root.parent = this.parentTransform.transform;
-
-            Vector3 cPos = cTrans.position,
+            Vector3 cPos = add.transform.position,
                 pPos = this.playerManager.GetAgent() != null
                     ? this.playerManager.GetAgent().transform.position
                     : Vector3.zero;
@@ -93,12 +89,12 @@ namespace Runtime.AI
             }
 
             if (this.controllersByType.ContainsKey(add.GetType()))
-                this.controllersByType.Add(add.GetType(), new List<NpcController> { add });
-            else
                 this.controllersByType[add.GetType()].Add(add);
+            else
+                this.controllersByType.Add(add.GetType(), new List<UnitBase> { add });
         }
 
-        public void RemoveController(NpcController remove)
+        public void Unregister(UnitBase remove)
         {
             if (remove == null || !this.controllers.Contains(remove))
                 return;
@@ -106,16 +102,59 @@ namespace Runtime.AI
             this.controllers.Remove(remove);
         }
 
+        public void PauseAllUnits()
+        {
+            this.shouldUpdate = false;
+
+            foreach (UnitBase unitBase in this.controllers)
+                unitBase.PauseUnit();
+        }
+
+        public void ResumeAllUnits()
+        {
+            this.shouldUpdate = true;
+
+            foreach (UnitBase unitBase in this.controllers)
+                unitBase.ResumeUnit();
+        }
+
         #endregion
 
         #region Out
 
-        public T[] GetAllControllersOfType<T>() where T : NpcController
+        public T[] GetAllUnitsOfType<T>() where T : UnitBase
         {
             if (!this.controllersByType.ContainsKey(typeof(T)))
                 return Array.Empty<T>();
 
             return this.controllersByType[typeof(T)].ToArray() as T[];
+        }
+
+        #endregion
+
+        #region Internal
+
+        private void UpdateUnitDistanceLists()
+        {
+            Vector3 playerPos = this.playerManager.GetController().transform.position;
+
+            float sqrClose = this.closeDistance * this.closeDistance,
+                sqrMedium = this.mediumDistance * this.mediumDistance;
+
+
+            this.close.Clear();
+            this.medium.Clear();
+            this.far.Clear();
+            foreach (UnitBase unitBase in this.controllers)
+            {
+                float sqrDistance = (playerPos - unitBase.transform.position).sqrMagnitude;
+                if (sqrDistance < sqrClose)
+                    this.close.Add(unitBase);
+                else if (sqrDistance < sqrMedium)
+                    this.medium.Add(unitBase);
+                else
+                    this.far.Add(unitBase);
+            }
         }
 
         #endregion

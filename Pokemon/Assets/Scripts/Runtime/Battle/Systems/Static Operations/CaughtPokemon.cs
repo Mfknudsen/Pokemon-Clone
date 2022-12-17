@@ -2,7 +2,7 @@ using System.Collections;
 using System.Linq;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Trainer;
 
 namespace Runtime.Battle.Systems.Static_Operations
@@ -19,14 +19,11 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.toReceive = toReceive;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {
-            foreach (Spot spot in BattleManager.instance.GetSpotOversight().GetSpots()
+            foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots()
                 .Where(spot => spot.GetBattleMember().GetTeam().PartOfTeam(this.target)))
             {
                 Team team = spot.GetBattleMember().GetTeam();

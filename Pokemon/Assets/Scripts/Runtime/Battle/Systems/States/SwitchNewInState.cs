@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Runtime.Battle.Actions;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -17,8 +17,8 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly List<SwitchAction> switchActions;
 
-        public SwitchNewInState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager,
-            UIManager uiManager, PlayerManager playerManager, List<SwitchAction> switchActions) : base(battleManager,
+        public SwitchNewInState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager, List<SwitchAction> switchActions) : base(battleSystem,
             operationManager, chatManager, uiManager, playerManager)
         {
             this.switchActions = switchActions;
@@ -32,11 +32,11 @@ namespace Runtime.Battle.Systems.States
                 container.Add(switchAction);
                 this.operationManager.AddOperationsContainer(container);
 
-                while (!switchAction.IsOperationDone() || !this.chatManager.GetIsClear())
+                while (!switchAction.IsOperationDone || !this.chatManager.GetIsClear())
                     yield return null;
             }
 
-            this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new RoundDoneState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

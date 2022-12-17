@@ -56,7 +56,7 @@ namespace Runtime.Battle.UI.Selection
                 pokemon);
 
             this.switchAction.SetSpot(
-                BattleManager.instance.GetSpotOversight().GetSpots()
+                BattleSystem.instance.GetSpotOversight().GetSpots()
                     .FirstOrDefault(s => s.GetActivePokemon() == this.switchAction.GetCurrentPokemon()));
 
             this.switchAction.SetTeam(this.playerManager.GetTeam());

@@ -4,7 +4,7 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -36,10 +36,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         #region IOperation
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {
@@ -81,7 +78,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             {
                 Debug.Log("TICK");
 
-                BattleManager.instance.DespawnPokemon(this.target);
+                BattleSystem.instance.DespawnPokemon(this.target);
 
                 container = new OperationsContainer();
                 container.Add(new CaughtPokemon(this.target, this.playerManager.GetTeam()));

@@ -1,6 +1,8 @@
 #region Packages
 
+using System.Collections;
 using Cinemachine;
+using Runtime.Player;
 using Runtime.Player.Camera;
 using Runtime.Systems.PersistantRunner;
 using Sirenix.OdinInspector;
@@ -15,23 +17,29 @@ namespace Runtime.Systems
     {
         #region Values
 
-        [FoldoutGroup("Camera")] [SerializeField]
-        private Camera currentCamera;
+        [SerializeField, FoldoutGroup("Camera"), Required]
+        private PlayerManager playerManager;
 
-        [FoldoutGroup("Camera")] [SerializeField]
+        [ShowInInspector, ReadOnly] private Camera currentCamera, defaultCamera;
+
+        [SerializeField, FoldoutGroup("Camera/Default")]
+        private CameraEvent defaultEvent;
+
         private CinemachineFreeLook defaultCameraRig;
-
         private CinemachineVirtualCameraBase currentRig;
-        private CameraSettings currentSettings;
 
         #endregion
 
         #region Build In States
 
-        public void FrameStart()
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
         {
-            this.currentSettings = CameraSettings.Default();
-            
+            yield return new WaitWhile(() => this.playerManager.GetOverworldCameraRig() == null);
+
+            this.defaultCamera = Camera.main;
+            this.currentCamera = this.defaultCamera;
+
+            this.defaultCameraRig = this.playerManager.GetOverworldCameraRig();
             this.currentRig = this.defaultCameraRig;
             this.defaultCameraRig.enabled = true;
 
@@ -42,50 +50,32 @@ namespace Runtime.Systems
 
         #region Getters
 
-        public CinemachineFreeLook GetDefaultRig()
-        {
-            return this.defaultCameraRig;
-        }
+        public Camera GetCurrentCamera() =>
+            this.currentCamera;
 
-        public CinemachineVirtualCameraBase GetCurrentRig()
-        {
-            return this.currentRig;
-        }
-
-        public Camera GetCurrentCamera()
-        {
-            return this.currentCamera;
-        }
-
-        public CameraSettings GetCurrentSettings()
-        {
-            return this.currentSettings;
-        }
+        public CameraEvent ReturnToDefaultOverworld() =>
+            this.defaultEvent;
 
         #endregion
 
         #region In
 
-        public void SetCurrentRigToDefault()
+        public void SetCurrentRigToDefault() => 
+            this.SetCurrentRig(this.defaultCameraRig);
+
+        public void SetCurrentRig(CinemachineVirtualCameraBase set)
         {
-            if (this.currentRig != null) this.currentRig.enabled = false;
-            this.defaultCameraRig.enabled = true;
-            this.currentRig = this.defaultCameraRig;
-        }
+            if (set == null) return;
 
-        public void SetCurrentRig(CinemachineVirtualCameraBase set, bool disablePrevious = false)
-        {
-            if (this.currentRig != null) this.currentRig.enabled = !disablePrevious;
+            if (this.currentRig != null)
+                this.currentRig.Priority = 0;
 
-            if (set != null)
-                set.enabled = true;
-
+            set.Priority = 1;
             this.currentRig = set;
         }
 
         public void SetCameraSettings(CameraSettings cameraSettings)
         {
-            this.currentSettings = cameraSettings;
             this.currentCamera.fieldOfView = cameraSettings.fov;
         }
 

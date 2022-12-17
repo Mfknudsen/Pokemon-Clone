@@ -54,14 +54,14 @@ namespace Runtime.World.Overworld.Spawner
         {
             Pokemon toSpawn = this.SelectPokemonFromList();
 
-            if (toSpawn.GetPokemonPrefab() == null)
+            if (toSpawn.GetVisuelPrefab() == null)
             {
                 Debug.LogWarning("Pokemon need visual prefab to be spawned");
                 return;
             }
             
             GameObject obj = Instantiate(
-                toSpawn.GetPokemonPrefab(), this.RandomPositionFromArea(),
+                toSpawn.GetVisuelPrefab(), this.RandomPositionFromArea(),
                 Quaternion.LookRotation(Vector3.up * Random.Range(0, 360)));
 
             UnitBase unitBase = obj.GetFirstComponentTowardsRoot<UnitBase>();

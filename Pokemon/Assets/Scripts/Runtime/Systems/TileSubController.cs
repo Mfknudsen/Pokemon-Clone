@@ -18,9 +18,7 @@ namespace Runtime.Systems
         [SerializeField, Required] private TileManager tileManager;
 
         [SerializeField] private Neighbor[] neighbors;
-
-        [SerializeField] private string tileName;
-
+        
         [SerializeField, Required] private NavMeshSurface navMeshSurface;
 
         #endregion
@@ -37,7 +35,7 @@ namespace Runtime.Systems
 
         public IEnumerable<Neighbor> GetNeighbors() => this.neighbors;
 
-        public string GetTileName() => this.tileName;
+        public string GetTileName() => this.name;
 
         public NavMeshSurface GetSurface() => this.navMeshSurface;
 

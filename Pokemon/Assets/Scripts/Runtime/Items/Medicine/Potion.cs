@@ -40,7 +40,7 @@ namespace Runtime.Items.Medicine
         public override IEnumerator Operation()
         {
             this.done = false;
-            float curHeal = 0, healSpeed = this.healAmount / 200 * BattleManager.instance.GetSecPerPokeMove();
+            float curHeal = 0, healSpeed = this.healAmount / 200 * BattleSystem.instance.GetSecPerPokeMove();
 
             while (curHeal < this.healAmount)
             {
@@ -48,8 +48,8 @@ namespace Runtime.Items.Medicine
                 {
                     this.target.ReceiveDamage(-healSpeed);
                     curHeal += healSpeed;
-                    yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() /
-                                                    (200 * BattleManager.instance.GetSecPerPokeMove()));
+                    yield return new WaitForSeconds(BattleSystem.instance.GetSecPerPokeMove() /
+                                                    (200 * BattleSystem.instance.GetSecPerPokeMove()));
                 }
                 else
                 {

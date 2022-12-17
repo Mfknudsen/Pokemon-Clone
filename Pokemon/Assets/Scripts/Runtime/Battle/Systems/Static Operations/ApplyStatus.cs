@@ -2,7 +2,7 @@ using System.Collections;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 
 namespace Runtime.Battle.Systems.Static_Operations
 {
@@ -21,10 +21,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.statusCondition = statusCondition;
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {

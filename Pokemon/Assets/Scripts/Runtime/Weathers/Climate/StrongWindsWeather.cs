@@ -6,7 +6,7 @@ namespace Runtime.Weathers.Climate
     {
         public override void Setup()
         {
-            WeatherManager weatherManager = BattleManager.instance.GetWeatherManager();
+            WeatherManager weatherManager = BattleSystem.instance.GetWeatherManager();
             
             weatherManager.ApplyIrritant(null);
             weatherManager.ApplyEnergy(null);

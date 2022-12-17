@@ -104,7 +104,7 @@ namespace Runtime.AI.Battle
                 yield return new WaitWhile(() => !container.AllDone());
             }
 
-            this.battleStarter.StartBattleNow();
+            this.battleStarter.TriggerBattle();
         }
 
         public IEnumerator AfterBattle()

@@ -48,7 +48,7 @@ namespace Runtime.Battle.UI.Selection
         public void Setup()
         {
             this.playerInventory = this.playerManager.GetBattleMember().GetInventory();
-            this.spotOversight = BattleManager.instance.GetSpotOversight();
+            this.spotOversight = BattleSystem.instance.GetSpotOversight();
         }
 
         public void DisplaySelection(ItemAction itemAction)

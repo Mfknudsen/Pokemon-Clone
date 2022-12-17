@@ -1,18 +1,9 @@
 namespace Runtime.Player.Camera
 {
+    [System.Serializable]
     public class CameraSettings
     {
-        public readonly float fov;
-
-        private CameraSettings(float fov)
-        {
-            this.fov = fov;
-        }
-
-        public static CameraSettings Default()
-        {
-            return new CameraSettings(70);
-        }
+        public float fov;
     }
 
 }

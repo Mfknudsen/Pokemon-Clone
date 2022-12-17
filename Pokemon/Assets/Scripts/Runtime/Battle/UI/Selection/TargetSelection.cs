@@ -33,7 +33,7 @@ namespace Runtime.Battle.UI.Selection
 
         public void Setup()
         {
-            this.oversight = BattleManager.instance.GetSpotOversight();
+            this.oversight = BattleSystem.instance.GetSpotOversight();
             this.isAlly = this.playerManager.GetBattleMember().GetTeamAffiliation();
         }
 

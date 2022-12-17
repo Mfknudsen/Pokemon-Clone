@@ -14,13 +14,13 @@ namespace Runtime.UI.Overworld
         
         [SerializeField] private GameObject visuals;
 
-        private PlayerInteractions _playerInteractions;
+        private PlayerInteractions playerInteractions;
         private RectTransform rectTransform;
         private Camera cam;
 
         private void Awake()
         {
-            this._playerInteractions = this.playerManager.GetInteractions();
+            this.playerInteractions = this.playerManager.GetInteractions();
 
             this.rectTransform = this.GetComponent<RectTransform>();
 
@@ -29,7 +29,7 @@ namespace Runtime.UI.Overworld
 
         private void Update()
         {
-            Vector3 worldPos = this._playerInteractions.GetFocusedPosition();
+            Vector3 worldPos = this.playerInteractions.GetFocusedPosition();
 
             if (worldPos == Vector3.zero)
             {
@@ -39,8 +39,7 @@ namespace Runtime.UI.Overworld
 
             this.visuals.SetActive(true);
 
-            Vector3 screenPos = this.cam.WorldToScreenPoint(worldPos);
-            this.rectTransform.position = screenPos;
+            this.rectTransform.position =  this.cam.WorldToScreenPoint(worldPos);
         }
     }
 }

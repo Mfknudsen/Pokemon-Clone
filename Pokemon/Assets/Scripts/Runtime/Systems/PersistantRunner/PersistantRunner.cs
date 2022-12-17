@@ -13,9 +13,7 @@ namespace Runtime.Systems.PersistantRunner
     {
         #region Values
 
-        [SerializeField, AssetsOnly] private List<Manager> managersToStart = new();
-        [SerializeField, AssetsOnly] private List<Manager> managersToUpdate = new();
-        [SerializeField, AssetsOnly] private List<Manager> managersToLateUpdate = new();
+        [SerializeField, AssetsOnly] private List<Manager> managers = new();
 
         private IFrameStart[] frameStarts;
         private IFrameUpdate[] frameUpdates;
@@ -25,27 +23,25 @@ namespace Runtime.Systems.PersistantRunner
 
         #region Build In States
 
-        private void OnValidate()
-        {
-            this.managersToStart = this.managersToStart
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameStart)))
-                .ToList();
-            this.managersToUpdate = this.managersToUpdate
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameUpdate)))
-                .ToList();
-            this.managersToLateUpdate = this.managersToLateUpdate
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameLateUpdate)))
-                .ToList();
-        }
-
         private void Start()
         {
-            this.frameStarts = this.managersToStart.Select(m => m as IFrameStart).ToArray();
-            this.frameUpdates = this.managersToUpdate.Select(m => m as IFrameUpdate).ToArray();
-            this.frameLateUpdates = this.managersToLateUpdate.Select(m => m as IFrameLateUpdate).ToArray();
+            DontDestroyOnLoad(this.gameObject);
+
+            this.frameStarts = this.managers
+                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameStart)))
+                .Select(m => m as IFrameStart)
+                .ToArray();
+            this.frameUpdates = this.managers
+                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameUpdate)))
+                .Select(m => m as IFrameUpdate)
+                .ToArray();
+            this.frameLateUpdates = this.managers
+                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameLateUpdate)))
+                .Select(m => m as IFrameLateUpdate)
+                .ToArray();
 
             foreach (IFrameStart frameStart in this.frameStarts)
-                frameStart.FrameStart();
+                this.StartCoroutine(frameStart.FrameStart(this));
         }
 
         private void Update()

@@ -1,11 +1,12 @@
 #region Packages
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #endregion
 
@@ -15,9 +16,9 @@ namespace Runtime.Battle.UI.Information_Display
     {
         #region Values
 
-        [SerializeField] private BattleManager battleManager;
+        [FormerlySerializedAs("battleManager")] [SerializeField, Required] private BattleSystem battleSystem;
+        [SerializeField, Required] private Transform allyOut, enemyOut;
         [SerializeField] private List<PokemonDisplaySlot> allyDisplays, enemyDisplays;
-        [SerializeField] private Transform allyOut, enemyOut;
 
         private readonly Vector3[] allyPositions = new Vector3[3];
         private SpotOversight spotOversight;
@@ -28,7 +29,7 @@ namespace Runtime.Battle.UI.Information_Display
 
         #region Build In States
 
-        private IEnumerator Start()
+        private void Start()
         {
             int i = 2;
             foreach (PokemonDisplaySlot pokemonDisplay in this.allyDisplays)
@@ -46,12 +47,10 @@ namespace Runtime.Battle.UI.Information_Display
                 pokemonDisplay.transform.position = this.enemyOut.position;
             }
 
-            this. battleManager.SetDisplayManager(this);
-            this. spotOversight = this.battleManager.GetSpotOversight();
+            this.battleSystem.SetDisplayManager(this);
+            this.spotOversight = this.battleSystem.GetSpotOversight();
 
-            this. ready = true;
-
-            yield break;
+            this.ready = true;
         }
 
         private void Update()

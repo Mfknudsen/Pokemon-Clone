@@ -25,7 +25,7 @@ namespace Runtime.Weathers.Irritants
 
 
             if (this.amplified)
-                BattleManager.instance.GetWeatherManager().ApplyTerrain(this.terrain);
+                BattleSystem.instance.GetWeatherManager().ApplyTerrain(this.terrain);
         }
 
         #region Interface Overrides

@@ -7,7 +7,7 @@ using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 using Runtime.Trainer;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerTurnState : State
     {
-        public PlayerTurnState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager, uiManager, playerManager)
+        public PlayerTurnState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
         {
         }
 
@@ -26,21 +26,21 @@ namespace Runtime.Battle.Systems.States
         {
             Cursor.visible = true;
             Team playerTeam = this.playerManager.GetTeam();
-            SpotOversight spotOversight = this.battleManager.GetSpotOversight();
+            SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 
             foreach (Pokemon pokemon in spotOversight.GetSpots()
                          .Select(spot => spot.GetActivePokemon())
                          .Where(pokemon => pokemon is not null && playerTeam.PartOfTeam(pokemon)))
             {
-                this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
+                this.battleSystem.GetSelectionMenu().DisplaySelection(SelectorGoal.Turn, pokemon);
 
                 while (pokemon.GetBattleAction() is null)
                     yield return null;
             }
 
-            this.battleManager.GetSelectionMenu().DisableDisplaySelection();
+            this.battleSystem.GetSelectionMenu().DisableDisplaySelection();
 
-            this.battleManager.SetState(new ComputerTurnState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new ComputerTurnState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

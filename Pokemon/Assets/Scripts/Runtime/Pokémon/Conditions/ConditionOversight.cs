@@ -6,7 +6,7 @@ using System.Linq;
 using Runtime.Battle.Systems;
 using Runtime.Communication;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -83,7 +83,7 @@ namespace Runtime.Pokémon.Conditions
 
             this.volatileStatus.Add(condition);
 
-            foreach (Ability ability in BattleManager.instance.GetAbilityOversight().GetAbilities())
+            foreach (Ability ability in BattleSystem.instance.GetAbilityOversight().GetAbilities())
             {
                 if (ability.GetActive())
                     ability.TriggerDisable(AbilityTrigger.OnStatusChange, this.pokemon);
@@ -121,7 +121,7 @@ namespace Runtime.Pokémon.Conditions
                 }
             }
 
-            foreach (Ability ability in BattleManager.instance.GetAbilityOversight().GetAbilities())
+            foreach (Ability ability in BattleSystem.instance.GetAbilityOversight().GetAbilities())
             {
                 if (ability.GetActive())
                     ability.TriggerDisable(AbilityTrigger.OnStatusChange, this.pokemon);

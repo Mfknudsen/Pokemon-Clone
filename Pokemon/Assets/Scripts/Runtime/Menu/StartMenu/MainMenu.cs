@@ -1,8 +1,6 @@
 ﻿#region Packages
 
 using System.Collections;
-using Runtime.Player;
-using Runtime.Systems.UI;
 using Runtime.World;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -16,8 +14,7 @@ namespace Runtime.Menu.StartMenu
         #region Values
 
         [SerializeField, Required] private WorldManager worldManager;
-        [SerializeField, Required] private UIManager uiManager;
-        [SerializeField, Required] private PlayerManager playerManager;
+        
         private bool ready = true;
 
         #endregion
@@ -26,14 +23,11 @@ namespace Runtime.Menu.StartMenu
 
         public void LoadScene(string sceneName)
         {
-            if (!this.ready) return;
+            if(!this.ready) return;
 
             this.ready = true;
 
-            this.worldManager.LoadSceneAsync(sceneName);
-            this.uiManager.SwitchUI(UISelection.Overworld);
-            this.playerManager.EnableOverworld();
-            this.worldManager.UnloadSceneAsync("StartMenu");
+            this.StartCoroutine(this.Load(sceneName));
         }
 
         public void StartNewGame()
@@ -42,18 +36,17 @@ namespace Runtime.Menu.StartMenu
 
             this.ready = true;
 
-            this.StartCoroutine(this.StartGame());
+            this.StartCoroutine(this.Load("Shayklind"));
         }
 
         #endregion
 
         #region Internal
 
-        private IEnumerator StartGame()
+        private IEnumerator Load(string sceneName)
         {
-            const string sceneName = "Shayklind";
-
-            if (!this.worldManager.GetCurrentLoadedWorldScene().Equals(sceneName)) this.worldManager.LoadSceneAsync(sceneName);
+            if (!this.worldManager.GetCurrentLoadedWorldScene().Equals(sceneName))
+                this.worldManager.LoadSceneAsync(sceneName);
 
             yield return null;
 

@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4361e0441d847f4fb2e015b5c84564a, type: 3}
   m_Name: CameraManager
   m_EditorClassIdentifier: 
-  includeAsInactive: 0
-  currentCamera: {fileID: 0}
-  defaultCameraRig: {fileID: 0}
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  defaultEvent:
+    description: 
+    useDefaultRig: 1
+    cameraManager: {fileID: 11400000}
+    cinemachineRig: {fileID: 0}
+    cameraSettings:
+      fov: 0
+    percentToEnable: 1
+    timeInSeconds: 0.5

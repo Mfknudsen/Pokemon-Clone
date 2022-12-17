@@ -6,7 +6,7 @@ using Runtime.Battle.Actions;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Interfaces;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -32,10 +32,7 @@ namespace Runtime.Weathers.Energy
                 : 1.3f;
         }
 
-        public bool IsOperationDone()
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool IsOperationDone => throw new System.NotImplementedException();
 
         public bool MultiHit(PokemonMove pokemonMove)
         {
@@ -52,7 +49,7 @@ namespace Runtime.Weathers.Energy
 
         public IEnumerator Operation()
         {
-            float secPerPokeMove = 200 * BattleManager.instance.GetSecPerPokeMove();
+            float secPerPokeMove = 200 * BattleSystem.instance.GetSecPerPokeMove();
             
             if (this.affected == null || this.affected.GetTypes()
                 .Any(type => type.GetTypeName() == TypeName.Dragon)) yield break;
@@ -69,7 +66,7 @@ namespace Runtime.Weathers.Energy
 
                 this.affected.ReceiveDamage(damageOverTime);
 
-                yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() / secPerPokeMove);
+                yield return new WaitForSeconds(BattleSystem.instance.GetSecPerPokeMove() / secPerPokeMove);
             }
         }
 

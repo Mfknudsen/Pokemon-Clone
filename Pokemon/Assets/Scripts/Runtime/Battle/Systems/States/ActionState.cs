@@ -9,7 +9,7 @@ using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 
 #endregion
@@ -20,11 +20,11 @@ namespace Runtime.Battle.Systems.States
     {
         private readonly SpotOversight spotOversight;
 
-        public ActionState(BattleManager battleManager, OperationManager operationManager, ChatManager chatManager,
-            UIManager uiManager, PlayerManager playerManager) : base(battleManager, operationManager, chatManager,
+        public ActionState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager,
             uiManager, playerManager)
         {
-            this.spotOversight = battleManager.GetSpotOversight();
+            this.spotOversight = battleSystem.GetSpotOversight();
         }
 
         public override IEnumerator Tick()
@@ -61,7 +61,7 @@ namespace Runtime.Battle.Systems.States
                                  !p &&
                                  p.GetCurrentHealth() == 0))
                 {
-                    this.battleManager.SetPokemonFainted(checkPokemon);
+                    this.battleSystem.SetPokemonFainted(checkPokemon);
 
                     if (checkPokemon.GetConditionOversight()
                             .GetNonVolatileStatus() is FaintedCondition faintedCondition)
@@ -70,7 +70,7 @@ namespace Runtime.Battle.Systems.States
 
                         yield return null;
 
-                        while (!faintedCondition.IsOperationDone())
+                        while (!faintedCondition.IsOperationDone)
                             yield return null;
                     }
 
@@ -81,15 +81,15 @@ namespace Runtime.Battle.Systems.States
                 #endregion
             }
 
-            if (this.battleManager.CheckTeamDefeated(true) ||
-                this.battleManager.CheckTeamDefeated(false))
+            if (this.battleSystem.CheckTeamDefeated(true) ||
+                this.battleSystem.CheckTeamDefeated(false))
             {
-                this.battleManager.SetState(new RoundDoneState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new RoundDoneState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
 
                 yield break;
             }
 
-            this.battleManager.SetState(new AfterConditionState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new AfterConditionState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
         }
     }
 }

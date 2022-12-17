@@ -8,7 +8,7 @@ using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
 using Runtime.Player;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using Runtime.Systems.UI;
 using UnityEngine;
 
@@ -18,8 +18,8 @@ namespace Runtime.Battle.Systems.States
 {
     public class PlayerSelectNewState : State
     {
-        public PlayerSelectNewState(BattleManager battleManager, OperationManager operationManager,
-            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleManager,
+        public PlayerSelectNewState(BattleSystem battleSystem, OperationManager operationManager,
+            ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem,
             operationManager, chatManager, uiManager, playerManager)
         {
         }
@@ -28,7 +28,7 @@ namespace Runtime.Battle.Systems.States
         {
             Cursor.visible = true;
             List<SwitchAction> switchActions = new();
-            SpotOversight oversight = this.battleManager.GetSpotOversight();
+            SpotOversight oversight = this.battleSystem.GetSpotOversight();
             BattleMember playerTeam = this.playerManager.GetBattleMember();
 
             if (playerTeam.GetTeam().CanSendMorePokemon())
@@ -38,11 +38,11 @@ namespace Runtime.Battle.Systems.States
                                  s.GetBattleMember() == playerTeam ||
                                  s.GetActivePokemon() != null))
                 {
-                    SwitchAction switchAction = this.battleManager.InstantiateSwitchAction();
+                    SwitchAction switchAction = this.battleSystem.InstantiateSwitchAction();
 
                     switchAction.SetSpot(spot);
 
-                    this.battleManager.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
+                    this.battleSystem.GetSelectionMenu().DisplaySelection(SelectorGoal.Switch, switchAction);
 
                     yield return new WaitWhile(() => !switchAction.GetNextPokemon() ||
                                                      !this.chatManager.GetIsClear());
@@ -51,11 +51,11 @@ namespace Runtime.Battle.Systems.States
                 }
             }
 
-            this.battleManager.GetSelectionMenu().DisableDisplaySelection();
+            this.battleSystem.GetSelectionMenu().DisableDisplaySelection();
 
             Cursor.visible = false;
 
-            this.battleManager.SetState(new ComputerSelectNewState(this.battleManager, this.operationManager, this.chatManager, this.uiManager, this.playerManager, switchActions));
+            this.battleSystem.SetState(new ComputerSelectNewState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager, switchActions));
         }
     }
 }

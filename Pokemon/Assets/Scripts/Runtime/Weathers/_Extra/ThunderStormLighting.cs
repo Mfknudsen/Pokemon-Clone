@@ -1,7 +1,7 @@
 #region Packages
 
 using System.Collections;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -12,10 +12,7 @@ namespace Runtime.Weathers._Extra
     {
         private bool done;
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {

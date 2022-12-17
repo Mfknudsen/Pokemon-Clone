@@ -1,5 +1,7 @@
 ﻿#region Packages
 
+using System;
+using System.Collections;
 using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Common;
@@ -38,9 +40,6 @@ namespace Runtime.Player
         private PlayerInteractions playerInteractions;
 
         [FoldoutGroup("References")] [SerializeField]
-        private Controller moveController;
-
-        [FoldoutGroup("References")] [SerializeField]
         private CinemachineFreeLook overworldCameraRig;
 
         [FoldoutGroup("Character Sheet"), HideLabel] [SerializeField]
@@ -58,7 +57,9 @@ namespace Runtime.Player
         [BoxGroup("Variables/Camera")] [SerializeField, Required]
         private CinemachineFreeLookVariable defaultOverworldRig;
 
-        private GameObject overworldGameObject;
+        [ShowInInspector, NonSerialized] private PlayerState playerState = PlayerState.Paused;
+
+        private GameObject playerGameObject;
 
         private const string FileName = "PlayerData";
 
@@ -67,43 +68,42 @@ namespace Runtime.Player
         #region Build In State
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public void FrameStart()
+        public IEnumerator FrameStart(PersistantRunner persistantRunner)
         {
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(this.OnMoveAxisChange);
             inputManager.turnAxisInputEvent.AddListener(this.OnTurnAxisChange);
             inputManager.runInputEvent.AddListener(this.OnRunChange);
 
-            this.overworldGameObject = GameObject.Find("Player");
+            this.playerGameObject = GameObject.Find("Player");
 
-            GameObject overworld = this.overworldGameObject.GetChildByName("Overworld");
+            DontDestroyOnLoad(this.playerGameObject);
+
+            GameObject overworld = this.playerGameObject.GetChildByName("Overworld");
 
             this.overworldCameraRig = overworld.GetFirstComponentByRoot<CinemachineFreeLook>();
 
+            this.agent = overworld.GetComponent<NavMeshAgent>();
+
+            this.team = overworld.GetComponent<Team>();
+
             this.defaultOverworldRig.value = this.overworldCameraRig;
 
-            this.moveController = overworld.GetComponent<Controller>();
+            this.controller = overworld.GetComponent<Controller>();
 
             this.playerInteractions = overworld.GetComponent<PlayerInteractions>();
 
-            this.cameraBrain.value = this.overworldGameObject.GetComponentInChildren<CinemachineBrain>();
+            this.cameraBrain.value = this.playerGameObject.GetComponentInChildren<CinemachineBrain>();
 
             this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
             this.overworldCameraRig.enabled = false;
-            this.moveController.Setup();
+            this.controller.Setup();
 
-            Debug.Log("d: " + this.overworldGameObject.GetFirstComponentByRoot<BattleMember>());
-            this.battleMember = this.overworldGameObject.GetFirstComponentByRoot<BattleMember>();
+            this.battleMember = this.playerGameObject.GetFirstComponentByRoot<BattleMember>();
 
-            this.playerInteractions.StartCoroutine(this.playerInteractions.Setup());
-        }
+            this.ready = true;
 
-        private void OnDisable()
-        {
-            InputManager inputManager = InputManager.instance;
-            inputManager.moveAxisInputEvent.RemoveListener(this.OnMoveAxisChange);
-            inputManager.turnAxisInputEvent.RemoveListener(this.OnTurnAxisChange);
-            inputManager.runInputEvent.RemoveListener(this.OnRunChange);
+            yield break;
         }
 
         #endregion
@@ -127,6 +127,14 @@ namespace Runtime.Player
 
         public Controller GetController() => this.controller;
 
+        public PlayerState GetPlayerState() => this.playerState;
+
+        #endregion
+
+        #region Setters
+
+        public void SetState(PlayerState set) => this.playerState = set;
+
         #endregion
 
         #region In
@@ -135,9 +143,9 @@ namespace Runtime.Player
 
         public void DisablePlayerControl() => this.controller.Disable();
 
-        public void DisableOverworld() => this.overworldGameObject.SetActive(false);
+        public void DisableOverworld() => this.playerGameObject.SetActive(false);
 
-        public void EnableOverworld() => this.overworldGameObject.SetActive(true);
+        public void EnableOverworld() => this.playerGameObject.SetActive(true);
 
         public void PlayAnimationClip(AnimationClip clip)
         {

@@ -29,7 +29,7 @@ namespace Runtime.Weathers.Irritants
         {
             base.Setup();
 
-            foreach (Pokemon pokemon in BattleManager.instance.GetSpotOversight().GetSpots()
+            foreach (Pokemon pokemon in BattleSystem.instance.GetSpotOversight().GetSpots()
                 .Select(spot => spot.GetActivePokemon()).Where(pokemon =>
                     pokemon.GetTypes().Any(type => this.affectedTypes.Contains(type.GetTypeName()))))
             {

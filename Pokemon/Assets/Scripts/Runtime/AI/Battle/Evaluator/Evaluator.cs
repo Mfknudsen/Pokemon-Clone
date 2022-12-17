@@ -37,8 +37,8 @@ namespace Runtime.AI.Battle.Evaluator
 
             this.actions.AddRange(pokemon.GetMoves().Where(move => move != null));
 
-            if (setting.canSwitchOut) this.actions.Add(BattleManager.instance.InstantiateSwitchAction());
-            if (setting.canUseItems) this.actions.Add(BattleManager.instance.InstantiateItemAction());
+            if (setting.canSwitchOut) this.actions.Add(BattleSystem.instance.InstantiateSwitchAction());
+            if (setting.canUseItems) this.actions.Add(BattleSystem.instance.InstantiateItemAction());
         }
 
         public void EvaluateForPokemon()

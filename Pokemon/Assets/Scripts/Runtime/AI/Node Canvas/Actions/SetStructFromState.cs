@@ -6,7 +6,7 @@ using NodeCanvas.Framework;
 
 namespace Runtime.AI.Node_Canvas.Actions
 {
-    public class SetStructFromState<T> : ActionTask<NpcController> where T : struct
+    public class SetStructFromState<T> : ActionTask<UnitBase> where T : struct
     {
         public BBParameter<string> key;
         public BBParameter<T> toSet;

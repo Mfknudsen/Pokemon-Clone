@@ -2,7 +2,7 @@
 
 using System.Collections;
 using Runtime.Communication;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 #endregion
@@ -89,9 +89,6 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         #endregion
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
     }
 }

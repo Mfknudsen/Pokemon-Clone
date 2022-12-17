@@ -28,8 +28,8 @@ namespace Runtime.Weathers.Climate
 
         public IEnumerator Operation()
         {
-            SpotOversight oversight = BattleManager.instance.GetSpotOversight();
-            float secPerPokeMove = 200 * BattleManager.instance.GetSecPerPokeMove();
+            SpotOversight oversight = BattleSystem.instance.GetSpotOversight();
+            float secPerPokeMove = 200 * BattleSystem.instance.GetSecPerPokeMove();
 
             foreach (Spot spot in oversight.GetSpots())
             {
@@ -51,7 +51,7 @@ namespace Runtime.Weathers.Climate
 
                     pokemon.ReceiveDamage(damageOverTime);
 
-                    yield return new WaitForSeconds(BattleManager.instance.GetSecPerPokeMove() / secPerPokeMove);
+                    yield return new WaitForSeconds(BattleSystem.instance.GetSecPerPokeMove() / secPerPokeMove);
                 }
             }
         }

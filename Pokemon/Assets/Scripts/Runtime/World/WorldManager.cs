@@ -10,7 +10,9 @@ using Runtime.Systems.UI;
 using Runtime.UI.SceneTransitions;
 using Runtime.UI.SceneTransitions.Transitions;
 using Runtime.World.Overworld.Tiles;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Logger = Runtime._Debug.Logger;
 
@@ -23,9 +25,9 @@ namespace Runtime.World
     {
         #region Values
 
-        [SerializeField] private PlayerManager playerManager;
-        [SerializeField] private UIManager uiManager;
-        [SerializeField] private TileManager tileManager;
+        [SerializeField, Required] private PlayerManager playerManager;
+        [SerializeField, Required] private UIManager uiManager;
+        [SerializeField, Required] private TileManager tileManager;
 
         private Coroutine currentOperation;
 
@@ -42,41 +44,40 @@ namespace Runtime.World
 
         private readonly List<GameObject> loadedScenes = new();
 
+        private PersistantRunner persistantRunner;
+        
         #endregion
 
         #region Build In States
 
-        public void FrameStart() =>
+        public IEnumerator FrameStart(PersistantRunner persistantRunner)
+        {
             this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
+
+            this.persistantRunner = persistantRunner;
+            
+            this.ready = true;
+            yield break;
+        }
 
         #endregion
 
         #region Getters
 
-        public float GetLoadMeter()
-        {
-            return this.progressMeter;
-        }
+        public float GetLoadMeter() =>
+            this.progressMeter;
 
-        public bool GetEmpty()
-        {
-            return this.currentOperation == null;
-        }
+        public bool GetEmpty() =>
+            this.currentOperation == null;
 
-        public bool GetIsLoading()
-        {
-            return this.activeLoading.Count == 0;
-        }
+        public bool GetIsLoading() =>
+            this.activeLoading.Count == 0;
 
-        public bool GetActiveUnloading()
-        {
-            return this.activeUnloading.Count == 0;
-        }
+        public bool GetActiveUnloading() =>
+            this.activeUnloading.Count == 0;
 
-        public string GetCurrentLoadedWorldScene()
-        {
-            return this.currentLoadedWorldScene;
-        }
+        public string GetCurrentLoadedWorldScene() =>
+            this.currentLoadedWorldScene;
 
         #endregion
 
@@ -95,26 +96,26 @@ namespace Runtime.World
 
         public void LoadSceneAsync(string sceneName)
         {
-            this.activeLoading.Add(this.tileManager.GetSubManager()
-                .StartCoroutine(this.LoadWorldSceneAsync(sceneName)));
+            this.activeLoading.Add(
+                this.persistantRunner.StartCoroutine(this.LoadWorldSceneAsync(sceneName)));
         }
 
         public void UnloadSceneAsync(string sceneName)
         {
-            this.activeUnloading.Add(this.tileManager.GetSubManager()
-                .StartCoroutine(this.UnloadWorldSceneAsync(sceneName)));
+            this.activeUnloading.Add(
+                this.persistantRunner.StartCoroutine(this.UnloadWorldSceneAsync(sceneName)));
         }
 
         public void LoadBattleScene(string sceneName)
         {
             this.activeLoading.Add(
-                this.tileManager.GetSubManager().StartCoroutine(this.LoadBattleSceneAsync(sceneName)));
+                this.persistantRunner.StartCoroutine(this.LoadBattleSceneAsync(sceneName)));
         }
 
         public void UnloadCurrentBattleScene()
         {
-            this.activeUnloading.Add(this.tileManager.GetSubManager()
-                .StartCoroutine(this.UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
+            this.activeUnloading.Add(
+                this.persistantRunner.StartCoroutine(this.UnloadBattleSceneAsync(this.currentLoadedBattleScene)));
         }
 
         #endregion

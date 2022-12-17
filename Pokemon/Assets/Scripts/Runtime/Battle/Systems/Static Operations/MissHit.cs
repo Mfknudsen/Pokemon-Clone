@@ -1,7 +1,7 @@
 using System.Collections;
 using Runtime.Communication;
 using Runtime.Pokémon;
-using Runtime.Systems.Operation;
+using Runtime.Systems;
 using UnityEngine;
 
 namespace Runtime.Battle.Systems.Static_Operations
@@ -20,10 +20,7 @@ namespace Runtime.Battle.Systems.Static_Operations
             this.missChat = Object.Instantiate(BattleMathf.GetMissChat());
         }
 
-        public bool IsOperationDone()
-        {
-            return this.done;
-        }
+        public bool IsOperationDone => this.done;
 
         public IEnumerator Operation()
         {

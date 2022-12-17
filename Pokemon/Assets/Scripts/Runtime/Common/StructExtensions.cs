@@ -40,6 +40,16 @@ namespace Runtime.Common
         public static bool QuickDistanceGreaterThen(this Vector3 point1, Vector3 point2, float distance) =>
             QuickSquareDistance(point1, point2) > distance * distance;
 
+        public static float ShortDistancePointToLine(this Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+        {
+            Vector3 line = lineEnd - lineStart;
+            Vector3 startToPoint = point - lineStart;
+
+            float area = Vector3.Cross(line, startToPoint).magnitude;
+            
+            return area / line.magnitude;
+        }
+
         #endregion
 
         #region Quaternion

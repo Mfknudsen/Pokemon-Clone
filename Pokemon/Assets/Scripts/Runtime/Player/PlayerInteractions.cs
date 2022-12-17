@@ -1,9 +1,10 @@
 ﻿#region Packages
 
-using System.Collections;
 using System.Collections.Generic;
+using Runtime.ScriptableVariables.Structs.ListVariables;
 using Runtime.Systems;
 using Runtime.World.Overworld.Interactions;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
@@ -16,28 +17,58 @@ namespace Runtime.Player
 
         [SerializeField] private InteractItem focusedInteractable;
 
+        [SerializeField, Required] private InteractItemListVariable itemListVariable;
+
         private readonly Dictionary<InteractItem, Vector3> interactableInRange = new();
+
+        #endregion
+
+        #region Build In States
+
+        private void OnEnable() =>
+            InputManager.instance.interactInputEvent.AddListener(this.TriggerClosest);
+
+        private void OnDisable() =>
+            InputManager.instance.interactInputEvent.RemoveListener(this.TriggerClosest);
+
+        private void Update()
+        {
+            Vector3 pos = this.transform.position;
+            float curSqrDistance = this.focusedInteractable != null
+                ? (pos - this.focusedInteractable.GetPosition()).sqrMagnitude
+                : Mathf.Infinity;
+            InteractItem toSwitchTo = null;
+
+            foreach (InteractItem interactItem in this.itemListVariable.value)
+            {
+                if (interactItem == this.focusedInteractable) continue;
+
+                float sqrDist = (pos - interactItem.GetPosition()).sqrMagnitude;
+
+                if (sqrDist > curSqrDistance) continue;
+
+                curSqrDistance = sqrDist;
+
+                toSwitchTo = this.focusedInteractable;
+            }
+
+            if (this.focusedInteractable != null)
+            {
+            }
+
+            this.focusedInteractable = toSwitchTo;
+        }
 
         #endregion
 
         #region Getters
 
-        public Vector3 GetFocusedPosition()
-        {
-            return this.focusedInteractable == null ? Vector3.zero : this.focusedInteractable.GetPosition();
-        }
+        public Vector3 GetFocusedPosition() => 
+            this.focusedInteractable == null ? Vector3.zero : this.focusedInteractable.GetPosition();
 
         #endregion
 
         #region In
-
-        public IEnumerator Setup()
-        {
-            while (InputManager.instance == null)
-                yield return null;
-
-            InputManager.instance.interactInputEvent.AddListener(this.TriggerClosest);
-        }
 
         public void OnEnter(InteractItem interactable, Transform trans)
         {

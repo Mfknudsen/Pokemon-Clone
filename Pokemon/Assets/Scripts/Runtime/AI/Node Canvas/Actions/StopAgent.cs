@@ -7,13 +7,11 @@ using UnityEngine.AI;
 
 namespace Runtime.AI.Node_Canvas.Actions
 {
-    public class StopAgent : ActionTask
+    public class StopAgent : ActionTask<NavMeshAgent>
     {
-        public BBParameter<NavMeshAgent> navAgent;
-
         protected override void OnExecute()
         {
-            this.navAgent.GetValue().isStopped = true;
+            this.agent.isStopped = true;
 
             this.EndAction(true);
         }
