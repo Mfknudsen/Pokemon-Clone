@@ -6,6 +6,7 @@ using Cinemachine;
 using Runtime.Battle.Systems;
 using Runtime.Common;
 using Runtime.Files;
+using Runtime.ScriptableEvents;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
@@ -23,6 +24,9 @@ namespace Runtime.Player
     public sealed class PlayerManager : Manager, IFrameStart
     {
         #region Values
+
+        [ShowInInspector, ReadOnly, NonSerialized]
+        private PlayerState playerState = PlayerState.Paused;
 
         [FoldoutGroup("References")] [SerializeField]
         private Team team;
@@ -57,7 +61,8 @@ namespace Runtime.Player
         [BoxGroup("Variables/Camera")] [SerializeField, Required]
         private CinemachineFreeLookVariable defaultOverworldRig;
 
-        [ShowInInspector, NonSerialized] private PlayerState playerState = PlayerState.Paused;
+        [SerializeField, BoxGroup("Events"), Required]
+        private PlayerStateEvent playerStateEvent;
 
         private GameObject playerGameObject;
 
@@ -133,7 +138,11 @@ namespace Runtime.Player
 
         #region Setters
 
-        public void SetState(PlayerState set) => this.playerState = set;
+        public void SetState(PlayerState set)
+        {
+            this.playerState = set;
+            this.playerStateEvent.Trigger(set);
+        }
 
         #endregion
 

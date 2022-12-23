@@ -48,6 +48,12 @@ namespace Runtime.Systems
                 return;
 
             this.ready = false;
+            
+            this.OnManagerDisabled();
+        }
+
+        protected virtual void OnManagerDisabled()
+        {
         }
 
         #endregion

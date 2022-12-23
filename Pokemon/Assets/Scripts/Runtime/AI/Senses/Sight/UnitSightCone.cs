@@ -94,7 +94,11 @@ namespace Runtime.AI.Senses.Sight
 
                     if (Vector3.Angle(forward, vec) > this.size) continue;
 
+                    Debug.Log(viewTransform.name);
+                    
                     this.inSight.Add(viewable);
+                    
+                    break;
                 }
             }
         }

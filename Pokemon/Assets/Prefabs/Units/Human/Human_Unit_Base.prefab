@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2a9bc5d048b9741b9a8ec02b7d58fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleSystem: {fileID: 7156709088239351833, guid: 0e4cdc54372af944994b9626bf675352, type: 3}
   unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
   tileManager: {fileID: 11400000, guid: c9cd88d08bd12ad1e8ee74a3316a51c6, type: 2}
   playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
@@ -185,12 +186,12 @@ MonoBehaviour:
   cameraManager: {fileID: 11400000, guid: 53f364342aaa4ec19926b6e680672102, type: 2}
   chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   worldManager: {fileID: 11400000, guid: 6e1ddf5a5c52f7fbababa4e2c049470a, type: 2}
-  battleSceneName: TestBattle
   playerSpotCount: 1
   allies: []
   enemies:
   - {fileID: 8314289326036260595}
   onStartChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
+  onEndChat: {fileID: 0}
   transition: {fileID: 11400000, guid: 448d565c65325c54a9892543f221932f, type: 2}
 --- !u!114 &8314289326036260556
 MonoBehaviour:

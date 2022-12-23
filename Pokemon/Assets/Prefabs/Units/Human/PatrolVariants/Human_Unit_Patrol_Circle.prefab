@@ -17,10 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
       propertyPath: _serializedBlackboard
-      value: '{"_variables":{"_patrolCircle":{"_value":true,"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_waypoints":{"_value":[null,null,null],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
-        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+      value: '{"_variables":{}}'
       objectReference: {fileID: 0}
     - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
       propertyPath: _objectReferences.Array.size
@@ -32,11 +29,12 @@ PrefabInstance:
       objectReference: {fileID: 5699656477778807726}
     - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
       propertyPath: _serializedVariables.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
       propertyPath: _serializedVariables.Array.data[0]._json
-      value: '{"_value":true,"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      value: '{"_value":[null,null,null],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
         mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
       objectReference: {fileID: 0}
     - target: {fileID: 4594542893547573516, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
@@ -58,6 +56,21 @@ PrefabInstance:
       propertyPath: _serializedVariables.Array.data[3]._references.Array.data[1]
       value: 
       objectReference: {fileID: 5699656477778807726}
+    - target: {fileID: 4594542893547573517, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _preInitializeSubGraphs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573517, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedExposedParameters.Array.data[0]._json
+      value: '{"_targetVariableID":"bbe17ca8-3b6a-4ed0-83bc-7f8ea6e52fec","_value":[],"$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4594542893547573517, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
+      propertyPath: _serializedExposedParameters.Array.data[1]._json
+      value: '{"_targetVariableID":"a86e1282-be93-4c7a-8aae-fce27969905a","_value":true,"$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Boolean,
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
     - target: {fileID: 4594542893547573555, guid: 5a3ef2e26f509d442a9d670ce1c6c604, type: 3}
       propertyPath: m_Name
       value: Human_Unit_Patrol_Circle

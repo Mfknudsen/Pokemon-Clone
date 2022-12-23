@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d479216994ffd149bbb8376a35fa5bf, type: 3}
   m_Name: UnitManager
   m_EditorClassIdentifier: 
+  playerStateChangeEvent: {fileID: 11400000, guid: c0a9ead1634e8a4489ce0c16250f10dd, type: 2}
   playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
   mediumDelay: 3
   farDelay: 10

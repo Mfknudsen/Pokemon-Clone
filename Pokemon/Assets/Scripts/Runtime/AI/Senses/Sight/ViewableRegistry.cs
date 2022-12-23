@@ -31,7 +31,8 @@ namespace Runtime.AI.Senses.Sight
 
         public List<Viewable> GetViewableInDistance(Vector3 position, float radius) =>
             this.registeredViewable
-                .Where(v => (position - v.transform.position).sqrMagnitude - v.GetCheckRadius * v.GetCheckRadius < radius * radius)
+                .Where(v => (position - v.GetPosition).sqrMagnitude - v.GetCheckRadius * v.GetCheckRadius <
+                            radius * radius)
                 .ToList();
 
         #endregion

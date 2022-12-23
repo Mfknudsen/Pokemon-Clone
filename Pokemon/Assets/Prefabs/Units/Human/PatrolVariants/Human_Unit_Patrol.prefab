@@ -11,12 +11,24 @@ PrefabInstance:
       propertyPath: _graph
       value: 
       objectReference: {fileID: 11400000, guid: 6dffa0ddaebcafacaa0d4249fb1b0dbe, type: 2}
+    - target: {fileID: 8314289326036260552, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
+      propertyPath: _serializedExposedParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314289326036260552, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
+      propertyPath: _serializedExposedParameters.Array.data[0]._json
+      value: '{"_targetVariableID":"bbe17ca8-3b6a-4ed0-83bc-7f8ea6e52fec","_value":[],"$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314289326036260552, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
+      propertyPath: _serializedExposedParameters.Array.data[1]._json
+      value: '{"_targetVariableID":"a86e1282-be93-4c7a-8aae-fce27969905a","$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Boolean,
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+      objectReference: {fileID: 0}
     - target: {fileID: 8314289326036260553, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
       propertyPath: _serializedBlackboard
-      value: '{"_variables":{"_patrolCircle":{"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"_waypoints":{"_value":[],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
-        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+      value: '{"_variables":{}}'
       objectReference: {fileID: 0}
     - target: {fileID: 8314289326036260553, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
       propertyPath: _objectReferences.Array.size
@@ -32,11 +44,12 @@ PrefabInstance:
       objectReference: {fileID: 3606496160103842069}
     - target: {fileID: 8314289326036260553, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
       propertyPath: _serializedVariables.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8314289326036260553, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
       propertyPath: _serializedVariables.Array.data[0]._json
-      value: '{"_name":"_patrolCircle","_id":"0a7a0101-ffa6-4ae0-8906-9df763399295","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      value: '{"_value":[],"_name":"_waypoints","_id":"bdabadd4-1f14-4f3b-9973-dbaeb8c1433b","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
         mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
       objectReference: {fileID: 0}
     - target: {fileID: 8314289326036260553, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}

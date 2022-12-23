@@ -13,6 +13,7 @@ using Runtime.World;
 using Runtime.World.Overworld.Tiles;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 #endregion
 
@@ -31,6 +32,8 @@ namespace Runtime.Battle.Systems
         #endregion
 
         [SerializeField, Required] private BattleSystem battleSystem;
+        [SerializeField, Required] private BattleInitializer battleInitializer;
+        [SerializeField, Required] private TimelineClip introAnimationClip;
 
         [SerializeField, Required] private UnitManager unitManager;
         [SerializeField, Required] private TileManager tileManager;
@@ -49,8 +52,9 @@ namespace Runtime.Battle.Systems
         [SerializeField] private Transition transition;
 
         private bool ready = true, playerWon;
-        
+
         private BattleSystem instantiatedBattleSystem;
+        private BattleInitializer instantiatedBattleInitializer;
 
         #endregion
 
@@ -87,54 +91,29 @@ namespace Runtime.Battle.Systems
             if (!this.ready) return;
 
             this.unitManager.PauseAllUnits();
-            this.playerManager.DisableOverworld();
+            this.playerManager.DisablePlayerControl();
 
             this.ready = false;
 
             Debug.Log("Setting up battle");
-            
+
             this.StartCoroutine(this.SetupBattle());
-
-            /*
-            Transform t = this.transform;
-            this.overworldParent = t.parent;
-            t.parent = null;
-
-            this.transition.onHide = () =>
-            {
-                this.tileManager.HideTiles();
-                this.playerManager.DisableOverworld();
-                this.uiManager.UIBook.gameObject.SetActive(false);
-                this.uiManager.SwitchUI(UISelection.Battle);
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            };
-
-            this.onBattleEnd += delegate
-            {
-                this.StartCoroutine(this.gameObject.GetComponent<UnitBattleBase>()?.AfterBattle());
-                this.unitManager.ResumeAllUnits();
-            };
-
-            this.worldManager.SetTransition(this.transition);
-            this.worldManager.LoadBattleScene(this.battleSceneName);
-
-            //Wait for the Battle Scene to load and apply settings from Battle Starter
-            this.StartCoroutine(this.WaitForResponse());
-            */
         }
 
         private IEnumerator SetupBattle()
         {
+            this.instantiatedBattleInitializer = Instantiate(this.battleInitializer);
             this.instantiatedBattleSystem = Instantiate(this.battleSystem);
+
+            this.instantiatedBattleInitializer.FindSetupBattleZone();
 
             Chat instantiatedChat = Instantiate(this.onStartChat);
             this.chatManager.Add(instantiatedChat);
 
             yield return null;
 
-            yield return new WaitUntil(() => instantiatedChat.GetDone());
+            yield return new WaitUntil(() =>
+                instantiatedChat.GetDone() && this.instantiatedBattleInitializer.HasFoundBattleZone);
         }
 
         private IEnumerator WaitForResponse()

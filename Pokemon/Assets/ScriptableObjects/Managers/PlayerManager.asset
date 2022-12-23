@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca8cc52cad8d0f49bef4bdae8f6b1ec, type: 3}
   m_Name: PlayerManager
   m_EditorClassIdentifier: 
-  ready: 1
   team: {fileID: 0}
   controller: {fileID: 0}
   agent: {fileID: 0}
@@ -29,3 +28,4 @@ MonoBehaviour:
   running: {fileID: 11400000, guid: c9f58e2b30e7afa91b40c2a93f174326, type: 2}
   cameraBrain: {fileID: 11400000, guid: 6d1072f5072ef4f9692e72067a2d8886, type: 2}
   defaultOverworldRig: {fileID: 11400000, guid: 008e10a30c7950fa6bb85b484f546e0e, type: 2}
+  playerStateEvent: {fileID: 11400000, guid: c0a9ead1634e8a4489ce0c16250f10dd, type: 2}

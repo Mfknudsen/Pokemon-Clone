@@ -1,8 +1,10 @@
 #region Packages
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
+using Runtime.ScriptableEvents;
 using Runtime.Systems;
 using Runtime.Systems.PersistantRunner;
 using Sirenix.OdinInspector;
@@ -13,9 +15,11 @@ using UnityEngine;
 namespace Runtime.AI
 {
     [CreateAssetMenu(menuName = "Manager/Unit")]
-    public sealed class UnitManager : Manager, IFrameUpdate, IFrameLateUpdate
+    public sealed class UnitManager : Manager, IFrameStart, IFrameUpdate, IFrameLateUpdate
     {
         #region Values
+
+        [SerializeField, Required] private PlayerStateEvent playerStateChangeEvent;
 
         [SerializeField, Required] private PlayerManager playerManager;
 
@@ -36,7 +40,14 @@ namespace Runtime.AI
 
         #endregion
 
-        #region Build In States
+        #region In
+
+        public IEnumerator FrameStart(PersistantRunner persistantRunner)
+        {
+            this.playerStateChangeEvent.AddListener(this.OnPlayerStateChange);
+
+            yield break;
+        }
 
         public void FrameUpdate()
         {
@@ -56,10 +67,6 @@ namespace Runtime.AI
 
         public void FrameLateUpdate() =>
             this.UpdateUnitDistanceLists();
-
-        #endregion
-
-        #region In
 
         public void Register(UnitBase add)
         {
@@ -134,6 +141,9 @@ namespace Runtime.AI
 
         #region Internal
 
+        protected override void OnManagerDisabled() =>
+            this.playerStateChangeEvent.RemoveListener(this.OnPlayerStateChange);
+
         private void UpdateUnitDistanceLists()
         {
             Vector3 playerPos = this.playerManager.GetController().transform.position;
@@ -154,6 +164,24 @@ namespace Runtime.AI
                     this.medium.Add(unitBase);
                 else
                     this.far.Add(unitBase);
+            }
+        }
+
+        private void OnPlayerStateChange(PlayerState playerState)
+        {
+            if (playerState == PlayerState.Paused)
+            {
+                if (this.shouldUpdate)
+                    this.PauseAllUnits();
+
+                this.shouldUpdate = false;
+            }
+            else
+            {
+                if (!this.shouldUpdate)
+                    this.ResumeAllUnits();
+
+                this.shouldUpdate = true;
             }
         }
 
