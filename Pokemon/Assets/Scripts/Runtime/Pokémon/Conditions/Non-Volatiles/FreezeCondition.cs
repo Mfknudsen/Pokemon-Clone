@@ -55,7 +55,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
             if ((Random.Range(0.0f, 1.0f) <= 0.2f) && (this.n != 5))
             {
-                Chat toSend = this.abruptEndChat.GetChat();
+                Chat toSend = this.abruptEndChat.GetChatInstantiated();
                 toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
                 this.chatManager.Add(toSend);
 
@@ -63,7 +63,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             }
             else if (this.n < 5)
             {
-                Chat toSend = this.onContinuousEffectChat.GetChat();
+                Chat toSend = this.onContinuousEffectChat.GetChatInstantiated();
                 toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
                 this.chatManager.Add(toSend);
 
@@ -71,7 +71,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
             }
             else
             {
-                Chat toSend = this.endEffectChat.GetChat();
+                Chat toSend = this.endEffectChat.GetChatInstantiated();
                 toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
                 this.chatManager.Add(this.endEffectChat);
 

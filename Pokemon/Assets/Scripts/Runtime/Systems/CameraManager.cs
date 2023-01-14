@@ -32,7 +32,7 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner runner)
         {
             yield return new WaitWhile(() => this.playerManager.GetOverworldCameraRig() == null);
 
@@ -53,7 +53,7 @@ namespace Runtime.Systems
         public Camera GetCurrentCamera() =>
             this.currentCamera;
 
-        public CameraEvent ReturnToDefaultOverworld() =>
+        public CameraEvent ReturnToDefaultOverworldEvent() =>
             this.defaultEvent;
 
         #endregion

@@ -13,7 +13,7 @@ namespace Editor
     {
         public override void OnInspectorGUI()
         {
-            BookButton bookButton = target as BookButton;
+            BookButton bookButton = this.target as BookButton;
 
             if (bookButton != null)
             {

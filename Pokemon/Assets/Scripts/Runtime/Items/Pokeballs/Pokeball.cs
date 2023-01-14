@@ -83,13 +83,13 @@ namespace Runtime.Items.Pokeballs
                 3 => this.threeClickBreak,
                 _ => this.caught
             };
-            selectedChat = selectedChat.GetChat();
+            selectedChat = selectedChat.GetChatInstantiated();
             selectedChat.AddToOverride("<TARGET_NAME>", this.target.GetName());
 
             List<Chat> chats = new();
             foreach (Chat chat in this.chatOnUse)
             {
-                Chat c = chat.GetChat();
+                Chat c = chat.GetChatInstantiated();
                 c.AddToOverride("<USER_NAME>", this.userName);
                 c.AddToOverride("<ITEM_NAME>", this.itemName);
                 chats.Add(c);

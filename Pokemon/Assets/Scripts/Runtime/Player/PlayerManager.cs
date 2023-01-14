@@ -41,7 +41,7 @@ namespace Runtime.Player
         private BattleMember battleMember;
 
         [FoldoutGroup("References")] [SerializeField]
-        private PlayerInteractions playerInteractions;
+        private PlayerInteraction playerInteraction;
 
         [FoldoutGroup("References")] [SerializeField]
         private CinemachineFreeLook overworldCameraRig;
@@ -73,7 +73,7 @@ namespace Runtime.Player
         #region Build In State
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public IEnumerator FrameStart(PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner runner)
         {
             InputManager inputManager = InputManager.instance;
             inputManager.moveAxisInputEvent.AddListener(this.OnMoveAxisChange);
@@ -90,13 +90,13 @@ namespace Runtime.Player
 
             this.agent = overworld.GetComponent<NavMeshAgent>();
 
-            this.team = overworld.GetComponent<Team>();
+            this.team = this.playerGameObject.GetComponent<Team>();
 
             this.defaultOverworldRig.value = this.overworldCameraRig;
 
             this.controller = overworld.GetComponent<Controller>();
 
-            this.playerInteractions = overworld.GetComponent<PlayerInteractions>();
+            this.playerInteraction = overworld.GetComponent<PlayerInteraction>();
 
             this.cameraBrain.value = this.playerGameObject.GetComponentInChildren<CinemachineBrain>();
 
@@ -115,24 +115,32 @@ namespace Runtime.Player
 
         #region Getters
 
-        public CharacterSheet GetCharacterSheet() => this.characterSheet;
+        public CharacterSheet GetCharacterSheet() =>
+            this.characterSheet;
 
         public string[] GetPronouns() => new[]
             { this.characterSheet.pronoun1, this.characterSheet.pronoun2, this.characterSheet.pronoun3 };
 
-        public Team GetTeam() => this.team;
+        public Team GetTeam() =>
+            this.team;
 
-        public BattleMember GetBattleMember() => this.battleMember;
+        public BattleMember GetBattleMember() =>
+            this.battleMember;
 
-        public PlayerInteractions GetInteractions() => this.playerInteractions;
+        public PlayerInteraction GetInteractions() =>
+            this.playerInteraction;
 
-        public NavMeshAgent GetAgent() => this.agent;
+        public NavMeshAgent GetAgent() =>
+            this.agent;
 
-        public CinemachineFreeLook GetOverworldCameraRig() => this.overworldCameraRig;
+        public CinemachineFreeLook GetOverworldCameraRig() =>
+            this.overworldCameraRig;
 
-        public Controller GetController() => this.controller;
+        public Controller GetController() =>
+            this.controller;
 
-        public PlayerState GetPlayerState() => this.playerState;
+        public PlayerState GetPlayerState() =>
+            this.playerState;
 
         #endregion
 
@@ -148,9 +156,17 @@ namespace Runtime.Player
 
         #region In
 
-        public void EnablePlayerControl() => this.controller.Enable();
+        public void EnablePlayerControl()
+        {
+            this.playerInteraction.enabled = true;
+            this.controller.Enable();
+        }
 
-        public void DisablePlayerControl() => this.controller.Disable();
+        public void DisablePlayerControl()
+        {
+            this.playerInteraction.enabled = false;
+            this.controller.Disable();
+        }
 
         public void DisableOverworld() => this.playerGameObject.SetActive(false);
 

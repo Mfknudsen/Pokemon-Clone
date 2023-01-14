@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace Runtime.World.Overworld.Interactions
 {
-    public sealed class InteractItem : MonoBehaviour, IInteractable
+    public sealed class InteractItem : MonoBehaviour
     {
         #region Values
 
         [SerializeField, Required] private InteractItemListVariable itemListVariable;
 
-        [SerializeField] private Vector3 iconOffset, triggerOffset;
+        [SerializeField] private float iconOffset, triggerOffset;
 
         [SerializeField] private MonoBehaviour[] onTrigger;
 
@@ -27,18 +27,24 @@ namespace Runtime.World.Overworld.Interactions
         #region Build In States
 
 #if UNITY_EDITOR
-
-        private void OnDrawGizmosSelected() =>
-            Gizmos.DrawWireSphere(this.transform.position + this.triggerOffset, this.radius);
+        private void OnDrawGizmosSelected()
+        {
+            Vector3 position = this.transform.position;
+            Gizmos.DrawWireSphere(position + Vector3.up * this.triggerOffset, this.radius);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(position + Vector3.up * this.iconOffset, .2f);
+        }
 
         private void OnValidate()
         {
-            this.onTrigger = this.onTrigger
-                .OfType<IInteractable>()
-                .Select(i => i as MonoBehaviour)
-                .ToArray();
+            if (this.onTrigger.Length > 0)
+            {
+                this.onTrigger = this.onTrigger
+                    .OfType<IInteractable>()
+                    .Select(i => i as MonoBehaviour)
+                    .ToArray();
+            }
         }
-
 #endif
 
         private void OnEnable() => this.itemListVariable.AddElement(this);
@@ -50,9 +56,10 @@ namespace Runtime.World.Overworld.Interactions
         #region Getters
 
         public Vector3 GetPosition() =>
-            this.transform.position + this.triggerOffset;
+            this.transform.position + Vector3.up * this.triggerOffset;
 
-        public Vector3 GetIconPosition() => this.transform.position + this.iconOffset;
+        public Vector3 GetIconPosition() =>
+            this.transform.position + Vector3.up * this.iconOffset;
 
         public float GetRadius() => this.radius;
 
@@ -66,7 +73,7 @@ namespace Runtime.World.Overworld.Interactions
                 .Select(script =>
                     script as IInteractable)
                 .ForEach(i =>
-                    i.Trigger());
+                    i.InteractTrigger());
         }
 
         #endregion

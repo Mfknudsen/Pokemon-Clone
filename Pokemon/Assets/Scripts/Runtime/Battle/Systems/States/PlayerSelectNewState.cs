@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Runtime.Battle.Actions;
 using Runtime.Battle.Systems.Spots;
-using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Systems;
 using Runtime.Systems.UI;
+using Runtime.UI.Battle.Selection;
 using UnityEngine;
 
 #endregion

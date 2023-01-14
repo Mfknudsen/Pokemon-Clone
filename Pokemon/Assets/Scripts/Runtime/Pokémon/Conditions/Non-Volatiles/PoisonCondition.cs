@@ -76,7 +76,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public IEnumerator Operation()
         {
-            Chat toSend = this.onEffectChat.GetChat();
+            Chat toSend = this.onEffectChat.GetChatInstantiated();
             toSend.AddToOverride("<TARGET_NAME>", this.affectedPokemon.GetName());
             this.chatManager.Add(toSend);
 

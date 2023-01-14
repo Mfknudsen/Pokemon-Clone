@@ -2,6 +2,6 @@
 {
     public interface IInteractable
     {
-        void Trigger();
+        void InteractTrigger();
     }
 }

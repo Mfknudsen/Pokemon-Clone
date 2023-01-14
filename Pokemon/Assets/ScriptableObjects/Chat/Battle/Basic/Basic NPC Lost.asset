@@ -19,8 +19,10 @@ MonoBehaviour:
   description: 
   textList:
   - I lost. GG
+  timeToNext:
+  - 0.2
+  hideAfter: 1
   needInput: 1
-  timeUntilNext: 0.75
   replaceString: []
   addString: []
   showText: 

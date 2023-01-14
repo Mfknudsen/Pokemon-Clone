@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eec4d4af2d9702446b42aa01b45f50a3, type: 3}
   m_Name: Interact Item List
   m_EditorClassIdentifier: 
+  debugSetter: 0
   description: 
   defaultValue: []
-  debugSetter: 0

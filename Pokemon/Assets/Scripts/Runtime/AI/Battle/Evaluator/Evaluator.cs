@@ -50,12 +50,10 @@ namespace Runtime.AI.Battle.Evaluator
             VirtualSpot userSpot = spotOversight.GetPokemonSpot(this.pokemon);
             VirtualPokemon user = userSpot.virtualPokemon;
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (BattleAction battleAction in this.actions.Where(action => action != null))
             {
-                // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (VirtualSpot spot in spotOversight.spots.Where(s =>
-                    VirtualMathf.MoveCanHit(battleAction, userSpot, s)))
+                             VirtualMathf.MoveCanHit(battleAction, userSpot, s)))
                 {
                     BattleAction rootAction = SetupRootAction(battleAction, user.GetActualPokemon(),
                         spot.virtualPokemon.GetActualPokemon());
@@ -65,7 +63,8 @@ namespace Runtime.AI.Battle.Evaluator
                         0,
                         battleAction, this.pokemon,
                         spot.virtualPokemon.GetFakePokemon(),
-                        virtualBattle, this.setting.personalitySetting)
+                        virtualBattle,
+                        this.setting.personalitySetting)
                     );
                 }
             }
@@ -74,12 +73,14 @@ namespace Runtime.AI.Battle.Evaluator
             this.Evaluate(user, this.setting.depth, virtualMoves.ToArray());
         }
 
-        private void Evaluate(VirtualPokemon user, int depth, VirtualMove[] toCheck)
+        private void Evaluate(VirtualPokemon user, int depth, IReadOnlyList<VirtualMove> toCheck)
         {
+            if (toCheck.Count == 0) return;
+
             if (depth == 0)
             {
                 VirtualMove highest = toCheck[0];
-                for (int i = 1; i < toCheck.Length; i++)
+                for (int i = 1; i < toCheck.Count; i++)
                 {
                     if (toCheck[i].value <= highest.value)
                         continue;
@@ -95,7 +96,7 @@ namespace Runtime.AI.Battle.Evaluator
 
                     if (Random.Range(20, 100) < this.preValue)
                     {
-                        for (int i = 1; i < toCheck.Length; i++)
+                        for (int i = 1; i < toCheck.Count; i++)
                         {
                             if (toCheck[i].value <= highest.value ||
                                 toCheck[i].rootAction.name == this.preMoveName)

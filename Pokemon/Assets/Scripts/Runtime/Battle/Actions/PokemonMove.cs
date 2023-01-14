@@ -66,7 +66,7 @@ namespace Runtime.Battle.Actions
         [SerializeField] protected string moveName = "";
         [SerializeField] protected Type type;
         [SerializeField] protected Category category = 0;
-        [SerializeField] protected int startPP, maxPP;
+        [SerializeField, Min(0)] protected int startPP, maxPP;
         private int currentPP;
         [SerializeField] protected int power, accuracy;
 
@@ -116,46 +116,28 @@ namespace Runtime.Battle.Actions
         [SerializeField] protected int applyChance;
         [SerializeField] private Chat statusHitChat;
 
-        private void OnValidate()
-        {
-            if (this.startPP < 0)
-            {
-                this.startPP = 0;
-                Debug.LogError("Max PP of " + this.moveName + " should be more then 0!");
-            }
-
+        private void OnValidate() =>
             this.currentPP = this.startPP;
-        }
 
         #endregion
 
         #region Setters
 
-        public void SetType(Type set)
-        {
+        public void SetType(Type set) =>
             this.type = set;
-        }
 
-        public void SetCategory(Category set)
-        {
+        public void SetCategory(Category set) =>
             this.category = set;
-        }
 
         // ReSharper disable once InconsistentNaming
-        public void SetStartPP(int set)
-        {
+        public void SetStartPP(int set) =>
             this.startPP = set;
-        }
 
-        public void SetPower(int set)
-        {
+        public void SetPower(int set) =>
             this.power = set;
-        }
 
-        public void SetAccuracy(int set)
-        {
+        public void SetAccuracy(int set) =>
             this.accuracy = set;
-        }
 
         // ReSharper disable once IdentifierTypo
         public void SetTargetable(bool[] set)
@@ -201,36 +183,24 @@ namespace Runtime.Battle.Actions
             this.spectacularJam = set[2];
         }
 
-        public void SetHitType(HitType set)
-        {
+        public void SetHitType(HitType set) =>
             this.hitType = set;
-        }
 
-        public void SetHasStatus(bool set)
-        {
+        public void SetHasStatus(bool set) =>
             this.hasStatus = set;
-        }
 
-        public void SetStatusCondition(Condition set)
-        {
+        public void SetStatusCondition(Condition set) =>
             this.statusCondition = set;
-        }
 
-        public void SetApplyChance(int set)
-        {
+        public void SetApplyChance(int set) =>
             this.applyChance = set;
-        }
 
         // ReSharper disable once InconsistentNaming
-        public void SetMaxPP(int set)
-        {
+        public void SetMaxPP(int set) =>
             this.maxPP = set;
-        }
 
-        public void SetSpecialAddons(SpecialAddons[] set)
-        {
+        public void SetSpecialAddons(SpecialAddons[] set) =>
             this.specialAddons = set;
-        }
 
         #endregion
 
@@ -240,7 +210,7 @@ namespace Runtime.Battle.Actions
         {
             BattleAction result = this;
 
-            if (result.GetIsInstantiated()) return result;
+            if (this.GetIsInstantiated()) return result;
 
             result = Instantiate(this);
             result.SetIsInstantiated(true);
@@ -248,41 +218,27 @@ namespace Runtime.Battle.Actions
             return result;
         }
 
-        public string GetName()
-        {
-            return this.moveName;
-        }
+        public string GetName() =>
+            this.moveName;
 
-        public bool GetActive()
-        {
-            return this.active;
-        }
+        public bool GetActive() =>
+            this.active;
 
-        public Type GetMoveType()
-        {
-            return this.type;
-        }
+        public Type GetMoveType() =>
+            this.type;
 
-        public Category GetCategory()
-        {
-            return this.category;
-        }
+        public Category GetCategory() =>
+            this.category;
 
         // ReSharper disable once InconsistentNaming
-        public int GetStartPP()
-        {
-            return this.startPP;
-        }
+        public int GetStartPP() =>
+            this.startPP;
 
-        public int GetPower()
-        {
-            return this.power;
-        }
+        public int GetPower() =>
+            this.power;
 
-        public int GetAccuracy()
-        {
-            return this.accuracy;
-        }
+        public int GetAccuracy() =>
+            this.accuracy;
 
         // ReSharper disable once IdentifierTypo
         public bool[] GetTargetable()
@@ -315,51 +271,33 @@ namespace Runtime.Battle.Actions
             return result;
         }
 
-        public int[] GetNormalContests()
-        {
-            return new[] { (int)this.normalCondition, this.normalAppeal, this.normalJam };
-        }
+        public int[] GetNormalContests() =>
+            new[] { (int)this.normalCondition, this.normalAppeal, this.normalJam };
 
-        public int[] GetSuperContests()
-        {
-            return new[] { (int)this.superCondition, this.superAppeal, this.superJam };
-        }
+        public int[] GetSuperContests() =>
+            new[] { (int)this.superCondition, this.superAppeal, this.superJam };
 
-        public int[] GetSpectacularContests()
-        {
-            return new[] { (int)this.spectacularCondition, this.spectacularAppeal, this.spectacularJam };
-        }
+        public int[] GetSpectacularContests() =>
+            new[] { (int)this.spectacularCondition, this.spectacularAppeal, this.spectacularJam };
 
-        public HitType GetHitType()
-        {
-            return this.hitType;
-        }
+        public HitType GetHitType() =>
+            this.hitType;
 
-        public bool GetHasStatus()
-        {
-            return this.hasStatus;
-        }
+        public bool GetHasStatus() =>
+            this.hasStatus;
 
-        public Condition GetStatusCondition()
-        {
-            return this.statusCondition;
-        }
+        public Condition GetStatusCondition() =>
+            this.statusCondition;
 
-        public int GetApplyChance()
-        {
-            return this.applyChance;
-        }
+        public int GetApplyChance() =>
+            this.applyChance;
 
         // ReSharper disable once InconsistentNaming
-        public int GetMaxPP()
-        {
-            return this.maxPP;
-        }
+        public int GetMaxPP() =>
+            this.maxPP;
 
-        public SpecialAddons[] GetSpecialAddons()
-        {
-            return this.specialAddons;
-        }
+        public SpecialAddons[] GetSpecialAddons() =>
+            this.specialAddons;
 
         #endregion
 
@@ -371,47 +309,6 @@ namespace Runtime.Battle.Actions
             return VirtualMathf.CalculateVirtualDamage(this, user, target, virtualBattle) *
                    personalitySetting.aggressionLevel;
         }
-
-        #endregion
-
-        #region Internal
-
-        protected override Chat[] TransferInformationToChat()
-        {
-            Chat[] result = new Chat[this.chatOnActivation.Length];
-
-            for (int i = 0; i < this.chatOnActivation.Length; i++)
-            {
-                if (this.chatOnActivation[i] == null) continue;
-
-                result[i] = this.chatOnActivation[i].GetChat();
-
-                result[i].AddToOverride("<POKEMON_NAME>", this.currentPokemon.GetName());
-                result[i].AddToOverride("<POKEMON_MOVE>", this.moveName);
-            }
-
-            return result;
-        }
-
-        private float GetDamageForTarget(Pokemon user, Pokemon target, bool isCritical)
-        {
-            float attackPower = this.currentPokemon.GetCalculatedStat(this.category == Category.Physical ? Stat.Attack : Stat.SpAtk);
-
-            float defencePower = this.currentPokemon.GetCalculatedStat(this.category == Category.Physical ? Stat.Defence : Stat.SpDef);
-
-            return BattleMathf.CalculateDamage(user.GetLevel(),
-                attackPower,
-                defencePower, this.power,
-                BattleMathf.CalculateModifiers(
-                    user,
-                    target,
-                    this, this.targets.Count == 1,
-                    isCritical));
-        }
-
-        #endregion
-
-        #region IEnumerator
 
         public override IEnumerator Operation()
         {
@@ -435,7 +332,7 @@ namespace Runtime.Battle.Actions
 
                 if (!hit)
                 {
-                    MissHit missHit = new(pokemon);
+                    MissHit missHit = new(pokemon, this.chatManager);
                     container.Add(missHit);
                     this.operationManager.AddOperationsContainer(container);
 
@@ -448,7 +345,7 @@ namespace Runtime.Battle.Actions
 
                 foreach (Chat chat in this.chatOnActivation)
                 {
-                    Chat instance = chat.GetChat();
+                    Chat instance = chat.GetChatInstantiated();
                     instance.AddToOverride("<POKEMON_NAME>", this.currentPokemon.GetName());
                     instance.AddToOverride("<POKEMON_MOVE>", this.moveName);
                     this.chatManager.Add(instance);
@@ -462,7 +359,7 @@ namespace Runtime.Battle.Actions
                     DamagePokemon damagePokemon = new(pokemon, damagePerTarget, secPerPokeMove);
                     container.Add(damagePokemon);
                 }
-                else if (!(this.statusCondition is null))
+                else if (this.statusCondition != null)
                 {
                     if (!BattleMathf.CalculateStatusHit(this.applyChance)) continue;
 
@@ -475,6 +372,45 @@ namespace Runtime.Battle.Actions
 
             this.currentPokemon.SetBattleAction(null);
             this.done = true;
+        }
+
+        #endregion
+
+        #region Internal
+
+        protected override Chat[] TransferInformationToChat()
+        {
+            Chat[] result = new Chat[this.chatOnActivation.Length];
+
+            for (int i = 0; i < this.chatOnActivation.Length; i++)
+            {
+                if (this.chatOnActivation[i] == null) continue;
+
+                result[i] = this.chatOnActivation[i].GetChatInstantiated();
+
+                result[i].AddToOverride("<POKEMON_NAME>", this.currentPokemon.GetName());
+                result[i].AddToOverride("<POKEMON_MOVE>", this.moveName);
+            }
+
+            return result;
+        }
+
+        private float GetDamageForTarget(Pokemon user, Pokemon target, bool isCritical)
+        {
+            float attackPower =
+                this.currentPokemon.GetCalculatedStat(this.category == Category.Physical ? Stat.Attack : Stat.SpAtk);
+
+            float defencePower =
+                this.currentPokemon.GetCalculatedStat(this.category == Category.Physical ? Stat.Defence : Stat.SpDef);
+
+            return BattleMathf.CalculateDamage(user.GetLevel(),
+                attackPower,
+                defencePower, this.power,
+                BattleMathf.CalculateModifiers(
+                    user,
+                    target,
+                    this, this.targets.Count == 1,
+                    isCritical));
         }
 
         #endregion

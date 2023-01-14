@@ -20,7 +20,7 @@ namespace Runtime.Trainer
         private void OnValidate()
         {
             if (this.pokemons.Count == 6) return;
-            
+
             List<Pokemon> tempList = new();
 
             foreach (Pokemon p in this.pokemons)
@@ -38,15 +38,11 @@ namespace Runtime.Trainer
 
         #region Getters
 
-        public int GetTeamCount()
-        {
-            return this.pokemons.Count(p => p != null);
-        }
+        public int GetTeamCount() =>
+            this.pokemons.Count(p => p != null);
 
-        public bool HasMorePokemon()
-        {
-            return this.pokemons.FirstOrDefault(p => !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition));
-        }
+        public bool HasMorePokemon() =>
+            this.pokemons.FirstOrDefault(p => !(p.GetConditionOversight().GetNonVolatileStatus() is FaintedCondition));
 
         public bool CanSendMorePokemon()
         {
@@ -111,10 +107,8 @@ namespace Runtime.Trainer
 
         public Pokemon GetPokemonByIndex(int index)
         {
-            if (index < 0 ||
-                index > 5 ||
-                index >= this.pokemons.Count) return null;
-            
+            if (index is < 0 or > 5 || index >= this.pokemons.Count) return null;
+
             return this.pokemons[index];
         }
 

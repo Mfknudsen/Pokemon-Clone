@@ -16,7 +16,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
         public ApplyStatus(Chat statusChat, Pokemon targetPokemon, Condition statusCondition)
         {
-            this.statusChat = statusChat.GetChat();
+            this.statusChat = statusChat.GetChatInstantiated();
             this.targetPokemon = targetPokemon;
             this.statusCondition = statusCondition;
         }

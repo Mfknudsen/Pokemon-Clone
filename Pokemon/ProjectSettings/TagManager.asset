@@ -13,13 +13,13 @@ TagManager:
   - Player
   - Water
   - UI
-  - Enviorment
+  - Environment
   - BookUI
   - Battle
   - Interactable
   - Book
   - ThrowableItem
-  - 
+  - Prop
   - 
   - 
   - 

@@ -15,9 +15,9 @@ namespace Runtime.Systems.PersistantRunner
 
         [SerializeField, AssetsOnly] private List<Manager> managers = new();
 
-        private IFrameStart[] frameStarts;
-        private IFrameUpdate[] frameUpdates;
-        private IFrameLateUpdate[] frameLateUpdates;
+        private List<IFrameStart> frameStarts;
+        private List<IFrameUpdate> frameUpdates;
+        private List<IFrameLateUpdate> frameLateUpdates;
 
         #endregion
 
@@ -30,15 +30,15 @@ namespace Runtime.Systems.PersistantRunner
             this.frameStarts = this.managers
                 .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameStart)))
                 .Select(m => m as IFrameStart)
-                .ToArray();
+                .ToList();
             this.frameUpdates = this.managers
                 .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameUpdate)))
                 .Select(m => m as IFrameUpdate)
-                .ToArray();
+                .ToList();
             this.frameLateUpdates = this.managers
                 .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameLateUpdate)))
                 .Select(m => m as IFrameLateUpdate)
-                .ToArray();
+                .ToList();
 
             foreach (IFrameStart frameStart in this.frameStarts)
                 this.StartCoroutine(frameStart.FrameStart(this));
@@ -55,6 +55,30 @@ namespace Runtime.Systems.PersistantRunner
             foreach (IFrameLateUpdate frameLateUpdate in this.frameLateUpdates)
                 frameLateUpdate.FrameLateUpdate();
         }
+
+        #endregion
+
+        #region In
+
+#if UNITY_EDITOR
+        public void StartManagers()
+        {
+            foreach (IFrameStart frameStart in this.frameStarts)
+                this.StartCoroutine(frameStart.FrameStart(this));
+        }
+
+        public void AddManager(Manager toAdd)
+        {
+            if (toAdd is IFrameStart start)
+                this.frameStarts.Add(start);
+
+            if (toAdd is IFrameUpdate update)
+                this.frameUpdates.Add(update);
+
+            if (toAdd is IFrameLateUpdate late)
+                this.frameLateUpdates.Add(late);
+        }
+#endif
 
         #endregion
     }

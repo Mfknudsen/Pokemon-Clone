@@ -48,7 +48,7 @@ namespace Runtime.PC
 
         #endregion
 
-        public void Trigger()
+        public void InteractTrigger()
         {
             Debug.Log("Trigger Box");
             //UIManager.instance.SwitchUI(UISelection.Box);

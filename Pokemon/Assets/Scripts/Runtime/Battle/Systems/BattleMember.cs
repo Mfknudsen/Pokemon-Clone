@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.AI;
 using Runtime.AI.Battle.Evaluator;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
@@ -17,14 +16,13 @@ using UnityEngine;
 
 namespace Runtime.Battle.Systems
 {
-    [RequireComponent(typeof(NpcTeam), typeof(Inventory))]
     public class BattleMember : SerializedMonoBehaviour
     {
         #region Values
 
         [SerializeField] [BoxGroup(" ")] private string memberName;
 
-        [SerializeField] [BoxGroup(" ")] private bool isAlly; //0 is player and player teammates
+        [SerializeField] [BoxGroup(" ")] private bool isAlly;
 
         [SerializeField] [BoxGroup(" ")] private int spotsToOwn = 1;
 
@@ -72,60 +70,38 @@ namespace Runtime.Battle.Systems
 
         #region Getters
 
-        public string GetName()
-        {
-            return this.memberName;
-        }
+        public string GetName() =>
+            this.memberName;
 
-        public bool IsWild()
-        {
-            return this.isWild;
-        }
+        public bool IsWild() =>
+            this.isWild;
 
-        public Team GetTeam()
-        {
-            return this.pokemonTeam;
-        }
+        public Team GetTeam() =>
+            this.pokemonTeam;
 
-        public bool GetTeamAffiliation()
-        {
-            return this.isAlly;
-        }
+        public bool GetTeamAffiliation() =>
+            this.isAlly || this.isPlayer;
 
-        public List<Spot> GetOwnedSpots()
-        {
-            return this.ownedSpots;
-        }
+        public List<Spot> GetOwnedSpots() =>
+            this.ownedSpots;
 
-        public bool OwnSpot(Spot spot)
-        {
-            return this.ownedSpots.Contains(spot);
-        }
+        public bool OwnSpot(Spot spot) =>
+            this.ownedSpots.Contains(spot);
 
-        public bool IsPlayer()
-        {
-            return this.isPlayer;
-        }
+        public bool IsPlayer() =>
+            this.isPlayer;
 
-        public bool HasAllSpots()
-        {
-            return this.hasAllSpots;
-        }
+        public bool HasAllSpots() =>
+            this.hasAllSpots;
 
-        public Inventory GetInventory()
-        {
-            return this.inventory;
-        }
+        public Inventory GetInventory() =>
+            this.inventory;
 
-        public int GetSpotsToOwn()
-        {
-            return this.spotsToOwn;
-        }
+        public int GetSpotsToOwn() =>
+            this.spotsToOwn;
 
-        public Chat GetOnDefeatedChats()
-        {
-            return this.onDefeatedChats;
-        }
+        public Chat GetOnDefeatedChats() =>
+            this.onDefeatedChats;
 
         #endregion
 

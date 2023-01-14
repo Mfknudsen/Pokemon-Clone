@@ -19,8 +19,10 @@ MonoBehaviour:
   description: 
   textList:
   - You are challenged by <TRAINER_NAME>
+  timeToNext:
+  - 0
+  hideAfter: 0
   needInput: 1
-  timeUntilNext: 0.75
   replaceString: []
   addString: []
   showText: 

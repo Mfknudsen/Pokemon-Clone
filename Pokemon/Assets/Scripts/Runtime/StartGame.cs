@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace Runtime
 {
-    public class StartGame : MonoBehaviour
+    public sealed class StartGame : MonoBehaviour
     {
         #region Values
 
@@ -24,7 +24,6 @@ namespace Runtime
         private IEnumerator Start()
         {
             Application.targetFrameRate = 60;
-            Debug.Log("Starting Game");
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 
             yield return new WaitWhile(() => !asyncOperation.isDone);
@@ -35,8 +34,6 @@ namespace Runtime
 
             this.uiManager.SwitchUI(UISelection.Start);
             UIBook.Instance.ConstructUI();
-
-            Debug.Log("Game Started");
         }
     }
 }

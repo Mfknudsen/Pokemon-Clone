@@ -102,7 +102,7 @@ namespace Runtime.AI
                 this.behaviourTreeOwner.UpdateBehaviour();
         }
 
-        public abstract void Trigger();
+        public abstract void InteractTrigger();
 
         public void AddDisableEventListener(UnityAction action)
         {

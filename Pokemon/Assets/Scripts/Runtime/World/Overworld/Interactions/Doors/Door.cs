@@ -23,7 +23,7 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         #region In
 
-        public void Trigger()
+        public void InteractTrigger()
         {
             this.playerManager.DisablePlayerControl();
 

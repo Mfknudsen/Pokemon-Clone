@@ -1,5 +1,8 @@
+#if UNITY_EDITOR
+
 #region Packages
 
+using Runtime.Systems;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,15 +14,18 @@ namespace Runtime.Editor.Tools
     {
         #region Internal
 
-        [MenuItem("Tools/Setup World Scene")]
+        [MenuItem("Tools/Mfknudsen/Setup World Scene")]
         private static void SetupNewScene()
         {
             GameObject obj = new()
             {
                 name = "'Name' - Tile Manager"
             };
+
+            TileSubController tileSubController = obj.AddComponent<TileSubController>();
         }
 
         #endregion
     }
 }
+#endif

@@ -34,6 +34,12 @@ namespace Runtime.Player.Camera
 
         #endregion
 
+        #region Getters
+
+        public float GetTime => this.timeInSeconds;
+
+        #endregion
+
         #region In
 
         public bool IsOperationDone => this.done;

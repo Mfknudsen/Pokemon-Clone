@@ -56,10 +56,8 @@ namespace Runtime._Debug
 
         #region Statics
 
-        public static void AddLog(string script, string input)
-        {
-            instance.AddNewLog(script, input);
-        }
+        public static void AddLog(object script, string input) =>
+            instance.AddNewLog(script.ToString(), input);
 
         #endregion
 

@@ -1,5 +1,6 @@
 #region SDK
 
+using System;
 using System.Collections.Generic;
 using Runtime.Trainer;
 using UnityEngine;
@@ -43,9 +44,9 @@ namespace Runtime.Battle.Systems.Spots
 
         public void SetSpot(Spot spot)
         {
-            if(spot == null)
+            if (spot == null)
                 return;
-            
+
             spot.SetID(this.counts);
             this.counts += 1;
 
@@ -56,10 +57,15 @@ namespace Runtime.Battle.Systems.Spots
 
         #region In
 
-        public void SetupSpots(BattleMember[] members, Transform parent)
+        public void SetupSpots(BattleMember[] members, Transform[] initializedSpots, BattleSystem battleSystem)
         {
-            foreach (BattleMember battleMember in members)
+            if (members.Length != initializedSpots.Length)
+                throw new Exception("Total count of battle members is not equal to initialized spot length");
+
+            for (int index = 0; index < members.Length; index++)
             {
+                Transform t = initializedSpots[index];
+                BattleMember battleMember = members[index];
                 Team team = battleMember.GetTeam();
                 for (int i = 0; i < battleMember.GetSpotsToOwn(); i++)
                 {
@@ -69,7 +75,10 @@ namespace Runtime.Battle.Systems.Spots
                         break;
                     }
 
-                    Spot spot = BattleSystem.instance.CreateSpot(parent);
+                    Spot spot = battleSystem.CreateSpot();
+                    Transform spotTransform = spot.transform;
+                    spotTransform.position = t.position;
+                    spotTransform.rotation = t.rotation;
                     spot.SetBattleMember(battleMember);
                     this.SetSpot(spot);
                     battleMember.SetOwnedSpot(spot);
@@ -79,13 +88,13 @@ namespace Runtime.Battle.Systems.Spots
 
         public void Reorganise(bool removeEmpty)
         {
-            List<Spot> enemies = new(), 
+            List<Spot> enemies = new(),
                 allies = new(),
                 toRemove = new();
 
             foreach (Spot spot in this.list)
             {
-                if (spot.GetActivePokemon() is null && removeEmpty)
+                if (spot.GetActivePokemon() == null && removeEmpty)
                     toRemove.Add(spot);
                 else
                 {

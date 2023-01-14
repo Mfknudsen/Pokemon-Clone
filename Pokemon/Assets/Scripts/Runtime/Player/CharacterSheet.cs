@@ -1,7 +1,6 @@
 #region Packages
 
 using System;
-using System.Collections.Generic;
 using Runtime.Files;
 using Sirenix.OdinInspector;
 
@@ -10,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Runtime.Player
 {
     [Serializable]
-    public class   CharacterSheet
+    public class CharacterSheet
     {
         public int badgeCount;
 
@@ -18,13 +17,13 @@ namespace Runtime.Player
         [HorizontalGroup("Pronouns/Horizontal")]
         [HideLabel]
         [BoxGroup("Pronouns/Horizontal/1", false)]
-        public string pronoun1 = "They";
+        public string pronoun1;
 
         [HideLabel] [BoxGroup("Pronouns/Horizontal/2", false)]
-        public string pronoun2 = "Them";
+        public string pronoun2;
 
         [HideLabel] [BoxGroup("Pronouns/Horizontal/3", false)]
-        public string pronoun3 = "Theirs";
+        public string pronoun3;
 
         public CharacterSheet(PlayerData data)
         {
@@ -39,7 +38,9 @@ namespace Runtime.Player
             }
             catch (Exception)
             {
-                // ignored
+                this.pronoun1 = "They";
+                this.pronoun2 = "Them";
+                this.pronoun3 = "Theirs";
             }
         }
     }

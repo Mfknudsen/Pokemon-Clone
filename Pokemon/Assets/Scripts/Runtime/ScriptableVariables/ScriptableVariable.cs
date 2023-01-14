@@ -13,12 +13,15 @@ namespace Runtime.ScriptableVariables
     {
         #region Values
 
+#if UNITY_EDITOR
+        [SerializeField] protected bool debugSetter;
         [SerializeField, TextArea] private string description;
+#endif
 
-        [SerializeField] private TGeneric defaultValue;
+        [SerializeField] protected TGeneric defaultValue;
 
         [NonSerialized, ShowInInspector, ReadOnly]
-        private TGeneric localValue;
+        protected TGeneric localValue;
 
         public TGeneric value
         {
@@ -36,8 +39,6 @@ namespace Runtime.ScriptableVariables
             }
         }
 
-        [SerializeField] protected bool debugSetter;
-
         private UnityEvent<TGeneric, TGeneric> valueChangeEventWithHistory;
         private UnityEvent<TGeneric> valueChangeEventWithValue;
         private UnityEvent valueChangeEvent;
@@ -49,13 +50,7 @@ namespace Runtime.ScriptableVariables
         protected virtual void OnEnable() => this.localValue = this.defaultValue;
 
         #endregion
-
-        #region Getters
-
-        public string getDescription => this.description;
-
-        #endregion
-
+        
         #region In
 
         public void AddListener(UnityAction<TGeneric, TGeneric> action)
@@ -105,7 +100,7 @@ namespace Runtime.ScriptableVariables
 
         #region Internal
 
-        private void InvokeEvents(TGeneric toCheck)
+        protected void InvokeEvents(TGeneric toCheck)
         {
             this.valueChangeEvent?.Invoke();
 

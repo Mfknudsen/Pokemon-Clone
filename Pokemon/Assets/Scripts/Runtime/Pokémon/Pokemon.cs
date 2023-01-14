@@ -1,5 +1,6 @@
 ﻿#region Packages
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.Battle.Actions;
@@ -155,42 +156,28 @@ namespace Runtime.Pokémon
 
         #region Pokemon
 
-        public int GetMaxHealth()
-        {
-            return this.maxHealth;
-        }
+        public int GetMaxHealth() =>
+            this.maxHealth;
 
-        public bool GetIsInstantiated()
-        {
-            return this.isInstantiated;
-        }
+        public bool GetIsInstantiated() =>
+            this.isInstantiated;
 
-        public string GetName()
-        {
-            return this.pokemonName;
-        }
+        public string GetName() =>
+            this.pokemonName;
 
-        public int GetStatRaw(Stat target)
-        {
-            return this.stats[target];
-        }
+        public int GetStatRaw(Stat target) =>
+            this.stats[target];
 
         // ReSharper disable once InconsistentNaming
-        public int GetIV(Stat target)
-        {
-            return this.iv[(int)target];
-        }
+        public int GetIV(Stat target) =>
+            this.iv[(int)target];
 
         // ReSharper disable once InconsistentNaming
-        public int GetEV(Stat target)
-        {
-            return this.ev[(int)target];
-        }
+        public int GetEV(Stat target) =>
+            this.ev[(int)target];
 
-        public int GetLevel()
-        {
-            return this.level;
-        }
+        public int GetLevel() =>
+            this.level;
 
         public Type[] GetTypes()
         {
@@ -200,9 +187,11 @@ namespace Runtime.Pokémon
             return this.types;
         }
 
-        public float GetCatchRate() => this.catchRate;
+        public float GetCatchRate() =>
+            this.catchRate;
 
-        public Ability[] GetAbilities() => new[] { this.firstAbility, this.secondAbility, this.hiddenAbility };
+        public Ability[] GetAbilities() =>
+            new[] { this.firstAbility, this.secondAbility, this.hiddenAbility };
 
         #endregion
 
@@ -240,7 +229,8 @@ namespace Runtime.Pokémon
             return Mathf.FloorToInt(result);
         }
 
-        public ConditionOversight GetConditionOversight() => this.oversight ? this.oversight : this.oversight = CreateInstance<ConditionOversight>();
+        public ConditionOversight GetConditionOversight() =>
+            this.oversight ? this.oversight : this.oversight = CreateInstance<ConditionOversight>();
 
         public float GetCurrentHealth() => this.currentHealth;
 
@@ -251,7 +241,7 @@ namespace Runtime.Pokémon
             if (this.moveStats.learnedMoves.Length <= 0 || index < 0 || index >= this.moveStats.learnedMoves.Length)
                 return null;
 
-            if (this.moveStats.learnedMoves[index] is not null)
+            if (this.moveStats.learnedMoves[index] != null)
                 return this.moveStats.learnedMoves[index].GetAction() as PokemonMove;
 
             return null;
@@ -299,6 +289,13 @@ namespace Runtime.Pokémon
 
         public void SetHiddenAbility(Ability set) => this.hiddenAbility = set;
 
+        #region Setting NonSerialized for Virtual Pokemon
+
+        public void VirtualSetConditionOversight(ConditionOversight conditionOversight) =>
+            this.oversight = conditionOversight;
+
+        #endregion
+
         #endregion
 
         #region Out
@@ -313,8 +310,9 @@ namespace Runtime.Pokémon
             return this.types[1].GetTypeName() == typeName;
         }
 
-        public T[] GetAbilitiesOfType<T>() => new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
-        
+        public T[] GetAbilitiesOfType<T>() =>
+            new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
+
         #endregion
 
         #region In
@@ -325,6 +323,7 @@ namespace Runtime.Pokémon
             this.oversight.Setup(this);
 
             this.maxHealth = this.GetCalculatedStat(Stat.HP);
+            this.currentHealth = this.maxHealth;
 
             AbilityOversight abilityOversight = BattleSystem.instance.GetAbilityOversight();
 
@@ -333,7 +332,7 @@ namespace Runtime.Pokémon
 
             for (int i = 0; i < this.instantiatedAbilities.Count; i++)
             {
-                if (this.instantiatedAbilities[i] is null) continue;
+                if (this.instantiatedAbilities[i] == null) continue;
 
                 Ability ability = Instantiate(this.instantiatedAbilities[i]);
 
@@ -354,7 +353,8 @@ namespace Runtime.Pokémon
             this.oversight.ResetConditionList();
         }
 
-        public void ReceiveDamage(float damage) => this.currentHealth = Mathf.Clamp(this.currentHealth - damage, 0, this.maxHealth);
+        public void ReceiveDamage(float damage) =>
+            this.currentHealth = Mathf.Clamp(this.currentHealth - damage, 0, this.maxHealth);
 
         public void ReceiveExp(int points)
         {
@@ -375,7 +375,7 @@ namespace Runtime.Pokémon
 
         public void EffectMultiplierStage(int stages, Stat affectedStat)
         {
-            if (affectedStat == Stat.Accuracy || affectedStat == Stat.Evasion || affectedStat == Stat.Critical)
+            if (affectedStat is Stat.Accuracy or Stat.Evasion or Stat.Critical)
                 return;
 
             this.multipliers[(int)affectedStat] += stages;

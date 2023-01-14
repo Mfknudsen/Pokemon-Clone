@@ -41,23 +41,23 @@ MonoBehaviour:
     critical: 10
   iv: 000000000000000000000000000000000000000000000000
   ev: 000000000000000000000000000000000000000000000000
-  method: 0
-  evolveTo: {fileID: 0}
-  evolutionLevel: 0
-  learnedMoves:
-  - {fileID: 11400000, guid: 52e55180ac3b617499bf55c94e1ac016, type: 2}
-  - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelLearnableMoveKeys: 
-  levelLearnableMove: []
-  tmLearnableMove: []
-  tutorLearnableMove: []
-  breedingLearnedMoveKeys: []
-  breedingLearnedMove: []
-  eggGroup: 0
-  hatchTimeMin: 0
-  hatchTimeMax: 0
+  method: 
+  moveStats:
+    learnedMoves:
+    - {fileID: 11400000, guid: 48995d40c15281b469d9641f61767eff, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    levelLearnableMoveKeys: 
+    levelLearnableMove: []
+    tmLearnableMove: []
+    tutorLearnableMove: []
+  breedingStats:
+    breedingLearnedMoveKeys: []
+    breedingLearnedMove: []
+    eggGroup: 0
+    hatchTimeMin: 0
+    hatchTimeMax: 0
   genderRate: 0
   catchRate: 11.9
   expYield: 0

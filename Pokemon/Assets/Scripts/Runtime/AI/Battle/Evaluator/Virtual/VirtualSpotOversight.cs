@@ -49,15 +49,13 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
         public readonly VirtualPokemon virtualPokemon;
         public Pokemon left, right, strafeRight, strafeLeft, front;
 
-        public VirtualSpot(Pokemon pokemon)
-        {
+        public VirtualSpot(Pokemon pokemon) =>
             this.virtualPokemon = new VirtualPokemon(pokemon);
-        }
 
-        public VirtualSpot(VirtualPokemon virtualPokemon)
-        {
-            this.virtualPokemon = new VirtualPokemon(virtualPokemon.GetFakePokemon());
-        }
+        public VirtualSpot(VirtualPokemon virtualPokemon) =>
+            this.virtualPokemon = new VirtualPokemon(
+                virtualPokemon.GetFakePokemon(),
+                virtualPokemon.GetActualPokemon());
 
         public void SetRelations(Pokemon l, Pokemon r, Pokemon sR, Pokemon sL, Pokemon f)
         {

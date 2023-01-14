@@ -8,6 +8,7 @@ using Runtime.Battle.Systems.Interfaces;
 using Runtime.Pokémon;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
 using Runtime.Weathers;
+using UnityEngine;
 
 #endregion
 
@@ -18,28 +19,31 @@ namespace Runtime.AI.Battle.Evaluator
     {
         public static bool MoveCanHit(BattleAction move, VirtualSpot user, VirtualSpot target)
         {
-            if (move is PokemonMove pokemonMove)
-            {
-                HitType hitType = pokemonMove.GetHitType();
-                if (hitType == HitType.All)
-                    return true;
+            if (move is not PokemonMove pokemonMove) return false;
 
-                if ((hitType == HitType.One || hitType == HitType.AllAdjacent))
+            HitType hitType = pokemonMove.GetHitType();
+            
+            switch (hitType)
+            {
+                case HitType.All:
+                    return true;
+                case HitType.One or HitType.AllAdjacent:
                 {
                     bool[] targets = pokemonMove.GetTargetable();
 
                     Pokemon actual = target.virtualPokemon.GetActualPokemon();
+
                     if (targets[0] && user.front == actual)
                         return true;
+
+                    if (targets[1] && (user.strafeLeft == actual || user.strafeRight == actual))
+                        return true;
+                    
+                    break;
                 }
-
-                if (hitType == HitType.AllExceptUser && user != target)
-                    return true;
-
-                //TODO Add All
             }
 
-            return false;
+            return hitType == HitType.AllExceptUser && user != target;
         }
 
         public static int CalculateVirtualDamage(PokemonMove move, Pokemon user, Pokemon target,
@@ -78,7 +82,7 @@ namespace Runtime.AI.Battle.Evaluator
             List<IFinalModifier> finalModifier = new();
 
             foreach (Pokemon pokemon in virtualBattle.spotOversight.spots.Select(spot =>
-                spot.virtualPokemon.GetFakePokemon()))
+                         spot.virtualPokemon.GetFakePokemon()))
             {
                 bypassImmune.AddRange(pokemon.GetAbilitiesOfType<IBypassImmune>());
                 immuneAttackType.AddRange(pokemon.GetAbilitiesOfType<IImmuneAttackType>());
@@ -86,7 +90,8 @@ namespace Runtime.AI.Battle.Evaluator
                 finalModifier.AddRange(pokemon.GetAbilitiesOfType<IFinalModifier>());
             }
 
-            foreach (Weather virtualBattleWeather in virtualBattle.weathers.Where(virtualBattleWeather => virtualBattleWeather != null))
+            foreach (Weather virtualBattleWeather in virtualBattle.weathers.Where(virtualBattleWeather =>
+                         virtualBattleWeather != null))
             {
                 bypassImmune.Add(virtualBattleWeather as IBypassImmune);
                 immuneAttackType.Add(virtualBattleWeather as IImmuneAttackType);

@@ -12,7 +12,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 {
     [CreateAssetMenu(fileName = "Condition", menuName = "Condition/Create new Non-Volatile Condition/Fainted",
         order = 0)]
-    public class FaintedCondition : NonVolatileCondition, IOperation
+    public sealed class FaintedCondition : NonVolatileCondition, IOperation
     {
         #region Values
 
@@ -49,7 +49,7 @@ namespace Runtime.Pokémon.Conditions.Non_Volatiles
 
         public IEnumerator Operation ()
         {
-            Chat toSend = this.onEffectChat.GetChat();
+            Chat toSend = this.onEffectChat.GetChatInstantiated();
             toSend.AddToOverride("<POKEMON_NAME>", this.affectedPokemon.GetName());
             this.chatManager.Add(toSend);
 

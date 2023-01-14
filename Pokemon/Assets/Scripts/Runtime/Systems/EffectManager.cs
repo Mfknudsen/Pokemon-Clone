@@ -30,7 +30,7 @@ namespace Runtime.Systems
 
         #region IFrameUpdate
 
-        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner runner)
         {
             foreach (EffectLimit effectsLimit in this.effectsLimits)
             {

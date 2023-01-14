@@ -13,7 +13,7 @@ namespace Editor
     {
         private PathCreator creator;
 
-        private Path path => creator.path;
+        private Path path => this.creator.path;
 
         private const float SegmentSelectDistanceThreshold = .1f;
         private int selectedSegmentIndex = -1;
@@ -25,22 +25,22 @@ namespace Editor
             EditorGUI.BeginChangeCheck();
             if (GUILayout.Button("Create new"))
             {
-                Undo.RecordObject(creator, "Create new");
-                creator.CreatePath();
+                Undo.RecordObject(this.creator, "Create new");
+                this.creator.CreatePath();
             }
 
-            bool isClosed = GUILayout.Toggle(path.IsClosed, "Closed");
-            if (isClosed != path.IsClosed)
+            bool isClosed = GUILayout.Toggle(this.path.IsClosed, "Closed");
+            if (isClosed != this.path.IsClosed)
             {
-                Undo.RecordObject(creator, "Toggle closed");
-                path.IsClosed = isClosed;
+                Undo.RecordObject(this.creator, "Toggle closed");
+                this.path.IsClosed = isClosed;
             }
 
-            bool autoSetControlPoints = GUILayout.Toggle(path.AutoSetControlPoints, "Auto Set Control Points");
-            if (autoSetControlPoints != path.AutoSetControlPoints)
+            bool autoSetControlPoints = GUILayout.Toggle(this.path.AutoSetControlPoints, "Auto Set Control Points");
+            if (autoSetControlPoints != this.path.AutoSetControlPoints)
             {
-                Undo.RecordObject(creator, "Toggle auto set controls");
-                path.AutoSetControlPoints = autoSetControlPoints;
+                Undo.RecordObject(this.creator, "Toggle auto set controls");
+                this.path.AutoSetControlPoints = autoSetControlPoints;
             }
 
             if (EditorGUI.EndChangeCheck()) 
@@ -49,8 +49,8 @@ namespace Editor
 
         private void OnSceneGUI()
         {
-            Input();
-            Draw();
+            this.Input();
+            this.Draw();
         }
 
         private void Input()
@@ -60,26 +60,26 @@ namespace Editor
 
             if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.shift)
             {
-                if (selectedSegmentIndex != -1)
+                if (this.selectedSegmentIndex != -1)
                 {
-                    Undo.RecordObject(creator, "Split segment");
-                    path.SplitSegment(mousePos, selectedSegmentIndex);
+                    Undo.RecordObject(this.creator, "Split segment");
+                    this.path.SplitSegment(mousePos, this.selectedSegmentIndex);
                 }
-                else if (!path.IsClosed)
+                else if (!this.path.IsClosed)
                 {
-                    Undo.RecordObject(creator, "Add segment");
-                    path.AddSegment(mousePos);
+                    Undo.RecordObject(this.creator, "Add segment");
+                    this.path.AddSegment(mousePos);
                 }
             }
 
             if (guiEvent.type == EventType.MouseDown && guiEvent.button == 1)
             {
-                float minDstToAnchor = creator.anchorDiameter * .5f;
+                float minDstToAnchor = this.creator.anchorDiameter * .5f;
                 int closestAnchorIndex = -1;
 
-                for (int i = 0; i < path.NumPoints; i += 3)
+                for (int i = 0; i < this.path.NumPoints; i += 3)
                 {
-                    float dst = Vector3.Distance(mousePos, path[i]);
+                    float dst = Vector3.Distance(mousePos, this.path[i]);
                     if (dst < minDstToAnchor)
                     {
                         minDstToAnchor = dst;
@@ -89,8 +89,8 @@ namespace Editor
 
                 if (closestAnchorIndex != -1)
                 {
-                    Undo.RecordObject(creator, "Delete segment");
-                    path.DeleteSegment(closestAnchorIndex);
+                    Undo.RecordObject(this.creator, "Delete segment");
+                    this.path.DeleteSegment(closestAnchorIndex);
                 }
             }
 
@@ -99,9 +99,9 @@ namespace Editor
                 float minDstToSegment = SegmentSelectDistanceThreshold;
                 int newSelectedSegmentIndex = -1;
 
-                for (int i = 0; i < path.NumSegments; i++)
+                for (int i = 0; i < this.path.NumSegments; i++)
                 {
-                    Vector3[] points = path.GetPointsInSegment(i);
+                    Vector3[] points = this.path.GetPointsInSegment(i);
                     float dst = HandleUtility.DistancePointBezier(mousePos, points[0], points[3], points[1], points[2]);
                     if (dst < minDstToSegment)
                     {
@@ -110,9 +110,9 @@ namespace Editor
                     }
                 }
 
-                if (newSelectedSegmentIndex != selectedSegmentIndex)
+                if (newSelectedSegmentIndex != this.selectedSegmentIndex)
                 {
-                    selectedSegmentIndex = newSelectedSegmentIndex;
+                    this.selectedSegmentIndex = newSelectedSegmentIndex;
                     HandleUtility.Repaint();
                 }
             }
@@ -122,36 +122,36 @@ namespace Editor
 
         private void Draw()
         {
-            for (int i = 0; i < path.NumSegments; i++)
+            for (int i = 0; i < this.path.NumSegments; i++)
             {
-                Vector3[] points = path.GetPointsInSegment(i);
-                if (creator.displayControlPoints)
+                Vector3[] points = this.path.GetPointsInSegment(i);
+                if (this.creator.displayControlPoints)
                 {
                     Handles.color = Color.black;
                     Handles.DrawLine(points[1], points[0]);
                     Handles.DrawLine(points[2], points[3]);
                 }
 
-                Color segmentCol = i == selectedSegmentIndex && Event.current.shift
-                    ? creator.selectedSegmentCol
-                    : creator.segmentCol;
+                Color segmentCol = i == this.selectedSegmentIndex && Event.current.shift
+                    ? this.creator.selectedSegmentCol
+                    : this.creator.segmentCol;
 
                 Handles.DrawBezier(points[0], points[3], points[1], points[2], segmentCol, null, 2);
             }
 
-            for (int i = 0; i < path.NumPoints; i++)
+            for (int i = 0; i < this.path.NumPoints; i++)
             {
-                if (i % 3 == 0 || creator.displayControlPoints)
+                if (i % 3 == 0 || this.creator.displayControlPoints)
                 {
-                    Handles.color = i % 3 == 0 ? creator.anchorCol : creator.controlCol;
-                    float handleSize = i % 3 == 0 ? creator.anchorDiameter : creator.controlDiameter;
-                    Vector3 newPos = Handles.FreeMoveHandle(path[i], Quaternion.identity, handleSize, Vector3.zero,
+                    Handles.color = i % 3 == 0 ? this.creator.anchorCol : this.creator.controlCol;
+                    float handleSize = i % 3 == 0 ? this.creator.anchorDiameter : this.creator.controlDiameter;
+                    Vector3 newPos = Handles.FreeMoveHandle(this.path[i], Quaternion.identity, handleSize, Vector3.zero,
                         Handles.CylinderHandleCap);
                     
-                    if (path[i] != newPos)
+                    if (this.path[i] != newPos)
                     {
-                        Undo.RecordObject(creator, "Move point");
-                        path.MovePoint(i, newPos);
+                        Undo.RecordObject(this.creator, "Move point");
+                        this.path.MovePoint(i, newPos);
                     }
                 }
             }
@@ -159,10 +159,10 @@ namespace Editor
 
         private void OnEnable()
         {
-            creator = (PathCreator)target;
-            if (creator.path == null)
+            this.creator = (PathCreator)this.target;
+            if (this.creator.path == null)
             {
-                creator.CreatePath();
+                this.creator.CreatePath();
             }
         }
     }

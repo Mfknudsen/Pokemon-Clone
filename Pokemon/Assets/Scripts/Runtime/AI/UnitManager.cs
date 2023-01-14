@@ -42,7 +42,7 @@ namespace Runtime.AI
 
         #region In
 
-        public IEnumerator FrameStart(PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner runner)
         {
             this.playerStateChangeEvent.AddListener(this.OnPlayerStateChange);
 

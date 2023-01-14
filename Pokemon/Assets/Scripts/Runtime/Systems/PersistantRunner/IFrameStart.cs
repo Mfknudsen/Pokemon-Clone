@@ -8,6 +8,6 @@ namespace Runtime.Systems.PersistantRunner
 {
     public interface IFrameStart
     {
-        public IEnumerator FrameStart(PersistantRunner persistantRunner);
+        public IEnumerator FrameStart(PersistantRunner runner);
     }
 }

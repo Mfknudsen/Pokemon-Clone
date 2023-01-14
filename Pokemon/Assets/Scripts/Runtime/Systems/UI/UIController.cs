@@ -1,7 +1,5 @@
 #region Packages
 
-using Runtime.Battle.UI.Information_Display;
-using Runtime.Battle.UI.Selection;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,12 +16,6 @@ namespace Runtime.Systems.UI
         [SerializeField, Required, SceneObjectsOnly]
         private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
-        [SerializeField, Required, SceneObjectsOnly]
-        private SelectionMenu selectionMenu;
-
-        [SerializeField, Required, SceneObjectsOnly]
-        private DisplayManager displayManager;
-
         #endregion
 
         #region Build In States
@@ -33,9 +25,7 @@ namespace Runtime.Systems.UI
             this.overworldUI,
             this.pauseUI,
             this.startUI,
-            this.loadingUI,
-            this.selectionMenu,
-            this.displayManager);
+            this.loadingUI);
 
         #endregion
     }

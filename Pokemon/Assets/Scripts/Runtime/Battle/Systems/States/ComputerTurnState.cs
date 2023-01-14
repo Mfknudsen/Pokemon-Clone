@@ -13,30 +13,35 @@ using Runtime.Systems.UI;
 
 namespace Runtime.Battle.Systems.States
 {
-    public class ComputerTurnState : State
+    public sealed class ComputerTurnState : State
     {
-        public ComputerTurnState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
+        public ComputerTurnState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager,
+            uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
+            _Debug.Logger.AddLog(this.battleSystem.ToString(), "Computer Turn State Start");
+
             SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 
             foreach (Spot spot in spotOversight.GetSpots().Where(spot =>
-                spot.GetActivePokemon() != null &&
-                !spot.GetBattleMember().IsPlayer()))
+                         spot.GetActivePokemon() != null &&
+                         !spot.GetBattleMember().IsPlayer()))
             {
                 BattleMember battleMember = spot.GetBattleMember();
                 Pokemon pokemon = spot.GetActivePokemon();
 
                 battleMember.ActivateAIBrain(pokemon);
 
-                while (pokemon.GetBattleAction() is null)
+                while (pokemon.GetBattleAction() == null)
                     yield return null;
             }
 
-            this.battleSystem.SetState(new ActionState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new ActionState(this.battleSystem, this.operationManager, this.chatManager,
+                this.uiManager, this.playerManager));
         }
     }
 }

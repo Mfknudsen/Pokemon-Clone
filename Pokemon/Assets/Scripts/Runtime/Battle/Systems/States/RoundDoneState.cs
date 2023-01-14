@@ -16,12 +16,16 @@ namespace Runtime.Battle.Systems.States
 {
     public class RoundDoneState : State
     {
-        public RoundDoneState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager, UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager, uiManager, playerManager)
+        public RoundDoneState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
+            UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager,
+            uiManager, playerManager)
         {
         }
 
         public override IEnumerator Tick()
         {
+            _Debug.Logger.AddLog(this.battleSystem.ToString(), "Round Done State Start");
+
             #region End Turn Abilities
 
             AbilityOversight abilityOversight = this.battleSystem.GetAbilityOversight();
@@ -41,16 +45,19 @@ namespace Runtime.Battle.Systems.States
             #region End Battle
 
             if (this.battleSystem.CheckTeamDefeated(true))
-                this.battleSystem.SetState(new LostState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new LostState(this.battleSystem, this.operationManager, this.chatManager,
+                    this.uiManager, this.playerManager));
             else if (this.battleSystem.CheckTeamDefeated(false))
-                this.battleSystem.SetState(new WinState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new WinState(this.battleSystem, this.operationManager, this.chatManager,
+                    this.uiManager, this.playerManager));
             else
             {
                 SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 
                 spotOversight.Reorganise(true);
 
-                this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+                this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager,
+                    this.chatManager, this.uiManager, this.playerManager));
             }
 
             #endregion

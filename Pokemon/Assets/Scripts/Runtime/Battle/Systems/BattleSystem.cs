@@ -1,13 +1,11 @@
 ﻿#region Packages
 
 using System.Linq;
-using Cinemachine;
 using Runtime._Debug;
 using Runtime.Battle.Actions;
+using Runtime.Battle.Systems.BattleStart;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Battle.Systems.States;
-using Runtime.Battle.UI.Information_Display;
-using Runtime.Battle.UI.Selection;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Player.Camera;
@@ -16,6 +14,10 @@ using Runtime.Pokémon.Conditions;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
 using Runtime.Systems;
 using Runtime.Systems.UI;
+using Runtime.UI.Battle;
+using Runtime.UI.Battle.Information_Display;
+using Runtime.UI.Battle.Selection;
+using Runtime.UI.Communication;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Logger = Runtime._Debug.Logger;
@@ -47,21 +49,23 @@ namespace Runtime.Battle.Systems
         [FoldoutGroup("Battlefield")] [SerializeField]
         private GameObject spotPrefab;
 
-        [FoldoutGroup("Battlefield")] [SerializeField]
-        private Battlefield battlefield;
+        [SerializeField, FoldoutGroup("UI"), Required]
+        private BattleUI battleUI;
 
-        [FoldoutGroup("UI")] [SerializeField] private SelectionMenu selectionMenu;
+        [SerializeField, FoldoutGroup("UI"), Required]
+        private SelectionMenu selectionMenu;
 
-        [FoldoutGroup("UI")] [SerializeField] private DisplayManager displayManager;
+        [SerializeField, FoldoutGroup("UI"), Required]
+        private InformationDisplay informationDisplay;
+
+        [SerializeField, FoldoutGroup("Chat"), Required]
+        private TextField textField;
 
         [FoldoutGroup("Chat")] [SerializeField]
         private Chat superEffective;
 
         [FoldoutGroup("Chat")] [SerializeField]
         private Chat notEffective, noEffect, barelyEffective, extremelyEffective, miss;
-
-        [FoldoutGroup("Camera")] [SerializeField]
-        private CinemachineVirtualCameraBase battleCameraRig;
 
         [SerializeField, FoldoutGroup("Camera")]
         private CameraEvent cameraEvent;
@@ -88,90 +92,40 @@ namespace Runtime.Battle.Systems
 
         private void Start()
         {
-            if (instance == null)
-            {
-                instance = this;
+            instance = this;
 
-                this.operationManager.AddAsyncOperationsContainer(
-                    new OperationsContainer(this.cameraEvent));
-
-                BattleMathf.SetSuperEffective(this.superEffective);
-                BattleMathf.SetNotEffective(this.notEffective);
-                BattleMathf.SetNoEffect(this.noEffect);
-                BattleMathf.SetBarelyEffective(this.barelyEffective);
-                BattleMathf.SetExtremlyEffective(this.extremelyEffective);
-                BattleMathf.SetMissChat(this.miss);
-
-
-                this.SetState(new BeginState(this, this.operationManager, this.chatManager, this.uiManager,
-                    this.playerManager));
-            }
-
-            Destroy(this.gameObject);
+            BattleMathf.SetSuperEffective(this.superEffective);
+            BattleMathf.SetNotEffective(this.notEffective);
+            BattleMathf.SetNoEffect(this.noEffect);
+            BattleMathf.SetBarelyEffective(this.barelyEffective);
+            BattleMathf.SetExtremlyEffective(this.extremelyEffective);
+            BattleMathf.SetMissChat(this.miss);
         }
 
         #endregion
 
         #region Getters
 
-        public SelectionMenu GetSelectionMenu()
-        {
-            return this.selectionMenu;
-        }
+        public SelectionMenu GetSelectionMenu() =>
+            this.selectionMenu;
 
-        public float GetSecPerPokeMove()
-        {
-            return this.secondsPerPokemonMove;
-        }
+        public float GetSecPerPokeMove() =>
+            this.secondsPerPokemonMove;
 
-        public BattleStarter GetStarter()
-        {
-            return this.starter;
-        }
+        public BattleStarter GetStarter() =>
+            this.starter;
 
-        public WeatherManager GetWeatherManager()
-        {
-            return this.weatherManager ??= new WeatherManager();
-        }
+        public WeatherManager GetWeatherManager() =>
+            this.weatherManager ??= new WeatherManager();
 
-        public SpotOversight GetSpotOversight()
-        {
-            return this.spotOversight ??= new SpotOversight();
-        }
+        public SpotOversight GetSpotOversight() =>
+            this.spotOversight ??= new SpotOversight();
 
-        public AbilityOversight GetAbilityOversight()
-        {
-            return this.abilityOversight;
-        }
+        public AbilityOversight GetAbilityOversight() =>
+            this.abilityOversight;
 
-        public DisplayManager GetDisplayManager()
-        {
-            return this.displayManager;
-        }
-
-        public Battlefield GetBattlefield()
-        {
-            return this.battlefield;
-        }
-
-        public CinemachineVirtualCameraBase GetBattleCamera()
-        {
-            return this.battleCameraRig;
-        }
-
-        #endregion
-
-        #region Setters
-
-        public void SetDisplayManager(DisplayManager set)
-        {
-            this.displayManager = set;
-        }
-
-        public void SetSelectionMenu(SelectionMenu set)
-        {
-            this.selectionMenu = set;
-        }
+        public InformationDisplay GetDisplayManager() =>
+            this.informationDisplay;
 
         #endregion
 
@@ -180,6 +134,19 @@ namespace Runtime.Battle.Systems
         public void StartBattle(BattleStarter battleStarter)
         {
             this.starter = battleStarter;
+
+            this.textField.MakeCurrent();
+
+            this.SetState(new BeginState(
+                this,
+                this.operationManager,
+                this.chatManager,
+                this.uiManager,
+                this.playerManager,
+                battleStarter.GetBattleInitializer));
+
+            this.operationManager.AddAsyncOperationsContainer(
+                new OperationsContainer(this.cameraEvent));
         }
 
         public void SpawnPokemon(Pokemon pokemon, Spot spot)
@@ -200,10 +167,10 @@ namespace Runtime.Battle.Systems
             spot.SetActivePokemon(pokemon);
             spot.SetNeedNew(false);
 
-            this.displayManager.UpdateSlots();
+            this.informationDisplay.UpdateSlots(this.spotOversight);
 
             //Check if spawned object is placeholder;
-            obj.GetComponent<PokemonPlaceholder>().CheckPlaceholder(pokemon);
+            obj.GetComponent<PokemonPlaceholder>().SetText(pokemon.GetName());
         }
 
         public void DespawnPokemon(Pokemon pokemon)
@@ -223,7 +190,7 @@ namespace Runtime.Battle.Systems
                 break;
             }
 
-            this.displayManager.UpdateSlots();
+            this.informationDisplay.UpdateSlots(this.spotOversight);
         }
 
         public void SetupAbilityOversight()
@@ -242,6 +209,8 @@ namespace Runtime.Battle.Systems
 
         public void EndBattle(bool playerVictory)
         {
+            Destroy(this.battleUI.gameObject);
+            
             this.starter.EndBattle(playerVictory);
         }
 
@@ -249,7 +218,8 @@ namespace Runtime.Battle.Systems
         {
             FaintedCondition condition = Instantiate(this.faintCondition) as FaintedCondition;
 
-            // ReSharper disable once PossibleNullReferenceException
+            if (condition == null) return;
+
             condition.SetAffectedPokemon(pokemon);
 
             pokemon.GetConditionOversight().TryApplyNonVolatileCondition(condition);
@@ -259,20 +229,14 @@ namespace Runtime.Battle.Systems
 
         #region Out
 
-        public Spot CreateSpot(Transform parent)
-        {
-            return Instantiate(this.spotPrefab, parent).GetComponent<Spot>();
-        }
+        public Spot CreateSpot() =>
+            Instantiate(this.spotPrefab, this.transform).GetComponent<Spot>();
 
-        public SwitchAction InstantiateSwitchAction()
-        {
-            return (SwitchAction)Instantiate(this.switchAction);
-        }
+        public SwitchAction InstantiateSwitchAction() => 
+            (SwitchAction)Instantiate(this.switchAction);
 
-        public ItemAction InstantiateItemAction()
-        {
-            return Instantiate(this.itemAction) as ItemAction;
-        }
+        public ItemAction InstantiateItemAction() => 
+            Instantiate(this.itemAction) as ItemAction;
 
         public bool CheckTeamDefeated(bool isAlly)
         {

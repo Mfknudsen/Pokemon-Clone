@@ -1,7 +1,7 @@
 ﻿#region Packages
 
 using Runtime.Battle.Actions;
-using Runtime.Battle.UI.Selection;
+using Runtime.UI.Battle.Selection;
 using TMPro;
 using UnityEngine;
 

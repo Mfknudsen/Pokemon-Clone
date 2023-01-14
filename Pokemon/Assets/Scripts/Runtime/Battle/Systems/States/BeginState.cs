@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.Battle.Actions;
+using Runtime.Battle.Systems.BattleStart;
+using Runtime.Battle.Systems.Initializer;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Communication;
 using Runtime.Player;
@@ -20,25 +22,19 @@ namespace Runtime.Battle.Systems.States
     public class BeginState : State
     {
         private SpotOversight spotOversight;
+        private readonly BattleInitializer battleInitializer;
 
         public BeginState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
-            UIManager uiManager, PlayerManager playerManager) : base(battleSystem, operationManager, chatManager,
+            UIManager uiManager, PlayerManager playerManager, BattleInitializer battleInitializer) : base(battleSystem,
+            operationManager, chatManager,
             uiManager, playerManager)
         {
+            this.battleInitializer = battleInitializer;
         }
 
         public override IEnumerator Tick()
         {
-            BattleStarter battleStarter = null;
-
-            while (battleStarter == null)
-            {
-                battleStarter = this.battleSystem.GetStarter();
-                yield return null;
-            }
-
-            this.battleSystem.SetSelectionMenu(this.uiManager.GetSelectionMenu());
-            this.battleSystem.SetDisplayManager(this.uiManager.GetDisplayManager());
+            BattleStarter battleStarter = this.battleSystem.GetStarter();
 
             #region Setup Spots
 
@@ -51,13 +47,20 @@ namespace Runtime.Battle.Systems.States
             this.spotOversight = this.battleSystem.GetSpotOversight();
 
             BattleMember[] playerWithAllies = { this.playerManager.GetBattleMember() };
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            playerWithAllies.Concat(battleStarter.GetAllies());
-            this.spotOversight.SetupSpots(playerWithAllies, this.battleSystem.GetBattlefield().GetAllyField());
+            this.spotOversight.SetupSpots(playerWithAllies.Concat(battleStarter.GetAllies()).ToArray(),
+                this.battleInitializer.GetAllySpots(),
+                this.battleSystem);
             this.spotOversight.SetupSpots(battleStarter.GetEnemies(),
-                this.battleSystem.GetBattlefield().GetEnemyField());
+                this.battleInitializer.GetEnemySpots(),
+                this.battleSystem);
 
             this.spotOversight.Reorganise(false);
+
+            #endregion
+
+            #region Setup UI
+
+            this.battleSystem.GetSelectionMenu().Setup();
 
             #endregion
 
@@ -142,7 +145,8 @@ namespace Runtime.Battle.Systems.States
 
             this.spotOversight.Reorganise(false);
 
-            this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager, this.uiManager, this.playerManager));
+            this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager,
+                this.uiManager, this.playerManager));
         }
     }
 }

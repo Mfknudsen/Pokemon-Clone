@@ -23,7 +23,7 @@ namespace Runtime.AI
 
         #region In
 
-        public override void Trigger()
+        public override void InteractTrigger()
         {
         }
 

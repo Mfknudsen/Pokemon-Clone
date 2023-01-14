@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Runtime.AI.Battle.AfterEffects;
 using Runtime.AI.Battle.BeforeEffects;
-using Runtime.Battle.Systems;
+using Runtime.Battle.Systems.BattleStart;
 using Runtime.Communication;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -15,7 +15,6 @@ using UnityEngine;
 
 namespace Runtime.AI.Battle
 {
-    [RequireComponent(typeof(BattleStarter))]
     public class UnitBattleBase : UnitBase
     {
         #region Values
@@ -65,7 +64,7 @@ namespace Runtime.AI.Battle
 
         #region In
 
-        public override void Trigger()
+        public override void InteractTrigger()
         {
             if (this.battleStarter.GetPlayerWon())
                 this.chatManager.Add(this.idleChat);
@@ -104,7 +103,7 @@ namespace Runtime.AI.Battle
                 yield return new WaitWhile(() => !container.AllDone());
             }
 
-            this.battleStarter.TriggerBattle();
+            this.battleStarter.InteractTrigger();
         }
 
         public IEnumerator AfterBattle()

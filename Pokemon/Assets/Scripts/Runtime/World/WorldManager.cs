@@ -50,11 +50,11 @@ namespace Runtime.World
 
         #region Build In States
 
-        public IEnumerator FrameStart(PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner runner)
         {
             this.storyTriggers = FileManager.LoadData<StoryTriggers>(FileName);
 
-            this.persistantRunner = persistantRunner;
+            this.persistantRunner = runner;
             
             this.ready = true;
             yield break;

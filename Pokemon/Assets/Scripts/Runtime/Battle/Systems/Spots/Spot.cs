@@ -6,11 +6,9 @@ using UnityEngine;
 
 #endregion
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable ConvertIfStatementToSwitchStatement
 namespace Runtime.Battle.Systems.Spots
 {
-    public class Spot : MonoBehaviour
+    public sealed class Spot : MonoBehaviour
     {
         #region Values
 
@@ -24,50 +22,78 @@ namespace Runtime.Battle.Systems.Spots
 
         #endregion
 
+        #region Build In States
+
+        private void OnDrawGizmosSelected()
+        {
+            Vector3 pos = this.transform.position;
+            if (this.left != null)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawLine(pos, this.left.transform.position);
+            }
+
+            if (this.right != null)
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawLine(pos, this.right.transform.position);
+            }
+
+            if (this.strafeLeft != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(pos, this.strafeLeft.transform.position);
+            }
+
+            if (this.front != null)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(pos, this.front.transform.position);
+            }
+
+            if (this.strafeRight != null)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(pos, this.strafeRight.transform.position);
+            }
+        }
+
+        #endregion
+
         #region Getters
 
-        public Spot GetLeft()
-        {
-            return this.left;
-        }
+        public Spot GetLeft() =>
+            this.left;
 
-        public Spot GetRight()
-        {
-            return this.right;
-        }
+        public Spot GetRight() =>
+            this.right;
 
-        public Spot GetFront()
-        {
-            return this.front;
-        }
+        public Spot GetFront() =>
+            this.front;
 
-        public Spot GetStrafeLeft()
-        {
-            return this.strafeLeft;
-        }
+        public Spot GetStrafeLeft() =>
+            this.strafeLeft;
 
-        public Spot GetStrafeRight()
-        {
-            return this.strafeRight;
-        }
+        public Spot GetStrafeRight() =>
+            this.strafeRight;
 
         public List<Spot> GetAllAdjacentSpots()
         {
             List<Spot> result = new();
 
-            if (!(this.front is null))
+            if (this.front != null)
                 result.Add(this.front);
 
-            if (!(this.left is null))
+            if (this.left != null)
                 result.Add(this.left);
 
-            if (!(this.right is null))
+            if (this.right != null)
                 result.Add(this.right);
 
-            if (!(this.strafeLeft is null))
+            if (this.strafeLeft != null)
                 result.Add(this.strafeLeft);
 
-            if (!(this.strafeRight is null))
+            if (this.strafeRight != null)
                 result.Add(this.strafeRight);
 
             return result;
@@ -87,34 +113,25 @@ namespace Runtime.Battle.Systems.Spots
 
             return new List<Spot>
             {
-                this.GetStrafeLeft(), this.GetStrafeRight()
+                this.GetStrafeLeft(),
+                this.GetStrafeRight()
             };
         }
 
-        public bool GetNeedNew()
-        {
-            return this.needNew;
-        }
+        public bool GetNeedNew() =>
+            this.needNew;
 
-        public Pokemon GetActivePokemon()
-        {
-            return this.activePokemon;
-        }
+        public Pokemon GetActivePokemon() =>
+            this.activePokemon;
 
-        public Transform GetTransform()
-        {
-            return this.currentTransform;
-        }
+        public Transform GetTransform() =>
+            this.currentTransform;
 
-        public BattleMember GetBattleMember()
-        {
-            return this.battleMember;
-        }
+        public BattleMember GetBattleMember() =>
+            this.battleMember;
 
-        public bool GetIsAlly()
-        {
-            return this.battleMember.GetTeamAffiliation();
-        }
+        public bool GetIsAlly() =>
+            this.battleMember.GetTeamAffiliation();
 
         public int GetID()
         {
@@ -125,55 +142,35 @@ namespace Runtime.Battle.Systems.Spots
 
         #region Setters
 
-        public void SetLeft(Spot set)
-        {
+        public void SetLeft(Spot set) =>
             this.left = set;
-        }
 
-        public void SetRight(Spot set)
-        {
+        public void SetRight(Spot set) =>
             this.right = set;
-        }
 
-        public void SetFront(Spot set)
-        {
+        public void SetFront(Spot set) =>
             this.front = set;
-        }
 
-        public void SetStrafeLeft(Spot set)
-        {
+        public void SetStrafeLeft(Spot set) =>
             this.strafeLeft = set;
-        }
 
-        public void SetStrafeRight(Spot set)
-        {
+        public void SetStrafeRight(Spot set) =>
             this.strafeRight = set;
-        }
 
-        public void SetNeedNew(bool set)
-        {
+        public void SetNeedNew(bool set) =>
             this.needNew = set;
-        }
 
-        public void SetActivePokemon(Pokemon set)
-        {
+        public void SetActivePokemon(Pokemon set) =>
             this.activePokemon = set;
-        }
 
-        public void SetTransform()
-        {
+        public void SetTransform() =>
             this.currentTransform = this.transform;
-        }
 
-        public void SetBattleMember(BattleMember member)
-        {
+        public void SetBattleMember(BattleMember member) =>
             this.battleMember = member;
-        }
 
-        public void SetID(int set)
-        {
+        public void SetID(int set) =>
             this.id = set;
-        }
 
         #endregion
 

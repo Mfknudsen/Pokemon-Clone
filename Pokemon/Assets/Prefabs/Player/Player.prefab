@@ -1162,6 +1162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   focusedInteractable: {fileID: 0}
   itemListVariable: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
+  radius: 2
 --- !u!54 &70431152
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1227,7 +1228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registry: {fileID: 11400000, guid: ada1dad442284a64ab184b7b9be0ca4e, type: 2}
-  checkRadius: 3
+  heightOffset: 0.5
+  checkRadius: 2
   viewableTransforms:
   - {fileID: 2704715617655302703}
   - {fileID: 4520546753120016616}
@@ -1248,7 +1250,6 @@ GameObject:
   - component: {fileID: 5921889010027575708}
   - component: {fileID: 5921889010027575709}
   - component: {fileID: 5921889010027575649}
-  - component: {fileID: 8093549831824952623}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1348,20 +1349,6 @@ MonoBehaviour:
   tm: 
   treasure: 01000000
   key: 
---- !u!114 &8093549831824952623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5921889010027575710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ceec9e82f113dc41996c06f3285e85a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pokemons: []
-  allPossible: []
 --- !u!1 &6327236608062231351
 GameObject:
   m_ObjectHideFlags: 3
@@ -1386,7 +1373,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6327236608062231351}
-  m_LocalRotation: {x: 0.16036716, y: -0.000000018988336, z: 0.0000000030850345, w: 0.98705745}
+  m_LocalRotation: {x: 0.16036716, y: 0.000000018988336, z: -0.0000000030850345, w: 0.98705745}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

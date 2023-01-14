@@ -27,7 +27,7 @@ namespace Runtime.Systems
 
         #region Build In States
 
-        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner runner)
         {
             while (this.operationController == null)
             {
@@ -139,15 +139,11 @@ namespace Runtime.Systems
         {
         }
 
-        public OperationsContainer(IOperation set)
-        {
+        public OperationsContainer(IOperation set) => 
             this.operationInterfaces.Add(set);
-        }
 
-        public OperationsContainer(IOperation[] set)
-        {
+        public OperationsContainer(IEnumerable<IOperation> set) => 
             this.operationInterfaces.AddRange(set);
-        }
 
         public void Add(IOperation operationInterface)
         {

@@ -333,19 +333,19 @@ namespace Runtime.Battle.Systems
                 {
                     case 0:
                         type = 0.5f;
-                        chatManager.Add(_notEffective.GetChat());
+                        chatManager.Add(_notEffective.GetChatInstantiated());
                         break;
                     case -1:
                         type = 0.25f;
-                        chatManager.Add(_barelyEffective.GetChat());
+                        chatManager.Add(_barelyEffective.GetChatInstantiated());
                         break;
                     case 2:
                         type = 1.5f;
-                        chatManager.Add(_superEffective.GetChat());
+                        chatManager.Add(_superEffective.GetChatInstantiated());
                         break;
                     case 3:
                         type = 2;
-                        chatManager.Add(_extremlyEffective.GetChat());
+                        chatManager.Add(_extremlyEffective.GetChatInstantiated());
                         break;
                     default:
                         type = 1;
@@ -354,7 +354,7 @@ namespace Runtime.Battle.Systems
             }
             // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
             else if (_noEffect != null)
-                chatManager.Add(_noEffect.GetChat());
+                chatManager.Add(_noEffect.GetChatInstantiated());
 
             result.Add(type);
 

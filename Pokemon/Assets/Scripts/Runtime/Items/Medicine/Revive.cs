@@ -40,7 +40,7 @@ namespace Runtime.Items.Medicine
         {
             this.done = false;
 
-            Chat toSend = this.onActivation.GetChat();
+            Chat toSend = this.onActivation.GetChatInstantiated();
             toSend.AddToOverride("<POKEMON_NAME>", this.target.GetName());
             this.chatManager.Add(toSend);
 

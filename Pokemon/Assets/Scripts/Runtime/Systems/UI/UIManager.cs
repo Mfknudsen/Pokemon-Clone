@@ -2,12 +2,12 @@
 
 using System.Collections;
 using Runtime.Battle.Systems;
-using Runtime.Battle.UI.Information_Display;
-using Runtime.Battle.UI.Selection;
 using Runtime.Common;
+using Runtime.Communication;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems.PersistantRunner;
 using Runtime.UI_Book;
+using Runtime.UI.Communication;
 using Runtime.UI.Pause;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -37,24 +37,23 @@ namespace Runtime.Systems.UI
 
         private UIBook uiBook;
 
-        [ShowInInspector, ReadOnly] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
-
-        [ShowInInspector, ReadOnly] private SelectionMenu selectionMenu;
-
-        [ShowInInspector, ReadOnly] private DisplayManager displayManager;
-
+        [SerializeField, Required] private ChatManager chatManager;
         [SerializeField, Required] private BoolVariable playerThrowingItem;
 
-        [ShowInInspector] private GameObject bookCanvasObject, overworldCanvasObject;
+        [ShowInInspector, ReadOnly] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
+
+        [ShowInInspector, ReadOnly] private GameObject bookCanvasObject, overworldCanvasObject;
 
         private UISelection currentSelection = UISelection.Start;
         private bool readyToPause;
+
+        private TextField overworldTextField;
 
         #endregion
 
         #region Build In States
 
-        public IEnumerator FrameStart(PersistantRunner.PersistantRunner persistantRunner)
+        public IEnumerator FrameStart(PersistantRunner.PersistantRunner runner)
         {
             InputManager.instance.pauseInputEvent.AddListener(this.PauseTrigger);
 
@@ -75,7 +74,9 @@ namespace Runtime.Systems.UI
             this.pauseUI = this.bookCanvasObject.GetChildByName("Pause Menu");
             this.startUI = this.bookCanvasObject.GetChildByName("Start Menu");
             this.loadingUI = this.bookCanvasObject.GetChildByName("Loading UI");
-            
+
+            this.overworldTextField = this.overworldUI.GetComponentInChildren<TextField>(true);
+
             this.ready = true;
         }
 
@@ -88,16 +89,6 @@ namespace Runtime.Systems.UI
         public GameObject CanvasObject => this.bookCanvasObject;
 
         #region Battle
-
-        public SelectionMenu GetSelectionMenu()
-        {
-            return this.selectionMenu;
-        }
-
-        public DisplayManager GetDisplayManager()
-        {
-            return this.displayManager;
-        }
 
         #endregion
 
@@ -114,15 +105,13 @@ namespace Runtime.Systems.UI
         #region In
 
         public void Setup(GameObject battleUI, GameObject overworldUI, GameObject pauseUI, GameObject startUI,
-            GameObject loadingUI, SelectionMenu selectionMenu, DisplayManager displayManager)
+            GameObject loadingUI)
         {
             this.battleUI = battleUI;
             this.overworldUI = overworldUI;
             this.pauseUI = pauseUI;
             this.startUI = startUI;
             this.loadingUI = loadingUI;
-            this.selectionMenu = selectionMenu;
-            this.displayManager = displayManager;
         }
 
         public void SwitchUI(UISelection selection)
@@ -141,10 +130,14 @@ namespace Runtime.Systems.UI
 
                 case UISelection.Battle:
                     this.battleUI.SetActive(true);
+                    this.chatManager.SetAdaptive(false);
                     break;
 
                 case UISelection.Overworld:
                     this.overworldUI.SetActive(true);
+                    this.overworldTextField.MakeCurrent();
+                    this.chatManager.ShowTextField(true);
+                    this.chatManager.SetAdaptive(true);
                     break;
 
                 case UISelection.Pause:
@@ -161,6 +154,14 @@ namespace Runtime.Systems.UI
 
         public void ActivateLoadingUI(bool set) =>
             this.loadingUI.SetActive(set);
+
+        public void SetBattleUI(Transform set)
+        {
+            for (int i = this.battleUI.transform.childCount - 1; i >= 0; i--)
+                Destroy(this.battleUI.transform.GetChild(i));
+
+            set.SetParent(this.battleUI.transform);
+        }
 
         #endregion
 

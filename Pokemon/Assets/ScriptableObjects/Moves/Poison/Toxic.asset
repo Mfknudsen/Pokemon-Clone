@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97d662b8124f3b43a5e5ed4ee9b14c0, type: 3}
   m_Name: Toxic
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 11400000, guid: 09cccd226333467bb91ed461de6ed975, type: 2}
+  operationManager: {fileID: 11400000, guid: dae9f5785d6ed488587c75e40ac86116, type: 2}
+  chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
   active: 0
   done: 0
   defaultTargetEnemy: 1
   currentPokemon: {fileID: 0}
-  targetPokemon: []
+  targets: []
   moveActive: 0
   priority: 2
   priorityInteraction: []
@@ -30,12 +33,14 @@ MonoBehaviour:
   maxPP: 10
   power: 0
   accuracy: 90
+  canCrit: 1
   makesContact: 0
   affectByProtect: 1
   affectByMagicCoat: 1
   affectBySnatch: 0
   affectByMirrorMove: 1
   affectByKingsRock: 0
+  specialAddons: 
   hitType: 0
   selfTargetable: 0
   enemyTargetable: 010100
@@ -51,7 +56,5 @@ MonoBehaviour:
   spectacularJam: 0
   hasStatus: 1
   statusCondition: {fileID: 11400000, guid: 2c8651226be24f24bb26d8a51575b846, type: 2}
-  applyChange: 100
-  statusHit: 1
+  applyChance: 0
   statusHitChat: {fileID: 11400000, guid: a384d5220b83ab64eb0ad2f6690b9079, type: 2}
-  statusFailedChat: {fileID: 11400000, guid: 0fe2bc316a711e5469fc63ff65d1b016, type: 2}
