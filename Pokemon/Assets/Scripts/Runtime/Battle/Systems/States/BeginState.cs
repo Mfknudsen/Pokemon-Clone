@@ -21,8 +21,14 @@ namespace Runtime.Battle.Systems.States
 {
     public class BeginState : State
     {
+        #region Values
+
         private SpotOversight spotOversight;
         private readonly BattleInitializer battleInitializer;
+
+        #endregion
+
+        #region Build In States
 
         public BeginState(BattleSystem battleSystem, OperationManager operationManager, ChatManager chatManager,
             UIManager uiManager, PlayerManager playerManager, BattleInitializer battleInitializer) : base(battleSystem,
@@ -32,11 +38,35 @@ namespace Runtime.Battle.Systems.States
             this.battleInitializer = battleInitializer;
         }
 
+        #endregion
+
+        #region In
+
         public override IEnumerator Tick()
         {
-            BattleStarter battleStarter = this.battleSystem.GetStarter();
+            this.SetupSpots();
 
-            #region Setup Spots
+            this.SetupUI();
+
+            this.SetupAbilityOversight();
+
+            yield return this.StartLog();
+
+            yield return this.SetupActions();
+
+            this.spotOversight.Reorganise(false);
+
+            this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager,
+                this.uiManager, this.playerManager));
+        }
+
+        #endregion
+
+        #region Internal
+
+        private void SetupSpots()
+        {
+            BattleStarter battleStarter = this.battleSystem.GetStarter();
 
             foreach (BattleMember battleMember in battleStarter.GetAllBattleMembers())
             {
@@ -55,19 +85,10 @@ namespace Runtime.Battle.Systems.States
                 this.battleSystem);
 
             this.spotOversight.Reorganise(false);
+        }
 
-            #endregion
-
-            #region Setup UI
-
-            this.battleSystem.GetSelectionMenu().Setup();
-
-            #endregion
-
-            this.battleSystem.SetupAbilityOversight();
-
-            #region Start Log
-
+        private IEnumerator StartLog()
+        {
             string playersMsg = "Starting Battle Between:";
             string alliesMsg = " - " + this.playerManager.GetBattleMember().GetName(), enemiesMsg = "";
 
@@ -97,13 +118,18 @@ namespace Runtime.Battle.Systems.States
 
             Logger.AddLog("Begin State", playersMsg);
 
-            #endregion
-
             while (!this.chatManager.GetIsClear())
                 yield return null;
+        }
 
-            #region Start Actions
+        private void SetupUI() =>
+            this.battleSystem.GetSelectionMenu().Setup();
 
+        private void SetupAbilityOversight() =>
+            this.battleSystem.SetupAbilityOversight();
+
+        private IEnumerator SetupActions()
+        {
             List<OperationsContainer> switchInActions = new();
             foreach (Spot spot in this.spotOversight.GetSpots())
             {
@@ -129,8 +155,6 @@ namespace Runtime.Battle.Systems.States
 
             this.operationManager.AddOperationsContainer(switchInActions.ToArray());
 
-            #endregion
-
             foreach (IOperation i in switchInActions
                          .SelectMany(switchInAction =>
                              switchInAction.GetInterfaces()))
@@ -139,14 +163,10 @@ namespace Runtime.Battle.Systems.States
                     yield return null;
             }
 
-
             while (!this.chatManager.GetIsClear() || !this.operationManager.GetDone())
                 yield return null;
-
-            this.spotOversight.Reorganise(false);
-
-            this.battleSystem.SetState(new PlayerTurnState(this.battleSystem, this.operationManager, this.chatManager,
-                this.uiManager, this.playerManager));
         }
+
+        #endregion
     }
 }

@@ -14,6 +14,7 @@ using Runtime.Systems.UI;
 using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 #endregion
 
@@ -23,13 +24,7 @@ namespace Runtime.Battle.Systems.BattleStart
     {
         #region Values
 
-        #region Delegates
-
-        public delegate void OnBattleEnd(bool playerWon);
-
-        public OnBattleEnd onBattleEnd;
-
-        #endregion
+        public UnityEvent<bool> onBattleEnd;
 
         [SerializeField, AssetSelector(Paths = "Assets/Prefabs/Battle/Systems"), Required]
         private BattleSystem battleSystem;
@@ -92,7 +87,7 @@ namespace Runtime.Battle.Systems.BattleStart
             return result;
         }
 
-        public BattleInitializer GetBattleInitializer => this.battleInitializer;
+        public BattleInitializer GetBattleInitializer => this.instantiatedBattleInitializer;
 
         #endregion
 
@@ -138,12 +133,12 @@ namespace Runtime.Battle.Systems.BattleStart
 
             Transform starterTransform = this.transform;
             Quaternion starterRotation = starterTransform.rotation;
-            
+
             this.instantiatedBattleInitializer = Instantiate(this.battleInitializer, starterTransform);
             Transform initTransform = this.instantiatedBattleInitializer.transform;
             initTransform.localPosition = Vector3.zero;
             initTransform.rotation = starterRotation;
-            
+
             this.instantiatedBattleSystem = Instantiate(this.battleSystem, starterTransform);
             Transform systemTransform = this.instantiatedBattleSystem.transform;
             systemTransform.localPosition = Vector3.zero;
@@ -157,8 +152,8 @@ namespace Runtime.Battle.Systems.BattleStart
                 this.introEvent.IsOperationDone);
 
             Transform playerTransform = this.playerManager.GetController().transform;
-            playerTransform.position = this.battleInitializer.GetPlayerCharacterPosition().position;
-            playerTransform.rotation = this.battleInitializer.GetPlayerCharacterPosition().rotation;
+            playerTransform.position = this.instantiatedBattleInitializer.GetPlayerCharacterPosition().position;
+            playerTransform.rotation = this.instantiatedBattleInitializer.GetPlayerCharacterPosition().rotation;
 
             container = new OperationsContainer(this.cameraManager.ReturnToDefaultOverworldEvent());
             this.operationManager.AddOperationsContainer(container);

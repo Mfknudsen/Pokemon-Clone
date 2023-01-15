@@ -232,22 +232,17 @@ namespace Runtime.Battle.Systems
         public Spot CreateSpot() =>
             Instantiate(this.spotPrefab, this.transform).GetComponent<Spot>();
 
-        public SwitchAction InstantiateSwitchAction() => 
+        public SwitchAction InstantiateSwitchAction() =>
             (SwitchAction)Instantiate(this.switchAction);
 
-        public ItemAction InstantiateItemAction() => 
+        public ItemAction InstantiateItemAction() =>
             Instantiate(this.itemAction) as ItemAction;
 
-        public bool CheckTeamDefeated(bool isAlly)
-        {
-            return this.spotOversight.GetSpots()
-                .Select(s =>
-                    s.GetBattleMember())
-                .Where(bm =>
-                    bm.GetTeamAffiliation() == isAlly)
-                .Any(bm =>
-                    !bm.GetTeam().HasMorePokemon());
-        }
+        public bool CheckTeamDefeated(bool isAlly) =>
+            this.spotOversight.GetSpots()
+                .Select(s => s.GetBattleMember())
+                .Where(bm => bm.GetTeamAffiliation() == isAlly)
+                .Any(bm => !bm.GetTeam().HasMorePokemon());
 
         #endregion
     }

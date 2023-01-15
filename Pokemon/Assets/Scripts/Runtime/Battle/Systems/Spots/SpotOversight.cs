@@ -40,21 +40,6 @@ namespace Runtime.Battle.Systems.Spots
 
         #endregion
 
-        #region Setters
-
-        public void SetSpot(Spot spot)
-        {
-            if (spot == null)
-                return;
-
-            spot.SetID(this.counts);
-            this.counts += 1;
-
-            this.list.Add(spot);
-        }
-
-        #endregion
-
         #region In
 
         public void SetupSpots(BattleMember[] members, Transform[] initializedSpots, BattleSystem battleSystem)
@@ -140,6 +125,21 @@ namespace Runtime.Battle.Systems.Spots
             #endregion
 
             this.defaultTargets = this.list.Count == 2;
+        }
+
+        #endregion
+
+        #region Internal
+
+        private void SetSpot(Spot spot)
+        {
+            if (spot == null)
+                return;
+
+            spot.SetID(this.counts);
+            this.counts += 1;
+
+            this.list.Add(spot);
         }
 
         #endregion

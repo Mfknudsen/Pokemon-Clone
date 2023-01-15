@@ -239,10 +239,8 @@ namespace Runtime.Battle.Systems.Spots
             }
         }
 
-        public void DestroySelf()
-        {
+        public void DestroySelf() => 
             Destroy(this.gameObject);
-        }
 
         #endregion
 
