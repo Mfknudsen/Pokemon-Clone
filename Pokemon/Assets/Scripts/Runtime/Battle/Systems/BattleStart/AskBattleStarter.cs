@@ -31,8 +31,8 @@ namespace Runtime.Battle.Systems.BattleStart
             for (int i = 0; i < this.enemies.Length; i++)
                 instantiatedChat.AddToOverride($"<TRAINER_NAME_{i}>", this.enemies[i].GetName());
 
-            instantiatedChat.AddResponse("I Agree", this.TriggerBattle);
-            instantiatedChat.AddResponse("I Disagree", () => this.StartCoroutine(this.DeniedResponse()));
+            instantiatedChat.AddResponse("Yes", this.TriggerBattle);
+            instantiatedChat.AddResponse("No", () => this.StartCoroutine(this.DeniedResponse()));
 
             this.chatManager.Add(instantiatedChat);
         }

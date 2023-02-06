@@ -25,6 +25,8 @@ namespace Editor
 
         public override void OnInspectorGUI()
         {
+            if (this.script == null) return;
+
             this.ShowList();
 
             base.OnInspectorGUI();

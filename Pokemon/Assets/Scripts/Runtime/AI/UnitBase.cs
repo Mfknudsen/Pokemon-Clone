@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
 using Runtime.AI.Senses.Sight;
-using Runtime.Communication;
 using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -20,19 +19,17 @@ namespace Runtime.AI
 
         [SerializeField, FoldoutGroup("Base"), Required]
         private UnitManager unitManager;
-
-        [SerializeField, FoldoutGroup("Base")] protected Chat idleChat;
-
+        
         [SerializeField, FoldoutGroup("Base/Visual")]
         protected GameObject visualsObject;
 
-        [SerializeField, FoldoutGroup("Base/Navmesh")]
+        [SerializeField, FoldoutGroup("Base/Navmesh"), Required]
         protected NavMeshAgent agent;
 
         [SerializeField, FoldoutGroup("Base/Senses")]
         private UnitSight sightCone;
 
-        [SerializeField, FoldoutGroup("Base")] private BehaviourTreeOwner behaviourTreeOwner;
+        [SerializeField, FoldoutGroup("Base"), Required] private BehaviourTreeOwner behaviourTreeOwner;
 
         [SerializeField, FoldoutGroup("Base")] private UnitState unitState;
 
@@ -56,10 +53,8 @@ namespace Runtime.AI
 
         #region Getters
 
-        public NavMeshAgent GetAgent()
-        {
-            return this.agent;
-        }
+        public NavMeshAgent GetAgent() =>
+            this.agent;
 
         public TObject GetFromMemory<TObject>(string key) where TObject : Object
         {
@@ -68,7 +63,8 @@ namespace Runtime.AI
             return this.memoryBank[key] as TObject;
         }
 
-        public UnitState GetUnitState() => this.unitState;
+        public UnitState GetUnitState() =>
+            this.unitState;
 
         #endregion
 

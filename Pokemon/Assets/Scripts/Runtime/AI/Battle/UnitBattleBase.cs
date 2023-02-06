@@ -21,6 +21,8 @@ namespace Runtime.AI.Battle
 
         [SerializeField, Required] private ChatManager chatManager;
 
+        [SerializeField, FoldoutGroup("Base")] private Chat idleChat;
+
         [FoldoutGroup("Before Battle")] [SerializeField]
         private BattleStarter battleStarter;
 
