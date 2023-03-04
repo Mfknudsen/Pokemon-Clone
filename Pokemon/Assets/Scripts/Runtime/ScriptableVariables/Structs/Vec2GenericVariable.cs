@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Runtime.ScriptableVariables.Structs
 {
-    public sealed class Vec3Variable : ScriptableVariable<Vector3>
+    [CreateAssetMenu(menuName = "Variables/Vector2")]
+    public sealed class Vec2GenericVariable : ScriptableVariable<Vector2>
     {
         public float x => this.value.x;
         public float y => this.value.y;
-        public float z => this.value.z;
     }
 }

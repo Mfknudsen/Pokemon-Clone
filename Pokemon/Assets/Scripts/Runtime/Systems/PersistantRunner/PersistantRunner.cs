@@ -25,18 +25,21 @@ namespace Runtime.Systems.PersistantRunner
 
         private void Start()
         {
+            if (this.managers.Count == 0)
+                return;
+
             DontDestroyOnLoad(this.gameObject);
 
             this.frameStarts = this.managers
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameStart)))
+                .Where(m => m != null && m.GetType().GetInterfaces().Contains(typeof(IFrameStart)))
                 .Select(m => m as IFrameStart)
                 .ToList();
             this.frameUpdates = this.managers
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameUpdate)))
+                .Where(m => m != null && m.GetType().GetInterfaces().Contains(typeof(IFrameUpdate)))
                 .Select(m => m as IFrameUpdate)
                 .ToList();
             this.frameLateUpdates = this.managers
-                .Where(m => m is not null && m.GetType().GetInterfaces().Contains(typeof(IFrameLateUpdate)))
+                .Where(m => m != null && m.GetType().GetInterfaces().Contains(typeof(IFrameLateUpdate)))
                 .Select(m => m as IFrameLateUpdate)
                 .ToList();
 
@@ -61,22 +64,12 @@ namespace Runtime.Systems.PersistantRunner
         #region In
 
 #if UNITY_EDITOR
-        public void StartManagers()
+
+        public void AddManagers(IEnumerable<Manager> toAdd)
         {
-            foreach (IFrameStart frameStart in this.frameStarts)
-                this.StartCoroutine(frameStart.FrameStart(this));
-        }
-
-        public void AddManager(Manager toAdd)
-        {
-            if (toAdd is IFrameStart start)
-                this.frameStarts.Add(start);
-
-            if (toAdd is IFrameUpdate update)
-                this.frameUpdates.Add(update);
-
-            if (toAdd is IFrameLateUpdate late)
-                this.frameLateUpdates.Add(late);
+            this.managers = toAdd.ToList();
+            
+            this.Start();
         }
 #endif
 

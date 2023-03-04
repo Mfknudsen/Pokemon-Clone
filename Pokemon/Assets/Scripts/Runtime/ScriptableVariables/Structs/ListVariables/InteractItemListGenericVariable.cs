@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Structs.ListVariables
 {
     [CreateAssetMenu(menuName = "Variables/List/Interact Item")]
-    public class InteractItemListVariable : ListVariable<InteractItem>
+    public class InteractItemListGenericVariable : ListGenericVariable<InteractItem>
     {
     }
 }

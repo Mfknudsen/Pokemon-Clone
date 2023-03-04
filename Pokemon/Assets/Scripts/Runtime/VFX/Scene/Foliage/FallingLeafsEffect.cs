@@ -14,7 +14,7 @@ namespace Runtime.VFX.Scene.Foliage
     {
         #region Values
 
-        [SerializeField, Required] private TransformVariable playerTransform;
+        [SerializeField, Required] private TransformGenericVariable playerTransformGeneric;
         [SerializeField] private float maxDistance;
         
         #endregion
@@ -23,7 +23,7 @@ namespace Runtime.VFX.Scene.Foliage
 
         protected override void Play()
         {
-            float sqrDistance = (this.playerTransform.Position - this.effectTransform.position).sqrMagnitude;
+            float sqrDistance = (this.playerTransformGeneric.Position - this.effectTransform.position).sqrMagnitude;
             VisualEffect[] visualEffects = this.effectLoDs.GetByDistance(sqrDistance, out int level);
 
             foreach (VisualEffect visualEffect in visualEffects)
@@ -43,7 +43,7 @@ namespace Runtime.VFX.Scene.Foliage
         }
 
         protected override bool Rules() =>
-            this.effectTransform.position.QuickDistanceLessThen(this.playerTransform.value.position, this.maxDistance);
+            this.effectTransform.position.QuickDistanceLessThen(this.playerTransformGeneric.value.position, this.maxDistance);
 
         protected override void Enable()
         {

@@ -78,7 +78,7 @@ namespace Runtime.Communication
             this.waitList = new List<Chat>();
 
             this.persistantRunner = runner;
-            InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
+            InputManager.Instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
 
             this.ready = true;
             yield break;

@@ -450,11 +450,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 436971408, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000009187139
+      value: -0.000009220373
       objectReference: {fileID: 0}
     - target: {fileID: 436971408, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000002468468
+      value: 0.000002477397
       objectReference: {fileID: 0}
     - target: {fileID: 706208808, guid: b32da9e46e9b00442a519b9539d989fb, type: 3}
       propertyPath: endFollow
@@ -572,14 +572,6 @@ PrefabInstance:
     - target: {fileID: 565465643, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 565465644, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
-      propertyPath: m_CustomBlends
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 565465644, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
-      propertyPath: m_DefaultBlend.m_Style
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 565465646, guid: 9c1c0472f7738bc4b9c74f4921470b35, type: 3}
       propertyPath: field of view

@@ -30,12 +30,12 @@ namespace Runtime.Cutscenes
 
         public void Enable()
         {
-            InputManager.instance.nextChatInputEvent.AddListener(this.OnNextChatUpdate);
+            InputManager.Instance.nextChatInputEvent.AddListener(this.OnNextChatUpdate);
         }
 
         public void Disable()
         {
-            InputManager.instance.nextChatInputEvent.RemoveListener(this.OnNextChatUpdate);
+            InputManager.Instance.nextChatInputEvent.RemoveListener(this.OnNextChatUpdate);
         }
         
         public void DeployCutscene(){}

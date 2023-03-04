@@ -46,7 +46,6 @@ namespace Runtime.Items.Pokeballs
         //IThrowableItem
         public void OnCollision(Collision collision)
         {
-            Debug.Log(collision.gameObject.name);
             if (collision.gameObject.GetFirstComponentByRoot<WildPokemonUnit>() is not { } pokemonHit) return;
 
             Debug.Log("Hit Pokemon: " + pokemonHit.GetPokemon().name);

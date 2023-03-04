@@ -31,7 +31,7 @@ namespace Runtime._Debug
             instance = this;
             this.textField.text = "";
 
-            InputManager.instance.showHideEvent.AddListener(this.ShowHide);
+            InputManager.Instance.showHideEvent.AddListener(this.ShowHide);
             this.ShowHide();
         }
 

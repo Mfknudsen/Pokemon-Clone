@@ -38,7 +38,7 @@ namespace Runtime.Systems.UI
         private UIBook uiBook;
 
         [SerializeField, Required] private ChatManager chatManager;
-        [SerializeField, Required] private BoolVariable playerThrowingItem;
+        [SerializeField, Required] private BoolGenericVariable playerThrowingItem;
 
         [ShowInInspector, ReadOnly] private GameObject battleUI, overworldUI, pauseUI, startUI, loadingUI;
 
@@ -55,7 +55,7 @@ namespace Runtime.Systems.UI
 
         public IEnumerator FrameStart(PersistantRunner.PersistantRunner runner)
         {
-            InputManager.instance.pauseInputEvent.AddListener(this.PauseTrigger);
+            InputManager.Instance.pauseInputEvent.AddListener(this.PauseTrigger);
 
             while (this.bookCanvasObject == null)
             {

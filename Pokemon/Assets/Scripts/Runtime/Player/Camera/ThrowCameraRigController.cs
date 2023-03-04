@@ -14,9 +14,9 @@ namespace Runtime.Player.Camera
 
         [SerializeField, Required] private Transform followObject, visualObject;
 
-        [SerializeField, Required] private BoolVariable allowed, aiming;
+        [SerializeField, Required] private BoolGenericVariable allowed, aiming;
 
-        [SerializeField, Required] private Vec2Variable rotationDirection, rotationSpeeds;
+        [SerializeField, Required] private Vec2GenericVariable rotationDirection, rotationSpeeds;
 
         private Transform controllerTransform;
 

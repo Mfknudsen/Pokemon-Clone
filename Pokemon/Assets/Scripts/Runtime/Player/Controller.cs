@@ -1,8 +1,11 @@
 ﻿#region Packages
 
+using System.Collections;
 using Cinemachine;
+using Runtime.Common;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
+using Runtime.Systems;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,56 +18,81 @@ namespace Runtime.Player
     {
         #region Values
 
-        [FoldoutGroup("Components")] [SerializeField]
+        [SerializeField, FoldoutGroup("Components")]
         private NavMeshAgent agent;
 
-        [FoldoutGroup("Components")] [SerializeField]
+        [SerializeField, FoldoutGroup("Components")]
         private Rigidbody rb;
 
-        [FoldoutGroup("Components")] [SerializeField]
+        [SerializeField, FoldoutGroup("Components")]
         private Animator animController;
 
-        [FoldoutGroup("Components")] [SerializeField]
+        [SerializeField, FoldoutGroup("Components")]
         private CinemachineFreeLook cameraRig;
 
-        [FoldoutGroup("Transforms")] [SerializeField]
+        [SerializeField, FoldoutGroup("Transforms")]
         private Transform playerTransform,
             moveTransform,
             visualTransform;
 
-        [FoldoutGroup("Speeds")] [SerializeField]
+        [SerializeField, FoldoutGroup("Speeds")]
         private float moveSpeed,
             rotateSpeed,
             runSpeed;
 
-        [HorizontalGroup("Speeds/Camera")] [SerializeField]
-        private float yCamSpeed, xCamSpeed;
+        [SerializeField, BoxGroup("Speeds/Dash")]
+        private float dashTime;
 
-        [FoldoutGroup("Animation")] [SerializeField]
+        [SerializeField, BoxGroup("Speeds/Dash")]
+        private AnimationCurve dashCurve;
+
+        [SerializeField, HorizontalGroup("Speeds/Camera")]
+        private float yCamSpeed,
+            xCamSpeed;
+
+        [SerializeField, FoldoutGroup("Animation")]
         private float animatorDamp = 0.1f;
 
-        [FoldoutGroup("Variables")] [SerializeField, Required]
-        private BoolVariable aiming, allowed, running;
+        [SerializeField, FoldoutGroup("Variables"), Required]
+        private PlayerManager playerManager;
 
-        [FoldoutGroup("Variables")] [SerializeField, Required]
-        private Vec2Variable moveDirection;
+        [SerializeField, FoldoutGroup("Variables"), Required]
+        private BoolGenericVariable aiming,
+            allowed,
+            running;
 
-        [FoldoutGroup("Variables")] [SerializeField, Required]
+        [SerializeField] private Vector2 moveDirection;
+
+        [SerializeField, FoldoutGroup("Variables"), Required]
         private CinemachineBrainVariable cameraBrain;
 
-        private bool ready;
+        private bool ready,
+            isRunning,
+            isCrouching;
 
         private Vector3 toLookRotation = Vector3.forward;
 
-        private static readonly int HashWalking = Animator.StringToHash("WalkSpeed");
-        
+        private static readonly int HashWalking = Animator.StringToHash("WalkSpeed"),
+            Crouch = Animator.StringToHash("Crouch");
+
         #endregion
 
         #region Build In States
 
+        private void Start()
+        {
+            this.playerTransform = this.transform;
+
+            this.agent ??= this.playerTransform.GetComponent<NavMeshAgent>();
+            this.rb ??= this.playerTransform.GetComponent<Rigidbody>();
+            this.rb.useGravity = false;
+        }
+
         private void Update()
         {
-            if (!this.ready || !this.allowed.value) return;
+            Debug.DrawRay(this.moveTransform.position, this.moveTransform.forward * 2, Color.blue);
+
+            if (!this.allowed.value) return;
 
             this.UpdateMoveTransform();
             this.Move();
@@ -74,46 +102,40 @@ namespace Runtime.Player
 
         #endregion
 
-        #region Getters
-
-        public GameObject GetVisual() => this.visualTransform.gameObject;
-
-        #endregion
-
         #region In
-
-        public void Setup()
-        {
-            this.playerTransform = this.transform;
-
-            this.agent ??= this.playerTransform.GetComponent<NavMeshAgent>();
-
-            this.rb ??= this.playerTransform.GetComponent<Rigidbody>();
-            this.rb.useGravity = false;
-
-            this.ready = true;
-        }
 
         public void Enable()
         {
+            InputManager inputManager = InputManager.Instance;
+            inputManager.moveAxisInputEvent.AddListener(this.OnMoveDirectionChange);
+            inputManager.crouchInputEvent.AddListener(this.OnCrouchChange);
+            inputManager.jumpInputEvent.AddListener(this.OnJumpChange);
+            inputManager.crouchInputEvent.AddListener(this.OnCrouchChange);
+            inputManager.runInputEvent.AddListener(this.OnRunChange);
+
             this.allowed.value = true;
-            
+
             this.cameraRig.m_YAxis.m_MaxSpeed = this.yCamSpeed;
             this.cameraRig.m_XAxis.m_MaxSpeed = this.xCamSpeed;
         }
 
         public void Disable()
         {
+            InputManager inputManager = InputManager.Instance;
+            inputManager.moveAxisInputEvent.RemoveListener(this.OnMoveDirectionChange);
+            inputManager.crouchInputEvent.RemoveListener(this.OnCrouchChange);
+            inputManager.jumpInputEvent.RemoveListener(this.OnJumpChange);
+            inputManager.crouchInputEvent.RemoveListener(this.OnCrouchChange);
+            inputManager.runInputEvent.RemoveListener(this.OnRunChange);
+
             this.allowed.value = false;
 
             this.cameraRig.m_YAxis.m_MaxSpeed = 0;
             this.cameraRig.m_XAxis.m_MaxSpeed = 0;
         }
 
-        public void TriggerAnimator(int triggerID)
-        {
+        public void TriggerAnimator(int triggerID) =>
             this.animController.SetTrigger(triggerID);
-        }
 
         #endregion
 
@@ -133,20 +155,20 @@ namespace Runtime.Player
         {
             if (!this.animController) return;
 
-            Vector3 playerInputDirection = this.moveDirection.value;
-
             this.animController.SetFloat(
                 HashWalking,
-                playerInputDirection.magnitude * 2 * (this.running.value ? 3 : 1),
+                this.moveDirection.magnitude * 2 * (this.isRunning ? 3 : 1),
                 this.animatorDamp,
                 Time.deltaTime);
         }
 
         private void Move()
         {
-            if (!this.agent || !this.agent.isOnNavMesh) return;
+            if (!this.agent ||
+                !this.agent.isOnNavMesh ||
+                this.playerManager.GetPlayerState() == PlayerState.Dashing) return;
 
-            Vector2 playerInputDirection = this.moveDirection.value;
+            Vector2 playerInputDirection = this.moveDirection;
             Vector3 forwardMove = this.moveTransform.forward * playerInputDirection.y;
             Vector3 sideMove = this.moveTransform.right * playerInputDirection.x;
             Vector3 moveVector = (forwardMove + sideMove).normalized;
@@ -159,9 +181,9 @@ namespace Runtime.Player
         {
             if (!this.aiming.value)
             {
-                if (this.moveDirection.value != Vector2.zero)
+                if (this.moveDirection != Vector2.zero)
                 {
-                    Vector2 playerInputDirection = this.moveDirection.value;
+                    Vector2 playerInputDirection = this.moveDirection;
                     Vector3 forwardMove = this.moveTransform.forward * playerInputDirection.y;
                     Vector3 sideMove = this.moveTransform.right * playerInputDirection.x;
                     this.toLookRotation = (forwardMove + sideMove).normalized;
@@ -178,6 +200,58 @@ namespace Runtime.Player
                 this.toLookRotation = camForward;
             }
         }
+
+        private void TryDash()
+        {
+            PlayerState state = this.playerManager.GetPlayerState();
+            if (state is not (PlayerState.Default or PlayerState.Crouching)) return;
+
+            this.playerManager.SetState(PlayerState.Dashing);
+
+            this.StartCoroutine(this.Dash());
+        }
+
+        private IEnumerator Dash()
+        {
+            float timeLeft = this.dashTime;
+            Vector3 forward = this.moveTransform.forward;
+            Vector3 direction = new(this.moveDirection.x, 0, this.moveDirection.y);
+
+            if (this.moveDirection == Vector2.zero)
+                direction = forward;
+
+            while (timeLeft > 0)
+            {
+                if (this.moveDirection != Vector2.zero)
+                    direction = new Vector3(this.moveDirection.x, 0, this.moveDirection.y);
+
+                this.agent.Move((this.moveTransform.forward * direction.z +
+                                 this.moveTransform.right * direction.x).normalized *
+                                this.dashCurve.Evaluate(timeLeft.PercentageOf(this.dashTime) / 100f));
+
+                timeLeft -= Time.deltaTime;
+                yield return null;
+            }
+
+            this.playerManager.SetState(this.isCrouching ? PlayerState.Crouching : PlayerState.Default);
+        }
+
+        private void OnMoveDirectionChange(Vector2 input) =>
+            this.moveDirection = input;
+
+        private void OnCrouchChange(bool input)
+        {
+            if (this.isCrouching != input)
+                this.animController.SetBool(Crouch, input);
+
+            this.isCrouching = input;
+        }
+
+        private void OnRunChange(bool input) =>
+            this.running.value = input;
+
+        private void OnJumpChange() =>
+            this.TryDash();
 
         #endregion
     }

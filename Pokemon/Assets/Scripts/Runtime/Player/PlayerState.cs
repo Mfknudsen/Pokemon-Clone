@@ -2,9 +2,11 @@ namespace Runtime.Player
 {
     public enum PlayerState
     {
-        Free,
+        Default,
         Battle,
         Interacting,
-        Paused
+        Paused,
+        Crouching,
+        Dashing
     }
 }

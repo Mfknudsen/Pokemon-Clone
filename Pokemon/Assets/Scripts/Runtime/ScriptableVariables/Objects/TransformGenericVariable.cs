@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Objects
 {
     [CreateAssetMenu(menuName = "Variables/Transform")]
-    public sealed class TransformVariable : ScriptableVariable<Transform>
+    public sealed class TransformGenericVariable : ScriptableVariable<Transform>
     {
         public Vector3 Position => this.value.position;
         public Vector3 Forward => this.value.forward;

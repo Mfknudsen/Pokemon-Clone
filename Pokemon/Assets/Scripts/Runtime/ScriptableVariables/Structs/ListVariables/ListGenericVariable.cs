@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Runtime.ScriptableVariables.Structs.ListVariables
 {
-    public abstract class ListVariable<TGeneric> : ScriptableVariable<List<TGeneric>>
+    public abstract class ListGenericVariable<TGeneric> : ScriptableVariable<List<TGeneric>>
     {
         #region Build In States
 

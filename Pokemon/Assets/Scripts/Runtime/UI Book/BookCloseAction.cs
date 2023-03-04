@@ -58,7 +58,7 @@ namespace Runtime.UI_Book
             this.uiManager.SetReadyToPause(true);
             this.playerManager.EnablePlayerControl();
 
-            this.playerManager.SetState(PlayerState.Free);
+            this.playerManager.SetState(PlayerState.Default);
         }
     }
 }

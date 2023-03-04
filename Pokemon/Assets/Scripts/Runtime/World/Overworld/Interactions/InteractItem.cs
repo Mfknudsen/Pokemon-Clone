@@ -14,7 +14,7 @@ namespace Runtime.World.Overworld.Interactions
     {
         #region Values
 
-        [SerializeField, Required] private InteractItemListVariable itemListVariable;
+        [SerializeField, Required] private InteractItemListGenericVariable itemListGenericVariable;
 
         [SerializeField] private float iconOffset, triggerOffset;
 
@@ -47,9 +47,9 @@ namespace Runtime.World.Overworld.Interactions
         }
 #endif
 
-        private void OnEnable() => this.itemListVariable.AddElement(this);
+        private void OnEnable() => this.itemListGenericVariable.AddElement(this);
 
-        private void OnDisable() => this.itemListVariable.RemoveElement(this);
+        private void OnDisable() => this.itemListGenericVariable.RemoveElement(this);
 
         #endregion
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Runtime.ScriptableVariables.Custom
 {
-    public sealed class WindVariable : ScriptableVariable<Vector2>
+    public sealed class WindGenericVariable : ScriptableVariable<Vector2>
     {
     }
 }

@@ -21,7 +21,7 @@ namespace Runtime.Systems
     [CreateAssetMenu(menuName = "Managers/Effect Manager"), Serializable]
     public sealed class EffectManager : Manager, IFrameStart, IFrameUpdate, IFrameLateUpdate
     {
-        [SerializeField, Required] private TransformVariable playerTransform;
+        [SerializeField, Required] private TransformGenericVariable playerTransformGeneric;
         [SerializeField] private List<EffectLimit> effectsLimits = new();
 
         private readonly Dictionary<Type, SceneEffectHolder> sceneEffects = new();
@@ -134,7 +134,7 @@ namespace Runtime.Systems
             if (reuseableEffect is null) return;
 
             this.GetOrInstanceEffect(reuseableEffect)
-                .PlayOne(this.playerTransform.Position, position, Quaternion.identity);
+                .PlayOne(this.playerTransformGeneric.Position, position, Quaternion.identity);
         }
 
         public void PlayOne(ReuseableEffect reuseableEffect, Vector3 position, Quaternion rotation)
@@ -142,7 +142,7 @@ namespace Runtime.Systems
             if (reuseableEffect is null) return;
 
             this.GetOrInstanceEffect(reuseableEffect)
-                .PlayOne(this.playerTransform.Position, position, rotation);
+                .PlayOne(this.playerTransformGeneric.Position, position, rotation);
         }
 
         public void PlayOne(ReuseableEffect reuseableEffect, Vector3 position, Vector3 forwardDirection)
@@ -150,7 +150,7 @@ namespace Runtime.Systems
             if (reuseableEffect is null) return;
 
             this.GetOrInstanceEffect(reuseableEffect)
-                .PlayOne(this.playerTransform.Position, position, Quaternion.LookRotation(forwardDirection));
+                .PlayOne(this.playerTransformGeneric.Position, position, Quaternion.LookRotation(forwardDirection));
         }
 
         #endregion
@@ -168,7 +168,7 @@ namespace Runtime.Systems
             SingleUseEffect selected = this.GetOrInstanceEffect(singleUseEffect);
 
             selected.transform.position = position;
-            selected.Play(this.playerTransform.Position);
+            selected.Play(this.playerTransformGeneric.Position);
         }
 
         public void PlayAtLocationAndRotation(SingleUseEffect singleUseEffect, Vector3 position, Quaternion rotation)
@@ -185,7 +185,7 @@ namespace Runtime.Systems
             Transform selectedTransform = selected.transform;
             selectedTransform.position = position;
             selectedTransform.rotation = rotation;
-            selected.Play(this.playerTransform.Position);
+            selected.Play(this.playerTransformGeneric.Position);
         }
 
         public void PlayAtLocationAndDirection(SingleUseEffect singleUseEffect, Vector3 position, Vector3 direction)
@@ -202,7 +202,7 @@ namespace Runtime.Systems
             Transform selectedTransform = selected.transform;
             selectedTransform.position = position;
             selectedTransform.rotation = Quaternion.LookRotation(direction);
-            selected.Play(this.playerTransform.Position);
+            selected.Play(this.playerTransformGeneric.Position);
         }
 
         public void PlayAtTransform(SingleUseEffect singleUseEffect, Transform parent)
@@ -220,7 +220,7 @@ namespace Runtime.Systems
             selectedTransform.parent = parent;
             selectedTransform.position = parent.position;
             selectedTransform.rotation = parent.rotation;
-            selected.Play(this.playerTransform.Position);
+            selected.Play(this.playerTransformGeneric.Position);
         }
 
         #endregion

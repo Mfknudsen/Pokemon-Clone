@@ -21,12 +21,12 @@ namespace Runtime.Player
         [SerializeField, Required] private OperationManager operationManager;
 
         [SerializeField, Required] private CinemachineVirtualCameraBase cameraRig;
-        [SerializeField, Required] private BoolVariable aiming, throwing, allowed;
+        [SerializeField, Required] private BoolGenericVariable aiming, throwing, allowed;
         [SerializeField, Required] private ItemVariable toThrow;
-        [SerializeField, Required] private CinemachineFreeLookVariable defaultOverworldRig;
+        [SerializeField, Required] private CinemachineVirtualCameraBaseVariable defaultOverworldRig;
         [SerializeField, Required] private CinemachineBrainVariable cameraBrain;
-        [SerializeField, Required] private Vec2Variable throwRotationSpeed;
-        [SerializeField, Required] private Transform throwTransform;
+        [SerializeField, Required] private Vec2GenericVariable throwRotationSpeed;
+        [SerializeField, Required] private Transform throwTransform, moveTransform;
 
         //Cam
         [SerializeField] private CameraEvent intoThrowCameraEvent, outThrowCameraEvent;
@@ -57,7 +57,7 @@ namespace Runtime.Player
             this.bodyComponent = this.cameraRig.CinemachineComponent<Cinemachine3rdPersonFollow>();
             this.aimComponent = this.cameraRig.CinemachineComponent<CinemachineComposer>();
 
-            this.MoveCamera();
+            this.RotateCameraY();
         }
 
         private void OnDrawGizmos()
@@ -92,10 +92,10 @@ namespace Runtime.Player
 
         private void OnEnable()
         {
-            InputManager inputManager = InputManager.instance;
+            InputManager inputManager = InputManager.Instance;
             inputManager.rightClickEvent.AddListener(input => this.aiming.value = input);
             inputManager.leftClickEvent.AddListener(_ => this.ThrowItem());
-            inputManager.turnAxisInputEvent.AddListener(input => this.MoveCamera(input.y));
+            inputManager.turnAxisInputEvent.AddListener(this.RotateCamera);
 
             this.aiming.AddListener(this.SwitchToAiming);
 
@@ -105,10 +105,10 @@ namespace Runtime.Player
 
         private void OnDisable()
         {
-            InputManager inputManager = InputManager.instance;
+            InputManager inputManager = InputManager.Instance;
             inputManager.rightClickEvent.RemoveListener(input => this.aiming.value = input);
             inputManager.leftClickEvent.RemoveListener(_ => this.ThrowItem());
-            inputManager.turnAxisInputEvent.RemoveListener(input => this.MoveCamera(input.y));
+            inputManager.turnAxisInputEvent.RemoveListener(this.RotateCamera);
 
             this.aiming.RemoveListener(this.SwitchToAiming);
 
@@ -119,7 +119,13 @@ namespace Runtime.Player
 
         #region Internal
 
-        private void MoveCamera(float input = 0)
+        private void RotateCamera(Vector2 input)
+        {
+            this.RotateCameraX(input.x);
+            this.RotateCameraY(input.y);
+        }
+
+        private void RotateCameraY(float input = 0)
         {
             if (input != 0)
                 this.current -= input * this.throwRotationSpeed.y * Time.deltaTime;
@@ -142,6 +148,9 @@ namespace Runtime.Player
 
             this.aimComponent.m_TrackedObjectOffset = Vector3.right * this.shoulderOffset;
         }
+
+        private void RotateCameraX(float input) =>
+            this.moveTransform.Rotate(Vector3.up, input * Time.deltaTime);
 
         private void ThrowItem()
         {
@@ -172,21 +181,27 @@ namespace Runtime.Player
 
             if (this.cameraSwitchAsyncContainer != null)
                 this.operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
+
             this.cameraSwitchAsyncContainer = new OperationsContainer();
 
             CameraEvent selectedCameraEvent;
 
             if (this.aiming.value)
             {
-                this.current = this.defaultOverworldRig.value.m_YAxis.Value;
-                this.MoveCamera();
+                this.bodyComponent.VirtualCamera.Follow = this.moveTransform;
+
+                this.current = this.defaultOverworldRig.GetAs<CinemachineFreeLook>().m_YAxis.Value;
+                this.RotateCameraY();
 
                 selectedCameraEvent = this.intoThrowCameraEvent;
             }
             else
             {
-                this.defaultOverworldRig.value.m_YAxis.Value = this.current;
-                this.defaultOverworldRig.value.m_XAxis.Value = this.cameraBrain.getTransform.rotation.eulerAngles.y;
+                this.bodyComponent.VirtualCamera.Follow = null;
+
+                this.defaultOverworldRig.GetAs<CinemachineFreeLook>().m_YAxis.Value = this.current;
+                this.defaultOverworldRig.GetAs<CinemachineFreeLook>().m_XAxis.Value =
+                    this.cameraBrain.getTransform.rotation.eulerAngles.y;
 
                 selectedCameraEvent = this.outThrowCameraEvent;
             }

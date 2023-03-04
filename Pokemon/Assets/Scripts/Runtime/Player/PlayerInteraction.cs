@@ -19,7 +19,7 @@ namespace Runtime.Player
 
         [SerializeField] private InteractItem focusedInteractable;
 
-        [SerializeField, Required] private InteractItemListVariable itemListVariable;
+        [SerializeField, Required] private InteractItemListGenericVariable itemListGenericVariable;
 
         [SerializeField] private float radius;
 
@@ -30,13 +30,13 @@ namespace Runtime.Player
         private void OnEnable()
         {
             this.focusedInteractable = null;
-            InputManager.instance.interactInputEvent.AddListener(this.TriggerClosest);
+            InputManager.Instance.interactInputEvent.AddListener(this.TriggerClosest);
         }
 
         private void OnDisable()
         {
             this.focusedInteractable = null;
-            InputManager.instance.interactInputEvent.RemoveListener(this.TriggerClosest);
+            InputManager.Instance.interactInputEvent.RemoveListener(this.TriggerClosest);
         }
 
         private void Update() =>
@@ -63,7 +63,7 @@ namespace Runtime.Player
         private void Evaluate()
         {
             Vector3 playerPos = this.transform.position;
-            List<InteractItem> interactableInRange = this.itemListVariable.value
+            List<InteractItem> interactableInRange = this.itemListGenericVariable.value
                 .Where(i => i.GetPosition().QuickDistanceLessThen(playerPos, this.radius + i.GetRadius())).ToList();
 
             if (this.focusedInteractable != null)

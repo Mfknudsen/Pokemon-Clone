@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Runtime.ScriptableVariables.Structs
 {
     [CreateAssetMenu(menuName = "Variables/Enums/Player State")]
-    public class EnumVariable : ScriptableVariable<PlayerState>
+    public class EnumGenericVariable : ScriptableVariable<PlayerState>
     {
 
     }
