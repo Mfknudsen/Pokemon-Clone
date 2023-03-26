@@ -8,7 +8,6 @@ using Runtime.Common;
 using Runtime.Files;
 using Runtime.ScriptableEvents;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
-using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Runtime.Systems.PersistantRunner;
 using Runtime.Trainer;
@@ -49,21 +48,12 @@ namespace Runtime.Player
         [SerializeField, FoldoutGroup("Character Sheet"), HideLabel]
         private CharacterSheet characterSheet;
 
-        [SerializeField, FoldoutGroup("Variables"), Required]
-        private Vector2 moveDirection, rotationDirection;
-
-        [SerializeField, FoldoutGroup("Variables"), Required]
-        private BoolGenericVariable running, crouching;
-
         [SerializeField, BoxGroup("Variables/Camera"), Required]
         private CinemachineBrainVariable cameraBrain;
 
-        [SerializeField, BoxGroup("Variables/Camera"), Required]
-        private CinemachineVirtualCameraBaseVariable defaultOverworldRig;
-
         [SerializeField, BoxGroup("Events"), Required]
         private PlayerStateEvent playerStateEvent;
-
+ 
         private GameObject playerGameObject;
 
         private const string FileName = "PlayerData";
@@ -74,11 +64,6 @@ namespace Runtime.Player
 
         public IEnumerator FrameStart(PersistantRunner runner)
         {
-            InputManager inputManager = InputManager.Instance;
-            inputManager.moveAxisInputEvent.AddListener(this.OnMoveAxisChange);
-            inputManager.turnAxisInputEvent.AddListener(this.OnTurnAxisChange);
-            inputManager.runInputEvent.AddListener(this.OnRunChange);
-
             this.playerGameObject = GameObject.FindWithTag("Player");
 
             DontDestroyOnLoad(this.playerGameObject);
@@ -166,16 +151,6 @@ namespace Runtime.Player
         public void PlayAnimationClip(AnimationClip clip)
         {
         }
-
-        #endregion
-
-        #region Internal
-
-        private void OnMoveAxisChange(Vector2 set) => this.moveDirection = set;
-
-        private void OnTurnAxisChange(Vector2 set) => this.rotationDirection = set;
-
-        private void OnRunChange(bool set) => this.running.value = set;
 
         #endregion
     }

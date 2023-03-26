@@ -73,7 +73,8 @@ namespace Runtime.Player
         private Vector3 toLookRotation = Vector3.forward;
 
         private static readonly int HashWalking = Animator.StringToHash("WalkSpeed"),
-            Crouch = Animator.StringToHash("Crouch");
+            HashCrouch = Animator.StringToHash("Crouch"),
+            HashDash = Animator.StringToHash("Dash");
 
         #endregion
 
@@ -204,10 +205,12 @@ namespace Runtime.Player
         private void TryDash()
         {
             PlayerState state = this.playerManager.GetPlayerState();
+            
             if (state is not (PlayerState.Default or PlayerState.Crouching)) return;
 
             this.playerManager.SetState(PlayerState.Dashing);
 
+            this.animController.SetTrigger(HashDash);
             this.StartCoroutine(this.Dash());
         }
 
@@ -242,7 +245,7 @@ namespace Runtime.Player
         private void OnCrouchChange(bool input)
         {
             if (this.isCrouching != input)
-                this.animController.SetBool(Crouch, input);
+                this.animController.SetBool(HashCrouch, input);
 
             this.isCrouching = input;
         }
