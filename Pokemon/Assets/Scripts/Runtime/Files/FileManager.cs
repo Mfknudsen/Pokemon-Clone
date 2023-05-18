@@ -8,7 +8,7 @@ using Runtime.Player;
 using Runtime.Pokémon;
 using Runtime.Trainer;
 using UnityEngine;
-using Logger = Runtime._Debug.Logger;
+using Logger = Runtime.Testing.Logger;
 
 #endregion
 

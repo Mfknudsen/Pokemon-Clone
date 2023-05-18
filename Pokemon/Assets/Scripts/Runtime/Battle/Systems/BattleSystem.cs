@@ -1,7 +1,6 @@
-﻿#region Packages
+﻿#region Libraries
 
-using System.Linq;
-using Runtime._Debug;
+using Runtime.AI;
 using Runtime.Battle.Actions;
 using Runtime.Battle.Systems.BattleStart;
 using Runtime.Battle.Systems.Spots;
@@ -14,13 +13,15 @@ using Runtime.Pokémon.Conditions;
 using Runtime.Pokémon.Conditions.Non_Volatiles;
 using Runtime.Systems;
 using Runtime.Systems.UI;
+using Runtime.Testing;
 using Runtime.UI.Battle;
 using Runtime.UI.Battle.Information_Display;
 using Runtime.UI.Battle.Selection;
 using Runtime.UI.Communication;
 using Sirenix.OdinInspector;
+using System.Linq;
 using UnityEngine;
-using Logger = Runtime._Debug.Logger;
+using Logger = Runtime.Testing.Logger;
 
 #endregion
 
@@ -37,16 +38,20 @@ namespace Runtime.Battle.Systems
         [SerializeField, Required] private PlayerManager playerManager;
         [SerializeField, Required] private UIManager uiManager;
 
-        [FoldoutGroup("Conditions")] [SerializeField]
+        [FoldoutGroup("Conditions")]
+        [SerializeField]
         private Condition faintCondition;
 
-        [FoldoutGroup("Actions")] [SerializeField]
+        [FoldoutGroup("Actions")]
+        [SerializeField]
         private BattleAction switchAction, itemAction;
 
-        [FoldoutGroup("Actions")] [SerializeField]
+        [FoldoutGroup("Actions")]
+        [SerializeField]
         private float secondsPerPokemonMove = 1;
 
-        [FoldoutGroup("Battlefield")] [SerializeField]
+        [FoldoutGroup("Battlefield")]
+        [SerializeField]
         private GameObject spotPrefab;
 
         [SerializeField, FoldoutGroup("UI"), Required]
@@ -61,10 +66,12 @@ namespace Runtime.Battle.Systems
         [SerializeField, FoldoutGroup("Chat"), Required]
         private TextField textField;
 
-        [FoldoutGroup("Chat")] [SerializeField]
+        [FoldoutGroup("Chat")]
+        [SerializeField]
         private Chat superEffective;
 
-        [FoldoutGroup("Chat")] [SerializeField]
+        [FoldoutGroup("Chat")]
+        [SerializeField]
         private Chat notEffective, noEffect, barelyEffective, extremelyEffective, miss;
 
         [SerializeField, FoldoutGroup("Camera")]
@@ -154,10 +161,7 @@ namespace Runtime.Battle.Systems
             Logger.AddLog(this.name, "Spawning: " + pokemon.GetName());
 
             Transform sTransform = spot.GetTransform();
-            GameObject obj = Instantiate(pokemon.GetVisuelPrefab(), sTransform, true);
-
-            obj.transform.position = sTransform.position;
-            obj.transform.rotation = sTransform.rotation;
+            GameObject obj = pokemon.InstantiateUnitPrefab(PokemonState.Batte, sTransform.position, sTransform.rotation, sTransform).gameObject;
 
             pokemon.SetSpawnedObject(obj);
             pokemon.SetInBattle(true);
@@ -210,7 +214,7 @@ namespace Runtime.Battle.Systems
         public void EndBattle(bool playerVictory)
         {
             Destroy(this.battleUI.gameObject);
-            
+
             this.starter.EndBattle(playerVictory);
         }
 

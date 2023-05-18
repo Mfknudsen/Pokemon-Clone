@@ -1,0 +1,7 @@
+﻿[*.{cs,vb}]
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = suggestion
+
+# IDE0009: Member access should be qualified.
+dotnet_diagnostic.IDE0009.severity = suggestion

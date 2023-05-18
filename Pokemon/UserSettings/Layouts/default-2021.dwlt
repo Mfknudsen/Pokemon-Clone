@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 155
+  controlID: 160
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 44
+  controlID: 47
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 45
+  controlID: 48
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 61
+  controlID: 64
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -271,7 +271,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1287
+    width: 1292
     height: 457
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
@@ -291,23 +291,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: OdinValidatorWindow
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1287
+    x: 1292
     y: 0
-    width: 710
+    width: 705
     height: 457
   m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 26}
   m_Panes:
   - {fileID: 26}
   - {fileID: 16}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -809,9 +809,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1287
+    x: 1292
     y: 923
-    width: 708
+    width: 703
     height: 436
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -852,9 +852,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: f20d0000
       m_LastClickedID: 0
-      m_ExpandedIDs: b0f7ffff3efaffffcefaffff
+      m_ExpandedIDs: 94f0ffffa8f7ffff36faffffd0faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -943,8 +943,8 @@ MonoBehaviour:
       containerId: overlay-toolbar__top
       floating: 0
       collapsed: 0
-      displayed: 0
-      snapOffset: {x: 0, y: 0}
+      displayed: 1
+      snapOffset: {x: -242, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 1
       id: unity-search-toolbar
@@ -1158,9 +1158,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.16896239, y: -1.1152699, z: 13.804373}
+    m_Target: {x: 10.547426, y: -9.6211195, z: 7.6163597}
     speed: 2
-    m_Value: {x: -0.16896239, y: -1.1152699, z: 13.804373}
+    m_Value: {x: 10.547426, y: -9.6211195, z: 7.6163597}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1207,9 +1207,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.077286474, y: -0.124240816, z: 0.010225327, w: 0.989662}
+    m_Target: {x: -0.30386105, y: -0.42682305, z: 0.1551775, w: -0.83810484}
     speed: 2
-    m_Value: {x: 0.07576617, y: -0.124197416, z: 0.010033871, w: 0.9893098}
+    m_Value: {x: -0.30370784, y: -0.42660782, z: 0.15509926, w: -0.83768225}
   m_Size:
     m_Target: 10
     speed: 2
@@ -1286,16 +1286,16 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 317
+    x: 298
     y: 73
-    width: 1632
-    height: 895
+    width: 1697
+    height: 829
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_PosLeft: {x: 0, y: 0}
-  m_PosRight: {x: 0, y: 203}
+  m_PosRight: {x: 0, y: 0}
   m_Scope: 0
   m_SplitterFlex: 0.2
   m_SearchText: 
@@ -1540,7 +1540,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 923
-    width: 1286
+    width: 1291
     height: 436
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -1559,22 +1559,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - "Assets/Scripts/Runtime/AI/Pok\xE9mon"
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Scenes
+  - "Assets/Scripts/Runtime/AI/Pok\xE9mon"
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\Mads\Documents\Github\Pokemon-Clone\Pokemon
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 112}
-    m_SelectedIDs: d4800000
-    m_LastClickedID: 32980
-    m_ExpandedIDs: 00000000d2800000d4800000d6800000d8800000da800000dc800000de800000e0800000e2800000e480000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 1023}
+    m_SelectedIDs: c0960000
+    m_LastClickedID: 38592
+    m_ExpandedIDs: 00000000188100001a8100001c8100001e81000020810000228100002481000026810000288100002a8100002c9400006c940000ba94000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1602,7 +1602,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2800000d4800000d6800000d8800000da800000dc800000de800000e0800000e2800000e4800000
+    m_ExpandedIDs: 00000000188100001a8100001c8100001e81000020810000228100002481000026810000288100002a810000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1629,7 +1629,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000084dc0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1680,7 +1680,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 923
-    width: 1286
+    width: 1291
     height: 436
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -1699,22 +1699,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Animation/Player/Clips
+    - Assets/Prefabs/Units/Pokemon
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Animation/Player/Clips
+  - Assets/Prefabs/Units/Pokemon
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\Mads\Documents\Github\Pokemon-Clone\Pokemon
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: fa830000
-    m_LastClickedID: 33786
-    m_ExpandedIDs: 00000000d2800000d4800000d6800000d8800000da800000dc800000de800000e0800000e2800000e4800000
+    m_SelectedIDs: ca940000
+    m_LastClickedID: 38090
+    m_ExpandedIDs: 00000000188100001a8100001c8100001e81000020810000228100002481000026810000288100002a810000e69300002094000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1742,7 +1742,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2800000d4800000d6800000d8800000da800000dc800000de800000e0800000e2800000e4800000
+    m_ExpandedIDs: 00000000188100001a8100001c8100001e81000020810000228100002481000026810000288100002a810000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1767,9 +1767,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: c0960000
+    m_LastClickedInstanceID: 38592
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1818,9 +1818,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1287
+    x: 1292
     y: 923
-    width: 708
+    width: 703
     height: 436
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -1901,7 +1901,7 @@ MonoBehaviour:
     m_CachedPref: 410
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -4874
+  m_LastInspectedObjectInstanceID: 3570
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0

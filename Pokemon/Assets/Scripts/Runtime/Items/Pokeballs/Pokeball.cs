@@ -1,8 +1,5 @@
-#region Packages
+#region Libraries
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.AI;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Static_Operations;
@@ -10,6 +7,9 @@ using Runtime.Common;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Systems;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -46,13 +46,13 @@ namespace Runtime.Items.Pokeballs
         //IThrowableItem
         public void OnCollision(Collision collision)
         {
-            if (collision.gameObject.GetFirstComponentByRoot<WildPokemonUnit>() is not { } pokemonHit) return;
+            if (collision.gameObject.GetFirstComponentByRoot<PokemonUnit>() is not { } pokemonHit) return;
 
-            Debug.Log("Hit Pokemon: " + pokemonHit.GetPokemon().name);
+            Debug.Log("Hit Pokemon: " + pokemonHit.name);
 
             this.operationManager.AddAsyncOperationsContainer(
                 new OperationsContainer(new CatchPokemon(
-                    pokemonHit.GetPokemon(),
+                    pokemonHit.GetPokemonInformation(),
                     this,
                     pokemonHit.PauseUnit)));
         }

@@ -23,7 +23,7 @@ namespace Runtime.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            _Debug.Logger.AddLog(this.battleSystem.ToString(), "Computer Turn State Start");
+            Testing.Logger.AddLog(this.battleSystem.ToString(), "Computer Turn State Start");
 
             SpotOversight spotOversight = this.battleSystem.GetSpotOversight();
 

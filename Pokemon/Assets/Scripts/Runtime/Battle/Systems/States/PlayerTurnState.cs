@@ -25,7 +25,7 @@ namespace Runtime.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            _Debug.Logger.AddLog(this.battleSystem.ToString(), "Player Turn State Start");
+            Testing.Logger.AddLog(this.battleSystem.ToString(), "Player Turn State Start");
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;

@@ -1,24 +1,20 @@
-#region Packages
+#region Libraries
 
 using NodeCanvas.Framework;
 using UnityEngine;
-using UnityEngine.AI;
 
 #endregion
 
 namespace Runtime.AI.Node_Canvas.Actions
 {
-    public class SetAgentDestination : ActionTask<NavMeshAgent>
+    public class SetAgentDestination : ActionTask<UnitBase>
     {
         public BBParameter<Transform> target;
 
         protected override void OnExecute()
         {
-            NavMeshAgent navAgent = this.agent;
-            
-            navAgent.isStopped = false;
-            navAgent.SetDestination(this.target.value.position);
-
+            Transform t = this.target.value;
+            this.agent.MoveAndRotateUnitAgent(t.position, t.rotation);
             this.EndAction(true);
         }
     }

@@ -1,9 +1,11 @@
-#region Packages
+#region Libraries
 
-using System.Collections.Generic;
 using Runtime.AI;
 using Runtime.Common;
 using Runtime.Pokémon;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -12,14 +14,21 @@ namespace Runtime.World.Overworld.Spawner
 {
     public class PokemonSpawner : MonoBehaviour
     {
-        [SerializeField] private Pokemon[] list;
-        [SerializeField] private int maxActiveEntities;
-        [SerializeField] private float spawnInterval;
-        [SerializeField] private float radius;
+        #region Values
 
-        private readonly List<UnitBase> currentActiveEntities = new();
+        [SerializeField, Required] private PokemonSpawnList spawnList;
+
+        [SerializeField] private SpawnLocation[] spawnLocations;
+
+        [SerializeField] private int maxActiveEntities;
+
+        [SerializeField] private float spawnInterval;
+
+        private readonly List<PokemonUnit> currentActiveEntities = new();
 
         private Timer checkTimer;
+
+        #endregion
 
         #region Build In States
 
@@ -27,44 +36,35 @@ namespace Runtime.World.Overworld.Spawner
 
         private void OnDisable() => this.checkTimer?.Stop();
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = new Color(1, 0, 0, .25f);
-            Gizmos.DrawSphere(this.transform.position, this.radius);
-        }
-
         #endregion
+
+        [Button]
+        private void Test() => this.SpawnOverWorldPokemon();
 
         private void CheckState()
         {
-            if (this.currentActiveEntities.Count < this.maxActiveEntities) this.SpawnOverWorldPokemon();
+            if (this.currentActiveEntities.Count < this.maxActiveEntities)
+                this.SpawnOverWorldPokemon();
 
             this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), this.CheckState);
         }
 
-        private Pokemon SelectPokemonFromList() => this.list[Random.Range(0, this.list.Length)];
-
-        private Vector3 RandomPositionFromArea() =>
-            this.transform.position + new Vector3(
-            Random.Range(-this.radius, this.radius),
-            0,
-            Random.Range(-this.radius, this.radius));
 
         private void SpawnOverWorldPokemon()
         {
-            Pokemon toSpawn = this.SelectPokemonFromList();
+            Pokemon toSpawn = this.spawnList.GetPokemonPrefab();
 
-            if (toSpawn.GetVisuelPrefab() == null)
+            SpawnLocation[] allowedFrom = this.spawnLocations.Where(l => l.Allowed(toSpawn)).ToArray();
+
+            if (allowedFrom.Length == 0)
             {
-                Debug.LogWarning("Pokemon need visual prefab to be spawned");
+                Debug.LogWarning("0");
                 return;
             }
-            
-            GameObject obj = Instantiate(
-                toSpawn.GetVisuelPrefab(), this.RandomPositionFromArea(),
-                Quaternion.LookRotation(Vector3.up * Random.Range(0, 360)));
 
-            UnitBase unitBase = obj.GetFirstComponentTowardsRoot<UnitBase>();
+            SpawnTypeResult locationResult = allowedFrom[Random.Range(0, allowedFrom.Length)].GetSpawnResult;
+
+            PokemonUnit unitBase = toSpawn.InstantiateUnitPrefab(PokemonState.Wild, locationResult.Position, locationResult.Rotation);
             this.currentActiveEntities.Add(unitBase);
             unitBase.AddDisableEventListener(() => this.currentActiveEntities.Remove(unitBase));
         }

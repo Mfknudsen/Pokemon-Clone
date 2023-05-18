@@ -14,7 +14,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Logger = Runtime._Debug.Logger;
+using Logger = Runtime.Testing.Logger;
 
 #endregion
 

@@ -15,7 +15,7 @@ namespace Runtime.VFX
         [SerializeField, Required] private EffectManager effectManager;
 
         [ShowInInspector, ReadOnly] protected int currentLevel = -1;
-        
+
         [SerializeField] protected EffectLOD effectLoDs;
 
         protected Transform effectTransform;
@@ -32,14 +32,14 @@ namespace Runtime.VFX
         {
             this.effectManager.RegisterEffect(this);
 
-            this.Enable();
+            this.OnStart();
         }
 
         private void OnDisable()
         {
             this.effectManager.UnregisterEffect(this);
-            
-            this.Disable();
+
+            this.OnEnd();
         }
 
         #endregion
@@ -54,13 +54,13 @@ namespace Runtime.VFX
 
         #region Internal
 
-        protected virtual void Enable()
+        protected virtual void OnStart()
         {
         }
 
-        protected virtual void Disable()
+        protected virtual void OnEnd()
         {
-            
+
         }
 
         #endregion

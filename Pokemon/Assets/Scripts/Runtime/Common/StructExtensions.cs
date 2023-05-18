@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using UnityEngine;
 
@@ -46,7 +46,7 @@ namespace Runtime.Common
             Vector3 startToPoint = point - lineStart;
 
             float area = Vector3.Cross(line, startToPoint).magnitude;
-            
+
             return area / line.magnitude;
         }
 
@@ -55,8 +55,16 @@ namespace Runtime.Common
         #region Quaternion
 
         public static Vector3 ForwardFromRotation(this Quaternion quaternion) => quaternion * Vector3.forward;
+
         public static Vector3 UpFromRotation(this Quaternion quaternion) => quaternion * Vector3.up;
+
         public static Vector3 RightFromRotation(this Quaternion quaternion) => quaternion * Vector3.right;
+
+        #endregion
+
+        #region bool
+
+        public static void Reverse(this ref bool b) => b = !b;
 
         #endregion
     }

@@ -1,9 +1,9 @@
 #region Packages
 
-using System.Collections.Generic;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Spots;
 using Runtime.Pokémon;
+using System.Collections.Generic;
 
 #endregion
 

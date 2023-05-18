@@ -6,7 +6,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime._Debug
+namespace Runtime.Testing
 {
     public class PokemonPlaceholder : MonoBehaviour
     {

@@ -1,10 +1,12 @@
 #region Packages
 
-using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
 using Runtime.AI.Senses.Sight;
+using Runtime.Common;
 using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -19,7 +21,7 @@ namespace Runtime.AI
 
         [SerializeField, FoldoutGroup("Base"), Required]
         private UnitManager unitManager;
-        
+
         [SerializeField, FoldoutGroup("Base/Visual")]
         protected GameObject visualsObject;
 
@@ -38,6 +40,8 @@ namespace Runtime.AI
         private UnityEvent disableEvent;
 
         private bool previousStoppedState;
+
+        private Coroutine currentMoveOrder;
 
         #endregion
 
@@ -89,7 +93,7 @@ namespace Runtime.AI
         #region In
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public void UpdateUnit()
+        public virtual void UpdateUnit()
         {
             if (this.sightCone != null)
                 this.sightCone.UpdateSight();
@@ -107,10 +111,8 @@ namespace Runtime.AI
             this.disableEvent.AddListener(action);
         }
 
-        public void RemoveDisableEventListener(UnityAction action)
-        {
+        public void RemoveDisableEventListener(UnityAction action) =>
             this.disableEvent?.RemoveListener(action);
-        }
 
         public void PauseUnit()
         {
@@ -119,9 +121,19 @@ namespace Runtime.AI
             this.agent.isStopped = true;
         }
 
-        public void ResumeUnit()
-        {
+        public void ResumeUnit() =>
             this.agent.isStopped = this.previousStoppedState;
+
+        public bool MoveAndRotateUnitAgent(Vector3 positon, Quaternion rotation, UnityAction onComplete = null)
+        {
+            this.StopCoroutine(this.currentMoveOrder);
+
+            if (this.agent.SetDestination(positon))
+                return false;
+
+            this.currentMoveOrder = this.StartCoroutine(this.MoveAndRotate(rotation, onComplete));
+
+            return true;
         }
 
         #endregion
@@ -131,6 +143,27 @@ namespace Runtime.AI
         public object GetStateByKey(string s)
         {
             return null;
+        }
+
+        #endregion
+
+        #region Internal
+
+        private IEnumerator MoveAndRotate(Quaternion rotation, UnityAction onComplete)
+        {
+            yield return new UnityEngine.WaitUntil(() => this.agent.isStopped);
+
+            Transform t = this.transform;
+            Vector3 rotationForward = rotation.ForwardFromRotation();
+            float agentRotationSpeed = this.agent.angularSpeed;
+
+            while (Vector3.Angle(rotationForward, t.forward) < .5f)
+            {
+                t.LookAt(t.position + Vector3.Lerp(t.forward, rotationForward, Time.deltaTime * agentRotationSpeed));
+                yield return null;
+            }
+
+            onComplete?.Invoke();
         }
 
         #endregion

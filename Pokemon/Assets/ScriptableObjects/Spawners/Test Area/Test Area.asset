@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9398cc3c1f873a4991dff5532bef845, type: 3}
+  m_Name: Test Area
+  m_EditorClassIdentifier: 
+  list:
+  - pokemon: {fileID: 11400000, guid: 4942676ec070f214cb3a7b2f5c40b31a, type: 2}
+    encounterRate: 10
+    maxActiveEntities: 0
+  - pokemon: {fileID: 11400000, guid: bb24c920ad7a4b648ad1697c6123ae90, type: 2}
+    encounterRate: 0
+    maxActiveEntities: 0
+  - pokemon: {fileID: 11400000, guid: e67c30a6d58d0a441bb39d4ceb8dd373, type: 2}
+    encounterRate: 0
+    maxActiveEntities: 0

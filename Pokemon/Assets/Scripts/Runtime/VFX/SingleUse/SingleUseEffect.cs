@@ -1,6 +1,10 @@
+#region Packages
+
 using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
+
+#endregion
 
 namespace Runtime.VFX.SingleUSe
 {

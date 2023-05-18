@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using Runtime.Common.CommonPath;
 using UnityEditor;

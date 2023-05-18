@@ -1,8 +1,12 @@
+#region Packages
+
 using System.Collections;
 using Runtime.Communication;
 using Runtime.Player;
 using Runtime.Systems;
 using Runtime.Systems.UI;
+
+#endregion
 
 namespace Runtime.Battle.Systems.States
 {

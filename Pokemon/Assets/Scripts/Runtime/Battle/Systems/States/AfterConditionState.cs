@@ -26,7 +26,7 @@ namespace Runtime.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            _Debug.Logger.AddLog(this.battleSystem.ToString(),"After Condition State Start");
+            Testing.Logger.AddLog(this.battleSystem.ToString(),"After Condition State Start");
             
             foreach (ConditionOversight conditionOversight in this.oversight.GetSpots()
                          .Where(s => s.GetActivePokemon() != null)

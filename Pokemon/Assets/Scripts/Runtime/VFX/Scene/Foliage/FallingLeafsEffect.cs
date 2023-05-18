@@ -45,7 +45,7 @@ namespace Runtime.VFX.Scene.Foliage
         protected override bool Rules() =>
             this.effectTransform.position.QuickDistanceLessThen(this.playerTransformGeneric.value.position, this.maxDistance);
 
-        protected override void Enable()
+        protected override void OnStart()
         {
             foreach (VisualEffect visualEffect in this.effectLoDs.GetAll())
             {

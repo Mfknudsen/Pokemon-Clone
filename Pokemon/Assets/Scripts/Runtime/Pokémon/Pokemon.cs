@@ -1,14 +1,15 @@
 ﻿#region Packages
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Runtime.AI;
 using Runtime.Battle.Actions;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Interfaces;
 using Runtime.Items;
 using Runtime.Pokémon.Conditions;
+using Runtime.Systems.Pooling;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -92,10 +93,10 @@ namespace Runtime.Pokémon
         [SerializeField, VerticalGroup("Basic/H1/V2")]
         private Footprint footprint;
 
-        [BoxGroup("Basic")] [SerializeField] private Color pokedexColor = Color.green;
+        [BoxGroup("Basic")][SerializeField] private Color pokedexColor = Color.green;
 
         [SerializeField, HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0), Required]
-        private GameObject prefab;
+        private PokemonUnit unitPrefab;
 
         [SerializeField, BoxGroup("Moves")] private string pokemonCategory;
 
@@ -247,8 +248,6 @@ namespace Runtime.Pokémon
             return null;
         }
 
-        public GameObject GetVisuelPrefab() => this.prefab;
-
         public GameObject GetSpawnedObject() => this.spawnedObject;
 
         public BattleAction GetBattleAction() => this.battleAction;
@@ -312,6 +311,13 @@ namespace Runtime.Pokémon
 
         public T[] GetAbilitiesOfType<T>() =>
             new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
+
+        public PokemonUnit InstantiateUnitPrefab(PokemonState state, Vector3 position, Quaternion rotation, Transform parent = null, bool active = true)
+        {
+            PokemonUnit unit = PoolManager.CreateAtPositionAndRotation(this.unitPrefab, position, rotation, parent, active);
+            unit.SetState(state);
+            return unit;
+        }
 
         #endregion
 

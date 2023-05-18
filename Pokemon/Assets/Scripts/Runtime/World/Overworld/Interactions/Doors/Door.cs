@@ -1,10 +1,13 @@
-#region Package
+#region Libraries
 
+using System;
 using System.Collections;
+using Runtime.Common;
 using Runtime.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using UnityEngine.AI;
+ 
 #endregion
 
 namespace Runtime.World.Overworld.Interactions.Doors
@@ -14,10 +17,8 @@ namespace Runtime.World.Overworld.Interactions.Doors
         #region Values
 
         [SerializeField, Required] private PlayerManager playerManager;
-        
-        [SerializeField] private Animator anim;
-        [SerializeField] private AnimationClip frontAnim, backAnim;
-        [SerializeField] private bool bothWays;
+
+        [SerializeField] private StartPoint[] startPoints = new StartPoint[0];
 
         #endregion
 
@@ -36,20 +37,49 @@ namespace Runtime.World.Overworld.Interactions.Doors
 
         private IEnumerator GoThroughDoor()
         {
-            AnimationClip toPlay = this.bothWays
-                    ? this.frontAnim
-                    : Vector3.Angle(this.transform.position, this.playerManager.GetController().transform.position) <= 90
-                        ? this.frontAnim
-                        : this.backAnim;
+            NavMeshAgent agent = playerManager.GetAgent();
 
-            this.playerManager.PlayAnimationClip(toPlay);
-            this.anim.Play(toPlay.name);
+            Vector3 playerPos = agent.transform.position;
+            StartPoint selectedPoint = startPoints[0];
+            float distance = playerPos.QuickSquareDistance(selectedPoint.GetPosition);
 
-            yield return new WaitForSeconds(toPlay.length);
+            for (int i = 1; i < startPoints.Length; i++)
+            {
+                float d = playerPos.QuickSquareDistance(startPoints[i].GetPosition);
 
-            this.playerManager.EnablePlayerControl();
+                if (d < distance)
+                {
+                    distance = d;
+                    selectedPoint = startPoints[i];
+                }
+            }
+
+            agent.SetDestination(selectedPoint.GetPosition);
+
+            while (!agent.isStopped)
+            {
+                agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, selectedPoint.GetRotation, Time.deltaTime);
+                yield return null;
+            }
+
+            //Play animation
+            
+
+            // Release Player
         }
 
         #endregion
+    }
+
+    [Serializable]
+    internal struct StartPoint
+    {
+        [SerializeField] private Vector3 position;
+        [SerializeField] private Quaternion rotation;
+        [SerializeField] private AnimationClip animationClip;
+
+        public Vector3 GetPosition => position;
+        public Quaternion GetRotation => rotation;
+        public AnimationClip GetAnimationClip => animationClip;
     }
 }

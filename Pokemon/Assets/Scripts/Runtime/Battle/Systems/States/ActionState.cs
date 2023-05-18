@@ -11,7 +11,7 @@ using Runtime.Pokémon.Conditions.Non_Volatiles;
 using Runtime.Systems;
 using Runtime.Systems.UI;
 using UnityEngine;
-using Logger = Runtime._Debug.Logger;
+using Logger = Runtime.Testing.Logger;
 
 #endregion
 

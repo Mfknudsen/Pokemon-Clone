@@ -24,7 +24,7 @@ namespace Runtime.Battle.Systems.States
 
         public override IEnumerator Tick()
         {
-            _Debug.Logger.AddLog(this.battleSystem.ToString(), "Round Done State Start");
+            Testing.Logger.AddLog(this.battleSystem.ToString(), "Round Done State Start");
 
             #region End Turn Abilities
 

@@ -1,6 +1,7 @@
 ﻿#region Packages
 
 using System.Collections.Generic;
+using Runtime.Common;
 using Runtime.Systems;
 using TMPro;
 using UnityEngine;
@@ -8,9 +9,9 @@ using UnityEngine.UI;
 
 #endregion
 
-namespace Runtime._Debug
+namespace Runtime.Testing
 {
-    public class Logger : MonoBehaviour
+    public sealed class Logger : MonoBehaviour
     {
         #region Values
 
@@ -26,7 +27,7 @@ namespace Runtime._Debug
 
         private void Start()
         {
-            if (instance != null) return;
+            if (instance.IsNull()) return;
 
             instance = this;
             this.textField.text = "";
@@ -79,7 +80,7 @@ namespace Runtime._Debug
             foreach (Transform t in this.transform)
                 t.gameObject.SetActive(this.show);
 
-            this.show = !this.show;
+            this.show.Reverse();
         }
 
         #endregion

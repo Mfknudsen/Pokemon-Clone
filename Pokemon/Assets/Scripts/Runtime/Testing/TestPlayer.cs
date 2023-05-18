@@ -13,13 +13,17 @@ using UnityEngine.SceneManagement;
 
 #endregion
 
-namespace Runtime._Debug
+namespace Runtime.Testing
 {
 #if UNITY_EDITOR
     public sealed class TestPlayer : MonoBehaviour
     {
-        [SerializeField] private GameObject playerPrefab;
+        #region Values
+
         [SerializeField] private Manager[] managers;
+        [SerializeField] private GameObject playerPrefab;
+
+        #endregion
 
         private IEnumerator Start()
         {
