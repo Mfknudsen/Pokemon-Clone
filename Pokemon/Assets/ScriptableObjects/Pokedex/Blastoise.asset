@@ -24,7 +24,7 @@ MonoBehaviour:
   shape: 0
   footprint: 0
   pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
+  unitPrefab: {fileID: -8336518985080752557, guid: e82e9725f09b54c419c72954495848f7, type: 3}
   pokemonCategory: Shellfish
   firstAbility: {fileID: 11400000, guid: efcc600525f2faa438b47ca708e6a7cc, type: 2}
   secondAbility: {fileID: 0}

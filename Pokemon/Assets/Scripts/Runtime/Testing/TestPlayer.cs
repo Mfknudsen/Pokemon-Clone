@@ -1,13 +1,13 @@
-#region Packages
+#region Libraries
 
-using System;
-using System.Collections;
-using System.Linq;
 using Runtime.Common;
 using Runtime.Player;
 using Runtime.Systems;
 using Runtime.Systems.PersistantRunner;
 using Runtime.Systems.UI;
+using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 
 namespace Runtime.Testing
 {
+
 #if UNITY_EDITOR
     public sealed class TestPlayer : MonoBehaviour
     {
@@ -35,7 +36,6 @@ namespace Runtime.Testing
             if (uiManager == null)
                 throw new Exception("Missing UI Manager");
 
-            Application.targetFrameRate = 60;
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 
             Transform t = this.transform;
@@ -63,4 +63,5 @@ namespace Runtime.Testing
         }
     }
 #endif
+
 }

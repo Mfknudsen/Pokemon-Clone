@@ -24,11 +24,11 @@ MonoBehaviour:
   shape: 0
   footprint: 0
   pokedexColor: {r: 0, g: 1, b: 0, a: 1}
-  prefab: {fileID: 7832799634741538103, guid: e82e9725f09b54c419c72954495848f7, type: 3}
-  pokemonCategory: 
+  unitPrefab: {fileID: 3724796190716610620, guid: 7fb6603b8892500418cf9ed7bcd723c7, type: 3}
   firstAbility: {fileID: 0}
   secondAbility: {fileID: 0}
   hiddenAbility: {fileID: 0}
+  pokemonCategory: 
   stats:
     hp: 10
     attack: 10

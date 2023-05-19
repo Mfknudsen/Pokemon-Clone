@@ -1,7 +1,7 @@
-#region Packages
+#region Libraries
 
-using System.Collections;
 using Runtime.Systems;
+using System.Collections;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -16,14 +16,15 @@ namespace Runtime.World
         {
             if (surface.navMeshData != null)
                 surface.UpdateNavMesh(surface.navMeshData);
-            else surface.BuildNavMesh();
+            else
+                surface.BuildNavMesh();
         }
 
         public IEnumerator RebakeWait(NavMeshSurface surface)
         {
             if (surface.navMeshData != null)
                 surface.UpdateNavMesh(surface.navMeshData);
-            else 
+            else
                 surface.BuildNavMesh();
 
             yield break;

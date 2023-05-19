@@ -31,37 +31,6 @@ Transform:
   m_Father: {fileID: 1843410491652110160}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1694677191242803347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3509951670260003498}
-  m_Layer: 0
-  m_Name: Battle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3509951670260003498
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694677191242803347}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1843410491652110160}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5543202844694818950
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +49,7 @@ GameObject:
   - component: {fileID: 244058473420162147}
   - component: {fileID: 3629573819414488264}
   m_Layer: 0
-  m_Name: Wild_Pokemon_Unit_Base
+  m_Name: Pokemon_Unit_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +68,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2223866163772665056}
-  - {fileID: 3509951670260003498}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -112,12 +80,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5543202844694818950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32445ff1562be3344af1bfc481c07ab3, type: 3}
+  m_Script: {fileID: 11500000, guid: ca8aa1a9bc669444da162542d96d95e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
-  idleChat: {fileID: 0}
-  visualsObject: {fileID: 0}
+  visualsObject: {fileID: 1014679838623733812}
   agent: {fileID: 3629573819414488264}
   sightCone: {fileID: 0}
   behaviourTreeOwner: {fileID: 246908294041948363}
@@ -134,6 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad4fdea64aa7184f88723852515ce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onBattleEnd:
+    m_PersistentCalls:
+      m_Calls: []
   battleSystem: {fileID: 7156709088239351833, guid: 0e4cdc54372af944994b9626bf675352, type: 3}
   battleInitializer: {fileID: 5737610673325619050, guid: b0916fcccc3c7384095222c62d268409, type: 3}
   unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
@@ -248,7 +218,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad115aca74ce3c4891b3f6de0b4aae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serializedExposedParameters: []
+  _serializedExposedParameters:
+  - _json: '{"_targetVariableID":"ce1fed0e-889e-42bb-8cc5-0d7a76687b69","_value":1,"$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 11400000, guid: bacf2af8848d47c48b91dafcda8aef98, type: 2}
+  - _json: '{"_targetVariableID":"862d8667-96b8-4832-8b9e-9d9e83c3e717","_value":1,"$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 5d66d754e5bf32f49bb85ce3d92f4a66, type: 2}
+  - _json: '{"_targetVariableID":"3b4bd40b-f0db-44da-a68b-e160681f1d8e","_value":1,"$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 46a2793daec9f5b4f9e7d26d262b4cd3, type: 2}
+  - _json: '{"_targetVariableID":"26ab3dc5-e43c-4f94-8cc0-de130f101f30","_value":1,"$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 95d68688b965474448f9d5fb047e9d41, type: 2}
+  - _json: '{"_targetVariableID":"aad938fa-4347-47dc-8d89-63a625fd2a89","$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_targetVariableID":"dab46cab-e1ba-4157-9d51-5a09e8e5a024","$type":"NodeCanvas.Framework.ExposedParameter`1[[NodeCanvas.BehaviourTrees.BehaviourTree,
+      ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
   _boundGraphSerialization: 
   _boundGraphObjectReferences: []
   _boundGraphSource:

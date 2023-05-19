@@ -1,17 +1,17 @@
 #region Libraries
 
-using System;
-using UnityEngine;
+using Runtime.Pokémon;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.Pokémon;
+using UnityEngine;
 
 #endregion
 
 namespace Runtime.World.Overworld.Spawner
 {
-    public class SpawnLocation : MonoBehaviour
+    public sealed class SpawnLocation : MonoBehaviour
     {
         #region Values
 
@@ -32,9 +32,12 @@ namespace Runtime.World.Overworld.Spawner
         #endregion
 
         #region Build In States
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            this.name = (this.spawnType is Area ? "Area" : "Point") + " Spawn Location";
+
             if (this.spawnType is not Location && this.selectedDropdownOption.Equals("Points"))
                 this.spawnType = new Location();
 
@@ -92,7 +95,7 @@ namespace Runtime.World.Overworld.Spawner
 
         #region Out
 
-        public bool Allowed(Pokemon pokemon) => this.allowedToSpawn.Contains(pokemon);
+        public bool Allowed(Pokemon pokemon) => this.allowedToSpawn.Count() == 0 || this.allowedToSpawn.Contains(pokemon);
 
         public SpawnTypeResult GetSpawnResult => this.spawnType.GetResult();
 
@@ -147,9 +150,6 @@ namespace Runtime.World.Overworld.Spawner
 
         #endregion
 
-        #region Setters
-        #endregion
-
         #region In
 
 #if UNITY_EDITOR
@@ -173,27 +173,20 @@ namespace Runtime.World.Overworld.Spawner
         [SerializeField] private List<Vector3Int> storedTriangles;
 #endif
 
-        [SerializeField, HideInInspector] private Mesh mesh;
-
         #endregion
 
         #region Getters
 
 #if UNITY_EDITOR
         public Vector3[] GetPoints => this.storedPoints.ToArray();
-
-        public Mesh GetMesh => this.mesh;
 #endif
 
         #endregion
 
         #region Setters
 #if UNITY_EDITOR
-        public void SetPointByID(int i, Vector3 position)
-        {
+        public void SetPointByID(int i, Vector3 position) =>
             this.storedPoints[i] = position;
-            this.mesh.SetVertices(this.storedPoints);
-        }
 #endif
         #endregion
 
@@ -202,15 +195,12 @@ namespace Runtime.World.Overworld.Spawner
 #if UNITY_EDITOR
         public void Gizmo(SpawnLocation self)
         {
-            if (this.mesh != null)
+            for (int i = 0; i < this.storedTriangles.Count; i++)
             {
-                List<Vector3> normals = new();
-
-                for (int i = 0; i < this.mesh.vertexCount; i++)
-                    normals.Add(Vector3.up);
-
-                this.mesh.normals = normals.ToArray();
-                Gizmos.DrawWireMesh(this.mesh, self.transform.position, self.transform.rotation);
+                Vector3Int ids = this.storedTriangles[i];
+                Debug.DrawLine(this.storedPoints[ids.x], this.storedPoints[ids.y], Color.red);
+                Debug.DrawLine(this.storedPoints[ids.x], this.storedPoints[ids.z], Color.red);
+                Debug.DrawLine(this.storedPoints[ids.z], this.storedPoints[ids.y], Color.red);
             }
         }
 
@@ -227,8 +217,6 @@ namespace Runtime.World.Overworld.Spawner
 
             if (this.storedTriangles.Count == 0)
                 this.storedTriangles.Add(new Vector3Int(0, 1, 2));
-
-            this.GenerateMesh();
         }
 
         public void AddPoint(Vector3 startPosition)
@@ -262,23 +250,24 @@ namespace Runtime.World.Overworld.Spawner
             }
 
             this.storedTriangles = replaceList;
-            Debug.Log(storedTriangles.Count);
-
-            this.StoreTrianglesToMeshTriangles();
+            Debug.Log(this.storedTriangles.Count);
 
             return true;
         }
 
         public bool TryCreateNewTriangle(int[] ids)
         {
-            Vector3Int triangle = new(ids[0], ids[1], ids[2]);
+            Vector3Int t = new(ids[0], ids[1], ids[2]);
 
-            if (this.storedTriangles.Contains(triangle))
-                return false;
+            foreach (Vector3Int v in this.storedTriangles)
+            {
+                if ((v.x == t.x || v.x == t.y || v.x == t.z) &&
+                    (v.y == t.x || v.y == t.y || v.y == t.z) &&
+                    (v.z == t.x || v.z == t.y || v.z == t.z))
+                    return false;
+            }
 
-            this.storedTriangles.Add(triangle);
-
-            this.StoreTrianglesToMeshTriangles();
+            this.storedTriangles.Add(t);
 
             return true;
         }
@@ -296,8 +285,6 @@ namespace Runtime.World.Overworld.Spawner
                     continue;
 
                 this.storedTriangles.Remove(v);
-
-                this.StoreTrianglesToMeshTriangles();
 
                 return true;
             }
@@ -375,31 +362,6 @@ namespace Runtime.World.Overworld.Spawner
 
                 this.storedTriangles[i] = v;
             }
-
-            this.StoreTrianglesToMeshTriangles();
-        }
-
-        private void GenerateMesh()
-        {
-            this.mesh = new()
-            {
-                vertices = this.storedPoints.ToArray(),
-            };
-
-            this.StoreTrianglesToMeshTriangles();
-        }
-
-        private void StoreTrianglesToMeshTriangles()
-        {
-            List<int> triangles = new();
-            this.storedTriangles.ForEach(t =>
-            {
-                triangles.Add(t.x);
-                triangles.Add(t.y);
-                triangles.Add(t.z);
-            });
-
-            this.mesh.triangles = triangles.ToArray();
         }
 #endif
 

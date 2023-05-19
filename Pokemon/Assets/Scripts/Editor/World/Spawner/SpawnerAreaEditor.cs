@@ -1,21 +1,21 @@
 #region Libraries
 
-using UnityEditor;
 using Runtime.World.Overworld.Spawner;
-using UnityEngine;
-using System.Collections.Generic;
 using Sirenix.OdinInspector.Editor;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 #endregion
 
 namespace Editor.Tools.Spawner
 {
     [CustomEditor(typeof(SpawnLocation))]
-    public class SpawnerEditor : OdinEditor
+    public sealed class SpawnerEditor : OdinEditor
     {
         #region Values
 
-        private static readonly float handleSize = .25f, aboveFloorDistance = .5f;
+        private static readonly float handleSize = 2, aboveFloorDistance = 1.5f;
 
         private static bool moveState = true;
 

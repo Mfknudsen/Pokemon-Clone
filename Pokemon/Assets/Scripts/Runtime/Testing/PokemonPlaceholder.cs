@@ -1,5 +1,6 @@
-﻿#region Packages
+﻿#region Libraries
 
+using Runtime.Common;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -8,12 +9,15 @@ using UnityEngine;
 
 namespace Runtime.Testing
 {
-    public class PokemonPlaceholder : MonoBehaviour
+    public sealed class PokemonPlaceholder : MonoBehaviour
     {
         [SerializeField, Required] private TextMeshPro textMesh;
 
         private void Update()
         {
+            if (Camera.main.IsNull())
+                return;
+
             Vector3 position = this.transform.position;
             Vector3 target = Camera.main.transform.position - position;
             target = new Vector3(target.x, 0, target.z);

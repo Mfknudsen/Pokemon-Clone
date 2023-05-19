@@ -1,11 +1,11 @@
-#region Packages
+#region Libraries
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.Common;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -20,7 +20,8 @@ namespace Runtime.World.Overworld.Tiles
         [SerializeField, Required] private NavMeshManager navMeshManager;
         [SerializeField, Required] private WorldManager worldManager;
 
-        [FoldoutGroup("Tile")] [SerializeField]
+        [FoldoutGroup("Tile")]
+        [SerializeField]
         private float waitTime = 5;
 
         private TileSubController currentController;
@@ -73,7 +74,7 @@ namespace Runtime.World.Overworld.Tiles
         public void HideTiles()
         {
             TileSubController[] toDisable = this.allSubControllers.ToArray();
-            foreach (TileSubController tileSubController in toDisable) 
+            foreach (TileSubController tileSubController in toDisable)
                 tileSubController.gameObject.SetActive(false);
         }
 

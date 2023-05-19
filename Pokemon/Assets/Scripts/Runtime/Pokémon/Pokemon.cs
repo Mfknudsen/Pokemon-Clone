@@ -64,7 +64,7 @@ namespace Runtime.Pokémon
     #endregion
 
     [CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Create new Pokemon", order = 0)]
-    public class Pokemon : ScriptableObject
+    public sealed class Pokemon : ScriptableObject
     {
         #region Values
 
@@ -95,13 +95,13 @@ namespace Runtime.Pokémon
 
         [BoxGroup("Basic")][SerializeField] private Color pokedexColor = Color.green;
 
-        [SerializeField, HorizontalGroup("Basic/H2"), PreviewField(100), HideLabel, LabelWidth(0), Required]
+        [SerializeField, LabelWidth(75), BoxGroup("Basic/H2", showLabel: false), AssetSelector(FlattenTreeView = true, Paths = "Assets/Prefabs"), Required]
         private PokemonUnit unitPrefab;
 
-        [SerializeField, BoxGroup("Moves")] private string pokemonCategory;
-
-        [SerializeField, VerticalGroup("Basic/H2/Abilities"), LabelWidth(100)]
+        [SerializeField, BoxGroup("Basic/H2"), LabelWidth(90)]
         private Ability firstAbility, secondAbility, hiddenAbility;
+
+        [SerializeField, BoxGroup("Moves")] private string pokemonCategory;
 
         [SerializeField, BoxGroup("Stats")] private Stats stats;
         [SerializeField, BoxGroup("Stats")] private int[] iv = new int[6];
@@ -169,11 +169,9 @@ namespace Runtime.Pokémon
         public int GetStatRaw(Stat target) =>
             this.stats[target];
 
-        // ReSharper disable once InconsistentNaming
         public int GetIV(Stat target) =>
             this.iv[(int)target];
 
-        // ReSharper disable once InconsistentNaming
         public int GetEV(Stat target) =>
             this.ev[(int)target];
 
@@ -309,8 +307,7 @@ namespace Runtime.Pokémon
             return this.types[1].GetTypeName() == typeName;
         }
 
-        public T[] GetAbilitiesOfType<T>() =>
-            new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
+        public T[] GetAbilitiesOfType<T>() => new[] { this.firstAbility, this.secondAbility, this.hiddenAbility }.OfType<T>().ToArray();
 
         public PokemonUnit InstantiateUnitPrefab(PokemonState state, Vector3 position, Quaternion rotation, Transform parent = null, bool active = true)
         {

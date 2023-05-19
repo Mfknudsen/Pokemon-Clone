@@ -1,10 +1,10 @@
-#region Packages
+#region Libraries
 
-using System.Collections;
 using Runtime.Player;
 using Runtime.Systems.UI;
 using Runtime.UI_Book;
 using Sirenix.OdinInspector;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +23,6 @@ namespace Runtime
 
         private IEnumerator Start()
         {
-            Application.targetFrameRate = 60;
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
 
             yield return new WaitWhile(() => !asyncOperation.isDone);

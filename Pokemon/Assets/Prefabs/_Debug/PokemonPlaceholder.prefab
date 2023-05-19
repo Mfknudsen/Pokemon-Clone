@@ -184,8 +184,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7058681742550906260}
   - component: {fileID: 1043579560}
+  - component: {fileID: -8336518985080752557}
+  - component: {fileID: 3584006347189478362}
+  - component: {fileID: 4989558846199441397}
   m_Layer: 8
-  m_Name: PokemonBattlePlaceholder
+  m_Name: PokemonPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,6 +222,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4384d5a3cf3e6842b5e35a70a464bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraManager: {fileID: 11400000, guid: 53f364342aaa4ec19926b6e680672102, type: 2}
-  pokmemonName: 
   textMesh: {fileID: 241867642537543251}
+--- !u!114 &-8336518985080752557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832799634741538103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca8aa1a9bc669444da162542d96d95e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
+  visualsObject: {fileID: 0}
+  agent: {fileID: 3584006347189478362}
+  sightCone: {fileID: 0}
+  behaviourTreeOwner: {fileID: 4989558846199441397}
+  unitState: 0
+--- !u!195 &3584006347189478362
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832799634741538103}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4989558846199441397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832799634741538103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad115aca74ce3c4891b3f6de0b4aae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedExposedParameters: []
+  _boundGraphSerialization: 
+  _boundGraphObjectReferences: []
+  _boundGraphSource:
+    _version: 0
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 0
+  _graph: {fileID: 0}
+  _blackboard: {fileID: 0}

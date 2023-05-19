@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Runtime.World.Overworld.Spawner
 {
-    public class PokemonSpawner : MonoBehaviour
+    public sealed class PokemonSpawner : MonoBehaviour
     {
         #region Values
 
@@ -28,18 +28,52 @@ namespace Runtime.World.Overworld.Spawner
 
         private Timer checkTimer;
 
+        private Transform aiParent;
+
         #endregion
 
         #region Build In States
 
-        private void OnEnable() => this.CheckState();
+        private void OnValidate()
+        {
+            if (!this.spawnList.IsNull())
+                this.name = "Spawner - " + this.spawnList.name;
+        }
+
+        private void OnEnable()
+        {
+            Transform root = this.transform.root;
+            for (int i = 0; root.childCount > 0; i++)
+            {
+                if (!root.GetChild(i).name.Equals("AI"))
+                    continue;
+
+                this.aiParent = root.GetChild(i);
+                break;
+            }
+
+            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), this.CheckState);
+        }
 
         private void OnDisable() => this.checkTimer?.Stop();
 
         #endregion
 
         [Button]
-        private void Test() => this.SpawnOverWorldPokemon();
+        private void Test()
+        {
+            Transform root = this.transform.root;
+            for (int i = 0; root.childCount > 0; i++)
+            {
+                if (!root.GetChild(i).name.Equals("AI"))
+                    continue;
+
+                this.aiParent = root.GetChild(i);
+                break;
+            }
+
+            this.SpawnOverWorldPokemon();
+        }
 
         private void CheckState()
         {
@@ -64,7 +98,7 @@ namespace Runtime.World.Overworld.Spawner
 
             SpawnTypeResult locationResult = allowedFrom[Random.Range(0, allowedFrom.Length)].GetSpawnResult;
 
-            PokemonUnit unitBase = toSpawn.InstantiateUnitPrefab(PokemonState.Wild, locationResult.Position, locationResult.Rotation);
+            PokemonUnit unitBase = toSpawn.InstantiateUnitPrefab(PokemonState.Wild, locationResult.Position, locationResult.Rotation, this.aiParent);
             this.currentActiveEntities.Add(unitBase);
             unitBase.AddDisableEventListener(() => this.currentActiveEntities.Remove(unitBase));
         }

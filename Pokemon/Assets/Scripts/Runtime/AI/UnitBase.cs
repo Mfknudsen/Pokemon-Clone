@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using NodeCanvas.BehaviourTrees;
 using Runtime.AI.Senses.Sight;
@@ -15,6 +15,7 @@ using UnityEngine.Events;
 
 namespace Runtime.AI
 {
+    [RequireComponent(typeof(NavMeshAgent), typeof(BehaviourTreeOwner))]
     public abstract class UnitBase : MonoBehaviour, IInteractable
     {
         #region Values
@@ -39,9 +40,7 @@ namespace Runtime.AI
 
         private UnityEvent disableEvent;
 
-        private bool previousStoppedState;
-
-        private Coroutine currentMoveOrder;
+        private Coroutine currentRotateOrder;
 
         #endregion
 
@@ -114,24 +113,22 @@ namespace Runtime.AI
         public void RemoveDisableEventListener(UnityAction action) =>
             this.disableEvent?.RemoveListener(action);
 
-        public void PauseUnit()
-        {
-            this.previousStoppedState = this.agent.isStopped;
-
+        public void PauseUnit() =>
             this.agent.isStopped = true;
-        }
 
         public void ResumeUnit() =>
-            this.agent.isStopped = this.previousStoppedState;
+            this.agent.isStopped = false;
 
         public bool MoveAndRotateUnitAgent(Vector3 positon, Quaternion rotation, UnityAction onComplete = null)
         {
-            this.StopCoroutine(this.currentMoveOrder);
+            this.StopCoroutine(this.currentRotateOrder);
 
             if (this.agent.SetDestination(positon))
                 return false;
 
-            this.currentMoveOrder = this.StartCoroutine(this.MoveAndRotate(rotation, onComplete));
+            this.agent.isStopped = false;
+
+            this.currentRotateOrder = this.StartCoroutine(this.Rotate(rotation, onComplete));
 
             return true;
         }
@@ -149,7 +146,7 @@ namespace Runtime.AI
 
         #region Internal
 
-        private IEnumerator MoveAndRotate(Quaternion rotation, UnityAction onComplete)
+        private IEnumerator Rotate(Quaternion rotation, UnityAction onComplete)
         {
             yield return new UnityEngine.WaitUntil(() => this.agent.isStopped);
 

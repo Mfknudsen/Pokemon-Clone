@@ -1,4 +1,4 @@
-﻿#region Packages
+﻿#region Libraries
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Runtime.Common
 {
-    public class Timer
+    public sealed class Timer
     {
         #region Values
 
@@ -22,9 +22,9 @@ namespace Runtime.Common
 
         public Timer(float duration, UnityAction action = null)
         {
-            TimerUpdater.instance.timers.Add(this);
+            TimerUpdater.timers.Add(this);
             this.duration = duration;
-            
+
             this.timerEvent.AddListener(action);
         }
 

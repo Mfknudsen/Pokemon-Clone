@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,16 @@ using UnityEngine;
 
 namespace Runtime.Common
 {
-    public class TimerUpdater : MonoBehaviour
+    public sealed class TimerUpdater : MonoBehaviour
     {
+        #region Values
+
         public static TimerUpdater instance;
-        public readonly List<Timer> timers = new();
+        public static readonly List<Timer> timers = new();
+
+        #endregion
+
+        #region Build In States
 
         private void Start()
         {
@@ -22,9 +28,16 @@ namespace Runtime.Common
             DontDestroyOnLoad(this.gameObject);
         }
 
+        private void OnDestroy()
+        {
+            timers.ForEach(t => t.Stop());
+            timers.Clear();
+            instance = null;
+        }
+
         private void Update()
         {
-            Timer[] toUpdate = this.timers.Where(t => t != null).ToArray();
+            Timer[] toUpdate = timers.Where(t => t != null).ToArray();
             List<Timer> toRemove = new();
 
             foreach (Timer timer in toUpdate.Where(t => t != null))
@@ -35,7 +48,9 @@ namespace Runtime.Common
                     timer.Update();
             }
 
-            toRemove.ForEach(t => this.timers.Remove(t));
+            toRemove.ForEach(t => timers.Remove(t));
         }
+
+        #endregion
     }
 }
