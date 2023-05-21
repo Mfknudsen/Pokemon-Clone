@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using UnityEngine;
 
@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Runtime.Systems.Pooling
 {
-    public class PoolItem : MonoBehaviour
+    public sealed class PoolItem : MonoBehaviour
     {
         #region Values
 
@@ -17,7 +17,14 @@ namespace Runtime.Systems.Pooling
         #region Build In States
 
         private void OnDisable() =>
-            this.pool.Free(this.gameObject);
+            this.pool.Free(this);
+
+        #endregion
+
+        #region In
+
+        internal void Destroy() =>
+            Destroy(this.gameObject);
 
         #endregion
     }

@@ -11,10 +11,10 @@ namespace Runtime.Common
     {
         #region Values
 
-        public readonly UnityEvent timerEvent = new();
+        private readonly UnityEvent timerEvent = new();
         private readonly float duration;
         private float current;
-        private bool done, stop;
+        private bool done;
 
         #endregion
 
@@ -22,20 +22,16 @@ namespace Runtime.Common
 
         public Timer(float duration, UnityAction action = null)
         {
-            TimerUpdater.timers.Add(this);
             this.duration = duration;
-
             this.timerEvent.AddListener(action);
+            TimerUpdater.Add(this);
         }
 
         #endregion
 
         #region Getters
 
-        public bool GetStopped()
-        {
-            return this.stop;
-        }
+        public bool IsDone => this.done;
 
         #endregion
 
@@ -43,20 +39,18 @@ namespace Runtime.Common
 
         public void Update()
         {
-            if (this.done || this.stop) return;
+            if (this.done) return;
 
             this.current += Time.deltaTime;
 
-            if (!(this.current >= this.duration)) return;
+            if (this.current < this.duration) return;
 
             this.timerEvent.Invoke();
             this.done = true;
         }
 
-        public void Stop()
-        {
-            this.stop = true;
-        }
+        public void Stop() =>
+            this.done = true;
 
         #endregion
     }

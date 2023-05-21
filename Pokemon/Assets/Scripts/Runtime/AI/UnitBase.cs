@@ -121,7 +121,8 @@ namespace Runtime.AI
 
         public bool MoveAndRotateUnitAgent(Vector3 positon, Quaternion rotation, UnityAction onComplete = null)
         {
-            this.StopCoroutine(this.currentRotateOrder);
+            if (this.currentRotateOrder != null)
+                this.StopCoroutine(this.currentRotateOrder);
 
             if (this.agent.SetDestination(positon))
                 return false;

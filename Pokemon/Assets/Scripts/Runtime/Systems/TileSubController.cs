@@ -1,9 +1,11 @@
-#region Packages
+#region Libraries
 
-using System;
-using System.Collections.Generic;
+using Runtime.Systems.Pooling;
 using Runtime.World.Overworld.Tiles;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using System;
+using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -11,23 +13,38 @@ using UnityEngine;
 
 namespace Runtime.Systems
 {
-    public class TileSubController : MonoBehaviour
+    public sealed class TileSubController : MonoBehaviour
     {
         #region Values
 
         [SerializeField, Required] private TileManager tileManager;
 
         [SerializeField] private Neighbor[] neighbors;
-        
+
         [SerializeField, Required] private NavMeshSurface navMeshSurface;
+
+        [SerializeField]
+        private SnapshotItem[] poolingSnapshot;
 
         #endregion
 
         #region Build In States
 
-        private void OnEnable() => this.tileManager.AddSubManager(this);
+        private void OnEnable()
+        {
+            this.tileManager.AddSubManager(this);
 
-        private void OnDisable() => this.tileManager.RemoveSubManager(this);
+            this.poolingSnapshot.ForEach(item =>
+                PoolManager.AddSnapshot(this.GetHashCode(), item.prefab, item.count));
+        }
+
+        private void OnDisable()
+        {
+            this.tileManager.RemoveSubManager(this);
+
+            this.poolingSnapshot.ForEach(item =>
+                PoolManager.RemoveSnapshot(this.GetHashCode(), item.prefab));
+        }
 
         #endregion
 
@@ -64,5 +81,14 @@ namespace Runtime.Systems
         [SerializeField] private string sceneName;
 
         public string GetSceneName() => this.sceneName;
+    }
+
+    [Serializable]
+    internal struct SnapshotItem
+    {
+        [SerializeField, Min(1f)]
+        internal int count;
+        [SerializeField, AssetsOnly, AssetSelector(Paths = "Assets/Prefabs", Filter = "t:GameObject t:MonoBehaviour", IsUniqueList = false), Required]
+        internal UnityEngine.Object prefab;
     }
 }

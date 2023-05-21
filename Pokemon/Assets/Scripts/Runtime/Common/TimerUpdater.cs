@@ -12,21 +12,13 @@ namespace Runtime.Common
     {
         #region Values
 
-        public static TimerUpdater instance;
-        public static readonly List<Timer> timers = new();
+        private static readonly List<Timer> timers = new();
+
+        private static TimerUpdater instance;
 
         #endregion
 
         #region Build In States
-
-        private void Start()
-        {
-            if (instance != null)
-                Destroy(this.gameObject);
-
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
 
         private void OnDestroy()
         {
@@ -37,18 +29,39 @@ namespace Runtime.Common
 
         private void Update()
         {
-            Timer[] toUpdate = timers.Where(t => t != null).ToArray();
-            List<Timer> toRemove = new();
+            List<Timer> toUpdate = timers.ToList(), toRemove = new();
 
-            foreach (Timer timer in toUpdate.Where(t => t != null))
+            for (int i = 0; i < toUpdate.Count; i++)
             {
-                if (timer.GetStopped())
+                Timer timer = toUpdate[i];
+
+                if (timer.IsDone)
                     toRemove.Add(timer);
                 else
                     timer.Update();
             }
 
             toRemove.ForEach(t => timers.Remove(t));
+        }
+
+        #endregion
+
+        #region In
+
+        public static void Add(Timer toAdd)
+        {
+            if (toAdd == null)
+                return;
+
+            if (instance == null)
+            {
+                GameObject obj = new("Timer Updator");
+                instance = obj.AddComponent<TimerUpdater>();
+                DontDestroyOnLoad(obj);
+            }
+
+            if (!timers.Contains(toAdd))
+                timers.Add(toAdd);
         }
 
         #endregion

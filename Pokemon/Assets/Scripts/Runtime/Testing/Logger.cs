@@ -1,8 +1,8 @@
 ﻿#region Packages
 
-using System.Collections.Generic;
 using Runtime.Common;
 using Runtime.Systems;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +27,7 @@ namespace Runtime.Testing
 
         private void Start()
         {
-            if (instance.IsNull()) return;
+            if (instance == null) return;
 
             instance = this;
             this.textField.text = "";

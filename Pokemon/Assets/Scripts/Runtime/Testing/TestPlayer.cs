@@ -15,10 +15,9 @@ using UnityEngine.SceneManagement;
 
 namespace Runtime.Testing
 {
-
-#if UNITY_EDITOR
     public sealed class TestPlayer : MonoBehaviour
     {
+#if UNITY_EDITOR
         #region Values
 
         [SerializeField] private Manager[] managers;
@@ -29,6 +28,9 @@ namespace Runtime.Testing
         private IEnumerator Start()
         {
             PlayerManager playerManager = this.managers.First(m => m is PlayerManager) as PlayerManager;
+            if (playerManager.GetAgent() != null)
+                Destroy(this.gameObject);
+
             UIManager uiManager = this.managers.First(m => m is UIManager) as UIManager;
 
             if (playerManager == null)
@@ -61,7 +63,6 @@ namespace Runtime.Testing
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-    }
 #endif
-
+    }
 }

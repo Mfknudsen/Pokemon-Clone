@@ -1,41 +1,46 @@
-#region Packages
+#region Libraries
 
-using Runtime.Common;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
 
 namespace Runtime.Systems.Pooling
 {
+    [InitializeOnLoad]
     public static class PoolManager
     {
         #region Values
 
-        private static readonly Dictionary<string, PoolHolder> Pools = new();
+        private static readonly Dictionary<int, PoolHolder> Pools = new();
+
+        #endregion
+
+        #region Build In States
+
+        static PoolManager() => EditorApplication.playModeStateChanged += Reset;
 
         #endregion
 
         #region In
 
-        public static T Create<T>(T prefab, Transform parent = null, bool activate = false)
-            where T : MonoBehaviour =>
-            CreatePoolItem(prefab, activate, parent).GetComponent<T>();
+        public static void AddSnapshot(int id, Object prefab, int count)
+        {
+            if (Pools.TryGetValue(prefab.GetHashCode(), out PoolHolder pool))
+                pool.AddSnapCount(id, count);
+        }
 
-        public static GameObject Create(GameObject prefab, Transform parent = null, bool activate = false) =>
+        public static void RemoveSnapshot(int id, Object prefab)
+        {
+            if (Pools.TryGetValue(prefab.GetHashCode(), out PoolHolder pool))
+                pool.RemoveSnapCount(id);
+        }
+
+        public static GameObject Create(Object prefab, Transform parent = null, bool activate = false) =>
             CreatePoolItem(prefab, activate, parent);
 
-        public static T CreateAtPositionAndRotation<T>(T prefab, Vector3 pos, Quaternion rot,
-            Transform parent = null, bool activate = false)
-            where T : MonoBehaviour
-        {
-            GameObject instance = CreatePoolItem(prefab, activate, parent);
-            Transform t = instance.transform;
-            t.SetPositionAndRotation(pos, rot);
-            return instance.GetComponent<T>();
-        }
-
-        public static GameObject CreateAtPositionAndRotation(GameObject prefab, Vector3 pos, Quaternion rot,
+        public static GameObject CreateAtPositionAndRotation(Object prefab, Vector3 pos, Quaternion rot,
             Transform parent = null, bool activate = false)
         {
             GameObject instance = CreatePoolItem(prefab, activate, parent);
@@ -44,17 +49,7 @@ namespace Runtime.Systems.Pooling
             return instance;
         }
 
-        public static T CreateAtTransform<T>(T prefab, Transform sourceTransform,
-            Transform parent = null, bool activate = false)
-            where T : MonoBehaviour
-        {
-            GameObject instance = CreatePoolItem(prefab, activate, parent);
-            Transform t = instance.transform;
-            t.SetPositionAndRotation(sourceTransform.position, sourceTransform.rotation);
-            return instance.GetComponent<T>();
-        }
-
-        public static GameObject CreateAtTransform(GameObject prefab, Transform sourceTransform,
+        public static GameObject CreateAtTransform(Object prefab, Transform sourceTransform,
             Transform parent = null, bool activate = false)
         {
             GameObject instance = CreatePoolItem(prefab, activate, parent);
@@ -63,17 +58,7 @@ namespace Runtime.Systems.Pooling
             return instance;
         }
 
-        public static T CreateAsChild<T>(T prefab, Transform parent, bool activate = false)
-            where T : MonoBehaviour
-        {
-            GameObject instance = CreatePoolItem(prefab, activate, parent);
-            Transform t = instance.transform;
-            t.parent = parent;
-            t.SetPositionAndRotation(parent.position, parent.rotation);
-            return instance.GetComponent<T>();
-        }
-
-        public static GameObject CreateAsChild(GameObject prefab, Transform parent, bool activate = false)
+        public static GameObject CreateAsChild(Object prefab, Transform parent, bool activate = false)
         {
             GameObject instance = CreatePoolItem(prefab, activate, parent);
             Transform t = instance.transform;
@@ -86,48 +71,34 @@ namespace Runtime.Systems.Pooling
 
         #region Internal
 
-        private static GameObject CreatePoolItem<T>(T prefab, bool activateObject, Transform parent = null)
-            where T : MonoBehaviour
+        private static GameObject CreatePoolItem(Object prefab, bool activateObject, Transform parent = null)
         {
-            string key = prefab.name;
+            int key = prefab.GetHashCode();
             if (!Pools.TryGetValue(key, out PoolHolder pool))
             {
-                pool = new PoolHolder();
-                pool.SetPrefab(prefab);
+                pool = new PoolHolder(prefab);
                 Pools.Add(key, pool);
             }
 
-            GameObject instance = pool.GetOrCreate();
+            Object instance = pool.GetOrCreate();
+            GameObject obj = null;
 
-            if (!parent.IsNull())
-                instance.transform.SetParent(parent, false);
+            if (instance is GameObject gameObject)
+                obj = gameObject;
+            else if (instance is MonoBehaviour monoBehaviour)
+                obj = monoBehaviour.gameObject;
 
-            if (activateObject)
-                instance.SetActive(true);
+            if (parent != null)
+                obj.transform.SetParent(parent, false);
 
-            return instance;
+            obj.SetActive(activateObject);
+
+            return obj;
         }
 
-        private static GameObject CreatePoolItem(GameObject prefab, bool activateObject, Transform parent = null)
-        {
-            string key = prefab.name;
-            if (!Pools.TryGetValue(key, out PoolHolder pool))
-            {
-                pool = new PoolHolder();
-                pool.SetPrefab(prefab);
-                Pools.Add(key, pool);
-            }
-
-            GameObject instance = pool.GetOrCreate();
-
-            if (!parent.IsNull())
-                instance.transform.SetParent(parent, false);
-
-            if (activateObject)
-                instance.SetActive(true);
-
-            return instance;
-        }
+#if UNITY_EDITOR
+        private static void Reset(PlayModeStateChange state) => Pools.Clear();
+#endif
 
         #endregion
     }

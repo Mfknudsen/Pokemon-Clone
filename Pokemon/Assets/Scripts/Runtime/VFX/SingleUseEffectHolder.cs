@@ -1,9 +1,9 @@
-#region Packages
+#region Libraries
 
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.Systems.Pooling;
 using Runtime.VFX.SingleUSe;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -84,7 +84,8 @@ namespace Runtime.VFX
             {
                 selected = PoolManager.Create((!this.multiplyPrefabs
                     ? this.prefab
-                    : this.prefabs[Random.Range(0, this.prefabs.Length)]), activate: true);
+                    : this.prefabs[Random.Range(0, this.prefabs.Length)]), activate: true)
+                    .GetComponent<SingleUseEffect>();
 
                 this.Add(selected);
                 selected.ResetEffect();

@@ -475,6 +475,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1710272318}
     m_Modifications:
+    - target: {fileID: 8314289325172557649, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
+      propertyPath: itemListGenericVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
     - target: {fileID: 8314289326036260593, guid: ca22f089896b5f04280c58a69eceb2ac, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -995,6 +999,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7714130345346690835, guid: 547c6530d333531469b47de833ab6bc0, type: 3}
   m_PrefabInstance: {fileID: 935019478}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &709737339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 709737340}
+  - component: {fileID: 709737341}
+  m_Layer: 0
+  m_Name: Grass Terrain Spawner - Grottle Only
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &709737340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709737339}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15, y: 0, z: -30}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1234280501}
+  m_Father: {fileID: 2107846428}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &709737341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709737339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac2e652cb40df63468cdc9dfe5679e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnerName: Grass Terrain
+  spawnList: {fileID: 11400000, guid: 311a40f619a3fb845970813a0f1a6aa5, type: 2}
+  spawnLocations:
+  - {fileID: 1234280502}
+  maxActiveEntities: 15
+  spawnInterval: 1
 --- !u!1 &727569138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,6 +1562,10 @@ PrefabInstance:
       propertyPath: _serializedVariables.Array.data[1]._references.Array.data[3]
       value: 
       objectReference: {fileID: 727569139}
+    - target: {fileID: 4816316211202722351, guid: f3d668d337b3afc42bedf7ab0d81ea5e, type: 3}
+      propertyPath: itemListGenericVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3d668d337b3afc42bedf7ab0d81ea5e, type: 3}
 --- !u!4 &937020188 stripped
@@ -2114,6 +2173,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human_Unit_Ask_Battle_Base
       objectReference: {fileID: 0}
+    - target: {fileID: 4774707905003990729, guid: 60687c9341777844c8acfc2afa26b307, type: 3}
+      propertyPath: itemListGenericVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60687c9341777844c8acfc2afa26b307, type: 3}
 --- !u!4 &1166633394 stripped
@@ -2121,6 +2184,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4774707904274906985, guid: 60687c9341777844c8acfc2afa26b307, type: 3}
   m_PrefabInstance: {fileID: 1166633393}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1234280500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1234280501}
+  - component: {fileID: 1234280502}
+  m_Layer: 0
+  m_Name: Area Spawn Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1234280501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234280500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 709737340}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1234280502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234280500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f3b4099ae4864498cbabe03ca395b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnType:
+    rid: 6540633425707532288
+  allowedToSpawn: []
+  selectedDropdownOption: Area
+  references:
+    version: 2
+    RefIds:
+    - rid: 6540633425707532288
+      type: {class: Area, ns: Runtime.World.Overworld.Spawner, asm: Runtime}
+      data:
+        storedPoints:
+        - {x: 6, y: 1.5, z: -53}
+        - {x: 6, y: 1.5, z: -7}
+        - {x: 24, y: 1.5, z: -7}
+        - {x: 24, y: 1.5, z: -53}
+        storedTriangles:
+        - {x: 0, y: 1, z: 2}
+        - {x: 0, y: 3, z: 2}
 --- !u!1 &1284112914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,6 +2525,7 @@ Transform:
   - {fileID: 1710272318}
   - {fileID: 463568422}
   - {fileID: 1469489793}
+  - {fileID: 2107846428}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2448,6 +2574,7 @@ MonoBehaviour:
   tileManager: {fileID: 11400000, guid: c9cd88d08bd12ad1e8ee74a3316a51c6, type: 2}
   neighbors: []
   navMeshSurface: {fileID: 1412597825}
+  poolingSnapshot: []
 --- !u!1 &1444644200
 GameObject:
   m_ObjectHideFlags: 0
@@ -3001,7 +3128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1710272318}
   m_Layer: 0
-  m_Name: NPCs
+  m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3510,6 +3637,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908175610}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1971772368
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 275100856310880993, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_Name
+      value: TestPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
 --- !u!1 &1980639804
 GameObject:
   m_ObjectHideFlags: 0
@@ -3804,6 +3988,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2103482814}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2107846427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107846428}
+  m_Layer: 0
+  m_Name: Spawners
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2107846428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107846427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 709737340}
+  m_Father: {fileID: 1412597823}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2435028118529852002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4233,6 +4449,10 @@ PrefabInstance:
       propertyPath: _serializedVariables.Array.data[1]._references.Array.data[3]
       value: 
       objectReference: {fileID: 456792782}
+    - target: {fileID: 4816316211202722351, guid: f3d668d337b3afc42bedf7ab0d81ea5e, type: 3}
+      propertyPath: itemListGenericVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3d668d337b3afc42bedf7ab0d81ea5e, type: 3}
 --- !u!4 &8746392127827405316 stripped

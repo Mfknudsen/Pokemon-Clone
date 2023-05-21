@@ -1,11 +1,11 @@
-#region Packages
+#region Libraries
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.Common;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -23,29 +23,23 @@ namespace Runtime.Cutscenes
 
         private int currentPlayIndex;
         private bool readyForNext, waitingForInput;
-        
+
         #endregion
-        
+
         #region In
 
-        public void Enable()
-        {
+        public void Enable() =>
             InputManager.Instance.nextChatInputEvent.AddListener(this.OnNextChatUpdate);
-        }
 
-        public void Disable()
-        {
+        public void Disable() =>
             InputManager.Instance.nextChatInputEvent.RemoveListener(this.OnNextChatUpdate);
-        }
-        
-        public void DeployCutscene(){}
+
+        public void DeployCutscene() { }
 
         public void TriggerNext()
         {
             if (this.delayTimes.Where(d => d.index.Equals(this.currentPlayIndex)).Select(d => d.delay).First() is float delayTime)
-            {
-                new Timer(delayTime).timerEvent.AddListener(this.PlayNext);
-            }
+                new Timer(delayTime, this.PlayNext);
             else
                 this.waitingForInput = true;
 
@@ -58,21 +52,21 @@ namespace Runtime.Cutscenes
 
         private void PlayNext()
         {
-            
+
         }
 
         private void OnNextChatUpdate()
         {
-            
+
         }
 
         #endregion
     }
-    
+
     [Serializable]
     internal struct DelayTime
     {
-        [HorizontalGroup(" ")] 
+        [HorizontalGroup(" ")]
         public int index;
         [HorizontalGroup(" ")]
         public float delay;

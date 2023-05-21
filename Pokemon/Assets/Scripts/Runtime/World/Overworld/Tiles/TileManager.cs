@@ -92,48 +92,48 @@ namespace Runtime.World.Overworld.Tiles
 
             this.resetWorldPositionTimer?.Stop();
 
-            this.resetWorldPositionTimer = new Timer(this.waitTime);
-            this.resetWorldPositionTimer.timerEvent.AddListener(() =>
-            {
-                this.currentController.DisableDividers();
-
-                List<Neighbor> toUnload = new(),
-                    loaded = new(),
-                    toLoad = new();
-                toUnload.AddRange(this.currentController.GetNeighbors());
-                loaded.AddRange(this.currentController.GetNeighbors());
-
-                this.currentController = this.allSubControllers.First(m => m.GetTileName().Equals(newSubManagerName));
-                this.currentController.EnableDividers();
-
-                foreach (Neighbor neighbor in this.currentController.GetNeighbors().Where(n => toUnload.Contains(n)))
-                    toUnload.Remove(neighbor);
-
-                foreach (Neighbor neighbor in toUnload.Where(n => loaded.Contains(n)))
-                    loaded.Remove(neighbor);
-
-                toLoad.AddRange(this.currentController.GetNeighbors().Where(n => loaded.Contains(n)));
-
-                #region Unload Unneeded Neighbors
-
-                foreach (TileSubController unload in toUnload.Select(neighbor =>
-                             this.allSubControllers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
-                    unload.Unload();
-
-                #endregion
-
-                #region Load New Neighbors
-
-                foreach (Neighbor neighbor in toLoad)
+            this.resetWorldPositionTimer = new Timer(this.waitTime,
+                () =>
                 {
-                    this.worldManager.LoadSceneAsync(neighbor.GetSceneName());
-                }
+                    this.currentController.DisableDividers();
 
-                #endregion
+                    List<Neighbor> toUnload = new(),
+                        loaded = new(),
+                        toLoad = new();
+                    toUnload.AddRange(this.currentController.GetNeighbors());
+                    loaded.AddRange(this.currentController.GetNeighbors());
 
-                this.ResetWorldCenter();
-                this.UpdateNavmesh();
-            });
+                    this.currentController = this.allSubControllers.First(m => m.GetTileName().Equals(newSubManagerName));
+                    this.currentController.EnableDividers();
+
+                    foreach (Neighbor neighbor in this.currentController.GetNeighbors().Where(n => toUnload.Contains(n)))
+                        toUnload.Remove(neighbor);
+
+                    foreach (Neighbor neighbor in toUnload.Where(n => loaded.Contains(n)))
+                        loaded.Remove(neighbor);
+
+                    toLoad.AddRange(this.currentController.GetNeighbors().Where(n => loaded.Contains(n)));
+
+                    #region Unload Unneeded Neighbors
+
+                    foreach (TileSubController unload in toUnload.Select(neighbor =>
+                                 this.allSubControllers.First(m => m.GetTileName().Equals(neighbor.GetSceneName()))))
+                        unload.Unload();
+
+                    #endregion
+
+                    #region Load New Neighbors
+
+                    foreach (Neighbor neighbor in toLoad)
+                    {
+                        this.worldManager.LoadSceneAsync(neighbor.GetSceneName());
+                    }
+
+                    #endregion
+
+                    this.ResetWorldCenter();
+                    this.UpdateNavmesh();
+                });
         }
 
         #endregion

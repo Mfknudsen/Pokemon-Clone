@@ -16,6 +16,11 @@ namespace Runtime.World.Overworld.Spawner
     {
         #region Values
 
+#if UNITY_EDITOR
+        [SerializeField] private string spawnerName;
+#endif
+
+
         [SerializeField, Required] private PokemonSpawnList spawnList;
 
         [SerializeField] private SpawnLocation[] spawnLocations;
@@ -34,11 +39,13 @@ namespace Runtime.World.Overworld.Spawner
 
         #region Build In States
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!this.spawnList.IsNull())
-                this.name = "Spawner - " + this.spawnList.name;
+            if (this.spawnList != null)
+                this.name = this.spawnerName + " Spawner - " + this.spawnList.name;
         }
+#endif
 
         private void OnEnable()
         {

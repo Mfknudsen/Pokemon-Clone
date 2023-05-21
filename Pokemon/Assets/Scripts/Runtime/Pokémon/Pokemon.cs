@@ -1,4 +1,4 @@
-﻿#region Packages
+﻿#region Libraries
 
 using Runtime.AI;
 using Runtime.Battle.Actions;
@@ -311,7 +311,7 @@ namespace Runtime.Pokémon
 
         public PokemonUnit InstantiateUnitPrefab(PokemonState state, Vector3 position, Quaternion rotation, Transform parent = null, bool active = true)
         {
-            PokemonUnit unit = PoolManager.CreateAtPositionAndRotation(this.unitPrefab, position, rotation, parent, active);
+            PokemonUnit unit = PoolManager.CreateAtPositionAndRotation(this.unitPrefab, position, rotation, parent, active).GetComponent<PokemonUnit>();
             unit.SetState(state);
             return unit;
         }

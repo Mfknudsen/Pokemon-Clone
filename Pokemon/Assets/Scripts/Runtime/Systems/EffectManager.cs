@@ -1,9 +1,5 @@
-#region Packages
+#region Libraries
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.ScriptableVariables.Objects;
 using Runtime.Systems.PersistantRunner;
 using Runtime.Systems.Pooling;
@@ -12,6 +8,10 @@ using Runtime.VFX.Reuseable;
 using Runtime.VFX.Scene;
 using Runtime.VFX.SingleUSe;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -79,35 +79,35 @@ namespace Runtime.Systems
             switch (effectBase)
             {
                 case SceneEffect sceneEffect:
-                {
-                    Type type = sceneEffect.GetType();
-                    if (!this.sceneEffects.ContainsKey(type))
                     {
-                        EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
-                        this.sceneEffects.Add(type, new SceneEffectHolder(limit?.max ?? 0, sceneEffect, this));
-                    }
+                        Type type = sceneEffect.GetType();
+                        if (!this.sceneEffects.ContainsKey(type))
+                        {
+                            EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
+                            this.sceneEffects.Add(type, new SceneEffectHolder(limit?.max ?? 0, sceneEffect, this));
+                        }
 
-                    this.sceneEffects[type].Add(sceneEffect);
-                    sceneEffect.CheckRules();
-                    break;
-                }
+                        this.sceneEffects[type].Add(sceneEffect);
+                        sceneEffect.CheckRules();
+                        break;
+                    }
                 case SingleUseEffect singleUseEffect:
-                {
-                    Type type = singleUseEffect.GetType();
-                    if (!this.singleUseEffects.ContainsKey(type))
                     {
-                        EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
-                        this.singleUseEffects.Add(type, new SingleUseEffectHolder(limit?.max ?? 0, singleUseEffect));
-                    }
+                        Type type = singleUseEffect.GetType();
+                        if (!this.singleUseEffects.ContainsKey(type))
+                        {
+                            EffectLimit limit = this.effectsLimits.FirstOrDefault(e => e.effect.GetType() == type);
+                            this.singleUseEffects.Add(type, new SingleUseEffectHolder(limit?.max ?? 0, singleUseEffect));
+                        }
 
-                    this.singleUseEffects[type].Add(singleUseEffect);
-                    break;
-                }
+                        this.singleUseEffects[type].Add(singleUseEffect);
+                        break;
+                    }
                 case ReuseableEffect reuseableEffect:
-                {
-                    this.reuseableEffects.Add(reuseableEffect.GetType(), reuseableEffect);
-                    break;
-                }
+                    {
+                        this.reuseableEffects.Add(reuseableEffect.GetType(), reuseableEffect);
+                        break;
+                    }
             }
         }
 
@@ -232,7 +232,7 @@ namespace Runtime.Systems
         private T InstantiateNew<T>(T prefab, Transform parent = null) where T : EffectBase
         {
             this.RegisterEffect(prefab);
-            return PoolManager.Create(prefab, parent, true);
+            return PoolManager.Create(prefab, parent, true).GetComponent<T>();
         }
 
         private T GetOrInstanceEffect<T>(T prefab) where T : EffectBase

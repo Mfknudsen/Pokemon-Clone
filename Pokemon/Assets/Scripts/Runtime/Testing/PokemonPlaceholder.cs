@@ -1,6 +1,5 @@
 ﻿#region Libraries
 
-using Runtime.Common;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Runtime.Testing
 
         private void Update()
         {
-            if (Camera.main.IsNull())
+            if (Camera.main == null)
                 return;
 
             Vector3 position = this.transform.position;
