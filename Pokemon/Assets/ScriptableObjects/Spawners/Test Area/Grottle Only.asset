@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Grottle Only
   m_EditorClassIdentifier: 
   list:
-  - pokemon: {fileID: 11400000, guid: bb24c920ad7a4b648ad1697c6123ae90, type: 2}
+  - pokemon:
+      pokemonName: Grottle
+      path: Assets/ScriptableObjects/Pokedex/Grottle.asset
     encounterRate: 1
     maxActiveEntities: 10

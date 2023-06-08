@@ -1,9 +1,9 @@
 #region Packages
 
-using System.Linq;
 using Runtime.ScriptableVariables.Structs.ListVariables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -37,6 +37,9 @@ namespace Runtime.World.Overworld.Interactions
 
         private void OnValidate()
         {
+            if (this.onTrigger == null)
+                return;
+
             if (this.onTrigger.Length > 0)
             {
                 this.onTrigger = this.onTrigger
@@ -47,9 +50,11 @@ namespace Runtime.World.Overworld.Interactions
         }
 #endif
 
-        private void OnEnable() => this.itemListGenericVariable.AddElement(this);
+        private void OnEnable() =>
+            this.itemListGenericVariable.AddElement(this);
 
-        private void OnDisable() => this.itemListGenericVariable.RemoveElement(this);
+        private void OnDisable() =>
+            this.itemListGenericVariable.RemoveElement(this);
 
         #endregion
 

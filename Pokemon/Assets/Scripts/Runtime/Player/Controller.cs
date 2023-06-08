@@ -1,12 +1,12 @@
-﻿#region Packages
+﻿#region Libraries
 
-using System.Collections;
 using Cinemachine;
 using Runtime.Common;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -205,7 +205,7 @@ namespace Runtime.Player
         private void TryDash()
         {
             PlayerState state = this.playerManager.GetPlayerState();
-            
+
             if (state is not (PlayerState.Default or PlayerState.Crouching)) return;
 
             this.playerManager.SetState(PlayerState.Dashing);

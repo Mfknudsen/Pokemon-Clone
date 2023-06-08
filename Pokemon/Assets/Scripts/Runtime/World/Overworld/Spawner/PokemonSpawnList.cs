@@ -1,8 +1,7 @@
 #region Libraries
 
-using System;
-using System.Collections.Generic;
 using Runtime.Pokémon;
+using System;
 using UnityEngine;
 
 #endregion
@@ -24,21 +23,21 @@ namespace Runtime.World.Overworld.Spawner
         public Pokemon GetPokemonPrefab()
         {
             float total = 0;
-            foreach (var pokemon in this.list)
+            foreach (PokémonSpawnListEntity pokemon in this.list)
                 total += pokemon.encounterRate;
 
             float encounter = UnityEngine.Random.Range(0, total);
             float current = 0;
 
-            for (var i = 0; i < this.list.Length; i++)
+            for (int i = 0; i < this.list.Length; i++)
             {
                 PokémonSpawnListEntity entity = this.list[i];
                 if (i == 0 && encounter <= entity.encounterRate)
-                    return entity.pokemon;
+                    return entity.pokemon.Get;
                 else if (i == this.list.Length - 1)
-                    return entity.pokemon;
+                    return entity.pokemon.Get;
                 else if (encounter < current + entity.encounterRate)
-                    return entity.pokemon;
+                    return entity.pokemon.Get;
 
                 current += entity.encounterRate;
             }
@@ -54,7 +53,7 @@ namespace Runtime.World.Overworld.Spawner
     {
         #region Values
 
-        public Pokemon pokemon;
+        public PokemonGetter pokemon;
         public float encounterRate;
         public int maxActiveEntities;
 
