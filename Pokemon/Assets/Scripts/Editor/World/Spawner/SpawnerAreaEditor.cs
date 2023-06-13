@@ -91,9 +91,9 @@ namespace Editor.Tools.Spawner
         {
             foreach (Transform t in spawnLocation.GetLocationPoints)
             {
-                var fmh_94_65_638212363687323854 = Quaternion.identity; t.position = Handles.FreeMoveHandle(t.position, handleSize, Vector3.zero, Handles.SphereHandleCap);
+                t.position = Handles.FreeMoveHandle(t.position, Quaternion.identity, handleSize, Vector3.zero, Handles.SphereHandleCap);
 
-                var fmh_96_87_638212363687326795 = Quaternion.identity; Vector3 target = Handles.FreeMoveHandle(t.position + t.forward * .5f, handleSize, Vector3.zero, Handles.SphereHandleCap);
+                Vector3 target = Handles.FreeMoveHandle(t.position + t.forward * .5f, Quaternion.identity, handleSize, Vector3.zero, Handles.SphereHandleCap);
                 target = new(target.x, t.position.y, target.z);
 
                 t.LookAt(target);
@@ -108,7 +108,7 @@ namespace Editor.Tools.Spawner
             {
                 for (int i = 0; i < positions.Length; i++)
                 {
-                    var fmh_111_80_638212363687329774 = Quaternion.identity; Vector3 newPosition = Handles.FreeMoveHandle(positions[i], handleSize, Vector3.zero, Handles.SphereHandleCap);
+                    Vector3 newPosition = Handles.FreeMoveHandle(positions[i], Quaternion.identity, handleSize, Vector3.zero, Handles.SphereHandleCap);
 
                     if (newPosition == positions[i]) continue;
 

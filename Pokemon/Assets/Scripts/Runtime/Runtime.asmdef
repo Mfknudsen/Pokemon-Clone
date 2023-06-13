@@ -3,7 +3,13 @@
     "rootNamespace": "",
     "references": [
         "Sirenix.OdinInspector.CompatibilityLayer",
-        "ParadoxNotion"
+        "ParadoxNotion",
+        "Cinemachine",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Unity.AI.Navigation",
+        "Unity.Timeline",
+        ""
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
