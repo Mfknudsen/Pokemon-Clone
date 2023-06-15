@@ -7,9 +7,8 @@
         "Cinemachine",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Unity.AI.Navigation",
         "Unity.Timeline",
-        ""
+        "Unity.AI.Navigation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

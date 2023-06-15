@@ -67,5 +67,26 @@ namespace Runtime.Common
         public static void Reverse(this ref bool b) => b = !b;
 
         #endregion
+
+        #region Array
+
+        public static bool ContainsAny<T>(this T[] target, T[] other)
+        {
+            foreach (T item in target)
+            {
+                foreach (T otherItem in other)
+                {
+                    if (item.Equals(otherItem))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static T RandomFrom<T>(this T[] target) =>
+            target[Random.Range(0, target.Length)];
+
+        #endregion
     }
 }

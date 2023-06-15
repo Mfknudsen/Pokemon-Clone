@@ -20,6 +20,7 @@ namespace Runtime.Testing
 #if UNITY_EDITOR
         #region Values
 
+        [SerializeField] private bool use;
         [SerializeField] private Manager[] managers;
         [SerializeField] private GameObject playerPrefab;
 
@@ -27,6 +28,9 @@ namespace Runtime.Testing
 
         private IEnumerator Start()
         {
+            if (!this.use)
+                yield break;
+
             PlayerManager playerManager = this.managers.First(m => m is PlayerManager) as PlayerManager;
             if (playerManager.GetAgent() != null)
                 Destroy(this.gameObject);

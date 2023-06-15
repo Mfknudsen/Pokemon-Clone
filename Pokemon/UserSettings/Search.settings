@@ -1,6 +1,6 @@
 trackSelection = true
 fetchPreview = true
-wantsMore = false
+defaultFlags = 0
 keepOpen = false
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
@@ -10,6 +10,9 @@ scopes = {
 	"last_search.8788AF05" = "playermanager"
 	"OpenInspectorPreview.8788AF05" = "0"
 	"currentGroup.8788AF05" = "all"
+	"last_search.DE949528" = ""
+	"OpenInspectorPreview.DE949528" = "0"
+	"currentGroup.DE949528" = "all"
 }
 providers = {
 	adb = {
@@ -52,6 +55,13 @@ providers = {
 		priority = 50
 		defaultAction = null
 	}
+	profilermarkers = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+}
+objectSelectors = {
 }
 recentSearches = [
 ]
@@ -65,3 +75,4 @@ queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
+minIndexVariations = 2
