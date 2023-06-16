@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -58,7 +57,6 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
         private void OnDrawGizmos()
         {
-
             if (this.calculatedNavMesh == null || this.calculatedNavMesh.Triangles == null)
                 return;
 
@@ -71,12 +69,7 @@ namespace Assets.Scripts.Runtime.World.Overworld
                 Vector3 c = t.Center(this.calculatedNavMesh.Vertices);
                 foreach (int n in t.Neighbors.Where(n => n > i))
                     Debug.DrawLine(c + Vector3.up * 3, navTriangles[n].Center(this.calculatedNavMesh.Vertices) + Vector3.up * 3, Color.blue);
-
-                Debug.DrawLine(c, c + Vector3.up * 3, Color.green);
             }
-
-            for (int i = 0; i < this.calculatedNavMesh.Vertices.Length; i++)
-                Handles.Label(this.calculatedNavMesh.Vertices[i], i.ToString());
         }
 
         #endregion

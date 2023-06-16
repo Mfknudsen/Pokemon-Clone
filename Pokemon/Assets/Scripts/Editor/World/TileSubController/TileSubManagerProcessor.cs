@@ -56,6 +56,7 @@ namespace Editor.Systems.World
 
             try
             {
+                #region Load, Build
                 ///Load neighboring scenes that the navigation mesh should cover
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", .25f);
                 List<UniTask<Scene>> loadSceneTasks = new();
@@ -71,51 +72,80 @@ namespace Editor.Systems.World
 
                 ///Custruct Navigation Mesh and setup custom navmesh logic
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Calculation Navigation Mesh Triangulation", 0f);
-                NavMeshSurface surface = tileSubController.GetComponent<NavMeshSurface>();
-                surface.BuildNavMesh();
-                NavMeshTriangulation navmesh = NavMesh.CalculateTriangulation();
-                surface.RemoveData();
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Getting Navigation Points", .5f);
-                NavigationPoint[] navigationPoints = tileSubController.gameObject.GetAllComponentsByRoot<NavigationPoint>();
-                Dictionary<int, NavigationPointEntry[]> pointsByTriangleIndex = new();
+                NavMeshTriangulation navmesh = this.BuildNavMeshTriangulation(tileSubController);
 
+                #endregion
+
+                #region Check Vertices and Indices
+
+                List<Vector3> verts = navmesh.vertices.ToList();
+                List<int> inds = navmesh.indices.ToList();
+                List<int> removed = new();
+                for (int i = 0; i < navmesh.vertices.Length; i++)
+                {
+                    if (removed.Contains(i))
+                        continue;
+
+                    for (int checkAgainst = i + 1; checkAgainst < navmesh.vertices.Length; checkAgainst++)
+                    {
+                        if (Vector3.Distance(navmesh.vertices[i], navmesh.vertices[checkAgainst]) > .01f)
+                            continue;
+
+                        removed.Add(checkAgainst);
+
+                        for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
+                        {
+                            if (inds[indsIndex] == checkAgainst)
+                                inds[indsIndex] = i;
+                        }
+                    }
+                }
+
+                removed.OrderBy(i => -i).ForEach(i =>
+                {
+                    verts.RemoveAt(i);
+
+                    for (int j = 0; j < inds.Count; j++)
+                    {
+                        if (inds[j] >= i)
+                            inds[j] = inds[j] - 1;
+                    }
+                });
+
+                for (int i = inds.Count - 3; i >= 0; i -= 3)
+                {
+                    if (inds[i] == inds[i + 1] || inds[i] == inds[i + 2] || inds[i + 1] == inds[i + 2] ||
+                        inds[i] >= verts.Count || inds[i + 1] >= verts.Count || inds[i + 2] >= verts.Count)
+                    {
+                        inds.RemoveAt(i);
+                        inds.RemoveAt(i);
+                        inds.RemoveAt(i);
+                    }
+                }
+
+                #endregion
+
+                #region Create first iteration of NavTriangles
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Creating first iteration NavTriangles", 0f);
                 List<NavTriangle> triangles = new();
                 Dictionary<int, List<int>> trianglesByVertexID = new();
-                for (int i = 0; i < navmesh.indices.Length; i += 3)
-                {
-                    int a = navmesh.indices[i], b = navmesh.indices[i + 1], c = navmesh.indices[i + 2];
-                    NavTriangle triangle = new(a, b, c);
 
-                    triangles.Add(triangle);
-
-                    int tID = triangles.Count - 1;
-
-                    if (trianglesByVertexID.TryGetValue(a, out List<int> listA))
-                        listA.Add(tID);
-                    else
-                        trianglesByVertexID.Add(a, new List<int>() { tID });
-
-                    if (trianglesByVertexID.TryGetValue(b, out List<int> listB))
-                        listB.Add(tID);
-                    else
-                        trianglesByVertexID.Add(b, new List<int>() { tID });
-
-                    if (trianglesByVertexID.TryGetValue(c, out List<int> listC))
-                        listC.Add(tID);
-                    else
-                        trianglesByVertexID.Add(c, new List<int>() { tID });
-                }
+                this.SetupNavTriangles(inds.ToArray(), navmesh.areas, triangles, trianglesByVertexID);
 
                 this.SetupNeighbors(triangles.ToArray(), editorProgressParTitel);
+
+                #endregion
+
+                #region Check neighbor connections
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Checking NavTriangle neighbor connections", .5f);
                 Vector3[] vertices = navmesh.vertices;
                 Vector3 cleanPoint = tileSubController.GetCleanUpPoint;
                 int closestTriangleToCleanUpPoint = 0, closestVert = 0;
                 float closestDistance = cleanPoint.QuickSquareDistance(vertices[closestVert]);
+
                 for (int i = 1; i < vertices.Length; i++)
                 {
                     float d = cleanPoint.QuickSquareDistance(vertices[i]);
@@ -145,9 +175,11 @@ namespace Editor.Systems.World
                     EditorUtility.DisplayProgressBar(editorProgressParTitel, "Checking NavTriangle neighbor connections", .5f + (.5f / triangles.Count * connected.Count));
                 }
 
-                Debug.Log(connected.Count + "  /  " + triangles.Count);
-                List<Vector3> fixedVerties = new();
-                List<NavTriangle> fixedTriangles = new();
+                #endregion
+
+                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Getting Navigation Points", .5f);
+                Dictionary<int, NavigationPointEntry[]> pointsByTriangleIndex = new();
+                NavigationPoint[] navigationPoints = tileSubController.gameObject.GetAllComponentsByRoot<NavigationPoint>();
 
                 int count = 0;
                 foreach (NavigationPointEntry entry in navigationPoints.SelectMany(p => p.GetEntryPoints()))
@@ -173,15 +205,55 @@ namespace Editor.Systems.World
                     EditorUtility.DisplayProgressBar(editorProgressParTitel, "Indexing Navigation Points", .5f + (.5f / navigationPoints.Count() * count));
                     await UniTask.NextFrame();
                 }
+
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Indexing Navigation Points", 1f);
 
+                #region Final iteration of NavTriangles
+
+                List<Vector3> fixedVerties = new();
+                List<int> fixedIndices = new();
+                List<int> fixedAreas = new();
+                Dictionary<int, List<int>> fixedTrianglesByVertexID = new();
+
+                foreach (NavTriangle t in connected.Select(i => triangles[i]))
+                {
+                    int aID = t.Vertices[0], bID = t.Vertices[1], cID = t.Vertices[2];
+                    Vector3 a = vertices[aID], b = vertices[bID], c = vertices[cID];
+
+                    if (!fixedVerties.Contains(a))
+                        fixedVerties.Add(a);
+
+                    if (!fixedVerties.Contains(b))
+                        fixedVerties.Add(b);
+
+                    if (!fixedVerties.Contains(c))
+                        fixedVerties.Add(c);
+
+                    fixedIndices.Add(fixedVerties.IndexOf(a));
+                    fixedIndices.Add(fixedVerties.IndexOf(b));
+                    fixedIndices.Add(fixedVerties.IndexOf(c));
+
+                    fixedAreas.Add(t.Area);
+                }
+
+                List<NavTriangle> fixedTriangles = new();
+
+                this.SetupNavTriangles(fixedIndices.ToArray(), fixedAreas.ToArray(), fixedTriangles, fixedTrianglesByVertexID);
+
+                #endregion
+
+                #region Create the storage to contain the final result
+
                 CalculatedNavMesh calculatedNavMesh = ScriptableObject.CreateInstance<CalculatedNavMesh>();
-                calculatedNavMesh.SetValues(navmesh.vertices, connected.Select(i => triangles[i]).ToArray(), navmesh.areas, navigationPoints, pointsByTriangleIndex);
+                calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), navigationPoints, pointsByTriangleIndex);
                 tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
 
                 tileSubController.gameObject.GetFirstComponentByRoot<NavMeshVisualizor>()?.Create();
 
-                ///Unload the neighboring scenes
+                #endregion
+
+                #region UnLoad
+
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 0f);
                 List<UniTask> unloadTasks = new();
 
@@ -191,6 +263,8 @@ namespace Editor.Systems.World
                 await UniTask.WhenAll(unloadTasks);
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 1f);
+
+                #endregion
             }
             catch (Exception e)
             {
@@ -241,6 +315,43 @@ namespace Editor.Systems.World
             await UniTask.WaitWhile(() => scene.isLoaded);
         }
 
+        private NavMeshTriangulation BuildNavMeshTriangulation(TileSubController tileSubController)
+        {
+            NavMeshSurface surface = tileSubController.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+            NavMeshTriangulation navmesh = NavMesh.CalculateTriangulation();
+            surface.RemoveData();
+            return navmesh;
+        }
+
+        private void SetupNavTriangles(int[] indices, int[] areas, List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID)
+        {
+            for (int i = 0; i < indices.Length; i += 3)
+            {
+                int a = indices[i], b = indices[i + 1], c = indices[i + 2];
+                NavTriangle triangle = new(a, b, c, areas[i / 3]);
+
+                triangles.Add(triangle);
+
+                int tID = triangles.Count - 1;
+
+                if (trianglesByVertexID.TryGetValue(a, out List<int> listA))
+                    listA.Add(tID);
+                else
+                    trianglesByVertexID.Add(a, new List<int>() { tID });
+
+                if (trianglesByVertexID.TryGetValue(b, out List<int> listB))
+                    listB.Add(tID);
+                else
+                    trianglesByVertexID.Add(b, new List<int>() { tID });
+
+                if (trianglesByVertexID.TryGetValue(c, out List<int> listC))
+                    listC.Add(tID);
+                else
+                    trianglesByVertexID.Add(c, new List<int>() { tID });
+            }
+        }
+
         private void SetupNeighbors(NavTriangle[] triangles, string editorProgressParTitel)
         {
             EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f);
@@ -277,6 +388,10 @@ namespace Editor.Systems.World
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (25f / triangles.Length * i));
             }
+        }
+
+        private void VertsAndIndsFromTriangles(int[] inds, Vector3[] verts, NavTriangle[] triangles)
+        {
         }
 
         #endregion

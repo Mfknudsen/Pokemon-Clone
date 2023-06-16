@@ -51,6 +51,8 @@ namespace Runtime.AI.World.Navigation
         [SerializeField]
         private int A, B, C;
         [SerializeField]
+        private int area;
+        [SerializeField]
         private int[] neighborIDs;
         [SerializeField]
         private int[] navPointIDs;
@@ -59,11 +61,13 @@ namespace Runtime.AI.World.Navigation
 
         #region Build In States
 
-        public NavTriangle(int A, int B, int C)
+        public NavTriangle(int A, int B, int C, int area)
         {
             this.A = A;
             this.B = B;
             this.C = C;
+
+            this.area = area;
 
             this.neighborIDs = Array.Empty<int>();
             this.navPointIDs = Array.Empty<int>();
@@ -78,6 +82,8 @@ namespace Runtime.AI.World.Navigation
         public int[] Neighbors => this.neighborIDs;
 
         public int[] NavPoints => this.navPointIDs;
+
+        public int Area => this.area;
 
         #endregion
 
