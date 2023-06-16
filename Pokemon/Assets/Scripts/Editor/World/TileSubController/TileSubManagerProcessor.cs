@@ -56,7 +56,8 @@ namespace Editor.Systems.World
 
             try
             {
-                #region Load, Build
+                #region Load neighbor scenes and build navmesh triangulation
+
                 ///Load neighboring scenes that the navigation mesh should cover
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", .25f);
                 List<UniTask<Scene>> loadSceneTasks = new();
@@ -141,14 +142,13 @@ namespace Editor.Systems.World
                 #region Check neighbor connections
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Checking NavTriangle neighbor connections", .5f);
-                Vector3[] vertices = navmesh.vertices;
                 Vector3 cleanPoint = tileSubController.GetCleanUpPoint;
                 int closestTriangleToCleanUpPoint = 0, closestVert = 0;
-                float closestDistance = cleanPoint.QuickSquareDistance(vertices[closestVert]);
+                float closestDistance = cleanPoint.QuickSquareDistance(verts[closestVert]);
 
-                for (int i = 1; i < vertices.Length; i++)
+                for (int i = 1; i < verts.Count; i++)
                 {
-                    float d = cleanPoint.QuickSquareDistance(vertices[i]);
+                    float d = cleanPoint.QuickSquareDistance(verts[i]);
                     if (d >= closestDistance)
                         continue;
 
@@ -188,13 +188,13 @@ namespace Editor.Systems.World
                     Vector3 pointPosition = entry.Position;
                     int closestIndex = 0;
                     float curDistance = 1000f;
-                    for (int i = 1; i < vertices.Count(); i++)
+                    for (int i = 1; i < verts.Count(); i++)
                     {
-                        if (pointPosition.QuickSquareDistance(vertices[i]) > curDistance)
+                        if (pointPosition.QuickSquareDistance(verts[i]) > curDistance)
                             continue;
 
                         closestIndex = i;
-                        curDistance = pointPosition.QuickSquareDistance(vertices[i]);
+                        curDistance = pointPosition.QuickSquareDistance(verts[i]);
                     }
 
                     if (pointsByTriangleIndex.TryGetValue(closestIndex, out NavigationPointEntry[] value))
@@ -211,14 +211,13 @@ namespace Editor.Systems.World
                 #region Final iteration of NavTriangles
 
                 List<Vector3> fixedVerties = new();
-                List<int> fixedIndices = new();
-                List<int> fixedAreas = new();
+                List<int> fixedIndices = new(), fixedAreas = new();
                 Dictionary<int, List<int>> fixedTrianglesByVertexID = new();
 
                 foreach (NavTriangle t in connected.Select(i => triangles[i]))
                 {
                     int aID = t.Vertices[0], bID = t.Vertices[1], cID = t.Vertices[2];
-                    Vector3 a = vertices[aID], b = vertices[bID], c = vertices[cID];
+                    Vector3 a = verts[aID], b = verts[bID], c = verts[cID];
 
                     if (!fixedVerties.Contains(a))
                         fixedVerties.Add(a);
@@ -240,6 +239,8 @@ namespace Editor.Systems.World
 
                 this.SetupNavTriangles(fixedIndices.ToArray(), fixedAreas.ToArray(), fixedTriangles, fixedTrianglesByVertexID);
 
+                this.SetupNeighbors(fixedTriangles.ToArray(), editorProgressParTitel);
+
                 #endregion
 
                 #region Create the storage to contain the final result
@@ -252,7 +253,7 @@ namespace Editor.Systems.World
 
                 #endregion
 
-                #region UnLoad
+                #region UnLoad neighbor scenes
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 0f);
                 List<UniTask> unloadTasks = new();
@@ -384,7 +385,7 @@ namespace Editor.Systems.World
                         neighbors.Add(j);
                 }
 
-                t.SetNeighborIDs(neighbors.ToArray());
+                t.SetNeighborIDs(neighbors);
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (25f / triangles.Length * i));
             }

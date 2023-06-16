@@ -67,8 +67,11 @@ namespace Assets.Scripts.Runtime.World.Overworld
                 NavTriangle t = navTriangles[i];
 
                 Vector3 c = t.Center(this.calculatedNavMesh.Vertices);
+                Debug.DrawLine(c, c + Vector3.up, Color.green);
+
+                continue;
                 foreach (int n in t.Neighbors.Where(n => n > i))
-                    Debug.DrawLine(c + Vector3.up * 3, navTriangles[n].Center(this.calculatedNavMesh.Vertices) + Vector3.up * 3, Color.blue);
+                    Debug.DrawLine(c + Vector3.up * 3, navTriangles[n].Center(this.calculatedNavMesh.Vertices) + Vector3.up * 3, Color.green);
             }
         }
 
@@ -130,7 +133,7 @@ namespace Assets.Scripts.Runtime.World.Overworld
     {
         [SerializeField, Min(1f)]
         internal int count;
-        [SerializeField, AssetsOnly, AssetSelector(Paths = "Assets/Prefabs", Filter = "t:GameObject t:MonoBehaviour", IsUniqueList = false), Required]
-        internal UnityEngine.Object prefab;
+        [SerializeField, AssetsOnly, AssetSelector(Paths = "Assets/Prefabs", Filter = "t:GameObject", IsUniqueList = false), Required]
+        internal GameObject prefab;
     }
 }

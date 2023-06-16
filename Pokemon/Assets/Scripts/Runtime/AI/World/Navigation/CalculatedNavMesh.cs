@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Runtime.AI.World.Navigation
 {
-    [Serializable]
     public sealed class CalculatedNavMesh : ScriptableObject
     {
         #region Values
@@ -53,9 +52,9 @@ namespace Runtime.AI.World.Navigation
         [SerializeField]
         private int area;
         [SerializeField]
-        private int[] neighborIDs;
+        private List<int> neighborIDs;
         [SerializeField]
-        private int[] navPointIDs;
+        private List<int> navPointIDs;
 
         #endregion
 
@@ -69,8 +68,8 @@ namespace Runtime.AI.World.Navigation
 
             this.area = area;
 
-            this.neighborIDs = Array.Empty<int>();
-            this.navPointIDs = Array.Empty<int>();
+            this.neighborIDs ??= new();
+            this.navPointIDs ??= new();
         }
 
         #endregion
@@ -79,9 +78,9 @@ namespace Runtime.AI.World.Navigation
 
         public int[] Vertices => new int[] { this.A, this.B, this.C };
 
-        public int[] Neighbors => this.neighborIDs;
+        public int[] Neighbors => this.neighborIDs.ToArray();
 
-        public int[] NavPoints => this.navPointIDs;
+        public int[] NavPoints => this.navPointIDs.ToArray();
 
         public int Area => this.area;
 
@@ -90,9 +89,9 @@ namespace Runtime.AI.World.Navigation
         #region Setters
 
 #if UNITY_EDITOR
-        public void SetNeighborIDs(int[] set) => this.neighborIDs = set;
+        public void SetNeighborIDs(List<int> set) => this.neighborIDs = set;
 
-        public void SetNavPointIDs(int[] set) => this.navPointIDs = set;
+        public void SetNavPointIDs(List<int> set) => this.navPointIDs = set;
 #endif
 
         #endregion
