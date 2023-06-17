@@ -22,7 +22,7 @@ namespace Runtime.Editor
 
             CalculatedNavMesh calculatedNavmesh = this.transform.root.GetComponent<TileSubController>().GetNavmesh;
 
-            mesh.SetVertices(calculatedNavmesh.Vertices);
+            mesh.SetVertices(calculatedNavmesh.Vertices());
             mesh.SetIndices(calculatedNavmesh.Triangles.SelectMany(t => t.Vertices).ToArray(), MeshTopology.Triangles, 0);
 
             this.GetComponent<MeshRenderer>().material =

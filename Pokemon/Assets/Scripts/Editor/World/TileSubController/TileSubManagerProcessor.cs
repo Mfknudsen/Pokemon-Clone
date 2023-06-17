@@ -25,10 +25,22 @@ namespace Editor.Systems.World
 {
     public sealed class TileSubControllerProcessor : OdinPropertyProcessor<TileSubController>
     {
+        #region Values
+
+        private float overlapCheckDistance = .05f;
+
+        #endregion
+
         #region Build In States
 
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
+            propertyInfos.AddValue("Vertex Overlap Check Distance",
+                (ref TileSubController c) => this.overlapCheckDistance,
+                (ref TileSubController c, float d) => this.overlapCheckDistance = d,
+                new FoldoutGroupAttribute("Navigation"),
+                new MinValueAttribute(.001f));
+
             propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]), new FoldoutGroupAttribute("Navigation"));
             propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]));
         }
@@ -78,7 +90,7 @@ namespace Editor.Systems.World
 
                 #endregion
 
-                #region Check Vertices and Indices
+                #region Check Vertices and Indices for overlap
 
                 List<Vector3> verts = navmesh.vertices.ToList();
                 List<int> inds = navmesh.indices.ToList();
@@ -90,8 +102,10 @@ namespace Editor.Systems.World
 
                     for (int checkAgainst = i + 1; checkAgainst < navmesh.vertices.Length; checkAgainst++)
                     {
-                        if (Vector3.Distance(navmesh.vertices[i], navmesh.vertices[checkAgainst]) > .01f)
+                        if (Vector3.Distance(navmesh.vertices[i], navmesh.vertices[checkAgainst]) > this.overlapCheckDistance)
                             continue;
+
+                        verts[i] = Vector3.Lerp(verts[i], verts[checkAgainst], .5f);
 
                         removed.Add(checkAgainst);
 
@@ -137,6 +151,8 @@ namespace Editor.Systems.World
 
                 this.SetupNeighbors(triangles.ToArray(), editorProgressParTitel);
 
+                Dictionary<int, List<NavigationPointEntry>> entries = this.SetupEntryPointsForTriangles(triangles.ToArray(), trianglesByVertexID, verts.ToArray());
+
                 #endregion
 
                 #region Check neighbor connections
@@ -163,8 +179,9 @@ namespace Editor.Systems.World
                 while (toCheck.Count > 0)
                 {
                     NavTriangle navTriangle = triangles[toCheck[0]];
+                    int index = triangles.IndexOf(navTriangle);
                     toCheck.RemoveAt(0);
-                    connected.Add(triangles.IndexOf(navTriangle));
+                    connected.Add(index);
 
                     foreach (int n in navTriangle.Neighbors)
                     {
@@ -176,37 +193,6 @@ namespace Editor.Systems.World
                 }
 
                 #endregion
-
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Getting Navigation Points", .5f);
-                Dictionary<int, NavigationPointEntry[]> pointsByTriangleIndex = new();
-                NavigationPoint[] navigationPoints = tileSubController.gameObject.GetAllComponentsByRoot<NavigationPoint>();
-
-                int count = 0;
-                foreach (NavigationPointEntry entry in navigationPoints.SelectMany(p => p.GetEntryPoints()))
-                {
-                    count++;
-                    Vector3 pointPosition = entry.Position;
-                    int closestIndex = 0;
-                    float curDistance = 1000f;
-                    for (int i = 1; i < verts.Count(); i++)
-                    {
-                        if (pointPosition.QuickSquareDistance(verts[i]) > curDistance)
-                            continue;
-
-                        closestIndex = i;
-                        curDistance = pointPosition.QuickSquareDistance(verts[i]);
-                    }
-
-                    if (pointsByTriangleIndex.TryGetValue(closestIndex, out NavigationPointEntry[] value))
-                        value.Append(entry);
-                    else
-                        pointsByTriangleIndex.Add(closestIndex, new NavigationPointEntry[] { entry });
-
-                    EditorUtility.DisplayProgressBar(editorProgressParTitel, "Indexing Navigation Points", .5f + (.5f / navigationPoints.Count() * count));
-                    await UniTask.NextFrame();
-                }
-
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Indexing Navigation Points", 1f);
 
                 #region Final iteration of NavTriangles
 
@@ -241,13 +227,30 @@ namespace Editor.Systems.World
 
                 this.SetupNeighbors(fixedTriangles.ToArray(), editorProgressParTitel);
 
+                Dictionary<int, List<NavigationPointEntry>> fixedEntryPoints = this.SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID, fixedVerties.ToArray());
+
                 #endregion
 
                 #region Create the storage to contain the final result
 
-                CalculatedNavMesh calculatedNavMesh = ScriptableObject.CreateInstance<CalculatedNavMesh>();
-                calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), navigationPoints, pointsByTriangleIndex);
-                tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
+                Scene s = tileSubController.gameObject.scene;
+                string assetPath = s.path.Replace(".unity", "/"), assetName = s.name + " NavMesh Calculations.asset";
+
+                try
+                {
+                    AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName).SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                }
+                catch
+                {
+                    CalculatedNavMesh calculatedNavMesh = ScriptableObject.CreateInstance<CalculatedNavMesh>();
+                    calculatedNavMesh.name = s.name + " NavMesh Calculations";
+                    calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                    tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
+
+                    AssetDatabase.CreateAsset(calculatedNavMesh, assetPath + assetName);
+                }
+
+                AssetDatabase.SaveAssets();
 
                 tileSubController.gameObject.GetFirstComponentByRoot<NavMeshVisualizor>()?.Create();
 
@@ -287,7 +290,7 @@ namespace Editor.Systems.World
 
             try
             {
-
+                await UniTask.NextFrame();
             }
             catch (Exception e)
             {
@@ -385,14 +388,53 @@ namespace Editor.Systems.World
                         neighbors.Add(j);
                 }
 
-                t.SetNeighborIDs(neighbors);
+                t.SetNeighborIDs(neighbors.ToArray());
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (25f / triangles.Length * i));
             }
         }
 
-        private void VertsAndIndsFromTriangles(int[] inds, Vector3[] verts, NavTriangle[] triangles)
+        private Dictionary<int, List<NavigationPointEntry>> SetupEntryPointsForTriangles(NavTriangle[] navTriangles, Dictionary<int, List<int>> trianglesByVertexID, Vector3[] verts)
         {
+            NavigationPointEntry[] entries = GameObject.FindObjectsOfType<NavigationPoint>().SelectMany(p => p.GetEntryPoints()).ToArray();
+            Dictionary<int, List<NavigationPointEntry>> result = new();
+
+            for (int e = 0; e < entries.Length; e++)
+            {
+                Vector3 pos = entries[e].Position;
+                int closestVertIndex = 0;
+                float dist = Vector3.Distance(verts[0], pos);
+
+                for (int i = 1; i < verts.Length; i++)
+                {
+                    float d = Vector3.Distance(verts[i], pos);
+                    if (d > dist)
+                        continue;
+
+                    dist = d;
+                    closestVertIndex = i;
+                }
+
+                int[] tIDs = trianglesByVertexID[closestVertIndex].ToArray();
+
+                foreach (int i in tIDs)
+                {
+                    Vector3[] tPos = navTriangles[i].Vertices.Select(v => verts[v]).ToArray();
+                    if (!ExtMathf.PointWithin2DTriangle(pos, tPos[0], tPos[1], tPos[2]))
+                        continue;
+
+                    navTriangles[i].SetNavPointIDs(navTriangles[i].NavPoints.Append(e).ToArray());
+
+                    if (result.TryGetValue(i, out List<NavigationPointEntry> r))
+                        r.Add(entries[e]);
+                    else
+                        result.Add(i, new List<NavigationPointEntry>() { entries[e] });
+
+                    break;
+                }
+            }
+
+            return result;
         }
 
         #endregion
