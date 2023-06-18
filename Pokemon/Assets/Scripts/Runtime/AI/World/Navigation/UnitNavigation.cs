@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using Unity.Jobs;
-using UnityEngine.AI;
+using UnityEngine;
 using UnityEngine.Events;
 
 #endregion
@@ -24,35 +24,80 @@ namespace Runtime.AI.World.Navigation
     {
         #region Values
 
-        private static NavMeshTriangulation NavMeshTriangulation;
+        private static CalculatedNavMesh NavMeshTriangulation = null;
 
-        private static UnityAction<NavMeshTriangulation> OnNavMeshChanged;
+        private static UnityAction OnNavMeshChanged;
+
+        private static readonly Dictionary<int, Dictionary<Vector3, List<UnitNavigationAgent>>> queuedAgentPathRequest = new();
 
         #endregion
 
         #region Setters
 
-        public static void SetNavMesh(NavMeshTriangulation set)
+        public static void SetNavMesh(CalculatedNavMesh set)
         {
             NavMeshTriangulation = set;
 
-            OnNavMeshChanged.Invoke(NavMeshTriangulation);
+            OnNavMeshChanged.Invoke();
         }
 
         #endregion
 
         #region In
 
-        public static void AddOnNavMeshChange(UnityAction<NavMeshTriangulation> action)
+        public static void AddOnNavMeshChange(UnityAction action)
             => OnNavMeshChanged += action;
 
-        public static void RemoveOnNavMeshChange(UnityAction<NavMeshTriangulation> action)
+        public static void RemoveOnNavMeshChange(UnityAction action)
             => OnNavMeshChanged -= action;
 
-        public static UnitPath CalculatePath()
+        public static void QueueForPath(UnitNavigationAgent agent, Vector3 destination)
         {
-            UnitPath path = new();
-            return path;
+            if (queuedAgentPathRequest.TryGetValue(agent.CurrentTriangleIndex, out Dictionary<Vector3, List<UnitNavigationAgent>> value))
+            {
+                if (value.TryGetValue(destination, out List<UnitNavigationAgent> agentList))
+                    agentList.Add(agent);
+                else
+                    value.Add(destination, new List<UnitNavigationAgent>() { agent });
+            }
+            else
+            {
+                Dictionary<Vector3, List<UnitNavigationAgent>> toAdd = new()
+                {
+                    { destination, new List<UnitNavigationAgent>() { agent } }
+                };
+                queuedAgentPathRequest.Add(agent.CurrentTriangleIndex, toAdd);
+            }
+        }
+
+        #endregion
+
+        #region Internal
+
+        [RuntimeInitializeOnLoadMethod]
+        private static void Initialize()
+        {
+            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
+            playerLoop.subSystemList[5].updateDelegate += CalculatePaths;
+            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+        }
+
+        private static void CalculatePaths()
+        {
+            foreach (int triID in queuedAgentPathRequest.Keys)
+            {
+                foreach (Vector3 destination in queuedAgentPathRequest[triID].Keys)
+                {
+                    List<UnitNavigationAgent> agents = new();
+                    queuedAgentPathRequest[triID][destination].ForEach(a =>
+                    {
+                        if (!agents.Contains(a))
+                            agents.Add(a);
+                    });
+
+
+                }
+            }
         }
 
         #endregion

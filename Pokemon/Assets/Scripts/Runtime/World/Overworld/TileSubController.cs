@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
         [SerializeField, FoldoutGroup("Navigation")] private Vector3 navmeshCleanUpPoint;
 
-        [SerializeField] private SnapshotItem[] poolingSnapshot;
+        [SerializeField] private PoolSnapshotItem[] poolingSnapshot;
 
         [SerializeField] private CalculatedNavMesh calculatedNavMesh;
 
@@ -52,6 +53,25 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
             this.poolingSnapshot.ForEach(item =>
                 PoolManager.RemoveSnapshot(this.GetHashCode(), item.prefab));
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector3[] verts = this.calculatedNavMesh.Vertices();
+            NavTriangle[] triangles = this.calculatedNavMesh.Triangles;
+            List<NavTriangle> drawn = new();
+
+            foreach (NavTriangle t in triangles)
+            {
+                if (drawn.Contains(t))
+                    continue;
+
+                drawn.Add(t);
+
+                NavTriangle[] toDraw = t.Neighbors.Select(i => triangles[i]).Where(t => !drawn.Contains(t)).ToArray();
+
+                toDraw.ForEach(draw => Debug.DrawLine(draw.Center(verts) + Vector3.up, t.Center(verts) + Vector3.up, Color.green));
+            }
         }
 
         #endregion
@@ -84,6 +104,11 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
         #region In
 
+        public void SetAsCurrent()
+        {
+            UnitNavigation.SetNavMesh(this.calculatedNavMesh);
+        }
+
         public void EnableDividers()
         {
         }
@@ -97,10 +122,22 @@ namespace Assets.Scripts.Runtime.World.Overworld
         }
 
         #endregion
+
+        #region Out
+
+        public NavigationPoint[] GetNavigationPoints()
+        {
+            return GameObject.FindObjectsByType<NavigationPoint>(FindObjectsSortMode.None)
+                .OrderBy(p => p.gameObject.scene.name)
+                .ThenBy(p => p.gameObject.GetInstanceID())
+                .ToArray();
+        }
+
+        #endregion
     }
 
     [Serializable]
-    public class Neighbor
+    public sealed class Neighbor
     {
         [SerializeField] private SceneReference scene;
 
@@ -108,7 +145,7 @@ namespace Assets.Scripts.Runtime.World.Overworld
     }
 
     [Serializable]
-    internal struct SnapshotItem
+    internal struct PoolSnapshotItem
     {
         [SerializeField, Min(1f)]
         internal int count;

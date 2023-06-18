@@ -1,5 +1,6 @@
 #region Libraries
 
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -86,6 +87,25 @@ namespace Runtime.Common
 
         public static T RandomFrom<T>(this T[] target) =>
             target[Random.Range(0, target.Length)];
+
+        public static T[] SharedBetween<T>(this T[] target, T[] other)
+        {
+            List<T> result = new();
+
+            foreach (T a in target)
+            {
+                foreach (T b in other)
+                {
+                    if (a.Equals(b))
+                    {
+                        result.Add(a);
+                        break;
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
 
         #endregion
     }

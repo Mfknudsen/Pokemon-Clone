@@ -1,7 +1,9 @@
 #region Libraries
 
+using Runtime.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -18,6 +20,9 @@ namespace Runtime.AI.World.Navigation
         [SerializeField] private NavTriangle[] triangles;
         [SerializeField] private int[] areaType;
         [SerializeField] private Dictionary<int, List<NavigationPointEntry>> navigationEntryPoints;
+
+        private NavigationPoint[] navigationPoints;
+        private NavigationPointEntry[] entryPoints;
 
         #endregion
 
@@ -36,6 +41,12 @@ namespace Runtime.AI.World.Navigation
                 this.vertices2D[i] = new(vertices[i].x, vertices[i].z);
                 this.verticesY[i] = vertices[i].y;
             }
+        }
+
+        public void SetNavigationPoints(NavigationPoint[] set)
+        {
+            this.navigationPoints = set;
+            this.entryPoints = this.navigationPoints.SelectMany(p => p.GetEntryPoints()).ToArray();
         }
 
         #endregion
@@ -110,6 +121,8 @@ namespace Runtime.AI.World.Navigation
         #region Setters
 
 #if UNITY_EDITOR
+        public void SetNeighborIDs(int[] ids) => this.neighborIDs = ids;
+
         public void SetNavPointIDs(int[] set) => this.navPointIDs = set;
 #endif
 
@@ -118,15 +131,53 @@ namespace Runtime.AI.World.Navigation
         #region In
 
 #if UNITY_EDITOR
-        public void SetNeighborIDs(int[] set)
+
+        public void SetBorderWidth(Vector3[] verts, NavTriangle[] triangles)
         {
-            this.neighborIDs = set;
+            if (this.neighborIDs.Length == 0)
+                return;
 
             this.widthDistanceBetweenNeighbor = new float[this.neighborIDs.Length];
 
+            List<int> haveChecked = new();
+
             for (int i = 0; i < this.neighborIDs.Length; i++)
             {
+                int otherID = this.neighborIDs[i];
+                NavTriangle other = triangles[otherID];
+                int[] ids = other.Vertices.SharedBetween(this.Vertices);
 
+                if (ids.Length != 2)
+                    continue;
+
+                float dist = Vector3.Distance(verts[ids[0]], verts[ids[1]]);
+
+                if (i + 2 < this.neighborIDs.Length)
+                {
+                    int connectedBorderNeighbor = -1;
+                    if (other.neighborIDs.Contains(this.neighborIDs[i + 2]))
+                        connectedBorderNeighbor = i + 2;
+                    else if (other.neighborIDs.Contains(this.neighborIDs[i + 1]))
+                        connectedBorderNeighbor = i + 1;
+
+                    if (connectedBorderNeighbor > i)
+                    {
+                        ids = triangles[this.neighborIDs[connectedBorderNeighbor]].Vertices.SharedBetween(this.Vertices);
+                        dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
+                        this.widthDistanceBetweenNeighbor[connectedBorderNeighbor] = dist;
+                    }
+                }
+                else if (i + 1 < this.neighborIDs.Length)
+                {
+                    if (other.neighborIDs.Contains(this.neighborIDs[i + 1]))
+                    {
+                        ids = triangles[this.neighborIDs[i + 1]].Vertices.SharedBetween(this.Vertices);
+                        dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
+                        this.widthDistanceBetweenNeighbor[i + 1] = dist;
+                    }
+                }
+
+                this.widthDistanceBetweenNeighbor[i] = dist;
             }
         }
 #endif
@@ -135,8 +186,12 @@ namespace Runtime.AI.World.Navigation
 
         #region Out
 
+        public Vector2 Center(Vector2[] verts)
+            => Vector2.Lerp(Vector2.Lerp(verts[this.A], verts[this.B], .5f), verts[this.C], .5f);
+
 #if UNITY_EDITOR
-        public Vector3 Center(Vector3[] vertices) => Vector3.Lerp(Vector3.Lerp(vertices[this.A], vertices[this.B], .5f), vertices[this.C], .5f);
+        public Vector3 Center(Vector3[] vertices) =>
+            Vector3.Lerp(Vector3.Lerp(vertices[this.A], vertices[this.B], .5f), vertices[this.C], .5f);
 #endif
 
         #endregion

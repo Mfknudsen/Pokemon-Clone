@@ -18,6 +18,14 @@ namespace Runtime.AI.World.Navigation
 
         private UnitPath currentPath;
 
+        private int currentTriangleIndex;
+
+        #endregion
+
+        #region Getters
+
+        public int CurrentTriangleIndex => this.currentTriangleIndex;
+
         #endregion
 
         #region In

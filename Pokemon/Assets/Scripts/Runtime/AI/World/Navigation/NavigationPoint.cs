@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Runtime.AI.World.Navigation
 {
-    public abstract class NavigationPoint : MonoBehaviour
+    public class NavigationPoint : MonoBehaviour
     {
         #region Values
 
@@ -21,8 +21,8 @@ namespace Runtime.AI.World.Navigation
         protected virtual void OnValidate()
         {
             Vector3 pos = this.transform.position;
-            this.entryAlpha = new NavigationPointEntry(pos + this.transform.forward, 1, this);
-            this.entryBeta = new NavigationPointEntry(pos - this.transform.forward, 1, this);
+            this.entryAlpha = new NavigationPointEntry(pos + this.transform.forward, 1);
+            this.entryBeta = new NavigationPointEntry(pos - this.transform.forward, 1);
         }
 
         protected virtual void Start()
@@ -60,19 +60,21 @@ namespace Runtime.AI.World.Navigation
         private Vector3 position;
         [MinValue(0)]
         private float reachRange;
-        private NavigationPoint point;
         private bool active;
+
+        private int navigationPointID;
 
         #endregion
 
         #region Build In States
 
-        public NavigationPointEntry(Vector3 position, float reachRange, NavigationPoint point)
+        public NavigationPointEntry(Vector3 position, float reachRange)
         {
             this.position = position;
             this.reachRange = reachRange;
-            this.point = point;
             this.active = true;
+
+            this.navigationPointID = -1;
         }
 
         #endregion
@@ -85,13 +87,15 @@ namespace Runtime.AI.World.Navigation
 
         public readonly bool Active => this.active;
 
-        public readonly NavigationPoint NavigationPoint => this.point;
+        public readonly int NavigationPointID => this.navigationPointID;
 
         #endregion
 
         #region Setters
 
         internal void SetActive(bool set) => this.active = set;
+
+        public void SetNavigationPointID(int set) => this.navigationPointID = set;
 
         #endregion
     }

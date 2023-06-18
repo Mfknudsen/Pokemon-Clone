@@ -151,6 +151,8 @@ namespace Editor.Systems.World
 
                 this.SetupNeighbors(triangles.ToArray(), editorProgressParTitel);
 
+                NavigationPoint[] navigationPoints = tileSubController.GetNavigationPoints();
+
                 Dictionary<int, List<NavigationPointEntry>> entries = this.SetupEntryPointsForTriangles(triangles.ToArray(), trianglesByVertexID, verts.ToArray());
 
                 #endregion
@@ -226,6 +228,12 @@ namespace Editor.Systems.World
                 this.SetupNavTriangles(fixedIndices.ToArray(), fixedAreas.ToArray(), fixedTriangles, fixedTrianglesByVertexID);
 
                 this.SetupNeighbors(fixedTriangles.ToArray(), editorProgressParTitel);
+
+                for (int i = 0; i < fixedTriangles.Count; i++)
+                {
+                    fixedTriangles[i].SetBorderWidth(fixedVerties.ToArray(), fixedTriangles.ToArray());
+                    EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting border width", 1f / fixedTriangles.Count * (i + 1));
+                }
 
                 Dictionary<int, List<NavigationPointEntry>> fixedEntryPoints = this.SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID, fixedVerties.ToArray());
 
@@ -359,38 +367,23 @@ namespace Editor.Systems.World
         private void SetupNeighbors(NavTriangle[] triangles, string editorProgressParTitel)
         {
             EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f);
+
             for (int i = 0; i < triangles.Length; i++)
             {
-                NavTriangle t = triangles[i];
                 List<int> neighbors = new();
-
-                int a = t.Vertices[0], b = t.Vertices[1], c = t.Vertices[2];
 
                 for (int j = 0; j < triangles.Length; j++)
                 {
                     if (i == j)
                         continue;
 
-                    NavTriangle t2 = triangles[j];
-
-                    int sharedVertexID = 0;
-
-                    if (t2.Vertices.Contains(a))
-                        sharedVertexID++;
-
-                    if (t2.Vertices.Contains(b))
-                        sharedVertexID++;
-
-                    if (t2.Vertices.Contains(c))
-                        sharedVertexID++;
-
-                    if (sharedVertexID >= 2)
+                    if (triangles[i].Vertices.SharedBetween(triangles[j].Vertices).Length == 2)
                         neighbors.Add(j);
                 }
 
-                t.SetNeighborIDs(neighbors.ToArray());
+                triangles[i].SetNeighborIDs(neighbors.ToArray());
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (25f / triangles.Length * i));
+                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (.75f / triangles.Length * i));
             }
         }
 
