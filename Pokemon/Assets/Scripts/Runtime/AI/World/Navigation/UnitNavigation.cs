@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Unity.Jobs;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -74,16 +75,22 @@ namespace Runtime.AI.World.Navigation
 
         #region Internal
 
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod()]
         private static void Initialize()
         {
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
             playerLoop.subSystemList[5].updateDelegate += CalculatePaths;
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += OnExitPlayMode;
+#endif
         }
 
         private static void CalculatePaths()
         {
+            Debug.Log("Calc");
+
             foreach (int triID in queuedAgentPathRequest.Keys)
             {
                 foreach (Vector3 destination in queuedAgentPathRequest[triID].Keys)
@@ -91,14 +98,25 @@ namespace Runtime.AI.World.Navigation
                     List<UnitNavigationAgent> agents = new();
                     queuedAgentPathRequest[triID][destination].ForEach(a =>
                     {
-                        if (!agents.Contains(a))
-                            agents.Add(a);
+
                     });
 
 
                 }
             }
         }
+
+#if UNITY_EDITOR
+        private static void OnExitPlayMode(PlayModeStateChange state)
+        {
+            if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
+                return;
+
+            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
+            playerLoop.subSystemList[5].updateDelegate -= CalculatePaths;
+            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+        }
+#endif
 
         #endregion
     }

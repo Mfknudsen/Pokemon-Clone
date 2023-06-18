@@ -6,15 +6,12 @@ using UnityEngine;
 
 namespace Runtime.AI.World.Navigation
 {
-    public class UnitNavigationAgent : MonoBehaviour
+    public sealed class UnitNavigationAgent : MonoBehaviour
     {
         #region Values
 
         [SerializeField]
-        private float moveSpeed, turnSpeed, turnAngle;
-
-        [SerializeField]
-        private bool canTurnInPlace;
+        private UnitAgentSettings settings;
 
         private UnitPath currentPath;
 
@@ -26,18 +23,20 @@ namespace Runtime.AI.World.Navigation
 
         public int CurrentTriangleIndex => this.currentTriangleIndex;
 
+        public UnitAgentSettings Settings => this.settings;
+
         #endregion
 
         #region In
 
         public void MoveTo(Vector3 position)
         {
-
+            UnitNavigation.QueueForPath(this, position);
         }
 
         public void MoveToAndFace(Vector3 position, Quaternion direction)
         {
-
+            UnitNavigation.QueueForPath(this, position);
         }
 
         #endregion

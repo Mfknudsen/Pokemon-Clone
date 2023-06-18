@@ -16,7 +16,21 @@ namespace Runtime.AI.World.Navigation
         [SerializeField]
         private float radius, moveSpeed, turnSpeed;
         [SerializeField]
-        private List<int> usableNavigationPoints;
+        private readonly List<int> usableNavigationPoints = new();
+
+        #endregion
+
+        #region Getters
+
+        public int ID => this.id;
+
+        public float Radius => this.radius;
+
+        public float MoveSpeed => this.moveSpeed;
+
+        public float TurnSpeed => this.turnSpeed;
+
+        public List<int> GetUsableNavigationPoints => this.usableNavigationPoints;
 
         #endregion
     }
