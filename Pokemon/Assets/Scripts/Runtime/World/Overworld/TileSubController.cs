@@ -1,6 +1,6 @@
 #region Libraries
 
-using Runtime.AI.World.Navigation;
+using Runtime.AI.Navigation;
 using Runtime.Systems.Pooling;
 using Runtime.Variables;
 using Runtime.World.Overworld.Tiles;
@@ -57,12 +57,16 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
         private void OnDrawGizmos()
         {
+            return;
+
             Vector3[] verts = this.calculatedNavMesh.Vertices();
             NavTriangle[] triangles = this.calculatedNavMesh.Triangles;
             List<NavTriangle> drawn = new();
 
             foreach (NavTriangle t in triangles)
             {
+                Debug.DrawLine(t.Center(verts), t.Center(verts) + Vector3.up, Color.green);
+
                 if (drawn.Contains(t))
                     continue;
 

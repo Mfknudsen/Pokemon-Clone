@@ -1,7 +1,7 @@
 #region Libraries
 
 using Assets.Scripts.Runtime.World.Overworld;
-using Runtime.AI.World.Navigation;
+using Runtime.AI.Navigation;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;

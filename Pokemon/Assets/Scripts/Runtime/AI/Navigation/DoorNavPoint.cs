@@ -1,4 +1,4 @@
-namespace Runtime.AI.World.Navigation
+namespace Runtime.AI.Navigation
 {
     public sealed class DoorNavPoint : NavigationPoint
     {

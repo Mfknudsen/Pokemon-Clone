@@ -5,7 +5,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime.AI.World.Navigation
+namespace Runtime.AI.Navigation
 {
     public class NavigationPoint : MonoBehaviour
     {

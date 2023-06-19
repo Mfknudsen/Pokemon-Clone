@@ -2,7 +2,7 @@
 
 using Assets.Scripts.Runtime.World.Overworld;
 using Cysharp.Threading.Tasks;
-using Runtime.AI.World.Navigation;
+using Runtime.AI.Navigation;
 using Runtime.Common;
 using Runtime.Editor;
 using Runtime.World.Overworld;
@@ -27,7 +27,7 @@ namespace Editor.Systems.World
     {
         #region Values
 
-        private float overlapCheckDistance = .05f;
+        private float overlapCheckDistance = .5f;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Editor.Systems.World
                 new MinValueAttribute(.001f));
 
             propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]), new FoldoutGroupAttribute("Navigation"));
-            propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]));
+            propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]), new FoldoutGroupAttribute("Lightning"));
         }
 
         #endregion
@@ -105,8 +105,6 @@ namespace Editor.Systems.World
                         if (Vector3.Distance(navmesh.vertices[i], navmesh.vertices[checkAgainst]) > this.overlapCheckDistance)
                             continue;
 
-                        verts[i] = Vector3.Lerp(verts[i], verts[checkAgainst], .5f);
-
                         removed.Add(checkAgainst);
 
                         for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
@@ -128,8 +126,11 @@ namespace Editor.Systems.World
                     }
                 });
 
-                for (int i = inds.Count - 3; i >= 0; i -= 3)
+                for (int i = inds.Count - 1; i >= 0; i--)
                 {
+                    if (i % 3 != 0)
+                        continue;
+
                     if (inds[i] == inds[i + 1] || inds[i] == inds[i + 2] || inds[i + 1] == inds[i + 2] ||
                         inds[i] >= verts.Count || inds[i + 1] >= verts.Count || inds[i + 2] >= verts.Count)
                     {
@@ -280,8 +281,11 @@ namespace Editor.Systems.World
             }
             catch (Exception e)
             {
-                Debug.LogError("Baking Navigation Mesh Failed");
-                Debug.LogError(e);
+                if (!e.Message.Equals("Cancel"))
+                {
+                    Debug.LogError("Baking Navigation Mesh Failed");
+                    Debug.LogError(e);
+                }
             }
 
             EditorUtility.ClearProgressBar();
@@ -333,6 +337,7 @@ namespace Editor.Systems.World
             surface.BuildNavMesh();
             NavMeshTriangulation navmesh = NavMesh.CalculateTriangulation();
             surface.RemoveData();
+            surface.navMeshData = null;
             return navmesh;
         }
 
@@ -366,7 +371,8 @@ namespace Editor.Systems.World
 
         private void SetupNeighbors(NavTriangle[] triangles, string editorProgressParTitel)
         {
-            EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f);
+            if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f))
+                throw new Exception("Cancel");
 
             for (int i = 0; i < triangles.Length; i++)
             {
@@ -383,7 +389,8 @@ namespace Editor.Systems.World
 
                 triangles[i].SetNeighborIDs(neighbors.ToArray());
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (.75f / triangles.Length * i));
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (.75f / triangles.Length * i)))
+                    throw new Exception("Cancel");
             }
         }
 

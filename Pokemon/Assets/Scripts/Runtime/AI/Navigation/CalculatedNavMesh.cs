@@ -8,7 +8,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime.AI.World.Navigation
+namespace Runtime.AI.Navigation
 {
     public sealed class CalculatedNavMesh : ScriptableObject
     {
@@ -38,8 +38,9 @@ namespace Runtime.AI.World.Navigation
             this.verticesY = new float[vertices.Length];
             for (int i = 0; i < vertices.Length; i++)
             {
-                this.vertices2D[i] = new(vertices[i].x, vertices[i].z);
-                this.verticesY[i] = vertices[i].y;
+                float x = vertices[i].x, y = vertices[i].y, z = vertices[i].z;
+                this.vertices2D[i] = new(x, z);
+                this.verticesY[i] = y;
             }
         }
 

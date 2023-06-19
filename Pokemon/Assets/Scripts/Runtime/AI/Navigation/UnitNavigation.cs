@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 #endregion
 
-namespace Runtime.AI.World.Navigation
+namespace Runtime.AI.Navigation
 {
     #region Enums
 
@@ -89,8 +89,6 @@ namespace Runtime.AI.World.Navigation
 
         private static void CalculatePaths()
         {
-            Debug.Log("Calc");
-
             foreach (int triID in queuedAgentPathRequest.Keys)
             {
                 foreach (Vector3 destination in queuedAgentPathRequest[triID].Keys)
@@ -100,8 +98,6 @@ namespace Runtime.AI.World.Navigation
                     {
 
                     });
-
-
                 }
             }
         }
@@ -126,16 +122,5 @@ namespace Runtime.AI.World.Navigation
         public void Execute(int index)
         {
         }
-    }
-
-    internal struct PathTriangle
-    {
-        private readonly int A, B, C;
-        private List<PathTriangle> neightbors;
-    }
-
-    internal struct PathInteraction
-    {
-        private readonly int A, B;
     }
 }

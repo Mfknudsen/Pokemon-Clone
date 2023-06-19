@@ -1,20 +1,24 @@
 #region Libraries
 
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
 
-namespace Runtime.AI.World.Navigation
+namespace Runtime.AI.Navigation
 {
+    [CreateAssetMenu(menuName = "AI/Agent Settings", fileName = "Agent")]
     public sealed class UnitAgentSettings : ScriptableObject
     {
         #region Values
 
         [SerializeField]
         private int id;
-        [SerializeField]
-        private float radius, moveSpeed, turnSpeed;
+
+        [SerializeField, MinValue(.1f)]
+        private float radius = .5f, height = 1, moveSpeed = 1, turnSpeed = 1;
+
         [SerializeField]
         private readonly List<int> usableNavigationPoints = new();
 
@@ -25,6 +29,8 @@ namespace Runtime.AI.World.Navigation
         public int ID => this.id;
 
         public float Radius => this.radius;
+
+        public float Height => this.height;
 
         public float MoveSpeed => this.moveSpeed;
 
