@@ -12,7 +12,7 @@ namespace Runtime.AI.Navigation
         #region Values
 
         private int actionIndex = 0;
-        private List<PathAction> actions = new();
+        private readonly List<PathAction> actions = new();
 
         private Vector3 destination;
 

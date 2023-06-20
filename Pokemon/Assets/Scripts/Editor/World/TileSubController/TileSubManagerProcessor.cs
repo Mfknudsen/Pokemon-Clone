@@ -27,7 +27,7 @@ namespace Editor.Systems.World
     {
         #region Values
 
-        private float overlapCheckDistance = .5f;
+        private float overlapCheckDistance = .3f;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Editor.Systems.World
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
 
-            string editorProgressParTitel = "Baking Navigation Mesh for " + tileSubController.name;
+            string editorProgressParTitel = "Baking Navigation: " + tileSubController.gameObject.scene.name;
 
             BakedEditorManager.SetRunning(true);
 
@@ -66,6 +66,7 @@ namespace Editor.Systems.World
                     neighborsToLoad.Add(path);
             }
 
+            Scene[] loadedScenes = Array.Empty<Scene>();
             try
             {
                 #region Load neighbor scenes and build navmesh triangulation
@@ -80,7 +81,7 @@ namespace Editor.Systems.World
                     EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", .25f + (.5f / neighborsToLoad.Count * i));
                 }
 
-                Scene[] loadedScenes = await UniTask.WhenAll(loadSceneTasks);
+                loadedScenes = await UniTask.WhenAll(loadSceneTasks);
                 EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", 1f);
 
                 ///Custruct Navigation Mesh and setup custom navmesh logic
@@ -94,51 +95,8 @@ namespace Editor.Systems.World
 
                 List<Vector3> verts = navmesh.vertices.ToList();
                 List<int> inds = navmesh.indices.ToList();
-                List<int> removed = new();
-                for (int i = 0; i < navmesh.vertices.Length; i++)
-                {
-                    if (removed.Contains(i))
-                        continue;
 
-                    for (int checkAgainst = i + 1; checkAgainst < navmesh.vertices.Length; checkAgainst++)
-                    {
-                        if (Vector3.Distance(navmesh.vertices[i], navmesh.vertices[checkAgainst]) > this.overlapCheckDistance)
-                            continue;
-
-                        removed.Add(checkAgainst);
-
-                        for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
-                        {
-                            if (inds[indsIndex] == checkAgainst)
-                                inds[indsIndex] = i;
-                        }
-                    }
-                }
-
-                removed.OrderBy(i => -i).ForEach(i =>
-                {
-                    verts.RemoveAt(i);
-
-                    for (int j = 0; j < inds.Count; j++)
-                    {
-                        if (inds[j] >= i)
-                            inds[j] = inds[j] - 1;
-                    }
-                });
-
-                for (int i = inds.Count - 1; i >= 0; i--)
-                {
-                    if (i % 3 != 0)
-                        continue;
-
-                    if (inds[i] == inds[i + 1] || inds[i] == inds[i + 2] || inds[i + 1] == inds[i + 2] ||
-                        inds[i] >= verts.Count || inds[i + 1] >= verts.Count || inds[i + 2] >= verts.Count)
-                    {
-                        inds.RemoveAt(i);
-                        inds.RemoveAt(i);
-                        inds.RemoveAt(i);
-                    }
-                }
+                this.CheckOverlap(verts, inds, editorProgressParTitel);
 
                 #endregion
 
@@ -264,20 +222,6 @@ namespace Editor.Systems.World
                 tileSubController.gameObject.GetFirstComponentByRoot<NavMeshVisualizor>()?.Create();
 
                 #endregion
-
-                #region UnLoad neighbor scenes
-
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 0f);
-                List<UniTask> unloadTasks = new();
-
-                for (int i = 0; i < loadedScenes.Length; i++)
-                    unloadTasks.Add(this.AsyncUnloadScene(loadedScenes[i]));
-
-                await UniTask.WhenAll(unloadTasks);
-
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 1f);
-
-                #endregion
             }
             catch (Exception e)
             {
@@ -288,7 +232,26 @@ namespace Editor.Systems.World
                 }
             }
 
+            #region UnLoad neighbor scenes
+
+            if (loadedScenes.Length > 0)
+            {
+                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 0f);
+                List<UniTask> unloadTasks = new();
+
+                for (int i = 0; i < loadedScenes.Length; i++)
+                    unloadTasks.Add(this.AsyncUnloadScene(loadedScenes[i]));
+
+                await UniTask.WhenAll(unloadTasks);
+
+                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 1f);
+            }
+
+            #endregion
+
             EditorUtility.ClearProgressBar();
+
+            EditorSceneManager.SaveScene(tileSubController.gameObject.scene);
 
             BakedEditorManager.SetRunning(false);
         }
@@ -435,6 +398,70 @@ namespace Editor.Systems.World
             }
 
             return result;
+        }
+
+        private void CheckOverlap(List<Vector3> verts, List<int> inds, string editorProgressParTitel)
+        {
+            List<int> removed = new();
+            for (int original = 0; original < verts.Count; original++)
+            {
+                if (removed.Contains(original))
+                    continue;
+
+                for (int other = original + 1; other < verts.Count; other++)
+                {
+                    if (removed.Contains(other))
+                        continue;
+
+                    if (Vector3.Distance(verts[original], verts[other]) > this.overlapCheckDistance)
+                        continue;
+
+                    removed.Add(other);
+
+                    for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
+                    {
+                        if (inds[indsIndex] == other)
+                            inds[indsIndex] = original;
+                    }
+                }
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Checking vertex overlap: {original} / {verts.Count}", 1f / verts.Count * original))
+                    throw new Exception("Cancel");
+            }
+
+            removed = removed.OrderBy(x => -x).ToList();
+
+            for (int i = 0; i < removed.Count; i++)
+            {
+                int index = removed[i];
+                verts.RemoveAt(index);
+
+                for (int j = 0; j < inds.Count; j++)
+                {
+                    if (inds[j] >= index)
+                        inds[j] = inds[j] - 1;
+                }
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Removing overlaping vertices: {i} / {verts.Count}", 1f / verts.Count * i))
+                    throw new Exception("Cancel");
+            }
+
+            for (int i = inds.Count - 1; i >= 0; i--)
+            {
+                if (i % 3 != 0)
+                    continue;
+
+                if (inds[i] == inds[i + 1] || inds[i] == inds[i + 2] || inds[i + 1] == inds[i + 2] ||
+                    inds[i] >= verts.Count || inds[i + 1] >= verts.Count || inds[i + 2] >= verts.Count)
+                {
+                    inds.RemoveAt(i);
+                    inds.RemoveAt(i);
+                    inds.RemoveAt(i);
+                }
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Correcting indicies indexes: {inds.Count - i} / {verts.Count}", 1f / verts.Count * (inds.Count - i)))
+                    throw new Exception("Cancel");
+            }
         }
 
         #endregion

@@ -140,8 +140,6 @@ namespace Runtime.AI.Navigation
 
             this.widthDistanceBetweenNeighbor = new float[this.neighborIDs.Length];
 
-            List<int> haveChecked = new();
-
             for (int i = 0; i < this.neighborIDs.Length; i++)
             {
                 int otherID = this.neighborIDs[i];
@@ -161,11 +159,14 @@ namespace Runtime.AI.Navigation
                     else if (other.neighborIDs.Contains(this.neighborIDs[i + 1]))
                         connectedBorderNeighbor = i + 1;
 
-                    if (connectedBorderNeighbor > i)
+                    if (connectedBorderNeighbor > -1)
                     {
                         ids = triangles[this.neighborIDs[connectedBorderNeighbor]].Vertices.SharedBetween(this.Vertices);
-                        dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
-                        this.widthDistanceBetweenNeighbor[connectedBorderNeighbor] = dist;
+                        if (ids.Length == 2)
+                        {
+                            dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
+                            this.widthDistanceBetweenNeighbor[connectedBorderNeighbor] = dist;
+                        }
                     }
                 }
                 else if (i + 1 < this.neighborIDs.Length)
@@ -173,8 +174,11 @@ namespace Runtime.AI.Navigation
                     if (other.neighborIDs.Contains(this.neighborIDs[i + 1]))
                     {
                         ids = triangles[this.neighborIDs[i + 1]].Vertices.SharedBetween(this.Vertices);
-                        dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
-                        this.widthDistanceBetweenNeighbor[i + 1] = dist;
+                        if (ids.Length == 2)
+                        {
+                            dist += Vector3.Distance(verts[ids[0]], verts[ids[1]]);
+                            this.widthDistanceBetweenNeighbor[i + 1] = dist;
+                        }
                     }
                 }
 

@@ -24,6 +24,8 @@ namespace Runtime.Editor
 
             mesh.SetVertices(calculatedNavmesh.Vertices());
             mesh.SetIndices(calculatedNavmesh.Triangles.SelectMany(t => t.Vertices).ToArray(), MeshTopology.Triangles, 0);
+            mesh.SetNormals(calculatedNavmesh.Vertices().Select(v => Vector3.up).ToArray());
+            mesh.RecalculateNormals();
 
             this.GetComponent<MeshRenderer>().material =
                 AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Editor/NavmeshVisualizor.mat");
