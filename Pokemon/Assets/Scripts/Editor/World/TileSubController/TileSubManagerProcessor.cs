@@ -95,8 +95,25 @@ namespace Editor.Systems.World
 
                 List<Vector3> verts = navmesh.vertices.ToList();
                 List<int> inds = navmesh.indices.ToList();
+                List<int> areas = navmesh.areas.ToList();
+                Dictionary<Vector2Int, List<int>> vertsByPos = new();
 
-                this.CheckOverlap(verts, inds, editorProgressParTitel);
+                const float groupdSize = 5f;
+
+                for (int i = 0; i < verts.Count; i++)
+                {
+                    Vector3 v = verts[i];
+                    Vector2Int id = new(Mathf.FloorToInt(v.x / groupdSize), Mathf.FloorToInt(v.z / groupdSize));
+
+                    if (vertsByPos.TryGetValue(id, out List<int> outList))
+                        outList.Add(i);
+                    else
+                        vertsByPos.Add(id, new() { i });
+                }
+
+                this.CheckOverlap(verts, inds, vertsByPos, groupdSize, editorProgressParTitel);
+
+                this.FillHoles(verts, areas, inds, vertsByPos, editorProgressParTitel);
 
                 #endregion
 
@@ -106,9 +123,9 @@ namespace Editor.Systems.World
                 List<NavTriangle> triangles = new();
                 Dictionary<int, List<int>> trianglesByVertexID = new();
 
-                this.SetupNavTriangles(inds.ToArray(), navmesh.areas, triangles, trianglesByVertexID);
+                this.SetupNavTriangles(inds.ToArray(), areas.ToArray(), triangles, trianglesByVertexID, editorProgressParTitel);
 
-                this.SetupNeighbors(triangles.ToArray(), editorProgressParTitel);
+                this.SetupNeighbors(triangles.ToArray(), trianglesByVertexID, editorProgressParTitel, "First");
 
                 NavigationPoint[] navigationPoints = tileSubController.GetNavigationPoints();
 
@@ -184,9 +201,9 @@ namespace Editor.Systems.World
 
                 List<NavTriangle> fixedTriangles = new();
 
-                this.SetupNavTriangles(fixedIndices.ToArray(), fixedAreas.ToArray(), fixedTriangles, fixedTrianglesByVertexID);
+                this.SetupNavTriangles(fixedIndices.ToArray(), fixedAreas.ToArray(), fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitel);
 
-                this.SetupNeighbors(fixedTriangles.ToArray(), editorProgressParTitel);
+                this.SetupNeighbors(fixedTriangles.ToArray(), fixedTrianglesByVertexID, editorProgressParTitel, "Final");
 
                 for (int i = 0; i < fixedTriangles.Count; i++)
                 {
@@ -230,6 +247,8 @@ namespace Editor.Systems.World
                     Debug.LogError("Baking Navigation Mesh Failed");
                     Debug.LogError(e);
                 }
+                else
+                    Debug.Log("Baking navmesh was canceled");
             }
 
             #region UnLoad neighbor scenes
@@ -304,7 +323,7 @@ namespace Editor.Systems.World
             return navmesh;
         }
 
-        private void SetupNavTriangles(int[] indices, int[] areas, List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID)
+        private void SetupNavTriangles(int[] indices, int[] areas, List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitel)
         {
             for (int i = 0; i < indices.Length; i += 3)
             {
@@ -329,30 +348,37 @@ namespace Editor.Systems.World
                     listC.Add(tID);
                 else
                     trianglesByVertexID.Add(c, new List<int>() { tID });
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Creating NavTriangles: {i / 3f} / {indices.Length / 3f}", 1f / (indices.Length / 3f) * (i / 3f)))
+                    throw new Exception("Cancel");
             }
         }
 
-        private void SetupNeighbors(NavTriangle[] triangles, string editorProgressParTitel)
+        private void SetupNeighbors(NavTriangle[] triangles, Dictionary<int, List<int>> trianglesByVert, string editorProgressParTitel, string iteration)
         {
-            if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f))
-                throw new Exception("Cancel");
 
             for (int i = 0; i < triangles.Length; i++)
             {
                 List<int> neighbors = new();
+                List<int> possibleNeighbors = new();
+                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[0]]);
+                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[1]]);
+                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[2]]);
 
-                for (int j = 0; j < triangles.Length; j++)
+                possibleNeighbors = possibleNeighbors.Where(t => t != i).ToList();
+
+                for (int j = 0; j < possibleNeighbors.Count; j++)
                 {
-                    if (i == j)
-                        continue;
+                    if (triangles[i].Vertices.SharedBetween(triangles[possibleNeighbors[j]].Vertices).Length == 2)
+                        neighbors.Add(possibleNeighbors[j]);
 
-                    if (triangles[i].Vertices.SharedBetween(triangles[j].Vertices).Length == 2)
-                        neighbors.Add(j);
+                    if (triangles.Length == 3)
+                        break;
                 }
 
                 triangles[i].SetNeighborIDs(neighbors.ToArray());
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting up NavTriangles neighbors", .25f + (.75f / triangles.Length * i)))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Setting up NavTriangles neighbors. {iteration} iteration: {i} / {triangles.Length}", 1f / triangles.Length * i))
                     throw new Exception("Cancel");
             }
         }
@@ -383,7 +409,7 @@ namespace Editor.Systems.World
                 foreach (int i in tIDs)
                 {
                     Vector3[] tPos = navTriangles[i].Vertices.Select(v => verts[v]).ToArray();
-                    if (!ExtMathf.PointWithin2DTriangle(pos, tPos[0], tPos[1], tPos[2]))
+                    if (!ExtMathf.PointWithinTriangle2D(pos, tPos[0], tPos[1], tPos[2]))
                         continue;
 
                     navTriangles[i].SetNavPointIDs(navTriangles[i].NavPoints.Append(e).ToArray());
@@ -400,23 +426,59 @@ namespace Editor.Systems.World
             return result;
         }
 
-        private void CheckOverlap(List<Vector3> verts, List<int> inds, string editorProgressParTitel)
+        private void CheckOverlap(List<Vector3> verts, List<int> inds, Dictionary<Vector2Int, List<int>> vertsByPos, float groupSize, string editorProgressParTitel)
         {
-            List<int> removed = new();
+            float devided = 20f;
+            Dictionary<int, List<int>> removed = new();
             for (int original = 0; original < verts.Count; original++)
             {
-                if (removed.Contains(original))
-                    continue;
+                verts[original] = verts[original] + new Vector3(UnityEngine.Random.Range(.001f, .1f), 0, UnityEngine.Random.Range(.001f, .1f));
 
-                for (int other = original + 1; other < verts.Count; other++)
+                if (removed.TryGetValue(Mathf.FloorToInt(original / devided), out List<int> removedList))
                 {
-                    if (removed.Contains(other))
+                    if (removedList.Contains(original))
                         continue;
+                }
+
+                Vector2Int id = new(Mathf.FloorToInt(verts[original].x / groupSize), Mathf.FloorToInt(verts[original].z / groupSize));
+                List<int> toCheck = new();
+                if (vertsByPos.TryGetValue(id, out List<int> l1))
+                    toCheck.AddRange(l1);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, -1), out List<int> l2))
+                    toCheck.AddRange(l2);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, 0), out List<int> l3))
+                    toCheck.AddRange(l3);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, 1), out List<int> l4))
+                    toCheck.AddRange(l4);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(0, -1), out List<int> l5))
+                    toCheck.AddRange(l5);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(0, 1), out List<int> l6))
+                    toCheck.AddRange(l6);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(1, -1), out List<int> l7))
+                    toCheck.AddRange(l7);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(1, 0), out List<int> l8))
+                    toCheck.AddRange(l8);
+                if (vertsByPos.TryGetValue(id + new Vector2Int(1, 1), out List<int> l9))
+                    toCheck.AddRange(l9);
+
+                toCheck = toCheck.Where(x => x != original).ToList();
+
+                for (int o = 0; o < toCheck.Count; o++)
+                {
+                    int other = toCheck[o];
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / devided), out removedList))
+                    {
+                        if (removedList.Contains(other))
+                            continue;
+                    }
 
                     if (Vector3.Distance(verts[original], verts[other]) > this.overlapCheckDistance)
                         continue;
 
-                    removed.Add(other);
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / devided), out removedList))
+                        removedList.Add(other);
+                    else
+                        removed.Add(Mathf.FloorToInt(other / devided), new() { other });
 
                     for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
                     {
@@ -429,11 +491,11 @@ namespace Editor.Systems.World
                     throw new Exception("Cancel");
             }
 
-            removed = removed.OrderBy(x => -x).ToList();
-
-            for (int i = 0; i < removed.Count; i++)
+            List<int> toRemove = removed.Values.SelectMany(l => l).OrderBy(x => -x).ToList();
+            for (int i = 0; i < toRemove.Count; i++)
             {
-                int index = removed[i];
+                int index = toRemove[i];
+                vertsByPos[new(Mathf.FloorToInt(verts[index].x / groupSize), Mathf.FloorToInt(verts[index].z / groupSize))].Remove(index);
                 verts.RemoveAt(index);
 
                 for (int j = 0; j < inds.Count; j++)
@@ -442,7 +504,7 @@ namespace Editor.Systems.World
                         inds[j] = inds[j] - 1;
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Removing overlaping vertices: {i} / {verts.Count}", 1f / verts.Count * i))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Removing overlaping vertices: {i} / {toRemove.Count}", 1f / toRemove.Count * i))
                     throw new Exception("Cancel");
             }
 
@@ -462,6 +524,106 @@ namespace Editor.Systems.World
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Correcting indicies indexes: {inds.Count - i} / {verts.Count}", 1f / verts.Count * (inds.Count - i)))
                     throw new Exception("Cancel");
             }
+        }
+
+        private void FillHoles(List<Vector3> verts, List<int> areas, List<int> inds, Dictionary<Vector2Int, List<int>> vertsByPos, string editorProgreesParTitel)
+        {
+            Dictionary<int, List<int>> connectionsByIndex = new();
+            for (int i = 0; i < verts.Count; i++)
+                connectionsByIndex.Add(i, new());
+
+            for (int i = 0; i < inds.Count; i += 3)
+            {
+                if (!connectionsByIndex[inds[i]].Contains(inds[i + 1]))
+                    connectionsByIndex[inds[i]].Add(inds[i + 1]);
+                if (!connectionsByIndex[inds[i]].Contains(inds[i + 2]))
+                    connectionsByIndex[inds[i]].Add(inds[i + 2]);
+
+                if (!connectionsByIndex[inds[i + 1]].Contains(inds[i]))
+                    connectionsByIndex[inds[i + 1]].Add(inds[i]);
+                if (!connectionsByIndex[inds[i + 1]].Contains(inds[i + 2]))
+                    connectionsByIndex[inds[i + 1]].Add(inds[i + 2]);
+
+                if (!connectionsByIndex[inds[i + 2]].Contains(inds[i]))
+                    connectionsByIndex[inds[i + 2]].Add(inds[i]);
+                if (!connectionsByIndex[inds[i + 2]].Contains(inds[i + 1]))
+                    connectionsByIndex[inds[i + 2]].Add(inds[i + 1]);
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Collecting vertex connections: {i} / {inds.Count}", 1f / inds.Count * i))
+                    throw new Exception("Cancel");
+            }
+
+            List<int> toAdd = new();
+            for (int original = 0; original < verts.Count; original++)
+            {
+                List<int> originalConnections = connectionsByIndex[original];
+
+                for (int otherIndex = 0; otherIndex < originalConnections.Count; otherIndex++)
+                {
+                    int other = originalConnections[otherIndex];
+
+                    if (other <= original)
+                        continue;
+
+                    List<int> otherConnections = connectionsByIndex[other];
+
+                    foreach (int final in otherConnections)
+                    {
+                        if (final <= original || connectionsByIndex[final].Contains(original))
+                            continue;
+
+                        bool denied = false;
+
+                        List<int> triCheck = new();
+                        triCheck.AddRange(originalConnections);
+                        triCheck.AddRange(otherConnections);
+                        triCheck.AddRange(connectionsByIndex[final]);
+
+                        Vector3 a = verts[original], b = verts[other], c = verts[final];
+
+                        //Check if there is another triangle above or below. Part 1
+                        Vector3 center = Vector3.Lerp(Vector3.Lerp(a, b, .5f), c, .5f), cA = Vector3.Lerp(center, a, .5f), cB = Vector3.Lerp(center, b, .5f), cC = Vector3.Lerp(center, c, .5f);
+                        Vector3 ab = b - a, ac = c - a;
+
+                        for (int i = 0; i < inds.Count; i += 3)
+                        {
+                            List<int> temp = new() { inds[i], inds[i + 1], inds[i + 2] };
+                            if (temp.Contains(original) && temp.Contains(other) && temp.Contains(final))
+                            {
+                                //The triangle already exists
+                                denied = true;
+                                break;
+                            }
+
+                            //Check if there is another triangle above or below. Part 2
+                            if (Vector3.Angle(Vector3.Cross(ab, ac), Vector3.Cross(verts[temp[1]] - verts[temp[0]], verts[temp[2]] - verts[temp[0]])) > 50f)
+                                continue;
+
+                            if (ExtMathf.LineIntersectTriangle(center, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
+                                ExtMathf.LineIntersectTriangle(cA, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
+                                ExtMathf.LineIntersectTriangle(cB, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
+                                ExtMathf.LineIntersectTriangle(cC, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]))
+                            {
+                                denied = true;
+                                break;
+                            }
+                        }
+
+                        if (denied)
+                            continue;
+
+                        areas.Add(0);
+                        toAdd.Add(original);
+                        toAdd.Add(originalConnections[otherIndex]);
+                        toAdd.Add(final);
+                    }
+                }
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Finding and filling holes: {original} / {verts.Count}", 1f / verts.Count * original))
+                    throw new Exception("Cancel");
+            }
+
+            inds.AddRange(toAdd);
         }
 
         #endregion

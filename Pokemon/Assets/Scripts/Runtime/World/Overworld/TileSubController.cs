@@ -65,8 +65,6 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
             foreach (NavTriangle t in triangles)
             {
-                Debug.DrawLine(t.Center(verts), t.Center(verts) + Vector3.up, Color.green);
-
                 if (drawn.Contains(t))
                     continue;
 

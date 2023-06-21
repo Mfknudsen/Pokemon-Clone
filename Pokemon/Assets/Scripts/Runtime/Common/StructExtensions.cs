@@ -51,6 +51,8 @@ namespace Runtime.Common
             return area / line.magnitude;
         }
 
+        public static System.Numerics.Vector3 ToNurmerics(this Vector3 target) => new(target.x, target.y, target.z);
+
         #endregion
 
         #region Quaternion

@@ -19,9 +19,9 @@ public sealed class TileSubControllerEditor : OdinEditor
         Vector3 pos = Handles.PositionHandle(tileSubController.GetCleanUpPoint, Quaternion.identity);
 
         GUIStyle style = new();
-        style.normal.textColor = Color.blue;
         style.fontStyle = FontStyle.Bold;
         style.alignment = TextAnchor.UpperCenter;
+        style.normal.textColor = Color.blue;
         Handles.Label(pos, "Navmesh Clean Up Point", style);
 
         if (!EditorGUI.EndChangeCheck())
