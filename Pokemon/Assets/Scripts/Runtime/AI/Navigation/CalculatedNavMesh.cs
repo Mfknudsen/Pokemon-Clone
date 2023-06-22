@@ -50,6 +50,12 @@ namespace Runtime.AI.Navigation
             this.entryPoints = this.navigationPoints.SelectMany(p => p.GetEntryPoints()).ToArray();
         }
 
+        public void SetVert(int index, Vector3 v)
+        {
+            this.vertices2D[index] = new Vector2(v.x, v.z); ;
+            this.verticesY[index] = v.y;
+        }
+
         #endregion
 
         #region Getters
@@ -69,6 +75,10 @@ namespace Runtime.AI.Navigation
                 result[i] = new Vector3(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
             return result;
         }
+
+        public NavTriangle[] GetByIndex(int index) => this.triangles.Where(t => t.Vertices.Contains(index)).ToArray();
+
+        public int[] GetInds => this.triangles.SelectMany(t => t.Vertices).ToArray();
 
         #endregion
     }

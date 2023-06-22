@@ -113,8 +113,6 @@ namespace Editor.Systems.World
 
                 this.CheckOverlap(verts, inds, vertsByPos, groupdSize, editorProgressParTitel);
 
-                this.FillHoles(verts, areas, inds, vertsByPos, editorProgressParTitel);
-
                 #endregion
 
                 #region Create first iteration of NavTriangles
@@ -197,7 +195,28 @@ namespace Editor.Systems.World
                     fixedIndices.Add(fixedVerties.IndexOf(c));
 
                     fixedAreas.Add(t.Area);
+
+                    Vector2Int id = new(Mathf.FloorToInt(a.x / groupdSize), Mathf.FloorToInt(a.z / groupdSize));
+                    if (vertsByPos.TryGetValue(id, out List<int> outListA))
+                        outListA.Add(fixedVerties.IndexOf(a));
+                    else
+                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(a) });
+
+                    id = new(Mathf.FloorToInt(b.x / groupdSize), Mathf.FloorToInt(b.z / groupdSize));
+                    if (vertsByPos.TryGetValue(id, out List<int> outListB))
+                        outListB.Add(fixedVerties.IndexOf(b));
+                    else
+                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(b) });
+
+                    id = new(Mathf.FloorToInt(c.x / groupdSize), Mathf.FloorToInt(c.z / groupdSize));
+                    if (vertsByPos.TryGetValue(id, out List<int> outListC))
+                        outListC.Add(fixedVerties.IndexOf(c));
+                    else
+                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(c) });
                 }
+
+                this.FillHoles(fixedVerties, fixedAreas, fixedIndices, vertsByPos, editorProgressParTitel);
+
 
                 List<NavTriangle> fixedTriangles = new();
 
@@ -432,8 +451,6 @@ namespace Editor.Systems.World
             Dictionary<int, List<int>> removed = new();
             for (int original = 0; original < verts.Count; original++)
             {
-                verts[original] = verts[original] + new Vector3(UnityEngine.Random.Range(.001f, .1f), 0, UnityEngine.Random.Range(.001f, .1f));
-
                 if (removed.TryGetValue(Mathf.FloorToInt(original / devided), out List<int> removedList))
                 {
                     if (removedList.Contains(original))
@@ -528,9 +545,14 @@ namespace Editor.Systems.World
 
         private void FillHoles(List<Vector3> verts, List<int> areas, List<int> inds, Dictionary<Vector2Int, List<int>> vertsByPos, string editorProgreesParTitel)
         {
+            LayerMask checkMask = LayerMask.GetMask("Obstacle");
             Dictionary<int, List<int>> connectionsByIndex = new();
+            Dictionary<int, List<int>> indsByIndex = new();
             for (int i = 0; i < verts.Count; i++)
+            {
                 connectionsByIndex.Add(i, new());
+                indsByIndex.Add(i, new());
+            }
 
             for (int i = 0; i < inds.Count; i += 3)
             {
@@ -549,11 +571,50 @@ namespace Editor.Systems.World
                 if (!connectionsByIndex[inds[i + 2]].Contains(inds[i + 1]))
                     connectionsByIndex[inds[i + 2]].Add(inds[i + 1]);
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Collecting vertex connections: {i} / {inds.Count}", 1f / inds.Count * i))
+                int[] arr = { inds[i], inds[i + 1], inds[i + 2] };
+                indsByIndex[inds[i]].AddRange(arr);
+                indsByIndex[inds[i + 1]].AddRange(arr);
+                indsByIndex[inds[i + 2]].AddRange(arr);
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Collecting vertex connections and indicies: {i} / {inds.Count}", 1f / inds.Count * i))
                     throw new Exception("Cancel");
             }
 
-            List<int> toAdd = new();
+            for (int i = 0; i < verts.Count; i++)
+            {
+                Vector2 p = verts[i].XZ();
+
+                for (int j = 0; j < inds.Count; j += 3)
+                {
+                    if (inds[j] == i || inds[j + 1] == i || inds[j + 2] == i)
+                        continue;
+
+                    Vector2 a = verts[inds[j]].XZ(), b = verts[inds[j + 1]].XZ(), c = verts[inds[j + 2]].XZ();
+
+                    if (!ExtMathf.PointWithinTriangle2D(p, a, b, c))
+                        continue;
+
+                    Vector2 close1 = ExtMathf.ClosetPointOnLine(p, a, b),
+                    close2 = ExtMathf.ClosetPointOnLine(p, a, b),
+                    close3 = ExtMathf.ClosetPointOnLine(p, a, b);
+
+                    Vector2 close;
+                    if (Vector2.Distance(close1, p) < Vector2.Distance(close2, p) && Vector2.Distance(close1, p) < Vector2.Distance(close3, p))
+                        close = close1;
+                    else if (Vector2.Distance(close2, p) < Vector2.Distance(close3, p))
+                        close = close2;
+                    else
+                        close = close3;
+
+                    Vector2 offset = close - p;
+
+                    verts[i] = verts[i] + (offset.normalized * (offset.magnitude + .01f)).ToV3(0);
+                }
+
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Checking point overlap with triangles: {i} / {verts.Count}", 1f / verts.Count * i))
+                    throw new Exception("Cancel");
+            }
+
             for (int original = 0; original < verts.Count; original++)
             {
                 List<int> originalConnections = connectionsByIndex[original];
@@ -565,44 +626,55 @@ namespace Editor.Systems.World
                     if (other <= original)
                         continue;
 
-                    List<int> otherConnections = connectionsByIndex[other];
-
-                    foreach (int final in otherConnections)
+                    for (int finalIndex = otherIndex + 1; finalIndex < originalConnections.Count; finalIndex++)
                     {
-                        if (final <= original || connectionsByIndex[final].Contains(original))
+                        int final = originalConnections[finalIndex];
+
+                        if (final <= original || !connectionsByIndex[final].Contains(other))
                             continue;
 
                         bool denied = false;
 
-                        List<int> triCheck = new();
-                        triCheck.AddRange(originalConnections);
-                        triCheck.AddRange(otherConnections);
-                        triCheck.AddRange(connectionsByIndex[final]);
+                        Vector2 a = verts[original].XZ(), b = verts[other].XZ(), c = verts[final].XZ();
+                        Vector2 center = Vector2.Lerp(Vector2.Lerp(a, b, .5f), c, .5f);
 
-                        Vector3 a = verts[original], b = verts[other], c = verts[final];
+                        float minX = Mathf.Min(Mathf.Min(a.x, b.x), c.x),
+                            minY = Mathf.Min(Mathf.Min(a.y, b.y), c.y),
+                            maxX = Mathf.Max(Mathf.Max(a.x, b.x), c.x),
+                            maxY = Mathf.Max(Mathf.Max(a.y, b.y), c.y);
 
-                        //Check if there is another triangle above or below. Part 1
-                        Vector3 center = Vector3.Lerp(Vector3.Lerp(a, b, .5f), c, .5f), cA = Vector3.Lerp(center, a, .5f), cB = Vector3.Lerp(center, b, .5f), cC = Vector3.Lerp(center, c, .5f);
-                        Vector3 ab = b - a, ac = c - a;
-
-                        for (int i = 0; i < inds.Count; i += 3)
+                        for (int x = 0; x < inds.Count; x += 3)
                         {
-                            List<int> temp = new() { inds[i], inds[i + 1], inds[i + 2] };
-                            if (temp.Contains(original) && temp.Contains(other) && temp.Contains(final))
+                            List<int> checkArr = new() { inds[x], inds[x + 1], inds[x + 2] };
+                            if (checkArr.Contains(original) && checkArr.Contains(other) && checkArr.Contains(final))
                             {
                                 //The triangle already exists
                                 denied = true;
                                 break;
                             }
 
-                            //Check if there is another triangle above or below. Part 2
-                            if (Vector3.Angle(Vector3.Cross(ab, ac), Vector3.Cross(verts[temp[1]] - verts[temp[0]], verts[temp[2]] - verts[temp[0]])) > 50f)
+                            Vector2 aP = verts[checkArr[0]].XZ(),
+                                bP = verts[checkArr[1]].XZ(),
+                                cP = verts[checkArr[2]].XZ();
+
+                            //Boundings
+                            if (maxX < Mathf.Min(Mathf.Min(aP.x, bP.x), cP.x) ||
+                                maxY < Mathf.Min(Mathf.Min(aP.y, bP.y), cP.y) ||
+                                minX > Mathf.Max(Mathf.Max(aP.x, bP.x), cP.x) ||
+                                minY > Mathf.Max(Mathf.Max(aP.y, bP.y), cP.y))
                                 continue;
 
-                            if (ExtMathf.LineIntersectTriangle(center, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
-                                ExtMathf.LineIntersectTriangle(cA, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
-                                ExtMathf.LineIntersectTriangle(cB, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]) ||
-                                ExtMathf.LineIntersectTriangle(cC, 1, -1f, verts[temp[0]], verts[temp[1]], verts[temp[2]]))
+                            //One of the new triangle points is within an already existing triangle
+                            if (ExtMathf.PointWithinTriangle2D(center, aP, bP, cP) ||
+                                ExtMathf.PointWithinTriangle2D(a, aP, bP, cP) ||
+                                ExtMathf.PointWithinTriangle2D(b, aP, bP, cP) ||
+                                ExtMathf.PointWithinTriangle2D(c, aP, bP, cP))
+                            {
+                                denied = true;
+                                break;
+                            }
+
+                            if (ExtMathf.TriangleIntersect2D(a, b, c, aP, bP, cP))
                             {
                                 denied = true;
                                 break;
@@ -613,17 +685,15 @@ namespace Editor.Systems.World
                             continue;
 
                         areas.Add(0);
-                        toAdd.Add(original);
-                        toAdd.Add(originalConnections[otherIndex]);
-                        toAdd.Add(final);
+                        inds.Add(original);
+                        inds.Add(other);
+                        inds.Add(final);
                     }
                 }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Finding and filling holes: {original} / {verts.Count}", 1f / verts.Count * original))
                     throw new Exception("Cancel");
             }
-
-            inds.AddRange(toAdd);
         }
 
         #endregion

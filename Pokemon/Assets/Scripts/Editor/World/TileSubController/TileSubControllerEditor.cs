@@ -1,6 +1,7 @@
 #region Libraries
 
 using Assets.Scripts.Runtime.World.Overworld;
+using Runtime.AI.Navigation;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -10,24 +11,34 @@ using UnityEngine;
 [CustomEditor(typeof(TileSubController))]
 public sealed class TileSubControllerEditor : OdinEditor
 {
+    TileSubController tileSubController;
+    CalculatedNavMesh navmesh;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        this.tileSubController = (TileSubController)this.target;
+        this.navmesh = this.tileSubController.GetNavmesh;
+    }
+
     private void OnSceneGUI()
     {
-        TileSubController tileSubController = (TileSubController)this.target;
-
         EditorGUI.BeginChangeCheck();
 
-        Vector3 pos = Handles.PositionHandle(tileSubController.GetCleanUpPoint, Quaternion.identity);
+        Vector3 pos = Handles.PositionHandle(this.tileSubController.GetCleanUpPoint, Quaternion.identity);
 
-        GUIStyle style = new();
-        style.fontStyle = FontStyle.Bold;
-        style.alignment = TextAnchor.UpperCenter;
+        GUIStyle style = new()
+        {
+            fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.UpperCenter
+        };
         style.normal.textColor = Color.blue;
         Handles.Label(pos, "Navmesh Clean Up Point", style);
 
         if (!EditorGUI.EndChangeCheck())
             return;
 
-        tileSubController.SetCleanUpPoint(pos);
+        this.tileSubController.SetCleanUpPoint(pos);
         Undo.RecordObject(this.target, "Moved Navmesh Clean Up Point");
     }
 }

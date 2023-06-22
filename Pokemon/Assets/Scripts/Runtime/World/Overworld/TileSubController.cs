@@ -55,27 +55,6 @@ namespace Assets.Scripts.Runtime.World.Overworld
                 PoolManager.RemoveSnapshot(this.GetHashCode(), item.prefab));
         }
 
-        private void OnDrawGizmos()
-        {
-            return;
-
-            Vector3[] verts = this.calculatedNavMesh.Vertices();
-            NavTriangle[] triangles = this.calculatedNavMesh.Triangles;
-            List<NavTriangle> drawn = new();
-
-            foreach (NavTriangle t in triangles)
-            {
-                if (drawn.Contains(t))
-                    continue;
-
-                drawn.Add(t);
-
-                NavTriangle[] toDraw = t.Neighbors.Select(i => triangles[i]).Where(t => !drawn.Contains(t)).ToArray();
-
-                toDraw.ForEach(draw => Debug.DrawLine(draw.Center(verts) + Vector3.up, t.Center(verts) + Vector3.up, Color.green));
-            }
-        }
-
         #endregion
 
         #region Getters

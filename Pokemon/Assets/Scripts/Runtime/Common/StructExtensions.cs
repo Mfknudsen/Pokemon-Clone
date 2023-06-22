@@ -31,7 +31,17 @@ namespace Runtime.Common
 
         #endregion
 
+        #region Vector2
+
+        public static System.Numerics.Vector2 ToNurmerics(this Vector2 target) => new(target.x, target.y);
+
+        public static Vector3 ToV3(this Vector2 t, float y) => new(t.x, y, t.y);
+
+        #endregion
+
         #region Vector3
+
+        public static Vector2 XZ(this Vector3 target) => new(target.x, target.z);
 
         public static float QuickSquareDistance(this Vector3 point1, Vector3 point2) => (point1 - point2).sqrMagnitude;
 
