@@ -48,9 +48,6 @@ namespace Runtime.Common
         public static bool QuickDistanceLessThen(this Vector3 point1, Vector3 point2, float distance) =>
             QuickSquareDistance(point1, point2) < distance * distance;
 
-        public static bool QuickDistanceGreaterThen(this Vector3 point1, Vector3 point2, float distance) =>
-            QuickSquareDistance(point1, point2) > distance * distance;
-
         public static float ShortDistancePointToLine(this Vector3 point, Vector3 lineStart, Vector3 lineEnd)
         {
             Vector3 line = lineEnd - lineStart;
@@ -60,8 +57,6 @@ namespace Runtime.Common
 
             return area / line.magnitude;
         }
-
-        public static System.Numerics.Vector3 ToNurmerics(this Vector3 target) => new(target.x, target.y, target.z);
 
         #endregion
 

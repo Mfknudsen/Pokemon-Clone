@@ -1,7 +1,6 @@
 #region Libraries
 
 using Assets.Scripts.Runtime.World.Overworld;
-using Runtime.AI.Navigation;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -12,13 +11,11 @@ using UnityEngine;
 public sealed class TileSubControllerEditor : OdinEditor
 {
     TileSubController tileSubController;
-    CalculatedNavMesh navmesh;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         this.tileSubController = (TileSubController)this.target;
-        this.navmesh = this.tileSubController.GetNavmesh;
     }
 
     private void OnSceneGUI()

@@ -41,6 +41,8 @@ namespace Assets.Scripts.Runtime.World.Overworld
 
         private void OnEnable()
         {
+            UnitNavigation.SetNavMesh(this.calculatedNavMesh);
+
             this.tileManager.AddSubManager(this);
 
             this.poolingSnapshot.ForEach(item =>

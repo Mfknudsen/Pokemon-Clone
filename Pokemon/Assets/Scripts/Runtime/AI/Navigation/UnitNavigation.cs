@@ -1,6 +1,8 @@
 #region Libraries
 
-using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst;
+using Unity.Collections;
 using Unity.Jobs;
 using UnityEditor;
 using UnityEngine;
@@ -25,21 +27,34 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        private static CalculatedNavMesh NavMeshTriangulation = null;
+        private static CalculatedNavMesh NavMesh = null;
 
         private static UnityAction OnNavMeshChanged;
 
-        private static readonly Dictionary<int, Dictionary<Vector3, List<UnitNavigationAgent>>> queuedAgentPathRequest = new();
+        public static bool ready => NavMesh != null;
+
+        private static NativeArray<Vector3> verts;
+        private static NativeArray<int> inds, areas;
+        private static NativeArray<JobTriangle> triangles;
+
+        private static bool switchNativeArrays;
 
         #endregion
 
         #region Setters
 
-        public static void SetNavMesh(CalculatedNavMesh set)
+        public static bool SetNavMesh(CalculatedNavMesh set)
         {
-            NavMeshTriangulation = set;
+            if (NavMesh == set)
+                return false;
 
-            OnNavMeshChanged.Invoke();
+            NavMesh = set;
+
+            OnNavMeshChanged?.Invoke();
+
+            switchNativeArrays = true;
+
+            return true;
         }
 
         #endregion
@@ -54,22 +69,24 @@ namespace Runtime.AI.Navigation
 
         public static void QueueForPath(UnitNavigationAgent agent, Vector3 destination)
         {
-            if (queuedAgentPathRequest.TryGetValue(agent.CurrentTriangleIndex, out Dictionary<Vector3, List<UnitNavigationAgent>> value))
-            {
-                if (value.TryGetValue(destination, out List<UnitNavigationAgent> agentList))
-                    agentList.Add(agent);
-                else
-                    value.Add(destination, new List<UnitNavigationAgent>() { agent });
-            }
-            else
-            {
-                Dictionary<Vector3, List<UnitNavigationAgent>> toAdd = new()
-                {
-                    { destination, new List<UnitNavigationAgent>() { agent } }
-                };
-                queuedAgentPathRequest.Add(agent.CurrentTriangleIndex, toAdd);
-            }
+
         }
+
+        #endregion
+
+        #region Out
+
+        public static int ClosestTriangleIndex(Vector2 p) => NavMesh.ClosestTriangleIndex(p);
+
+        public static NavTriangle GetTriangleByID(int id) => NavMesh.Triangles[id];
+
+        public static Vector3 Get3DVertByIndex(int id) => NavMesh.Vertices()[id];
+
+        public static Vector3 Get2DVertByIndex(int id) => NavMesh.SimpleVertices[id];
+
+        public static Vector3[] Get3DVertByIndex(params int[] id) => id.Select(i => NavMesh.Vertices()[i]).ToArray();
+
+        public static Vector2[] Get2DVertByIndex(params int[] id) => id.Select(i => NavMesh.SimpleVertices[i]).ToArray();
 
         #endregion
 
@@ -79,7 +96,7 @@ namespace Runtime.AI.Navigation
         private static void Initialize()
         {
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
-            playerLoop.subSystemList[5].updateDelegate += CalculatePaths;
+            playerLoop.subSystemList[5].updateDelegate += Update;
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
 
 #if UNITY_EDITOR
@@ -87,19 +104,50 @@ namespace Runtime.AI.Navigation
 #endif
         }
 
+        private static void Update()
+        {
+            CalculatePaths();
+
+            UpdateNativeArrays();
+        }
+
+        private static void UpdateNativeArrays()
+        {
+            if (!switchNativeArrays)
+                return;
+
+            if (verts.Length > 0)
+                verts.Dispose();
+            Vector3[] navVerts = NavMesh.Vertices();
+            verts = new NativeArray<Vector3>(navVerts, Allocator.Persistent);
+
+
+            if (areas.Length > 0)
+                areas.Dispose();
+            int[] navAreas = NavMesh.Areas;
+            areas = new NativeArray<int>(navAreas, Allocator.Persistent);
+
+
+            if (inds.Length > 0)
+                inds.Dispose();
+            int[] navInds = NavMesh.Inds;
+            inds = new NativeArray<int>(navInds, Allocator.Persistent);
+
+
+            if (triangles.Length > 0)
+                triangles.Dispose();
+            NavTriangle[] navTriangles = NavMesh.Triangles.ToArray();
+            triangles = new NativeArray<JobTriangle>(navTriangles.Length, Allocator.Persistent);
+            for (int i = 0; i < navTriangles.Length; i++)
+                triangles[i] = new JobTriangle(navTriangles[i]);
+
+            switchNativeArrays = false;
+        }
+
         private static void CalculatePaths()
         {
-            foreach (int triID in queuedAgentPathRequest.Keys)
-            {
-                foreach (Vector3 destination in queuedAgentPathRequest[triID].Keys)
-                {
-                    List<UnitNavigationAgent> agents = new();
-                    queuedAgentPathRequest[triID][destination].ForEach(a =>
-                    {
 
-                    });
-                }
-            }
+
         }
 
 #if UNITY_EDITOR
@@ -108,8 +156,19 @@ namespace Runtime.AI.Navigation
             if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
                 return;
 
+            if (verts.Length > 0)
+                verts.Dispose();
+            if (areas.Length > 0)
+                areas.Dispose();
+            if (inds.Length > 0)
+                inds.Dispose();
+            if (triangles.Length > 0)
+                triangles.Dispose();
+
+            NavMesh = null;
+
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
-            playerLoop.subSystemList[5].updateDelegate -= CalculatePaths;
+            playerLoop.subSystemList[5].updateDelegate -= Update;
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
         }
 #endif
@@ -117,8 +176,32 @@ namespace Runtime.AI.Navigation
         #endregion
     }
 
-    internal struct PathCalculator : IJobParallelFor
+    internal readonly struct JobTriangle
     {
+        #region Values
+
+        public readonly int id, a, b, c, area;
+
+        public readonly NativeArray<int> neighbors;
+
+        #endregion
+
+        public JobTriangle(NavTriangle triangle)
+        {
+            this.id = triangle.ID;
+            this.a = triangle.Vertices[0];
+            this.b = triangle.Vertices[1];
+            this.c = triangle.Vertices[2];
+            this.area = triangle.Area;
+            this.neighbors = new NativeArray<int>(triangle.Neighbors.ToArray(), Allocator.Persistent);
+        }
+    }
+
+    [BurstCompile]
+    internal struct PathCalculatorJob : IJobParallelFor
+    {
+        private NativeArray<UnitPath> paths;
+
         public void Execute(int index)
         {
         }
