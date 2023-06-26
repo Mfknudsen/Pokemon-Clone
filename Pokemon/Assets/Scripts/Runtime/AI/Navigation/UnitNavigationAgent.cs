@@ -23,7 +23,9 @@ namespace Runtime.AI.Navigation
 
         private UnitPath currentPath;
 
-        private int currentTriangleIndex;
+        private int currentTriangleIndex = -1;
+
+        [SerializeField] private CalculatedNavMesh calculatedNavMesh;
 
         #endregion
 
@@ -33,37 +35,54 @@ namespace Runtime.AI.Navigation
         {
             this.GetComponent<Rigidbody>().useGravity = false;
 
-            yield return new WaitWhile(() => !UnitNavigation.ready);
+            yield return new WaitWhile(() => !UnitNavigation.Ready);
 
-            Vector2 p = this.target.position.XZ();
-            this.currentTriangleIndex = UnitNavigation.ClosestTriangleIndex(p);
-            NavTriangle t = UnitNavigation.GetTriangleByID(this.currentTriangleIndex);
-            Vector2[] corners = UnitNavigation.Get2DVertByIndex(t.Vertices);
-
-            if (!ExtMathf.PointWithinTriangle2D(p, corners[0], corners[1], corners[2]))
-            {
-                this.transform.position =
-                    Vector3.Lerp(
-                        UnitNavigation.Get3DVertByIndex(t.Vertices[0]),
-                    Vector3.Lerp(
-                        UnitNavigation.Get3DVertByIndex(t.Vertices[2]),
-                        UnitNavigation.Get3DVertByIndex(t.Vertices[2]), .5f), .5f);
-            }
-            else
-                this.transform.position =
-                    new Vector3(this.transform.position.x, t.MaxY, this.transform.position.z);
+            this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
             this.GetComponent<Rigidbody>().useGravity = true;
         }
 
         private void Update()
         {
-            if (this.target.position == this.pre)
+            if (this.currentTriangleIndex == -1)
+                return;
+
+            if (this.target.position == this.pre || this.currentTriangleIndex == -1)
                 return;
 
             this.pre = this.target.position;
 
             this.MoveTo(this.pre);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (this.target != null)
+            {
+                int targetID = this.calculatedNavMesh.ClosestTriangleIndex(this.target.position);
+                int[] targetIDs = this.calculatedNavMesh.Triangles[targetID].Vertices;
+                if (ExtMathf.PointWithinTriangle2D(this.target.position.XZ(),
+                    this.calculatedNavMesh.SimpleVertices[targetIDs[0]],
+                    this.calculatedNavMesh.SimpleVertices[targetIDs[1]],
+                    this.calculatedNavMesh.SimpleVertices[targetIDs[2]]))
+                    Debug.DrawRay(new(this.target.position.x, this.calculatedNavMesh.Triangles[targetID].MaxY, this.target.position.z), Vector3.up, Color.red);
+                else
+                    Debug.DrawRay(this.calculatedNavMesh.Triangles[targetID].Center(this.calculatedNavMesh.Vertices()), Vector3.up, Color.red);
+            }
+
+            int id = this.calculatedNavMesh.ClosestTriangleIndex(this.transform.position);
+            int[] ids = this.calculatedNavMesh.Triangles[id].Vertices;
+            if (ExtMathf.PointWithinTriangle2D(this.transform.position.XZ(),
+                this.calculatedNavMesh.SimpleVertices[ids[0]],
+                this.calculatedNavMesh.SimpleVertices[ids[1]],
+                this.calculatedNavMesh.SimpleVertices[ids[2]]))
+                Debug.DrawRay(new(this.transform.position.x, this.calculatedNavMesh.Triangles[id].MaxY, this.transform.position.z), Vector3.up, Color.red);
+            else
+                Debug.DrawRay(this.calculatedNavMesh.Triangles[id].Center(this.calculatedNavMesh.Vertices()), Vector3.up, Color.red);
+
+
+            if (this.currentPath.Empty)
+                return;
         }
 
         #endregion
@@ -82,7 +101,6 @@ namespace Runtime.AI.Navigation
         {
             if (InTriangle2D(UnitNavigation.GetTriangleByID(this.currentTriangleIndex).Vertices, position))
             {
-
                 return;
             }
 
@@ -102,6 +120,10 @@ namespace Runtime.AI.Navigation
             }
 
             UnitNavigation.QueueForPath(this, position);
+        }
+
+        public void SetPath(UnitPath path)
+        {
         }
 
         #endregion

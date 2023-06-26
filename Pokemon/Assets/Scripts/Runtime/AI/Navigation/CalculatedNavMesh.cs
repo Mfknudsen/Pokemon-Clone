@@ -37,7 +37,10 @@ namespace Runtime.AI.Navigation
 
         public void SetValues(Vector3[] vertices, NavTriangle[] triangles, int[] areaType, Dictionary<int, List<NavigationPointEntry>> navigationEntryPoints)
         {
-            this.triangles = triangles;
+            this.triangles = new NavTriangle[triangles.Length];
+            for (int i = 0; i < triangles.Length; i++)
+                this.triangles[i] = triangles[i];
+
             this.areaType = areaType;
             this.navigationEntryPoints = navigationEntryPoints;
 
@@ -123,76 +126,52 @@ namespace Runtime.AI.Navigation
 
         public int[] Inds => this.triangles.SelectMany(t => t.Vertices).ToArray();
 
-        public int ClosestTriangleIndex(Vector2 p)
+        public int ClosestTriangleIndex(Vector3 p)
         {
-            Vector2Int pFloor = new(Mathf.FloorToInt(p.x / this.groupDivision), Mathf.FloorToInt(p.y / this.groupDivision));
-            if (this.trianglesByVertexPosition.TryGetValue(pFloor, out List<int> list))
+            Vector2 p2D = p.XZ();
+
+            for (int i = 0; i < this.triangles.Length; i++)
             {
-                foreach (int id in list)
-                {
-                    NavTriangle t = this.triangles[id];
-                    if (ExtMathf.PointWithinTriangle2D(p,
-                        this.SimpleVertices[t.Vertices[0]],
-                        this.SimpleVertices[t.Vertices[1]],
-                        this.SimpleVertices[t.Vertices[2]]))
-                        return t.ID;
-                }
+                int[] ids = this.triangles[i].Vertices;
+                if (ExtMathf.PointWithinTriangle2D(p2D,
+                    this.SimpleVertices[ids[0]],
+                    this.SimpleVertices[ids[1]],
+                    this.SimpleVertices[ids[2]]))
+                    return this.triangles[i].ID;
             }
 
-            Vector2Int i = this.trianglesByVertexPosition.Keys.First();
-            float dist = (pFloor - i).sqrMagnitude;
-            foreach (Vector2Int key in this.trianglesByVertexPosition.Keys)
-            {
-                float d = (pFloor - key).sqrMagnitude;
-                if (d < dist)
-                {
-                    dist = d;
-                    i = key;
-                }
-            }
-
-            if (this.trianglesByVertexPosition.TryGetValue(i, out list))
-            {
-                foreach (int id in list)
-                {
-                    NavTriangle t = this.triangles[id];
-
-                    if (ExtMathf.PointWithinTriangle2D(p,
-                        this.SimpleVertices[t.Vertices[0]],
-                        this.SimpleVertices[t.Vertices[1]],
-                        this.SimpleVertices[t.Vertices[2]]))
-                        return t.ID;
-                }
-            }
-
-            return list[UnityEngine.Random.Range(0, list.Count)];
+            return this.triangles.RandomFrom().ID;
         }
+
+        public Vector3 VertByIndex(int i) =>
+            new(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
 
         #endregion
     }
 
     [Serializable]
-    public readonly struct NavTriangle
+    public struct NavTriangle
     {
         #region Values
 
         [SerializeField]
-        private readonly int id;
+        private int id;
 
         [SerializeField]
-        private readonly int A, B, C;
+        private int A, B, C;
 
         [SerializeField]
-        private readonly int area;
-
-        [SerializeField] private readonly float maxY;
+        private int area;
 
         [SerializeField]
-        private readonly List<int> neighborIDs;
+        private float maxY;
+
         [SerializeField]
-        private readonly List<float> widthDistanceBetweenNeighbor;
+        private List<int> neighborIDs;
         [SerializeField]
-        private readonly List<int> navPointIDs;
+        private List<float> widthDistanceBetweenNeighbor;
+        [SerializeField]
+        private List<int> navPointIDs;
 
         #endregion
 
@@ -224,6 +203,8 @@ namespace Runtime.AI.Navigation
 
         public readonly List<int> NavPoints => this.navPointIDs;
 
+        public readonly List<float> Widths => this.widthDistanceBetweenNeighbor;
+
         public readonly int Area => this.area;
 
         public readonly int ID => this.id;
@@ -254,16 +235,13 @@ namespace Runtime.AI.Navigation
 
 #if UNITY_EDITOR
 
-        public void SetBorderWidth(Vector3[] verts, NavTriangle[] triangles)
+        public void SetBorderWidth(List<Vector3> verts, List<NavTriangle> triangles)
         {
-            return;
-            /// REDO
-
-
             if (this.neighborIDs.Count == 0)
                 return;
 
-            //this.widthDistanceBetweenNeighbor = new List<float>(this.neighborIDs.Count);
+            for (int i = 0; i < this.neighborIDs.Count; i++)
+                this.widthDistanceBetweenNeighbor.Add(0f);
 
             for (int i = 0; i < this.neighborIDs.Count; i++)
             {
@@ -312,6 +290,13 @@ namespace Runtime.AI.Navigation
         }
 
 #endif
+
+        #endregion
+
+        #region Out
+
+        public Vector3 Center(Vector3[] verts) =>
+            Vector3.Lerp(Vector3.Lerp(verts[this.A], verts[this.B], .5f), verts[this.C], .5f);
 
         #endregion
     }

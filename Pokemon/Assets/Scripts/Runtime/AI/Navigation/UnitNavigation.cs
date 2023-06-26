@@ -1,9 +1,11 @@
 #region Libraries
 
+using Runtime.Common;
+using System.Collections.Generic;
 using System.Linq;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,13 +33,18 @@ namespace Runtime.AI.Navigation
 
         private static UnityAction OnNavMeshChanged;
 
-        public static bool ready => NavMesh != null;
+        public static bool Ready => NavMesh != null;
 
-        private static NativeArray<Vector3> verts;
-        private static NativeArray<int> inds, areas;
+        private static List<QueuedAgentRequest> requests;
+
+        private static NativeArray<float3> verts;
+        private static NativeArray<float2> simpleVerts;
+        private static NativeArray<int> areas;
         private static NativeArray<JobTriangle> triangles;
 
         private static bool switchNativeArrays;
+
+        private static int maxCalculationsPerBatch = 100;
 
         #endregion
 
@@ -47,6 +54,8 @@ namespace Runtime.AI.Navigation
         {
             if (NavMesh == set)
                 return false;
+
+            //Debug.Log($"{NavMesh?.name}  -  {set?.name}");
 
             NavMesh = set;
 
@@ -67,16 +76,35 @@ namespace Runtime.AI.Navigation
         public static void RemoveOnNavMeshChange(UnityAction action)
             => OnNavMeshChanged -= action;
 
-        public static void QueueForPath(UnitNavigationAgent agent, Vector3 destination)
-        {
+        public static void QueueForPath(UnitNavigationAgent agent, Vector3 destination) =>
+            requests.Add(new QueuedAgentRequest(destination, agent));
 
+        public static int PlaceAgentOnNavMesh(UnitNavigationAgent agent)
+        {
+            Vector2 p = agent.transform.position.XZ();
+            for (int i = 0; i < NavMesh.Triangles.Length; i++)
+            {
+                int[] ids = NavMesh.Triangles[i].Vertices;
+                if (ExtMathf.PointWithinTriangle2D(p,
+                    NavMesh.SimpleVertices[ids[0]],
+                    NavMesh.SimpleVertices[ids[1]],
+                    NavMesh.SimpleVertices[ids[2]]))
+                {
+                    agent.transform.position = new Vector3(p.x, NavMesh.Triangles[i].MaxY, p.y);
+                    return i;
+                }
+            }
+
+            NavTriangle navTriangle = NavMesh.Triangles.RandomFrom();
+            agent.transform.position = navTriangle.Center(NavMesh.Vertices());
+            return navTriangle.ID;
         }
 
         #endregion
 
         #region Out
 
-        public static int ClosestTriangleIndex(Vector2 p) => NavMesh.ClosestTriangleIndex(p);
+        public static int ClosestTriangleIndex(Vector3 p) => NavMesh.ClosestTriangleIndex(p);
 
         public static NavTriangle GetTriangleByID(int id) => NavMesh.Triangles[id];
 
@@ -99,6 +127,8 @@ namespace Runtime.AI.Navigation
             playerLoop.subSystemList[5].updateDelegate += Update;
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
 
+            requests = new List<QueuedAgentRequest>();
+
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += OnExitPlayMode;
 #endif
@@ -106,9 +136,8 @@ namespace Runtime.AI.Navigation
 
         private static void Update()
         {
-            CalculatePaths();
-
             UpdateNativeArrays();
+            CalculatePaths();
         }
 
         private static void UpdateNativeArrays()
@@ -116,26 +145,21 @@ namespace Runtime.AI.Navigation
             if (!switchNativeArrays)
                 return;
 
-            if (verts.Length > 0)
-                verts.Dispose();
+            DisposeNatives();
+
             Vector3[] navVerts = NavMesh.Vertices();
-            verts = new NativeArray<Vector3>(navVerts, Allocator.Persistent);
+            verts = new NativeArray<float3>(navVerts.Length, Allocator.Persistent);
+            for (int i = 0; i < navVerts.Length; i++)
+                verts[i] = navVerts[i];
 
+            Vector2[] navSimpleVerts = NavMesh.SimpleVertices;
+            simpleVerts = new NativeArray<float2>(navSimpleVerts.Length, Allocator.Persistent);
+            for (int i = 0; i < navSimpleVerts.Length; i++)
+                simpleVerts[i] = navSimpleVerts[i];
 
-            if (areas.Length > 0)
-                areas.Dispose();
             int[] navAreas = NavMesh.Areas;
             areas = new NativeArray<int>(navAreas, Allocator.Persistent);
 
-
-            if (inds.Length > 0)
-                inds.Dispose();
-            int[] navInds = NavMesh.Inds;
-            inds = new NativeArray<int>(navInds, Allocator.Persistent);
-
-
-            if (triangles.Length > 0)
-                triangles.Dispose();
             NavTriangle[] navTriangles = NavMesh.Triangles.ToArray();
             triangles = new NativeArray<JobTriangle>(navTriangles.Length, Allocator.Persistent);
             for (int i = 0; i < navTriangles.Length; i++)
@@ -146,8 +170,47 @@ namespace Runtime.AI.Navigation
 
         private static void CalculatePaths()
         {
+            if (requests.Count == 0)
+                return;
 
+            NativeArray<JobAgent> agents = new(requests.Count < maxCalculationsPerBatch ? requests.Count : maxCalculationsPerBatch, Allocator.TempJob);
+            NativeArray<JobPath> paths = new(requests.Count, Allocator.TempJob);
 
+            int count = requests.Count < maxCalculationsPerBatch ? requests.Count : maxCalculationsPerBatch;
+            for (int i = 0; i < count; i++)
+            {
+
+            }
+
+            PathCalculatorJob calculationJob = new(paths, agents, verts, simpleVerts, areas, triangles);
+
+            Debug.Log($"Starting job: {requests.Count}");
+            calculationJob.Schedule(requests.Count, 100).Complete();
+            Debug.Log("Job complete");
+
+            for (int i = 0; i < requests.Count; i++)
+                requests[i].agent.SetPath(CastToUnitPath(paths[i]));
+
+            requests.Clear();
+            agents.Dispose();
+            paths.Dispose();
+        }
+
+        private static void DisposeNatives()
+        {
+            if (verts.IsCreated)
+                verts.Dispose();
+            if (simpleVerts.IsCreated)
+                simpleVerts.Dispose();
+            if (areas.IsCreated)
+                areas.Dispose();
+            if (triangles.IsCreated)
+                triangles.Dispose();
+        }
+
+        private static UnitPath CastToUnitPath(JobPath jobPath)
+        {
+            return new UnitPath();
         }
 
 #if UNITY_EDITOR
@@ -155,15 +218,6 @@ namespace Runtime.AI.Navigation
         {
             if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
                 return;
-
-            if (verts.Length > 0)
-                verts.Dispose();
-            if (areas.Length > 0)
-                areas.Dispose();
-            if (inds.Length > 0)
-                inds.Dispose();
-            if (triangles.Length > 0)
-                triangles.Dispose();
 
             NavMesh = null;
 
@@ -176,34 +230,28 @@ namespace Runtime.AI.Navigation
         #endregion
     }
 
-    internal readonly struct JobTriangle
+    #region Job
+
+    public readonly struct QueuedAgentRequest
     {
         #region Values
 
-        public readonly int id, a, b, c, area;
+        public readonly Vector3 destination;
 
-        public readonly NativeArray<int> neighbors;
+        public readonly UnitNavigationAgent agent;
 
         #endregion
 
-        public JobTriangle(NavTriangle triangle)
+        #region Build In States
+
+        public QueuedAgentRequest(Vector3 destination, UnitNavigationAgent agent)
         {
-            this.id = triangle.ID;
-            this.a = triangle.Vertices[0];
-            this.b = triangle.Vertices[1];
-            this.c = triangle.Vertices[2];
-            this.area = triangle.Area;
-            this.neighbors = new NativeArray<int>(triangle.Neighbors.ToArray(), Allocator.Persistent);
+            this.destination = destination;
+            this.agent = agent;
         }
+
+        #endregion
     }
 
-    [BurstCompile]
-    internal struct PathCalculatorJob : IJobParallelFor
-    {
-        private NativeArray<UnitPath> paths;
-
-        public void Execute(int index)
-        {
-        }
-    }
+    #endregion
 }

@@ -39,6 +39,9 @@ namespace Assets.Scripts.Runtime.World.Overworld
         private void OnValidate() =>
             this.name = this.gameObject.scene.name + " - TileSubController";
 
+        private void Start() =>
+            this.navMeshSurface.enabled = false;
+
         private void OnEnable()
         {
             UnitNavigation.SetNavMesh(this.calculatedNavMesh);

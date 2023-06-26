@@ -76,7 +76,7 @@ namespace Runtime.Common
 
         #endregion
 
-        #region Array
+        #region Array/List
 
         public static bool ContainsAny<T>(this T[] target, T[] other)
         {
@@ -94,6 +94,9 @@ namespace Runtime.Common
 
         public static T RandomFrom<T>(this T[] target) =>
             target[Random.Range(0, target.Length)];
+
+        public static T RandomFrom<T>(this List<T> target) =>
+            target[Random.Range(0, target.Count)];
 
         public static T[] SharedBetween<T>(this T[] target, T[] other)
         {

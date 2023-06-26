@@ -145,7 +145,7 @@ namespace Editor
                 {
                     Handles.color = i % 3 == 0 ? this.creator.anchorCol : this.creator.controlCol;
                     float handleSize = i % 3 == 0 ? this.creator.anchorDiameter : this.creator.controlDiameter;
-                    Vector3 newPos = Handles.FreeMoveHandle(this.path[i], Quaternion.identity, handleSize, Vector3.zero,
+                    var fmh_148_75_638231264529077468 = Quaternion.identity; Vector3 newPos = Handles.FreeMoveHandle(this.path[i], handleSize, Vector3.zero,
                         Handles.CylinderHandleCap);
                     
                     if (this.path[i] != newPos)

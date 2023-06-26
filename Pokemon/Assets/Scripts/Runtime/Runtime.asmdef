@@ -9,7 +9,10 @@
         "Unity.InputSystem",
         "Unity.Timeline",
         "Unity.AI.Navigation",
-        "Unity.Burst"
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Mathematics",
+        "Unity.Jobs"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

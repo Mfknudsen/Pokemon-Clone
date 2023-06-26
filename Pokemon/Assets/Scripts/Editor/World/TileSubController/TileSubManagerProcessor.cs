@@ -159,8 +159,6 @@ namespace Editor.Systems.World
                     NavTriangle navTriangle = triangles[index];
                     toCheck.RemoveAt(0);
                     connected.Add(index);
-
-                    //Debug.Log(navTriangle.Neighbors.Length);
                     foreach (int n in navTriangle.Neighbors)
                     {
                         if (!toCheck.Contains(n) && !connected.Contains(n))
@@ -227,7 +225,7 @@ namespace Editor.Systems.World
 
                 for (int i = 0; i < fixedTriangles.Count; i++)
                 {
-                    //fixedTriangles[i].SetBorderWidth(fixedVerties, fixedTriangles);
+                    fixedTriangles[i].SetBorderWidth(fixedVerties, fixedTriangles);
                     EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting border width", 1f / fixedTriangles.Count * (i + 1));
                 }
 
@@ -242,7 +240,9 @@ namespace Editor.Systems.World
 
                 try
                 {
-                    AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName).SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                    CalculatedNavMesh calculatedNavMesh = AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName);
+                    calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                    EditorUtility.SetDirty(calculatedNavMesh);
                 }
                 catch
                 {
@@ -251,6 +251,7 @@ namespace Editor.Systems.World
                     calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
                     tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
 
+                    EditorUtility.SetDirty(calculatedNavMesh);
                     AssetDatabase.CreateAsset(calculatedNavMesh, assetPath + assetName);
                 }
 

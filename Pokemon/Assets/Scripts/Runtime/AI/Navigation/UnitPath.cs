@@ -50,7 +50,7 @@ namespace Runtime.AI.Navigation
 
         #region Out
 
-        public readonly bool Empty => this.actions.Count == 0;
+        public readonly bool Empty => this.actions?.Count == 0;
 
         #endregion
     }
