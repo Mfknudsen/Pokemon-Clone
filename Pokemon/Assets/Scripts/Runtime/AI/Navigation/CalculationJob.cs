@@ -1,5 +1,6 @@
 #region Libraries
 
+using Runtime.Common;
 using System;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -46,7 +47,8 @@ namespace Runtime.AI.Navigation
         public void Execute(int index)
         {
             float3 destination = this.agents[index].desination;
-            this.toCheckNodes.Add(new Node(this.triangles[index], this.simpleVerts, new float2(destination.x, destination.z), 0, this.areas));
+            this.toCheckNodes.Add(new Node(this.triangles[this.agents[index].currentTriangleID],
+                this.simpleVerts, new float2(destination.x, destination.z), 0));
 
             int i = 0;
             while (this.toCheckNodes.Length > 0)
@@ -60,11 +62,13 @@ namespace Runtime.AI.Navigation
                 this.toCheckNodes.RemoveAt(0);
                 if (checking.triangleID == this.agents[index].destinationTriangleID)
                 {
-                    this.paths[index] = new JobPath(checking, this.checkedNodes);
+                    this.paths[index] = new JobPath(checking, this.checkedNodes, this.triangles);
                     break;
                 }
 
-                this.toCheckNodes = this.AddNeighbors(this.checkedNodes, this.toCheckNodes, this.triangles[checking.triangleID].neighbors, checking, this.triangles, this.verts, this.areas, this.agents[index]);
+                this.toCheckNodes = this.AddNeighbors(this.checkedNodes, this.toCheckNodes,
+                    this.triangles[checking.triangleID].neighbors, checking, this.triangles,
+                    this.areas, this.agents[index]);
             }
         }
 
@@ -80,63 +84,77 @@ namespace Runtime.AI.Navigation
 
         #region Internal
 
-        private UnsafeList<Node> AddNeighbors(UnsafeList<Node> checkedNodes, UnsafeList<Node> toCheck, UnsafeList<int> toAdd, Node original, NativeArray<JobTriangle> triangles, NativeArray<float3> verts, NativeArray<int> areas, JobAgent agent)
+        private readonly UnsafeList<Node> AddNeighbors(UnsafeList<Node> checkedNodes, UnsafeList<Node> toCheck,
+            UnsafeList<int> toAddTriangleID, Node original, NativeArray<JobTriangle> triangles,
+            NativeArray<int> areas, JobAgent agent)
         {
-            for (int i = 0; i < toAdd.Length; i++)
-                toCheck.Add(new Node());
+            UnsafeList<Node> result = new(toCheck.Length, Allocator.TempJob);
+            for (int k = 0; k < toCheck.Length; k++)
+                result.Add(toCheck[k]);
 
-            UnsafeList<Node> result = new(toCheck.Length + toAdd.Length, Allocator.Temp);
-            for (int i = 0; i < toCheck.Length; i++)
-                result.Add(toCheck[i]);
-
-            for (int i = 0; i < toAdd.Length; i++)
+            for (int i = 0; i < toAddTriangleID.Length; i++)
             {
-                bool exists = false;
-                for (int j = 0; j < checkedNodes.Length; j++)
-                {
-                    if (checkedNodes[j].triangleID != toAdd[i])
-                        continue;
-
-                    exists = true;
-                    break;
-                }
-
-                if (!exists)
-                {
-                    for (int j = 0; j < toCheck.Length; j++)
-                    {
-                        if (toCheck[j].triangleID != toAdd[i])
-                            continue;
-
-                        exists = true;
-                        break;
-                    }
-                }
-
-                if (exists)
+                if (toAddTriangleID[i] < 0 || toAddTriangleID[i] >= triangles.Length)
                     continue;
 
-                float lowestCost = original.cost;
-                int lowestID = -1;
-                for (int j = 0; j < checkedNodes.Length; j++)
+                if (triangles[original.triangleID].widths[i] < agent.radius * 2f)
+                    continue;
+
+                if (this.ContainsID(checkedNodes, toAddTriangleID[i]) || this.ContainsID(toCheck, toAddTriangleID[i]))
+                    continue;
+
+                Node bestPrevious = original;
+                int checkedCount = 0;
+                for (int z = 0; z < checkedNodes.Length; z++)
                 {
-                    if (!this.Contains(triangles[toAdd[i]].neighbors, checkedNodes[j].triangleID))
-                        continue;
+                    if (this.ContainsID(triangles[toAddTriangleID[i]].neighbors, checkedNodes[z].triangleID))
+                    {
+                        checkedCount++;
 
-                    if (checkedNodes[j].cost > lowestCost)
-                        continue;
+                        if (checkedNodes[z].cost < bestPrevious.cost)
+                            bestPrevious = checkedNodes[z];
+                    }
 
-                    lowestID = j;
+                    if (checkedCount == triangles[toAddTriangleID[i]].neighbors.Length)
+                        break;
                 }
 
-                Node lowest = lowestID == -1 ? original : checkedNodes[lowestID];
-                for (int j = 0; j < result.Length; j++)
+                Node newNode = new(triangles[toAddTriangleID[i]], this.simpleVerts, agent.desination.XZFloat(), bestPrevious, areas, triangles);
+                if (result.Length > 0)
                 {
-                    if (result[j].cost > lowest.cost)
+                    bool added = false;
+                    for (int j = 0; j < result.Length; j++)
                     {
-                        result.Add(new Node(triangles[toAdd[i]], this.simpleVerts, new float2(agent.desination.x, agent.desination.z), lowest, areas));
-                        break;
+                        if (newNode.Total() < result[j].Total())
+                        {
+                            result.Add(result[^1]);
+
+                            added = true;
+
+                            for (int x = result.Length - 2; x > j; x--)
+                                result[x] = result[x - 1];
+
+                            result[j] = newNode;
+
+                            break;
+                        }
                     }
+
+                    if (!added)
+                        result.Add(newNode);
+                }
+                else
+                    result.Add(newNode);
+
+                for (int t = 0; t < result.Length; t++)
+                {
+                    if (!this.ContainsID(triangles[result[i].triangleID].neighbors, toAddTriangleID[i]))
+                        continue;
+
+                    if (result[t].previousCost > newNode.cost)
+                        continue;
+
+                    result[t] = new Node(newNode, result[t], areas, this.simpleVerts, triangles);
                 }
             }
 
@@ -145,7 +163,16 @@ namespace Runtime.AI.Navigation
             return result;
         }
 
-        private bool Contains(UnsafeList<int> list, int target)
+        private readonly bool ContainsID(UnsafeList<Node> list, int target)
+        {
+            for (int i = 0; i < list.Length; i++)
+                if (list[i].triangleID == target)
+                    return true;
+
+            return false;
+        }
+
+        private readonly bool ContainsID(UnsafeList<int> list, int target)
         {
             for (int i = 0; i < list.Length; i++)
                 if (list[i] == target)
@@ -159,15 +186,14 @@ namespace Runtime.AI.Navigation
 
     public readonly struct JobPath : IDisposable
     {
-        public readonly UnsafeList<Node> nodePath;
+        public readonly UnsafeList<int> nodePath;
         private readonly UnsafeList<Node> checkList;
 
-        public JobPath(Node lastNode, UnsafeList<Node> checkedNodes)
+        public JobPath(Node lastNode, UnsafeList<Node> checkedNodes, NativeArray<JobTriangle> triangles)
         {
             Node checking = lastNode;
             this.checkList = new UnsafeList<Node>(checkedNodes.Length, Allocator.Temp);
             int breaker = 0;
-            JobLogger.Log(checkedNodes.Length);
             while (checking.triangleID != -1)
             {
                 breaker++;
@@ -176,22 +202,23 @@ namespace Runtime.AI.Navigation
 
                 this.checkList.Add(checking);
 
-                if (checking.previousNode == -1)
+                if (checking.previousNodeTriangleID == -1)
                     break;
 
+                Node bestNeigbor = Get(checking.previousNodeTriangleID, checkedNodes);
                 for (int i = 0; i < checkedNodes.Length; i++)
                 {
-                    if (checkedNodes[i].triangleID == checking.previousNode)
-                    {
-                        checking = checkedNodes[i];
-                        break;
-                    }
+                    if (Contains(triangles[checking.triangleID].neighbors, checkedNodes[i].triangleID) &&
+                        checkedNodes[i].cost < bestNeigbor.cost)
+                        bestNeigbor = checkedNodes[i];
                 }
+
+                checking = bestNeigbor;
             }
 
-            this.nodePath = new UnsafeList<Node>(this.checkList.Length, Allocator.TempJob);
+            this.nodePath = new UnsafeList<int>(this.checkList.Length, Allocator.TempJob);
             for (int i = 0; i < this.checkList.Length; i++)
-                this.nodePath.Add(this.checkList[i]);
+                this.nodePath.Add(this.checkList[i].triangleID);
 
             this.checkList.Dispose();
         }
@@ -203,6 +230,24 @@ namespace Runtime.AI.Navigation
             if (this.checkList.IsCreated)
                 this.checkList.Dispose();
         }
+
+        public static Node Get(int previousID, UnsafeList<Node> nodes)
+        {
+            for (int i = 0; i < nodes.Length; i++)
+                if (nodes[i].triangleID == previousID)
+                    return nodes[i];
+
+            return new Node();
+        }
+
+        private static bool Contains(UnsafeList<int> nodes, int target)
+        {
+            for (int i = 0; i < nodes.Length; i++)
+                if (nodes[i] == target)
+                    return true;
+
+            return false;
+        }
     }
 
     public readonly struct JobAgent
@@ -211,7 +256,9 @@ namespace Runtime.AI.Navigation
 
         public readonly int currentTriangleID, destinationTriangleID;
 
-        public readonly float3 desination;
+        public readonly float3 desination, startPosition;
+
+        public readonly float radius;
 
         #endregion
 
@@ -219,12 +266,14 @@ namespace Runtime.AI.Navigation
 
         public JobAgent(QueuedAgentRequest request)
         {
-            UnitNavigationAgent agent = request.agent;
+            UnitAgent agent = request.agent;
             UnitAgentSettings settings = agent.Settings;
 
             this.currentTriangleID = agent.CurrentTriangleIndex;
             this.desination = request.destination;
+            this.startPosition = agent.transform.position;
             this.destinationTriangleID = UnitNavigation.ClosestTriangleIndex(this.desination);
+            this.radius = settings.Radius;
         }
 
         #endregion
@@ -267,9 +316,12 @@ namespace Runtime.AI.Navigation
 
         public void Dispose()
         {
-            this.neighbors.Dispose();
-            this.navPoints.Dispose();
-            this.widths.Dispose();
+            if (this.neighbors.IsCreated)
+                this.neighbors.Dispose();
+            if (this.navPoints.IsCreated)
+                this.navPoints.Dispose();
+            if (this.widths.IsCreated)
+                this.widths.Dispose();
         }
 
         #endregion
@@ -278,33 +330,41 @@ namespace Runtime.AI.Navigation
     public readonly struct Node
     {
         public readonly int triangleID;
-        public readonly float cost, dist;
-        public readonly int previousNode;
+        public readonly float cost, dist, previousCost;
+        public readonly int previousNodeTriangleID;
 
-        public Node(JobTriangle triangle, NativeArray<float2> verts, float2 destination, Node previousNode, NativeArray<int> areas)
+        public Node(Node newPrevious, Node oldNode, NativeArray<int> areas, NativeArray<float2> simpleVerts, NativeArray<JobTriangle> triangles)
         {
-            this.previousNode = previousNode.triangleID;
-            this.triangleID = triangle.id;
-            this.cost = previousNode.cost + areas[triangle.id] + 1;
-            this.dist = math.min(
-                math.distance(destination, verts[triangle.a]),
-                    math.min(
-                        math.distance(destination, verts[triangle.b]),
-                        math.distance(destination, verts[triangle.c])));
+            this.triangleID = oldNode.triangleID;
+            this.dist = oldNode.dist;
 
+            this.previousNodeTriangleID = newPrevious.previousNodeTriangleID;
+            this.previousCost = newPrevious.cost;
+            this.cost = newPrevious.cost + (areas[this.triangleID] + 1) * math.distance(Center(triangles[this.triangleID], simpleVerts), Center(triangles[newPrevious.triangleID], simpleVerts));
         }
 
-        public Node(JobTriangle triangle, NativeArray<float2> simpleVerts, float2 destination, float previousNode, NativeArray<int> areas)
+        public Node(JobTriangle triangle, NativeArray<float2> simpleVerts, float2 destination, Node previousNode, NativeArray<int> areas, NativeArray<JobTriangle> triangles)
         {
-            this.previousNode = -1;
+            this.previousNodeTriangleID = previousNode.triangleID;
             this.triangleID = triangle.id;
-            this.cost = previousNode + areas[triangle.id] + 1;
-            this.dist = math.min(
-                math.distance(destination, simpleVerts[triangle.a]),
-                    math.min(
-                        math.distance(destination, simpleVerts[triangle.b]),
-                        math.distance(destination, simpleVerts[triangle.c])));
-
+            this.previousCost = previousNode.cost;
+            this.cost = this.previousCost + (areas[this.triangleID] + 1) * math.distance(Center(triangle, simpleVerts), Center(triangles[previousNode.triangleID], simpleVerts));
+            this.dist = math.distance(Center(triangle, simpleVerts), destination);
         }
+
+        public Node(JobTriangle triangle, NativeArray<float2> simpleVerts, float2 destination, float startCost)
+        {
+            this.previousNodeTriangleID = -1;
+            this.triangleID = triangle.id;
+            this.cost = startCost;
+            this.previousCost = 0;
+            this.dist = math.distance(Center(triangle, simpleVerts),
+                destination);
+        }
+
+        public float Total() => this.cost + this.dist;
+
+        private static float2 Center(JobTriangle triangle, NativeArray<float2> simpleVerts) =>
+            math.lerp(math.lerp(simpleVerts[triangle.a], simpleVerts[triangle.b], .5f), simpleVerts[triangle.c], .5f);
     }
 }

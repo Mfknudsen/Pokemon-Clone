@@ -1,4 +1,8 @@
+#region Libraries
+
 using UnityEngine;
+
+#endregion
 
 namespace Editor.Common
 {

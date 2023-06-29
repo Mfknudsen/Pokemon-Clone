@@ -1,7 +1,10 @@
 #region Libraries
 
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 #endregion
 
@@ -29,6 +32,8 @@ namespace Runtime.Common
 
         public static float Squared(this float current) => current * current;
 
+        public static float2 XZFloat(this float3 target) => new(target.x, target.z);
+
         #endregion
 
         #region Vector2
@@ -37,9 +42,15 @@ namespace Runtime.Common
 
         public static Vector3 ToV3(this Vector2 t, float y) => new(t.x, y, t.y);
 
+        public static float QuickSquareDistance(this Vector2 point1, Vector2 point2) => (point1 - point2).sqrMagnitude;
+
+        public static Vector2 Cross(this Vector2 target) => new(target.y, -target.x);
+
         #endregion
 
         #region Vector3
+
+        public static float2 ToFloatXZ(this Vector3 target) => new(target.x, target.z);
 
         public static Vector2 XZ(this Vector3 target) => new(target.x, target.z);
 
@@ -115,6 +126,25 @@ namespace Runtime.Common
             }
 
             return result.ToArray();
+        }
+
+        public static List<T> SharedBetween<T>(this List<T> target, List<T> other)
+        {
+            List<T> result = new();
+
+            foreach (T a in target)
+            {
+                foreach (T b in other)
+                {
+                    if (a.Equals(b))
+                    {
+                        result.Add(a);
+                        break;
+                    }
+                }
+            }
+
+            return result.ToList();
         }
 
         #endregion

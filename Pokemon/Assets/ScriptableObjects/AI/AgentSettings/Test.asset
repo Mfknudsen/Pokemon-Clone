@@ -15,5 +15,7 @@ MonoBehaviour:
   id: 0
   radius: 0.5
   height: 2
-  moveSpeed: 1
+  moveSpeed: 10
   turnSpeed: 1
+  walkTurnAngle: 45
+  stoppingDistance: 0.5

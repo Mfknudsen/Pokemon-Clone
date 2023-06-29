@@ -143,6 +143,21 @@ namespace Runtime.AI.Navigation
             return this.triangles.RandomFrom().ID;
         }
 
+        public int ClosestTriangleIndex(Vector2 p)
+        {
+            for (int i = 0; i < this.triangles.Length; i++)
+            {
+                int[] ids = this.triangles[i].Vertices;
+                if (ExtMathf.PointWithinTriangle2D(p,
+                    this.SimpleVertices[ids[0]],
+                    this.SimpleVertices[ids[1]],
+                    this.SimpleVertices[ids[2]]))
+                    return this.triangles[i].ID;
+            }
+
+            return this.triangles.RandomFrom().ID;
+        }
+
         public Vector3 VertByIndex(int i) =>
             new(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
 
@@ -219,13 +234,21 @@ namespace Runtime.AI.Navigation
         public void SetNeighborIDs(int[] set)
         {
             this.neighborIDs.Clear();
-            this.neighborIDs.AddRange(set);
+            for (int i = 0; i < set.Length; i++)
+            {
+                if (!this.neighborIDs.Contains(set[i]))
+                    this.neighborIDs.Add(set[i]);
+            }
         }
 
         public void SetNavPointIDs(int[] set)
         {
             this.navPointIDs.Clear();
-            this.navPointIDs.AddRange(set);
+            for (int i = 0; i < set.Length; i++)
+            {
+                if (!this.navPointIDs.Contains(set[i]))
+                    this.navPointIDs.Add(set[i]);
+            }
         }
 #endif
 

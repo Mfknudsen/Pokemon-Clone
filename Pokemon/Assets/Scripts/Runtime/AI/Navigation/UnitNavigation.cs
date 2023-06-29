@@ -46,6 +46,14 @@ namespace Runtime.AI.Navigation
 
         private static int maxCalculationsPerBatch = 100;
 
+        private static JobHandle currentJob;
+
+        #endregion
+
+        #region Getters
+
+        public static Vector3[] GetVerts() => NavMesh.Vertices();
+
         #endregion
 
         #region Setters
@@ -76,10 +84,10 @@ namespace Runtime.AI.Navigation
         public static void RemoveOnNavMeshChange(UnityAction action)
             => OnNavMeshChanged -= action;
 
-        public static void QueueForPath(UnitNavigationAgent agent, Vector3 destination) =>
+        public static void QueueForPath(UnitAgent agent, Vector3 destination) =>
             requests.Add(new QueuedAgentRequest(destination, agent));
 
-        public static int PlaceAgentOnNavMesh(UnitNavigationAgent agent)
+        public static int PlaceAgentOnNavMesh(UnitAgent agent)
         {
             Vector2 p = agent.transform.position.XZ();
             for (int i = 0; i < NavMesh.Triangles.Length; i++)
@@ -173,23 +181,20 @@ namespace Runtime.AI.Navigation
             if (requests.Count == 0)
                 return;
 
-            NativeArray<JobAgent> agents = new(requests.Count < maxCalculationsPerBatch ? requests.Count : maxCalculationsPerBatch, Allocator.TempJob);
-            NativeArray<JobPath> paths = new(requests.Count, Allocator.TempJob);
-
             int count = requests.Count < maxCalculationsPerBatch ? requests.Count : maxCalculationsPerBatch;
-            for (int i = 0; i < count; i++)
-            {
+            NativeArray<JobAgent> agents = new(count, Allocator.TempJob);
+            NativeArray<JobPath> paths = new(count, Allocator.TempJob);
 
-            }
+            for (int i = 0; i < count; i++)
+                agents[i] = new JobAgent(requests[i]);
 
             PathCalculatorJob calculationJob = new(paths, agents, verts, simpleVerts, areas, triangles);
 
-            Debug.Log($"Starting job: {requests.Count}");
-            calculationJob.Schedule(requests.Count, 100).Complete();
-            Debug.Log("Job complete");
+            currentJob = calculationJob.Schedule(requests.Count, 100);
+            currentJob.Complete();
 
             for (int i = 0; i < requests.Count; i++)
-                requests[i].agent.SetPath(CastToUnitPath(paths[i]));
+                requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i]));
 
             requests.Clear();
             agents.Dispose();
@@ -200,17 +205,29 @@ namespace Runtime.AI.Navigation
         {
             if (verts.IsCreated)
                 verts.Dispose();
+
             if (simpleVerts.IsCreated)
                 simpleVerts.Dispose();
+
             if (areas.IsCreated)
                 areas.Dispose();
+
             if (triangles.IsCreated)
                 triangles.Dispose();
         }
 
-        private static UnitPath CastToUnitPath(JobPath jobPath)
+        private static UnitPath CastToUnitPath(JobAgent jobAgent, JobPath jobPath)
         {
-            return new UnitPath();
+            int[] ids = new int[jobPath.nodePath.Length];
+            for (int i = 0; i < jobPath.nodePath.Length; i++)
+                ids[i] = jobPath.nodePath[i];
+
+            return new(new Vector3(jobAgent.desination.x, jobAgent.desination.y, jobAgent.desination.z),
+                ids,
+                NavMesh.Triangles,
+                NavMesh.Vertices(),
+                jobAgent.startPosition,
+                jobAgent.radius);
         }
 
 #if UNITY_EDITOR
@@ -219,6 +236,9 @@ namespace Runtime.AI.Navigation
             if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
                 return;
 
+            if (!currentJob.IsCompleted)
+                currentJob.Complete();
+            DisposeNatives();
             NavMesh = null;
 
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
@@ -238,13 +258,13 @@ namespace Runtime.AI.Navigation
 
         public readonly Vector3 destination;
 
-        public readonly UnitNavigationAgent agent;
+        public readonly UnitAgent agent;
 
         #endregion
 
         #region Build In States
 
-        public QueuedAgentRequest(Vector3 destination, UnitNavigationAgent agent)
+        public QueuedAgentRequest(Vector3 destination, UnitAgent agent)
         {
             this.destination = destination;
             this.agent = agent;

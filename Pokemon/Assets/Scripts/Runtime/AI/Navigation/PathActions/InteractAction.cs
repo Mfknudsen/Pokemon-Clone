@@ -7,7 +7,7 @@ namespace Runtime.AI.Navigation
 {
     public sealed class InteractAction : PathAction
     {
-        public override bool PerformAction(UnitNavigationAgent agent)
+        public override bool PerformAction(UnitAgent agent)
         {
             throw new System.NotImplementedException();
         }

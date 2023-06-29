@@ -17,7 +17,7 @@ namespace Runtime.AI.Navigation
         private int id;
 
         [SerializeField, MinValue(.1f)]
-        private float radius = .5f, height = 1, moveSpeed = 1, turnSpeed = 1, walkTurnAngle = 45f;
+        private float radius = .5f, height = 1, moveSpeed = 1, turnSpeed = 1, walkTurnAngle = 45f, stoppingDistance = .5f;
 
         [SerializeField]
         private readonly List<int> usableNavigationPoints = new();
@@ -37,6 +37,8 @@ namespace Runtime.AI.Navigation
         public float TurnSpeed => this.turnSpeed;
 
         public float WalkTurnAngle => this.walkTurnAngle;
+
+        public float StoppingDistance => this.stoppingDistance;
 
         public List<int> GetUsableNavigationPoints => this.usableNavigationPoints;
 

@@ -9,7 +9,8 @@ using UnityEngine;
 
 namespace Runtime.AI.Navigation
 {
-    public sealed class UnitNavigationAgent : MonoBehaviour
+    [DisallowMultipleComponent]
+    public sealed class UnitAgent : MonoBehaviour
     {
         #region Values
 
@@ -27,23 +28,29 @@ namespace Runtime.AI.Navigation
 
         [SerializeField] private CalculatedNavMesh calculatedNavMesh;
 
+        [SerializeField, HideInInspector] private Rigidbody rb;
+
         #endregion
 
         #region Build In States
 
         private IEnumerator Start()
         {
-            this.GetComponent<Rigidbody>().useGravity = false;
+            this.rb = this.rb != null ? this.rb : this.GetComponent<Rigidbody>();
+            this.rb.useGravity = false;
 
             yield return new WaitWhile(() => !UnitNavigation.Ready);
 
             this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
-            this.GetComponent<Rigidbody>().useGravity = true;
+            this.rb.useGravity = true;
         }
 
         private void Update()
         {
+            if (!this.currentPath.Empty && !this.currentPath.Complete)
+                this.currentPath.Tick(this);
+
             if (this.currentTriangleIndex == -1)
                 return;
 
@@ -57,9 +64,11 @@ namespace Runtime.AI.Navigation
 
         private void OnDrawGizmos()
         {
+            this.currentPath.DebugPath();
+
             if (this.target != null)
             {
-                int targetID = this.calculatedNavMesh.ClosestTriangleIndex(this.target.position);
+                int targetID = this.calculatedNavMesh.ClosestTriangleIndex(this.target.position.XZ());
                 int[] targetIDs = this.calculatedNavMesh.Triangles[targetID].Vertices;
                 if (ExtMathf.PointWithinTriangle2D(this.target.position.XZ(),
                     this.calculatedNavMesh.SimpleVertices[targetIDs[0]],
@@ -122,8 +131,12 @@ namespace Runtime.AI.Navigation
             UnitNavigation.QueueForPath(this, position);
         }
 
-        public void SetPath(UnitPath path)
+        public void SetPath(UnitPath path) =>
+            this.currentPath = path;
+
+        internal void MoveAgentBody(Vector3 towards)
         {
+            this.rb.MovePosition(this.transform.position + this.settings.MoveSpeed * Time.deltaTime * (towards.XZ() - this.transform.position.XZ()).ToV3(0).normalized);
         }
 
         #endregion

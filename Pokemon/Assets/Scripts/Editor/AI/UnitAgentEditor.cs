@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace Editor.AI
 {
-    [CustomEditor(typeof(UnitNavigationAgent))]
-    public sealed class UnitNavigationAgentEditor : OdinEditor
+    [CustomEditor(typeof(UnitAgent))]
+    public sealed class UnitAgentEditor : OdinEditor
     {
         #region Values
 
-        UnitNavigationAgent agent;
+        UnitAgent agent;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace Editor.AI
         {
             base.OnEnable();
 
-            this.agent = (UnitNavigationAgent)this.target;
+            this.agent = (UnitAgent)this.target;
         }
 
         private void OnSceneGUI()
