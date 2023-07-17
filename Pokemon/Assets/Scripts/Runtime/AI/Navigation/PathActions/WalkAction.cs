@@ -5,13 +5,13 @@ using UnityEngine;
 
 #endregion
 
-namespace Runtime.AI.Navigation
+namespace Runtime.AI.Navigation.PathActions
 {
     public sealed class WalkAction : PathAction
     {
         #region Values
 
-        public readonly Vector3 destination;
+        private readonly Vector3 destination;
 
         #endregion
 
@@ -19,6 +19,12 @@ namespace Runtime.AI.Navigation
 
         public WalkAction(Vector3 destination) =>
             this.destination = destination;
+
+        #endregion
+
+        #region Getters
+
+        public override Vector3 Destination() => this.destination;
 
         #endregion
 

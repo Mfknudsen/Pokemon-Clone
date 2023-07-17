@@ -2,6 +2,7 @@
 
 using Runtime.Pokémon;
 using System;
+using Runtime.Pokémon.Pokédex;
 using UnityEngine;
 
 #endregion

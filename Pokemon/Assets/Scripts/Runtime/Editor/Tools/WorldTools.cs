@@ -2,7 +2,7 @@
 
 #region Packages
 
-using Assets.Scripts.Runtime.World.Overworld;
+using Runtime.World.Overworld;
 using UnityEditor;
 using UnityEngine;
 

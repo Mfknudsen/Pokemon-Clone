@@ -1,14 +1,14 @@
 #region Libraries
 
+using System.Collections.Generic;
 using Runtime.World.Overworld.Spawner;
 using Sirenix.OdinInspector.Editor;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 #endregion
 
-namespace Editor.Tools.Spawner
+namespace Editor.World.Spawner
 {
     [CustomEditor(typeof(SpawnLocation))]
     public sealed class SpawnerEditor : OdinEditor

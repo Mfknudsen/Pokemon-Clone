@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 
 #endregion
 
-namespace Runtime.VFX.SingleUSe
+namespace Runtime.VFX.SingleUse
 {
     public abstract class SingleUseEffect : EffectBase
     {

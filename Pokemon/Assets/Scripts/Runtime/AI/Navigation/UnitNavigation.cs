@@ -29,7 +29,7 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        private static CalculatedNavMesh NavMesh = null;
+        private static CalculatedNavMesh NavMesh;
 
         private static UnityAction OnNavMeshChanged;
 
@@ -94,9 +94,10 @@ namespace Runtime.AI.Navigation
             {
                 int[] ids = NavMesh.Triangles[i].Vertices;
                 if (ExtMathf.PointWithinTriangle2D(p,
-                    NavMesh.SimpleVertices[ids[0]],
-                    NavMesh.SimpleVertices[ids[1]],
-                    NavMesh.SimpleVertices[ids[2]]))
+                        NavMesh.SimpleVertices[ids[0]],
+                        NavMesh.SimpleVertices[ids[1]],
+                        NavMesh.SimpleVertices[ids[2]],
+                        0f))
                 {
                     agent.transform.position = new Vector3(p.x, NavMesh.Triangles[i].MaxY, p.y);
                     return i;
@@ -122,7 +123,8 @@ namespace Runtime.AI.Navigation
 
         public static Vector3[] Get3DVertByIndex(params int[] id) => id.Select(i => NavMesh.Vertices()[i]).ToArray();
 
-        public static Vector2[] Get2DVertByIndex(params int[] id) => id.Select(i => NavMesh.SimpleVertices[i]).ToArray();
+        public static Vector2[] Get2DVertByIndex(params int[] id) =>
+            id.Select(i => NavMesh.SimpleVertices[i]).ToArray();
 
         #endregion
 
@@ -194,7 +196,7 @@ namespace Runtime.AI.Navigation
             currentJob.Complete();
 
             for (int i = 0; i < requests.Count; i++)
-                requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i]));
+                requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i], requests[i].agent));
 
             requests.Clear();
             agents.Dispose();
@@ -216,18 +218,20 @@ namespace Runtime.AI.Navigation
                 triangles.Dispose();
         }
 
-        private static UnitPath CastToUnitPath(JobAgent jobAgent, JobPath jobPath)
+        private static UnitPath CastToUnitPath(JobAgent jobAgent, JobPath jobPath, UnitAgent agent)
         {
             int[] ids = new int[jobPath.nodePath.Length];
             for (int i = 0; i < jobPath.nodePath.Length; i++)
                 ids[i] = jobPath.nodePath[i];
 
-            return new(new Vector3(jobAgent.desination.x, jobAgent.desination.y, jobAgent.desination.z),
+            return new UnitPath(
+                new Vector3(jobAgent.desination.x, jobAgent.desination.y, jobAgent.desination.z),
                 ids,
                 NavMesh.Triangles,
                 NavMesh.Vertices(),
+                NavMesh.SimpleVertices,
                 jobAgent.startPosition,
-                jobAgent.radius);
+                agent);
         }
 
 #if UNITY_EDITOR

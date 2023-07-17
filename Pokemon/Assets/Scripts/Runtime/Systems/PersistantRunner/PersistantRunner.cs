@@ -9,7 +9,8 @@ using UnityEngine;
 
 namespace Runtime.Systems.PersistantRunner
 {
-    public class PersistantRunner : MonoBehaviour
+    [DisallowMultipleComponent]
+    public sealed class PersistantRunner : MonoBehaviour
     {
         #region Values
 

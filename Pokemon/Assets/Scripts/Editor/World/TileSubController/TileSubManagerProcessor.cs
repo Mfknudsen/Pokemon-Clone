@@ -1,32 +1,33 @@
 #region Libraries
 
-using Assets.Scripts.Runtime.World.Overworld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
+using Editor.Systems;
 using Runtime.AI.Navigation;
 using Runtime.Common;
 using Runtime.Editor;
 using Runtime.World.Overworld;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 #endregion
 
-namespace Editor.Systems.World
+namespace Editor.World.TileSubController
 {
-    public sealed class TileSubControllerProcessor : OdinPropertyProcessor<TileSubController>
+    public sealed class TileSubControllerProcessor : OdinPropertyProcessor<Runtime.World.Overworld.TileSubController>
     {
         #region Values
 
-        private float overlapCheckDistance = .3f;
+        private static float overlapCheckDistance = .3f;
 
         #endregion
 
@@ -35,31 +36,41 @@ namespace Editor.Systems.World
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
             propertyInfos.AddValue("Vertex Overlap Check Distance",
-                (ref TileSubController c) => this.overlapCheckDistance,
-                (ref TileSubController c, float d) => this.overlapCheckDistance = d,
+                (ref Runtime.World.Overworld.TileSubController _) => overlapCheckDistance,
+                (ref Runtime.World.Overworld.TileSubController _, float d) => overlapCheckDistance = d,
                 new FoldoutGroupAttribute("Navigation"),
-                new MinValueAttribute(.001f));
+                new MinValueAttribute(.001f),
+                new LabelWidthAttribute(180f));
 
-            propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]), new FoldoutGroupAttribute("Navigation"));
-            propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]), new FoldoutGroupAttribute("Lightning"));
+            propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]),
+                new FoldoutGroupAttribute("Navigation"));
+            propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]),
+                new FoldoutGroupAttribute("Lightning"));
         }
 
         #endregion
 
         #region Internal
 
-        private async void BakeNavmesh(TileSubController tileSubController)
+        #region Custom Navmesh Baking
+
+        /// <summary>
+        /// Bake a custom Navmesh for use with the custom Navmesh agents.
+        /// </summary>
+        /// <param name="tileSubController">The current TileSubController</param>
+        private async void BakeNavmesh(Runtime.World.Overworld.TileSubController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
 
-            string editorProgressParTitel = "Baking Navigation: " + tileSubController.gameObject.scene.name;
+            string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
 
             BakedEditorManager.SetRunning(true);
 
             List<string> neighborsToLoad = new();
 
-            foreach (string path in UnityEngine.Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath).ToArray())
+            foreach (string path in Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
+                         .ToArray())
             {
                 if (!neighborsToLoad.Contains(path))
                     neighborsToLoad.Add(path);
@@ -70,21 +81,23 @@ namespace Editor.Systems.World
             {
                 #region Load neighbor scenes and build navmesh triangulation
 
-                ///Load neighboring scenes that the navigation mesh should cover
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", .25f);
+                //Load neighboring scenes that the navigation mesh should cover
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", .25f);
                 List<UniTask<Scene>> loadSceneTasks = new();
 
                 for (int i = 0; i < neighborsToLoad.Count; i++)
                 {
                     loadSceneTasks.Add(this.AsyncLoadScene(neighborsToLoad[i]));
-                    EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", .25f + (.5f / neighborsToLoad.Count * i));
+                    EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors",
+                        .25f + (.5f / neighborsToLoad.Count * i));
                 }
 
                 loadedScenes = await UniTask.WhenAll(loadSceneTasks);
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Loading Neightbors", 1f);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", 1f);
 
-                ///Custruct Navigation Mesh and setup custom navmesh logic
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Calculation Navigation Mesh Triangulation", 0f);
+                //Construct Navigation Mesh and setup custom navmesh logic
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Calculation Navigation Mesh Triangulation",
+                    0f);
 
                 NavMeshTriangulation navmesh = this.BuildNavMeshTriangulation(tileSubController);
 
@@ -93,46 +106,43 @@ namespace Editor.Systems.World
                 #region Check Vertices and Indices for overlap
 
                 List<Vector3> verts = navmesh.vertices.ToList();
-                List<int> inds = navmesh.indices.ToList();
+                List<int> indices = navmesh.indices.ToList();
                 List<int> areas = navmesh.areas.ToList();
                 Dictionary<Vector2Int, List<int>> vertsByPos = new();
 
-                const float groupdSize = 5f;
+                const float groupSize = 5f;
 
                 for (int i = 0; i < verts.Count; i++)
                 {
                     Vector3 v = verts[i];
-                    Vector2Int id = new(Mathf.FloorToInt(v.x / groupdSize), Mathf.FloorToInt(v.z / groupdSize));
+                    Vector2Int id = new(Mathf.FloorToInt(v.x / groupSize), Mathf.FloorToInt(v.z / groupSize));
 
                     if (vertsByPos.TryGetValue(id, out List<int> outList))
                         outList.Add(i);
                     else
-                        vertsByPos.Add(id, new() { i });
+                        vertsByPos.Add(id, new List<int> { i });
                 }
 
-                this.CheckOverlap(verts, inds, vertsByPos, groupdSize, editorProgressParTitel);
+                this.CheckOverlap(verts, indices, vertsByPos, groupSize, editorProgressParTitle);
 
                 #endregion
 
                 #region Create first iteration of NavTriangles
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Creating first iteration NavTriangles", 0f);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Creating first iteration NavTriangles", 0f);
                 List<NavTriangle> triangles = new();
                 Dictionary<int, List<int>> trianglesByVertexID = new();
 
-                this.SetupNavTriangles(verts, inds, areas, triangles, trianglesByVertexID, editorProgressParTitel);
+                this.SetupNavTriangles(verts, indices, areas, triangles, trianglesByVertexID, editorProgressParTitle);
 
-                triangles = this.SetupNeighbors(triangles, trianglesByVertexID, editorProgressParTitel, "First");
-
-                NavigationPoint[] navigationPoints = tileSubController.GetNavigationPoints();
-
-                Dictionary<int, List<NavigationPointEntry>> entries = this.SetupEntryPointsForTriangles(triangles.ToArray(), trianglesByVertexID, verts.ToArray());
+                triangles = this.SetupNeighbors(triangles, trianglesByVertexID, editorProgressParTitle, "First");
 
                 #endregion
 
                 #region Check neighbor connections
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Checking NavTriangle neighbor connections", .5f);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Checking NavTriangle neighbor connections",
+                    .5f);
                 Vector3 cleanPoint = tileSubController.GetCleanUpPoint;
                 int closestVert = 0;
                 float closestDistance = cleanPoint.QuickSquareDistance(verts[closestVert]);
@@ -143,7 +153,8 @@ namespace Editor.Systems.World
                     if (d >= closestDistance)
                         continue;
 
-                    if (trianglesByVertexID.TryGetValue(i, out List<int> value) && !value.Any(t => triangles[t].Neighbors.Count > 0))
+                    if (trianglesByVertexID.TryGetValue(i, out List<int> value) &&
+                        !value.Any(t => triangles[t].Neighbors.Count > 0))
                         continue;
 
                     closestDistance = d;
@@ -165,14 +176,15 @@ namespace Editor.Systems.World
                             toCheck.Add(n);
                     }
 
-                    EditorUtility.DisplayProgressBar(editorProgressParTitel, "Checking NavTriangle neighbor connections", .5f + (.5f / triangles.Count * connected.Count));
+                    EditorUtility.DisplayProgressBar(editorProgressParTitle,
+                        "Checking NavTriangle neighbor connections", .5f + (.5f / triangles.Count * connected.Count));
                 }
 
                 #endregion
 
                 #region Fill holes and final iteration of NavTriangles
 
-                List<Vector3> fixedVerties = new();
+                List<Vector3> fixedVertices = new();
                 List<int> fixedIndices = new(), fixedAreas = new();
                 Dictionary<int, List<int>> fixedTrianglesByVertexID = new();
 
@@ -181,55 +193,69 @@ namespace Editor.Systems.World
                     int aID = t.Vertices[0], bID = t.Vertices[1], cID = t.Vertices[2];
                     Vector3 a = verts[aID], b = verts[bID], c = verts[cID];
 
-                    if (!fixedVerties.Contains(a))
-                        fixedVerties.Add(a);
+                    if (!fixedVertices.Contains(a))
+                        fixedVertices.Add(a);
 
-                    if (!fixedVerties.Contains(b))
-                        fixedVerties.Add(b);
+                    if (!fixedVertices.Contains(b))
+                        fixedVertices.Add(b);
 
-                    if (!fixedVerties.Contains(c))
-                        fixedVerties.Add(c);
+                    if (!fixedVertices.Contains(c))
+                        fixedVertices.Add(c);
 
-                    fixedIndices.Add(fixedVerties.IndexOf(a));
-                    fixedIndices.Add(fixedVerties.IndexOf(b));
-                    fixedIndices.Add(fixedVerties.IndexOf(c));
+                    fixedIndices.Add(fixedVertices.IndexOf(a));
+                    fixedIndices.Add(fixedVertices.IndexOf(b));
+                    fixedIndices.Add(fixedVertices.IndexOf(c));
 
                     fixedAreas.Add(t.Area);
 
-                    Vector2Int id = new(Mathf.FloorToInt(a.x / groupdSize), Mathf.FloorToInt(a.z / groupdSize));
+                    Vector2Int id = new(Mathf.FloorToInt(a.x / groupSize), Mathf.FloorToInt(a.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListA))
-                        outListA.Add(fixedVerties.IndexOf(a));
+                    {
+                        if (outListA.Contains(fixedVertices.IndexOf(a)))
+                            outListA.Add(fixedVertices.IndexOf(a));
+                    }
                     else
-                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(a) });
+                        vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(a) });
 
-                    id = new(Mathf.FloorToInt(b.x / groupdSize), Mathf.FloorToInt(b.z / groupdSize));
+                    id = new Vector2Int(Mathf.FloorToInt(b.x / groupSize), Mathf.FloorToInt(b.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListB))
-                        outListB.Add(fixedVerties.IndexOf(b));
+                    {
+                        if (outListB.Contains(fixedVertices.IndexOf(b)))
+                            outListB.Add(fixedVertices.IndexOf(b));
+                    }
                     else
-                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(b) });
+                        vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(b) });
 
-                    id = new(Mathf.FloorToInt(c.x / groupdSize), Mathf.FloorToInt(c.z / groupdSize));
+                    id = new Vector2Int(Mathf.FloorToInt(c.x / groupSize), Mathf.FloorToInt(c.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListC))
-                        outListC.Add(fixedVerties.IndexOf(c));
+                    {
+                        if (outListC.Contains(fixedVertices.IndexOf(c)))
+                            outListC.Add(fixedVertices.IndexOf(c));
+                    }
                     else
-                        vertsByPos.Add(id, new() { fixedVerties.IndexOf(c) });
+                        vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(c) });
                 }
 
-                this.FillHoles(fixedVerties, fixedAreas, fixedIndices, vertsByPos, editorProgressParTitel);
+                this.FillHoles(fixedVertices, fixedAreas, fixedIndices, editorProgressParTitle);
 
                 List<NavTriangle> fixedTriangles = new();
 
-                this.SetupNavTriangles(fixedVerties, fixedIndices, fixedAreas, fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitel);
+                this.SetupNavTriangles(fixedVertices, fixedIndices, fixedAreas, fixedTriangles,
+                    fixedTrianglesByVertexID, editorProgressParTitle);
 
-                fixedTriangles = this.SetupNeighbors(fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitel, "Final");
+                fixedTriangles = this.SetupNeighbors(fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitle,
+                    "Final");
 
                 for (int i = 0; i < fixedTriangles.Count; i++)
                 {
-                    fixedTriangles[i].SetBorderWidth(fixedVerties, fixedTriangles);
-                    EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, "Setting border width", 1f / fixedTriangles.Count * (i + 1));
+                    fixedTriangles[i].SetBorderWidth(fixedVertices, fixedTriangles);
+                    EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle, "Setting border width",
+                        1f / fixedTriangles.Count * (i + 1));
                 }
 
-                Dictionary<int, List<NavigationPointEntry>> fixedEntryPoints = this.SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID, fixedVerties.ToArray());
+                Dictionary<int, List<NavigationPointEntry>> fixedEntryPoints =
+                    this.SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID,
+                        fixedVertices.ToArray());
 
                 #endregion
 
@@ -240,15 +266,18 @@ namespace Editor.Systems.World
 
                 try
                 {
-                    CalculatedNavMesh calculatedNavMesh = AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName);
-                    calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                    CalculatedNavMesh calculatedNavMesh =
+                        AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName);
+                    calculatedNavMesh.SetValues(fixedVertices.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(),
+                        fixedEntryPoints);
                     EditorUtility.SetDirty(calculatedNavMesh);
                 }
                 catch
                 {
                     CalculatedNavMesh calculatedNavMesh = ScriptableObject.CreateInstance<CalculatedNavMesh>();
                     calculatedNavMesh.name = s.name + " NavMesh Calculations";
-                    calculatedNavMesh.SetValues(fixedVerties.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(), fixedEntryPoints);
+                    calculatedNavMesh.SetValues(fixedVertices.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(),
+                        fixedEntryPoints);
                     tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
 
                     EditorUtility.SetDirty(calculatedNavMesh);
@@ -276,7 +305,7 @@ namespace Editor.Systems.World
 
             if (loadedScenes.Length > 0)
             {
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 0f);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 0f);
                 List<UniTask> unloadTasks = new();
 
                 for (int i = 0; i < loadedScenes.Length; i++)
@@ -284,7 +313,7 @@ namespace Editor.Systems.World
 
                 await UniTask.WhenAll(unloadTasks);
 
-                EditorUtility.DisplayProgressBar(editorProgressParTitel, "Unloading Neightbors", 1f);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 1f);
             }
 
             #endregion
@@ -296,7 +325,11 @@ namespace Editor.Systems.World
             BakedEditorManager.SetRunning(false);
         }
 
-        private async void BakeLighting(TileSubController tileSubController)
+        /// <summary>
+        /// Bake the lighting using Bakery asset
+        /// </summary>
+        /// <param name="tileSubController">The current TileSubController</param>
+        private async void BakeLighting(Runtime.World.Overworld.TileSubController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning)
                 return;
@@ -318,6 +351,11 @@ namespace Editor.Systems.World
             BakedEditorManager.SetRunning(false);
         }
 
+        /// <summary>
+        /// Loads the scene at the path async
+        /// </summary>
+        /// <param name="path">File path for the scene</param>
+        /// <returns></returns>
         private async UniTask<Scene> AsyncLoadScene(string path)
         {
             Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
@@ -327,6 +365,10 @@ namespace Editor.Systems.World
             return scene;
         }
 
+        /// <summary>
+        /// Unloads a currently loaded scene async
+        /// </summary>
+        /// <param name="scene">Name of the loaded scene to unload</param>
         private async UniTask AsyncUnloadScene(Scene scene)
         {
             EditorSceneManager.CloseScene(scene, true);
@@ -334,7 +376,14 @@ namespace Editor.Systems.World
             await UniTask.WaitWhile(() => scene.isLoaded);
         }
 
-        private NavMeshTriangulation BuildNavMeshTriangulation(TileSubController tileSubController)
+        /// <summary>
+        /// Builds a navmesh from the TileSubController and returns the navmesh triangulation from the build navmesh.
+        /// Then remove the build navmesh as it is no longer needed.
+        /// </summary>
+        /// <param name="tileSubController">To build the navmesh from</param>
+        /// <returns>Navmesh triangulation containing vertices, indices and areas in arrays</returns>
+        private NavMeshTriangulation BuildNavMeshTriangulation(
+            Runtime.World.Overworld.TileSubController tileSubController)
         {
             NavMeshSurface surface = tileSubController.GetComponent<NavMeshSurface>();
             surface.BuildNavMesh();
@@ -344,7 +393,18 @@ namespace Editor.Systems.World
             return navmesh;
         }
 
-        private void SetupNavTriangles(List<Vector3> verts, List<int> indices, List<int> areas, List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitel)
+        /// <summary>
+        /// Creates new NavTriangles from the indices 
+        /// </summary>
+        /// <param name="verts">3D vertices</param>
+        /// <param name="indices">Each pair of threes indicate one triangle</param>
+        /// <param name="areas">Area values for each triangle</param>
+        /// <param name="triangles">List for the triangles to be added to</param>
+        /// <param name="trianglesByVertexID">Each triangle will be assigned to each relevant vertex for optimization later</param>
+        /// <param name="editorProgressParTitle">Editor loading bar title</param>
+        /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
+        private void SetupNavTriangles(List<Vector3> verts, List<int> indices, List<int> areas,
+            List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitle)
         {
             for (int i = 0; i < indices.Count; i += 3)
             {
@@ -379,22 +439,32 @@ namespace Editor.Systems.World
                 else
                     trianglesByVertexID.Add(c, new List<int>() { tID });
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel,
-                    $"Creating NavTriangles: {i / 3f} / {indices.Count / 3f}",
-                    1f / (indices.Count / 3f) * (i / 3f)))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Creating NavTriangles: {i / 3f} / {indices.Count / 3f}",
+                        1f / (indices.Count / 3f) * (i / 3f)))
                     throw new Exception("Cancel");
             }
         }
 
-        private List<NavTriangle> SetupNeighbors(List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVert, string editorProgressParTitel, string iteration)
+        /// <summary>
+        /// Setup the connected neighbors for each NavTriangle
+        /// </summary>
+        /// <param name="triangles">The triangles to check</param>
+        /// <param name="trianglesByVertexID">A list of triangle ids based on a vertex id</param>
+        /// <param name="editorProgressParTitle">Editor loading bar title</param>
+        /// <param name="iteration">This will run multiple times during baking. Will help the user know which step</param>
+        /// <returns>The current triangle list now with neighbors set</returns>
+        /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
+        private List<NavTriangle> SetupNeighbors(List<NavTriangle> triangles,
+            Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitle, string iteration)
         {
             for (int i = 0; i < triangles.Count; i++)
             {
                 List<int> neighbors = new();
                 List<int> possibleNeighbors = new();
-                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[0]]);
-                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[1]]);
-                possibleNeighbors.AddRange(trianglesByVert[triangles[i].Vertices[2]]);
+                possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[0]]);
+                possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[1]]);
+                possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[2]]);
 
                 possibleNeighbors = possibleNeighbors.Where(t => t != i).ToList();
 
@@ -409,18 +479,27 @@ namespace Editor.Systems.World
 
                 triangles[i].SetNeighborIDs(neighbors.ToArray());
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel,
-                    $"Setting up NavTriangles neighbors. {iteration} iteration: {i} / {triangles.Count}",
-                    1f / triangles.Count * i))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Setting up NavTriangles neighbors. {iteration} iteration: {i} / {triangles.Count}",
+                        1f / triangles.Count * i))
                     throw new Exception("Cancel");
             }
 
             return triangles;
         }
 
-        private Dictionary<int, List<NavigationPointEntry>> SetupEntryPointsForTriangles(NavTriangle[] navTriangles, Dictionary<int, List<int>> trianglesByVertexID, Vector3[] verts)
+        /// <summary>
+        /// Setup what entry points each triangle contains
+        /// </summary>
+        /// <param name="navTriangles">Triangles to check if entry point is within</param>
+        /// <param name="trianglesByVertexID">A list of triangle ids based on a vertex id</param>
+        /// <param name="verts">3D vertices</param>
+        /// <returns>List of entry point ids based on triangle id</returns>
+        private Dictionary<int, List<NavigationPointEntry>> SetupEntryPointsForTriangles(NavTriangle[] navTriangles,
+            Dictionary<int, List<int>> trianglesByVertexID, Vector3[] verts)
         {
-            NavigationPointEntry[] entries = GameObject.FindObjectsOfType<NavigationPoint>().SelectMany(p => p.GetEntryPoints()).ToArray();
+            NavigationPointEntry[] entries = Object.FindObjectsOfType<NavigationPoint>()
+                .SelectMany(p => p.GetEntryPoints()).ToArray();
             Dictionary<int, List<NavigationPointEntry>> result = new();
 
             for (int e = 0; e < entries.Length; e++)
@@ -461,19 +540,31 @@ namespace Editor.Systems.World
             return result;
         }
 
-        private void CheckOverlap(List<Vector3> verts, List<int> inds, Dictionary<Vector2Int, List<int>> vertsByPos, float groupSize, string editorProgressParTitel)
+        /// <summary>
+        /// Check each vertex and if its close to another then remove the other and replace any indices containing it with the current one.
+        /// If the other vertex is in a triangle with the current then remove said triangle.
+        /// </summary>
+        /// <param name="verts">3D vertices</param>
+        /// <param name="indices">Each pair of threes indicate one triangle</param>
+        /// <param name="vertsByPos">List of vertex ids based on the divided floor int of x and z value</param>
+        /// <param name="groupSize">Division value for creating the vertex groupings</param>
+        /// <param name="editorProgressParTitle">Editor loading bar title</param>
+        /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
+        private void CheckOverlap(List<Vector3> verts, List<int> indices, Dictionary<Vector2Int, List<int>> vertsByPos,
+            float groupSize, string editorProgressParTitle)
         {
-            float devided = 20f;
+            float divided = 20f;
             Dictionary<int, List<int>> removed = new();
             for (int original = 0; original < verts.Count; original++)
             {
-                if (removed.TryGetValue(Mathf.FloorToInt(original / devided), out List<int> removedList))
+                if (removed.TryGetValue(Mathf.FloorToInt(original / divided), out List<int> removedList))
                 {
                     if (removedList.Contains(original))
                         continue;
                 }
 
-                Vector2Int id = new(Mathf.FloorToInt(verts[original].x / groupSize), Mathf.FloorToInt(verts[original].z / groupSize));
+                Vector2Int id = new(Mathf.FloorToInt(verts[original].x / groupSize),
+                    Mathf.FloorToInt(verts[original].z / groupSize));
                 List<int> toCheck = new();
                 if (vertsByPos.TryGetValue(id, out List<int> l1))
                     toCheck.AddRange(l1);
@@ -499,28 +590,29 @@ namespace Editor.Systems.World
                 for (int o = 0; o < toCheck.Count; o++)
                 {
                     int other = toCheck[o];
-                    if (removed.TryGetValue(Mathf.FloorToInt(other / devided), out removedList))
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
                     {
                         if (removedList.Contains(other))
                             continue;
                     }
 
-                    if (Vector3.Distance(verts[original], verts[other]) > this.overlapCheckDistance)
+                    if (Vector3.Distance(verts[original], verts[other]) > overlapCheckDistance)
                         continue;
 
-                    if (removed.TryGetValue(Mathf.FloorToInt(other / devided), out removedList))
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
                         removedList.Add(other);
                     else
-                        removed.Add(Mathf.FloorToInt(other / devided), new() { other });
+                        removed.Add(Mathf.FloorToInt(other / divided), new List<int> { other });
 
-                    for (int indsIndex = 0; indsIndex < inds.Count; indsIndex++)
+                    for (int indicesIndex = 0; indicesIndex < indices.Count; indicesIndex++)
                     {
-                        if (inds[indsIndex] == other)
-                            inds[indsIndex] = original;
+                        if (indices[indicesIndex] == other)
+                            indices[indicesIndex] = original;
                     }
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Checking vertex overlap: {original} / {verts.Count}", 1f / verts.Count * original))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Checking vertex overlap: {original} / {verts.Count}", 1f / verts.Count * original))
                     throw new Exception("Cancel");
             }
 
@@ -528,70 +620,86 @@ namespace Editor.Systems.World
             for (int i = 0; i < toRemove.Count; i++)
             {
                 int index = toRemove[i];
-                vertsByPos[new(Mathf.FloorToInt(verts[index].x / groupSize), Mathf.FloorToInt(verts[index].z / groupSize))].Remove(index);
+                vertsByPos[
+                    new Vector2Int(Mathf.FloorToInt(verts[index].x / groupSize),
+                        Mathf.FloorToInt(verts[index].z / groupSize))].Remove(index);
                 verts.RemoveAt(index);
 
-                for (int j = 0; j < inds.Count; j++)
+                for (int j = 0; j < indices.Count; j++)
                 {
-                    if (inds[j] >= index)
-                        inds[j] = inds[j] - 1;
+                    if (indices[j] >= index)
+                        indices[j] = indices[j] - 1;
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Removing overlaping vertices: {i} / {toRemove.Count}", 1f / toRemove.Count * i))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Removing overlapping vertices: {i} / {toRemove.Count}", 1f / toRemove.Count * i))
                     throw new Exception("Cancel");
             }
 
-            for (int i = inds.Count - 1; i >= 0; i--)
+            for (int i = indices.Count - 1; i >= 0; i--)
             {
                 if (i % 3 != 0)
                     continue;
 
-                if (inds[i] == inds[i + 1] || inds[i] == inds[i + 2] || inds[i + 1] == inds[i + 2] ||
-                    inds[i] >= verts.Count || inds[i + 1] >= verts.Count || inds[i + 2] >= verts.Count)
+                if (indices[i] == indices[i + 1] || indices[i] == indices[i + 2] || indices[i + 1] == indices[i + 2] ||
+                    indices[i] >= verts.Count || indices[i + 1] >= verts.Count || indices[i + 2] >= verts.Count)
                 {
-                    inds.RemoveAt(i);
-                    inds.RemoveAt(i);
-                    inds.RemoveAt(i);
+                    indices.RemoveAt(i);
+                    indices.RemoveAt(i);
+                    indices.RemoveAt(i);
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitel, $"Correcting indicies indexes: {inds.Count - i} / {verts.Count}", 1f / verts.Count * (inds.Count - i)))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Correcting indices indexes: {indices.Count - i} / {verts.Count}",
+                        1f / verts.Count * (indices.Count - i)))
                     throw new Exception("Cancel");
             }
         }
 
-        private void FillHoles(List<Vector3> verts, List<int> areas, List<int> inds, Dictionary<Vector2Int, List<int>> vertsByPos, string editorProgreesParTitel)
+        /// <summary>
+        /// Fill any holes that might have appeared by checking overlap.
+        /// If any three vertexes are directly connected to the two others then add a triangle between them.
+        /// </summary>
+        /// <param name="verts">3D vertices</param>
+        /// <param name="areas">When a new triangle is created then add an area value as well</param>
+        /// <param name="indices">Each pair of threes indicate one triangle</param>
+        /// <param name="editorProgressParTitle">Editor loading bar title</param>
+        /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
+        private void FillHoles(List<Vector3> verts, List<int> areas, List<int> indices,
+            string editorProgressParTitle)
         {
             Dictionary<int, List<int>> connectionsByIndex = new();
-            Dictionary<int, List<int>> indsByIndex = new();
+            Dictionary<int, List<int>> indicesByIndex = new();
             for (int i = 0; i < verts.Count; i++)
             {
-                connectionsByIndex.Add(i, new());
-                indsByIndex.Add(i, new());
+                connectionsByIndex.Add(i, new List<int>());
+                indicesByIndex.Add(i, new List<int>());
             }
 
-            for (int i = 0; i < inds.Count; i += 3)
+            for (int i = 0; i < indices.Count; i += 3)
             {
-                if (!connectionsByIndex[inds[i]].Contains(inds[i + 1]))
-                    connectionsByIndex[inds[i]].Add(inds[i + 1]);
-                if (!connectionsByIndex[inds[i]].Contains(inds[i + 2]))
-                    connectionsByIndex[inds[i]].Add(inds[i + 2]);
+                if (!connectionsByIndex[indices[i]].Contains(indices[i + 1]))
+                    connectionsByIndex[indices[i]].Add(indices[i + 1]);
+                if (!connectionsByIndex[indices[i]].Contains(indices[i + 2]))
+                    connectionsByIndex[indices[i]].Add(indices[i + 2]);
 
-                if (!connectionsByIndex[inds[i + 1]].Contains(inds[i]))
-                    connectionsByIndex[inds[i + 1]].Add(inds[i]);
-                if (!connectionsByIndex[inds[i + 1]].Contains(inds[i + 2]))
-                    connectionsByIndex[inds[i + 1]].Add(inds[i + 2]);
+                if (!connectionsByIndex[indices[i + 1]].Contains(indices[i]))
+                    connectionsByIndex[indices[i + 1]].Add(indices[i]);
+                if (!connectionsByIndex[indices[i + 1]].Contains(indices[i + 2]))
+                    connectionsByIndex[indices[i + 1]].Add(indices[i + 2]);
 
-                if (!connectionsByIndex[inds[i + 2]].Contains(inds[i]))
-                    connectionsByIndex[inds[i + 2]].Add(inds[i]);
-                if (!connectionsByIndex[inds[i + 2]].Contains(inds[i + 1]))
-                    connectionsByIndex[inds[i + 2]].Add(inds[i + 1]);
+                if (!connectionsByIndex[indices[i + 2]].Contains(indices[i]))
+                    connectionsByIndex[indices[i + 2]].Add(indices[i]);
+                if (!connectionsByIndex[indices[i + 2]].Contains(indices[i + 1]))
+                    connectionsByIndex[indices[i + 2]].Add(indices[i + 1]);
 
-                int[] arr = { inds[i], inds[i + 1], inds[i + 2] };
-                indsByIndex[inds[i]].AddRange(arr);
-                indsByIndex[inds[i + 1]].AddRange(arr);
-                indsByIndex[inds[i + 2]].AddRange(arr);
+                int[] arr = { indices[i], indices[i + 1], indices[i + 2] };
+                indicesByIndex[indices[i]].AddRange(arr);
+                indicesByIndex[indices[i + 1]].AddRange(arr);
+                indicesByIndex[indices[i + 2]].AddRange(arr);
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Collecting vertex connections and indicies: {i} / {inds.Count}", 1f / inds.Count * i))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Collecting vertex connections and indices: {i} / {indices.Count}", 1f / indices.Count * i))
                     throw new Exception("Cancel");
             }
 
@@ -599,22 +707,23 @@ namespace Editor.Systems.World
             {
                 Vector2 p = verts[i].XZ();
 
-                for (int j = 0; j < inds.Count; j += 3)
+                for (int j = 0; j < indices.Count; j += 3)
                 {
-                    if (inds[j] == i || inds[j + 1] == i || inds[j + 2] == i)
+                    if (indices[j] == i || indices[j + 1] == i || indices[j + 2] == i)
                         continue;
 
-                    Vector2 a = verts[inds[j]].XZ(), b = verts[inds[j + 1]].XZ(), c = verts[inds[j + 2]].XZ();
+                    Vector2 a = verts[indices[j]].XZ(), b = verts[indices[j + 1]].XZ(), c = verts[indices[j + 2]].XZ();
 
                     if (!ExtMathf.PointWithinTriangle2D(p, a, b, c))
                         continue;
 
                     Vector2 close1 = ExtMathf.ClosetPointOnLine(p, a, b),
-                    close2 = ExtMathf.ClosetPointOnLine(p, a, b),
-                    close3 = ExtMathf.ClosetPointOnLine(p, a, b);
+                        close2 = ExtMathf.ClosetPointOnLine(p, a, b),
+                        close3 = ExtMathf.ClosetPointOnLine(p, a, b);
 
                     Vector2 close;
-                    if (Vector2.Distance(close1, p) < Vector2.Distance(close2, p) && Vector2.Distance(close1, p) < Vector2.Distance(close3, p))
+                    if (Vector2.Distance(close1, p) < Vector2.Distance(close2, p) &&
+                        Vector2.Distance(close1, p) < Vector2.Distance(close3, p))
                         close = close1;
                     else if (Vector2.Distance(close2, p) < Vector2.Distance(close3, p))
                         close = close2;
@@ -626,7 +735,8 @@ namespace Editor.Systems.World
                     verts[i] = verts[i] + (offset.normalized * (offset.magnitude + .01f)).ToV3(0);
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Checking point overlap with triangles: {i} / {verts.Count}", 1f / verts.Count * i))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Checking point overlap with triangles: {i} / {verts.Count}", 1f / verts.Count * i))
                     throw new Exception("Cancel");
             }
 
@@ -658,9 +768,9 @@ namespace Editor.Systems.World
                             maxX = Mathf.Max(Mathf.Max(a.x, b.x), c.x),
                             maxY = Mathf.Max(Mathf.Max(a.y, b.y), c.y);
 
-                        for (int x = 0; x < inds.Count; x += 3)
+                        for (int x = 0; x < indices.Count; x += 3)
                         {
-                            List<int> checkArr = new() { inds[x], inds[x + 1], inds[x + 2] };
+                            List<int> checkArr = new() { indices[x], indices[x + 1], indices[x + 2] };
                             if (checkArr.Contains(original) && checkArr.Contains(other) && checkArr.Contains(final))
                             {
                                 //The triangle already exists
@@ -672,7 +782,7 @@ namespace Editor.Systems.World
                                 bP = verts[checkArr[1]].XZ(),
                                 cP = verts[checkArr[2]].XZ();
 
-                            //Boundings
+                            //Bounding
                             if (maxX < Mathf.Min(Mathf.Min(aP.x, bP.x), cP.x) ||
                                 maxY < Mathf.Min(Mathf.Min(aP.y, bP.y), cP.y) ||
                                 minX > Mathf.Max(Mathf.Max(aP.x, bP.x), cP.x) ||
@@ -700,16 +810,19 @@ namespace Editor.Systems.World
                             continue;
 
                         areas.Add(0);
-                        inds.Add(original);
-                        inds.Add(other);
-                        inds.Add(final);
+                        indices.Add(original);
+                        indices.Add(other);
+                        indices.Add(final);
                     }
                 }
 
-                if (EditorUtility.DisplayCancelableProgressBar(editorProgreesParTitel, $"Finding and filling holes: {original} / {verts.Count}", 1f / verts.Count * original))
+                if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
+                        $"Finding and filling holes: {original} / {verts.Count}", 1f / verts.Count * original))
                     throw new Exception("Cancel");
             }
         }
+
+        #endregion
 
         #endregion
     }

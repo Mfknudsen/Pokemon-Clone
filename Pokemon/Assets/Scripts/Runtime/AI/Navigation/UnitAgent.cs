@@ -14,11 +14,9 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        [SerializeField, InlineEditor]
-        private UnitAgentSettings settings;
+        [SerializeField, InlineEditor] private UnitAgentSettings settings;
 
-        [SerializeField]
-        private Transform target;
+        [SerializeField] private Transform target;
 
         private Vector3 pre;
 
@@ -26,9 +24,9 @@ namespace Runtime.AI.Navigation
 
         private int currentTriangleIndex = -1;
 
-        [SerializeField] private CalculatedNavMesh calculatedNavMesh;
-
         [SerializeField, HideInInspector] private Rigidbody rb;
+
+        private bool pathPending;
 
         #endregion
 
@@ -62,37 +60,8 @@ namespace Runtime.AI.Navigation
             this.MoveTo(this.pre);
         }
 
-        private void OnDrawGizmos()
-        {
-            this.currentPath.DebugPath();
-
-            if (this.target != null)
-            {
-                int targetID = this.calculatedNavMesh.ClosestTriangleIndex(this.target.position.XZ());
-                int[] targetIDs = this.calculatedNavMesh.Triangles[targetID].Vertices;
-                if (ExtMathf.PointWithinTriangle2D(this.target.position.XZ(),
-                    this.calculatedNavMesh.SimpleVertices[targetIDs[0]],
-                    this.calculatedNavMesh.SimpleVertices[targetIDs[1]],
-                    this.calculatedNavMesh.SimpleVertices[targetIDs[2]]))
-                    Debug.DrawRay(new(this.target.position.x, this.calculatedNavMesh.Triangles[targetID].MaxY, this.target.position.z), Vector3.up, Color.red);
-                else
-                    Debug.DrawRay(this.calculatedNavMesh.Triangles[targetID].Center(this.calculatedNavMesh.Vertices()), Vector3.up, Color.red);
-            }
-
-            int id = this.calculatedNavMesh.ClosestTriangleIndex(this.transform.position);
-            int[] ids = this.calculatedNavMesh.Triangles[id].Vertices;
-            if (ExtMathf.PointWithinTriangle2D(this.transform.position.XZ(),
-                this.calculatedNavMesh.SimpleVertices[ids[0]],
-                this.calculatedNavMesh.SimpleVertices[ids[1]],
-                this.calculatedNavMesh.SimpleVertices[ids[2]]))
-                Debug.DrawRay(new(this.transform.position.x, this.calculatedNavMesh.Triangles[id].MaxY, this.transform.position.z), Vector3.up, Color.red);
-            else
-                Debug.DrawRay(this.calculatedNavMesh.Triangles[id].Center(this.calculatedNavMesh.Vertices()), Vector3.up, Color.red);
-
-
-            if (this.currentPath.Empty)
-                return;
-        }
+        private void OnDrawGizmos() =>
+            this.currentPath.DebugPath(this);
 
         #endregion
 
@@ -120,7 +89,8 @@ namespace Runtime.AI.Navigation
         {
             if (InTriangle2D(UnitNavigation.GetTriangleByID(this.currentTriangleIndex).Vertices, position))
             {
-                if (Vector3.Angle(this.transform.forward, direction.ForwardFromRotation()) > this.settings.WalkTurnAngle)
+                if (Vector3.Angle(this.transform.forward, direction.ForwardFromRotation()) >
+                    this.settings.WalkTurnAngle)
                 {
                     //
                 }
@@ -136,7 +106,9 @@ namespace Runtime.AI.Navigation
 
         internal void MoveAgentBody(Vector3 towards)
         {
-            this.rb.MovePosition(this.transform.position + this.settings.MoveSpeed * Time.deltaTime * (towards.XZ() - this.transform.position.XZ()).ToV3(0).normalized);
+            Vector3 position = this.transform.position;
+            this.rb.MovePosition(position + this.settings.MoveSpeed * Time.deltaTime *
+                (towards.XZ() - position.XZ()).ToV3(0).normalized);
         }
 
         #endregion

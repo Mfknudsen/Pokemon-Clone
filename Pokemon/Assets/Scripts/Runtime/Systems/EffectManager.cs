@@ -6,12 +6,12 @@ using Runtime.Systems.Pooling;
 using Runtime.VFX;
 using Runtime.VFX.Reuseable;
 using Runtime.VFX.Scene;
-using Runtime.VFX.SingleUSe;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.VFX.SingleUse;
 using UnityEngine;
 
 #endregion

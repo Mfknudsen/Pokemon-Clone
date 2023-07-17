@@ -66,7 +66,7 @@ namespace Runtime.Common
         }
 
         //https://www.youtube.com/watch?v=HYAgJN3x4GA
-        public static bool PointWithinTriangle2D(Vector2 point, Vector2 a, Vector2 b, Vector2 c)
+        public static bool PointWithinTriangle2D(Vector2 point, Vector2 a, Vector2 b, Vector2 c, float tolerance = .001f)
         {
             float w1 = (a.x * (c.y - a.y) + (point.y - a.y) * (c.x - a.x) - point.x * (c.y - a.y)) /
                        ((b.y - a.y) * (c.x - a.x) - (b.x - a.x) * (c.y - a.y));
@@ -74,7 +74,6 @@ namespace Runtime.Common
             float w2 = (point.y - a.y - w1 * (b.y - a.y)) /
                        (c.y - a.y);
 
-            const float tolerance = .001f;
             return w1 >= tolerance && w2 >= tolerance && w1 + w2 <= 1f - tolerance;
         }
 
@@ -104,6 +103,20 @@ namespace Runtime.Common
             dotP = Mathf.Clamp(dotP, 0f, magnitudeMax);
 
             return start + heading * dotP;
+        }
+
+        public static  float FastSqrt(float number)
+        {
+            // ReSharper disable once IdentifierTypo
+            const float threehalfs = 1.5f;
+            float x2 = number * .5f;
+            float y = number;
+            uint i = BitConverter.ToUInt32(BitConverter.GetBytes(y), 0);
+            i = 0x5f3759df - (i >> 1);
+            y = BitConverter.ToSingle(BitConverter.GetBytes(i),0);
+            y = y * (threehalfs - (x2 * y * y));
+
+            return y;
         }
     }
 }

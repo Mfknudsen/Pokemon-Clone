@@ -21,28 +21,38 @@ namespace Runtime.AI.Navigation
 
         [SerializeField] private NavTriangle[] triangles;
         [SerializeField] private int[] areaType;
-        [SerializeField] private Dictionary<int, List<NavigationPointEntry>> navigationEntryPoints;
+        [SerializeReference] private Dictionary<int, List<NavigationPointEntry>> navigationEntryPoints;
 
-        [SerializeField] private Dictionary<Vector2Int, List<int>> trianglesByVertexPosition;
+        [SerializeReference] private Dictionary<Vector2Int, List<int>> trianglesByVertexPosition;
 
         private NavigationPoint[] navigationPoints;
-        private NavigationPointEntry[] entryPoints;
 
         private readonly float groupDivision = 10f;
         [SerializeField, HideInInspector] private int minFloorX, minFloorY, maxFloorX, maxFloorY;
 
         #endregion
 
+        #region Getters
+        
+        public Vector2[] SimpleVertices => this.vertices2D;
+
+        public NavTriangle[] Triangles => this.triangles;
+
+        public int[] Areas => this.areaType;
+
+        #endregion
+
+        
         #region Setters
 
-        public void SetValues(Vector3[] vertices, NavTriangle[] triangles, int[] areaType, Dictionary<int, List<NavigationPointEntry>> navigationEntryPoints)
+        public void SetValues(Vector3[] vertices, NavTriangle[] navTriangles, int[] areaTypes, Dictionary<int, List<NavigationPointEntry>> entryPoints)
         {
-            this.triangles = new NavTriangle[triangles.Length];
-            for (int i = 0; i < triangles.Length; i++)
-                this.triangles[i] = triangles[i];
+            this.triangles = new NavTriangle[navTriangles.Length];
+            for (int i = 0; i < navTriangles.Length; i++)
+                this.triangles[i] = navTriangles[i];
 
-            this.areaType = areaType;
-            this.navigationEntryPoints = navigationEntryPoints;
+            this.areaType = areaTypes;
+            this.navigationEntryPoints = entryPoints;
 
             this.vertices2D = new Vector2[vertices.Length];
             this.verticesY = new float[vertices.Length];
@@ -55,7 +65,7 @@ namespace Runtime.AI.Navigation
 
             this.trianglesByVertexPosition = new();
 
-            triangles.ForEach(t =>
+            navTriangles.ForEach(t =>
             {
                 int a = t.Vertices[0], b = t.Vertices[1], c = t.Vertices[2];
                 Vector2Int A = new(Mathf.FloorToInt(this.vertices2D[a].x / this.groupDivision), Mathf.FloorToInt(this.vertices2D[a].y / this.groupDivision)),
@@ -88,12 +98,6 @@ namespace Runtime.AI.Navigation
             });
         }
 
-        public void SetNavigationPoints(NavigationPoint[] set)
-        {
-            this.navigationPoints = set;
-            this.entryPoints = this.navigationPoints.SelectMany(p => p.GetEntryPoints()).ToArray();
-        }
-
         public void SetVert(int index, Vector3 v)
         {
             this.vertices2D[index] = new Vector2(v.x, v.z); ;
@@ -101,17 +105,7 @@ namespace Runtime.AI.Navigation
         }
 
         #endregion
-
-        #region Getters
-
-        public Vector2[] SimpleVertices => this.vertices2D;
-
-        public NavTriangle[] Triangles => this.triangles;
-
-        public int[] Areas => this.areaType;
-
-        #endregion
-
+        
         #region Out
 
         public Vector3[] Vertices()
@@ -211,6 +205,12 @@ namespace Runtime.AI.Navigation
         #endregion
 
         #region Getters
+
+        public readonly int GetA => this.A;
+
+        public readonly int GetB => this.B;
+
+        public readonly int GetC => this.C;
 
         public readonly int[] Vertices => new int[] { this.A, this.B, this.C };
 

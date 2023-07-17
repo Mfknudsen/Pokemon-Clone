@@ -1,55 +1,85 @@
 #region Libraries
 
-using Runtime.Common;
 using System.Collections.Generic;
+using System.Linq;
+using Runtime.AI.Navigation.PathActions;
+using Runtime.Algorithms;
+using Runtime.Common;
+using Runtime.Common.CommonMathf;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
 
 namespace Runtime.AI.Navigation
 {
+    [System.Serializable]
     public struct UnitPath
     {
         #region Values
 
-        private int actionIndex;
-        private readonly List<PathAction> actions;
+        [ShowInInspector] private int actionIndex;
+        [ShowInInspector] private readonly List<PathAction> actions;
 
-        private readonly Vector3 destination;
+        [ShowInInspector] private readonly Vector3 destination;
+        [ShowInInspector] private List<NavTriangle> pathTriangles;
+        [ShowInInspector] private Vector3[] verts;
 
-        private readonly int[] ids;
+        [ShowInInspector] private readonly int[] ids;
+
+        private List<Edge> edges;
+        private List<Edge> left, right;
 
         #endregion
 
         #region Build In States
 
-        public UnitPath(Vector3 destination, int[] pathTriangleIDs, NavTriangle[] triangles, Vector3[] verts, Vector3 startPoint, float agentRadius)
+        public UnitPath(Vector3 destination, int[] pathTriangleIDs, NavTriangle[] triangles, Vector3[] verts,
+            Vector2[] simpleVerts, Vector3 startPoint, UnitAgent agent)
         {
+            this.verts = verts;
+            this.pathTriangles = new List<NavTriangle>();
+            foreach (int pathTriangleID in pathTriangleIDs.Reverse())
+                this.pathTriangles.Add(triangles[pathTriangleID]);
+
+            this.edges =
+                SSFunnelAlgorithm.GetEdgesFromTrianglePath(this.pathTriangles, verts);
+            int[] startShared = this.pathTriangles[0].Vertices.SharedBetween(this.pathTriangles[1].Vertices);
+            Vector3 position = agent.transform.position;
+            this.left = SSFunnelAlgorithm.GetSideEdgesByStartIndex(position, this.verts[startShared[0]],
+                this.edges);
+            this.right = SSFunnelAlgorithm.GetSideEdgesByStartIndex(position, this.verts[startShared[1]],
+                this.edges);
+
             this.ids = new int[pathTriangleIDs.Length];
 
             this.actionIndex = 0;
             this.destination = destination;
 
-            this.actions = new();
-            Vector2 closestPoint = startPoint.XZ();
-            for (int i = pathTriangleIDs.Length - 2; i >= 0; i--)
+            this.actions = new List<PathAction>();
+
+            int[] correctedPath = pathTriangleIDs.Reverse().ToArray();
+            List<NavTriangle> currentWalkablePath = new List<NavTriangle>();
+            for (int i = 0; i < correctedPath.Length - 1; i++)
             {
-                if (triangles[pathTriangleIDs[i]].Neighbors.Contains(pathTriangleIDs[i + 1]))
+                currentWalkablePath.Add(triangles[correctedPath[i]]);
+
+                if (!triangles[correctedPath[i]].Neighbors.Contains(triangles[correctedPath[i + 1]].ID))
                 {
-                    int[] indsBetween = triangles[pathTriangleIDs[i]].Vertices
-                        .SharedBetween(triangles[pathTriangleIDs[i + 1]].Vertices);
+                    foreach (Vector3 p in SSFunnelAlgorithm.GetPositionsFromEdges(startPoint, destination, simpleVerts,
+                                 verts, currentWalkablePath))
+                        this.actions.Add(new WalkAction(p));
 
-                    Vector2 dir = (verts[indsBetween[1]].XZ() - verts[indsBetween[0]].XZ()).normalized;
-                    Vector2 p = ExtMathf.ClosetPointOnLine(closestPoint + dir.Cross(),
-                        verts[indsBetween[0]].XZ() + dir * (agentRadius * 1.2f),
-                        verts[indsBetween[1]].XZ() - dir * (agentRadius * 1.2f));
-
-                    closestPoint = p;
-
-                    this.actions.Add(new WalkAction(p.ToV3(triangles[pathTriangleIDs[i]].MaxY)));
+                    currentWalkablePath.Clear();
                 }
-                else
-                    this.actions.Add(new InteractAction());
+            }
+
+            if (currentWalkablePath.Count != 0)
+            {
+                foreach (Vector3 p in SSFunnelAlgorithm.GetPositionsFromEdges(startPoint, this.destination, simpleVerts,
+                             verts, currentWalkablePath))
+                    this.actions.Add(new WalkAction(p));
             }
 
             this.actions.Add(new WalkAction(destination));
@@ -74,23 +104,41 @@ namespace Runtime.AI.Navigation
         #region In
 
 #if UNITY_EDITOR
-        public void DebugPath()
+        public void DebugPath(UnitAgent agent)
         {
+            if (this.pathTriangles != null && this.pathTriangles.Count > 0)
+            {
+                NavTriangle previous = this.pathTriangles[0];
+                GUIStyle style = new GUIStyle();
+                style.normal.textColor = Color.blue;
+
+                Debug.DrawLine(previous.Center(this.verts), agent.transform.position, Color.red);
+
+                for (int index = 1; index < this.pathTriangles.Count; index++)
+                {
+                    Debug.DrawLine(previous.Center(this.verts), this.pathTriangles[index].Center(this.verts),
+                        Color.red);
+                    previous = this.pathTriangles[index];
+                    NavTriangle pathTriangle = this.pathTriangles[index];
+                    Handles.Label(pathTriangle.Center(this.verts), pathTriangle.ID.ToString(), style);
+                }
+
+                foreach (Edge edge in this.edges)
+                    Debug.DrawLine(edge.A + Vector3.up, edge
+                        .B + Vector3.up, Color.yellow);
+
+                foreach (Edge edge in this.left)
+                    Debug.DrawLine(edge.A + (Vector3.up * 2), edge.B + (Vector3.up * 2), Color.magenta);
+
+                foreach (Edge edge in this.right)
+                    Debug.DrawLine(edge.A + (Vector3.up * 2), edge.B + (Vector3.up * 2), Color.green);
+            }
+
             if (this.Empty || !UnitNavigation.Ready)
                 return;
 
             for (int i = 0; i < this.actions.Count; i++)
-                Debug.DrawRay((this.actions[i] as WalkAction).destination, Vector3.up, Color.yellow);
-
-            /*
-            Vector3[] verts = UnitNavigation.GetVerts();
-
-            for (int i = 1; i < this.ids.Length; i++)
-            {
-                NavTriangle t1 = UnitNavigation.GetTriangleByID(i - 1), t2 = UnitNavigation.GetTriangleByID(i);
-                Debug.DrawLine(t1.Center(verts) + Vector3.up, t2.Center(verts) + Vector3.up);
-            }
-            */
+                Debug.DrawRay(this.actions[i].Destination(), Vector3.up, Color.yellow);
         }
 #endif
 
@@ -102,5 +150,4 @@ namespace Runtime.AI.Navigation
 
         #endregion
     }
-
 }

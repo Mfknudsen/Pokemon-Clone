@@ -1,27 +1,26 @@
 #region Libraries
 
-using Assets.Scripts.Runtime.World.Overworld;
+using System.Collections.Generic;
+using System.Linq;
 using Runtime.AI.Navigation;
 using Runtime.Common;
 using Sirenix.OdinInspector.Editor;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 #endregion
 
-namespace Editor.Systems.World
+namespace Editor.World.TileSubController
 {
-    [CustomEditor(typeof(TileSubController))]
+    [CustomEditor(typeof(Runtime.World.Overworld.TileSubController))]
     public sealed class TileSubControllerEditor : OdinEditor
     {
-        TileSubController tileSubController;
+        Runtime.World.Overworld.TileSubController tileSubController;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            this.tileSubController = (TileSubController)this.target;
+            this.tileSubController = (Runtime.World.Overworld.TileSubController)this.target;
         }
 
         private void OnSceneGUI()
