@@ -7,16 +7,30 @@ using UnityEngine.Events;
 
 namespace Runtime.ScriptableEvents
 {
-    public abstract class ScriptableEvent<T> : ScriptableObject
+    public interface IScriptableEvent<T>
     {
-        [SerializeField, TextArea] private string description;
+        public void AddListener(UnityAction<T> action);
 
-        private UnityEvent<T> eventValue;
+        public void RemoveListener(UnityAction<T> action);
 
-        public void AddListener(UnityAction<T> action) => this.eventValue.AddListener(action);
+        public void Trigger(T value);
+    }
 
-        public void RemoveListener(UnityAction<T> action) => this.eventValue.RemoveListener(action);
+    public interface IScriptableEvent<T1, T2>
+    {
+        public void AddListener(UnityAction<T1, T2> action);
 
-        public void Trigger(T value) => this.eventValue.Invoke(value);
+        public void RemoveListener(UnityAction<T1, T2> action);
+
+        public void Trigger(T1 value1, T2 value2);
+    }
+
+    public interface IScriptableEvent<T1, T2, T3>
+    {
+        public void AddListener(UnityAction<T1, T2, T3> action);
+
+        public void RemoveListener(UnityAction<T1, T2, T3> action);
+
+        public void Trigger(T1 value1, T2 value2, T3 value3);
     }
 }

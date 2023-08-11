@@ -21,7 +21,7 @@ namespace Runtime.ScriptableVariables
         #region Build In States
 
         private void Start() => 
-            this.variable.value = this.value;
+            this.variable.Value = this.value;
 
         #endregion
     }

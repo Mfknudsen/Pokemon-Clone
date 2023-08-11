@@ -1,12 +1,7 @@
 #region Libraries
 
-using System.Collections.Generic;
-using System.Linq;
-using Runtime.AI.Navigation;
-using Runtime.Common;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
-using UnityEngine;
 
 #endregion
 
@@ -15,16 +10,13 @@ namespace Editor.World.TileSubController
     [CustomEditor(typeof(Runtime.World.Overworld.TileSubController))]
     public sealed class TileSubControllerEditor : OdinEditor
     {
-        Runtime.World.Overworld.TileSubController tileSubController;
+        #region Build In States
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            this.tileSubController = (Runtime.World.Overworld.TileSubController)this.target;
-        }
-
+        /*
         private void OnSceneGUI()
         {
+            Runtime.World.Overworld.TileSubController ileSubController = (Runtime.World.Overworld.TileSubController)this.target;
+        
             EditorGUI.BeginChangeCheck();
 
             Vector3 pos = Handles.PositionHandle(this.tileSubController.GetCleanUpPoint, Quaternion.identity);
@@ -32,9 +24,12 @@ namespace Editor.World.TileSubController
             GUIStyle style = new()
             {
                 fontStyle = FontStyle.Bold,
-                alignment = TextAnchor.UpperCenter
+                alignment = TextAnchor.UpperCenter,
+                normal =
+                {
+                    textColor = Color.blue
+                }
             };
-            style.normal.textColor = Color.blue;
             Handles.Label(pos, "Navmesh Clean Up Point", style);
 
             if (EditorGUI.EndChangeCheck())
@@ -43,54 +38,52 @@ namespace Editor.World.TileSubController
                 Undo.RecordObject(this.target, "Moved Navmesh Clean Up Point");
             }
 
-            if (this.tileSubController.GetNavmesh != null)
+            if (this.tileSubController.GetNavmesh == null) return;
+
+            Handles.color = Color.red;
+            Vector3 scenePos = SceneView.GetAllSceneCameras()[0].transform.position,
+                forward = SceneView.GetAllSceneCameras()[0].transform.forward;
+            Vector3[] verts = this.tileSubController.GetNavmesh.Vertices();
+            NavTriangle[] t = this.tileSubController.GetNavmesh.Triangles;
+            for (int i = 0; i < t.Length; i++)
             {
-                Handles.color = Color.red;
-                Vector3 scenePos = SceneView.GetAllSceneCameras()[0].transform.position, forward = SceneView.GetAllSceneCameras()[0].transform.forward;
-                Vector3[] verts = this.tileSubController.GetNavmesh.Vertices();
-                NavTriangle[] t = this.tileSubController.GetNavmesh.Triangles;
-                for (int i = 0; i < t.Length; i++)
-                {
-                    Vector3 v = t[i].Center(verts);
-                    if ((v - scenePos).sqrMagnitude > 4000)
-                        continue;
+                Vector3 v = t[i].Center(verts);
+                if ((v - scenePos).sqrMagnitude > 4000)
+                    continue;
 
-                    if (Vector3.Angle(forward, v - scenePos) > 75f)
-                        continue;
+                if (Vector3.Angle(forward, v - scenePos) > 75f)
+                    continue;
 
-                    Handles.Label(v + Vector3.up, i.ToString(), style);
+                Handles.Label(v + Vector3.up, i.ToString(), style);
 
-                    List<int> corners = t[i].Neighbors;
-                    for (int j = 0; j < corners.Count; j++)
-                    {
-                        if (t[corners[j]].ID < i)
-                            continue;
-
-                        Handles.DrawLine(v, t[corners[j]].Center(verts), 2f);
-                    }
-
-                }
-                int[] inds = this.tileSubController.GetNavmesh.Triangles.SelectMany(t => t.Vertices).ToArray();
-                for (int i = 0; i < inds.Length; i += 3)
-                {
-                    if (verts[inds[i]].QuickSquareDistance(scenePos) > 2000 ||
-                        Vector3.Angle(forward, verts[inds[i]] - scenePos) > 75f)
-                        continue;
-
-                    if (verts[inds[i + 1]].QuickSquareDistance(scenePos) > 2000 ||
-                        Vector3.Angle(forward, verts[inds[i + 1]] - scenePos) > 75f)
-                        continue;
-
-                    if (verts[inds[i + 2]].QuickSquareDistance(scenePos) > 2000 ||
-                        Vector3.Angle(forward, verts[inds[i + 2]] - scenePos) > 75f)
-                        continue;
-
-                    Debug.DrawLine(verts[inds[i]] + Vector3.up, verts[inds[i + 1]] + Vector3.up, Color.green);
-                    Debug.DrawLine(verts[inds[i]] + Vector3.up, verts[inds[i + 2]] + Vector3.up, Color.green);
-                    Debug.DrawLine(verts[inds[i + 2]] + Vector3.up, verts[inds[i + 1]] + Vector3.up, Color.green);
-                }
+                List<int> corners = t[i].Neighbors;
+                foreach (int c in corners.Where(c => t[c].ID >= i))
+                    Handles.DrawLine(v, t[c].Center(verts), 2f);
             }
 
+            int[] indices = this.tileSubController.GetNavmesh.Triangles.SelectMany(navTriangle => navTriangle.Vertices)
+                .ToArray();
+            for (int i = 0; i < indices.Length; i += 3)
+            {
+                if (verts[indices[i]].QuickSquareDistance(scenePos) > 2000 ||
+                    Vector3.Angle(forward, verts[indices[i]] - scenePos) > 75f)
+                    continue;
+
+                if (verts[indices[i + 1]].QuickSquareDistance(scenePos) > 2000 ||
+                    Vector3.Angle(forward, verts[indices[i + 1]] - scenePos) > 75f)
+                    continue;
+
+                if (verts[indices[i + 2]].QuickSquareDistance(scenePos) > 2000 ||
+                    Vector3.Angle(forward, verts[indices[i + 2]] - scenePos) > 75f)
+                    continue;
+
+                Debug.DrawLine(verts[indices[i]] + Vector3.up, verts[indices[i + 1]] + Vector3.up, Color.green);
+                Debug.DrawLine(verts[indices[i]] + Vector3.up, verts[indices[i + 2]] + Vector3.up, Color.green);
+                Debug.DrawLine(verts[indices[i + 2]] + Vector3.up, verts[indices[i + 1]] + Vector3.up, Color.green);
+            }
         }
+        */
+
+        #endregion
     }
 }

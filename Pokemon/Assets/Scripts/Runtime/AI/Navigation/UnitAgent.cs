@@ -1,8 +1,8 @@
 #region Libraries
 
-using Runtime.Common;
 using Sirenix.OdinInspector;
 using System.Collections;
+using Runtime.Core;
 using UnityEngine;
 
 #endregion
@@ -16,6 +16,8 @@ namespace Runtime.AI.Navigation
 
         [SerializeField, InlineEditor] private UnitAgentSettings settings;
 
+        [SerializeField] private bool startAgentOnNavMesh = true;
+
         [SerializeField] private Transform target;
 
         private Vector3 pre;
@@ -26,7 +28,7 @@ namespace Runtime.AI.Navigation
 
         [SerializeField, HideInInspector] private Rigidbody rb;
 
-        private bool pathPending;
+        private bool pathPending, isOnNavMesh;
 
         #endregion
 
@@ -39,9 +41,14 @@ namespace Runtime.AI.Navigation
 
             yield return new WaitWhile(() => !UnitNavigation.Ready);
 
+            if (!this.startAgentOnNavMesh) yield break;
+
             this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
-            this.rb.useGravity = true;
+            this.isOnNavMesh = this.currentTriangleIndex != -1;
+
+            if (this.isOnNavMesh)
+                this.rb.useGravity = true;
         }
 
         private void Update()
@@ -67,9 +74,11 @@ namespace Runtime.AI.Navigation
 
         #region Getters
 
-        public int CurrentTriangleIndex => this.currentTriangleIndex;
+        public int CurrentTriangleIndex() => this.currentTriangleIndex;
 
         public UnitAgentSettings Settings => this.settings;
+
+        public bool AgentIsOnNavMesh() => this.isOnNavMesh;
 
         #endregion
 
@@ -122,7 +131,7 @@ namespace Runtime.AI.Navigation
 
             Vector2[] positions = UnitNavigation.Get2DVertByIndex(corners);
 
-            return ExtMathf.PointWithinTriangle2D(point.XZ(), positions[0], positions[1], positions[2]);
+            return MathC.PointWithinTriangle2D(point.XZ(), positions[0], positions[1], positions[2]);
         }
 
         #endregion

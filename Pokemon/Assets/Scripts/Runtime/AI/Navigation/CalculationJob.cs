@@ -1,7 +1,7 @@
 #region Libraries
 
-using Runtime.Common;
 using System;
+using Runtime.Core;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
@@ -231,7 +231,7 @@ namespace Runtime.AI.Navigation
                 this.checkList.Dispose();
         }
 
-        public static Node Get(int previousID, UnsafeList<Node> nodes)
+        private static Node Get(int previousID, UnsafeList<Node> nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
                 if (nodes[i].triangleID == previousID)
@@ -242,8 +242,8 @@ namespace Runtime.AI.Navigation
 
         private static bool Contains(UnsafeList<int> nodes, int target)
         {
-            for (int i = 0; i < nodes.Length; i++)
-                if (nodes[i] == target)
+            foreach (int t in nodes)
+                if (t == target)
                     return true;
 
             return false;
@@ -269,7 +269,7 @@ namespace Runtime.AI.Navigation
             UnitAgent agent = request.agent;
             UnitAgentSettings settings = agent.Settings;
 
-            this.currentTriangleID = agent.CurrentTriangleIndex;
+            this.currentTriangleID = agent.CurrentTriangleIndex();
             this.desination = request.destination;
             this.startPosition = agent.transform.position;
             this.destinationTriangleID = UnitNavigation.ClosestTriangleIndex(this.desination);
@@ -302,16 +302,16 @@ namespace Runtime.AI.Navigation
             this.area = triangle.Area;
 
             this.neighbors = new UnsafeList<int>(triangle.Neighbors.Count, Allocator.Temp);
-            for (int i = 0; i < triangle.Neighbors.Count; i++)
-                this.neighbors.Add(triangle.Neighbors[i]);
+            foreach (int t in triangle.Neighbors)
+                this.neighbors.Add(t);
 
             this.navPoints = new UnsafeList<int>(triangle.NavPoints.Count, Allocator.Temp);
-            for (int i = 0; i < triangle.NavPoints.Count; i++)
-                this.navPoints.Add(triangle.NavPoints[i]);
+            foreach (int t in triangle.NavPoints)
+                this.navPoints.Add(t);
 
             this.widths = new UnsafeList<float>(triangle.Widths.Count, Allocator.Temp);
-            for (int i = 0; i < triangle.Widths.Count; i++)
-                this.widths.Add(triangle.Widths[i]);
+            foreach (float t in triangle.Widths)
+                this.widths.Add(t);
         }
 
         public void Dispose()

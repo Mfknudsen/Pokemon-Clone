@@ -13,14 +13,16 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        [SerializeField]
-        private int id;
+        [SerializeField, HideInInlineEditors] private int id;
 
-        [SerializeField, MinValue(.1f)]
-        private float radius = .5f, height = 1, moveSpeed = 1, turnSpeed = 1, walkTurnAngle = 45f, stoppingDistance = .5f;
+        [SerializeField, MinValue(.1f)] private float radius = .5f,
+            height = 1,
+            moveSpeed = 1,
+            turnSpeed = 1,
+            walkTurnAngle = 45f,
+            stoppingDistance = .5f;
 
-        [SerializeField]
-        private readonly List<int> usableNavigationPoints = new();
+        [SerializeField] private List<int> usableNavigationPoints = new();
 
         #endregion
 

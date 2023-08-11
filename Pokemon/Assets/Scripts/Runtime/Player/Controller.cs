@@ -1,12 +1,12 @@
 ﻿#region Libraries
 
 using Cinemachine;
-using Runtime.Common;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems;
 using Sirenix.OdinInspector;
 using System.Collections;
+using Runtime.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -93,7 +93,7 @@ namespace Runtime.Player
         {
             Debug.DrawRay(this.moveTransform.position, this.moveTransform.forward * 2, Color.blue);
 
-            if (!this.allowed.value) return;
+            if (!this.allowed.Value) return;
 
             this.UpdateMoveTransform();
             this.Move();
@@ -114,7 +114,7 @@ namespace Runtime.Player
             inputManager.crouchInputEvent.AddListener(this.OnCrouchChange);
             inputManager.runInputEvent.AddListener(this.OnRunChange);
 
-            this.allowed.value = true;
+            this.allowed.Value = true;
 
             this.cameraRig.m_YAxis.m_MaxSpeed = this.yCamSpeed;
             this.cameraRig.m_XAxis.m_MaxSpeed = this.xCamSpeed;
@@ -129,7 +129,7 @@ namespace Runtime.Player
             inputManager.crouchInputEvent.RemoveListener(this.OnCrouchChange);
             inputManager.runInputEvent.RemoveListener(this.OnRunChange);
 
-            this.allowed.value = false;
+            this.allowed.Value = false;
 
             this.cameraRig.m_YAxis.m_MaxSpeed = 0;
             this.cameraRig.m_XAxis.m_MaxSpeed = 0;
@@ -144,7 +144,7 @@ namespace Runtime.Player
 
         private void UpdateMoveTransform()
         {
-            if (this.aiming.value) return;
+            if (this.aiming.Value) return;
 
             Vector3 camForward = this.cameraBrain.getTransform.forward;
             camForward -= Vector3.up * camForward.y;
@@ -175,12 +175,12 @@ namespace Runtime.Player
             Vector3 moveVector = (forwardMove + sideMove).normalized;
 
             this.agent.Move(moveVector.normalized *
-                            ((this.running.value ? this.runSpeed : this.moveSpeed) * Time.deltaTime));
+                            ((this.running.Value ? this.runSpeed : this.moveSpeed) * Time.deltaTime));
         }
 
         private void Turn()
         {
-            if (!this.aiming.value)
+            if (!this.aiming.Value)
             {
                 if (this.moveDirection != Vector2.zero)
                 {
@@ -251,7 +251,7 @@ namespace Runtime.Player
         }
 
         private void OnRunChange(bool input) =>
-            this.running.value = input;
+            this.running.Value = input;
 
         private void OnJumpChange() =>
             this.TryDash();

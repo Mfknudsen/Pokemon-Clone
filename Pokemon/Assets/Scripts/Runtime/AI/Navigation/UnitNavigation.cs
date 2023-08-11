@@ -1,8 +1,8 @@
 #region Libraries
 
-using Runtime.Common;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Core;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -14,45 +14,34 @@ using UnityEngine.Events;
 
 namespace Runtime.AI.Navigation
 {
-    #region Enums
-
-    internal enum TriangleLine
-    {
-        AB,
-        BC,
-        AC
-    }
-
-    #endregion
-
     public static class UnitNavigation
     {
         #region Values
 
-        private static CalculatedNavMesh NavMesh;
+        private static CalculatedNavMesh _navMesh;
 
-        private static UnityAction OnNavMeshChanged;
+        private static UnityAction _onNavMeshChanged;
 
-        public static bool Ready => NavMesh != null;
+        public static bool Ready => _navMesh != null;
 
-        private static List<QueuedAgentRequest> requests;
+        private static List<QueuedAgentRequest> _requests;
 
-        private static NativeArray<float3> verts;
-        private static NativeArray<float2> simpleVerts;
-        private static NativeArray<int> areas;
-        private static NativeArray<JobTriangle> triangles;
+        private static NativeArray<float3> _verts;
+        private static NativeArray<float2> _simpleVerts;
+        private static NativeArray<int> _areas;
+        private static NativeArray<JobTriangle> _triangles;
 
-        private static bool switchNativeArrays;
+        private static bool _switchNativeArrays;
 
-        private static int maxCalculationsPerBatch = 100;
+        private const int MAX_CALCULATIONS_PER_BATCH = 100;
 
-        private static JobHandle currentJob;
+        private static JobHandle _currentJob;
 
         #endregion
 
         #region Getters
 
-        public static Vector3[] GetVerts() => NavMesh.Vertices();
+        public static Vector3[] GetVerts() => _navMesh.Vertices();
 
         #endregion
 
@@ -60,16 +49,16 @@ namespace Runtime.AI.Navigation
 
         public static bool SetNavMesh(CalculatedNavMesh set)
         {
-            if (NavMesh == set)
+            if (_navMesh == set)
                 return false;
 
             //Debug.Log($"{NavMesh?.name}  -  {set?.name}");
 
-            NavMesh = set;
+            _navMesh = set;
 
-            OnNavMeshChanged?.Invoke();
+            _onNavMeshChanged?.Invoke();
 
-            switchNativeArrays = true;
+            _switchNativeArrays = true;
 
             return true;
         }
@@ -79,65 +68,78 @@ namespace Runtime.AI.Navigation
         #region In
 
         public static void AddOnNavMeshChange(UnityAction action)
-            => OnNavMeshChanged += action;
+            => _onNavMeshChanged += action;
 
         public static void RemoveOnNavMeshChange(UnityAction action)
-            => OnNavMeshChanged -= action;
+            => _onNavMeshChanged -= action;
 
         public static void QueueForPath(UnitAgent agent, Vector3 destination) =>
-            requests.Add(new QueuedAgentRequest(destination, agent));
+            _requests.Add(new QueuedAgentRequest(destination, agent));
 
         public static int PlaceAgentOnNavMesh(UnitAgent agent)
         {
-            Vector2 p = agent.transform.position.XZ();
-            for (int i = 0; i < NavMesh.Triangles.Length; i++)
+            Vector3 agentPosition = agent.transform.position;
+            Vector3[] vertices = _navMesh.Vertices();
+            float dist = (vertices[0] - agentPosition).sqrMagnitude;
+            int selected = 0;
+
+            for (int i = 1; i < vertices.Length; i++)
             {
-                int[] ids = NavMesh.Triangles[i].Vertices;
-                if (ExtMathf.PointWithinTriangle2D(p,
-                        NavMesh.SimpleVertices[ids[0]],
-                        NavMesh.SimpleVertices[ids[1]],
-                        NavMesh.SimpleVertices[ids[2]],
-                        0f))
-                {
-                    agent.transform.position = new Vector3(p.x, NavMesh.Triangles[i].MaxY, p.y);
-                    return i;
-                }
+                float newDist = (vertices[i] - agentPosition).sqrMagnitude;
+                if (newDist > dist)
+                    continue;
+
+                dist = newDist;
+                selected = i;
             }
 
-            NavTriangle navTriangle = NavMesh.Triangles.RandomFrom();
-            agent.transform.position = navTriangle.Center(NavMesh.Vertices());
-            return navTriangle.ID;
+            NavTriangle[] trianglesByVertex = _navMesh.GetTrianglesByVertexID(selected);
+            Vector2 v = agentPosition.XZ();
+            foreach (NavTriangle navTriangle in trianglesByVertex)
+            {
+                if (!MathC.PointWithinTriangle2D(v,
+                        _navMesh.SimpleVertices[navTriangle.GetA],
+                        _navMesh.SimpleVertices[navTriangle.GetB],
+                        _navMesh.SimpleVertices[navTriangle.GetC]))
+                    continue;
+
+                agent.transform.position = new Vector3(agentPosition.x, navTriangle.MaxY, agentPosition.y);
+                return navTriangle.ID;
+            }
+
+            agent.transform.position = new Vector3(agentPosition.x, trianglesByVertex[0].MaxY, agentPosition.y);
+            return trianglesByVertex[0].ID;
         }
 
         #endregion
 
         #region Out
 
-        public static int ClosestTriangleIndex(Vector3 p) => NavMesh.ClosestTriangleIndex(p);
+        public static int ClosestTriangleIndex(Vector3 p) => _navMesh.ClosestTriangleIndex(p);
 
-        public static NavTriangle GetTriangleByID(int id) => NavMesh.Triangles[id];
+        public static NavTriangle GetTriangleByID(int id) => _navMesh.Triangles[id];
 
-        public static Vector3 Get3DVertByIndex(int id) => NavMesh.Vertices()[id];
+        public static Vector3 Get3DVertByIndex(int id) => _navMesh.Vertices()[id];
 
-        public static Vector3 Get2DVertByIndex(int id) => NavMesh.SimpleVertices[id];
+        public static Vector3 Get2DVertByIndex(int id) => _navMesh.SimpleVertices[id];
 
-        public static Vector3[] Get3DVertByIndex(params int[] id) => id.Select(i => NavMesh.Vertices()[i]).ToArray();
+        public static Vector3[] Get3DVertByIndex(params int[] id) => id.Select(i => _navMesh.Vertices()[i]).ToArray();
 
         public static Vector2[] Get2DVertByIndex(params int[] id) =>
-            id.Select(i => NavMesh.SimpleVertices[i]).ToArray();
+            id.Select(i => _navMesh.SimpleVertices[i]).ToArray();
 
         #endregion
 
         #region Internal
 
-        [RuntimeInitializeOnLoadMethod()]
+        [RuntimeInitializeOnLoadMethod]
         private static void Initialize()
         {
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
             playerLoop.subSystemList[5].updateDelegate += Update;
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
 
-            requests = new List<QueuedAgentRequest>();
+            _requests = new List<QueuedAgentRequest>();
 
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += OnExitPlayMode;
@@ -152,70 +154,70 @@ namespace Runtime.AI.Navigation
 
         private static void UpdateNativeArrays()
         {
-            if (!switchNativeArrays)
+            if (!_switchNativeArrays)
                 return;
 
             DisposeNatives();
 
-            Vector3[] navVerts = NavMesh.Vertices();
-            verts = new NativeArray<float3>(navVerts.Length, Allocator.Persistent);
+            Vector3[] navVerts = _navMesh.Vertices();
+            _verts = new NativeArray<float3>(navVerts.Length, Allocator.Persistent);
             for (int i = 0; i < navVerts.Length; i++)
-                verts[i] = navVerts[i];
+                _verts[i] = navVerts[i];
 
-            Vector2[] navSimpleVerts = NavMesh.SimpleVertices;
-            simpleVerts = new NativeArray<float2>(navSimpleVerts.Length, Allocator.Persistent);
+            Vector2[] navSimpleVerts = _navMesh.SimpleVertices;
+            _simpleVerts = new NativeArray<float2>(navSimpleVerts.Length, Allocator.Persistent);
             for (int i = 0; i < navSimpleVerts.Length; i++)
-                simpleVerts[i] = navSimpleVerts[i];
+                _simpleVerts[i] = navSimpleVerts[i];
 
-            int[] navAreas = NavMesh.Areas;
-            areas = new NativeArray<int>(navAreas, Allocator.Persistent);
+            int[] navAreas = _navMesh.Areas;
+            _areas = new NativeArray<int>(navAreas, Allocator.Persistent);
 
-            NavTriangle[] navTriangles = NavMesh.Triangles.ToArray();
-            triangles = new NativeArray<JobTriangle>(navTriangles.Length, Allocator.Persistent);
+            NavTriangle[] navTriangles = _navMesh.Triangles.ToArray();
+            _triangles = new NativeArray<JobTriangle>(navTriangles.Length, Allocator.Persistent);
             for (int i = 0; i < navTriangles.Length; i++)
-                triangles[i] = new JobTriangle(navTriangles[i]);
+                _triangles[i] = new JobTriangle(navTriangles[i]);
 
-            switchNativeArrays = false;
+            _switchNativeArrays = false;
         }
 
         private static void CalculatePaths()
         {
-            if (requests.Count == 0)
+            if (_requests.Count == 0)
                 return;
 
-            int count = requests.Count < maxCalculationsPerBatch ? requests.Count : maxCalculationsPerBatch;
+            int count = _requests.Count < MAX_CALCULATIONS_PER_BATCH ? _requests.Count : MAX_CALCULATIONS_PER_BATCH;
             NativeArray<JobAgent> agents = new(count, Allocator.TempJob);
             NativeArray<JobPath> paths = new(count, Allocator.TempJob);
 
             for (int i = 0; i < count; i++)
-                agents[i] = new JobAgent(requests[i]);
+                agents[i] = new JobAgent(_requests[i]);
 
-            PathCalculatorJob calculationJob = new(paths, agents, verts, simpleVerts, areas, triangles);
+            PathCalculatorJob calculationJob = new(paths, agents, _verts, _simpleVerts, _areas, _triangles);
 
-            currentJob = calculationJob.Schedule(requests.Count, 100);
-            currentJob.Complete();
+            _currentJob = calculationJob.Schedule(_requests.Count, 100);
+            _currentJob.Complete();
 
-            for (int i = 0; i < requests.Count; i++)
-                requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i], requests[i].agent));
+            for (int i = 0; i < _requests.Count; i++)
+                _requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i], _requests[i].agent));
 
-            requests.Clear();
+            _requests.Clear();
             agents.Dispose();
             paths.Dispose();
         }
 
         private static void DisposeNatives()
         {
-            if (verts.IsCreated)
-                verts.Dispose();
+            if (_verts.IsCreated)
+                _verts.Dispose();
 
-            if (simpleVerts.IsCreated)
-                simpleVerts.Dispose();
+            if (_simpleVerts.IsCreated)
+                _simpleVerts.Dispose();
 
-            if (areas.IsCreated)
-                areas.Dispose();
+            if (_areas.IsCreated)
+                _areas.Dispose();
 
-            if (triangles.IsCreated)
-                triangles.Dispose();
+            if (_triangles.IsCreated)
+                _triangles.Dispose();
         }
 
         private static UnitPath CastToUnitPath(JobAgent jobAgent, JobPath jobPath, UnitAgent agent)
@@ -225,11 +227,11 @@ namespace Runtime.AI.Navigation
                 ids[i] = jobPath.nodePath[i];
 
             return new UnitPath(
-                new Vector3(jobAgent.desination.x, jobAgent.desination.y, jobAgent.desination.z),
+                jobAgent.desination,
                 ids,
-                NavMesh.Triangles,
-                NavMesh.Vertices(),
-                NavMesh.SimpleVertices,
+                _navMesh.Triangles,
+                _navMesh.Vertices(),
+                _navMesh.SimpleVertices,
                 jobAgent.startPosition,
                 agent);
         }
@@ -240,10 +242,10 @@ namespace Runtime.AI.Navigation
             if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
                 return;
 
-            if (!currentJob.IsCompleted)
-                currentJob.Complete();
+            if (!_currentJob.IsCompleted)
+                _currentJob.Complete();
             DisposeNatives();
-            NavMesh = null;
+            _navMesh = null;
 
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
             playerLoop.subSystemList[5].updateDelegate -= Update;

@@ -3,7 +3,7 @@
 using System;
 using System.Collections;
 using Cinemachine;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.Systems;
 using UnityEngine;
 
@@ -65,12 +65,12 @@ namespace Runtime.UI_Book
 
             while (floatTime <= 1)
             {
-                Vector3 rightPos = ExtMathf.LerpPosition(this.curve,
+                Vector3 rightPos = MathC.LerpPosition(this.curve,
                     floatTime,
                     startPosition, this.middleRight.position,
                     endPosition);
 
-                Vector3 leftPos = ExtMathf.LerpPosition(this.curve,
+                Vector3 leftPos = MathC.LerpPosition(this.curve,
                     floatTime,
                     startPosition, this.middleLeft.position,
                     endPosition);
@@ -137,7 +137,7 @@ namespace Runtime.UI_Book
 
             while (this.t is <= 1 and >= 0)
             {
-                this.toMove.position = ExtMathf.LerpPosition(this.curve, this.t, this.start.position, this.middle.position, this.end.position);
+                this.toMove.position = MathC.LerpPosition(this.curve, this.t, this.start.position, this.middle.position, this.end.position);
                 this.t += this.moveSpeed * Time.deltaTime;
                 yield return null;
             }

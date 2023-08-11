@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;

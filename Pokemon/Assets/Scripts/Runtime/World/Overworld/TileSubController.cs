@@ -6,6 +6,7 @@ using System.Linq;
 using Runtime.AI.Navigation;
 using Runtime.Systems.Pooling;
 using Runtime.Variables;
+using Runtime.World.Overworld.TileHierarchy;
 using Runtime.World.Overworld.Tiles;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -24,13 +25,36 @@ namespace Runtime.World.Overworld
 
         [SerializeField] private Neighbor[] neighbors;
 
-        [SerializeField, FoldoutGroup("Navigation"), Required] private NavMeshSurface navMeshSurface;
+        [SerializeField, FoldoutGroup("Navigation"), Required]
+        private NavMeshSurface navMeshSurface;
 
-        [SerializeField, FoldoutGroup("Navigation")] private Vector3 navmeshCleanUpPoint;
+        [SerializeField, FoldoutGroup("Navigation")]
+        private Vector3 navmeshCleanUpPoint;
 
         [SerializeField] private PoolSnapshotItem[] poolingSnapshot;
 
-        [SerializeField] private CalculatedNavMesh calculatedNavMesh;
+        [SerializeField, FoldoutGroup("Navigation")]
+        private CalculatedNavMesh calculatedNavMesh;
+
+        [SerializeField, HideInInspector]
+        private List<TreeInstance>[,] groupedTerrainTrees = new List<TreeInstance>[0, 0];
+
+        [SerializeField, HideInInspector] private List<GameObject>[,] groupedTerrainProps = new List<GameObject>[0, 0];
+
+        [SerializeField, FoldoutGroup("Hierarchy", 1)]
+        private TileEnvironment tileEnvironment;
+
+        [SerializeField, FoldoutGroup("Hierarchy")]
+        private TileSpawners tileSpawners;
+
+        [SerializeField, FoldoutGroup("Hierarchy")]
+        private TileAI tileAI;
+
+        [SerializeField, FoldoutGroup("Hierarchy")]
+        private TileConnectionPoints tileConnectionPoints;
+
+        [SerializeField, FoldoutGroup("Hierarchy")]
+        private TileLighting tileLighting;
 
         #endregion
 
@@ -70,6 +94,16 @@ namespace Runtime.World.Overworld
 
         public NavMeshSurface GetSurface() => this.navMeshSurface;
 
+        public TileEnvironment GetTileEnvironment() => this.tileEnvironment;
+
+        public TileSpawners GetTileSpawners() => this.tileSpawners;
+
+        public TileAI GetTileAI() => this.tileAI;
+
+        public TileLighting GetTileLighting() => this.tileLighting;
+
+        public TileConnectionPoints GetTileConnectionPoints() => this.tileConnectionPoints;
+
 #if UNITY_EDITOR
         public CalculatedNavMesh GetNavmesh => this.calculatedNavMesh;
 
@@ -84,6 +118,10 @@ namespace Runtime.World.Overworld
         public void SetCalculatedNavMesh(CalculatedNavMesh set) => this.calculatedNavMesh = set;
 
         public void SetCleanUpPoint(Vector3 set) => this.navmeshCleanUpPoint = set;
+
+        public void SetGroupedTerrainProps(List<GameObject>[,] set) => this.groupedTerrainProps = set;
+
+        public void SetGroupedTerrainTrees(List<TreeInstance>[,] set) => this.groupedTerrainTrees = set;
 #endif
 
         #endregion
@@ -133,9 +171,10 @@ namespace Runtime.World.Overworld
     [Serializable]
     internal struct PoolSnapshotItem
     {
-        [SerializeField, Min(1f)]
-        internal int count;
-        [SerializeField, AssetsOnly, AssetSelector(Paths = "Assets/Prefabs", Filter = "t:GameObject", IsUniqueList = false), Required]
+        [SerializeField, Min(1f)] internal int count;
+
+        [SerializeField, AssetsOnly,
+         AssetSelector(Paths = "Assets/Prefabs", Filter = "t:GameObject", IsUniqueList = false), Required]
         internal GameObject prefab;
     }
 }

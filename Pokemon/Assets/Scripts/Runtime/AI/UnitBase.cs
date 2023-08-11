@@ -2,11 +2,11 @@
 
 using NodeCanvas.BehaviourTrees;
 using Runtime.AI.Senses.Sight;
-using Runtime.Common;
 using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Runtime.Core;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;

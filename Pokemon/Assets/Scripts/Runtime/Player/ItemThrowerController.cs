@@ -1,7 +1,7 @@
 #region Packages
 
 using Cinemachine;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.Player.Camera;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.ScriptableVariables.Objects.Items;
@@ -93,7 +93,7 @@ namespace Runtime.Player
         private void OnEnable()
         {
             InputManager inputManager = InputManager.Instance;
-            inputManager.rightClickEvent.AddListener(input => this.aiming.value = input);
+            inputManager.rightClickEvent.AddListener(input => this.aiming.Value = input);
             inputManager.leftClickEvent.AddListener(_ => this.ThrowItem());
             inputManager.turnAxisInputEvent.AddListener(this.RotateCamera);
 
@@ -106,7 +106,7 @@ namespace Runtime.Player
         private void OnDisable()
         {
             InputManager inputManager = InputManager.Instance;
-            inputManager.rightClickEvent.RemoveListener(input => this.aiming.value = input);
+            inputManager.rightClickEvent.RemoveListener(input => this.aiming.Value = input);
             inputManager.leftClickEvent.RemoveListener(_ => this.ThrowItem());
             inputManager.turnAxisInputEvent.RemoveListener(this.RotateCamera);
 
@@ -154,9 +154,9 @@ namespace Runtime.Player
 
         private void ThrowItem()
         {
-            if (!this.allowed.value || this.toThrow.valueEmpty || this.throwing.value || !this.aiming.value) return;
+            if (!this.allowed.Value || this.toThrow.valueEmpty || this.throwing.Value || !this.aiming.Value) return;
 
-            this.throwing.value = true;
+            this.throwing.Value = true;
 
             GameObject spawnedItem = Instantiate(
                 this.toThrow.GetVisual(),
@@ -168,7 +168,7 @@ namespace Runtime.Player
 
             this.throwDelay = new Timer(1, () =>
             {
-                this.throwing.value = false;
+                this.throwing.Value = false;
                 this.throwDelay = null;
             });
 
@@ -177,7 +177,7 @@ namespace Runtime.Player
 
         private void SwitchToAiming()
         {
-            if (!this.allowed.value) return;
+            if (!this.allowed.Value) return;
 
             if (this.cameraSwitchAsyncContainer != null)
                 this.operationManager.StopAsyncContainer(this.cameraSwitchAsyncContainer);
@@ -186,7 +186,7 @@ namespace Runtime.Player
 
             CameraEvent selectedCameraEvent;
 
-            if (this.aiming.value)
+            if (this.aiming.Value)
             {
                 this.bodyComponent.VirtualCamera.Follow = this.moveTransform;
 

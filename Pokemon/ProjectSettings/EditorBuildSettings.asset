@@ -23,4 +23,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Interiors/StarterHouse.unity
     guid: 1c309d5eb8c71836ea562c6e555b4c3d
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 03409c27ed42f0f4b8e58f2895f9defb, type: 2}

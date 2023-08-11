@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.ScriptableVariables.Structs.ListVariables;
 using Runtime.Systems;
 using Runtime.World.Overworld.Interactions;
@@ -63,7 +63,7 @@ namespace Runtime.Player
         private void Evaluate()
         {
             Vector3 playerPos = this.transform.position;
-            List<InteractItem> interactableInRange = this.itemListGenericVariable.value
+            List<InteractItem> interactableInRange = this.itemListGenericVariable.Value
                 .Where(i => i.GetPosition().QuickDistanceLessThen(playerPos, this.radius + i.GetRadius())).ToList();
 
             if (this.focusedInteractable != null)

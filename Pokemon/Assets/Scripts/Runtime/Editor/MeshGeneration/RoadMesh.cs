@@ -1,6 +1,6 @@
 #region Packages
 
-using Runtime.Common.CommonPath;
+using Runtime.Core.CorePath;
 using UnityEngine;
 
 #endregion

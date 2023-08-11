@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Runtime.ScriptableVariables.Events;
 using UnityEngine;
 
 #endregion

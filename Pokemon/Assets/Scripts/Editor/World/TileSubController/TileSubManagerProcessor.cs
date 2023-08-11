@@ -1,33 +1,41 @@
 #region Libraries
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Editor.Systems;
 using Runtime.AI.Navigation;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.Editor;
 using Runtime.World.Overworld;
+using Runtime.World.Overworld.TileHierarchy;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Unity.AI.Navigation;
+using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using MagicProbes = MagicLightProbes.MagicLightProbes;
 using Object = UnityEngine.Object;
+using SubController = Runtime.World.Overworld.TileSubController;
 
 #endregion
 
 namespace Editor.World.TileSubController
 {
+    // ReSharper disable once UnusedType.Global
     public sealed class TileSubControllerProcessor : OdinPropertyProcessor<Runtime.World.Overworld.TileSubController>
     {
         #region Values
 
-        private static float overlapCheckDistance = .3f;
+        private static float _overlapCheckDistance = .3f;
+
+        private const float GROUPING = 5;
 
         #endregion
 
@@ -36,8 +44,8 @@ namespace Editor.World.TileSubController
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
             propertyInfos.AddValue("Vertex Overlap Check Distance",
-                (ref Runtime.World.Overworld.TileSubController _) => overlapCheckDistance,
-                (ref Runtime.World.Overworld.TileSubController _, float d) => overlapCheckDistance = d,
+                (ref Runtime.World.Overworld.TileSubController _) => _overlapCheckDistance,
+                (ref Runtime.World.Overworld.TileSubController _, float d) => _overlapCheckDistance = d,
                 new FoldoutGroupAttribute("Navigation"),
                 new MinValueAttribute(.001f),
                 new LabelWidthAttribute(180f));
@@ -46,11 +54,155 @@ namespace Editor.World.TileSubController
                 new FoldoutGroupAttribute("Navigation"));
             propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Lightning"));
+
+            propertyInfos.AddDelegate("Optimize Tile", () => OptimizeTile(this.ValueEntry.Values[0]),
+                new PropertyOrderAttribute(-1));
         }
 
         #endregion
 
         #region Internal
+
+        #region Optimizations
+
+        private static async void OptimizeTile(Runtime.World.Overworld.TileSubController tileSubController)
+        {
+            if (BakedEditorManager.IsBakeRunning || tileSubController == null)
+                return;
+
+            string editorProgressParTitle = "Optimizing tile: " + tileSubController.gameObject.scene.name;
+            EditorUtility.DisplayProgressBar(editorProgressParTitle, "Grouping Terrain Trees", 0);
+
+            BakedEditorManager.SetRunning(true);
+
+            TileEnvironment tileEnvironment = tileSubController.GetTileEnvironment();
+            List<Terrain> terrains = tileEnvironment.GetTerrains();
+            if (terrains.Count > 0)
+            {
+                int totalInstanceCount = 0, currentCount = 0;
+                foreach (Terrain terrain in terrains)
+                    totalInstanceCount += terrain.terrainData.treeInstances.Length;
+
+                Bounds currentBounds = terrains[0].terrainData.bounds;
+                Vector3 currentTerrainPosition = terrains[0].transform.position;
+                float highestX = currentTerrainPosition.x + currentBounds.extents.x * .5f,
+                    highestY = currentTerrainPosition.y + currentBounds.extents.y * .5f,
+                    lowestX = currentTerrainPosition.x - currentBounds.extents.x * .5f,
+                    lowestY = currentTerrainPosition.y - currentBounds.extents.y * .5f;
+
+                if (terrains.Count > 1)
+                {
+                    for (int i = 1; i < terrains.Count; i++)
+                    {
+                        currentBounds = terrains[i].terrainData.bounds;
+                        currentTerrainPosition = terrains[i].transform.position;
+                        highestX = currentTerrainPosition.x + currentBounds.extents.x * .5f;
+                        highestY = currentTerrainPosition.y + currentBounds.extents.y * .5f;
+                        lowestX = currentTerrainPosition.x - currentBounds.extents.x * .5f;
+                        lowestY = currentTerrainPosition.y - currentBounds.extents.y * .5f;
+                    }
+                }
+
+                int x = Mathf.FloorToInt((highestX - lowestX) / GROUPING),
+                    y = Mathf.FloorToInt((highestY - lowestY) / GROUPING);
+
+                List<TreeInstance>[,] terrainPropsResult = new List<TreeInstance>[x, y];
+
+                foreach (Terrain terrain in terrains)
+                {
+                    foreach (TreeInstance terrainDataTreeInstance in terrain.terrainData.treeInstances)
+                    {
+                        Vector3 pos = terrainDataTreeInstance.position;
+                        int tX = Mathf.FloorToInt((pos.x - lowestX) / GROUPING),
+                            tY = Mathf.FloorToInt((pos.y - lowestY) / GROUPING);
+
+                        List<TreeInstance> list = terrainPropsResult[tX, tY];
+                        list ??= new List<TreeInstance>();
+                        list.Add(terrainDataTreeInstance);
+                        terrainPropsResult[tX, tY] = list;
+
+                        currentCount++;
+                        EditorUtility.DisplayProgressBar(editorProgressParTitle, "Grouping Terrain Trees",
+                            1f / totalInstanceCount * currentCount);
+                    }
+
+                    await UniTask.NextFrame();
+                }
+
+                tileSubController.SetGroupedTerrainTrees(terrainPropsResult);
+            }
+        }
+
+        #endregion
+
+        #region Lighting
+
+        /// <summary>
+        /// Bake the lighting using Bakery asset
+        /// </summary>
+        /// <param name="tileSubController">The current TileSubController</param>
+        private async void BakeLighting(SubController tileSubController)
+        {
+            if (BakedEditorManager.IsBakeRunning)
+                return;
+
+            BakedEditorManager.SetRunning(true);
+
+            try
+            {
+                this.SetupBakeryLightmappedPrefab();
+                SetupMagicLightProbes(tileSubController);
+
+                await UniTask.NextFrame();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Baking Lighting Failed");
+                Debug.LogError(e);
+            }
+
+            EditorUtility.ClearProgressBar();
+
+            BakedEditorManager.SetRunning(false);
+        }
+
+
+        private void SetupBakeryLightmappedPrefab()
+        {
+        }
+
+        private static async void SetupMagicLightProbes(SubController tileSubController)
+        {
+            MagicProbes[]
+                probes = Object.FindObjectsByType<MagicProbes>(FindObjectsSortMode.None);
+
+            List<UniTask> coroutines = new();
+
+            foreach (MagicProbes magicLightProbes in probes)
+                coroutines.Add(BakeLightProbes(tileSubController, magicLightProbes));
+
+            await UniTask.WhenAll(coroutines);
+        }
+
+        private static UniTask BakeLightProbes(SubController tileSubController,
+            MagicProbes magicLightProbes)
+        {
+            EditorCoroutine coroutine = null;
+            coroutine =
+                EditorCoroutineUtility.StartCoroutine(LightProbeEnumerator(magicLightProbes, coroutine),
+                    tileSubController);
+
+            return UniTask.WaitWhile(() => coroutine != null);
+        }
+
+        private static IEnumerator LightProbeEnumerator(MagicProbes magicLightProbes, EditorCoroutine coroutine)
+        {
+            yield return magicLightProbes.CalculateProbesVolume();
+
+            coroutine = null;
+        }
+
+        #endregion
 
         #region Custom Navmesh Baking
 
@@ -87,7 +239,7 @@ namespace Editor.World.TileSubController
 
                 for (int i = 0; i < neighborsToLoad.Count; i++)
                 {
-                    loadSceneTasks.Add(this.AsyncLoadScene(neighborsToLoad[i]));
+                    loadSceneTasks.Add(AsyncLoadScene(neighborsToLoad[i]));
                     EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors",
                         .25f + (.5f / neighborsToLoad.Count * i));
                 }
@@ -99,7 +251,8 @@ namespace Editor.World.TileSubController
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Calculation Navigation Mesh Triangulation",
                     0f);
 
-                NavMeshTriangulation navmesh = this.BuildNavMeshTriangulation(tileSubController);
+                NavMeshTriangulation navmesh =
+                    BuildNavMeshTriangulation(tileSubController.GetComponent<NavMeshSurface>());
 
                 #endregion
 
@@ -133,9 +286,9 @@ namespace Editor.World.TileSubController
                 List<NavTriangle> triangles = new();
                 Dictionary<int, List<int>> trianglesByVertexID = new();
 
-                this.SetupNavTriangles(verts, indices, areas, triangles, trianglesByVertexID, editorProgressParTitle);
+                SetupNavTriangles(verts, indices, areas, triangles, trianglesByVertexID, editorProgressParTitle);
 
-                triangles = this.SetupNeighbors(triangles, trianglesByVertexID, editorProgressParTitle, "First");
+                triangles = SetupNeighbors(triangles, trianglesByVertexID, editorProgressParTitle, "First");
 
                 #endregion
 
@@ -240,10 +393,10 @@ namespace Editor.World.TileSubController
 
                 List<NavTriangle> fixedTriangles = new();
 
-                this.SetupNavTriangles(fixedVertices, fixedIndices, fixedAreas, fixedTriangles,
+                SetupNavTriangles(fixedVertices, fixedIndices, fixedAreas, fixedTriangles,
                     fixedTrianglesByVertexID, editorProgressParTitle);
 
-                fixedTriangles = this.SetupNeighbors(fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitle,
+                fixedTriangles = SetupNeighbors(fixedTriangles, fixedTrianglesByVertexID, editorProgressParTitle,
                     "Final");
 
                 for (int i = 0; i < fixedTriangles.Count; i++)
@@ -254,7 +407,7 @@ namespace Editor.World.TileSubController
                 }
 
                 Dictionary<int, List<NavigationPointEntry>> fixedEntryPoints =
-                    this.SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID,
+                    SetupEntryPointsForTriangles(fixedTriangles.ToArray(), fixedTrianglesByVertexID,
                         fixedVertices.ToArray());
 
                 #endregion
@@ -308,8 +461,8 @@ namespace Editor.World.TileSubController
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 0f);
                 List<UniTask> unloadTasks = new();
 
-                for (int i = 0; i < loadedScenes.Length; i++)
-                    unloadTasks.Add(this.AsyncUnloadScene(loadedScenes[i]));
+                foreach (Scene t in loadedScenes)
+                    unloadTasks.Add(AsyncUnloadScene(t));
 
                 await UniTask.WhenAll(unloadTasks);
 
@@ -326,37 +479,11 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Bake the lighting using Bakery asset
-        /// </summary>
-        /// <param name="tileSubController">The current TileSubController</param>
-        private async void BakeLighting(Runtime.World.Overworld.TileSubController tileSubController)
-        {
-            if (BakedEditorManager.IsBakeRunning)
-                return;
-
-            BakedEditorManager.SetRunning(true);
-
-            try
-            {
-                await UniTask.NextFrame();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Baking Lighting Failed");
-                Debug.LogError(e);
-            }
-
-            EditorUtility.ClearProgressBar();
-
-            BakedEditorManager.SetRunning(false);
-        }
-
-        /// <summary>
         /// Loads the scene at the path async
         /// </summary>
         /// <param name="path">File path for the scene</param>
         /// <returns></returns>
-        private async UniTask<Scene> AsyncLoadScene(string path)
+        private static async UniTask<Scene> AsyncLoadScene(string path)
         {
             Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
 
@@ -369,7 +496,7 @@ namespace Editor.World.TileSubController
         /// Unloads a currently loaded scene async
         /// </summary>
         /// <param name="scene">Name of the loaded scene to unload</param>
-        private async UniTask AsyncUnloadScene(Scene scene)
+        private static async UniTask AsyncUnloadScene(Scene scene)
         {
             EditorSceneManager.CloseScene(scene, true);
 
@@ -380,12 +507,11 @@ namespace Editor.World.TileSubController
         /// Builds a navmesh from the TileSubController and returns the navmesh triangulation from the build navmesh.
         /// Then remove the build navmesh as it is no longer needed.
         /// </summary>
-        /// <param name="tileSubController">To build the navmesh from</param>
+        /// <param name="surface">To build the navmesh from</param>
         /// <returns>Navmesh triangulation containing vertices, indices and areas in arrays</returns>
-        private NavMeshTriangulation BuildNavMeshTriangulation(
-            Runtime.World.Overworld.TileSubController tileSubController)
+        private static NavMeshTriangulation BuildNavMeshTriangulation(
+            NavMeshSurface surface)
         {
-            NavMeshSurface surface = tileSubController.GetComponent<NavMeshSurface>();
             surface.BuildNavMesh();
             NavMeshTriangulation navmesh = NavMesh.CalculateTriangulation();
             surface.RemoveData();
@@ -403,8 +529,10 @@ namespace Editor.World.TileSubController
         /// <param name="trianglesByVertexID">Each triangle will be assigned to each relevant vertex for optimization later</param>
         /// <param name="editorProgressParTitle">Editor loading bar title</param>
         /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
-        private void SetupNavTriangles(List<Vector3> verts, List<int> indices, List<int> areas,
-            List<NavTriangle> triangles, Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitle)
+        private static void SetupNavTriangles(IReadOnlyList<Vector3> verts, IReadOnlyList<int> indices,
+            IReadOnlyList<int> areas,
+            ICollection<NavTriangle> triangles, IDictionary<int, List<int>> trianglesByVertexID,
+            string editorProgressParTitle)
         {
             for (int i = 0; i < indices.Count; i += 3)
             {
@@ -455,8 +583,8 @@ namespace Editor.World.TileSubController
         /// <param name="iteration">This will run multiple times during baking. Will help the user know which step</param>
         /// <returns>The current triangle list now with neighbors set</returns>
         /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
-        private List<NavTriangle> SetupNeighbors(List<NavTriangle> triangles,
-            Dictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitle, string iteration)
+        private static List<NavTriangle> SetupNeighbors(List<NavTriangle> triangles,
+            IReadOnlyDictionary<int, List<int>> trianglesByVertexID, string editorProgressParTitle, string iteration)
         {
             for (int i = 0; i < triangles.Count; i++)
             {
@@ -468,10 +596,10 @@ namespace Editor.World.TileSubController
 
                 possibleNeighbors = possibleNeighbors.Where(t => t != i).ToList();
 
-                for (int j = 0; j < possibleNeighbors.Count; j++)
+                foreach (int t in possibleNeighbors)
                 {
-                    if (triangles[i].Vertices.SharedBetween(triangles[possibleNeighbors[j]].Vertices).Length == 2)
-                        neighbors.Add(possibleNeighbors[j]);
+                    if (triangles[i].Vertices.SharedBetween(triangles[t].Vertices).Length == 2)
+                        neighbors.Add(t);
 
                     if (triangles.Count == 3)
                         break;
@@ -495,8 +623,9 @@ namespace Editor.World.TileSubController
         /// <param name="trianglesByVertexID">A list of triangle ids based on a vertex id</param>
         /// <param name="verts">3D vertices</param>
         /// <returns>List of entry point ids based on triangle id</returns>
-        private Dictionary<int, List<NavigationPointEntry>> SetupEntryPointsForTriangles(NavTriangle[] navTriangles,
-            Dictionary<int, List<int>> trianglesByVertexID, Vector3[] verts)
+        private static Dictionary<int, List<NavigationPointEntry>> SetupEntryPointsForTriangles(
+            NavTriangle[] navTriangles,
+            IReadOnlyDictionary<int, List<int>> trianglesByVertexID, IReadOnlyList<Vector3> verts)
         {
             NavigationPointEntry[] entries = Object.FindObjectsOfType<NavigationPoint>()
                 .SelectMany(p => p.GetEntryPoints()).ToArray();
@@ -508,7 +637,7 @@ namespace Editor.World.TileSubController
                 int closestVertIndex = 0;
                 float dist = Vector3.Distance(verts[0], pos);
 
-                for (int i = 1; i < verts.Length; i++)
+                for (int i = 1; i < verts.Count; i++)
                 {
                     float d = Vector3.Distance(verts[i], pos);
                     if (d > dist)
@@ -523,7 +652,7 @@ namespace Editor.World.TileSubController
                 foreach (int i in tIDs)
                 {
                     Vector3[] tPos = navTriangles[i].Vertices.Select(v => verts[v]).ToArray();
-                    if (!ExtMathf.PointWithinTriangle2D(pos, tPos[0], tPos[1], tPos[2]))
+                    if (!MathC.PointWithinTriangle2D(pos, tPos[0], tPos[1], tPos[2]))
                         continue;
 
                     navTriangles[i].SetNavPointIDs(navTriangles[i].NavPoints.Append(e).ToArray());
@@ -587,16 +716,15 @@ namespace Editor.World.TileSubController
 
                 toCheck = toCheck.Where(x => x != original).ToList();
 
-                for (int o = 0; o < toCheck.Count; o++)
+                foreach (int other in toCheck)
                 {
-                    int other = toCheck[o];
                     if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
                     {
                         if (removedList.Contains(other))
                             continue;
                     }
 
-                    if (Vector3.Distance(verts[original], verts[other]) > overlapCheckDistance)
+                    if (Vector3.Distance(verts[original], verts[other]) > _overlapCheckDistance)
                         continue;
 
                     if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
@@ -714,12 +842,12 @@ namespace Editor.World.TileSubController
 
                     Vector2 a = verts[indices[j]].XZ(), b = verts[indices[j + 1]].XZ(), c = verts[indices[j + 2]].XZ();
 
-                    if (!ExtMathf.PointWithinTriangle2D(p, a, b, c))
+                    if (!MathC.PointWithinTriangle2D(p, a, b, c))
                         continue;
 
-                    Vector2 close1 = ExtMathf.ClosetPointOnLine(p, a, b),
-                        close2 = ExtMathf.ClosetPointOnLine(p, a, b),
-                        close3 = ExtMathf.ClosetPointOnLine(p, a, b);
+                    Vector2 close1 = MathC.ClosetPointOnLine(p, a, b),
+                        close2 = MathC.ClosetPointOnLine(p, a, b),
+                        close3 = MathC.ClosetPointOnLine(p, a, b);
 
                     Vector2 close;
                     if (Vector2.Distance(close1, p) < Vector2.Distance(close2, p) &&
@@ -790,16 +918,16 @@ namespace Editor.World.TileSubController
                                 continue;
 
                             //One of the new triangle points is within an already existing triangle
-                            if (ExtMathf.PointWithinTriangle2D(center, aP, bP, cP) ||
-                                ExtMathf.PointWithinTriangle2D(a, aP, bP, cP) ||
-                                ExtMathf.PointWithinTriangle2D(b, aP, bP, cP) ||
-                                ExtMathf.PointWithinTriangle2D(c, aP, bP, cP))
+                            if (MathC.PointWithinTriangle2D(center, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2D(a, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2D(b, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2D(c, aP, bP, cP))
                             {
                                 denied = true;
                                 break;
                             }
 
-                            if (ExtMathf.TriangleIntersect2D(a, b, c, aP, bP, cP))
+                            if (MathC.TriangleIntersect2D(a, b, c, aP, bP, cP))
                             {
                                 denied = true;
                                 break;

@@ -15,6 +15,8 @@ namespace Runtime.ScriptableVariables
 
 #if UNITY_EDITOR
         [SerializeField] protected bool debugSetter;
+
+        // ReSharper disable once NotAccessedField.Local
         [SerializeField, TextArea] private string description;
 #endif
 
@@ -23,7 +25,7 @@ namespace Runtime.ScriptableVariables
         [NonSerialized, ShowInInspector, ReadOnly]
         protected TGeneric localValue;
 
-        public TGeneric value
+        public TGeneric Value
         {
             get => this.localValue;
             set
@@ -50,7 +52,7 @@ namespace Runtime.ScriptableVariables
         protected virtual void OnEnable() => this.localValue = this.defaultValue;
 
         #endregion
-        
+
         #region In
 
         public void AddListener(UnityAction<TGeneric, TGeneric> action)
@@ -60,10 +62,8 @@ namespace Runtime.ScriptableVariables
             this.valueChangeEventWithHistory.AddListener(action);
         }
 
-        public void RemoveListener(UnityAction<TGeneric, TGeneric> action)
-        {
+        public void RemoveListener(UnityAction<TGeneric, TGeneric> action) =>
             this.valueChangeEventWithHistory?.RemoveListener(action);
-        }
 
         public void AddListener(UnityAction<TGeneric> action)
         {
@@ -72,12 +72,8 @@ namespace Runtime.ScriptableVariables
             this.valueChangeEventWithValue.AddListener(action);
         }
 
-        public void RemoveListener(UnityAction<TGeneric> action)
-        {
-            this.valueChangeEventWithValue ??= new UnityEvent<TGeneric>();
-
-            this.valueChangeEventWithValue.RemoveListener(action);
-        }
+        public void RemoveListener(UnityAction<TGeneric> action) =>
+            this.valueChangeEventWithValue?.RemoveListener(action);
 
         public void AddListener(UnityAction action)
         {
@@ -86,15 +82,8 @@ namespace Runtime.ScriptableVariables
             this.valueChangeEvent.AddListener(action);
         }
 
-        public void RemoveListener(UnityAction action)
-        {
-            if (this.valueChangeEvent == null) return;
-
-            this.valueChangeEvent.RemoveListener(action);
-
-            if (this.valueChangeEvent.GetPersistentEventCount() == 0)
-                this.valueChangeEvent = null;
-        }
+        public void RemoveListener(UnityAction action) =>
+            this.valueChangeEvent?.RemoveListener(action);
 
         #endregion
 

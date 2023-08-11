@@ -3,9 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.AI.Navigation.PathActions;
-using Runtime.Algorithms;
-using Runtime.Common;
-using Runtime.Common.CommonMathf;
+using Runtime.Algorithms.PathFinding;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -26,11 +24,6 @@ namespace Runtime.AI.Navigation
         [ShowInInspector] private List<NavTriangle> pathTriangles;
         [ShowInInspector] private Vector3[] verts;
 
-        [ShowInInspector] private readonly int[] ids;
-
-        private List<Edge> edges;
-        private List<Edge> left, right;
-
         #endregion
 
         #region Build In States
@@ -38,51 +31,18 @@ namespace Runtime.AI.Navigation
         public UnitPath(Vector3 destination, int[] pathTriangleIDs, NavTriangle[] triangles, Vector3[] verts,
             Vector2[] simpleVerts, Vector3 startPoint, UnitAgent agent)
         {
+            this.actionIndex = 0;
+            this.destination = destination;
+            this.actions = new List<PathAction>();
             this.verts = verts;
             this.pathTriangles = new List<NavTriangle>();
             foreach (int pathTriangleID in pathTriangleIDs.Reverse())
                 this.pathTriangles.Add(triangles[pathTriangleID]);
 
-            this.edges =
-                SSFunnelAlgorithm.GetEdgesFromTrianglePath(this.pathTriangles, verts);
-            int[] startShared = this.pathTriangles[0].Vertices.SharedBetween(this.pathTriangles[1].Vertices);
-            Vector3 position = agent.transform.position;
-            this.left = SSFunnelAlgorithm.GetSideEdgesByStartIndex(position, this.verts[startShared[0]],
-                this.edges);
-            this.right = SSFunnelAlgorithm.GetSideEdgesByStartIndex(position, this.verts[startShared[1]],
-                this.edges);
-
-            this.ids = new int[pathTriangleIDs.Length];
-
-            this.actionIndex = 0;
-            this.destination = destination;
-
-            this.actions = new List<PathAction>();
-
-            int[] correctedPath = pathTriangleIDs.Reverse().ToArray();
-            List<NavTriangle> currentWalkablePath = new List<NavTriangle>();
-            for (int i = 0; i < correctedPath.Length - 1; i++)
+            foreach (Vector3 point in Funnel.GetPath())
             {
-                currentWalkablePath.Add(triangles[correctedPath[i]]);
-
-                if (!triangles[correctedPath[i]].Neighbors.Contains(triangles[correctedPath[i + 1]].ID))
-                {
-                    foreach (Vector3 p in SSFunnelAlgorithm.GetPositionsFromEdges(startPoint, destination, simpleVerts,
-                                 verts, currentWalkablePath))
-                        this.actions.Add(new WalkAction(p));
-
-                    currentWalkablePath.Clear();
-                }
+                this.actions.Add(new WalkAction(point));
             }
-
-            if (currentWalkablePath.Count != 0)
-            {
-                foreach (Vector3 p in SSFunnelAlgorithm.GetPositionsFromEdges(startPoint, this.destination, simpleVerts,
-                             verts, currentWalkablePath))
-                    this.actions.Add(new WalkAction(p));
-            }
-
-            this.actions.Add(new WalkAction(destination));
         }
 
         #endregion
@@ -90,6 +50,8 @@ namespace Runtime.AI.Navigation
         #region Getters
 
         public readonly Vector3 Destination() => this.destination;
+
+        public readonly int ActionIndex() => this.actionIndex;
 
         #endregion
 
@@ -122,16 +84,6 @@ namespace Runtime.AI.Navigation
                     NavTriangle pathTriangle = this.pathTriangles[index];
                     Handles.Label(pathTriangle.Center(this.verts), pathTriangle.ID.ToString(), style);
                 }
-
-                foreach (Edge edge in this.edges)
-                    Debug.DrawLine(edge.A + Vector3.up, edge
-                        .B + Vector3.up, Color.yellow);
-
-                foreach (Edge edge in this.left)
-                    Debug.DrawLine(edge.A + (Vector3.up * 2), edge.B + (Vector3.up * 2), Color.magenta);
-
-                foreach (Edge edge in this.right)
-                    Debug.DrawLine(edge.A + (Vector3.up * 2), edge.B + (Vector3.up * 2), Color.green);
             }
 
             if (this.Empty || !UnitNavigation.Ready)

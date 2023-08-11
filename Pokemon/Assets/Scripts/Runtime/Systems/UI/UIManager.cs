@@ -2,8 +2,8 @@
 
 using System.Collections;
 using Runtime.Battle.Systems;
-using Runtime.Common;
 using Runtime.Communication;
+using Runtime.Core;
 using Runtime.ScriptableVariables.Structs;
 using Runtime.Systems.PersistantRunner;
 using Runtime.UI_Book;
@@ -169,7 +169,7 @@ namespace Runtime.Systems.UI
 
         private void PauseTrigger()
         {
-            if (this.playerThrowingItem.value) return;
+            if (this.playerThrowingItem.Value) return;
 
             if (BattleSystem.instance is not null) return;
 

@@ -1,6 +1,6 @@
 #region Packages
 
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.ScriptableVariables.Objects;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -43,7 +43,7 @@ namespace Runtime.VFX.Scene.Foliage
         }
 
         protected override bool Rules() =>
-            this.effectTransform.position.QuickDistanceLessThen(this.playerTransformGeneric.value.position, this.maxDistance);
+            this.effectTransform.position.QuickDistanceLessThen(this.playerTransformGeneric.Value.position, this.maxDistance);
 
         protected override void OnStart()
         {

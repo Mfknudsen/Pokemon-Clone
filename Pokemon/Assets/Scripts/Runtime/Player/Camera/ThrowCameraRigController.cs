@@ -31,11 +31,11 @@ namespace Runtime.Player.Camera
 
         private void Update()
         {
-            if (!this.allowed.value) return;
+            if (!this.allowed.Value) return;
 
             this.controllerTransform.position = this.followObject.position;
 
-            if (!this.aiming.value) return;
+            if (!this.aiming.Value) return;
             
             this.followObject.Rotate(Vector3.up, this.rotationDirection.x * this.rotationSpeeds.x * Time.deltaTime);
 

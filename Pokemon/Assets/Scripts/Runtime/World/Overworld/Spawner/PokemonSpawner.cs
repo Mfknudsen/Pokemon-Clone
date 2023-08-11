@@ -1,11 +1,11 @@
 #region Libraries
 
 using Runtime.AI;
-using Runtime.Common;
 using Runtime.Pokémon;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Core;
 using UnityEngine;
 
 #endregion

@@ -1,4 +1,4 @@
-#region Packages
+#region Libraries
 
 using Runtime.Items;
 using Sirenix.OdinInspector;
@@ -13,13 +13,13 @@ namespace Runtime.ScriptableVariables.Objects.Items
     {
         #region Values
 
-        [BoxGroup("Rules")] [SerializeField] private bool mostBeHoldable, mostBeThrowable;
+        [SerializeField, BoxGroup("Rules")] private bool mostBeHoldable, mostBeThrowable;
 
         #endregion
 
         #region Getters
 
-        public GameObject GetVisual() => this.value.GetVisualPrefab();
+        public GameObject GetVisual() => this.Value.GetVisualPrefab();
 
         #endregion
 

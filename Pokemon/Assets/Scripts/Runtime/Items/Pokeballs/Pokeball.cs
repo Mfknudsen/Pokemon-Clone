@@ -3,13 +3,13 @@
 using Runtime.AI;
 using Runtime.Battle.Systems;
 using Runtime.Battle.Systems.Static_Operations;
-using Runtime.Common;
 using Runtime.Communication;
 using Runtime.Pokémon;
 using Runtime.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Core;
 using UnityEngine;
 
 #endregion

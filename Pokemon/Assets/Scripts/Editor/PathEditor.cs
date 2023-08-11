@@ -1,6 +1,6 @@
 #region Libraries
 
-using Runtime.Common.CommonPath;
+using Runtime.Core.CorePath;
 using UnityEditor;
 using UnityEngine;
 

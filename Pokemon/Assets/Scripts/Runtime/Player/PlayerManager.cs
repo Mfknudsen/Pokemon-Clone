@@ -4,9 +4,10 @@ using System;
 using System.Collections;
 using Cinemachine;
 using Runtime.Battle.Systems;
-using Runtime.Common;
+using Runtime.Core;
 using Runtime.Files;
 using Runtime.ScriptableEvents;
+using Runtime.ScriptableVariables.Events;
 using Runtime.ScriptableVariables.Objects.Cinemachine;
 using Runtime.Systems;
 using Runtime.Systems.PersistantRunner;
@@ -75,7 +76,7 @@ namespace Runtime.Player
             this.team = this.playerGameObject.GetComponent<Team>();
             this.controller = overworld.GetComponent<Controller>();
             this.playerInteraction = overworld.GetComponent<PlayerInteraction>();
-            this.cameraBrain.value = this.playerGameObject.GetComponentInChildren<CinemachineBrain>();
+            this.cameraBrain.Value = this.playerGameObject.GetComponentInChildren<CinemachineBrain>();
 
             this.characterSheet = new CharacterSheet(FileManager.LoadData<PlayerData>(FileName));
             this.overworldCameraRig.enabled = false;

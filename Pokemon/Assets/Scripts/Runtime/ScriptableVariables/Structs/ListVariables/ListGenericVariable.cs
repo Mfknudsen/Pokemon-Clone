@@ -20,20 +20,20 @@ namespace Runtime.ScriptableVariables.Structs.ListVariables
 
         public void AddElement(TGeneric element, bool allowMultiplySameInstances = false)
         {
-            this.value ??= new List<TGeneric>();
+            this.Value ??= new List<TGeneric>();
 
-            if (!allowMultiplySameInstances && this.value.Contains(element)) return;
+            if (!allowMultiplySameInstances && this.Value.Contains(element)) return;
 
-            this.value.Add(element);
-            this.InvokeEvents(this.value);
+            this.Value.Add(element);
+            this.InvokeEvents(this.Value);
         }
 
         public void RemoveElement(TGeneric element)
         {
-            this.value ??= new List<TGeneric>();
+            this.Value ??= new List<TGeneric>();
 
-            this.value.Remove(element);
-            this.InvokeEvents(this.value);
+            this.Value.Remove(element);
+            this.InvokeEvents(this.Value);
         }
 
         #endregion
