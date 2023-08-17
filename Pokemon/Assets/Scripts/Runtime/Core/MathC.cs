@@ -28,8 +28,7 @@ namespace Runtime.Core
             if (denominator == 0)
                 return false;
 
-            Vector2 point = new((B2 * C1 - B1 * C2) / denominator,
-                (A1 * C2 - A2 * C1) / denominator);
+            Vector2 point = new Vector2((B2 * C1 - B1 * C2) / denominator, (A1 * C2 - A2 * C1) / denominator);
 
             if (point == start1 || point == end1 ||
                 point == start2 || point == end2)
@@ -124,5 +123,9 @@ namespace Runtime.Core
 
             return y;
         }
+
+        public static bool isPointLeftToVector(Vector2 lineA, Vector2 lineB, Vector2 point)
+            => (lineB.x - lineA.x) * (point.y - lineA.y) -
+                (lineB.y - lineA.y) * (point.x - lineA.x) > 0;
     }
 }

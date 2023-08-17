@@ -37,7 +37,7 @@ namespace Runtime.Battle.Systems
         private bool isWild;
 
         [BoxGroup(" ")] [TableList] [SerializeField]
-        private List<EvaluatorSetting> evaluatorSettings = new();
+        private List<EvaluatorSetting> evaluatorSettings = new List<EvaluatorSetting>();
 
         [BoxGroup(" /Personality")] [SerializeField]
         private bool useDefaultPersonalitySetting = true;
@@ -52,9 +52,9 @@ namespace Runtime.Battle.Systems
         private Team pokemonTeam;
 
         private bool hasAllSpots;
-        private readonly List<Spot> ownedSpots = new();
+        private readonly List<Spot> ownedSpots = new List<Spot>();
 
-        private readonly List<Evaluator> evaluators = new();
+        private readonly List<Evaluator> evaluators = new List<Evaluator>();
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace Runtime.Battle.Systems
 
                 evaluatorSetting.SetPersonalitySetting(personalitySetting);
 
-                Evaluator evaluator = new(pokemon, evaluatorSetting);
+                Evaluator evaluator = new Evaluator(pokemon, evaluatorSetting);
                 this.evaluators.Add(evaluator);
             }
         }

@@ -77,7 +77,7 @@ namespace Runtime.Battle.Actions
             battleItem.SetTarget(this.targets[0].GetActivePokemon());
             battleItem.SetOnUse(this.chatOnActivation);
 
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             container.Add(this.toUse);
             this.operationManager.AddAsyncOperationsContainer(container);
             while (!this.toUse.IsOperationDone)

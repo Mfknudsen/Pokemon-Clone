@@ -70,10 +70,11 @@ namespace Runtime.UI_Book
 
         public static UIBook Instance { get; private set; }
 
-        private readonly Dictionary<string, BookButton> buttonReferences = new();
-        private readonly Dictionary<string, BookSlider> sliderReferences = new();
+        private readonly Dictionary<string, BookButton> buttonReferences = new Dictionary<string, BookButton>();
+        private readonly Dictionary<string, BookSlider> sliderReferences = new Dictionary<string, BookSlider>();
 
-        private readonly Dictionary<string, BookTextInputField> textInputFieldReferences = new();
+        private readonly Dictionary<string, BookTextInputField> textInputFieldReferences =
+            new Dictionary<string, BookTextInputField>();
 
         private static readonly int PreRenderTextureID = Shader.PropertyToID("RenderTexture");
 
@@ -110,7 +111,7 @@ namespace Runtime.UI_Book
 
             yield return new WaitUntil(() => this.playerManager.Ready && this.uiManager.Ready);
 
-            GameObject bookHolder = new("Book Holder")
+            GameObject bookHolder = new GameObject("Book Holder")
             {
                 transform = { parent = this.playerManager.GetController().transform }
             };
@@ -152,7 +153,7 @@ namespace Runtime.UI_Book
                 this.openRight.GetComponent<Renderer>().material.SetTexture(PreRenderTextureID, this.preRenderTexture);
             }
 
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             switch (turn)
             {
                 case BookTurn.Open:
@@ -189,7 +190,7 @@ namespace Runtime.UI_Book
 
         private static List<GameObject> GetAllByRoot(GameObject obj)
         {
-            List<GameObject> result = new();
+            List<GameObject> result = new List<GameObject>();
 
             foreach (Transform t in obj.transform)
             {

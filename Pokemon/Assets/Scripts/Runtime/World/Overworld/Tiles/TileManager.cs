@@ -25,7 +25,7 @@ namespace Runtime.World.Overworld.Tiles
         private float waitTime = 5;
 
         private TileSubController currentController;
-        private readonly List<TileSubController> allSubControllers = new();
+        private readonly List<TileSubController> allSubControllers = new List<TileSubController>();
 
         private Timer resetWorldPositionTimer;
 
@@ -97,9 +97,9 @@ namespace Runtime.World.Overworld.Tiles
                 {
                     this.currentController.DisableDividers();
 
-                    List<Neighbor> toUnload = new(),
-                        loaded = new(),
-                        toLoad = new();
+                    List<Neighbor> toUnload = new List<Neighbor>(),
+                        loaded = new List<Neighbor>(),
+                        toLoad = new List<Neighbor>();
                     toUnload.AddRange(this.currentController.GetNeighbors());
                     loaded.AddRange(this.currentController.GetNeighbors());
 

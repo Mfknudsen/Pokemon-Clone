@@ -31,7 +31,7 @@ namespace Runtime.Battle.Systems
 
         public List<T> GetWeatherWithInterface<T>()
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             foreach (Weather weather in this.GetAll())
             {

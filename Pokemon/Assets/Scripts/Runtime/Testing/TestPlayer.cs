@@ -48,7 +48,7 @@ namespace Runtime.Testing
             Vector3 position = t.position;
             Quaternion rotation = t.rotation;
             Instantiate(this.playerPrefab, position, rotation);
-            GameObject persistent = new("Persistent Runner");
+            GameObject persistent = new GameObject("Persistent Runner");
             persistent.AddComponent<TimerUpdater>();
             PersistantRunner runner = persistent.AddComponent<PersistantRunner>();
             runner.AddManagers(this.managers);

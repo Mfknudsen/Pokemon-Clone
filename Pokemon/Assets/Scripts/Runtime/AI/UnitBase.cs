@@ -36,7 +36,7 @@ namespace Runtime.AI
 
         [SerializeField, FoldoutGroup("Base")] private UnitState unitState;
 
-        private readonly Dictionary<string, object> memoryBank = new();
+        private readonly Dictionary<string, object> memoryBank = new Dictionary<string, object>();
 
         private UnityEvent disableEvent;
 

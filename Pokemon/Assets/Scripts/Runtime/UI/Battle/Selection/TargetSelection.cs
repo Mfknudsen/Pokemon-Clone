@@ -45,7 +45,7 @@ namespace Runtime.UI.Battle.Selection
 
             Spot currentSpot = null;
 
-            List<Spot> eSpots = new(), aSpots = new();
+            List<Spot> eSpots = new List<Spot>(), aSpots = new List<Spot>();
 
             foreach (Spot spot in this.oversight.GetSpots())
             {

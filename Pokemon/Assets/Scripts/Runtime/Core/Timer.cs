@@ -11,7 +11,7 @@ namespace Runtime.Core
     {
         #region Values
 
-        private readonly UnityEvent timerEvent = new();
+        private readonly UnityEvent timerEvent = new UnityEvent();
         private readonly float duration;
         private float current;
         private bool done;

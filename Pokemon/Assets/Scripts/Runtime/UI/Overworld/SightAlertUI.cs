@@ -27,7 +27,7 @@ namespace Runtime.UI.Overworld
         public void EnableAlert(AlertType alertType)
         {
             alertType.Trigger(this.transform, true);
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             container.Add(alertType);
             this.operationManager.AddAsyncOperationsContainer(container);
         }
@@ -35,7 +35,7 @@ namespace Runtime.UI.Overworld
         public void DisableAlert(AlertType alertType)
         {
             alertType.Trigger(this.transform, false);
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             container.Add(alertType);
             this.operationManager.AddAsyncOperationsContainer(container);
         }

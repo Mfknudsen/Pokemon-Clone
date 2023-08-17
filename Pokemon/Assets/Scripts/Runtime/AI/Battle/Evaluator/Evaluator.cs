@@ -43,9 +43,9 @@ namespace Runtime.AI.Battle.Evaluator
 
         public void EvaluateForPokemon()
         {
-            VirtualBattle virtualBattle = new();
+            VirtualBattle virtualBattle = new VirtualBattle();
 
-            List<VirtualMove> virtualMoves = new();
+            List<VirtualMove> virtualMoves = new List<VirtualMove>();
             VirtualSpotOversight spotOversight = virtualBattle.spotOversight;
             VirtualSpot userSpot = spotOversight.GetPokemonSpot(this.pokemon);
             VirtualPokemon user = userSpot.virtualPokemon;
@@ -116,7 +116,7 @@ namespace Runtime.AI.Battle.Evaluator
                 return;
             }
 
-            List<VirtualMove> nextMoves = new();
+            List<VirtualMove> nextMoves = new List<VirtualMove>();
             foreach (VirtualMove virtualMove in toCheck)
             {
                 if (virtualMove.rootAction is SwitchAction)

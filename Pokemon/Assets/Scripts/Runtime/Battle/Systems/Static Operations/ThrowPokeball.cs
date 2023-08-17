@@ -41,7 +41,7 @@ namespace Runtime.Battle.Systems.Static_Operations
         public IEnumerator Operation()
         {
             this.done = false;
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
 
             #region Trap Target
 
@@ -70,7 +70,7 @@ namespace Runtime.Battle.Systems.Static_Operations
 
             #region Final
 
-            ChatOperation chatOperation = new(this.resultChat);
+            ChatOperation chatOperation = new ChatOperation(this.resultChat);
             container.Add(chatOperation);
             this.operationManager.AddOperationsContainer(container);
 

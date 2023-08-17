@@ -73,9 +73,9 @@ namespace Runtime.Battle.Systems.Spots
 
         public void Reorganise(bool removeEmpty)
         {
-            List<Spot> enemies = new(),
-                allies = new(),
-                toRemove = new();
+            List<Spot> enemies = new List<Spot>(),
+                allies = new List<Spot>(),
+                toRemove = new List<Spot>();
 
             foreach (Spot spot in this.list)
             {

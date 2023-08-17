@@ -30,7 +30,7 @@ namespace Runtime.Systems.Pooling
 
             this.freeObjects = new Stack<PoolItem>();
             this.usedObjects = new HashSet<int>();
-            this.snapCount = new();
+            this.snapCount = new Dictionary<int, int>();
 
             this.currentMinimum = 1;
         }
@@ -105,7 +105,7 @@ namespace Runtime.Systems.Pooling
 
             if (diff > 0)
             {
-                List<PoolItem> list = new();
+                List<PoolItem> list = new List<PoolItem>();
                 for (int i = 0; i < diff; i++)
                 {
                     if (this.freeObjects.Count == 0)

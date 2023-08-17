@@ -27,7 +27,7 @@ namespace Runtime.Pokémon.Conditions
         private Condition nonVolatileStatus; //Burn, Freeze, Paralysis, Poison, Sleep. Only one can be active.
 
         [SerializeField] private List<VolatileCondition>
-            volatileStatus = new(); //Bound, CantEscape, Confusion, Curse...
+            volatileStatus = new List<VolatileCondition>(); //Bound, CantEscape, Confusion, Curse...
 
         [SerializeField] private bool done, isStunned;
 
@@ -157,7 +157,7 @@ namespace Runtime.Pokémon.Conditions
 
             #region Check To Play
 
-            List<Condition> toPlay = new();
+            List<Condition> toPlay = new List<Condition>();
             if (this.nonVolatileStatus != null)
             {
                 if (!this.nonVolatileStatus.GetBeforeAttack())
@@ -176,7 +176,7 @@ namespace Runtime.Pokémon.Conditions
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 if (!(condition is IOperation iOperation)) continue;
 
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(iOperation);
                 this.operationManager.AddOperationsContainer(container);
 
@@ -195,7 +195,7 @@ namespace Runtime.Pokémon.Conditions
         {
             this.done = false;
 
-            List<Condition> toPlay = new();
+            List<Condition> toPlay = new List<Condition>();
 
             #region Check To Play
 
@@ -217,7 +217,7 @@ namespace Runtime.Pokémon.Conditions
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 if (condition is not IOperation iOperation) continue;
 
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(iOperation);
                 this.operationManager.AddOperationsContainer(container);
 
@@ -239,7 +239,7 @@ namespace Runtime.Pokémon.Conditions
 
             if (condition is FaintedCondition and IOperation iOperation)
             {
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(iOperation);
                 this.operationManager.AddOperationsContainer(container);
             }

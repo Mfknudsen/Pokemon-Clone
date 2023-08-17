@@ -47,7 +47,7 @@ namespace Runtime.Editor.MeshGeneration
 
                 forward.Normalize();
 
-                Vector3 left = new(-forward.y, forward.x);
+                Vector3 left = new Vector3(-forward.y, forward.x);
 
                 verts[vertIndex] = current + left * this.roadWidth * 0.5f;
                 verts[vertIndex + 1] = current - left * this.roadWidth * 0.5f;
@@ -67,7 +67,7 @@ namespace Runtime.Editor.MeshGeneration
                 triIndex += 6;
             }
 
-            Mesh mesh = new();
+            Mesh mesh = new Mesh();
             mesh.vertices = verts;
             mesh.triangles = tris;
 

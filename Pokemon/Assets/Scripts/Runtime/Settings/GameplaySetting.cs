@@ -15,7 +15,7 @@ namespace Runtime.Settings
 
         static GameplaySetting()
         {
-            PersonalitySetting personalitySetting = new();
+            PersonalitySetting personalitySetting = new PersonalitySetting();
 
             EasyEvaluatorSetting =
                 new EvaluatorSetting(1, 10, false, false, personalitySetting);

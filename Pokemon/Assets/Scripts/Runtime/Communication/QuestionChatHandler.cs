@@ -15,8 +15,8 @@ namespace Runtime.Communication
 
         [SerializeField] private QuestionChat questionChat;
 
-        [SerializeField] private List<UnityEvent> actions = new();
-        [SerializeField] private List<string> labels = new();
+        [SerializeField] private List<UnityEvent> actions = new List<UnityEvent>();
+        [SerializeField] private List<string> labels = new List<string>();
 
         #endregion
 

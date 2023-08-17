@@ -38,12 +38,12 @@ namespace Runtime.World
 
         private Transition transition;
 
-        private readonly List<Coroutine> activeLoading = new(), activeUnloading = new();
+        private readonly List<Coroutine> activeLoading = new List<Coroutine>(), activeUnloading = new List<Coroutine>();
 
         private StoryTriggers storyTriggers;
         private const string FileName = "StoryTriggers";
 
-        private readonly List<GameObject> loadedScenes = new();
+        private readonly List<GameObject> loadedScenes = new List<GameObject>();
 
         private PersistantRunner persistantRunner;
         
@@ -242,7 +242,7 @@ namespace Runtime.World
 
         private void UnloadWorldInterfaces(string sceneName)
         {
-            List<GameObject> toUnload = new();
+            List<GameObject> toUnload = new List<GameObject>();
 
             TileSubController subController = this.tileManager.GetSubManagerByName(sceneName);
             if (subController is not null)

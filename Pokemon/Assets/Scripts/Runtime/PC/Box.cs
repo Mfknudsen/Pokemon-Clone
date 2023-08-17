@@ -16,7 +16,7 @@ namespace Runtime.PC
     {
         #region Values
 
-        private static List<Pokemon> pokemonsInBox = new();
+        private static List<Pokemon> pokemonsInBox = new List<Pokemon>();
         private string fileName = "PokemonBox";
 
         #endregion

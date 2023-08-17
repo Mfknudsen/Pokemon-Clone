@@ -46,7 +46,7 @@ namespace Runtime.Core.CorePath.Road
                     forward += points[i] - points[(i - 1 + points.Length) % points.Length];
 
                 forward.Normalize();
-                Vector3 left = new(-forward.y, forward.x);
+                Vector3 left = new Vector3(-forward.y, forward.x);
 
                 verts[vertIndex] = points[i] + left * (this.roadWidth * .5f);
                 verts[vertIndex + 1] = points[i] - left * (this.roadWidth * .5f);
@@ -71,7 +71,7 @@ namespace Runtime.Core.CorePath.Road
                 triIndex += 6;
             }
 
-            Mesh mesh = new();
+            Mesh mesh = new Mesh();
             mesh.vertices = verts;
             mesh.triangles = tris;
             mesh.uv = uvs;

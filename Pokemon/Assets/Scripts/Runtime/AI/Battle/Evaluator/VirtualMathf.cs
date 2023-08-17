@@ -72,14 +72,14 @@ namespace Runtime.AI.Battle.Evaluator
         private static float[] CalculateVirtualModifiers(Pokemon user, Pokemon target, PokemonMove move,
             VirtualBattle virtualBattle)
         {
-            List<float> result = new();
+            List<float> result = new List<float>();
 
             Type[] defTypes = target.GetTypes();
 
-            List<IBypassImmune> bypassImmune = new();
-            List<IImmuneAttackType> immuneAttackType = new();
-            List<IBurnStop> burnStop = new();
-            List<IFinalModifier> finalModifier = new();
+            List<IBypassImmune> bypassImmune = new List<IBypassImmune>();
+            List<IImmuneAttackType> immuneAttackType = new List<IImmuneAttackType>();
+            List<IBurnStop> burnStop = new List<IBurnStop>();
+            List<IFinalModifier> finalModifier = new List<IFinalModifier>();
 
             foreach (Pokemon pokemon in virtualBattle.spotOversight.spots.Select(spot =>
                          spot.virtualPokemon.GetFakePokemon()))

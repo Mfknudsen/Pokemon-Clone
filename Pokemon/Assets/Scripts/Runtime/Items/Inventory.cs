@@ -13,7 +13,7 @@ namespace Runtime.Items
         #region Values
 
         [Header("Object Reference:")] [SerializeField]
-        private readonly List<ItemContainer> items = new();
+        private readonly List<ItemContainer> items = new List<ItemContainer>();
 
         [Header("Bag Categories:")] [SerializeField]
         private List<ItemType> medicine;
@@ -104,7 +104,7 @@ namespace Runtime.Items
 
             if (foundExisting) return;
 
-            ItemContainer itemContainer = new(i);
+            ItemContainer itemContainer = new ItemContainer(i);
             this.items.Add(itemContainer);
         }
 

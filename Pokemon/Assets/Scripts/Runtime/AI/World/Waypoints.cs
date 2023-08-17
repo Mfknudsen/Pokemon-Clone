@@ -11,7 +11,7 @@ namespace Runtime.AI.World
     {
         #region Values
 
-        private List<Transform> points = new();
+        private List<Transform> points = new List<Transform>();
 
         #endregion
 

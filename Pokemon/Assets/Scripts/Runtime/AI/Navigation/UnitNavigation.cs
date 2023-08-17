@@ -80,6 +80,21 @@ namespace Runtime.AI.Navigation
         {
             Vector3 agentPosition = agent.transform.position;
             Vector3[] vertices = _navMesh.Vertices();
+            Vector2 agentXZ = agentPosition.XZ();
+
+            foreach (NavTriangle navTriangle in _navMesh.Triangles)
+            {
+                if (!MathC.PointWithinTriangle2D(agentXZ,
+                        _navMesh.SimpleVertices[navTriangle.GetA],
+                        _navMesh.SimpleVertices[navTriangle.GetB],
+                        _navMesh.SimpleVertices[navTriangle.GetC],
+                        0))
+                    continue;
+
+                agent.transform.position = new Vector3(agentPosition.x, navTriangle.MaxY, agentPosition.z);
+                return navTriangle.ID;
+            }
+
             float dist = (vertices[0] - agentPosition).sqrMagnitude;
             int selected = 0;
 
@@ -93,22 +108,23 @@ namespace Runtime.AI.Navigation
                 selected = i;
             }
 
-            NavTriangle[] trianglesByVertex = _navMesh.GetTrianglesByVertexID(selected);
-            Vector2 v = agentPosition.XZ();
-            foreach (NavTriangle navTriangle in trianglesByVertex)
+            List<int> trianglesByVertexID = _navMesh.GetTrianglesByVertexID(selected);
+            foreach (int navTriangleID in trianglesByVertexID)
             {
-                if (!MathC.PointWithinTriangle2D(v,
+                NavTriangle navTriangle = _navMesh.Triangles[navTriangleID];
+                if (!MathC.PointWithinTriangle2D(agentXZ,
                         _navMesh.SimpleVertices[navTriangle.GetA],
                         _navMesh.SimpleVertices[navTriangle.GetB],
-                        _navMesh.SimpleVertices[navTriangle.GetC]))
+                        _navMesh.SimpleVertices[navTriangle.GetC],
+                        0))
                     continue;
 
-                agent.transform.position = new Vector3(agentPosition.x, navTriangle.MaxY, agentPosition.y);
+                agent.transform.position = new Vector3(agentPosition.x, navTriangle.MaxY, agentPosition.z);
                 return navTriangle.ID;
             }
 
-            agent.transform.position = new Vector3(agentPosition.x, trianglesByVertex[0].MaxY, agentPosition.y);
-            return trianglesByVertex[0].ID;
+            agent.transform.position = vertices[selected];
+            return trianglesByVertexID.RandomFrom();
         }
 
         #endregion
@@ -186,13 +202,14 @@ namespace Runtime.AI.Navigation
                 return;
 
             int count = _requests.Count < MAX_CALCULATIONS_PER_BATCH ? _requests.Count : MAX_CALCULATIONS_PER_BATCH;
-            NativeArray<JobAgent> agents = new(count, Allocator.TempJob);
-            NativeArray<JobPath> paths = new(count, Allocator.TempJob);
+            NativeArray<JobAgent> agents = new NativeArray<JobAgent>(count, Allocator.TempJob);
+            NativeArray<JobPath> paths = new NativeArray<JobPath>(count, Allocator.TempJob);
 
             for (int i = 0; i < count; i++)
                 agents[i] = new JobAgent(_requests[i]);
 
-            PathCalculatorJob calculationJob = new(paths, agents, _verts, _simpleVerts, _areas, _triangles);
+            PathCalculatorJob calculationJob =
+                new PathCalculatorJob(paths, agents, _verts, _simpleVerts, _areas, _triangles);
 
             _currentJob = calculationJob.Schedule(_requests.Count, 100);
             _currentJob.Complete();
@@ -224,15 +241,15 @@ namespace Runtime.AI.Navigation
         {
             int[] ids = new int[jobPath.nodePath.Length];
             for (int i = 0; i < jobPath.nodePath.Length; i++)
-                ids[i] = jobPath.nodePath[i];
+                ids[i] = jobPath.nodePath[jobPath.nodePath.Length - 1 - i];
 
             return new UnitPath(
-                jobAgent.desination,
+                jobAgent.startPosition,
+                jobAgent.endPoint,
                 ids,
                 _navMesh.Triangles,
                 _navMesh.Vertices(),
                 _navMesh.SimpleVertices,
-                jobAgent.startPosition,
                 agent);
         }
 

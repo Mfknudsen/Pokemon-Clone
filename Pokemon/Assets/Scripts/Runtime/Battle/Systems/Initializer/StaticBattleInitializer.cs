@@ -203,7 +203,7 @@ namespace Runtime.Battle.Systems.Initializer
         [MenuItem("Tools/Mfknudsen/Create New Static Battle Initializer")]
         private static void SetupNewStaticInitializer()
         {
-            GameObject obj = new("Static Battle Initializer");
+            GameObject obj = new GameObject("Static Battle Initializer");
             BattleInitializer battleInitializer = obj.AddComponent<StaticBattleInitializer>();
 
             if (Selection.activeGameObject is { } activeObject)

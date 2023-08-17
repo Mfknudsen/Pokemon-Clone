@@ -16,10 +16,10 @@ namespace Runtime.Files
         public string playerName = "";
 
         //NPCs
-        public List<NPCSave> npcSaves = new();
+        public List<NPCSave> npcSaves = new List<NPCSave>();
 
         //Pokemons
-        public List<PokemonSave> partyPokemons = new();
-        public List<PokemonSave> boxPokemons = new();
+        public List<PokemonSave> partyPokemons = new List<PokemonSave>();
+        public List<PokemonSave> boxPokemons = new List<PokemonSave>();
     }
 }

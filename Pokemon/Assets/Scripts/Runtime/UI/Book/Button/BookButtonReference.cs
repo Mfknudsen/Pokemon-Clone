@@ -15,7 +15,7 @@ namespace Runtime.UI.Book.Button
 
         private UIBook uiBook;
         private BookButton bookButton;
-        private readonly Color color = new(0, 0, 0, 0);
+        private readonly Color color = new Color(0, 0, 0, 0);
 
         #endregion
 

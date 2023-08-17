@@ -18,21 +18,21 @@ namespace Runtime.Systems
         #region Events
 
         public readonly UnityEvent<Vector2>
-            moveAxisInputEvent = new(),
-            turnAxisInputEvent = new();
+            moveAxisInputEvent = new UnityEvent<Vector2>(),
+            turnAxisInputEvent = new UnityEvent<Vector2>();
 
         public readonly UnityEvent
-            nextChatInputEvent = new(),
-            pauseInputEvent = new(),
-            interactInputEvent = new(),
-            showHideEvent = new(),
-            jumpInputEvent = new();
+            nextChatInputEvent = new UnityEvent(),
+            pauseInputEvent = new UnityEvent(),
+            interactInputEvent = new UnityEvent(),
+            showHideEvent = new UnityEvent(),
+            jumpInputEvent = new UnityEvent();
 
         public readonly UnityEvent<bool>
-            runInputEvent = new(),
-            crouchInputEvent = new(),
-            rightClickEvent = new(),
-            leftClickEvent = new();
+            runInputEvent = new UnityEvent<bool>(),
+            crouchInputEvent = new UnityEvent<bool>(),
+            rightClickEvent = new UnityEvent<bool>(),
+            leftClickEvent = new UnityEvent<bool>();
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Runtime.Systems
 
         private InputManager()
         {
-            PlayerInput playerInput = new();
+            PlayerInput playerInput = new PlayerInput();
 
             playerInput.Player.Enable();
 

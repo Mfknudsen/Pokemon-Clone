@@ -319,7 +319,7 @@ namespace Runtime.Battle.Actions
             foreach (Spot target in this.targets)
             {
                 Pokemon pokemon = target.GetActivePokemon();
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
 
                 #region Calculate Hit
 
@@ -332,7 +332,7 @@ namespace Runtime.Battle.Actions
 
                 if (!hit)
                 {
-                    MissHit missHit = new(pokemon, this.chatManager);
+                    MissHit missHit = new MissHit(pokemon, this.chatManager);
                     container.Add(missHit);
                     this.operationManager.AddOperationsContainer(container);
 
@@ -356,14 +356,14 @@ namespace Runtime.Battle.Actions
                     bool isCritical = this.canCrit && BattleMathf.CalculateCriticalRoll(this.currentPokemon, pokemon);
                     float damagePerTarget = this.GetDamageForTarget(this.currentPokemon, pokemon, isCritical);
 
-                    DamagePokemon damagePokemon = new(pokemon, damagePerTarget, secPerPokeMove);
+                    DamagePokemon damagePokemon = new DamagePokemon(pokemon, damagePerTarget, secPerPokeMove);
                     container.Add(damagePokemon);
                 }
                 else if (this.statusCondition != null)
                 {
                     if (!BattleMathf.CalculateStatusHit(this.applyChance)) continue;
 
-                    ApplyStatus applyStatus = new(this.statusHitChat, pokemon, this.statusCondition);
+                    ApplyStatus applyStatus = new ApplyStatus(this.statusHitChat, pokemon, this.statusCondition);
                     container.Add(applyStatus);
                 }
 

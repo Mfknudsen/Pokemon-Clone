@@ -18,7 +18,7 @@ namespace Runtime.Editor
 #if UNITY_EDITOR
         public void Create()
         {
-            Mesh mesh = new() { name = "Navmesh" };
+            Mesh mesh = new Mesh { name = "Navmesh" };
 
             CalculatedNavMesh calculatedNavmesh = this.transform.root.GetComponent<TileSubController>().GetNavmesh;
 

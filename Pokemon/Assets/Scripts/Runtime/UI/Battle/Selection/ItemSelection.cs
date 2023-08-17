@@ -30,12 +30,12 @@ namespace Runtime.UI.Battle.Selection
 
         [SerializeField] private GameObject itemUIPrefab;
         [SerializeField] private Transform parentTransform;
-        [SerializeField] private List<ItemDisplay> displays = new();
+        [SerializeField] private List<ItemDisplay> displays = new List<ItemDisplay>();
 
-        private readonly List<ItemContainer> potionList = new(),
-            pokeballList = new(),
-            otherList = new(),
-            medicineList = new();
+        private readonly List<ItemContainer> potionList = new List<ItemContainer>(),
+            pokeballList = new List<ItemContainer>(),
+            otherList = new List<ItemContainer>(),
+            medicineList = new List<ItemContainer>();
 
         private SpotOversight spotOversight;
         private ItemAction itemAction;

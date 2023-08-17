@@ -18,10 +18,11 @@ namespace Runtime.Systems
 
         private bool done;
 
-        private readonly Queue<OperationsContainer> operationsContainers = new();
+        private readonly Queue<OperationsContainer> operationsContainers = new Queue<OperationsContainer>();
         private OperationsContainer currentContainer;
 
-        private readonly Dictionary<OperationsContainer, List<Coroutine>> activeAsyncCoroutines = new();
+        private readonly Dictionary<OperationsContainer, List<Coroutine>> activeAsyncCoroutines =
+            new Dictionary<OperationsContainer, List<Coroutine>>();
 
         #endregion
 
@@ -109,7 +110,7 @@ namespace Runtime.Systems
         {
             this.done = false;
 
-            List<OperationsContainer> containerHolder = new();
+            List<OperationsContainer> containerHolder = new List<OperationsContainer>();
             while (this.operationsContainers.Count > 0)
                 containerHolder.Add(this.operationsContainers.Dequeue());
 
@@ -133,7 +134,7 @@ namespace Runtime.Systems
 
     public class OperationsContainer
     {
-        private readonly List<IOperation> operationInterfaces = new();
+        private readonly List<IOperation> operationInterfaces = new List<IOperation>();
 
         public OperationsContainer()
         {

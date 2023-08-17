@@ -13,8 +13,8 @@ namespace Runtime.Communication
     {
         #region Values
 
-        [SerializeField] private List<string> labels = new();
-        [SerializeField] private List<UnityEvent> actions = new();
+        [SerializeField] private List<string> labels = new List<string>();
+        [SerializeField] private List<UnityEvent> actions = new List<UnityEvent>();
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Runtime.Communication
 
         public void AddResponse(string label, UnityAction action)
         {
-            UnityEvent unityEvent = new();
+            UnityEvent unityEvent = new UnityEvent();
             unityEvent.AddListener(action);
 
             this.labels.Add(label);
@@ -61,7 +61,7 @@ namespace Runtime.Communication
             for (int i = 0; i < this.labels.Count; i++)
             {
                 int responseIndex = i;
-                UnityEvent e = new();
+                UnityEvent e = new UnityEvent();
                 e.AddListener(() => this.Response(responseIndex));
                 arr[i] = e;
             }

@@ -27,7 +27,7 @@ namespace Runtime.Battle.Systems.States
         public override IEnumerator Tick()
         {
             Cursor.visible = true;
-            List<SwitchAction> switchActions = new();
+            List<SwitchAction> switchActions = new List<SwitchAction>();
             SpotOversight oversight = this.battleSystem.GetSpotOversight();
             BattleMember playerTeam = this.playerManager.GetBattleMember();
 

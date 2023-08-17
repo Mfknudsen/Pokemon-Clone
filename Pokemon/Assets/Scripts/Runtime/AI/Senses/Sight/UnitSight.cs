@@ -20,7 +20,7 @@ namespace Runtime.AI.Senses.Sight
 
         [SerializeField, Required] protected Transform originTransform;
 
-        protected readonly List<Viewable> inSight = new();
+        protected readonly List<Viewable> inSight = new List<Viewable>();
 
         public abstract void UpdateSight();
 

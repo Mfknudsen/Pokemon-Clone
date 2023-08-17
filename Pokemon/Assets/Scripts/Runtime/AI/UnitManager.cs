@@ -28,12 +28,12 @@ namespace Runtime.AI
 
         [SerializeField] private float closeDistance, mediumDistance;
 
-        private readonly List<UnitBase> controllers = new(),
-            close = new(),
-            medium = new(),
-            far = new();
+        private readonly List<UnitBase> controllers = new List<UnitBase>(),
+            close = new List<UnitBase>(),
+            medium = new List<UnitBase>(),
+            far = new List<UnitBase>();
 
-        private readonly Dictionary<Type, List<UnitBase>> controllersByType = new();
+        private readonly Dictionary<Type, List<UnitBase>> controllersByType = new Dictionary<Type, List<UnitBase>>();
 
         private int count;
 

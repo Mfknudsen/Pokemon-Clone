@@ -1,6 +1,6 @@
 #region Libraries
 
-using Runtime.Pokémon;
+using Runtime.PokÃ©mon;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -238,7 +238,7 @@ namespace Runtime.World.Overworld.Spawner
 
             this.storedPoints.RemoveAt(toDelete);
 
-            List<Vector3Int> replaceList = new();
+            List<Vector3Int> replaceList = new List<Vector3Int>();
             for (int i = 0; i < this.storedTriangles.Count; i++)
             {
                 Vector3Int v = this.storedTriangles[i];
@@ -257,7 +257,7 @@ namespace Runtime.World.Overworld.Spawner
 
         public bool TryCreateNewTriangle(int[] ids)
         {
-            Vector3Int t = new(ids[0], ids[1], ids[2]);
+            Vector3Int t = new Vector3Int(ids[0], ids[1], ids[2]);
 
             foreach (Vector3Int v in this.storedTriangles)
             {
@@ -296,7 +296,7 @@ namespace Runtime.World.Overworld.Spawner
         {
             bool changeHappend = false;
 
-            List<int> toRemove = new();
+            List<int> toRemove = new List<int>();
             for (int i = 0; i < this.storedPoints.Count; i++)
             {
                 if (!this.storedTriangles.Any(v => v.x == i || v.y == i || v.z == i))
@@ -337,7 +337,7 @@ namespace Runtime.World.Overworld.Spawner
                 Vector3.Lerp(Vector3.zero, dirA, aRandom) +
                 Vector3.Lerp(Vector3.zero, dirB, bRandom);
 
-            return new()
+            return new SpawnTypeResult
             {
                 Position = newPoint,
                 Rotation = Quaternion.Euler(new Vector3(0, UnityEngine.Random.Range(0, 360), 0))

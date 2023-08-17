@@ -20,7 +20,7 @@ namespace Runtime.Testing
         [SerializeField] private TextMeshProUGUI textField;
 
         // ReSharper disable once CollectionNeverQueried.Local
-        private readonly List<string> textLog = new();
+        private readonly List<string> textLog = new List<string>();
         [SerializeField] private Scrollbar scroller;
 
         #endregion

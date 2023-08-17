@@ -22,11 +22,12 @@ namespace Runtime.Systems
     public sealed class EffectManager : Manager, IFrameStart, IFrameUpdate, IFrameLateUpdate
     {
         [SerializeField, Required] private TransformGenericVariable playerTransformGeneric;
-        [SerializeField] private List<EffectLimit> effectsLimits = new();
+        [SerializeField] private List<EffectLimit> effectsLimits = new List<EffectLimit>();
 
-        private readonly Dictionary<Type, SceneEffectHolder> sceneEffects = new();
-        private readonly Dictionary<Type, SingleUseEffectHolder> singleUseEffects = new();
-        private readonly Dictionary<Type, ReuseableEffect> reuseableEffects = new();
+        private readonly Dictionary<Type, SceneEffectHolder> sceneEffects = new Dictionary<Type, SceneEffectHolder>();
+        private readonly Dictionary<Type, SingleUseEffectHolder> singleUseEffects =
+            new Dictionary<Type, SingleUseEffectHolder>();
+        private readonly Dictionary<Type, ReuseableEffect> reuseableEffects = new Dictionary<Type, ReuseableEffect>();
 
         #region IFrameUpdate
 

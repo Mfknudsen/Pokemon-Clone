@@ -14,7 +14,7 @@ namespace Runtime.Systems.PersistantRunner
     {
         #region Values
 
-        [SerializeField, AssetsOnly] private List<Manager> managers = new();
+        [SerializeField, AssetsOnly] private List<Manager> managers = new List<Manager>();
 
         private List<IFrameStart> frameStarts;
         private List<IFrameUpdate> frameUpdates;

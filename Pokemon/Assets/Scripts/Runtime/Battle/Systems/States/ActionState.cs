@@ -49,7 +49,7 @@ namespace Runtime.Battle.Systems.States
 
                 Logger.instance.AddNewLog(action.name, "Starting Action: " + action.name.Replace("(Clone)", ""));
 
-                OperationsContainer container = new(action);
+                OperationsContainer container = new OperationsContainer(action);
                 this.operationManager.AddOperationsContainer(container);
 
                 yield return new WaitWhile(() => !this.operationManager.GetDone() || !this.chatManager.GetIsClear());

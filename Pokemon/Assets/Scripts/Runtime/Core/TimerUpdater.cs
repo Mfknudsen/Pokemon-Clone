@@ -12,7 +12,7 @@ namespace Runtime.Core
     {
         #region Values
 
-        private static readonly List<Timer> timers = new();
+        private static readonly List<Timer> timers = new List<Timer>();
 
         private static TimerUpdater instance;
 
@@ -29,7 +29,7 @@ namespace Runtime.Core
 
         private void Update()
         {
-            List<Timer> toUpdate = timers.ToList(), toRemove = new();
+            List<Timer> toUpdate = timers.ToList(), toRemove = new List<Timer>();
 
             for (int i = 0; i < toUpdate.Count; i++)
             {
@@ -55,7 +55,7 @@ namespace Runtime.Core
 
             if (instance == null)
             {
-                GameObject obj = new("Timer Updator");
+                GameObject obj = new GameObject("Timer Updator");
                 instance = obj.AddComponent<TimerUpdater>();
                 DontDestroyOnLoad(obj);
             }

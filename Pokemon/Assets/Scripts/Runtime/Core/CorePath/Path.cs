@@ -155,7 +155,7 @@ namespace Runtime.Core.CorePath
 
         public Vector3[] CalculateEvenlySpacedPoints(float spacing, float resolution = 1)
         {
-            List<Vector3> evenlySpacedPoints = new();
+            List<Vector3> evenlySpacedPoints = new List<Vector3>();
             evenlySpacedPoints.Add(this.points[0]);
             Vector3 previousPoint = this.points[0];
             float dstSinceLastEvenPoint = 0;

@@ -24,7 +24,7 @@ namespace Runtime.Core
         [FoldoutGroup("Impact Effects"), ShowIf("hasImpactEffects")]
         private ReuseableEffect[] impactEffects;
 
-        private readonly List<MonoBehaviour> allComponents = new();
+        private readonly List<MonoBehaviour> allComponents = new List<MonoBehaviour>();
 
         private void OnValidate()
         {

@@ -23,7 +23,7 @@ namespace Runtime.Battle.Systems.States
             foreach (IOnTurnEnd onTurnEnd in this.battleSystem.GetWeatherManager().GetWeatherWithInterface<IOnTurnEnd>()
                 .Where(i => i is IOperation))
             {
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add((IOperation)onTurnEnd);
                 this.operationManager.AddOperationsContainer(container);
             }

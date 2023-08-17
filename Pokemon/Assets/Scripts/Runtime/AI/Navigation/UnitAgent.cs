@@ -2,6 +2,8 @@
 
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Collections.Generic;
+using Runtime.Algorithms.PathFinding;
 using Runtime.Core;
 using UnityEngine;
 
@@ -15,9 +17,7 @@ namespace Runtime.AI.Navigation
         #region Values
 
         [SerializeField, InlineEditor] private UnitAgentSettings settings;
-
-        [SerializeField] private bool startAgentOnNavMesh = true;
-
+        
         [SerializeField] private Transform target;
 
         private Vector3 pre;
@@ -30,6 +30,12 @@ namespace Runtime.AI.Navigation
 
         private bool pathPending, isOnNavMesh;
 
+        public List<Portal> portals;
+
+        public CalculatedNavMesh navMesh;
+
+        public Dictionary<int, RemappedVert> remappedVerts;
+
         #endregion
 
         #region Build In States
@@ -40,8 +46,6 @@ namespace Runtime.AI.Navigation
             this.rb.useGravity = false;
 
             yield return new WaitWhile(() => !UnitNavigation.Ready);
-
-            if (!this.startAgentOnNavMesh) yield break;
 
             this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
@@ -67,8 +71,16 @@ namespace Runtime.AI.Navigation
             this.MoveTo(this.pre);
         }
 
-        private void OnDrawGizmos() =>
+        private void OnDrawGizmos()
+        {
+            if (this.navMesh != null)
+            {
+                NavTriangle t = this.navMesh.Triangles[this.navMesh.ClosestTriangleIndex(this.target.position)];
+                Debug.DrawRay(t.Center(this.navMesh.Vertices()), Vector3.up);
+            }
+
             this.currentPath.DebugPath(this);
+        }
 
         #endregion
 

@@ -74,7 +74,7 @@ namespace Runtime.Battle.Actions
         public override IEnumerator Operation()
         {
             this.done = false;
-            List<Chat> toSend = new();
+            List<Chat> toSend = new List<Chat>();
 
             //Start of match there will be no current pokemon
             if (this.currentPokemon != null)

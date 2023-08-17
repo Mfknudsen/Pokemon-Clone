@@ -44,7 +44,7 @@ namespace Runtime.Battle.Systems
 
         public List<T> ListOfSpecific<T>()
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             foreach (Ability ability in this.abilities)
             {

@@ -85,7 +85,7 @@ namespace Runtime.Items.Pokeballs
             selectedChat = selectedChat.GetChatInstantiated();
             selectedChat.AddToOverride("<TARGET_NAME>", this.target.GetName());
 
-            List<Chat> chats = new();
+            List<Chat> chats = new List<Chat>();
             foreach (Chat chat in this.chatOnUse)
             {
                 Chat c = chat.GetChatInstantiated();
@@ -98,12 +98,13 @@ namespace Runtime.Items.Pokeballs
 
             #region Prepare Operations
 
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
 
-            ThrowPokeball throwPokeball = new(this.playerManager, this.operationManager, this.target, clickStage, selectedChat);
+            ThrowPokeball throwPokeball = new ThrowPokeball(this.playerManager, this.operationManager, this.target,
+                clickStage, selectedChat);
             container.Add(throwPokeball);
 
-            ChatOperation chatOperation = new(chats.ToArray());
+            ChatOperation chatOperation = new ChatOperation(chats.ToArray());
             container.Add(chatOperation);
 
             this.operationManager.AddOperationsContainer(container);

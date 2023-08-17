@@ -15,7 +15,7 @@ namespace Runtime.Editor
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
-            List<SearchTreeEntry> searchTreeEntries = new() {new SearchTreeGroupEntry(new GUIContent("List"), 0)};
+            List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry> {new SearchTreeGroupEntry(new GUIContent("List"), 0)};
             return searchTreeEntries;
         }
 

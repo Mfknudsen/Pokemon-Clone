@@ -33,7 +33,7 @@ namespace Runtime.UI_Book
 
             this.playerManager.DisablePlayerControl();
 
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             this.transition.CheckMiddle();
             this.transition.Direction(false);
             

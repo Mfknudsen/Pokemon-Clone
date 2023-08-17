@@ -32,27 +32,28 @@ namespace Runtime.Core
 
         public static float Squared(this float current) => current * current;
 
-        public static float2 XZFloat(this float3 target) => new(target.x, target.z);
+        public static float2 XZFloat(this float3 target) => new float2(target.x, target.z);
 
         #endregion
 
         #region Vector2
 
-        public static System.Numerics.Vector2 ToNurmerics(this Vector2 target) => new(target.x, target.y);
+        public static System.Numerics.Vector2 ToNurmerics(this Vector2 target) =>
+            new System.Numerics.Vector2(target.x, target.y);
 
-        public static Vector3 ToV3(this Vector2 t, float y) => new(t.x, y, t.y);
+        public static Vector3 ToV3(this Vector2 t, float y) => new Vector3(t.x, y, t.y);
 
         public static float QuickSquareDistance(this Vector2 point1, Vector2 point2) => (point1 - point2).sqrMagnitude;
 
-        public static Vector2 Cross(this Vector2 target) => new(target.y, -target.x);
+        public static Vector2 Cross(this Vector2 target) => new Vector2(target.y, -target.x);
 
         #endregion
 
         #region Vector3
 
-        public static float2 ToFloatXZ(this Vector3 target) => new(target.x, target.z);
+        public static float2 ToFloatXZ(this Vector3 target) => new float2(target.x, target.z);
 
-        public static Vector2 XZ(this Vector3 target) => new(target.x, target.z);
+        public static Vector2 XZ(this Vector3 target) => new Vector2(target.x, target.z);
 
         public static float QuickSquareDistance(this Vector3 point1, Vector3 point2) => (point1 - point2).sqrMagnitude;
 
@@ -109,9 +110,9 @@ namespace Runtime.Core
         public static T RandomFrom<T>(this List<T> target) =>
             target[Random.Range(0, target.Count)];
 
-        public static T[] SharedBetween<T>(this T[] target, T[] other)
+        public static T[] SharedBetween<T>(this T[] target, T[] other, int max = -1)
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             foreach (T a in target)
             {
@@ -122,7 +123,13 @@ namespace Runtime.Core
                         result.Add(a);
                         break;
                     }
+
+                    if (result.Count == max)
+                        break;
                 }
+
+                if (result.Count == max)
+                    break;
             }
 
             return result.ToArray();
@@ -130,7 +137,7 @@ namespace Runtime.Core
 
         public static List<T> SharedBetween<T>(this List<T> target, List<T> other)
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             foreach (T a in target)
             {
@@ -145,6 +152,27 @@ namespace Runtime.Core
             }
 
             return result.ToList();
+        }
+
+        public static List<T> ReverseList<T>(this List<T> target)
+        {
+            if (target.Count == 0)
+                return target;
+
+            int a = 0, b = target.Count - 1;
+            T temp;
+
+            while (a != b && a < b)
+            {
+                temp = target[a];
+                target[a] = target[b];
+                target[b] = temp;
+
+                a++;
+                b--;
+            }
+
+            return target;
         }
 
         #endregion

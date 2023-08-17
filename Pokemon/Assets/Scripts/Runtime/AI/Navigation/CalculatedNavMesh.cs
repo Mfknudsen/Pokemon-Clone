@@ -46,8 +46,8 @@ namespace Runtime.AI.Navigation
 
         public int[] Areas => this.areaType;
 
-        public NavTriangle[] GetTrianglesByVertexID(int id) =>
-            this.triangleByVertexID[id].Select(i => this.triangles[i]).ToArray();
+        public List<int> GetTrianglesByVertexID(int id) =>
+            this.triangleByVertexID[id];
 
         #endregion
 
@@ -81,11 +81,11 @@ namespace Runtime.AI.Navigation
             navTriangles.ForEach(t =>
             {
                 int a = t.Vertices[0], b = t.Vertices[1], c = t.Vertices[2];
-                Vector2Int A = new(Mathf.FloorToInt(this.vertices2D[a].x / this.groupDivision),
+                Vector2Int A = new Vector2Int(Mathf.FloorToInt(this.vertices2D[a].x / this.groupDivision),
                         Mathf.FloorToInt(this.vertices2D[a].y / this.groupDivision)),
-                    B = new(Mathf.FloorToInt(this.vertices2D[b].x / this.groupDivision),
+                    B = new Vector2Int(Mathf.FloorToInt(this.vertices2D[b].x / this.groupDivision),
                         Mathf.FloorToInt(this.vertices2D[b].y / this.groupDivision)),
-                    C = new(Mathf.FloorToInt(this.vertices2D[c].x / this.groupDivision),
+                    C = new Vector2Int(Mathf.FloorToInt(this.vertices2D[c].x / this.groupDivision),
                         Mathf.FloorToInt(this.vertices2D[c].y / this.groupDivision));
 
                 this.minFloorX = Mathf.Min(this.minFloorX, Mathf.Min(Mathf.Min(A.x, B.x), C.x));
@@ -140,19 +140,48 @@ namespace Runtime.AI.Navigation
 
         public int ClosestTriangleIndex(Vector3 p)
         {
-            Vector2 p2D = p.XZ();
+            Vector2 agentXZ = p.XZ();
 
-            for (int i = 0; i < this.triangles.Length; i++)
+            foreach (NavTriangle navTriangle in this.Triangles)
             {
-                int[] ids = this.triangles[i].Vertices;
-                if (MathC.PointWithinTriangle2D(p2D,
-                        this.SimpleVertices[ids[0]],
-                        this.SimpleVertices[ids[1]],
-                        this.SimpleVertices[ids[2]]))
-                    return this.triangles[i].ID;
+                if (!MathC.PointWithinTriangle2D(agentXZ,
+                        this.SimpleVertices[navTriangle.GetA],
+                        this.SimpleVertices[navTriangle.GetB],
+                        this.SimpleVertices[navTriangle.GetC],
+                        0))
+                    continue;
+
+                return navTriangle.ID;
             }
 
-            return this.triangles.RandomFrom().ID;
+            float dist = (this.SimpleVertices[0] - agentXZ).sqrMagnitude;
+            int selected = 0;
+
+            for (int i = 1; i < this.SimpleVertices.Length; i++)
+            {
+                float newDist = (this.SimpleVertices[i] - agentXZ).sqrMagnitude;
+                if (newDist > dist)
+                    continue;
+
+                dist = newDist;
+                selected = i;
+            }
+
+            List<int> trianglesByVertexID = this.GetTrianglesByVertexID(selected);
+            foreach (int navTriangleID in trianglesByVertexID)
+            {
+                NavTriangle navTriangle = this.Triangles[navTriangleID];
+                if (!MathC.PointWithinTriangle2D(agentXZ,
+                        this.SimpleVertices[navTriangle.GetA],
+                        this.SimpleVertices[navTriangle.GetB],
+                        this.SimpleVertices[navTriangle.GetC],
+                        0))
+                    continue;
+
+                return navTriangle.ID;
+            }
+
+            return trianglesByVertexID.RandomFrom();
         }
 
         public int ClosestTriangleIndex(Vector2 p)
@@ -170,8 +199,7 @@ namespace Runtime.AI.Navigation
             return this.triangles.RandomFrom().ID;
         }
 
-        public Vector3 VertByIndex(int i) =>
-            new(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
+        public Vector3 VertByIndex(int i) => new Vector3(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
 
         #endregion
     }

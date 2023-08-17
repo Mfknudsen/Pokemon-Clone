@@ -39,7 +39,7 @@ namespace Runtime.UI_Book
 
             this.bookLight.TurnOff();
 
-            OperationsContainer container = new();
+            OperationsContainer container = new OperationsContainer();
             this.transition.Direction(true);
             container.Add(this.transition);
             container.Add(this.cameraEvent);

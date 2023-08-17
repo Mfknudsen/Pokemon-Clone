@@ -130,7 +130,7 @@ namespace Runtime.Battle.Systems.States
 
         private IEnumerator SetupActions()
         {
-            List<OperationsContainer> switchInActions = new();
+            List<OperationsContainer> switchInActions = new List<OperationsContainer>();
             foreach (Spot spot in this.spotOversight.GetSpots())
             {
                 spot.SetTransform();
@@ -148,7 +148,7 @@ namespace Runtime.Battle.Systems.States
                 action.SetNextPokemon(battleMember.GetTeam().GetFirstOut());
                 action.SetSpot(spot);
 
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(action);
                 switchInActions.Add(container);
             }

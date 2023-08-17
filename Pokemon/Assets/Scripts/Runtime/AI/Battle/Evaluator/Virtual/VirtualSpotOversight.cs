@@ -19,7 +19,7 @@ namespace Runtime.AI.Battle.Evaluator.Virtual
 
             foreach (Spot spot in BattleSystem.instance.GetSpotOversight().GetSpots())
             {
-                VirtualSpot virtualSpot = new(spot.GetActivePokemon());
+                VirtualSpot virtualSpot = new VirtualSpot(spot.GetActivePokemon());
                 virtualSpot.SetRelations(
                     spot.GetLeft()?.GetActivePokemon(),
                     spot.GetRight()?.GetActivePokemon(),

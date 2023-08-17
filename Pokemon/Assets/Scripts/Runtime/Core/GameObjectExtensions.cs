@@ -12,7 +12,7 @@ namespace Runtime.Core
     {
         public static T[] GetAllComponentsByRoot<T>(this GameObject gameObject) where T : Component
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             if (gameObject.GetComponent<T>() is { } component)
                 result.Add(component);
@@ -49,7 +49,7 @@ namespace Runtime.Core
 
         public static T[] GetAllMonoBehavioursByRoot<T>(this GameObject gameObject) where T : MonoBehaviour
         {
-            List<T> result = new();
+            List<T> result = new List<T>();
 
             if (gameObject.GetComponent<T>() is { } monoBehaviour)
                 result.Add(monoBehaviour);

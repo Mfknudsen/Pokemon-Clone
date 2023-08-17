@@ -13,7 +13,7 @@ namespace Runtime.Systems.Pooling
     {
         #region Values
 
-        private static readonly Dictionary<int, PoolHolder> Pools = new();
+        private static readonly Dictionary<int, PoolHolder> Pools = new Dictionary<int, PoolHolder>();
 
         #endregion
 

@@ -85,7 +85,7 @@ namespace Runtime.AI.Battle
             if (this.chatKeys == null)
                 return null;
 
-            Dictionary<string, string> chatInput = new();
+            Dictionary<string, string> chatInput = new Dictionary<string, string>();
             for (int i = 0; i < this.chatKeys.Length && i < this.chatValues.Length; i++)
                 chatInput.Add(this.chatKeys[i], this.chatValues[i]);
 

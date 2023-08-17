@@ -33,7 +33,7 @@ namespace Runtime.Battle.Systems.States
             {
                 if (onTurnEnd is not IOperation iOperation) continue;
 
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(iOperation);
                 this.operationManager.AddOperationsContainer(container);
 

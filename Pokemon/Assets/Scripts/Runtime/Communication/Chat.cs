@@ -33,9 +33,9 @@ namespace Runtime.Communication
         protected bool needInput = true;
 
         [Header("Overriding:")] [SerializeField]
-        protected List<string> replaceString = new();
+        protected List<string> replaceString = new List<string>();
 
-        [SerializeField] protected List<string> addString = new();
+        [SerializeField] protected List<string> addString = new List<string>();
 
         [Header("Text Animation:")] [SerializeField]
         protected string showText;

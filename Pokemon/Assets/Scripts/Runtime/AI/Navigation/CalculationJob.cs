@@ -46,7 +46,7 @@ namespace Runtime.AI.Navigation
 
         public void Execute(int index)
         {
-            float3 destination = this.agents[index].desination;
+            float3 destination = this.agents[index].endPoint;
             this.toCheckNodes.Add(new Node(this.triangles[this.agents[index].currentTriangleID],
                 this.simpleVerts, new float2(destination.x, destination.z), 0));
 
@@ -88,7 +88,7 @@ namespace Runtime.AI.Navigation
             UnsafeList<int> toAddTriangleID, Node original, NativeArray<JobTriangle> triangles,
             NativeArray<int> areas, JobAgent agent)
         {
-            UnsafeList<Node> result = new(toCheck.Length, Allocator.TempJob);
+            UnsafeList<Node> result = new UnsafeList<Node>(toCheck.Length, Allocator.TempJob);
             for (int k = 0; k < toCheck.Length; k++)
                 result.Add(toCheck[k]);
 
@@ -119,7 +119,8 @@ namespace Runtime.AI.Navigation
                         break;
                 }
 
-                Node newNode = new(triangles[toAddTriangleID[i]], this.simpleVerts, agent.desination.XZFloat(), bestPrevious, areas, triangles);
+                Node newNode = new Node(triangles[toAddTriangleID[i]], this.simpleVerts, agent.endPoint.XZFloat(),
+                    bestPrevious, areas, triangles);
                 if (result.Length > 0)
                 {
                     bool added = false;
@@ -256,7 +257,7 @@ namespace Runtime.AI.Navigation
 
         public readonly int currentTriangleID, destinationTriangleID;
 
-        public readonly float3 desination, startPosition;
+        public readonly float3 endPoint, startPosition;
 
         public readonly float radius;
 
@@ -270,9 +271,9 @@ namespace Runtime.AI.Navigation
             UnitAgentSettings settings = agent.Settings;
 
             this.currentTriangleID = agent.CurrentTriangleIndex();
-            this.desination = request.destination;
+            this.endPoint = request.destination;
             this.startPosition = agent.transform.position;
-            this.destinationTriangleID = UnitNavigation.ClosestTriangleIndex(this.desination);
+            this.destinationTriangleID = UnitNavigation.ClosestTriangleIndex(this.endPoint);
             this.radius = settings.Radius;
         }
 

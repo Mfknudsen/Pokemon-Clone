@@ -81,7 +81,7 @@ namespace Runtime.Battle.Systems.BattleStart
 
         public List<BattleMember> GetAllBattleMembers()
         {
-            List<BattleMember> result = new() { this.playerManager.GetBattleMember() };
+            List<BattleMember> result = new List<BattleMember> { this.playerManager.GetBattleMember() };
             result.AddRange(this.allies);
             result.AddRange(this.enemies);
             return result;
@@ -128,7 +128,7 @@ namespace Runtime.Battle.Systems.BattleStart
 
             this.chatManager.Add(instantiatedChat);
 
-            OperationsContainer container = new(this.introEvent);
+            OperationsContainer container = new OperationsContainer(this.introEvent);
             this.operationManager.AddOperationsContainer(container);
 
             Transform starterTransform = this.transform;

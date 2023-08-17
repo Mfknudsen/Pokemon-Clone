@@ -55,9 +55,9 @@ namespace Runtime.Weathers.Energy
                     continue;
                 
                 //Damage
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 int damagePerTarget = pokemon.GetCalculatedStat(Stat.HP) / 10;
-                DamagePokemon damagePokemon = new(pokemon, damagePerTarget, 1);
+                DamagePokemon damagePokemon = new DamagePokemon(pokemon, damagePerTarget, 1);
                 container.Add(damagePokemon);
 
                 //Visual

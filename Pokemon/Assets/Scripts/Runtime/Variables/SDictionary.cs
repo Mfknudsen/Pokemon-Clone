@@ -13,8 +13,8 @@ namespace Runtime.Variables
     {
         #region Values
 
-        [SerializeField, HideInInspector] private List<TKey> keyData = new();
-        [SerializeField, HideInInspector] private List<TValue> valueData = new();
+        [SerializeField, HideInInspector] private List<TKey> keyData = new List<TKey>();
+        [SerializeField, HideInInspector] private List<TValue> valueData = new List<TValue>();
 
         #endregion
 

@@ -34,8 +34,9 @@ namespace Editor.AI
                 return;
 
             UnitAgentSettings settings = this.agent.Settings;
-
-            Draw.DrawCylinder(this.agent.gameObject.transform.position, settings.Height, settings.Radius, Color.yellow);
+            if (settings != null)
+                Draw.DrawCylinder(this.agent.gameObject.transform.position, settings.Height, settings.Radius,
+                    Color.yellow);
         }
 
         #endregion

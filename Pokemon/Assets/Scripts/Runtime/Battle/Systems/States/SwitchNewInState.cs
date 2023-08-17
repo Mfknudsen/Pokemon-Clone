@@ -28,7 +28,7 @@ namespace Runtime.Battle.Systems.States
         {
             foreach (SwitchAction switchAction in this.switchActions)
             {
-                OperationsContainer container = new();
+                OperationsContainer container = new OperationsContainer();
                 container.Add(switchAction);
                 this.operationManager.AddOperationsContainer(container);
 

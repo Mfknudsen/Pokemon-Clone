@@ -22,7 +22,7 @@ namespace Runtime.AI.Navigation
             walkTurnAngle = 45f,
             stoppingDistance = .5f;
 
-        [SerializeField] private List<int> usableNavigationPoints = new();
+        [SerializeField] private List<int> usableNavigationPoints = new List<int>();
 
         #endregion
 

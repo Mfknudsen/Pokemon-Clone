@@ -18,7 +18,7 @@ namespace Runtime.Files
     {
         #region Values
 
-        private static readonly BinaryFormatter Formatter = new();
+        private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
         #endregion
 
@@ -53,9 +53,7 @@ namespace Runtime.Files
 
             if (!File.Exists(path)) return null;
 
-            FileStream stream = new(
-                path,
-                FileMode.Open);
+            FileStream stream = new FileStream(path, FileMode.Open);
 
             T result = Formatter.Deserialize(stream) as T;
 
@@ -70,9 +68,7 @@ namespace Runtime.Files
 
             Logger.AddLog(typeof(FileManager).ToString(), "Saving to path:\n" + path);
 
-            FileStream stream = new(
-                path,
-                FileMode.Create);
+            FileStream stream = new FileStream(path, FileMode.Create);
 
             Formatter.Serialize(stream, toSave);
 

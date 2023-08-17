@@ -13,7 +13,7 @@ namespace Runtime.AI.Senses.Sight
     {
         #region Values
 
-        private readonly List<Viewable> registeredViewable = new();
+        private readonly List<Viewable> registeredViewable = new List<Viewable>();
 
         #endregion
 

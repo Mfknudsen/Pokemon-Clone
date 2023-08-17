@@ -21,7 +21,7 @@ namespace Runtime.Communication
 
         [ShowInInspector, ReadOnly] private Chat running;
 
-        [ShowInInspector, ReadOnly] private List<Chat> waitList = new();
+        [ShowInInspector, ReadOnly] private List<Chat> waitList = new List<Chat>();
 
         [ShowInInspector, ReadOnly] private TextMeshProUGUI text;
 

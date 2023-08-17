@@ -218,7 +218,7 @@ namespace Runtime.Player
         {
             float timeLeft = this.dashTime;
             Vector3 forward = this.moveTransform.forward;
-            Vector3 direction = new(this.moveDirection.x, 0, this.moveDirection.y);
+            Vector3 direction = new Vector3(this.moveDirection.x, 0, this.moveDirection.y);
 
             if (this.moveDirection == Vector2.zero)
                 direction = forward;

@@ -126,7 +126,7 @@ namespace Runtime.Battle.Systems
         public static bool MultiTargets(Spot target, Spot user, PokemonMove move)
         {
             HitType type = move.GetHitType();
-            List<Spot> totals = new();
+            List<Spot> totals = new List<Spot>();
 
             switch (type)
             {
@@ -243,7 +243,7 @@ namespace Runtime.Battle.Systems
             bool multiTarget, bool isCritical)
         {
             TypeName attackType = attackMove.GetMoveType().GetTypeName();
-            List<float> result = new();
+            List<float> result = new List<float>();
             AbilityOversight abilityOversight = BattleSystem.instance.GetAbilityOversight();
             WeatherManager weatherManager = BattleSystem.instance.GetWeatherManager();
 
@@ -290,8 +290,8 @@ namespace Runtime.Battle.Systems
             float type = 1;
 
             Type[] toCheck = target.GetTypes();
-            List<IBypassImmune> bypassImmune = new();
-            List<IImmuneAttackType> immuneAttackType = new();
+            List<IBypassImmune> bypassImmune = new List<IBypassImmune>();
+            List<IImmuneAttackType> immuneAttackType = new List<IImmuneAttackType>();
 
             foreach (Pokemon pokemon in BattleSystem.instance.GetSpotOversight().GetSpots()
                          .Select(spot => spot.GetActivePokemon()).Where(pokemon => pokemon != null))

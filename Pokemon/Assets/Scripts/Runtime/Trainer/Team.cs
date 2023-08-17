@@ -14,14 +14,14 @@ namespace Runtime.Trainer
     {
         #region Values
 
-        [SerializeField] private List<Pokemon> pokemons = new(6);
-        private readonly List<BoxContainer> boxContainers = new();
+        [SerializeField] private List<Pokemon> pokemons = new List<Pokemon>(6);
+        private readonly List<BoxContainer> boxContainers = new List<BoxContainer>();
 
         private void OnValidate()
         {
             if (this.pokemons.Count == 6) return;
 
-            List<Pokemon> tempList = new();
+            List<Pokemon> tempList = new List<Pokemon>();
 
             foreach (Pokemon p in this.pokemons)
             {
@@ -132,7 +132,7 @@ namespace Runtime.Trainer
             if (this.boxContainers.Any(container => container.AddPokemon(toAdd)))
                 return;
 
-            BoxContainer c = new();
+            BoxContainer c = new BoxContainer();
             c.AddPokemon(toAdd);
             this.boxContainers.Add(c);
         }
@@ -156,7 +156,7 @@ namespace Runtime.Trainer
 
     internal class BoxContainer
     {
-        private readonly List<Pokemon> pokemons = new(48);
+        private readonly List<Pokemon> pokemons = new List<Pokemon>(48);
 
         public bool AddPokemon(Pokemon toAdd)
         {

@@ -79,7 +79,7 @@ namespace Runtime.Battle.Systems.Spots
 
         public List<Spot> GetAllAdjacentSpots()
         {
-            List<Spot> result = new();
+            List<Spot> result = new List<Spot>();
 
             if (this.front != null)
                 result.Add(this.front);
@@ -249,7 +249,7 @@ namespace Runtime.Battle.Systems.Spots
         public List<Spot> GetAllOneSide()
         {
             bool continueCheck = true;
-            List<Spot> result = new() { this };
+            List<Spot> result = new List<Spot> { this };
 
             while (continueCheck)
             {

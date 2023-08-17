@@ -1,5 +1,6 @@
 #region Libraries
 
+using System.Text;
 using Unity.Burst;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ namespace Runtime.Core
         [BurstDiscard]
         public static string AppendToString(params object[] parts)
         {
-            System.Text.StringBuilder sb = new();
+            System.Text.StringBuilder sb = new StringBuilder();
             sb.Clear();
             for (int i = 0, len = parts.Length; i < len; i++) sb.Append(parts[i].ToString());
             return sb.ToString();

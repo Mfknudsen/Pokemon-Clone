@@ -17,7 +17,7 @@ namespace Runtime.Editor.Tools
         [MenuItem("Tools/Mfknudsen/Setup World Scene")]
         private static void SetupNewScene()
         {
-            GameObject obj = new()
+            GameObject obj = new GameObject
             {
                 name = "'Name' - Tile Manager"
             };

@@ -29,7 +29,7 @@ namespace Runtime.World.Overworld.Spawner
 
         [SerializeField] private float spawnInterval;
 
-        private readonly List<PokemonUnit> currentActiveEntities = new();
+        private readonly List<PokemonUnit> currentActiveEntities = new List<PokemonUnit>();
 
         private Timer checkTimer;
 

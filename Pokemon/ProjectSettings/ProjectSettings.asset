@@ -157,6 +157,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.DefaultCompany.Pokemon
     Standalone: com.DefaultCompany.Pokemon
+    iPhone: com.DefaultCompany.Pokemon
   buildNumber:
     Bratwurst: 0
     Standalone: 0
