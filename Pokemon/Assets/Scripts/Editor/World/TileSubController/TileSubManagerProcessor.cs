@@ -44,8 +44,8 @@ namespace Editor.World.TileSubController
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
             propertyInfos.AddValue("Vertex Overlap Check Distance",
-                (ref Runtime.World.Overworld.TileSubController _) => _overlapCheckDistance,
-                (ref Runtime.World.Overworld.TileSubController _, float d) => _overlapCheckDistance = d,
+                (ref SubController _) => _overlapCheckDistance,
+                (ref SubController _, float d) => _overlapCheckDistance = d,
                 new FoldoutGroupAttribute("Navigation"),
                 new MinValueAttribute(.001f),
                 new LabelWidthAttribute(180f));
@@ -65,7 +65,7 @@ namespace Editor.World.TileSubController
 
         #region Optimizations
 
-        private static async void OptimizeTile(Runtime.World.Overworld.TileSubController tileSubController)
+        private static async void OptimizeTile(SubController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
@@ -210,7 +210,7 @@ namespace Editor.World.TileSubController
         /// Bake a custom Navmesh for use with the custom Navmesh agents.
         /// </summary>
         /// <param name="tileSubController">The current TileSubController</param>
-        private async void BakeNavmesh(Runtime.World.Overworld.TileSubController tileSubController)
+        private async void BakeNavmesh(SubController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
@@ -389,7 +389,7 @@ namespace Editor.World.TileSubController
                         vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(c) });
                 }
 
-                this.FillHoles(fixedVertices, fixedAreas, fixedIndices, editorProgressParTitle);
+                FillHoles(fixedVertices, fixedAreas, fixedIndices, editorProgressParTitle);
 
                 List<NavTriangle> fixedTriangles = new();
 
@@ -793,7 +793,7 @@ namespace Editor.World.TileSubController
         /// <param name="indices">Each pair of threes indicate one triangle</param>
         /// <param name="editorProgressParTitle">Editor loading bar title</param>
         /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
-        private void FillHoles(List<Vector3> verts, List<int> areas, List<int> indices,
+        private static void FillHoles(IList<Vector3> verts, ICollection<int> areas, IList<int> indices,
             string editorProgressParTitle)
         {
             Dictionary<int, List<int>> connectionsByIndex = new();
@@ -860,7 +860,7 @@ namespace Editor.World.TileSubController
 
                     Vector2 offset = close - p;
 
-                    verts[i] = verts[i] + (offset.normalized * (offset.magnitude + .01f)).ToV3(0);
+                    verts[i] += (offset.normalized * (offset.magnitude + .01f)).ToV3(0);
                 }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,

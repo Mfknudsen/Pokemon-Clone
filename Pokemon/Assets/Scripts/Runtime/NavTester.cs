@@ -60,9 +60,7 @@ namespace Runtime
                 triangleIDs.ToArray(),
                 this.triangles,
                 verts.ToArray(),
-                this.start.GetComponent<UnitAgent>(),
-                out this.portals,
-                out this.remapped);
+                this.start.GetComponent<UnitAgent>());
         }
 
         private void OnDestroy() =>

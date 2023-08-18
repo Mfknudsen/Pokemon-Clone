@@ -47,20 +47,16 @@ namespace Runtime.AI.Navigation
 
         #region Setters
 
-        public static bool SetNavMesh(CalculatedNavMesh set)
+        public static void SetNavMesh(CalculatedNavMesh set)
         {
             if (_navMesh == set)
-                return false;
-
-            //Debug.Log($"{NavMesh?.name}  -  {set?.name}");
+                return;
 
             _navMesh = set;
 
             _onNavMeshChanged?.Invoke();
 
             _switchNativeArrays = true;
-
-            return true;
         }
 
         #endregion

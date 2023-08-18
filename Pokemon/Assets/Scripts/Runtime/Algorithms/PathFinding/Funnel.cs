@@ -13,21 +13,15 @@ namespace Runtime.Algorithms.PathFinding
     public static class Funnel
     {
         public static List<Vector3> GetPath(Vector3 start, Vector3 end, int[] triangleIDs, NavTriangle[] triangles,
-            Vector3[] verts, UnitAgent agent, out List<Portal> portals,
-            out Dictionary<int, RemappedVert> t)
+            Vector3[] verts, UnitAgent agent)
         {
             List<Vector3> result = new List<Vector3>();
-            portals = GetGates(start.XZ(), triangleIDs, triangles, verts, agent.Settings.Radius,
-                out Vector2[] remappedSimpleVerts, out Vector3[] remappedVerts,
-                out Dictionary<int, RemappedVert> remapped);
-            agent.portals = portals;
-            agent.remappedVerts = remapped;
-            t = remapped;
+            List<Portal> portals = GetGates(start.XZ(), triangleIDs, triangles, verts, agent.Settings.Radius,
+                out Vector2[] remappedSimpleVerts, out Vector3[] remappedVerts);
+
             Vector2 apex = start.XZ();
-            Vector2 portalLeft =
-                remappedSimpleVerts[portals[0].left];
-            Vector2 portalRight =
-                remappedSimpleVerts[portals[0].right];
+            Vector2 portalLeft = remappedSimpleVerts[portals[0].left];
+            Vector2 portalRight = remappedSimpleVerts[portals[0].right];
 
             int leftID = portals[0].left;
             int rightID = portals[0].right;
@@ -98,13 +92,13 @@ namespace Runtime.Algorithms.PathFinding
 
         private static List<Portal> GetGates(Vector2 start, IReadOnlyList<int> triangleIDs,
             IReadOnlyList<NavTriangle> triangles, IReadOnlyList<Vector3> verts, float agentRadius,
-            out Vector2[] remappedSimpleVerts, out Vector3[] remappedVerts, out Dictionary<int, RemappedVert> remapped)
+            out Vector2[] remappedSimpleVerts, out Vector3[] remappedVerts)
         {
             //RemappingVertices
             List<Vector3> remappedVertsResult = new List<Vector3>();
             List<Vector2> remappedSimpleVertsResult = new List<Vector2>();
             int[] shared;
-            remapped = new Dictionary<int, RemappedVert>();
+            Dictionary<int, RemappedVert> remapped = new Dictionary<int, RemappedVert>();
             for (int i = 1; i < triangleIDs.Count; i++)
             {
                 shared = triangles[triangleIDs[i]].Vertices.SharedBetween(triangles[triangleIDs[i - 1]].Vertices, 2);
