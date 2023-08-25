@@ -47,6 +47,12 @@ namespace Runtime.Core
 
         public static Vector2 Cross(this Vector2 target) => new Vector2(target.y, -target.x);
 
+        public static float QuickSquareRootMagnitude(this Vector2 target) =>
+            MathC.FastSqrt(target.x.Squared() + target.y.Squared());
+
+
+        public static Vector2 FastNorm(this Vector2 target) => target / target.QuickSquareRootMagnitude();
+
         #endregion
 
         #region Vector3
@@ -69,6 +75,11 @@ namespace Runtime.Core
 
             return area / line.magnitude;
         }
+
+        public static float QuickSquareRootMagnitude(this Vector3 target) =>
+            MathC.FastSqrt(target.x.Squared() + target.y.Squared() + target.z.Squared());
+
+        public static Vector3 FastNorm(this Vector3 target) => target / target.QuickSquareRootMagnitude();
 
         #endregion
 

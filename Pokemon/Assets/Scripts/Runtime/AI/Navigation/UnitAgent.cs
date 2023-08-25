@@ -2,8 +2,6 @@
 
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
-using Runtime.Algorithms.PathFinding;
 using Runtime.Core;
 using UnityEngine;
 
@@ -29,13 +27,9 @@ namespace Runtime.AI.Navigation
         [SerializeField, HideInInspector] private Rigidbody rb;
 
         private bool pathPending, isOnNavMesh;
-
-        public List<Portal> portals;
-
+        
         public CalculatedNavMesh navMesh;
-
-        public Dictionary<int, RemappedVert> remappedVerts;
-
+        
         #endregion
 
         #region Build In States
@@ -57,7 +51,7 @@ namespace Runtime.AI.Navigation
 
         private void Update()
         {
-            if (!this.currentPath.Empty && !this.currentPath.Complete)
+            if (this.currentPath is { Empty: false, Complete: false })
                 this.currentPath.Tick(this);
 
             if (this.currentTriangleIndex == -1)

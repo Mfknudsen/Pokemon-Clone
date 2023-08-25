@@ -35,7 +35,7 @@ namespace Editor.World.TileSubController
 
         private static float _overlapCheckDistance = .3f;
 
-        private const float GROUPING = 5;
+        private const int GROUPING = 5;
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace Editor.World.TileSubController
                 new FoldoutGroupAttribute("Lightning"));
 
             propertyInfos.AddDelegate("Optimize Tile", () => OptimizeTile(this.ValueEntry.Values[0]),
-                new PropertyOrderAttribute(-1));
+                new FoldoutGroupAttribute("Optimize"), new PropertyOrderAttribute(-2));
         }
 
         #endregion
@@ -106,7 +106,7 @@ namespace Editor.World.TileSubController
                 int x = Mathf.FloorToInt((highestX - lowestX) / GROUPING),
                     y = Mathf.FloorToInt((highestY - lowestY) / GROUPING);
 
-                List<TreeInstance>[,] terrainPropsResult = new List<TreeInstance>[x, y];
+                List<OptimizedTreeInstance>[,] terrainPropsResult = new List<OptimizedTreeInstance>[x, y];
 
                 foreach (Terrain terrain in terrains)
                 {
@@ -116,9 +116,9 @@ namespace Editor.World.TileSubController
                         int tX = Mathf.FloorToInt((pos.x - lowestX) / GROUPING),
                             tY = Mathf.FloorToInt((pos.y - lowestY) / GROUPING);
 
-                        List<TreeInstance> list = terrainPropsResult[tX, tY];
-                        list ??= new List<TreeInstance>();
-                        list.Add(terrainDataTreeInstance);
+                        List<OptimizedTreeInstance> list = terrainPropsResult[tX, tY];
+                        list ??= new List<OptimizedTreeInstance>();
+                        list.Add(new OptimizedTreeInstance(terrainDataTreeInstance));
                         terrainPropsResult[tX, tY] = list;
 
                         currentCount++;
@@ -129,7 +129,8 @@ namespace Editor.World.TileSubController
                     await UniTask.NextFrame();
                 }
 
-                tileSubController.SetGroupedTerrainTrees(terrainPropsResult);
+                tileSubController.SetOptimizedInformation(new TileOptimizedInformation(GROUPING,lowestX, lowestY, highestX,
+                    highestY, terrainPropsResult));
             }
         }
 
@@ -176,7 +177,7 @@ namespace Editor.World.TileSubController
             MagicProbes[]
                 probes = Object.FindObjectsByType<MagicProbes>(FindObjectsSortMode.None);
 
-            List<UniTask> coroutines = new();
+            List<UniTask> coroutines = new List<UniTask>();
 
             foreach (MagicProbes magicLightProbes in probes)
                 coroutines.Add(BakeLightProbes(tileSubController, magicLightProbes));
@@ -219,7 +220,7 @@ namespace Editor.World.TileSubController
 
             BakedEditorManager.SetRunning(true);
 
-            List<string> neighborsToLoad = new();
+            List<string> neighborsToLoad = new List<string>();
 
             foreach (string path in Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
@@ -235,7 +236,7 @@ namespace Editor.World.TileSubController
 
                 //Load neighboring scenes that the navigation mesh should cover
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", .25f);
-                List<UniTask<Scene>> loadSceneTasks = new();
+                List<UniTask<Scene>> loadSceneTasks = new List<UniTask<Scene>>();
 
                 for (int i = 0; i < neighborsToLoad.Count; i++)
                 {
@@ -261,14 +262,15 @@ namespace Editor.World.TileSubController
                 List<Vector3> verts = navmesh.vertices.ToList();
                 List<int> indices = navmesh.indices.ToList();
                 List<int> areas = navmesh.areas.ToList();
-                Dictionary<Vector2Int, List<int>> vertsByPos = new();
+                Dictionary<Vector2Int, List<int>> vertsByPos = new Dictionary<Vector2Int, List<int>>();
 
                 const float groupSize = 5f;
 
                 for (int i = 0; i < verts.Count; i++)
                 {
                     Vector3 v = verts[i];
-                    Vector2Int id = new(Mathf.FloorToInt(v.x / groupSize), Mathf.FloorToInt(v.z / groupSize));
+                    Vector2Int id = new Vector2Int(Mathf.FloorToInt(v.x / groupSize),
+                        Mathf.FloorToInt(v.z / groupSize));
 
                     if (vertsByPos.TryGetValue(id, out List<int> outList))
                         outList.Add(i);
@@ -283,8 +285,8 @@ namespace Editor.World.TileSubController
                 #region Create first iteration of NavTriangles
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Creating first iteration NavTriangles", 0f);
-                List<NavTriangle> triangles = new();
-                Dictionary<int, List<int>> trianglesByVertexID = new();
+                List<NavTriangle> triangles = new List<NavTriangle>();
+                Dictionary<int, List<int>> trianglesByVertexID = new Dictionary<int, List<int>>();
 
                 SetupNavTriangles(verts, indices, areas, triangles, trianglesByVertexID, editorProgressParTitle);
 
@@ -314,7 +316,7 @@ namespace Editor.World.TileSubController
                     closestVert = i;
                 }
 
-                List<int> connected = new(), toCheck = new();
+                List<int> connected = new List<int>(), toCheck = new List<int>();
                 toCheck.AddRange(trianglesByVertexID[closestVert]);
 
                 while (toCheck.Count > 0)
@@ -337,9 +339,9 @@ namespace Editor.World.TileSubController
 
                 #region Fill holes and final iteration of NavTriangles
 
-                List<Vector3> fixedVertices = new();
-                List<int> fixedIndices = new(), fixedAreas = new();
-                Dictionary<int, List<int>> fixedTrianglesByVertexID = new();
+                List<Vector3> fixedVertices = new List<Vector3>();
+                List<int> fixedIndices = new List<int>(), fixedAreas = new List<int>();
+                Dictionary<int, List<int>> fixedTrianglesByVertexID = new Dictionary<int, List<int>>();
 
                 foreach (NavTriangle t in connected.Select(i => triangles[i]))
                 {
@@ -361,7 +363,8 @@ namespace Editor.World.TileSubController
 
                     fixedAreas.Add(t.Area);
 
-                    Vector2Int id = new(Mathf.FloorToInt(a.x / groupSize), Mathf.FloorToInt(a.z / groupSize));
+                    Vector2Int id = new Vector2Int(Mathf.FloorToInt(a.x / groupSize),
+                        Mathf.FloorToInt(a.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListA))
                     {
                         if (outListA.Contains(fixedVertices.IndexOf(a)))
@@ -391,7 +394,7 @@ namespace Editor.World.TileSubController
 
                 FillHoles(fixedVertices, fixedAreas, fixedIndices, editorProgressParTitle);
 
-                List<NavTriangle> fixedTriangles = new();
+                List<NavTriangle> fixedTriangles = new List<NavTriangle>();
 
                 SetupNavTriangles(fixedVertices, fixedIndices, fixedAreas, fixedTriangles,
                     fixedTrianglesByVertexID, editorProgressParTitle);
@@ -459,7 +462,7 @@ namespace Editor.World.TileSubController
             if (loadedScenes.Length > 0)
             {
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 0f);
-                List<UniTask> unloadTasks = new();
+                List<UniTask> unloadTasks = new List<UniTask>();
 
                 foreach (Scene t in loadedScenes)
                     unloadTasks.Add(AsyncUnloadScene(t));
@@ -537,7 +540,7 @@ namespace Editor.World.TileSubController
             for (int i = 0; i < indices.Count; i += 3)
             {
                 int a = indices[i], b = indices[i + 1], c = indices[i + 2];
-                NavTriangle triangle = new(i / 3, a, b, c, areas[i / 3], verts[a], verts[b], verts[c]);
+                NavTriangle triangle = new NavTriangle(i / 3, a, b, c, areas[i / 3], verts[a], verts[b], verts[c]);
 
                 triangles.Add(triangle);
 
@@ -588,8 +591,8 @@ namespace Editor.World.TileSubController
         {
             for (int i = 0; i < triangles.Count; i++)
             {
-                List<int> neighbors = new();
-                List<int> possibleNeighbors = new();
+                List<int> neighbors = new List<int>();
+                List<int> possibleNeighbors = new List<int>();
                 possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[0]]);
                 possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[1]]);
                 possibleNeighbors.AddRange(trianglesByVertexID[triangles[i].Vertices[2]]);
@@ -629,7 +632,7 @@ namespace Editor.World.TileSubController
         {
             NavigationPointEntry[] entries = Object.FindObjectsOfType<NavigationPoint>()
                 .SelectMany(p => p.GetEntryPoints()).ToArray();
-            Dictionary<int, List<NavigationPointEntry>> result = new();
+            Dictionary<int, List<NavigationPointEntry>> result = new Dictionary<int, List<NavigationPointEntry>>();
 
             for (int e = 0; e < entries.Length; e++)
             {
@@ -683,7 +686,7 @@ namespace Editor.World.TileSubController
             float groupSize, string editorProgressParTitle)
         {
             float divided = 20f;
-            Dictionary<int, List<int>> removed = new();
+            Dictionary<int, List<int>> removed = new Dictionary<int, List<int>>();
             for (int original = 0; original < verts.Count; original++)
             {
                 if (removed.TryGetValue(Mathf.FloorToInt(original / divided), out List<int> removedList))
@@ -692,9 +695,9 @@ namespace Editor.World.TileSubController
                         continue;
                 }
 
-                Vector2Int id = new(Mathf.FloorToInt(verts[original].x / groupSize),
+                Vector2Int id = new Vector2Int(Mathf.FloorToInt(verts[original].x / groupSize),
                     Mathf.FloorToInt(verts[original].z / groupSize));
-                List<int> toCheck = new();
+                List<int> toCheck = new List<int>();
                 if (vertsByPos.TryGetValue(id, out List<int> l1))
                     toCheck.AddRange(l1);
                 if (vertsByPos.TryGetValue(id + new Vector2Int(-1, -1), out List<int> l2))
@@ -796,8 +799,8 @@ namespace Editor.World.TileSubController
         private static void FillHoles(IList<Vector3> verts, ICollection<int> areas, IList<int> indices,
             string editorProgressParTitle)
         {
-            Dictionary<int, List<int>> connectionsByIndex = new();
-            Dictionary<int, List<int>> indicesByIndex = new();
+            Dictionary<int, List<int>> connectionsByIndex = new Dictionary<int, List<int>>();
+            Dictionary<int, List<int>> indicesByIndex = new Dictionary<int, List<int>>();
             for (int i = 0; i < verts.Count; i++)
             {
                 connectionsByIndex.Add(i, new List<int>());
@@ -898,7 +901,7 @@ namespace Editor.World.TileSubController
 
                         for (int x = 0; x < indices.Count; x += 3)
                         {
-                            List<int> checkArr = new() { indices[x], indices[x + 1], indices[x + 2] };
+                            List<int> checkArr = new List<int> { indices[x], indices[x + 1], indices[x + 2] };
                             if (checkArr.Contains(original) && checkArr.Contains(other) && checkArr.Contains(final))
                             {
                                 //The triangle already exists

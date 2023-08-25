@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.AI.Navigation;
+using Runtime.Algorithms.BattleSetup;
 using Runtime.Systems.Pooling;
 using Runtime.Variables;
 using Runtime.World.Overworld.TileHierarchy;
@@ -35,12 +36,7 @@ namespace Runtime.World.Overworld
 
         [SerializeField, FoldoutGroup("Navigation")]
         private CalculatedNavMesh calculatedNavMesh;
-
-        [SerializeField, HideInInspector]
-        private List<TreeInstance>[,] groupedTerrainTrees = new List<TreeInstance>[0, 0];
-
-        [SerializeField, HideInInspector] private List<GameObject>[,] groupedTerrainProps = new List<GameObject>[0, 0];
-
+        
         [SerializeField, FoldoutGroup("Hierarchy", 1)]
         private TileEnvironment tileEnvironment;
 
@@ -56,6 +52,9 @@ namespace Runtime.World.Overworld
         [SerializeField, FoldoutGroup("Hierarchy")]
         private TileLighting tileLighting;
 
+        [SerializeField, FoldoutGroup("Optimize", -1)]
+        private TileOptimizedInformation optimizedInformation;
+
         #endregion
 
         #region Build In States
@@ -63,8 +62,11 @@ namespace Runtime.World.Overworld
         private void OnValidate() =>
             this.name = this.gameObject.scene.name + " - TileSubController";
 
-        private void Start() =>
+        private void Start()
+        {
+            this.SetAsCurrent();
             this.navMeshSurface.enabled = false;
+        }
 
         private void OnEnable()
         {
@@ -119,9 +121,7 @@ namespace Runtime.World.Overworld
 
         public void SetCleanUpPoint(Vector3 set) => this.navmeshCleanUpPoint = set;
 
-        public void SetGroupedTerrainProps(List<GameObject>[,] set) => this.groupedTerrainProps = set;
-
-        public void SetGroupedTerrainTrees(List<TreeInstance>[,] set) => this.groupedTerrainTrees = set;
+        public void SetOptimizedInformation(TileOptimizedInformation set) => this.optimizedInformation = set;
 #endif
 
         #endregion
@@ -130,6 +130,7 @@ namespace Runtime.World.Overworld
 
         public void SetAsCurrent()
         {
+            SetupBattleWorldLayout.SetOptimizedWorldInformation(this.optimizedInformation);
             UnitNavigation.SetNavMesh(this.calculatedNavMesh);
         }
 

@@ -110,7 +110,26 @@ namespace Runtime.Core
             return start + heading * dotP;
         }
 
-        public static float FastSqrt(float number)
+        public static float ClosesPointValue(Vector2 point, Vector2 start, Vector2 end)
+        {
+            //Get heading
+            Vector2 heading = (end - start);
+            float magnitudeMax = heading.magnitude;
+            heading.Normalize();
+
+            //Do projection from the point but clamp it
+            Vector2 lhs = point - start;
+            float dotP = Vector2.Dot(lhs, heading);
+            return Mathf.Clamp(dotP, 0f, magnitudeMax);
+        }
+
+        public static Vector3 FastSqrt(Vector3 target) =>
+            new Vector3(FastSqrt(target.x), FastSqrt(target.y), FastSqrt(target.z));
+
+        public static Vector2 FastSqrt(Vector2 target) =>
+            new Vector2(FastSqrt(target.x), FastSqrt(target.y));
+
+        public static float FastInverseSqrt(float number)
         {
             // ReSharper disable once IdentifierTypo
             const float threehalfs = 1.5f;
@@ -124,8 +143,54 @@ namespace Runtime.Core
             return y;
         }
 
-        public static bool isPointLeftToVector(Vector2 lineA, Vector2 lineB, Vector2 point)
+        public static float FastSqrt(float number)
+        {
+            if (number < 2)
+                return number;
+
+            //Repeat for better approximation
+            float a = 1000;
+            float b = number / a;
+            a = (a + b) * .5f;
+
+            b = number / a;
+            a = (a + b) * .5f;
+
+            b = number / a;
+            a = (a + b) * .5f;
+
+            b = number / a;
+            a = (a + b) * .5f;
+
+            b = number / a;
+            a = (a + b) * .5f;
+
+            return a;
+        }
+
+        public static bool IsPointLeftToVector(Vector2 lineA, Vector2 lineB, Vector2 point)
             => (lineB.x - lineA.x) * (point.y - lineA.y) -
                 (lineB.y - lineA.y) * (point.x - lineA.x) > 0;
+
+        public static float QuickCircleIntersectCircleArea(Vector3 center1, Vector3 center2, float radius1,
+            float radius2, float height1, float height2)
+        {
+            if (center1.y > center2.y + height2 || center2.y > center1.y + height1)
+                return 0;
+
+            float squaredRadius1 = radius1.Squared(),
+                squaredRadius2 = radius2.Squared();
+
+            float c = FastSqrt((center2.x - center1.x) * (center2.x - center1.x) +
+                               (center2.z - center1.z) * (center2.z - center1.z));
+
+            float phi = Mathf.Acos((squaredRadius1 + c * c - squaredRadius2) / (2 * radius1 * c)) * 2;
+            float theta = Mathf.Acos((squaredRadius2 + c * c - squaredRadius1) / (2 * radius2 * c)) * 2;
+
+            float area1 = 0.5f * theta * squaredRadius2 - 0.5f * squaredRadius2 * Mathf.Sin(theta);
+            float area2 = 0.5f * phi * squaredRadius1 - 0.5f * squaredRadius1 * Mathf.Sin(phi);
+
+            return (area1 + area2) * Mathf.Abs(height1 - height2);
+        }
     }
 }

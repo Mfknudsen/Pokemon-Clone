@@ -177,7 +177,6 @@ float3 texture_no_tile_normal(const sampler2D tex, const in float2 uv, const flo
     return v / wt;
 }
 
-
 struct MeshData
 {
     float4 positionOS : POSITION;
