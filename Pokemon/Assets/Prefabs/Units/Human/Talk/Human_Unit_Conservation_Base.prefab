@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5040c5c2743d2fa47967e032e25437b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemListVariable: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
+  itemListGenericVariable: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
   iconOffset: 2
   triggerOffset: 1
   onTrigger:
@@ -213,6 +213,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1302092592433409604}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: bcef7e39736fe604286aa2148ca9d052, type: 3}
@@ -268,6 +269,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 5000da5edb532c644b89780ea5769975, type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcef7e39736fe604286aa2148ca9d052, type: 3}
 --- !u!4 &1556925151853985959 stripped
 Transform:

@@ -227,16 +227,17 @@ Interpolators Vertex(MeshData input)
 float4 Fragment(Interpolators i) : SV_Target
 {
     float4 c = tex2D(_Control, i.uv_Control);
-    
+
     #ifdef TERRAIN_SPLAT_ADDPASS
-    float4 weight = dot(tex2D(_Control, i.uv_Control), 1.0h);
+    const float4 weight = dot(tex2D(_Control, i.uv_Control), 1.0h);
     clip(weight <= 0.005h ? -1.0h : 1.0h);
     #endif
 
     clip(tex2D(_TerrainHolesTexture, i.uv_Control).r - .1);
 
     const float camera_distance = distance(_WorldSpaceCameraPos, i.positionWS);
-
+    
+    
     //Mask r = specular, g = occlusion, a = smoothness
     float4 mask0 = 0, mask1 = 0, mask2 = 0, mask3 = 0;
     if (_LayerHasMask0 == 0)
@@ -264,7 +265,7 @@ float4 Fragment(Interpolators i) : SV_Target
     col *= 1.5;
     surface_output.albedo = col.rgb;
     surface_output.alpha = 1;
-    
+
     float3 normal_ts = i.normalWS;
     normal_ts = lerp(normal_ts, texture_no_tile_normal(_Normal0, i.uv_Splat0, _NormalScale0, camera_distance).rgb,
                      c.r);
@@ -280,17 +281,17 @@ float4 Fragment(Interpolators i) : SV_Target
     lightning_output.normalWS = TransformTangentToWorld(normal_ts, tangent_to_world);
 
     float smoothness = float(0);
-    smoothness = lerp(smoothness, _LayerHasMask0 == 0 ? _Smoothness0 : mask0.a, c.r);
-    smoothness = lerp(smoothness, _LayerHasMask1 == 0 ? _Smoothness1 : mask1.a, c.g);
-    smoothness = lerp(smoothness, _LayerHasMask2 == 0 ? _Smoothness2 : mask2.a, c.b);
-    smoothness = lerp(smoothness, _LayerHasMask3 == 0 ? _Smoothness3 : mask3.a, c.a);
+    smoothness = lerp(smoothness, _Smoothness0 * (1 - _LayerHasMask0) + mask0.a * _LayerHasMask0, c.r);
+    smoothness = lerp(smoothness, _Smoothness1 * (1 - _LayerHasMask1) + mask1.a * _LayerHasMask1, c.g);
+    smoothness = lerp(smoothness, _Smoothness2 * (1 - _LayerHasMask2) + mask2.a * _LayerHasMask2, c.b);
+    smoothness = lerp(smoothness, _Smoothness3 * (1 - _LayerHasMask3) + mask3.a * _LayerHasMask3, c.a);
     surface_output.smoothness = 1 - smoothness;
 
     float metallic = float(0);
-    metallic = lerp(metallic, (_LayerHasMask0 == 0 ? _Metallic0 : mask0.r), c.r);
-    metallic = lerp(metallic, (_LayerHasMask1 == 0 ? _Metallic1 : mask1.r), c.g);
-    metallic = lerp(metallic, (_LayerHasMask2 == 0 ? _Metallic2 : mask2.r), c.b);
-    metallic = lerp(metallic, (_LayerHasMask3 == 0 ? _Metallic3 : mask3.r), c.a);
+    metallic = lerp(metallic, _Metallic0 * (1 - _LayerHasMask0) + mask0.r * _LayerHasMask0, c.r);
+    metallic = lerp(metallic, _Metallic1 * (1 - _LayerHasMask1) + mask1.r * _LayerHasMask1, c.g);
+    metallic = lerp(metallic, _Metallic2 * (1 - _LayerHasMask2) + mask2.r * _LayerHasMask2, c.b);
+    metallic = lerp(metallic, _Metallic3 * (1 - _LayerHasMask3) + mask3.r * _LayerHasMask3, c.a);
     surface_output.metallic = metallic;
 
     float3 specular = float3(1, 1, 1);
@@ -310,6 +311,8 @@ float4 Fragment(Interpolators i) : SV_Target
     if (_LayerHasMask3 == 0)
         occlusion = lerp(occlusion, mask3.g, c.a);
     surface_output.occlusion = occlusion;
+
+    lightning_output.vertexLighting = unity_AmbientSky.rgb;
 
     return UniversalFragmentBlinnPhong(lightning_output, surface_output);
 }

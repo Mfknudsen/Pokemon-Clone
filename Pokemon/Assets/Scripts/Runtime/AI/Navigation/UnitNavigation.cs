@@ -9,6 +9,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
 
 #endregion
 
@@ -18,11 +19,27 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
+        /// <summary>
+        /// The current main navigation mesh
+        /// </summary>
         private static CalculatedNavMesh _navMesh;
 
+        /// <summary>
+        /// For when navigation mesh changes then all agents will try to recalculate their path to use the new mesh
+        /// </summary>
         private static UnityAction _onNavMeshChanged;
 
-        public static bool Ready => _navMesh != null;
+        /// <summary>
+        /// All currently active agents
+        /// </summary>
+        private static List<UnitAgent> _allUnitAgents;
+
+        /// <summary>
+        /// Agents split into groups based on their x and z coordinate
+        /// </summary>
+        private static List<UnitAgent>[,] _groupedUnitAgents;
+
+        private const float GROUPING_SIZE = 5;
 
         private static List<QueuedAgentRequest> _requests;
 
@@ -33,15 +50,27 @@ namespace Runtime.AI.Navigation
 
         private static bool _switchNativeArrays;
 
-        private const int MAX_CALCULATIONS_PER_BATCH = 100;
+        /// <summary>
+        /// How many path jobs can be calculated per batch
+        /// </summary>
+        private const int MAX_CALCULATIONS_PER_BATCH = 1000;
 
         private static JobHandle _currentJob;
+
+        private static LayerMask _unitAgentLayer;
 
         #endregion
 
         #region Getters
 
+        /// <summary>
+        /// Navigation should only be used when there is a navigation mesh to use
+        /// </summary>
+        public static bool Ready => _navMesh != null;
+
         public static Vector3[] GetVerts() => _navMesh.Vertices();
+
+        public static LayerMask GetUnitAgentLayerMask() => _unitAgentLayer;
 
         #endregion
 
@@ -54,6 +83,8 @@ namespace Runtime.AI.Navigation
 
             _navMesh = set;
 
+            ResetAgentGrouping();
+
             _onNavMeshChanged?.Invoke();
 
             _switchNativeArrays = true;
@@ -62,6 +93,21 @@ namespace Runtime.AI.Navigation
         #endregion
 
         #region In
+
+        internal static void AddAgent(UnitAgent agent)
+        {
+            if (_allUnitAgents.Contains(agent)) return;
+
+            _allUnitAgents.Add(agent);
+
+            if (_navMesh == null) return;
+
+            Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+            _groupedUnitAgents[id.x, id.y].Add(agent);
+        }
+
+        internal static void RemoveAgent(UnitAgent agent)
+            => _allUnitAgents.Remove(agent);
 
         public static void AddOnNavMeshChange(UnityAction action)
             => _onNavMeshChanged += action;
@@ -140,30 +186,128 @@ namespace Runtime.AI.Navigation
         public static Vector2[] Get2DVertByIndex(params int[] id) =>
             id.Select(i => _navMesh.SimpleVertices[i]).ToArray();
 
+        /// <summary>
+        /// Get a list of agents 3x3 radius based on the grouped 2D list of agents
+        /// </summary>
+        /// <param name="agent">Will get agents around this agent while also not including it in the result</param>
+        /// <returns>Agents around input agent</returns>
+        public static List<UnitAgent> GetAgentsByAgentPosition(UnitAgent agent)
+        {
+            Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+
+            List<UnitAgent> result = new List<UnitAgent>();
+
+            for (int x = -1; x <= 1; x++)
+            {
+                if (id.x + x < 0 ||
+                    id.x + x >= _groupedUnitAgents.GetLength(0))
+                    continue;
+
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (id.y + y < 0 ||
+                        id.y + y >= _groupedUnitAgents.GetLength(1))
+                        continue;
+
+                    foreach (UnitAgent toAdd in _groupedUnitAgents[id.x + x, id.y + y])
+                    {
+                        if (Mathf.Abs(toAdd.transform.position.y - agent.transform.position.y) > 50)
+                            continue;
+
+                        result.Add(toAdd);
+                    }
+                }
+            }
+
+            result.Remove(agent);
+
+            return result;
+        }
+
         #endregion
 
         #region Internal
 
+        /// <summary>
+        /// Add the update function to the game loop and setup the request list.
+        /// In editor it will need to add the on exit play mode function to stop the update from happening multiple times during play mode an while play mode is not active.
+        /// </summary>
         [RuntimeInitializeOnLoadMethod]
         private static void Initialize()
         {
             UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
-            playerLoop.subSystemList[5].updateDelegate += Update;
+            for (int i = 0; i < playerLoop.subSystemList.Length; i++)
+            {
+                if (playerLoop.subSystemList[i].type == typeof(FixedUpdate))
+                    playerLoop.subSystemList[i].updateDelegate += UpdateAgents;
+
+                if (playerLoop.subSystemList[i].type == typeof(PostLateUpdate))
+                    playerLoop.subSystemList[i].updateDelegate += UpdateNavigationValues;
+            }
+
             UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
 
             _requests = new List<QueuedAgentRequest>();
+            _allUnitAgents = new List<UnitAgent>();
+            
+            _unitAgentLayer = LayerMask.NameToLayer("AI");
 
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += OnExitPlayMode;
 #endif
         }
 
-        private static void Update()
+#if UNITY_EDITOR
+        /// <summary>
+        /// Clean up on exiting play mode.
+        /// </summary>
+        /// <param name="state">State giving by Unity</param>
+        private static void OnExitPlayMode(PlayModeStateChange state)
+        {
+            if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
+                return;
+
+            if (!_currentJob.IsCompleted)
+                _currentJob.Complete();
+            DisposeNatives();
+            _navMesh = null;
+
+            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
+            for (int i = 0; i < playerLoop.subSystemList.Length; i++)
+            {
+                if (playerLoop.subSystemList[i].type == typeof(FixedUpdate))
+                    playerLoop.subSystemList[i].updateDelegate -= UpdateAgents;
+
+                if (playerLoop.subSystemList[i].type == typeof(PostLateUpdate))
+                    playerLoop.subSystemList[i].updateDelegate -= UpdateNavigationValues;
+            }
+
+            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+        }
+#endif
+
+        /// <summary>
+        /// Update all currently active agents.
+        /// Using one update call instead of each agent having their own individual call reduces time spent by Unity.
+        /// </summary>
+        private static void UpdateAgents()
+        {
+            foreach (UnitAgent unitAgent in _allUnitAgents)
+                unitAgent.UpdateAgent();
+        }
+
+        /// <summary>
+        /// Update the navigation loop
+        /// </summary>
+        private static void UpdateNavigationValues()
         {
             UpdateNativeArrays();
             CalculatePaths();
         }
 
+        /// <summary>
+        /// When a new navmesh is set ass current its values will be added to native array for use during the pathing jobs
+        /// </summary>
         private static void UpdateNativeArrays()
         {
             if (!_switchNativeArrays)
@@ -192,6 +336,31 @@ namespace Runtime.AI.Navigation
             _switchNativeArrays = false;
         }
 
+        /// <summary>
+        /// Resets the unit agent grouping based on the current navigation mesh
+        /// </summary>
+        private static void ResetAgentGrouping()
+        {
+            _groupedUnitAgents = new List<UnitAgent>[
+                Mathf.FloorToInt((_navMesh.GetMaxX() - _navMesh.GetMinX()) / GROUPING_SIZE),
+                Mathf.FloorToInt((_navMesh.GetMaxY() - _navMesh.GetMinY()) / GROUPING_SIZE)];
+
+            for (int x = 0; x < _groupedUnitAgents.GetLength(0); x++)
+            {
+                for (int y = 0; y < _groupedUnitAgents.GetLength(1); y++)
+                    _groupedUnitAgents[x, y] = new List<UnitAgent>();
+            }
+
+            foreach (UnitAgent agent in _allUnitAgents)
+            {
+                Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+                _groupedUnitAgents[id.x, id.y].Add(agent);
+            }
+        }
+
+        /// <summary>
+        /// Calculate paths using jobs
+        /// </summary>
         private static void CalculatePaths()
         {
             if (_requests.Count == 0)
@@ -211,13 +380,16 @@ namespace Runtime.AI.Navigation
             _currentJob.Complete();
 
             for (int i = 0; i < _requests.Count; i++)
-                _requests[i].agent.SetPath(CastToUnitPath(agents[i], paths[i], _requests[i].agent));
+                _requests[i].agent.SetPath(ToUnitPath(agents[i], paths[i], _requests[i].agent));
 
             _requests.Clear();
             agents.Dispose();
             paths.Dispose();
         }
 
+        /// <summary>
+        /// Dispose native arrays to insure no memory leaks
+        /// </summary>
         private static void DisposeNatives()
         {
             if (_verts.IsCreated)
@@ -233,7 +405,7 @@ namespace Runtime.AI.Navigation
                 _triangles.Dispose();
         }
 
-        private static UnitPath CastToUnitPath(JobAgent jobAgent, JobPath jobPath, UnitAgent agent)
+        private static UnitPath ToUnitPath(JobAgent jobAgent, JobPath jobPath, UnitAgent agent)
         {
             int[] ids = new int[jobPath.nodePath.Length];
             for (int i = 0; i < jobPath.nodePath.Length; i++)
@@ -249,22 +421,22 @@ namespace Runtime.AI.Navigation
                 agent);
         }
 
-#if UNITY_EDITOR
-        private static void OnExitPlayMode(PlayModeStateChange state)
+        private static Vector2Int GroupingIDByAgentPosition(Vector3 position)
         {
-            if (!state.Equals(PlayModeStateChange.ExitingPlayMode))
-                return;
+            int minFloorX = _navMesh.GetMinX(),
+                minFloorY = _navMesh.GetMinY(),
+                maxFloorX = _navMesh.GetMaxX(),
+                maxFloorY = _navMesh.GetMaxY();
 
-            if (!_currentJob.IsCompleted)
-                _currentJob.Complete();
-            DisposeNatives();
-            _navMesh = null;
+            int x = position.x < minFloorX ? 0 :
+                    position.x > maxFloorX ? Mathf.FloorToInt((maxFloorX - minFloorX) / _navMesh.GetGroupDivisionSize()) :
+                    Mathf.FloorToInt((maxFloorX - position.x) / _navMesh.GetGroupDivisionSize()),
+                y = position.y < minFloorY ? 0 :
+                    position.y > maxFloorY ? Mathf.FloorToInt((maxFloorY - minFloorY) / _navMesh.GetGroupDivisionSize()) :
+                    Mathf.FloorToInt((maxFloorY - position.y) / _navMesh.GetGroupDivisionSize());
 
-            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
-            playerLoop.subSystemList[5].updateDelegate -= Update;
-            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+            return new Vector2Int(x, y);
         }
-#endif
 
         #endregion
     }

@@ -1,10 +1,5 @@
 #region Libraries
 
-using Runtime.AI;
-using Runtime.Pokémon;
-using Sirenix.OdinInspector;
-using System.Collections.Generic;
-using System.Linq;
 using Runtime.Core;
 using UnityEngine;
 
@@ -12,102 +7,38 @@ using UnityEngine;
 
 namespace Runtime.World.Overworld.Spawner
 {
-    public sealed class PokemonSpawner : MonoBehaviour
+    public abstract class PokemonSpawner : MonoBehaviour
     {
         #region Values
 
 #if UNITY_EDITOR
-        [SerializeField] private string spawnerName;
+        [SerializeField] protected string spawnerName;
 #endif
 
-
-        [SerializeField, Required] private PokemonSpawnList spawnList;
-
-        [SerializeField] private SpawnLocation[] spawnLocations;
-
-        [SerializeField] private int maxActiveEntities;
-
-        [SerializeField] private float spawnInterval;
-
-        private readonly List<PokemonUnit> currentActiveEntities = new List<PokemonUnit>();
-
-        private Timer checkTimer;
-
-        private Transform aiParent;
+        protected Timer checkStateTimer;
 
         #endregion
 
         #region Build In States
 
 #if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (this.spawnList != null)
-                this.name = this.spawnerName + " Spawner - " + this.spawnList.name;
-        }
+        private void OnValidate() => 
+                this.name = this.spawnerName + " Spawner - " + this.SpawnListName();
 #endif
 
-        private void OnEnable()
-        {
-            Transform root = this.transform.root;
-            for (int i = 0; root.childCount > 0; i++)
-            {
-                if (!root.GetChild(i).name.Equals("AI"))
-                    continue;
-
-                this.aiParent = root.GetChild(i);
-                break;
-            }
-
-            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), this.CheckState);
-        }
-
-        private void OnDisable() => this.checkTimer?.Stop();
+        protected virtual void OnEnable() =>
+            this.CheckState();
 
         #endregion
 
-        [Button]
-        private void Test()
-        {
-            Transform root = this.transform.root;
-            for (int i = 0; root.childCount > 0; i++)
-            {
-                if (!root.GetChild(i).name.Equals("AI"))
-                    continue;
+        #region Internal
 
-                this.aiParent = root.GetChild(i);
-                break;
-            }
+        protected abstract void CheckState();
 
-            this.SpawnOverWorldPokemon();
-        }
+#if UNITY_EDITOR
+        protected abstract string SpawnListName();
+#endif
 
-        private void CheckState()
-        {
-            if (this.currentActiveEntities.Count < this.maxActiveEntities)
-                this.SpawnOverWorldPokemon();
-
-            this.checkTimer = new Timer(Random.Range(this.spawnInterval - 1f, this.spawnInterval + 1f), this.CheckState);
-        }
-
-
-        private void SpawnOverWorldPokemon()
-        {
-            Pokemon toSpawn = this.spawnList.GetPokemonPrefab();
-
-            SpawnLocation[] allowedFrom = this.spawnLocations.Where(l => l.Allowed(toSpawn)).ToArray();
-
-            if (allowedFrom.Length == 0)
-            {
-                Debug.LogWarning("0");
-                return;
-            }
-
-            SpawnTypeResult locationResult = allowedFrom[Random.Range(0, allowedFrom.Length)].GetSpawnResult;
-
-            PokemonUnit unitBase = toSpawn.InstantiateUnitPrefab(PokemonState.Wild, locationResult.Position, locationResult.Rotation, this.aiParent);
-            this.currentActiveEntities.Add(unitBase);
-            unitBase.AddDisableEventListener(() => this.currentActiveEntities.Remove(unitBase));
-        }
+        #endregion
     }
 }

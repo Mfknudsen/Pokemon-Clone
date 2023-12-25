@@ -9,6 +9,7 @@ using Editor.Systems;
 using Runtime.AI.Navigation;
 using Runtime.Core;
 using Runtime.Editor;
+using Runtime.World;
 using Runtime.World.Overworld;
 using Runtime.World.Overworld.TileHierarchy;
 using Sirenix.OdinInspector;
@@ -20,7 +21,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using MagicProbes = MagicLightProbes.MagicLightProbes;
 using Object = UnityEngine.Object;
 using SubController = Runtime.World.Overworld.TileSubController;
 
@@ -33,7 +33,7 @@ namespace Editor.World.TileSubController
     {
         #region Values
 
-        private static float _overlapCheckDistance = .3f;
+        private const float OVERLAP_CHECK_DISTANCE = .3f;
 
         private const int GROUPING = 5;
 
@@ -43,18 +43,10 @@ namespace Editor.World.TileSubController
 
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
-            propertyInfos.AddValue("Vertex Overlap Check Distance",
-                (ref SubController _) => _overlapCheckDistance,
-                (ref SubController _, float d) => _overlapCheckDistance = d,
-                new FoldoutGroupAttribute("Navigation"),
-                new MinValueAttribute(.001f),
-                new LabelWidthAttribute(180f));
-
             propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Navigation"));
             propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Lightning"));
-
             propertyInfos.AddDelegate("Optimize Tile", () => OptimizeTile(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Optimize"), new PropertyOrderAttribute(-2));
         }
@@ -129,7 +121,8 @@ namespace Editor.World.TileSubController
                     await UniTask.NextFrame();
                 }
 
-                tileSubController.SetOptimizedInformation(new TileOptimizedInformation(GROUPING,lowestX, lowestY, highestX,
+                tileSubController.SetOptimizedInformation(new TileOptimizedInformation(GROUPING, lowestX, lowestY,
+                    highestX,
                     highestY, terrainPropsResult));
             }
         }
@@ -149,58 +142,196 @@ namespace Editor.World.TileSubController
 
             BakedEditorManager.SetRunning(true);
 
+            string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
+
+            List<string> neighborsToLoad = new List<string>();
+
+            foreach (string path in Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
+                         .ToArray())
+            {
+                if (!neighborsToLoad.Contains(path))
+                    neighborsToLoad.Add(path);
+            }
+
+            Scene[] loadedScenes = Array.Empty<Scene>();
+
             try
             {
-                this.SetupBakeryLightmappedPrefab();
-                SetupMagicLightProbes(tileSubController);
+                #region Load neighbor scenes and build navmesh triangulation
+
+                //Load neighboring scenes that the navigation mesh should cover
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", .25f);
+                List<UniTask<Scene>> loadSceneTasks = new List<UniTask<Scene>>();
+
+                for (int i = 0; i < neighborsToLoad.Count; i++)
+                {
+                    loadSceneTasks.Add(AsyncLoadScene(neighborsToLoad[i]));
+                    EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors",
+                        .25f + (.5f / neighborsToLoad.Count * i));
+                }
+
+                loadedScenes = await UniTask.WhenAll(loadSceneTasks);
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", 1f);
+
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
+                    g.SetActive(false);
+
+                #endregion
+
+                this.SetupBakeryLightmapPrefab();
+
+                Scene s = tileSubController.gameObject.scene;
+                string assetPath = s.path.Replace(".unity", "");
+
+                if (!AssetDatabase.IsValidFolder(assetPath + "/Lighting"))
+                    AssetDatabase.CreateFolder(assetPath, "Lighting");
+
+                assetPath += "/Lighting/";
+
+                LightProbeGroup[] lightProbeGroups = Object.FindObjectsOfType<LightProbeGroup>();
+                ReflectionProbe[] reflectionProbes = Object.FindObjectsOfType<ReflectionProbe>();
+
+                //Calculate light for each time
+                //TODO Set to 5
+                for (int i = 0; i < 1; i++)
+                {
+                    string assetName = assetPath + $"{(DayTime)i}.asset";
+
+                    DayNight.SetCurrentDayTime((DayTime)i);
+
+                    #region Bake
+
+                    await BakePrefabLighting(tileSubController);
+
+                    if (ftRenderLightmap.userCanceled)
+                        throw new Exception("Canceled");
+                    
+                    if (lightProbeGroups.Length > 0)
+                    {
+                        await BakeLightProbeGroup(tileSubController);
+
+                        if (ftRenderLightmap.userCanceled)
+                            throw new Exception("Canceled");
+                    }
+
+                    if (reflectionProbes.Length > 0)
+                    {
+                        await BakeReflectionProbes(tileSubController);
+
+                        if (ftRenderLightmap.userCanceled)
+                            throw new Exception("Canceled");
+                    }
+
+                    #endregion
+
+                    #region Save bake to asset
+
+                    #endregion
+                }
 
                 await UniTask.NextFrame();
             }
             catch (Exception e)
             {
-                Debug.LogError("Baking Lighting Failed");
-                Debug.LogError(e);
+                if (!e.Message.Equals("Canceled"))
+                {
+                    Debug.LogError("Baking Lighting Failed");
+                    Debug.LogError(e);
+                }
+                else
+                {
+                    Debug.Log("Lighting bake was canceled by user");
+                }
             }
+
+            #region UnLoad neighbor scenes
+
+            if (loadedScenes.Length > 0)
+            {
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 0f);
+                List<UniTask> unloadTasks = new List<UniTask>();
+
+                foreach (Scene t in loadedScenes)
+                    unloadTasks.Add(AsyncUnloadScene(t));
+
+                await UniTask.WhenAll(unloadTasks);
+
+                EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 1f);
+            }
+
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
+                g.SetActive(true);
+
+            #endregion
 
             EditorUtility.ClearProgressBar();
 
             BakedEditorManager.SetRunning(false);
         }
 
+        private static ftRenderLightmap GetFtRenderLightmapInstance() => ftRenderLightmap.instance != null
+            ? ftRenderLightmap.instance
+            : ScriptableObject.CreateInstance<ftRenderLightmap>();
 
-        private void SetupBakeryLightmappedPrefab()
+        private void SetupBakeryLightmapPrefab()
         {
         }
 
-        private static async void SetupMagicLightProbes(SubController tileSubController)
+        private static async UniTask BakePrefabLighting(SubController subController)
         {
-            MagicProbes[]
-                probes = Object.FindObjectsByType<MagicProbes>(FindObjectsSortMode.None);
+            UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
-            List<UniTask> coroutines = new List<UniTask>();
+            EditorCoroutineUtility.StartCoroutine(AsyncBakePrefabLighting(bakeTask), subController);
 
-            foreach (MagicProbes magicLightProbes in probes)
-                coroutines.Add(BakeLightProbes(tileSubController, magicLightProbes));
-
-            await UniTask.WhenAll(coroutines);
+            await bakeTask.Task;
         }
 
-        private static UniTask BakeLightProbes(SubController tileSubController,
-            MagicProbes magicLightProbes)
+        private static async UniTask BakeLightProbeGroup(SubController subController)
         {
-            EditorCoroutine coroutine = null;
-            coroutine =
-                EditorCoroutineUtility.StartCoroutine(LightProbeEnumerator(magicLightProbes, coroutine),
-                    tileSubController);
+            UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
-            return UniTask.WaitWhile(() => coroutine != null);
+            EditorCoroutineUtility.StartCoroutine(AsyncBakeLightProbes(bakeTask), subController);
+
+            await bakeTask.Task;
         }
 
-        private static IEnumerator LightProbeEnumerator(MagicProbes magicLightProbes, EditorCoroutine coroutine)
+        private static async UniTask BakeReflectionProbes(SubController subController)
         {
-            yield return magicLightProbes.CalculateProbesVolume();
+            UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
-            coroutine = null;
+            EditorCoroutineUtility.StartCoroutine(AsyncBakeReflectionProbes(bakeTask), subController);
+
+            await bakeTask.Task;
+        }
+
+        private static IEnumerator AsyncBakePrefabLighting(UniTaskCompletionSource<bool> taskCompletionSource)
+        {
+            GetFtRenderLightmapInstance().RenderButton(false);
+
+            while (ftRenderLightmap.bakeInProgress)
+                yield return null;
+
+            taskCompletionSource.TrySetResult(true);
+        }
+
+        private static IEnumerator AsyncBakeLightProbes(UniTaskCompletionSource<bool> taskCompletionSource)
+        {
+            GetFtRenderLightmapInstance().RenderLightProbesButton(false);
+
+            while (ftRenderLightmap.bakeInProgress)
+                yield return null;
+
+            taskCompletionSource.TrySetResult(true);
+        }
+
+        private static IEnumerator AsyncBakeReflectionProbes(UniTaskCompletionSource<bool> taskCompletionSource)
+        {
+            GetFtRenderLightmapInstance().RenderReflectionProbesButton(false);
+
+            while (ftRenderLightmap.bakeInProgress)
+                yield return null;
+
+            taskCompletionSource.TrySetResult(true);
         }
 
         #endregion
@@ -216,9 +347,9 @@ namespace Editor.World.TileSubController
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
 
-            string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
-
             BakedEditorManager.SetRunning(true);
+
+            string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
 
             List<string> neighborsToLoad = new List<string>();
 
@@ -247,6 +378,9 @@ namespace Editor.World.TileSubController
 
                 loadedScenes = await UniTask.WhenAll(loadSceneTasks);
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", 1f);
+
+                foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
+                    g.SetActive(false);
 
                 //Construct Navigation Mesh and setup custom navmesh logic
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Calculation Navigation Mesh Triangulation",
@@ -471,6 +605,9 @@ namespace Editor.World.TileSubController
 
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 1f);
             }
+
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
+                g.SetActive(true);
 
             #endregion
 
@@ -727,7 +864,7 @@ namespace Editor.World.TileSubController
                             continue;
                     }
 
-                    if (Vector3.Distance(verts[original], verts[other]) > _overlapCheckDistance)
+                    if (Vector3.Distance(verts[original], verts[other]) > OVERLAP_CHECK_DISTANCE)
                         continue;
 
                     if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))

@@ -2,8 +2,10 @@
 
 using Sirenix.OdinInspector;
 using System.Collections;
+using Runtime.AI.Navigation.PathActions;
 using Runtime.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 #endregion
 
@@ -14,11 +16,8 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        [SerializeField, InlineEditor] private UnitAgentSettings settings;
-        
-        [SerializeField] private Transform target;
-
-        private Vector3 pre;
+        [SerializeField, InlineEditor, Required]
+        private UnitAgentSettings settings;
 
         private UnitPath currentPath;
 
@@ -26,17 +25,20 @@ namespace Runtime.AI.Navigation
 
         [SerializeField, HideInInspector] private Rigidbody rb;
 
-        private bool pathPending, isOnNavMesh;
-        
-        public CalculatedNavMesh navMesh;
-        
+        private bool pathPending, isOnNavMesh, isStopped;
+
+        private UnityEvent onPathComplete;
+
+        private const float AVOIDANCE_CHECK_STEP = .2f;
+
         #endregion
 
         #region Build In States
 
         private IEnumerator Start()
         {
-            this.rb = this.rb != null ? this.rb : this.GetComponent<Rigidbody>();
+            this.onPathComplete = new UnityEvent();
+            this.rb ??= this.GetComponent<Rigidbody>();
             this.rb.useGravity = false;
 
             yield return new WaitWhile(() => !UnitNavigation.Ready);
@@ -49,32 +51,11 @@ namespace Runtime.AI.Navigation
                 this.rb.useGravity = true;
         }
 
-        private void Update()
-        {
-            if (this.currentPath is { Empty: false, Complete: false })
-                this.currentPath.Tick(this);
+        private void OnEnable() =>
+            UnitNavigation.AddAgent(this);
 
-            if (this.currentTriangleIndex == -1)
-                return;
-
-            if (this.target.position == this.pre || this.currentTriangleIndex == -1)
-                return;
-
-            this.pre = this.target.position;
-
-            this.MoveTo(this.pre);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (this.navMesh != null)
-            {
-                NavTriangle t = this.navMesh.Triangles[this.navMesh.ClosestTriangleIndex(this.target.position)];
-                Debug.DrawRay(t.Center(this.navMesh.Vertices()), Vector3.up);
-            }
-
-            this.currentPath.DebugPath(this);
-        }
+        private void OnDisable() =>
+            UnitNavigation.RemoveAgent(this);
 
         #endregion
 
@@ -84,11 +65,45 @@ namespace Runtime.AI.Navigation
 
         public UnitAgentSettings Settings => this.settings;
 
-        public bool AgentIsOnNavMesh() => this.isOnNavMesh;
+
+        public bool IsStopped() => this.isStopped;
+
+        #endregion
+
+        #region Setters
+
+        public void SetStopped(bool set) => this.isStopped = set;
 
         #endregion
 
         #region In
+
+        internal void UpdateAgent()
+        {
+            if (this.currentPath.Empty || this.currentPath.Complete)
+                return;
+
+            if (this.currentPath.GetCurrentPathAction() is WalkAction walkAction)
+            {
+                Vector3 pos = this.transform.position;
+                Vector3 currentMoveVector = walkAction.Destination() - pos;
+                currentMoveVector = this.AgentAvoidance(currentMoveVector);
+
+                if (Vector3.Angle(this.transform.forward, currentMoveVector) < this.settings.WalkTurnAngle)
+                {
+                    this.rb.MovePosition(pos + currentMoveVector.normalized * this.settings.MoveSpeed *
+                        Time.deltaTime);
+                }
+            }
+            else if (this.currentPath.GetCurrentPathAction() is InteractAction interactAction)
+            {
+            }
+
+            this.currentPath.CheckIndex(this);
+
+            if (this.currentPath.Complete)
+                this.onPathComplete.Invoke();
+        }
 
         public void MoveTo(Vector3 position)
         {
@@ -119,16 +134,80 @@ namespace Runtime.AI.Navigation
         public void SetPath(UnitPath path) =>
             this.currentPath = path;
 
-        internal void MoveAgentBody(Vector3 towards)
-        {
-            Vector3 position = this.transform.position;
-            this.rb.MovePosition(position + this.settings.MoveSpeed * Time.deltaTime *
-                (towards.XZ() - position.XZ()).ToV3(0).normalized);
-        }
-
         #endregion
 
         #region Internal
+
+        /// <summary>
+        /// Attempt to avoid walking into other agents
+        /// </summary>
+        /// <param name="currentMoveDirection">Current move direction from the agent to it's destination</param>
+        /// <returns>Offset move vector</returns>
+        private Vector3 AgentAvoidance(Vector3 currentMoveDirection)
+        {
+            Vector3 tempForward = currentMoveDirection.FastNorm(),
+                tempRight = new Vector3(-tempForward.y, tempForward.x);
+            //Check in front
+            if (!Physics.BoxCast(this.transform.position + tempForward * this.settings.Radius * 2,
+                    new Vector3(this.settings.Radius, this.settings.Radius, this.settings.Radius),
+                    tempForward,
+                    out RaycastHit hit,
+                    this.transform.rotation,
+                    this.settings.Radius * 2,
+                    UnitNavigation.GetUnitAgentLayerMask(),
+                    QueryTriggerInteraction.Ignore))
+                return currentMoveDirection;
+
+            //If agent in front is walking the same way then continue
+            if (Vector3.Angle(hit.transform.forward, tempForward) < 25)
+                return currentMoveDirection;
+
+            for (float i = 0; i <= 1; i += AVOIDANCE_CHECK_STEP)
+            {
+                //Check right
+                if (Physics.BoxCast(
+                        this.transform.position + (tempForward + tempRight * i).normalized *
+                        this.settings.Radius * 2,
+                        new Vector3(this.settings.Radius, this.settings.Radius, this.settings.Radius),
+                        this.transform.forward + tempRight * i,
+                        out hit,
+                        this.transform.rotation,
+                        this.settings.Radius * 2,
+                        UnitNavigation.GetUnitAgentLayerMask(),
+                        QueryTriggerInteraction.Ignore))
+                {
+                    //If agent on the right is walking the same way then continue
+                    if (Vector3.Angle(hit.transform.forward, tempForward) < 25)
+                        return currentMoveDirection + tempRight * -i;
+                }
+                else
+                    //If right is clear then continue that way
+                    return currentMoveDirection + tempRight * i;
+
+                //Check left
+                if (Physics.BoxCast(
+                        this.transform.position + (tempForward + tempRight * -i).normalized *
+                        this.settings.Radius * 2,
+                        new Vector3(this.settings.Radius, this.settings.Radius, this.settings.Radius),
+                        this.transform.forward + tempRight * -i,
+                        out hit,
+                        this.transform.rotation,
+                        this.settings.Radius * 2,
+                        UnitNavigation.GetUnitAgentLayerMask(),
+                        QueryTriggerInteraction.Ignore))
+                {
+                    //If agent on the left is walking the same way then continue
+                    if (Vector3.Angle(hit.transform.forward, tempForward) < 25)
+                        return currentMoveDirection + tempRight * -i;
+                }
+                else
+                    //If left is clear then continue that way
+                    return currentMoveDirection + tempRight * -i;
+            }
+
+            //If there isn't found a better path then default to going right around
+            return currentMoveDirection + tempRight;
+        }
 
         private static bool InTriangle2D(int[] corners, Vector3 point)
         {

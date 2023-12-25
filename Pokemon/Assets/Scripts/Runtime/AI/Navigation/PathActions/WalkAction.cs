@@ -30,11 +30,8 @@ namespace Runtime.AI.Navigation.PathActions
 
         #region In
 
-        public override bool PerformAction(UnitAgent agent)
-        {
-            agent.MoveAgentBody(this.destination);
-            return agent.transform.position.XZ().QuickSquareDistance(this.destination.XZ()) < agent.Settings.StoppingDistance * agent.Settings.StoppingDistance;
-        }
+        public override bool CheckAction(UnitAgent agent) => 
+            agent.transform.position.XZ().QuickSquareDistance(this.destination.XZ()) < agent.Settings.StoppingDistance * agent.Settings.StoppingDistance;
 
         #endregion
     }

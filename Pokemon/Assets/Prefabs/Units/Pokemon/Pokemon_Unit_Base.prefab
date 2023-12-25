@@ -88,6 +88,7 @@ MonoBehaviour:
   agent: {fileID: 3629573819414488264}
   sightCone: {fileID: 0}
   behaviourTreeOwner: {fileID: 246908294041948363}
+  behaviourBlackboard: {fileID: 244058473420162147}
   unitState: 0
 --- !u!114 &9014251050057360960
 MonoBehaviour:

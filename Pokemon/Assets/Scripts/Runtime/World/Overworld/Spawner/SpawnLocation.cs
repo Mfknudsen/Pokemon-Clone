@@ -47,7 +47,7 @@ namespace Runtime.World.Overworld.Spawner
             this.spawnType.Validate(this);
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             this.spawnType.Gizmo(this);
         }

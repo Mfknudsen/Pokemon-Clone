@@ -6,6 +6,8 @@ using Runtime.World.Overworld.Interactions;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using NodeCanvas.Framework;
+using Runtime.AI.Navigation;
 using Runtime.Core;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,7 +17,7 @@ using UnityEngine.Events;
 
 namespace Runtime.AI
 {
-    [RequireComponent(typeof(NavMeshAgent), typeof(BehaviourTreeOwner))]
+    [RequireComponent(typeof(UnitAgent), typeof(BehaviourTreeOwner))]
     public abstract class UnitBase : MonoBehaviour, IInteractable
     {
         #region Values
@@ -27,18 +29,22 @@ namespace Runtime.AI
         protected GameObject visualsObject;
 
         [SerializeField, FoldoutGroup("Base/Navmesh"), Required]
-        protected NavMeshAgent agent;
+        protected UnitAgent agent;
 
         [SerializeField, FoldoutGroup("Base/Senses")]
         private UnitSight sightCone;
 
-        [SerializeField, FoldoutGroup("Base"), Required] private BehaviourTreeOwner behaviourTreeOwner;
+        [SerializeField, FoldoutGroup("Base"), Required]
+        private BehaviourTreeOwner behaviourTreeOwner;
+
+        [SerializeField, FoldoutGroup("Base"), Required]
+        private Blackboard behaviourBlackboard;
 
         [SerializeField, FoldoutGroup("Base")] private UnitState unitState;
 
         private readonly Dictionary<string, object> memoryBank = new Dictionary<string, object>();
 
-        private UnityEvent disableEvent;
+        private UnityEvent<UnitBase> disableEvent;
 
         private Coroutine currentRotateOrder;
 
@@ -49,14 +55,17 @@ namespace Runtime.AI
         private void OnEnable() =>
             this.unitManager.Register(this);
 
-        private void OnDisable() =>
+        private void OnDisable()
+        {
+            this.disableEvent.Invoke(this);
             this.unitManager.Unregister(this);
+        }
 
         #endregion
 
         #region Getters
 
-        public NavMeshAgent GetAgent() =>
+        public UnitAgent GetAgent() =>
             this.agent;
 
         public TObject GetFromMemory<TObject>(string key) where TObject : Object
@@ -68,6 +77,8 @@ namespace Runtime.AI
 
         public UnitState GetUnitState() =>
             this.unitState;
+
+        public Blackboard GetBlackboard() => this.behaviourBlackboard;
 
         #endregion
 
@@ -103,31 +114,30 @@ namespace Runtime.AI
 
         public abstract void InteractTrigger();
 
-        public void AddDisableEventListener(UnityAction action)
+        public void AddDisableEventListener(UnityAction<UnitBase> action)
         {
-            this.disableEvent ??= new UnityEvent();
+            this.disableEvent ??= new UnityEvent<UnitBase>();
 
             this.disableEvent.AddListener(action);
         }
 
-        public void RemoveDisableEventListener(UnityAction action) =>
+        public void RemoveDisableEventListener(UnityAction<UnitBase> action) =>
             this.disableEvent?.RemoveListener(action);
 
         public void PauseUnit() =>
-            this.agent.isStopped = true;
+            this.agent.SetStopped(true);
 
         public void ResumeUnit() =>
-            this.agent.isStopped = false;
+            this.agent.SetStopped(false);
 
-        public bool MoveAndRotateUnitAgent(Vector3 positon, Quaternion rotation, UnityAction onComplete = null)
+        public bool MoveAndRotateUnitAgent(Vector3 position, Quaternion rotation, UnityAction onComplete = null)
         {
             if (this.currentRotateOrder != null)
                 this.StopCoroutine(this.currentRotateOrder);
 
-            if (this.agent.SetDestination(positon))
-                return false;
+            this.agent.MoveTo(position);
 
-            this.agent.isStopped = false;
+            this.agent.SetStopped(false);
 
             this.currentRotateOrder = this.StartCoroutine(this.Rotate(rotation, onComplete));
 
@@ -149,15 +159,15 @@ namespace Runtime.AI
 
         private IEnumerator Rotate(Quaternion rotation, UnityAction onComplete)
         {
-            yield return new UnityEngine.WaitUntil(() => this.agent.isStopped);
+            yield return new UnityEngine.WaitUntil(() => this.agent.IsStopped());
 
             Transform t = this.transform;
             Vector3 rotationForward = rotation.ForwardFromRotation();
-            float agentRotationSpeed = this.agent.angularSpeed;
 
             while (Vector3.Angle(rotationForward, t.forward) < .5f)
             {
-                t.LookAt(t.position + Vector3.Lerp(t.forward, rotationForward, Time.deltaTime * agentRotationSpeed));
+                t.LookAt(t.position + Vector3.Lerp(t.forward, rotationForward,
+                    Time.deltaTime * this.agent.Settings.TurnSpeed));
                 yield return null;
             }
 

@@ -1,6 +1,6 @@
 #region Libraries
 
-using Runtime.Pokémon;
+using Runtime.PokÃ©mon;
 using Logger = Runtime.Testing.Logger;
 
 #endregion
@@ -55,6 +55,11 @@ namespace Runtime.AI
             this.currentState = state;
 
             Logger.AddLog(this, "Pokemon Unit Switching state to: " + state.ToString());
+        }
+
+        public void TriggerStartIntro()
+        {
+            
         }
 
         #endregion

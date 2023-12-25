@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.16876537, g: 0.21187359, b: 0.29056764, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,14 +97,14 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 3ea1d10c6f8e8da418da32c79c28d9a5, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -156,10 +156,14 @@ MonoBehaviour:
   tileManager: {fileID: 11400000, guid: c9cd88d08bd12ad1e8ee74a3316a51c6, type: 2}
   neighbors: []
   navMeshSurface: {fileID: 710859565}
+  navmeshCleanUpPoint: {x: 0, y: 0, z: 0}
   poolingSnapshot: []
-  onBakeButtonEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  calculatedNavMesh: {fileID: 0}
+  tileEnvironment: {fileID: 0}
+  tileSpawners: {fileID: 0}
+  tileAI: {fileID: 0}
+  tileConnectionPoints: {fileID: 0}
+  tileLighting: {fileID: 0}
 --- !u!4 &710859564
 Transform:
   m_ObjectHideFlags: 0
@@ -196,12 +200,322 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_UseGeometry: 0
   m_DefaultArea: 0
+  m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.13333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
+--- !u!1 &804242650
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 804242652}
+  - component: {fileID: 804242651}
+  m_Layer: 0
+  m_Name: '!ftraceLightmaps'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &804242651
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804242650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fa80e7116296f4eb4f49ec1544ee22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderSettingsBounces: 2
+  renderSettingsGISamples: 16
+  renderSettingsGIBackFaceWeight: 0
+  renderSettingsTileSize: 1024
+  renderSettingsPriority: 3
+  renderSettingsTexelsPerUnit: 20
+  renderSettingsForceRefresh: 1
+  renderSettingsForceRebuildGeometry: 1
+  renderSettingsPerformRendering: 1
+  renderSettingsUserRenderMode: 0
+  renderSettingsDistanceShadowmask: 1
+  renderSettingsSettingsMode: 0
+  renderSettingsFixSeams: 1
+  renderSettingsDenoise: 1
+  renderSettingsDenoise2x: 0
+  renderSettingsEncode: 1
+  renderSettingsEncodeMode: 0
+  renderSettingsOverwriteWarning: 0
+  renderSettingsAutoAtlas: 1
+  renderSettingsUnwrapUVs: 1
+  renderSettingsForceDisableUnwrapUVs: 0
+  renderSettingsMaxAutoResolution: 1024
+  renderSettingsMinAutoResolution: 16
+  renderSettingsUnloadScenes: 1
+  renderSettingsAdjustSamples: 1
+  renderSettingsGILODMode: 2
+  renderSettingsGILODModeEnabled: 0
+  renderSettingsCheckOverlaps: 0
+  renderSettingsSkipOutOfBoundsUVs: 1
+  renderSettingsHackEmissiveBoost: 1
+  renderSettingsHackIndirectBoost: 1
+  renderSettingsTempPath: 
+  renderSettingsOutPath: BakeryLightmaps
+  renderSettingsUseScenePath: 0
+  renderSettingsHackAOIntensity: 0
+  renderSettingsHackAOSamples: 16
+  renderSettingsHackAORadius: 1
+  renderSettingsShowAOSettings: 0
+  renderSettingsShowTasks: 1
+  renderSettingsShowTasks2: 0
+  renderSettingsShowPaths: 1
+  renderSettingsShowNet: 1
+  renderSettingsOcclusionProbes: 0
+  renderSettingsTexelsPerMap: 0
+  renderSettingsTexelsColor: 1
+  renderSettingsTexelsMask: 1
+  renderSettingsTexelsDir: 1
+  renderSettingsShowDirWarning: 1
+  renderSettingsRenderDirMode: 0
+  renderSettingsShowCheckerSettings: 0
+  renderSettingsSamplesWarning: 1
+  renderSettingsPrefabWarning: 1
+  renderSettingsSplitByScene: 0
+  renderSettingsUVPaddingMax: 0
+  renderSettingsPostPacking: 1
+  renderSettingsHoleFilling: 0
+  renderSettingsBeepOnFinish: 0
+  renderSettingsExportTerrainAsHeightmap: 1
+  renderSettingsRTXMode: 0
+  renderSettingsLightProbeMode: 1
+  renderSettingsClientMode: 0
+  renderSettingsServerAddress: 127.0.0.1
+  renderSettingsUnwrapper: 0
+  renderSettingsDenoiserType: 5
+  renderSettingsExportTerrainTrees: 0
+  renderSettingsShowPerf: 1
+  renderSettingsSampleDiv: 1
+  renderSettingsAtlasPacker: 0
+  renderSettingsBatchPoints: 1
+  renderSettingsCompressVolumes: 0
+  renderSettingsSector: {fileID: 0}
+  renderSettingsRTPVExport: 1
+  renderSettingsRTPVSceneView: 0
+  renderSettingsRTPVWidth: 640
+  renderSettingsRTPVHeight: 360
+  lastBakeTime: 0
+  enlightenWarningShown: 0
+  enlightenWarningShown2: 0
+  lightUIDs: 
+  lights: []
+  implicitGroups: []
+  implicitGroupedObjects: []
+  bounds:
+  - m_Center: {x: 53.5, y: 12.55, z: 114.35}
+    m_Extent: {x: 30.54736, y: 13.143276, z: 18.122566}
+  - m_Center: {x: -87.829445, y: 3.33, z: 1.8694755}
+    m_Extent: {x: 6.5193806, y: 3.397146, z: 8.298438}
+  - m_Center: {x: -49.79988, y: 3.33, z: 46.889244}
+    m_Extent: {x: 8.414482, y: 3.397146, z: 7.4318314}
+  - m_Center: {x: -21.810118, y: 3.33, z: 58.849243}
+    m_Extent: {x: 8.082604, y: 3.397146, z: 5.8678126}
+  - m_Center: {x: -80.88953, y: 3.33, z: 15.439403}
+    m_Extent: {x: 7.203532, y: 3.397146, z: 8.414517}
+  - m_Center: {x: -7.1702, y: 3.33, z: 61.739265}
+    m_Extent: {x: 7.773678, y: 3.397146, z: 5.1657763}
+  - m_Center: {x: -71.58961, y: 3.33, z: 27.939344}
+    m_Extent: {x: 7.717764, y: 3.397146, z: 8.370693}
+  - m_Center: {x: -36.139996, y: 3.33, z: 53.30924}
+    m_Extent: {x: 8.352175, y: 3.397146, z: 6.7457027}
+  - m_Center: {x: -51.90001, y: 3.33, z: 77.63076}
+    m_Extent: {x: 8.358822, y: 3.397146, z: 6.7783375}
+  - m_Center: {x: -101.87055, y: 3.33, z: 23.600529}
+    m_Extent: {x: 6.5627403, y: 3.397146, z: 8.309713}
+  - m_Center: {x: -24.719799, y: 3.33, z: 86.06074}
+    m_Extent: {x: 7.77366, y: 3.397146, z: 5.165739}
+  - m_Center: {x: -15.031485, y: 3.4677258, z: -1.6521635}
+    m_Extent: {x: 7.614695, y: 4.5962267, z: 7.092948}
+  - m_Center: {x: -66.13988, y: 2.8804297, z: 73.91433}
+    m_Extent: {x: 6.436797, y: 4.0920296, z: 6.4567766}
+  - m_Center: {x: -25.222256, y: 2.8804297, z: 89.276306}
+    m_Extent: {x: 5.247773, y: 4.0920296, z: 5.3141456}
+  - m_Center: {x: -80.54305, y: 2.8804297, z: 60.9868}
+    m_Extent: {x: 6.5490103, y: 4.0920296, z: 6.5513463}
+  - m_Center: {x: -48.18754, y: 2.8804297, z: 44.05613}
+    m_Extent: {x: 6.3816853, y: 4.0920296, z: 6.4061413}
+  - m_Center: {x: -6.6791105, y: 2.8804297, z: 57.736694}
+    m_Extent: {x: 5.0836945, y: 4.0920296, z: 5.1536927}
+  - m_Center: {x: -35.082104, y: 2.8804297, z: 50.349762}
+    m_Extent: {x: 6.0188904, y: 4.0920296, z: 6.062311}
+  - m_Center: {x: -77.238655, y: 2.8804297, z: 13.228353}
+    m_Extent: {x: 6.3528223, y: 4.0920296, z: 6.324462}
+  - m_Center: {x: -83.82091, y: 2.8804297, z: 0.26533842}
+    m_Extent: {x: 5.969427, y: 4.0920296, z: 5.922331}
+  - m_Center: {x: -105.19191, y: 2.8804297, z: 24.89534}
+    m_Extent: {x: 5.969427, y: 4.0920296, z: 5.922331}
+  - m_Center: {x: -53.301968, y: 2.8804297, z: 80.7366}
+    m_Extent: {x: 6.1192923, y: 4.0920296, z: 6.158467}
+  - m_Center: {x: -20.811132, y: 2.8804297, z: 54.59831}
+    m_Extent: {x: 5.603634, y: 4.0920296, z: 5.660922}
+  - m_Center: {x: -98.60966, y: 2.8804297, z: 37.858353}
+    m_Extent: {x: 6.3528223, y: 4.0920296, z: 6.324462}
+  - m_Center: {x: -89.85875, y: 2.8804297, z: 49.906063}
+    m_Extent: {x: 6.5132957, y: 4.0920296, z: 6.5001955}
+  - m_Center: {x: -39.21478, y: 2.8804297, z: 85.56299}
+    m_Extent: {x: 5.7372255, y: 4.0920296, z: 5.7905397}
+  - m_Center: {x: -68.48775, y: 2.8804297, z: 25.276062}
+    m_Extent: {x: 6.5132957, y: 4.0920296, z: 6.5001955}
+  - m_Center: {x: -59.172054, y: 2.8804297, z: 36.356796}
+    m_Extent: {x: 6.5490103, y: 4.0920296, z: 6.5513463}
+  - m_Center: {x: -64.47012, y: 3.33, z: 71.180756}
+    m_Extent: {x: 8.4129, y: 3.397146, z: 7.45597}
+  - m_Center: {x: 78.12073, y: 7.821567, z: -103.92001}
+    m_Extent: {x: 6.871093, y: 3.3315673, z: 5.5328856}
+  - m_Center: {x: -38.389927, y: 3.33, z: 82.67076}
+    m_Extent: {x: 8.211495, y: 3.397146, z: 6.2266045}
+  - m_Center: {x: -61.429714, y: 3.33, z: 38.88929}
+    m_Extent: {x: 8.14809, y: 3.397146, z: 8.12908}
+  - m_Center: {x: 53.5, y: 12.55, z: 102.37}
+    m_Extent: {x: 28.880928, y: 13.143276, z: 18.031948}
+  - m_Center: {x: 55.030003, y: 16.159994, z: 99.91}
+    m_Extent: {x: 23.744293, y: 16.366055, z: 14.713604}
+  - m_Center: {x: 78.62, y: 10.019997, z: 45.180004}
+    m_Extent: {x: 9.602696, y: 10.314442, z: 22.465502}
+  - m_Center: {x: 48.8, y: 7.9599967, z: -18.700005}
+    m_Extent: {x: 12.626648, y: 9.031911, z: 22.988712}
+  - m_Center: {x: 81.55, y: 7.7099967, z: 5.400004}
+    m_Extent: {x: 12.626755, y: 9.031911, z: 22.988722}
+  - m_Center: {x: 79.92, y: 7.8699965, z: -34.58}
+    m_Extent: {x: 21.573372, y: 9.031911, z: 19.233799}
+  - m_Center: {x: -41.24173, y: 7.58914, z: 146.40652}
+    m_Extent: {x: 29.97308, y: 5.18914, z: 13.976879}
+  - m_Center: {x: 112.84, y: 0, z: 117.7}
+    m_Extent: {x: 26.345999, y: 5.849987e-16, z: 26.345999}
+  - m_Center: {x: -92.92383, y: 7.58914, z: 150.62881}
+    m_Extent: {x: 8.6930065, y: 5.18914, z: 28.019743}
+  - m_Center: {x: 80.61954, y: 5.628832, z: -34.093483}
+    m_Extent: {x: 18.471596, y: 9.052531, z: 15.984974}
+  - m_Center: {x: 48.689674, y: 7.195631, z: -18.448439}
+    m_Extent: {x: 10.369045, y: 9.052531, z: 19.699226}
+  - m_Center: {x: 81.75862, y: 6.582531, z: 5.693945}
+    m_Extent: {x: 10.369045, y: 9.052531, z: 19.699226}
+  - m_Center: {x: 77.79543, y: 8.707532, z: 44.83705}
+    m_Extent: {x: 7.570165, y: 9.052531, z: 17.968431}
+  - m_Center: {x: -54.714287, y: 7.58914, z: 117.65649}
+    m_Extent: {x: 24.502401, y: 5.18914, z: 9.834394}
+  - m_Center: {x: -49.362343, y: 7.58914, z: 180.14333}
+    m_Extent: {x: 24.54568, y: 5.18914, z: 11.191822}
+  - m_Center: {x: 0.14000227, y: 5.670001, z: 93.01}
+    m_Extent: {x: 15.293936, y: 6.4135957, z: 14.563669}
+  - m_Center: {x: -0.557611, y: 5.5042977, z: 97.95809}
+    m_Extent: {x: 14.192255, y: 5.995288, z: 13.81738}
+  - m_Center: {x: 12.610001, y: 4.8699994, z: -24.540003}
+    m_Extent: {x: 12.939253, y: 6.0190816, z: 14.239392}
+  - m_Center: {x: -25.299454, y: 8.809612, z: -18.541779}
+    m_Extent: {x: 91.97078, y: 9.875759, z: 82.5574}
+  - m_Center: {x: 9.562766, y: 1.8125134, z: -44.74964}
+    m_Extent: {x: 23.808472, y: 7.8334007, z: 50.7697}
+  - m_Center: {x: -11.141174, y: 7.2277694, z: -25.039955}
+    m_Extent: {x: 105.77661, y: 7.8613405, z: 83.31828}
+  - m_Center: {x: -10.74076, y: 3.4677258, z: -8.39902}
+    m_Extent: {x: 8.12301, y: 4.5962267, z: 9.322007}
+  - m_Center: {x: -0.8975377, y: 2.9715652, z: 14.074137}
+    m_Extent: {x: 6.641588, y: 4.4375653, z: 7.365073}
+  - m_Center: {x: 42.741955, y: 8.560356, z: -31.13398}
+    m_Extent: {x: 50.014492, y: 10.026356, z: 76.055855}
+  - m_Center: {x: -0.61420584, y: 3.2853012, z: 44.434055}
+    m_Extent: {x: 7.931077, y: 4.7513013, z: 5.9790883}
+  - m_Center: {x: -78.34026, y: 3.33, z: 58.540714}
+    m_Extent: {x: 8.193438, y: 3.397146, z: 8.078022}
+  - m_Center: {x: -87.01039, y: 3.33, z: 47.690655}
+    m_Extent: {x: 7.7366743, y: 3.397146, z: 8.365532}
+  - m_Center: {x: -95.46044, y: 3.33, z: 36.030624}
+    m_Extent: {x: 7.4419174, y: 3.397146, z: 8.413862}
+  - m_Center: {x: -7.49, y: -0.6, z: -85.5}
+    m_Extent: {x: 8.611091, y: 0.6785139, z: 14.543706}
+  hasEmissive: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
+  uvBuffOffsets: 
+  uvBuffLengths: 
+  uvSrcBuff: []
+  uvDestBuff: []
+  lmrIndicesOffsets: 
+  lmrIndicesLengths: 
+  lmrIndicesBuff: 
+  lmGroupLODResFlags: 
+  lmGroupMinLOD: 
+  lmGroupLODMatrix: 
+  serverGetFileList: []
+  lightmapHasColor: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
+  lightmapHasMask: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasDir: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasRNM: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  modifiedAssetPathList: []
+  modifiedAssets: []
+  maps: []
+  masks: []
+  dirMaps: []
+  rnmMaps0: []
+  rnmMaps1: []
+  rnmMaps2: []
+  mapsMode: 
+  bakedRenderers: []
+  bakedIDs: 
+  bakedScaleOffset: []
+  bakedVertexOffset: 
+  bakedVertexColorMesh: []
+  nonBakedRenderers: []
+  bakedLights: []
+  bakedLightChannels: 
+  bakedRenderersTerrain: []
+  bakedIDsTerrain: 
+  bakedScaleOffsetTerrain: []
+  assetList: []
+  uvOverlapAssetList: 
+  idremap: 
+  usesRealtimeGI: 0
+  emptyDirectionTex: {fileID: 0}
+  anyVolumes: 0
+  compressedVolumes: 0
+  sectors:
+  - name: $G
+    maps: []
+    masks: []
+    dirMaps: []
+    rnmMaps0: []
+    rnmMaps1: []
+    rnmMaps2: []
+    mapsMode: 
+    bakedRenderers: []
+    bakedRenderersTerrain: []
+    bakedIDs: 
+    bakedIDsTerrain: 
+    bakedScaleOffset: []
+    bakedScaleOffsetTerrain: []
+    bakedVertexColorMesh: []
+    nonBakedRenderers: []
+--- !u!4 &804242652
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804242650}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1,4 +1,4 @@
-﻿#region Packages
+﻿#region Libraries
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,9 +15,11 @@ using UnityEngine.Events;
 namespace Runtime.Communication
 {
     [CreateAssetMenu(menuName = "Manager/Chat")]
-    public class ChatManager : Manager, IFrameStart, IFrameUpdate
+    public sealed class ChatManager : Manager, IFrameStart, IFrameUpdate
     {
         #region Values
+
+        [ShowInInspector, ReadOnly] private TextField textField;
 
         [ShowInInspector, ReadOnly] private Chat running;
 
@@ -27,9 +29,7 @@ namespace Runtime.Communication
 
         [SerializeField] private bool waitForInput = true;
 
-        [SerializeField] private int textPerSecond = 30;
-
-        private PersistantRunner persistantRunner;
+        [SerializeField] private int completeTime = 30;
 
         private bool show, adaptiveText;
 
@@ -41,7 +41,7 @@ namespace Runtime.Communication
             this.running == null && this.waitList.Count == 0;
 
         public float GetTextSpeed() =>
-            1f / this.textPerSecond;
+            1f / this.completeTime;
 
         public bool GetShow() =>
             this.show;
@@ -57,15 +57,17 @@ namespace Runtime.Communication
         {
             this.show = set;
 
-            if (TextField.instance == null) return;
+            if (this.textField == null) return;
 
             if (set)
-                TextField.instance.Show();
+                this.textField.Show();
             else
-                TextField.instance.Hide();
+                this.textField.Hide();
         }
 
         public void SetAdaptive(bool set) => this.adaptiveText = set;
+
+        public void SetTextfield(TextField set) => this.textField = set;
 
         #endregion
 
@@ -77,7 +79,6 @@ namespace Runtime.Communication
             this.text = null;
             this.waitList = new List<Chat>();
 
-            this.persistantRunner = runner;
             InputManager.Instance.nextChatInputEvent.AddListener(this.OnNextChatChange);
 
             this.ready = true;
@@ -86,9 +87,9 @@ namespace Runtime.Communication
 
         public void FrameUpdate()
         {
-            if (TextField.instance == null) return;
+            if (this.textField == null) return;
 
-            this.text = TextField.instance.GetText;
+            this.text = this.textField.GetText;
 
             if (this.text == null) return;
 
@@ -99,7 +100,7 @@ namespace Runtime.Communication
                 if (this.running.GetDone())
                     this.CleanDone();
                 else
-                    this.persistantRunner.StartCoroutine(this.running.PlayNext());
+                    this.running.PlayNext(this.textField);
 
                 this.waitForInput = false;
             }
@@ -109,9 +110,9 @@ namespace Runtime.Communication
             if (!this.show || !this.adaptiveText) return;
 
             if (this.running == null)
-                TextField.instance.Hide();
+                this.textField.Hide();
             else
-                TextField.instance.Show();
+                this.textField.Show();
         }
 
         public void Add(IEnumerable<Chat> toAdd)
@@ -125,9 +126,9 @@ namespace Runtime.Communication
 
         public void ShowResponses(string[] labels, UnityEvent[] actions)
         {
-            if (TextField.instance == null) return;
+            if (this.textField == null) return;
 
-            TextField.instance.GetResponseField.Show(labels, actions);
+            this.textField.GetResponseField.Show(labels, actions);
         }
 
         #endregion
@@ -143,7 +144,7 @@ namespace Runtime.Communication
             if (this.running.GetDone())
                 this.CleanDone();
             else
-                this.persistantRunner.StartCoroutine(this.running.PlayNext());
+                this.running.PlayNext(this.textField);
 
             this.waitForInput = false;
         }
@@ -165,13 +166,13 @@ namespace Runtime.Communication
             this.text.gameObject.SetActive(true);
 
             this.running = toPlay;
-            this.persistantRunner.StartCoroutine(this.running.Play());
+            this.running.Play(this.textField);
         }
 
         private void CleanDone()
         {
             if (this.running == null) return;
-            
+
             Destroy(this.running);
 
             this.running = null;

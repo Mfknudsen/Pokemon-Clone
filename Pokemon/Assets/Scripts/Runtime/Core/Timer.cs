@@ -12,7 +12,7 @@ namespace Runtime.Core
         #region Values
 
         private readonly UnityEvent timerEvent = new UnityEvent();
-        private readonly float duration;
+        private readonly float durationInSeconds;
         private float current;
         private bool done;
 
@@ -20,9 +20,9 @@ namespace Runtime.Core
 
         #region Build In States
 
-        public Timer(float duration, UnityAction action = null)
+        public Timer(float durationInSeconds, UnityAction action = null)
         {
-            this.duration = duration;
+            this.durationInSeconds = durationInSeconds;
             this.timerEvent.AddListener(action);
             TimerUpdater.Add(this);
         }
@@ -43,7 +43,7 @@ namespace Runtime.Core
 
             this.current += Time.deltaTime;
 
-            if (this.current < this.duration) return;
+            if (this.current < this.durationInSeconds) return;
 
             this.timerEvent.Invoke();
             this.done = true;
@@ -51,6 +51,13 @@ namespace Runtime.Core
 
         public void Stop() =>
             this.done = true;
+
+        public void Reset()
+        {
+            this.done = false;
+            this.current = 0;
+            TimerUpdater.Add(this);
+        }
 
         #endregion
     }

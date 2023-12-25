@@ -1,7 +1,6 @@
 #region Libraries
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -12,9 +11,9 @@ namespace Runtime.Core
     {
         #region Values
 
-        private static readonly List<Timer> timers = new List<Timer>();
+        private static readonly List<Timer> Timers = new List<Timer>();
 
-        private static TimerUpdater instance;
+        private static TimerUpdater _instance;
 
         #endregion
 
@@ -22,46 +21,42 @@ namespace Runtime.Core
 
         private void OnDestroy()
         {
-            timers.ForEach(t => t.Stop());
-            timers.Clear();
-            instance = null;
+            foreach (Timer t in Timers) 
+                t.Stop();
+            
+            Timers.Clear();
+            _instance = null;
         }
 
         private void Update()
         {
-            List<Timer> toUpdate = timers.ToList(), toRemove = new List<Timer>();
-
-            for (int i = 0; i < toUpdate.Count; i++)
+            for (int index = Timers.Count - 1; index >= 0; index--)
             {
-                Timer timer = toUpdate[i];
-
-                if (timer.IsDone)
-                    toRemove.Add(timer);
+                if (Timers[index].IsDone)
+                    Timers.RemoveAt(index);
                 else
-                    timer.Update();
+                    Timers[index].Update();
             }
-
-            toRemove.ForEach(t => timers.Remove(t));
         }
 
         #endregion
 
         #region In
 
-        public static void Add(Timer toAdd)
+        internal static void Add(Timer toAdd)
         {
             if (toAdd == null)
                 return;
 
-            if (instance == null)
+            if (_instance == null)
             {
-                GameObject obj = new GameObject("Timer Updator");
-                instance = obj.AddComponent<TimerUpdater>();
+                GameObject obj = new GameObject("Timer Updater");
+                _instance = obj.AddComponent<TimerUpdater>();
                 DontDestroyOnLoad(obj);
             }
 
-            if (!timers.Contains(toAdd))
-                timers.Add(toAdd);
+            if (!Timers.Contains(toAdd))
+                Timers.Add(toAdd);
         }
 
         #endregion

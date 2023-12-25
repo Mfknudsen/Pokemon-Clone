@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Runtime.UI.TextEffects
 {
-    public sealed class TextFade 
+    public sealed class TextFade : TextEffect
     {
         #region Values
 
@@ -26,31 +26,24 @@ namespace Runtime.UI.TextEffects
 
         private float diffX, diffY;
 
-        private TMP_TextInfo textInfo;
-
         private FadeType fadeType;
 
-        private Coroutine coroutine;
+        private readonly float totalTime, fadeTime;
 
-        private MonoBehaviour owner;
-
-        private float timeToComplete;
-
-        private bool paused, destroyOnDone;
+        private readonly TMP_TextInfo textInfo;
 
         #endregion
 
         #region Build In States
 
-        public TextFade(TMP_TextInfo textInfo, float timeToComplete, FadeType fadeType, MonoBehaviour owner,
-            bool destroyOnDone = false)
+        public TextFade(TextEffectBase effectBase, float totalTime, float fadeTime,
+            FadeType fadeType) : base(effectBase)
         {
-            this.textInfo = textInfo;
-            this.fadeType = fadeType;
-            this.owner = owner;
-            this.timeToComplete = timeToComplete;
+            this.textInfo = effectBase.GetText().textInfo;
 
-            this.coroutine = null;
+            this.fadeType = fadeType;
+            this.totalTime = totalTime;
+            this.fadeTime = fadeTime;
 
             this.highestX = 0;
             this.highestY = 0;
@@ -59,12 +52,7 @@ namespace Runtime.UI.TextEffects
             this.diffX = 0;
             this.diffY = 0;
 
-            this.paused = false;
-            this.destroyOnDone = destroyOnDone;
-
             this.SetLowsAndHighs();
-
-            this.coroutine = owner.StartCoroutine(this.Effect());
         }
 
         #endregion
@@ -79,8 +67,6 @@ namespace Runtime.UI.TextEffects
 
         public float HighestY() => this.highestY;
 
-        public TMP_TextInfo TextInfo() => this.textInfo;
-
         #endregion
 
         #region Setters
@@ -93,19 +79,9 @@ namespace Runtime.UI.TextEffects
 
         #endregion
 
-        #region In
-
-        public void Pause() =>
-            this.paused = true;
-
-        public void Resume() =>
-            this.paused = false;
-
-        #endregion
-
         #region Internal
 
-        private IEnumerator Effect()
+        protected override IEnumerator Effect()
         {
             yield break;
         }
@@ -188,5 +164,9 @@ namespace Runtime.UI.TextEffects
         }
 
         #endregion
+
+        public override void Complete()
+        {
+        }
     }
 }

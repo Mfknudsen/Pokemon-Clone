@@ -10,8 +10,8 @@ NavMeshProjectSettings:
   - name: Not Walkable
     cost: 1
   - name: Jump
-    cost: 2
-  - name: 
+    cost: 1
+  - name: Mud
     cost: 1
   - name: 
     cost: 1
@@ -75,7 +75,7 @@ NavMeshProjectSettings:
     agentTypeID: 0
     agentRadius: 0.4
     agentHeight: 2
-    agentSlope: 55
+    agentSlope: 35
     agentClimb: 0.51
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0

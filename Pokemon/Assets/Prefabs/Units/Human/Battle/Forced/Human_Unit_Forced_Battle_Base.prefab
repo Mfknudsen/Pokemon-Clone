@@ -62,6 +62,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
+    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
@@ -210,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5040c5c2743d2fa47967e032e25437b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemListVariable: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
+  itemListGenericVariable: {fileID: 11400000, guid: f851a953844f0174b81017fa4b772536, type: 2}
   iconOffset: 2
   triggerOffset: 1
   onTrigger:
@@ -272,13 +273,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
-  idleChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
   visualsObject: {fileID: 0}
   agent: {fileID: 8314289326036260558}
   sightCone: {fileID: 0}
   behaviourTreeOwner: {fileID: 8314289326036260552}
   unitState: 0
   chatManager: {fileID: 11400000, guid: dfc0197b64d9b92c39ab8988bce9de0b, type: 2}
+  idleChat: {fileID: 11400000, guid: 7063433834bfcd4468ca5338c86471c6, type: 2}
   battleStarter: {fileID: 6223137995715685353}
   beforeEffects: []
   afterEffects: []
@@ -296,6 +297,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad4fdea64aa7184f88723852515ce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onBattleEnd:
+    m_PersistentCalls:
+      m_Calls: []
   battleSystem: {fileID: 7156709088239351833, guid: 0e4cdc54372af944994b9626bf675352, type: 3}
   battleInitializer: {fileID: 5737610673325619050, guid: b0916fcccc3c7384095222c62d268409, type: 3}
   unitManager: {fileID: 11400000, guid: 0b92dbb5304c2d4bdabd65de44a42317, type: 2}
@@ -517,6 +521,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8314289326782429166}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: bcef7e39736fe604286aa2148ca9d052, type: 3}
@@ -572,6 +577,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 5000da5edb532c644b89780ea5769975, type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcef7e39736fe604286aa2148ca9d052, type: 3}
 --- !u!4 &8424250740196366605 stripped
 Transform:

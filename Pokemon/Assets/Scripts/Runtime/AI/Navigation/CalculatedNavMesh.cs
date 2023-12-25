@@ -29,11 +29,11 @@ namespace Runtime.AI.Navigation
         /// <summary>
         /// Index of vertex returns all NavTriangles containing the vertex id.
         /// </summary>
-        [SerializeField] private List<List<int>> triangleByVertexID;
+        [SerializeReference] private List<List<int>> triangleByVertexID;
 
         private NavigationPoint[] navigationPoints;
 
-        private readonly float groupDivision = 10f;
+        private const float GROUP_DIVISION = 10f;
         [SerializeField, HideInInspector] private int minFloorX, minFloorY, maxFloorX, maxFloorY;
 
         #endregion
@@ -48,6 +48,16 @@ namespace Runtime.AI.Navigation
 
         public List<int> GetTrianglesByVertexID(int id) =>
             this.triangleByVertexID[id];
+
+        public int GetMinX() => this.minFloorX;
+
+        public int GetMinY() => this.minFloorY;
+
+        public int GetMaxX() => this.maxFloorX;
+
+        public int GetMaxY() => this.maxFloorY;
+
+        public float GetGroupDivisionSize() => GROUP_DIVISION;
 
         #endregion
 
@@ -81,12 +91,12 @@ namespace Runtime.AI.Navigation
             navTriangles.ForEach(t =>
             {
                 int a = t.Vertices[0], b = t.Vertices[1], c = t.Vertices[2];
-                Vector2Int A = new Vector2Int(Mathf.FloorToInt(this.vertices2D[a].x / this.groupDivision),
-                        Mathf.FloorToInt(this.vertices2D[a].y / this.groupDivision)),
-                    B = new Vector2Int(Mathf.FloorToInt(this.vertices2D[b].x / this.groupDivision),
-                        Mathf.FloorToInt(this.vertices2D[b].y / this.groupDivision)),
-                    C = new Vector2Int(Mathf.FloorToInt(this.vertices2D[c].x / this.groupDivision),
-                        Mathf.FloorToInt(this.vertices2D[c].y / this.groupDivision));
+                Vector2Int A = new Vector2Int(Mathf.FloorToInt(this.vertices2D[a].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[a].y / GROUP_DIVISION)),
+                    B = new Vector2Int(Mathf.FloorToInt(this.vertices2D[b].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[b].y / GROUP_DIVISION)),
+                    C = new Vector2Int(Mathf.FloorToInt(this.vertices2D[c].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[c].y / GROUP_DIVISION));
 
                 this.minFloorX = Mathf.Min(this.minFloorX, Mathf.Min(Mathf.Min(A.x, B.x), C.x));
                 this.minFloorY = Mathf.Min(this.minFloorY, Mathf.Min(Mathf.Min(A.y, B.y), C.y));

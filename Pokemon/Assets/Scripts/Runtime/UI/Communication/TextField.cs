@@ -13,8 +13,6 @@ namespace Runtime.UI.Communication
     {
         #region Values
 
-        public static TextField instance;
-
         [SerializeField, Required] private ChatManager chatManager;
 
         [SerializeField, Required] private ResponseField responseField;
@@ -46,16 +44,8 @@ namespace Runtime.UI.Communication
 
         public void MakeCurrent()
         {
-            if (instance != null)
-            {
-                this.text.text = instance.GetText.text;
-                instance.Hide();
-            }
-
-            if (this.chatManager.GetShow())
-                this.Show();
-
-            instance = this;
+            this.chatManager.SetTextfield(this);
+            this.gameObject.SetActive(false);
         }
 
         public void Hide()

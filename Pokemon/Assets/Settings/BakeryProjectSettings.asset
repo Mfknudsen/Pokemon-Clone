@@ -17,8 +17,8 @@ MonoBehaviour:
   texelPaddingForDefaultAtlasPacker: 3
   texelPaddingForXatlasAtlasPacker: 1
   alphaMetaPassResolutionMultiplier: 2
-  volumeRenderMode: 1000
-  deletePreviousLightmapsBeforeBake: 0
+  volumeRenderMode: 0
+  deletePreviousLightmapsBeforeBake: 1
   logLevel: 3
   alternativeScaleInLightmap: 0
   generateSmoothPos: 1

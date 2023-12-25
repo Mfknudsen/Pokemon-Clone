@@ -36,20 +36,20 @@ namespace Runtime.World.Overworld
 
         [SerializeField, FoldoutGroup("Navigation")]
         private CalculatedNavMesh calculatedNavMesh;
-        
-        [SerializeField, FoldoutGroup("Hierarchy", 1)]
+
+        [SerializeField, FoldoutGroup("Hierarchy", 1), Required]
         private TileEnvironment tileEnvironment;
 
-        [SerializeField, FoldoutGroup("Hierarchy")]
+        [SerializeField, FoldoutGroup("Hierarchy"), Required]
         private TileSpawners tileSpawners;
 
-        [SerializeField, FoldoutGroup("Hierarchy")]
+        [SerializeField, FoldoutGroup("Hierarchy"), Required]
         private TileAI tileAI;
 
-        [SerializeField, FoldoutGroup("Hierarchy")]
+        [SerializeField, FoldoutGroup("Hierarchy"), Required]
         private TileConnectionPoints tileConnectionPoints;
 
-        [SerializeField, FoldoutGroup("Hierarchy")]
+        [SerializeField, FoldoutGroup("Hierarchy"), Required]
         private TileLighting tileLighting;
 
         [SerializeField, FoldoutGroup("Optimize", -1)]

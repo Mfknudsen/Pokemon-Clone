@@ -1,5 +1,6 @@
 #region Libraries
 
+using System;
 using System.Collections.Generic;
 using Runtime.AI.Navigation.PathActions;
 using Runtime.Algorithms.PathFinding;
@@ -10,13 +11,14 @@ using UnityEngine;
 
 namespace Runtime.AI.Navigation
 {
-    [System.Serializable]
+    [Serializable]
     public struct UnitPath
     {
         #region Values
 
         [ShowInInspector] private int actionIndex;
         [ShowInInspector] private readonly List<PathAction> actions;
+        [ShowInInspector] private readonly List<int> triangleIDs;
 
         [ShowInInspector] private readonly Vector3 endPoint;
 
@@ -31,6 +33,7 @@ namespace Runtime.AI.Navigation
             this.actionIndex = 0;
             this.endPoint = endPoint;
             this.actions = new List<PathAction>();
+            this.triangleIDs = new List<int>();
 
             foreach (Vector3 point in Funnel.GetPath(startPoint, endPoint, pathTriangleIDs, triangles, verts, agent))
                 this.actions.Add(new WalkAction(point));
@@ -43,6 +46,8 @@ namespace Runtime.AI.Navigation
         public readonly Vector3 Destination() => this.endPoint;
 
         public readonly int ActionIndex() => this.actionIndex;
+
+        public PathAction GetCurrentPathAction() => this.actions[this.actionIndex];
 
         #endregion
 
@@ -68,9 +73,9 @@ namespace Runtime.AI.Navigation
         }
 #endif
 
-        public void Tick(UnitAgent agent)
+        public void CheckIndex(UnitAgent agent)
         {
-            if (this.actions[this.actionIndex].PerformAction(agent))
+            if (this.actions[this.actionIndex].CheckAction(agent))
                 this.actionIndex++;
         }
 

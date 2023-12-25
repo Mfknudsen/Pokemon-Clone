@@ -50,6 +50,6 @@ Interpolators ShadowPassVertex(const Attributes input)
 float4 ShadowPassFragment(Interpolators input) : SV_TARGET
 {
     clip(tex2D(_TerrainHolesTexture, input.uv).r - .1);
-    return 0;
+    return 1;
 }
 #endif

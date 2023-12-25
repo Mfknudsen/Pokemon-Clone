@@ -1,9 +1,9 @@
-﻿#region Packages
+﻿#region Libraries
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Runtime.Player;
+using Runtime.UI.Communication;
+using Runtime.UI.TextEffects;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -24,8 +24,9 @@ namespace Runtime.Communication
 
         [SerializeField] protected string location;
         [SerializeField, TextArea] protected string description;
-        [SerializeField, TextArea] protected string[] textList;
-        [SerializeField] protected float[] timeToNext;
+        [SerializeField, TextArea] protected List<string> textList;
+        [SerializeField] protected List<float> timeToNext;
+        [SerializeField] protected List<float> textBetweenTimes;
 
         [SerializeField] protected bool hideAfter;
 
@@ -40,9 +41,10 @@ namespace Runtime.Communication
         [Header("Text Animation:")] [SerializeField]
         protected string showText;
 
-        [SerializeField] protected int index;
-        [SerializeField] protected bool active, waiting, done;
-        [SerializeField] protected int nextCharacter;
+        private int index;
+        private bool active;
+        protected bool waiting, done;
+        protected int nextCharacter;
 
         #endregion
 
@@ -50,23 +52,23 @@ namespace Runtime.Communication
 
         private void OnValidate()
         {
-            this.textList ??= Array.Empty<string>();
-            this.timeToNext ??= Array.Empty<float>();
+            this.textList ??= new List<string>();
+            this.timeToNext ??= new List<float>();
 
-            if (this.textList.Length > this.timeToNext.Length)
+            if (this.textList.Count > this.timeToNext.Count)
             {
-                float[] arr = new float[this.textList.Length];
+                List<float> arr = new List<float>(this.textList.Count);
 
-                for (int i = 0; i < this.timeToNext.Length; i++)
+                for (int i = 0; i < this.timeToNext.Count; i++)
                     arr[i] = this.timeToNext[i];
 
                 this.timeToNext = arr;
             }
-            else if (this.textList.Length < this.timeToNext.Length)
+            else if (this.textList.Count < this.timeToNext.Count)
             {
-                float[] arr = new float[this.textList.Length];
+                List<float> arr = new List<float>(this.textList.Count);
 
-                for (int i = 0; i < this.textList.Length; i++)
+                for (int i = 0; i < this.textList.Count; i++)
                     arr[i] = this.timeToNext[i];
 
                 this.timeToNext = arr;
@@ -96,7 +98,7 @@ namespace Runtime.Communication
             this.needInput;
 
         public int GetListCount =>
-            this.textList.Length;
+            this.textList.Count;
 
         public string GetTextByIndex(int i) =>
             this.textList[i];
@@ -104,7 +106,7 @@ namespace Runtime.Communication
         public float GetTimeToNextByIndex(int i) =>
             this.timeToNext[i];
 
-        public bool GetHideAfter() => 
+        public bool GetHideAfter() =>
             this.hideAfter;
 
         #endregion
@@ -127,11 +129,11 @@ namespace Runtime.Communication
 #if UNITY_EDITOR
         public void CreateNew()
         {
-            int i = this.textList.Length + 1;
-            string[] sArr = new string[i];
-            float[] fArr = new float[i];
+            int length = this.textList.Count + 1;
+            List<string> sArr = new List<string>(length);
+            List<float> fArr = new List<float>(length);
 
-            for (int j = 0; j < this.textList.Length; j++)
+            for (int j = 0; j < this.textList.Count; j++)
             {
                 sArr[j] = this.textList[j];
                 fArr[j] = this.timeToNext[j];
@@ -143,13 +145,13 @@ namespace Runtime.Communication
 
         public void DeleteByIndex(int i)
         {
-            int length = this.textList.Length - 1;
-            string[] sArr = new string[length];
-            float[] fArr = new float[length];
+            int length = this.textList.Count - 1;
+            List<string> sArr = new List<string>(length);
+            List<float> fArr = new List<float>(length);
 
             int offset = 0;
 
-            for (int j = 0; j < this.textList.Length; j++)
+            for (int j = 0; j < this.textList.Count; j++)
             {
                 if (j == i)
                 {
@@ -176,59 +178,19 @@ namespace Runtime.Communication
 
         #region Out
 
-        public IEnumerator Play()
+        public TextEffectBase Play(TextField textField)
         {
             this.Setup();
-
-            while (!this.done && !this.waiting && this.index < this.textList.Length)
-            {
-                string tempText = "", fromList = this.textList[this.index];
-                float relativeSpeed = this.chatManager.GetTextSpeed();
-
-                if (this.nextCharacter + 1 < fromList.Length)
-                    tempText = "" + fromList[this.nextCharacter] + fromList[this.nextCharacter + 1];
-
-                if (tempText == "\n")
-                {
-                    this.showText += "\n";
-                    this.nextCharacter += 2;
-                    relativeSpeed *= 1.5f;
-                }
-                else if (this.nextCharacter < fromList.Length)
-                {
-                    this.showText += fromList[this.nextCharacter];
-                    this.nextCharacter++;
-                }
-
-                if (this.showText.Length != 0)
-                    this.chatManager.SetDisplayText(this.showText);
-
-                if (this.showText.Length == fromList.Length)
-                {
-                    yield return new WaitForSeconds(this.timeToNext[this.index]);
-
-                    if (this.index < this.textList.Length - 1)
-                        this.waiting = true;
-                    else
-                        this.OnFinalDone();
-
-                    this.chatManager.CheckRunningState();
-                }
-
-                yield return new WaitForSeconds(relativeSpeed);
-            }
-
-            while (this.waiting)
-                yield return null;
+            return textField.GetText.ShowOverTime(this.textBetweenTimes[this.index], () => this.waiting = true);
         }
 
-        public IEnumerator PlayNext()
+        public TextEffectBase PlayNext(TextField textField)
         {
             this.IncreaseIndex();
 
             this.done = false;
 
-            return this.Play();
+            return this.Play(textField);
         }
 
         #endregion
@@ -251,16 +213,14 @@ namespace Runtime.Communication
         private void IncreaseIndex()
         {
             this.index++;
-            this.showText = "";
-            this.nextCharacter = 0;
             this.waiting = false;
         }
 
         private void CheckTextOverride()
         {
-            this.AddPronounsToOverride();
+            this.AddPlayerInfoToOverride();
 
-            for (int i = 0; i < this.textList.Length; i++)
+            for (int i = 0; i < this.textList.Count; i++)
             {
                 for (int j = 0; j < this.replaceString.Count; j++)
                 {
@@ -270,10 +230,11 @@ namespace Runtime.Communication
             }
         }
 
-        private void AddPronounsToOverride()
+        private void AddPlayerInfoToOverride()
         {
             string[] pronouns = this.playerManager.GetPronouns();
 
+            this.AddToOverride("P_NAME", this.playerManager.name);
             this.AddToOverride("P_ONE", pronouns[0]);
             this.AddToOverride("P_TWO", pronouns[1]);
         }
