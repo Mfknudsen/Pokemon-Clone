@@ -13,6 +13,9 @@ namespace Runtime.World
 {
     #region Enums
 
+    /// <summary>
+    /// Total of 5 different times of day. 0 - 4
+    /// </summary>
     public enum DayTime
     {
         Midnight,
@@ -74,6 +77,13 @@ namespace Runtime.World
             };
         }
 
+        public static DayTime NumberToDayTime(float time) =>
+            time < 6 ? DayTime.Midnight :
+            time < 12 ? DayTime.Morning :
+            time < 16 ? DayTime.Evening :
+            time < 20 ? DayTime.Afternoon :
+            DayTime.Night;
+
         #endregion
 
         #region Internal
@@ -131,6 +141,49 @@ namespace Runtime.World
 
             if (_currentTime > 24f)
                 _currentTime -= 24f;
+
+            UpdateLightmap();
+        }
+
+        private static void UpdateLightmap()
+        {
+            DayTime currentDayTime = NumberToDayTime(_currentTime),
+                nextDayTime = currentDayTime + 1 <= DayTime.Night ? currentDayTime + 1 : DayTime.Midnight;
+            LightmapData[] current = GetLightMapData(currentDayTime),
+                next = GetLightMapData(nextDayTime);
+
+            List<LightmapData> result = new List<LightmapData>();
+
+            int timeCurrent = DayTimeToNumber(currentDayTime), timeNext = DayTimeToNumber(nextDayTime);
+            float t = (timeNext - timeCurrent) / 100 * _currentTime - timeCurrent;
+
+            for (int i = 0; i < current.Length; i++)
+            {
+                LightmapData data = new LightmapData();
+
+                data.lightmapColor = new Texture2D(current[i].lightmapColor.width, current[i].lightmapColor.height);
+
+                for (int x = 0; x < current[i].lightmapColor.width; x++)
+                {
+                    for (int y = 0; y < current[i].lightmapColor.height; y++)
+                    {
+                        data.lightmapColor.SetPixel(x, y, Color.Lerp(
+                            current[i].lightmapColor.GetPixel(x, y),
+                            next[i].lightmapColor.GetPixel(x, y),
+                            t
+                        ));
+                    }
+                }
+
+                result.Add(data);
+            }
+
+            LightmapSettings.lightmaps = result.ToArray();
+        }
+
+        private static LightmapData[] GetLightMapData(DayTime time)
+        {
+            return new LightmapData[0];
         }
 
         #endregion

@@ -294,11 +294,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &5854706 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 5854702}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &21016016
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,129 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f3da5b6c6e11354bbc8137565f3ef6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &28418355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA37
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 6
-  sortingID: 37
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &35085150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA1
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 32
-  sortingID: 1
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &43170981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA38
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 7
-  sortingID: 38
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!43 &47935983
 Mesh:
   m_ObjectHideFlags: 0
@@ -1008,7 +880,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73156862}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &79275047
+--- !u!114 &73382698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1018,12 +890,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA52
+  m_Name: Shayklind_LMA26
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 21
-  sortingID: 52
+  id: 7
+  sortingID: 26
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -1251,11 +1123,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 16f215b55eebb1b43918cc5aef5c78fa, type: 3}
---- !u!23 &87729004 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: 16f215b55eebb1b43918cc5aef5c78fa, type: 3}
-  m_PrefabInstance: {fileID: 87729000}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &92643162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1376,12 +1243,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &92643166 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 92643162}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &100625875
+--- !u!114 &105368143
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1391,12 +1253,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA20
+  m_Name: Shayklind_LMA22
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 51
-  sortingID: 20
+  id: 3
+  sortingID: 22
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -1538,47 +1400,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 105999069}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &125033405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA54
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 23
-  sortingID: 54
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &128883254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1699,11 +1520,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &128883258 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 128883254}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &151515851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1802,7 +1618,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8981977557393958284, guid: 901dffa0e9bb2dd4e84a727aa166c1ff, type: 3}
   m_PrefabInstance: {fileID: 151515851}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &176788144
+--- !u!114 &235489263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1812,12 +1628,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA58
+  m_Name: Shayklind_LMA31
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 27
-  sortingID: 58
+  id: 12
+  sortingID: 31
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -1843,7 +1659,7 @@ MonoBehaviour:
   fixPos3D: 0
   voxelSize: {x: 1, y: 1, z: 1}
   passedFilter: 0
---- !u!114 &184651215
+--- !u!114 &268944595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1853,340 +1669,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA59
+  m_Name: Shayklind_LMA9
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 29
-  sortingID: 59
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &195894995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA10
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 41
-  sortingID: 10
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &198599747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA6
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 37
-  sortingID: 6
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &200318780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA8
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 39
-  sortingID: 8
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &201592908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LM0
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 184941.25
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &213839854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA13
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 44
-  sortingID: 13
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &239031233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA41
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 10
-  sortingID: 41
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &247664994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA19
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 50
-  sortingID: 19
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &247970872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA51
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 20
-  sortingID: 51
+  id: 28
+  sortingID: 9
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -2377,7 +1865,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &294017769
+--- !u!114 &280323040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2387,12 +1875,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA3
+  m_Name: Shayklind_LMA6
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 34
-  sortingID: 3
+  id: 25
+  sortingID: 6
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &302114664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA33
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 14
+  sortingID: 33
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -2650,7 +2179,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 308042524}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &329550280
+--- !u!114 &309828707
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2660,12 +2189,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA28
+  m_Name: Shayklind_LMA16
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 31
-  sortingID: 28
+  id: 19
+  sortingID: 16
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -2691,7 +2220,7 @@ MonoBehaviour:
   fixPos3D: 0
   voxelSize: {x: 1, y: 1, z: 1}
   passedFilter: 0
---- !u!114 &337649391
+--- !u!114 &356670755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2701,12 +2230,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA50
+  m_Name: Shayklind_LMA7
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 19
-  sortingID: 50
+  id: 26
+  sortingID: 7
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -2837,88 +2366,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367808796}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &368980630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA14
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 45
-  sortingID: 14
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &386457480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA17
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 48
-  sortingID: 17
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!850595691 &395296526
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -2983,6 +2430,88 @@ LightingSettings:
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!114 &397097141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA17
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 35
+  sortingID: 17
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &406255667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA24
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 5
+  sortingID: 24
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &435755525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3462,12 +2991,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &456330748 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 456330744}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &459016638
+--- !u!114 &463550362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3477,12 +3001,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA33
+  m_Name: Shayklind_LMA14
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 2
-  sortingID: 33
+  id: 33
+  sortingID: 14
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &470203922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA8
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 27
+  sortingID: 8
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -3754,7 +3319,7 @@ Transform:
   m_Father: {fileID: 776966389}
   m_RootOrder: 50
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &505362706
+--- !u!114 &511473644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3764,12 +3329,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA60
+  m_Name: Shayklind_LMA21
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 60
-  sortingID: 60
+  id: 2
+  sortingID: 21
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -4319,129 +3884,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 551952343}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &562966826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA42
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 11
-  sortingID: 42
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &572868209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA2
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 33
-  sortingID: 2
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &586236336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA12
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 43
-  sortingID: 12
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &592427110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4558,88 +4000,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 592427110}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &601549939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA45
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 14
-  sortingID: 45
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &606167287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA36
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 5
-  sortingID: 36
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &625150318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4785,18 +4145,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7fa80e7116296f4eb4f49ec1544ee22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderSettingsBounces: 4
-  renderSettingsGISamples: 64
+  renderSettingsBounces: 2
+  renderSettingsGISamples: 16
   renderSettingsGIBackFaceWeight: 0
-  renderSettingsTileSize: 1024
-  renderSettingsPriority: 3
+  renderSettingsTileSize: 512
+  renderSettingsPriority: 2.0076923
   renderSettingsTexelsPerUnit: 20
   renderSettingsForceRefresh: 1
   renderSettingsForceRebuildGeometry: 1
   renderSettingsPerformRendering: 1
   renderSettingsUserRenderMode: 0
   renderSettingsDistanceShadowmask: 1
-  renderSettingsSettingsMode: 0
+  renderSettingsSettingsMode: 1
   renderSettingsFixSeams: 1
   renderSettingsDenoise: 1
   renderSettingsDenoise2x: 0
@@ -4806,9 +4166,9 @@ MonoBehaviour:
   renderSettingsAutoAtlas: 1
   renderSettingsUnwrapUVs: 1
   renderSettingsForceDisableUnwrapUVs: 0
-  renderSettingsMaxAutoResolution: 1024
+  renderSettingsMaxAutoResolution: 512
   renderSettingsMinAutoResolution: 16
-  renderSettingsUnloadScenes: 1
+  renderSettingsUnloadScenes: 0
   renderSettingsAdjustSamples: 1
   renderSettingsGILODMode: 2
   renderSettingsGILODModeEnabled: 0
@@ -4817,7 +4177,7 @@ MonoBehaviour:
   renderSettingsHackEmissiveBoost: 1
   renderSettingsHackIndirectBoost: 1
   renderSettingsTempPath: 
-  renderSettingsOutPath: BakeryLightmaps
+  renderSettingsOutPath: Assets/Scenes/Towns/Shayklind/Shayklind/Lighting/Morning
   renderSettingsUseScenePath: 0
   renderSettingsHackAOIntensity: 0
   renderSettingsHackAOSamples: 16
@@ -4841,7 +4201,7 @@ MonoBehaviour:
   renderSettingsUVPaddingMax: 0
   renderSettingsPostPacking: 1
   renderSettingsHoleFilling: 0
-  renderSettingsBeepOnFinish: 0
+  renderSettingsBeepOnFinish: 1
   renderSettingsExportTerrainAsHeightmap: 1
   renderSettingsRTXMode: 0
   renderSettingsLightProbeMode: 1
@@ -4860,7 +4220,7 @@ MonoBehaviour:
   renderSettingsRTPVSceneView: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 5911
+  lastBakeTime: 1020
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   lightUIDs: a485b85c
@@ -4896,96 +4256,64 @@ MonoBehaviour:
     cookie: {fileID: 0}
     angle: 30
   implicitGroups:
-  - {fileID: 1642529870}
-  - {fileID: 200318780}
-  - {fileID: 100625875}
-  - {fileID: 839421377}
-  - {fileID: 2139275243}
-  - {fileID: 1767697315}
-  - {fileID: 733187701}
-  - {fileID: 2048326176}
-  - {fileID: 247664994}
-  - {fileID: 1929786749}
-  - {fileID: 386457480}
-  - {fileID: 239031233}
-  - {fileID: 2048326176}
-  - {fileID: 652966509}
-  - {fileID: 368980630}
-  - {fileID: 125033405}
-  - {fileID: 586236336}
-  - {fileID: 247970872}
-  - {fileID: 1634627123}
-  - {fileID: 1726511610}
-  - {fileID: 1915475510}
-  - {fileID: 1887697070}
-  - {fileID: 743799454}
-  - {fileID: 337649391}
-  - {fileID: 100625875}
-  - {fileID: 1392118290}
-  - {fileID: 1705452967}
-  - {fileID: 35085150}
-  - {fileID: 176788144}
-  - {fileID: 329550280}
-  - {fileID: 505362706}
-  - {fileID: 572868209}
-  - {fileID: 1956492593}
-  - {fileID: 2115925260}
-  - {fileID: 2048326176}
-  - {fileID: 247664994}
-  - {fileID: 100625875}
-  - {fileID: 1575763274}
-  - {fileID: 1391494096}
-  - {fileID: 100625875}
-  - {fileID: 1782322856}
-  - {fileID: 294017769}
-  - {fileID: 247664994}
-  - {fileID: 1391494096}
-  - {fileID: 1793896435}
-  - {fileID: 198599747}
-  - {fileID: 213839854}
-  - {fileID: 459016638}
-  - {fileID: 1871829323}
-  - {fileID: 184651215}
-  - {fileID: 247664994}
-  - {fileID: 247664994}
-  - {fileID: 825546811}
-  - {fileID: 601549939}
-  - {fileID: 876218821}
-  - {fileID: 1131363358}
-  - {fileID: 2048326176}
-  - {fileID: 247664994}
-  - {fileID: 1339794671}
-  - {fileID: 43170981}
-  - {fileID: 247664994}
-  - {fileID: 765151033}
-  - {fileID: 28418355}
-  - {fileID: 1214299268}
-  - {fileID: 606167287}
-  - {fileID: 201592908}
-  - {fileID: 79275047}
-  - {fileID: 1736533378}
-  - {fileID: 100625875}
-  - {fileID: 1915442391}
-  - {fileID: 1534753261}
-  - {fileID: 195894995}
-  - {fileID: 2048326176}
-  - {fileID: 247664994}
-  - {fileID: 1228640384}
-  - {fileID: 1841862171}
-  - {fileID: 562966826}
+  - {fileID: 672349745}
+  - {fileID: 901035336}
+  - {fileID: 2064925711}
+  - {fileID: 1436230451}
+  - {fileID: 302114664}
+  - {fileID: 397097141}
+  - {fileID: 268944595}
+  - {fileID: 1803914000}
+  - {fileID: 1815949898}
+  - {fileID: 356670755}
+  - {fileID: 1353022344}
+  - {fileID: 711306054}
+  - {fileID: 73382698}
+  - {fileID: 2107053729}
+  - {fileID: 1443207165}
+  - {fileID: 309828707}
+  - {fileID: 1000882986}
+  - {fileID: 1236026030}
+  - {fileID: 235489263}
+  - {fileID: 302114664}
+  - {fileID: 470203922}
+  - {fileID: 1916798671}
+  - {fileID: 302114664}
+  - {fileID: 901035336}
+  - {fileID: 1230100070}
+  - {fileID: 463550362}
+  - {fileID: 901035336}
+  - {fileID: 672712203}
+  - {fileID: 1436230451}
+  - {fileID: 280323040}
+  - {fileID: 1444970568}
+  - {fileID: 2071531132}
+  - {fileID: 1436230451}
+  - {fileID: 1436230451}
+  - {fileID: 105368143}
+  - {fileID: 1787140806}
+  - {fileID: 1916798671}
+  - {fileID: 302114664}
+  - {fileID: 1172112686}
+  - {fileID: 302114664}
+  - {fileID: 511473644}
+  - {fileID: 1429680954}
+  - {fileID: 406255667}
+  - {fileID: 1916798671}
+  - {fileID: 1848032134}
+  - {fileID: 1727377070}
+  - {fileID: 1916798671}
+  - {fileID: 302114664}
+  - {fileID: 791436299}
+  - {fileID: 1365565529}
   implicitGroupedObjects:
-  - {fileID: 5854704}
   - {fileID: 65357632}
   - {fileID: 73156862}
-  - {fileID: 87729002}
-  - {fileID: 92643164}
   - {fileID: 105999071}
-  - {fileID: 128883256}
   - {fileID: 151515853}
   - {fileID: 151515854}
   - {fileID: 306490697}
   - {fileID: 308042526}
-  - {fileID: 456330746}
   - {fileID: 515605600}
   - {fileID: 518134177}
   - {fileID: 551952345}
@@ -4994,20 +4322,12 @@ MonoBehaviour:
   - {fileID: 657028382}
   - {fileID: 672063903}
   - {fileID: 726270176}
-  - {fileID: 787551025}
-  - {fileID: 815810730}
   - {fileID: 831352803}
   - {fileID: 873972911}
-  - {fileID: 876956254}
   - {fileID: 899203087}
-  - {fileID: 900899647}
-  - {fileID: 921036634}
   - {fileID: 993388168}
-  - {fileID: 1008323412}
   - {fileID: 1012465776}
-  - {fileID: 1031608597}
   - {fileID: 1054415085}
-  - {fileID: 1092984484}
   - {fileID: 1094717525}
   - {fileID: 1094717526}
   - {fileID: 1143074208}
@@ -5015,121 +4335,69 @@ MonoBehaviour:
   - {fileID: 1156910642}
   - {fileID: 1183300868}
   - {fileID: 1223436939}
-  - {fileID: 1252194151}
-  - {fileID: 1263012734}
   - {fileID: 1287058471}
-  - {fileID: 1305916210}
-  - {fileID: 1317262782}
   - {fileID: 1360382827}
-  - {fileID: 1361351423}
   - {fileID: 1383792850}
   - {fileID: 1384394406}
   - {fileID: 1405888143}
   - {fileID: 1405888144}
   - {fileID: 1430535373}
   - {fileID: 1492835133}
-  - {fileID: 1526209233}
-  - {fileID: 1541047435}
   - {fileID: 1621600160}
   - {fileID: 1621600161}
   - {fileID: 1658686276}
-  - {fileID: 1668507003}
   - {fileID: 1675406683}
   - {fileID: 1791346371}
-  - {fileID: 1868666126}
   - {fileID: 1876362217}
-  - {fileID: 1927831022}
-  - {fileID: 1940791687}
   - {fileID: 1966757089}
-  - {fileID: 1980353272}
   - {fileID: 2002694102}
   - {fileID: 2042650657}
-  - {fileID: 2062804457}
   - {fileID: 2086009994}
   - {fileID: 2115204308}
   - {fileID: 2115204309}
-  - {fileID: 2131656473}
   - {fileID: 9162719735076307340}
   - {fileID: 9162719735076307341}
   bounds:
-  - m_Center: {x: 53.5, y: 12.55, z: 114.35}
-    m_Extent: {x: 30.54736, y: 13.143276, z: 18.122566}
-  - m_Center: {x: -87.829445, y: 3.33, z: 1.8694755}
-    m_Extent: {x: 6.5193806, y: 3.397146, z: 8.298438}
-  - m_Center: {x: -49.79988, y: 3.33, z: 46.889244}
-    m_Extent: {x: 8.414482, y: 3.397146, z: 7.4318314}
-  - m_Center: {x: -21.810118, y: 3.33, z: 58.849243}
-    m_Extent: {x: 8.082604, y: 3.397146, z: 5.8678126}
-  - m_Center: {x: -80.88953, y: 3.33, z: 15.439403}
-    m_Extent: {x: 7.203532, y: 3.397146, z: 8.414517}
-  - m_Center: {x: -7.1702, y: 3.33, z: 61.739265}
-    m_Extent: {x: 7.773678, y: 3.397146, z: 5.1657763}
-  - m_Center: {x: -71.58961, y: 3.33, z: 27.939344}
-    m_Extent: {x: 7.717764, y: 3.397146, z: 8.370693}
-  - m_Center: {x: -36.139996, y: 3.33, z: 53.30924}
-    m_Extent: {x: 8.352175, y: 3.397146, z: 6.7457027}
-  - m_Center: {x: -51.90001, y: 3.33, z: 77.63076}
-    m_Extent: {x: 8.358822, y: 3.397146, z: 6.7783375}
-  - m_Center: {x: -101.87055, y: 3.33, z: 23.600529}
-    m_Extent: {x: 6.5627403, y: 3.397146, z: 8.309713}
-  - m_Center: {x: -24.719799, y: 3.33, z: 86.06074}
-    m_Extent: {x: 7.77366, y: 3.397146, z: 5.165739}
-  - m_Center: {x: -15.031485, y: 3.4677258, z: -1.6521635}
-    m_Extent: {x: 7.614695, y: 4.5962267, z: 7.092948}
-  - m_Center: {x: -66.13988, y: 2.8804297, z: 73.91433}
-    m_Extent: {x: 6.436797, y: 4.0920296, z: 6.4567766}
-  - m_Center: {x: -25.222256, y: 2.8804297, z: 89.276306}
-    m_Extent: {x: 5.247773, y: 4.0920296, z: 5.3141456}
-  - m_Center: {x: -80.54305, y: 2.8804297, z: 60.9868}
-    m_Extent: {x: 6.5490103, y: 4.0920296, z: 6.5513463}
-  - m_Center: {x: -48.18754, y: 2.8804297, z: 44.05613}
-    m_Extent: {x: 6.3816853, y: 4.0920296, z: 6.4061413}
-  - m_Center: {x: -6.6791105, y: 2.8804297, z: 57.736694}
-    m_Extent: {x: 5.0836945, y: 4.0920296, z: 5.1536927}
+  - m_Center: {x: -41.24173, y: 7.58914, z: 146.40652}
+    m_Extent: {x: 29.97308, y: 5.18914, z: 13.976879}
   - m_Center: {x: -35.082104, y: 2.8804297, z: 50.349762}
     m_Extent: {x: 6.0188904, y: 4.0920296, z: 6.062311}
   - m_Center: {x: -77.238655, y: 2.8804297, z: 13.228353}
     m_Extent: {x: 6.3528223, y: 4.0920296, z: 6.324462}
+  - m_Center: {x: -6.6791105, y: 2.8804297, z: 57.736694}
+    m_Extent: {x: 5.0836945, y: 4.0920296, z: 5.1536927}
   - m_Center: {x: -83.82091, y: 2.8804297, z: 0.26533842}
-    m_Extent: {x: 5.969427, y: 4.0920296, z: 5.922331}
-  - m_Center: {x: -105.19191, y: 2.8804297, z: 24.89534}
     m_Extent: {x: 5.969427, y: 4.0920296, z: 5.922331}
   - m_Center: {x: -53.301968, y: 2.8804297, z: 80.7366}
     m_Extent: {x: 6.1192923, y: 4.0920296, z: 6.158467}
   - m_Center: {x: -20.811132, y: 2.8804297, z: 54.59831}
     m_Extent: {x: 5.603634, y: 4.0920296, z: 5.660922}
+  - m_Center: {x: -105.19191, y: 2.8804297, z: 24.89534}
+    m_Extent: {x: 5.969427, y: 4.0920296, z: 5.922331}
   - m_Center: {x: -98.60966, y: 2.8804297, z: 37.858353}
     m_Extent: {x: 6.3528223, y: 4.0920296, z: 6.324462}
-  - m_Center: {x: -89.85875, y: 2.8804297, z: 49.906063}
-    m_Extent: {x: 6.5132957, y: 4.0920296, z: 6.5001955}
   - m_Center: {x: -39.21478, y: 2.8804297, z: 85.56299}
     m_Extent: {x: 5.7372255, y: 4.0920296, z: 5.7905397}
+  - m_Center: {x: -89.85875, y: 2.8804297, z: 49.906063}
+    m_Extent: {x: 6.5132957, y: 4.0920296, z: 6.5001955}
   - m_Center: {x: -68.48775, y: 2.8804297, z: 25.276062}
     m_Extent: {x: 6.5132957, y: 4.0920296, z: 6.5001955}
   - m_Center: {x: -59.172054, y: 2.8804297, z: 36.356796}
     m_Extent: {x: 6.5490103, y: 4.0920296, z: 6.5513463}
-  - m_Center: {x: -64.47012, y: 3.33, z: 71.180756}
-    m_Extent: {x: 8.4129, y: 3.397146, z: 7.45597}
   - m_Center: {x: 78.12073, y: 7.821567, z: -103.92001}
     m_Extent: {x: 6.871093, y: 3.3315673, z: 5.5328856}
-  - m_Center: {x: -38.389927, y: 3.33, z: 82.67076}
-    m_Extent: {x: 8.211495, y: 3.397146, z: 6.2266045}
-  - m_Center: {x: -61.429714, y: 3.33, z: 38.88929}
-    m_Extent: {x: 8.14809, y: 3.397146, z: 8.12908}
-  - m_Center: {x: 53.5, y: 12.55, z: 102.37}
-    m_Extent: {x: 28.880928, y: 13.143276, z: 18.031948}
-  - m_Center: {x: 55.030003, y: 16.159994, z: 99.91}
-    m_Extent: {x: 23.744293, y: 16.366055, z: 14.713604}
-  - m_Center: {x: 78.62, y: 10.019997, z: 45.180004}
-    m_Extent: {x: 9.602696, y: 10.314442, z: 22.465502}
-  - m_Center: {x: 48.8, y: 7.9599967, z: -18.700005}
-    m_Extent: {x: 12.626648, y: 9.031911, z: 22.988712}
-  - m_Center: {x: 81.55, y: 7.7099967, z: 5.400004}
-    m_Extent: {x: 12.626755, y: 9.031911, z: 22.988722}
-  - m_Center: {x: 79.92, y: 7.8699965, z: -34.58}
-    m_Extent: {x: 21.573372, y: 9.031911, z: 19.233799}
-  - m_Center: {x: -41.24173, y: 7.58914, z: 146.40652}
-    m_Extent: {x: 29.97308, y: 5.18914, z: 13.976879}
+  - m_Center: {x: -25.299454, y: 8.703429, z: -18.541779}
+    m_Extent: {x: 91.97078, y: 9.981943, z: 82.5574}
+  - m_Center: {x: 59.939865, y: 10.857235, z: -33.1632}
+    m_Extent: {x: 32.81658, y: 7.729477, z: 74.026634}
+  - m_Center: {x: -48.18754, y: 2.8804297, z: 44.05613}
+    m_Extent: {x: 6.3816853, y: 4.0920296, z: 6.4061413}
+  - m_Center: {x: -65.09476, y: 3.9461226, z: -10.308731}
+    m_Extent: {x: 51.82303, y: 9.912141, z: 68.58707}
+  - m_Center: {x: -80.54305, y: 2.8804297, z: 60.9868}
+    m_Extent: {x: 6.5490103, y: 4.0920296, z: 6.5513463}
+  - m_Center: {x: -66.13988, y: 2.8804297, z: 73.91433}
+    m_Extent: {x: 6.436797, y: 4.0920296, z: 6.4567766}
   - m_Center: {x: 112.84, y: 0, z: 117.7}
     m_Extent: {x: 26.345999, y: 5.849987e-16, z: 26.345999}
   - m_Center: {x: -92.92383, y: 7.58914, z: 150.62881}
@@ -5146,35 +4414,25 @@ MonoBehaviour:
     m_Extent: {x: 24.502401, y: 5.18914, z: 9.834394}
   - m_Center: {x: -49.362343, y: 7.58914, z: 180.14333}
     m_Extent: {x: 24.54568, y: 5.18914, z: 11.191822}
-  - m_Center: {x: 0.14000227, y: 5.670001, z: 93.01}
-    m_Extent: {x: 15.293936, y: 6.4135957, z: 14.563669}
   - m_Center: {x: -0.557611, y: 5.5042977, z: 97.95809}
     m_Extent: {x: 14.192255, y: 5.995288, z: 13.81738}
-  - m_Center: {x: 12.610001, y: 4.8699994, z: -24.540003}
-    m_Extent: {x: 12.939253, y: 6.0190816, z: 14.239392}
-  - m_Center: {x: -25.299454, y: 8.809612, z: -18.541779}
-    m_Extent: {x: 91.97078, y: 9.875759, z: 82.5574}
-  - m_Center: {x: 9.562766, y: 1.8125134, z: -44.74964}
-    m_Extent: {x: 23.808472, y: 7.8334007, z: 50.7697}
-  - m_Center: {x: -11.141174, y: 7.2277694, z: -25.039955}
-    m_Extent: {x: 105.77661, y: 7.8613405, z: 83.31828}
+  - m_Center: {x: 87.640015, y: 9.799555, z: -99.74139}
+    m_Extent: {x: 6.995432, y: 5.2895546, z: 8.616849}
   - m_Center: {x: -10.74076, y: 3.4677258, z: -8.39902}
     m_Extent: {x: 8.12301, y: 4.5962267, z: 9.322007}
   - m_Center: {x: -0.8975377, y: 2.9715652, z: 14.074137}
     m_Extent: {x: 6.641588, y: 4.4375653, z: 7.365073}
-  - m_Center: {x: 42.741955, y: 8.560356, z: -31.13398}
-    m_Extent: {x: 50.014492, y: 10.026356, z: 76.055855}
   - m_Center: {x: -0.61420584, y: 3.2853012, z: 44.434055}
     m_Extent: {x: 7.931077, y: 4.7513013, z: 5.9790883}
-  - m_Center: {x: -78.34026, y: 3.33, z: 58.540714}
-    m_Extent: {x: 8.193438, y: 3.397146, z: 8.078022}
-  - m_Center: {x: -87.01039, y: 3.33, z: 47.690655}
-    m_Extent: {x: 7.7366743, y: 3.397146, z: 8.365532}
-  - m_Center: {x: -95.46044, y: 3.33, z: 36.030624}
-    m_Extent: {x: 7.4419174, y: 3.397146, z: 8.413862}
-  - m_Center: {x: -7.49, y: -0.6, z: -85.5}
-    m_Extent: {x: 8.611091, y: 0.6785139, z: 14.543706}
-  hasEmissive: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
+  - m_Center: {x: -1.2934521, y: 3.2853012, z: 36.990795}
+    m_Extent: {x: 5.979086, y: 4.7513013, z: 7.931076}
+  - m_Center: {x: -15.031485, y: 3.4677258, z: -1.6521635}
+    m_Extent: {x: 7.614695, y: 4.5962267, z: 7.092948}
+  - m_Center: {x: -25.222256, y: 2.8804297, z: 89.276306}
+    m_Extent: {x: 5.247773, y: 4.0920296, z: 5.3141456}
+  - m_Center: {x: -5.3359475, y: -0.6017475, z: -85.432205}
+    m_Extent: {x: 4.535608, y: 5.41914, z: 10.087143}
+  hasEmissive: 01010101010101010101010101010101010101010101010101010101010101010101010101
   uvBuffOffsets: 
   uvBuffLengths: 
   uvSrcBuff: []
@@ -5186,74 +4444,50 @@ MonoBehaviour:
   lmGroupMinLOD: 
   lmGroupLODMatrix: 
   serverGetFileList: []
-  lightmapHasColor: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
-  lightmapHasMask: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  lightmapHasDir: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  lightmapHasRNM: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasColor: 01010101010101010101010101010101010101010101010101010101010101010101010101
+  lightmapHasMask: 00000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasDir: 00000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasRNM: 00000000000000000000000000000000000000000000000000000000000000000000000000
   modifiedAssetPathList: []
   modifiedAssets: []
   maps:
-  - {fileID: 2800000, guid: 4a1686320e80cf24d8ea425bc9aec1c9, type: 3}
-  - {fileID: 2800000, guid: bd90db3c4c4c2c544a0689f19d858234, type: 3}
-  - {fileID: 2800000, guid: 3e0c6527a144eaa45a13c4f26cbeaf96, type: 3}
-  - {fileID: 2800000, guid: fa31cb73a39489648a34d65f70b93d6c, type: 3}
-  - {fileID: 2800000, guid: 650df2005eed46648b55e729ce0f8979, type: 3}
-  - {fileID: 2800000, guid: 5cac747208ce73f45a912afb218d029b, type: 3}
-  - {fileID: 2800000, guid: eb04716e03035334fb5cccc59000328c, type: 3}
-  - {fileID: 2800000, guid: e6253114ac8e08a47aa116e58847ce16, type: 3}
-  - {fileID: 2800000, guid: b59e779d1f4c0c44581b2b33b6a9a7ad, type: 3}
-  - {fileID: 2800000, guid: cc34b1b264a493d4db466dd9a7d8e5c7, type: 3}
-  - {fileID: 2800000, guid: e3b600cd5252afe4d97d98240e1d711a, type: 3}
-  - {fileID: 2800000, guid: 795b8411fc8024c44aa69f86c3865f0c, type: 3}
-  - {fileID: 2800000, guid: 380b163261f16f14ab11e076934ccea2, type: 3}
-  - {fileID: 2800000, guid: ffc754b4f5e76264e9ea4c52e0b490d9, type: 3}
-  - {fileID: 2800000, guid: a5a9d8870b560ff4da790e994521fd5f, type: 3}
-  - {fileID: 2800000, guid: cd821ca0c17af3949af58a4adee60b42, type: 3}
-  - {fileID: 2800000, guid: 3c42e32be88cfae45b8dfbdd3fc8e047, type: 3}
-  - {fileID: 2800000, guid: 0c7f7cd04ba29f045a53259963248216, type: 3}
-  - {fileID: 2800000, guid: bcda612a1d1250846840404bc6256b8b, type: 3}
-  - {fileID: 2800000, guid: e549871a8f0eeda4fac11a7531a84387, type: 3}
-  - {fileID: 2800000, guid: 9cc04319a0ae9634cbd6be08b9d72969, type: 3}
-  - {fileID: 2800000, guid: 50b72c88c7fcf1f4db3c46e75383ce0b, type: 3}
-  - {fileID: 2800000, guid: 0324ed03016942a46bf9a74c13bea35e, type: 3}
-  - {fileID: 2800000, guid: d613e6f4aea0db14d9ead8f5b566d40c, type: 3}
-  - {fileID: 2800000, guid: 6340a3904e0d8d94d9c383007156ee3a, type: 3}
-  - {fileID: 2800000, guid: 37abcc62c477b5442a75ee5bdc3dbc34, type: 3}
-  - {fileID: 2800000, guid: e24eb462a5c990b47bc32270a7217677, type: 3}
-  - {fileID: 2800000, guid: 3826fbcd05842794cb4b179bfc526fa3, type: 3}
-  - {fileID: 2800000, guid: 082add574634fcd4b80d0a32bc5d4fd4, type: 3}
-  - {fileID: 2800000, guid: 522c367c5c7a4d545905c6136f89f39f, type: 3}
-  - {fileID: 2800000, guid: ce0164ccc01a7bb44b0745e1769e4baf, type: 3}
-  - {fileID: 2800000, guid: d90ece681b8362c4291697ab6c0ec141, type: 3}
-  - {fileID: 2800000, guid: 32fd1ed2f84eec443bf6a8f28690d410, type: 3}
-  - {fileID: 2800000, guid: 3fb9ce9a269fec04cbc676624e83ba11, type: 3}
-  - {fileID: 2800000, guid: f91e375cc59213b468a42c9d71ee31b0, type: 3}
-  - {fileID: 2800000, guid: d3d5f8ac379d7504b8243a4676cc1d23, type: 3}
-  - {fileID: 2800000, guid: 8abd0237de08ed445b36570019fadba7, type: 3}
-  - {fileID: 2800000, guid: 7373553a3cdbf104389869410ddefcb0, type: 3}
-  - {fileID: 2800000, guid: 2042e3b07acfbe949aed5b57e89dc786, type: 3}
-  - {fileID: 2800000, guid: 0f3dd281f0ea02a4caef9ecce0081345, type: 3}
-  - {fileID: 2800000, guid: 5bc3694ead78aa64494c7d48f91a92e6, type: 3}
-  - {fileID: 2800000, guid: 32aa963c21958784490e75dc80fd49b8, type: 3}
-  - {fileID: 2800000, guid: dd231c315995af14f87e41edd9780547, type: 3}
-  - {fileID: 2800000, guid: 718cd6afda9897849b6eb5c6c0b3edab, type: 3}
-  - {fileID: 2800000, guid: 51e9f443d400c7f48a6d67950dfcce10, type: 3}
-  - {fileID: 2800000, guid: c8fa352d2cbf5074dbeed231a7b0932c, type: 3}
-  - {fileID: 2800000, guid: 2506e0d7ff046f24c84714c04ee41ceb, type: 3}
-  - {fileID: 2800000, guid: d6e49b2504b63304f81ddfc3774971de, type: 3}
-  - {fileID: 2800000, guid: a32432ccfd33dc6478015a5065929927, type: 3}
-  - {fileID: 2800000, guid: 10a8132397447ab47bd736405761bde3, type: 3}
-  - {fileID: 2800000, guid: f7d4cb3977ddaea46b8fa28b5cb16506, type: 3}
-  - {fileID: 2800000, guid: cd561f85c6cc68a4583e774091c68337, type: 3}
-  - {fileID: 2800000, guid: 511d59053d1c2224abf8a49e3891dfb7, type: 3}
-  - {fileID: 2800000, guid: 5a1d208cbf7b9d342b6c55f33c82e2bb, type: 3}
-  - {fileID: 2800000, guid: 10a1d2d357e754c40bdab15978a59938, type: 3}
-  - {fileID: 2800000, guid: b113d82a3d75e0f47a2f94a9d914c439, type: 3}
-  - {fileID: 2800000, guid: c6bbb1d9499dc0d4e9f1b2746d65ef77, type: 3}
-  - {fileID: 2800000, guid: d4b2c009f1868644d8e3c9cc188b4bb3, type: 3}
-  - {fileID: 2800000, guid: ad5f2d64af47f6d41b77a7c8ebd032e6, type: 3}
-  - {fileID: 2800000, guid: 71f0ceceaa897234b980f8a4ebbf2290, type: 3}
-  - {fileID: 2800000, guid: 3b27b5f69716f844486b3f1e49cff259, type: 3}
+  - {fileID: 2800000, guid: 4f20cb25d2e15ff498ff545ff6d53300, type: 3}
+  - {fileID: 2800000, guid: 957599d0acb28864aa75f015c2f41b75, type: 3}
+  - {fileID: 2800000, guid: e0b8e4a1768846742a4438442035dc81, type: 3}
+  - {fileID: 2800000, guid: bbd79bb52509ce04b91a2f20635167a5, type: 3}
+  - {fileID: 2800000, guid: 185fe16f4aaf76e4ab00353be577c114, type: 3}
+  - {fileID: 2800000, guid: f50d33ddd10ca9e4791199a5b1c5cd8a, type: 3}
+  - {fileID: 2800000, guid: 253ed317dc454494ba872704cf6b5454, type: 3}
+  - {fileID: 2800000, guid: 6007dbce1b10c434890fb0ed5caa406d, type: 3}
+  - {fileID: 2800000, guid: 90d852d7b71a3c247831f1a639f4411d, type: 3}
+  - {fileID: 2800000, guid: be1fa3f5b0ea46245858ee47323cb9b0, type: 3}
+  - {fileID: 2800000, guid: 3648883766cd82940912ec1ffdf030b9, type: 3}
+  - {fileID: 2800000, guid: b5663dce72847e24f9bc28b3d7e0116a, type: 3}
+  - {fileID: 2800000, guid: 0a9d37167336abd4994079806962ab19, type: 3}
+  - {fileID: 2800000, guid: f98e7a4a3421efa4fa1f4577c55e3194, type: 3}
+  - {fileID: 2800000, guid: 0d9624bce93b9cb44a89f69e39512314, type: 3}
+  - {fileID: 2800000, guid: 620259ead8faa6e408654423817d20aa, type: 3}
+  - {fileID: 2800000, guid: a392ce3cba9abd548a874e286e8fe648, type: 3}
+  - {fileID: 2800000, guid: 5ced66f211ff1a747af7dc9c5a3ccd06, type: 3}
+  - {fileID: 2800000, guid: 6c681cf4ba2a21c448b1b39ac5d5db02, type: 3}
+  - {fileID: 2800000, guid: 790b648ddbe14fc4b895e91e5d43fb1d, type: 3}
+  - {fileID: 2800000, guid: 7547e535704f8864b8bf5b6432ed2988, type: 3}
+  - {fileID: 2800000, guid: 680a0384c58c6d04fb725ffa1ddbb2d3, type: 3}
+  - {fileID: 2800000, guid: f9bb5cde04cad2045acfe7ba696f70c3, type: 3}
+  - {fileID: 2800000, guid: 30f2b238c16d72c4eb47c8dfe62cb128, type: 3}
+  - {fileID: 2800000, guid: f65bf4de216383b44ae931cffa815e0b, type: 3}
+  - {fileID: 2800000, guid: 48d309b9274a696439d33ffefe71c8fe, type: 3}
+  - {fileID: 2800000, guid: 1c9ca366a8e22624ab32f1632b42570d, type: 3}
+  - {fileID: 2800000, guid: cee022390dbf9974cbd0e7726cfb0958, type: 3}
+  - {fileID: 2800000, guid: aaecd32a4bcea884d80e439c3a78a28a, type: 3}
+  - {fileID: 2800000, guid: 09bce1c0fb35524488280faea839a305, type: 3}
+  - {fileID: 2800000, guid: b05faaa1ed72ad14ea539e51dec5351c, type: 3}
+  - {fileID: 2800000, guid: a2463bb561d1c0b4b8cb58396a9d9cb1, type: 3}
+  - {fileID: 2800000, guid: 78fe5d9380213a140ad0fde300b1628d, type: 3}
+  - {fileID: 2800000, guid: 24c39b4d9189dad48aa5bcbdce663c70, type: 3}
+  - {fileID: 2800000, guid: fdf839ab8a35a504f96298713c6209be, type: 3}
+  - {fileID: 2800000, guid: 7cfcf8fa4d1e4f947b6e2c6a9df3ff46, type: 3}
+  - {fileID: 2800000, guid: 1dd9ba6df3537c14eb9bd649fb0874bf, type: 3}
   masks: []
   dirMaps: []
   rnmMaps0: []
@@ -5261,18 +4495,13 @@ MonoBehaviour:
   rnmMaps2: []
   mapsMode: 
   bakedRenderers:
-  - {fileID: 5854706}
   - {fileID: 65357635}
   - {fileID: 73156865}
-  - {fileID: 87729004}
-  - {fileID: 92643166}
   - {fileID: 105999072}
-  - {fileID: 128883258}
   - {fileID: 151515856}
   - {fileID: 151515855}
   - {fileID: 306490698}
   - {fileID: 308042527}
-  - {fileID: 456330748}
   - {fileID: 515605601}
   - {fileID: 518134178}
   - {fileID: 551952346}
@@ -5281,20 +4510,12 @@ MonoBehaviour:
   - {fileID: 657028383}
   - {fileID: 672063904}
   - {fileID: 726270177}
-  - {fileID: 787551027}
-  - {fileID: 815810732}
   - {fileID: 831352804}
   - {fileID: 873972912}
-  - {fileID: 876956256}
   - {fileID: 899203088}
-  - {fileID: 900899649}
-  - {fileID: 921036636}
   - {fileID: 993388169}
-  - {fileID: 1008323414}
   - {fileID: 1012465779}
-  - {fileID: 1031608599}
   - {fileID: 1054415086}
-  - {fileID: 1092984486}
   - {fileID: 1094717528}
   - {fileID: 1094717527}
   - {fileID: 1143074211}
@@ -5302,150 +4523,82 @@ MonoBehaviour:
   - {fileID: 1156910643}
   - {fileID: 1183300871}
   - {fileID: 1223436940}
-  - {fileID: 1252194153}
-  - {fileID: 1263012736}
   - {fileID: 1287058475}
-  - {fileID: 1305916212}
-  - {fileID: 1317262784}
   - {fileID: 1360382828}
-  - {fileID: 1361351425}
   - {fileID: 1383792851}
   - {fileID: 1384394407}
   - {fileID: 1405888146}
   - {fileID: 1405888145}
   - {fileID: 1430535374}
   - {fileID: 1492835134}
-  - {fileID: 1526209235}
-  - {fileID: 1541047437}
   - {fileID: 1621600163}
   - {fileID: 1621600162}
   - {fileID: 1658686277}
-  - {fileID: 1668507005}
   - {fileID: 1675406684}
   - {fileID: 1791346372}
-  - {fileID: 1868666128}
   - {fileID: 1876362218}
-  - {fileID: 1927831024}
-  - {fileID: 1940791689}
   - {fileID: 1966757090}
-  - {fileID: 1980353274}
   - {fileID: 2002694105}
   - {fileID: 2042650658}
-  - {fileID: 2062804459}
   - {fileID: 2086009995}
   - {fileID: 2115204311}
   - {fileID: 2115204310}
-  - {fileID: 2131656475}
   - {fileID: 9162719735076307343}
   - {fileID: 9162719735076307342}
-  bakedIDs: 0300000027000000330000002f00000039000000190000000900000034000000320000000d000000300000000a00000034000000280000002d000000170000002b00000014000000180000002a00000031000000040000000c00000013000000330000001a0000003a000000200000001b0000001f0000003c000000210000002e000000010000003400000032000000330000003600000037000000330000000f00000022000000320000003700000024000000250000002c00000002000000260000001d0000003200000032000000100000000e0000001e0000002300000034000000320000001600000007000000320000001200000006000000110000000500000000000000150000001c0000003300000038000000080000002900000034000000320000003b000000350000000b000000
+  bakedIDs: 1400000024000000090000000f0000000e000000230000001c0000001d000000150000001a0000000800000018000000070000000a0000001700000013000000040000000b0000000c0000000e0000001b000000110000000e000000240000001f0000002100000024000000100000000f00000019000000000000000d0000000f0000000f0000000300000012000000110000000e000000060000000e000000020000000100000005000000110000002000000016000000110000000e0000001e00000022000000
   bakedScaleOffset:
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 0.9941406, y: 0.9941406, z: 0.0029296875, w: 0.0029296875}
-  - {x: 0.24271482, y: 0.23958652, z: 0.24872395, w: 0.80268025}
-  - {x: 0.013683336, y: 0.05872113, z: 0.49427375, w: 0.37610507}
-  - {x: 0.017195802, y: 0.04270735, z: 0.49135438, w: 0.30409247}
-  - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-  - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-  - {x: 0.14668301, y: 0.14755984, z: 0.0030688848, w: 0.8493713}
+  - {x: 0.98828125, y: 0.98828125, z: 0.005859375, w: 0.005859375}
+  - {x: 0.49176633, y: 0.48542807, z: 0.0039413725, w: 0.003967079}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.30795747, y: 0.30979836, z: 0.6865536, w: 0.00644305}
   - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-  - {x: 1.0355877, y: 1.0366865, z: -0.01603161, w: -0.016053589}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-  - {x: 0.87849647, y: 0.8792171, z: -0.014501046, w: -0.01451546}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-  - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 0.010001977, y: 0.009645929, z: 0.4619925, w: 0.49517703}
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 1.0355877, y: 1.0366865, z: -0.01603161, w: -0.016053589}
-  - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-  - {x: 0.013683336, y: 0.08896232, z: 0.49427375, w: 0.56828916}
-  - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-  - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-  - {x: 0.013602614, y: 0.014707235, z: 0.4931992, w: 0.53301233}
-  - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-  - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-  - {x: 0.9995379, y: 0.9953435, z: -0.00012570624, w: -0.00010869467}
-  - {x: 0.030012947, y: 0.099150605, z: 0.620296, w: 0.34003332}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 0.2220812, y: 0.22295801, z: 0.7639998, w: 0.0030688848}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.9956467, y: 1.4846779, z: 0.0018212645, w: -0.00016213155}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.48387644, y: 0.48578686, z: 0.0066865673, w: 0.0066865673}
   - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-  - {x: 0.24271472, y: 0.23958638, z: 0.49550262, w: 0.80268025}
-  - {x: 1.037749, y: 1.03863, z: -0.017003415, w: -0.017021036}
-  - {x: 0.78448826, y: 0.78519994, z: -0.012659032, w: -0.012673265}
-  - {x: 0.24271467, y: 0.23958635, z: 0.7422812, w: 0.80268025}
-  - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-  - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-  - {x: 0.012916607, y: 0.012916608, z: 0.4686765, w: 0.46867666}
-  - {x: 0.42951566, y: 0.4315264, z: 0.6745244, w: -0.005599793}
-  - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-  - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 1.0350621, y: 1.036214, z: -0.01579532, w: -0.015818361}
-  - {x: 0.090841316, y: 0.08374144, z: 0.0528623, w: 0.9534022}
-  - {x: 0.043465395, y: 0.0434654, z: 0.0031322984, w: 0.9534022}
-  - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-  - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-  - {x: 0.22208028, y: 0.22295707, z: 0.7639998, w: 0.4612596}
+  - {x: 0.49176612, y: 0.48542777, z: 0.5039415, w: 0.0039670803}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.49176604, y: 0.4854277, z: 0.003941374, w: 0.33077484}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.9131088, y: 0.91738343, z: -0.011819127, w: -0.011904619}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.18685804, y: 0.1722538, z: 0.108736284, w: 0.90414983}
+  - {x: 0.08940711, y: 0.08940712, z: 0.00644305, w: 0.90414983}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.4838744, y: 0.4857848, z: 0.44345164, w: 0.0066865673}
   - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-  - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-  - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
   - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-  - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-  - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
-  - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-  - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
-  - {x: 0.013602614, y: 0.014707235, z: 0.4931992, w: 0.53301233}
-  - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-  - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-  - {x: 0.24271482, y: 0.23958652, z: 0.0019452929, w: 0.80268025}
-  - {x: 1.0371549, y: 1.0380957, z: -0.01673623, w: -0.016755048}
-  - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-  - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-  - {x: 0.22208029, y: 0.2229571, z: 0.7639998, w: 0.2321647}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.5539598, y: 0.5468199, z: 0.4412049, w: 0.5036268}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+  - {x: 0.48387444, y: 0.4857849, z: 0.0066865673, w: 0.5058466}
   - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-  - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-  - {x: 1.0269252, y: 1.0278262, z: -0.01680418, w: -0.016822198}
-  - {x: 1.0411584, y: 1.0428622, z: -0.017032437, w: -0.017066512}
-  bakedVertexOffset: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  - {x: 1.1426461, y: 1.0234249, z: -0.016993549, w: -0.0146091245}
+  - {x: 1.2606151, y: 1.0385146, z: -0.01935293, w: -0.014910919}
+  bakedVertexOffset: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   bakedVertexColorMesh:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -5505,75 +4658,14 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c000000
+  idremap: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f0000002000000021000000220000002300000024000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
   compressedVolumes: 0
   sectors:
   - name: $G
-    maps:
-    - {fileID: 2800000, guid: 4a1686320e80cf24d8ea425bc9aec1c9, type: 3}
-    - {fileID: 2800000, guid: bd90db3c4c4c2c544a0689f19d858234, type: 3}
-    - {fileID: 2800000, guid: 3e0c6527a144eaa45a13c4f26cbeaf96, type: 3}
-    - {fileID: 2800000, guid: fa31cb73a39489648a34d65f70b93d6c, type: 3}
-    - {fileID: 2800000, guid: 650df2005eed46648b55e729ce0f8979, type: 3}
-    - {fileID: 2800000, guid: 5cac747208ce73f45a912afb218d029b, type: 3}
-    - {fileID: 2800000, guid: eb04716e03035334fb5cccc59000328c, type: 3}
-    - {fileID: 2800000, guid: e6253114ac8e08a47aa116e58847ce16, type: 3}
-    - {fileID: 2800000, guid: b59e779d1f4c0c44581b2b33b6a9a7ad, type: 3}
-    - {fileID: 2800000, guid: cc34b1b264a493d4db466dd9a7d8e5c7, type: 3}
-    - {fileID: 2800000, guid: e3b600cd5252afe4d97d98240e1d711a, type: 3}
-    - {fileID: 2800000, guid: 795b8411fc8024c44aa69f86c3865f0c, type: 3}
-    - {fileID: 2800000, guid: 380b163261f16f14ab11e076934ccea2, type: 3}
-    - {fileID: 2800000, guid: ffc754b4f5e76264e9ea4c52e0b490d9, type: 3}
-    - {fileID: 2800000, guid: a5a9d8870b560ff4da790e994521fd5f, type: 3}
-    - {fileID: 2800000, guid: cd821ca0c17af3949af58a4adee60b42, type: 3}
-    - {fileID: 2800000, guid: 3c42e32be88cfae45b8dfbdd3fc8e047, type: 3}
-    - {fileID: 2800000, guid: 0c7f7cd04ba29f045a53259963248216, type: 3}
-    - {fileID: 2800000, guid: bcda612a1d1250846840404bc6256b8b, type: 3}
-    - {fileID: 2800000, guid: e549871a8f0eeda4fac11a7531a84387, type: 3}
-    - {fileID: 2800000, guid: 9cc04319a0ae9634cbd6be08b9d72969, type: 3}
-    - {fileID: 2800000, guid: 50b72c88c7fcf1f4db3c46e75383ce0b, type: 3}
-    - {fileID: 2800000, guid: 0324ed03016942a46bf9a74c13bea35e, type: 3}
-    - {fileID: 2800000, guid: d613e6f4aea0db14d9ead8f5b566d40c, type: 3}
-    - {fileID: 2800000, guid: 6340a3904e0d8d94d9c383007156ee3a, type: 3}
-    - {fileID: 2800000, guid: 37abcc62c477b5442a75ee5bdc3dbc34, type: 3}
-    - {fileID: 2800000, guid: e24eb462a5c990b47bc32270a7217677, type: 3}
-    - {fileID: 2800000, guid: 3826fbcd05842794cb4b179bfc526fa3, type: 3}
-    - {fileID: 2800000, guid: 082add574634fcd4b80d0a32bc5d4fd4, type: 3}
-    - {fileID: 2800000, guid: 522c367c5c7a4d545905c6136f89f39f, type: 3}
-    - {fileID: 2800000, guid: ce0164ccc01a7bb44b0745e1769e4baf, type: 3}
-    - {fileID: 2800000, guid: d90ece681b8362c4291697ab6c0ec141, type: 3}
-    - {fileID: 2800000, guid: 32fd1ed2f84eec443bf6a8f28690d410, type: 3}
-    - {fileID: 2800000, guid: 3fb9ce9a269fec04cbc676624e83ba11, type: 3}
-    - {fileID: 2800000, guid: f91e375cc59213b468a42c9d71ee31b0, type: 3}
-    - {fileID: 2800000, guid: d3d5f8ac379d7504b8243a4676cc1d23, type: 3}
-    - {fileID: 2800000, guid: 8abd0237de08ed445b36570019fadba7, type: 3}
-    - {fileID: 2800000, guid: 7373553a3cdbf104389869410ddefcb0, type: 3}
-    - {fileID: 2800000, guid: 2042e3b07acfbe949aed5b57e89dc786, type: 3}
-    - {fileID: 2800000, guid: 0f3dd281f0ea02a4caef9ecce0081345, type: 3}
-    - {fileID: 2800000, guid: 5bc3694ead78aa64494c7d48f91a92e6, type: 3}
-    - {fileID: 2800000, guid: 32aa963c21958784490e75dc80fd49b8, type: 3}
-    - {fileID: 2800000, guid: dd231c315995af14f87e41edd9780547, type: 3}
-    - {fileID: 2800000, guid: 718cd6afda9897849b6eb5c6c0b3edab, type: 3}
-    - {fileID: 2800000, guid: 51e9f443d400c7f48a6d67950dfcce10, type: 3}
-    - {fileID: 2800000, guid: c8fa352d2cbf5074dbeed231a7b0932c, type: 3}
-    - {fileID: 2800000, guid: 2506e0d7ff046f24c84714c04ee41ceb, type: 3}
-    - {fileID: 2800000, guid: d6e49b2504b63304f81ddfc3774971de, type: 3}
-    - {fileID: 2800000, guid: a32432ccfd33dc6478015a5065929927, type: 3}
-    - {fileID: 2800000, guid: 10a8132397447ab47bd736405761bde3, type: 3}
-    - {fileID: 2800000, guid: f7d4cb3977ddaea46b8fa28b5cb16506, type: 3}
-    - {fileID: 2800000, guid: cd561f85c6cc68a4583e774091c68337, type: 3}
-    - {fileID: 2800000, guid: 511d59053d1c2224abf8a49e3891dfb7, type: 3}
-    - {fileID: 2800000, guid: 5a1d208cbf7b9d342b6c55f33c82e2bb, type: 3}
-    - {fileID: 2800000, guid: 10a1d2d357e754c40bdab15978a59938, type: 3}
-    - {fileID: 2800000, guid: b113d82a3d75e0f47a2f94a9d914c439, type: 3}
-    - {fileID: 2800000, guid: c6bbb1d9499dc0d4e9f1b2746d65ef77, type: 3}
-    - {fileID: 2800000, guid: d4b2c009f1868644d8e3c9cc188b4bb3, type: 3}
-    - {fileID: 2800000, guid: ad5f2d64af47f6d41b77a7c8ebd032e6, type: 3}
-    - {fileID: 2800000, guid: 71f0ceceaa897234b980f8a4ebbf2290, type: 3}
-    - {fileID: 2800000, guid: 3b27b5f69716f844486b3f1e49cff259, type: 3}
+    maps: []
     masks: []
     dirMaps: []
     rnmMaps0: []
@@ -5581,18 +4673,13 @@ MonoBehaviour:
     rnmMaps2: []
     mapsMode: 
     bakedRenderers:
-    - {fileID: 5854706}
     - {fileID: 65357635}
     - {fileID: 73156865}
-    - {fileID: 87729004}
-    - {fileID: 92643166}
     - {fileID: 105999072}
-    - {fileID: 128883258}
     - {fileID: 151515856}
     - {fileID: 151515855}
     - {fileID: 306490698}
     - {fileID: 308042527}
-    - {fileID: 456330748}
     - {fileID: 515605601}
     - {fileID: 518134178}
     - {fileID: 551952346}
@@ -5601,20 +4688,12 @@ MonoBehaviour:
     - {fileID: 657028383}
     - {fileID: 672063904}
     - {fileID: 726270177}
-    - {fileID: 787551027}
-    - {fileID: 815810732}
     - {fileID: 831352804}
     - {fileID: 873972912}
-    - {fileID: 876956256}
     - {fileID: 899203088}
-    - {fileID: 900899649}
-    - {fileID: 921036636}
     - {fileID: 993388169}
-    - {fileID: 1008323414}
     - {fileID: 1012465779}
-    - {fileID: 1031608599}
     - {fileID: 1054415086}
-    - {fileID: 1092984486}
     - {fileID: 1094717528}
     - {fileID: 1094717527}
     - {fileID: 1143074211}
@@ -5622,152 +4701,84 @@ MonoBehaviour:
     - {fileID: 1156910643}
     - {fileID: 1183300871}
     - {fileID: 1223436940}
-    - {fileID: 1252194153}
-    - {fileID: 1263012736}
     - {fileID: 1287058475}
-    - {fileID: 1305916212}
-    - {fileID: 1317262784}
     - {fileID: 1360382828}
-    - {fileID: 1361351425}
     - {fileID: 1383792851}
     - {fileID: 1384394407}
     - {fileID: 1405888146}
     - {fileID: 1405888145}
     - {fileID: 1430535374}
     - {fileID: 1492835134}
-    - {fileID: 1526209235}
-    - {fileID: 1541047437}
     - {fileID: 1621600163}
     - {fileID: 1621600162}
     - {fileID: 1658686277}
-    - {fileID: 1668507005}
     - {fileID: 1675406684}
     - {fileID: 1791346372}
-    - {fileID: 1868666128}
     - {fileID: 1876362218}
-    - {fileID: 1927831024}
-    - {fileID: 1940791689}
     - {fileID: 1966757090}
-    - {fileID: 1980353274}
     - {fileID: 2002694105}
     - {fileID: 2042650658}
-    - {fileID: 2062804459}
     - {fileID: 2086009995}
     - {fileID: 2115204311}
     - {fileID: 2115204310}
-    - {fileID: 2131656475}
     - {fileID: 9162719735076307343}
     - {fileID: 9162719735076307342}
     bakedRenderersTerrain: []
-    bakedIDs: 0300000027000000330000002f00000039000000190000000900000034000000320000000d000000300000000a00000034000000280000002d000000170000002b00000014000000180000002a00000031000000040000000c00000013000000330000001a0000003a000000200000001b0000001f0000003c000000210000002e000000010000003400000032000000330000003600000037000000330000000f00000022000000320000003700000024000000250000002c00000002000000260000001d0000003200000032000000100000000e0000001e0000002300000034000000320000001600000007000000320000001200000006000000110000000500000000000000150000001c0000003300000038000000080000002900000034000000320000003b000000350000000b000000
+    bakedIDs: 1400000024000000090000000f0000000e000000230000001c0000001d000000150000001a0000000800000018000000070000000a0000001700000013000000040000000b0000000c0000000e0000001b000000110000000e000000240000001f0000002100000024000000100000000f00000019000000000000000d0000000f0000000f0000000300000012000000110000000e000000060000000e000000020000000100000005000000110000002000000016000000110000000e0000001e00000022000000
     bakedIDsTerrain: 
     bakedScaleOffset:
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 0.9941406, y: 0.9941406, z: 0.0029296875, w: 0.0029296875}
-    - {x: 0.24271482, y: 0.23958652, z: 0.24872395, w: 0.80268025}
-    - {x: 0.013683336, y: 0.05872113, z: 0.49427375, w: 0.37610507}
-    - {x: 0.017195802, y: 0.04270735, z: 0.49135438, w: 0.30409247}
-    - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-    - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-    - {x: 0.14668301, y: 0.14755984, z: 0.0030688848, w: 0.8493713}
+    - {x: 0.98828125, y: 0.98828125, z: 0.005859375, w: 0.005859375}
+    - {x: 0.49176633, y: 0.48542807, z: 0.0039413725, w: 0.003967079}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.30795747, y: 0.30979836, z: 0.6865536, w: 0.00644305}
     - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-    - {x: 1.0355877, y: 1.0366865, z: -0.01603161, w: -0.016053589}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-    - {x: 0.87849647, y: 0.8792171, z: -0.014501046, w: -0.01451546}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-    - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 0.010001977, y: 0.009645929, z: 0.4619925, w: 0.49517703}
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 1.0355877, y: 1.0366865, z: -0.01603161, w: -0.016053589}
-    - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-    - {x: 0.013683336, y: 0.08896232, z: 0.49427375, w: 0.56828916}
-    - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-    - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-    - {x: 0.013602614, y: 0.014707235, z: 0.4931992, w: 0.53301233}
-    - {x: 1.0355875, y: 1.0366865, z: -0.016031608, w: -0.016053587}
-    - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-    - {x: 0.9995379, y: 0.9953435, z: -0.00012570624, w: -0.00010869467}
-    - {x: 0.030012947, y: 0.099150605, z: 0.620296, w: 0.34003332}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 0.2220812, y: 0.22295801, z: 0.7639998, w: 0.0030688848}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.9956467, y: 1.4846779, z: 0.0018212645, w: -0.00016213155}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.48387644, y: 0.48578686, z: 0.0066865673, w: 0.0066865673}
     - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-    - {x: 0.24271472, y: 0.23958638, z: 0.49550262, w: 0.80268025}
-    - {x: 1.037749, y: 1.03863, z: -0.017003415, w: -0.017021036}
-    - {x: 0.78448826, y: 0.78519994, z: -0.012659032, w: -0.012673265}
-    - {x: 0.24271467, y: 0.23958635, z: 0.7422812, w: 0.80268025}
-    - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-    - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-    - {x: 0.012916607, y: 0.012916608, z: 0.4686765, w: 0.46867666}
-    - {x: 0.42951566, y: 0.4315264, z: 0.6745244, w: -0.005599793}
-    - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-    - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 1.0350621, y: 1.036214, z: -0.01579532, w: -0.015818361}
-    - {x: 0.090841316, y: 0.08374144, z: 0.0528623, w: 0.9534022}
-    - {x: 0.043465395, y: 0.0434654, z: 0.0031322984, w: 0.9534022}
-    - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-    - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 0.013683336, y: 0.11126579, z: 0.49427375, w: 0.71002877}
-    - {x: 0.22208028, y: 0.22295707, z: 0.7639998, w: 0.4612596}
+    - {x: 0.49176612, y: 0.48542777, z: 0.5039415, w: 0.0039670803}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.49176604, y: 0.4854277, z: 0.003941374, w: 0.33077484}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.9131088, y: 0.91738343, z: -0.011819127, w: -0.011904619}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.18685804, y: 0.1722538, z: 0.108736284, w: 0.90414983}
+    - {x: 0.08940711, y: 0.08940712, z: 0.00644305, w: 0.90414983}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.4838744, y: 0.4857848, z: 0.44345164, w: 0.0066865673}
     - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-    - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-    - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
     - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-    - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-    - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
-    - {x: 1.0355877, y: 1.0366865, z: -0.016031608, w: -0.016053589}
-    - {x: 0.017195802, y: 0.04270733, z: 0.49135438, w: 0.30409235}
-    - {x: 0.013602614, y: 0.014707235, z: 0.4931992, w: 0.53301233}
-    - {x: 1.0355874, y: 1.0366865, z: -0.016031606, w: -0.016053589}
-    - {x: 0.017195802, y: 0.04270734, z: 0.49135438, w: 0.30409238}
-    - {x: 0.24271482, y: 0.23958652, z: 0.0019452929, w: 0.80268025}
-    - {x: 1.0371549, y: 1.0380957, z: -0.01673623, w: -0.016755048}
-    - {x: 0.017195802, y: 0.042707328, z: 0.49135438, w: 0.30409232}
-    - {x: 1.1570706, y: 1.0403502, z: -0.020211728, w: -0.017877318}
-    - {x: 0.22208029, y: 0.2229571, z: 0.7639998, w: 0.2321647}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.5539598, y: 0.5468199, z: 0.4412049, w: 0.5036268}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 1.150251, y: 1.0342184, z: -0.017145647, w: -0.014824996}
+    - {x: 0.48387444, y: 0.4857849, z: 0.0066865673, w: 0.5058466}
     - {x: -Infinity, y: -Infinity, z: NaN, w: NaN}
-    - {x: 0.017195802, y: 0.042707346, z: 0.49135438, w: 0.30409244}
-    - {x: 1.0269252, y: 1.0278262, z: -0.01680418, w: -0.016822198}
-    - {x: 1.0411584, y: 1.0428622, z: -0.017032437, w: -0.017066512}
+    - {x: 1.1426461, y: 1.0234249, z: -0.016993549, w: -0.0146091245}
+    - {x: 1.2606151, y: 1.0385146, z: -0.01935293, w: -0.014910919}
     bakedScaleOffsetTerrain: []
     bakedVertexColorMesh:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -5933,47 +4944,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &652966509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA9
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 40
-  sortingID: 9
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &657028380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6206,6 +5176,88 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 672063901}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &672349745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA1
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 20
+  sortingID: 1
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &672712203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA19
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 16
+  sortingID: 19
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!43 &686915002
 Mesh:
   m_ObjectHideFlags: 0
@@ -6866,6 +5918,47 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &711306054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA5
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 24
+  sortingID: 5
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!43 &719946195
 Mesh:
   m_ObjectHideFlags: 0
@@ -7147,88 +6240,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 726270174}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &733187701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA40
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 9
-  sortingID: 40
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &743799454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA43
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 12
-  sortingID: 43
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!43 &744095534
 Mesh:
   m_ObjectHideFlags: 0
@@ -7607,47 +6618,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &765151033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA49
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 18
-  sortingID: 49
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &776966388
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,11 +6857,47 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
---- !u!23 &787551027 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: c3d67df85cdf2904db4b914ddd22ad38, type: 3}
-  m_PrefabInstance: {fileID: 787551023}
+--- !u!114 &791436299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA11
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 30
+  sortingID: 11
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &815810728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8012,52 +7018,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &815810732 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 815810728}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &825546811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA47
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 16
-  sortingID: 47
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &831352801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8299,47 +7259,6 @@ MonoBehaviour:
         storedTriangles:
         - {x: 0, y: 1, z: 2}
         - {x: 0, y: 3, z: 2}
---- !u!114 &839421377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA16
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 47
-  sortingID: 16
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &841370623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8766,47 +7685,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 873972909}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &876218821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA30
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 30
-  sortingID: 30
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &876956252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8915,11 +7793,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
---- !u!23 &876956256 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
-  m_PrefabInstance: {fileID: 876956252}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &899203085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9156,11 +8029,47 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &900899649 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 900899645}
+--- !u!114 &901035336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA36
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 36
+  sortingID: 36
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &920297943
 GameObject:
   m_ObjectHideFlags: 0
@@ -9173,8 +8082,9 @@ GameObject:
   - component: {fileID: 920297944}
   - component: {fileID: 920297946}
   - component: {fileID: 920297947}
+  - component: {fileID: 920297948}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun (Directional Light)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9231,7 +8141,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -9307,6 +8217,35 @@ MonoBehaviour:
   cloudShadowOffsetX: 0
   cloudShadowOffsetY: 0
   UID: 1555596708
+--- !u!114 &920297948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920297943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac230a9a993d374794875c877e1d6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectedLight: {fileID: 920297944}
+  settings:
+  - lightColor: {r: 1, g: 1, b: 1, a: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    label: 0
+  - lightColor: {r: 1, g: 1, b: 1, a: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    label: 1
+  - lightColor: {r: 1, g: 1, b: 1, a: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    label: 2
+  - lightColor: {r: 1, g: 1, b: 1, a: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    label: 3
+  - lightColor: {r: 1, g: 1, b: 1, a: 1}
+    rotation: {x: 0, y: 0, z: 0}
+    label: 4
 --- !u!1001 &921036632
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9423,11 +8362,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: db448027dd9e4cb46aa518068c86fd88, type: 3}
---- !u!23 &921036636 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: db448027dd9e4cb46aa518068c86fd88, type: 3}
-  m_PrefabInstance: {fileID: 921036632}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &951906701
 Mesh:
   m_ObjectHideFlags: 0
@@ -9808,6 +8742,47 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 993388166}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1000882986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA23
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 4
+  sortingID: 23
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1008323410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9928,11 +8903,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1008323414 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1008323410}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1012465776
 GameObject:
   m_ObjectHideFlags: 0
@@ -10193,11 +9163,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: c1df704ea7a42c14aa1afe9c571c06b5, type: 3}
---- !u!23 &1031608599 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: c1df704ea7a42c14aa1afe9c571c06b5, type: 3}
-  m_PrefabInstance: {fileID: 1031608595}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1031704779
 Mesh:
   m_ObjectHideFlags: 0
@@ -10929,11 +9894,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1092984486 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1092984482}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1094717524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11376,47 +10336,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1131363358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA4
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 35
-  sortingID: 4
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &1143074208
 GameObject:
   m_ObjectHideFlags: 0
@@ -11754,6 +10673,47 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 1156910640}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1172112686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA25
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 6
+  sortingID: 25
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1183300868
 GameObject:
   m_ObjectHideFlags: 0
@@ -11891,47 +10851,6 @@ Transform:
   m_Father: {fileID: 1496090768}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1214299268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA48
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 17
-  sortingID: 48
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1223436937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12048,7 +10967,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 1223436937}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1228640384
+--- !u!114 &1230100070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12058,12 +10977,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA29
+  m_Name: Shayklind_LMA12
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 59
-  sortingID: 29
+  id: 31
+  sortingID: 12
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -12272,6 +11191,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235835570}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1236026030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA30
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 11
+  sortingID: 30
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1236132221
 GameObject:
   m_ObjectHideFlags: 0
@@ -12485,11 +11445,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
---- !u!23 &1252194153 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
-  m_PrefabInstance: {fileID: 1252194149}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1263012732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12610,11 +11565,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: d7157c3ded42206408dcd9251fde3233, type: 3}
---- !u!23 &1263012736 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: d7157c3ded42206408dcd9251fde3233, type: 3}
-  m_PrefabInstance: {fileID: 1263012732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1263371896
 GameObject:
   m_ObjectHideFlags: 0
@@ -13541,11 +12491,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
---- !u!23 &1305916212 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
-  m_PrefabInstance: {fileID: 1305916208}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1317262780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13666,11 +12611,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
---- !u!23 &1317262784 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
-  m_PrefabInstance: {fileID: 1317262780}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1326036024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1010230260090993944, guid: 901dffa0e9bb2dd4e84a727aa166c1ff, type: 3}
@@ -13841,47 +12781,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1339794671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA53
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 22
-  sortingID: 53
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!43 &1351286498
 Mesh:
   m_ObjectHideFlags: 0
@@ -14047,6 +12946,47 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1353022344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA27
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 8
+  sortingID: 27
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1353886723
 GameObject:
   m_ObjectHideFlags: 0
@@ -14314,11 +13254,47 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1361351425 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1361351421}
+--- !u!114 &1365565529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA15
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 34
+  sortingID: 15
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1383792848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14711,88 +13687,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1391494096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA24
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 55
-  sortingID: 24
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1392118290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA57
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 26
-  sortingID: 57
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1405888142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15080,6 +13974,47 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1429680954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA20
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 1
+  sortingID: 20
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1430535371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15196,6 +14131,129 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 1430535371}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1436230451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA34
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 15
+  sortingID: 34
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &1443207165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA4
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 23
+  sortingID: 4
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &1444970568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LM0
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 69523.73
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!4 &1445019972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2f989de6ca5355d4a8d8d0e0df58314d, type: 3}
@@ -15489,52 +14547,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1526209235 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1526209231}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1534753261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA39
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 8
-  sortingID: 39
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1541047433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15655,11 +14667,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
---- !u!23 &1541047437 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: cc47001371b5eb5489ab03977e78e9f4, type: 3}
-  m_PrefabInstance: {fileID: 1541047433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1542274458
 Mesh:
   m_ObjectHideFlags: 0
@@ -15825,47 +14832,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1575763274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA23
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 54
-  sortingID: 23
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1621600159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16124,88 +15090,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1634627123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA55
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 24
-  sortingID: 55
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1642529870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA34
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 3
-  sortingID: 34
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1658686274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16486,11 +15370,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1668507005 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1668507001}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1675406682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16594,47 +15473,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 2f989de6ca5355d4a8d8d0e0df58314d, type: 3}
   m_PrefabInstance: {fileID: 1675406682}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1705452967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA27
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 58
-  sortingID: 27
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!4 &1708974426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1010230260090993944, guid: 901dffa0e9bb2dd4e84a727aa166c1ff, type: 3}
@@ -16805,7 +15643,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1726511610
+--- !u!114 &1727377070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16815,53 +15653,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA11
+  m_Name: Shayklind_LMA3
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 42
-  sortingID: 11
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1736533378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA31
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 28
-  sortingID: 31
+  id: 22
+  sortingID: 3
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -17026,7 +15823,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: cd0d583352434c749b2bf7d3b624390a, type: 3}
   m_PrefabInstance: {fileID: 1758504637}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1767697315
+--- !u!114 &1787140806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17036,53 +15833,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA56
+  m_Name: Shayklind_LMA18
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 25
-  sortingID: 56
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1782322856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA46
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 15
-  sortingID: 46
+  id: 18
+  sortingID: 18
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -17224,7 +15980,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 1791346369}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1793896435
+--- !u!114 &1803914000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17234,12 +15990,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA5
+  m_Name: Shayklind_LMA10
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 36
-  sortingID: 5
+  id: 29
+  sortingID: 10
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &1815949898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA2
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 21
+  sortingID: 2
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -17595,7 +16392,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1841862171
+--- !u!114 &1848032134
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17605,12 +16402,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA22
+  m_Name: Shayklind_LMA13
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 53
-  sortingID: 22
+  id: 32
+  sortingID: 13
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -17756,52 +16553,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1868666128 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1868666124}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1871829323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA7
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 38
-  sortingID: 7
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1876362215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17918,7 +16669,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 1876362215}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1887697070
+--- !u!114 &1916798671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17930,92 +16681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
   m_Name: Shayklind_LMA35
   m_EditorClassIdentifier: 
-  resolution: 1024
+  resolution: 512
   bitmask: 1
-  id: 4
+  id: 17
   sortingID: 35
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1915442391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA25
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 56
-  sortingID: 25
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
---- !u!114 &1915475510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA18
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 49
-  sortingID: 18
   isImplicit: 1
   area: 0
   totalVertexCount: 0
@@ -18326,52 +16995,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1927831024 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1927831020}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1929786749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA44
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 13
-  sortingID: 44
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!4 &1935981898 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c1315a2bc0efedd4abefc541cbb647de, type: 3}
@@ -18493,11 +17116,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: db448027dd9e4cb46aa518068c86fd88, type: 3}
---- !u!23 &1940791689 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: db448027dd9e4cb46aa518068c86fd88, type: 3}
-  m_PrefabInstance: {fileID: 1940791685}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1943390955
 GameObject:
   m_ObjectHideFlags: 0
@@ -18563,47 +17181,6 @@ MonoBehaviour:
         - {x: 0, y: 1, z: 2}
         - {x: 0, y: 3, z: 2}
         - {x: 4, y: 3, z: 2}
---- !u!114 &1956492593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA15
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 46
-  sortingID: 15
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1966757087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19005,11 +17582,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &1980353274 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 1980353270}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2002694102
 GameObject:
   m_ObjectHideFlags: 0
@@ -19431,47 +18003,6 @@ Transform:
   m_Father: {fileID: 442629916}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2048326176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA21
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 52
-  sortingID: 21
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &2062804455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19592,11 +18123,88 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &2062804459 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 2062804455}
+--- !u!114 &2064925711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA28
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 9
+  sortingID: 28
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &2071531132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA32
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 13
+  sortingID: 32
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!43 &2077332035
 Mesh:
   m_ObjectHideFlags: 0
@@ -19878,6 +18486,47 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5838564561594028957, guid: bfb5fc69e0414b94aa825d609f81ed2f, type: 3}
   m_PrefabInstance: {fileID: 2086009992}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2107053729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Shayklind_LMA29
+  m_EditorClassIdentifier: 
+  resolution: 512
+  bitmask: 1
+  id: 10
+  sortingID: 29
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  sceneName: 
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!43 &2107085366
 Mesh:
   m_ObjectHideFlags: 0
@@ -20136,47 +18785,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8981977557393958284, guid: 901dffa0e9bb2dd4e84a727aa166c1ff, type: 3}
   m_PrefabInstance: {fileID: 2115204307}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2115925260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA32
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 1
-  sortingID: 32
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!43 &2131476294
 Mesh:
   m_ObjectHideFlags: 0
@@ -20462,11 +19070,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
---- !u!23 &2131656475 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2300000, guid: fd8e4c7d8d0eeba4886bfd24abc96c1c, type: 3}
-  m_PrefabInstance: {fileID: 2131656471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2138789238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20533,47 +19136,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5772814867872063925, guid: 239fbad01f14c7d478202c5e91651983, type: 3}
   m_PrefabInstance: {fileID: 2138789238}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2139275243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Shayklind_LMA26
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 57
-  sortingID: 26
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  sceneName: 
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!4 &2161458181818830951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7122319451667763692, guid: 4986b4bf0c476a24784e2e835b2392f3, type: 3}

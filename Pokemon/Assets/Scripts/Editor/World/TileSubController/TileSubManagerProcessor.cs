@@ -142,6 +142,8 @@ namespace Editor.World.TileSubController
 
             BakedEditorManager.SetRunning(true);
 
+            EditorSceneManager.SaveScene(tileSubController.gameObject.scene);
+
             string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
 
             List<string> neighborsToLoad = new List<string>();
@@ -157,7 +159,7 @@ namespace Editor.World.TileSubController
 
             try
             {
-                #region Load neighbor scenes and build navmesh triangulation
+                #region Load neighbor scenes
 
                 //Load neighboring scenes that the navigation mesh should cover
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", .25f);
@@ -180,24 +182,38 @@ namespace Editor.World.TileSubController
 
                 this.SetupBakeryLightmapPrefab();
 
+                #region Directories
+
                 Scene s = tileSubController.gameObject.scene;
                 string assetPath = s.path.Replace(".unity", "");
 
                 if (!AssetDatabase.IsValidFolder(assetPath + "/Lighting"))
                     AssetDatabase.CreateFolder(assetPath, "Lighting");
 
-                assetPath += "/Lighting/";
+                assetPath += "/Lighting";
 
-                LightProbeGroup[] lightProbeGroups = Object.FindObjectsOfType<LightProbeGroup>();
-                ReflectionProbe[] reflectionProbes = Object.FindObjectsOfType<ReflectionProbe>();
+                for (int i = 0; i < Enum.GetValues(typeof(DayTime)).Length; i++)
+                {
+                    Debug.Log(assetPath + $"/{((DayTime)i).ToString()}");
+                    if (!AssetDatabase.IsValidFolder(assetPath + $"/{((DayTime)i).ToString()}"))
+                        AssetDatabase.CreateFolder(assetPath, ((DayTime)i).ToString());
+                }
+
+                #endregion
+
+                bool lightProbeBake = Object.FindObjectsOfType<LightProbeGroup>().Length > 0;
+                bool reflectionProbeBake = Object.FindObjectsOfType<ReflectionProbe>().Length > 0;
 
                 //Calculate light for each time
-                //TODO Set to 5
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < Enum.GetValues(typeof(DayTime)).Length; i++)
                 {
-                    string assetName = assetPath + $"{(DayTime)i}.asset";
+                    //Replace "Assets/" because bakery already assumes the path is in assets.
+                    ftRenderLightmap.outputPathFull =
+                        (assetPath + $"/{((DayTime)i).ToString()}").Replace("Assets/", "");
 
-                    DayNight.SetCurrentDayTime((DayTime)i);
+                    SetDayTime(i);
+
+                    await UniTask.NextFrame();
 
                     #region Bake
 
@@ -205,8 +221,8 @@ namespace Editor.World.TileSubController
 
                     if (ftRenderLightmap.userCanceled)
                         throw new Exception("Canceled");
-                    
-                    if (lightProbeGroups.Length > 0)
+
+                    if (lightProbeBake)
                     {
                         await BakeLightProbeGroup(tileSubController);
 
@@ -214,17 +230,13 @@ namespace Editor.World.TileSubController
                             throw new Exception("Canceled");
                     }
 
-                    if (reflectionProbes.Length > 0)
+                    if (reflectionProbeBake)
                     {
                         await BakeReflectionProbes(tileSubController);
 
                         if (ftRenderLightmap.userCanceled)
                             throw new Exception("Canceled");
                     }
-
-                    #endregion
-
-                    #region Save bake to asset
 
                     #endregion
                 }
@@ -267,6 +279,28 @@ namespace Editor.World.TileSubController
             EditorUtility.ClearProgressBar();
 
             BakedEditorManager.SetRunning(false);
+        }
+
+        private static void SetDayTime(int index)
+        {
+            DayNight.SetCurrentDayTime((DayTime)index);
+
+            foreach (BakeryDirectLight bakeryDirectLight in Object.FindObjectsOfType<BakeryDirectLight>())
+            {
+                Light light = bakeryDirectLight.GetComponent<Light>();
+                bakeryDirectLight.color = light.color;
+                bakeryDirectLight.intensity = light.intensity;
+                bakeryDirectLight.indirectIntensity = light.bounceIntensity;
+            }
+
+            foreach (BakeryPointLight bakeryPointLight in Object.FindObjectsOfType<BakeryPointLight>())
+            {
+                Light light = bakeryPointLight.GetComponent<Light>();
+                bakeryPointLight.color = light.color;
+                bakeryPointLight.intensity = light.intensity;
+                bakeryPointLight.falloffMinRadius = light.range;
+                bakeryPointLight.indirectIntensity = light.bounceIntensity;
+            }
         }
 
         private static ftRenderLightmap GetFtRenderLightmapInstance() => ftRenderLightmap.instance != null
