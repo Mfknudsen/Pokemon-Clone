@@ -18,7 +18,7 @@ namespace Runtime.World.Overworld.Lights
 
 #if UNITY_EDITOR
         [UsedImplicitly] [SerializeField, HideInInspector]
-        private DayTime label;
+        private WorldTimeZone label;
 #endif
 
         #endregion
@@ -26,7 +26,7 @@ namespace Runtime.World.Overworld.Lights
         #region Build In States
 
 #if UNITY_EDITOR
-        public DayTimeLightSettings(DayTime label)
+        public DayTimeLightSettings(WorldTimeZone label)
         {
             this.label = label;
             this.lightColor = Color.white;

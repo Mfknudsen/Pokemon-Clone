@@ -23,11 +23,11 @@ namespace Runtime.World.Overworld.Lights
 
 #if UNITY_EDITOR
         [ShowInInspector, HorizontalGroup("Save"), ValueDropdown(nameof(SaveAsOptions)), HideLabel]
-        private DayTime saveAsLabel;
+        private WorldTimeZone saveAsLabel;
 
-        private DayTime[] SaveAsOptions = new DayTime[]
+        private WorldTimeZone[] SaveAsOptions = new WorldTimeZone[]
         {
-            DayTime.Midnight, DayTime.Morning, DayTime.Evening, DayTime.Afternoon, DayTime.Night
+            WorldTimeZone.Midnight, WorldTimeZone.Morning, WorldTimeZone.Evening, WorldTimeZone.Afternoon, WorldTimeZone.Night
         };
 #endif
 
@@ -38,23 +38,29 @@ namespace Runtime.World.Overworld.Lights
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            for (int i = this.settings.Count; i < Enum.GetValues(typeof(DayTime)).Length; i++)
+            for (int i = this.settings.Count; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
             {
-                this.settings.Add(new DayTimeLightSettings((DayTime)i));
+                this.settings.Add(new DayTimeLightSettings((WorldTimeZone)i));
                 this.settings[^1].SetValues(this.affectedLight);
             }
         }
 #endif
 
-        private void OnEnable() => DayNight.AddLight(this);
+        private void OnEnable() => WorldTime.AddLight(this);
 
-        private void OnDisable() => DayNight.RemoveLight(this);
+        private void OnDisable() => WorldTime.RemoveLight(this);
 
         #endregion
 
         #region In
 
-        public void Interpolate(DayTime from, DayTime towards)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="towards"></param>
+        /// <param name="interpolateTime">Between 0 - 1</param>
+        public void Interpolate(WorldTimeZone from, WorldTimeZone towards, float interpolateTime)
         {
         }
 

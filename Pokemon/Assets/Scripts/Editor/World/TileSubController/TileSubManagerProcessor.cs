@@ -21,15 +21,15 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
-using SubController = Runtime.World.Overworld.TileSubController;
+using UnityObject = UnityEngine.Object;
+using TileController = Runtime.World.Overworld.TileSubController;
 
 #endregion
 
 namespace Editor.World.TileSubController
 {
     // ReSharper disable once UnusedType.Global
-    public sealed class TileSubControllerProcessor : OdinPropertyProcessor<Runtime.World.Overworld.TileSubController>
+    public sealed class TileSubControllerProcessor : OdinPropertyProcessor<TileController>
     {
         #region Values
 
@@ -43,11 +43,16 @@ namespace Editor.World.TileSubController
 
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
-            propertyInfos.AddDelegate("Bake Navigation Mesh", () => this.BakeNavmesh(this.ValueEntry.Values[0]),
+            propertyInfos.AddDelegate("Bake Navigation Mesh", 
+                () => this.BakeNavmesh(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Navigation"));
-            propertyInfos.AddDelegate("Bake Lightning", () => this.BakeLighting(this.ValueEntry.Values[0]),
+
+            propertyInfos.AddDelegate("Bake Lightning", 
+                () => this.BakeLighting(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Lightning"));
-            propertyInfos.AddDelegate("Optimize Tile", () => OptimizeTile(this.ValueEntry.Values[0]),
+
+            propertyInfos.AddDelegate("Optimize Tile", 
+                () => OptimizeTile(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Optimize"), new PropertyOrderAttribute(-2));
         }
 
@@ -57,7 +62,7 @@ namespace Editor.World.TileSubController
 
         #region Optimizations
 
-        private static async void OptimizeTile(SubController tileSubController)
+        private static async void OptimizeTile(TileController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
@@ -135,7 +140,7 @@ namespace Editor.World.TileSubController
         /// Bake the lighting using Bakery asset
         /// </summary>
         /// <param name="tileSubController">The current TileSubController</param>
-        private async void BakeLighting(SubController tileSubController)
+        private async void BakeLighting(TileController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning)
                 return;
@@ -148,7 +153,7 @@ namespace Editor.World.TileSubController
 
             List<string> neighborsToLoad = new List<string>();
 
-            foreach (string path in Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
+            foreach (string path in UnityObject.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
             {
                 if (!neighborsToLoad.Contains(path))
@@ -192,24 +197,24 @@ namespace Editor.World.TileSubController
 
                 assetPath += "/Lighting";
 
-                for (int i = 0; i < Enum.GetValues(typeof(DayTime)).Length; i++)
+                for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
                 {
-                    Debug.Log(assetPath + $"/{((DayTime)i).ToString()}");
-                    if (!AssetDatabase.IsValidFolder(assetPath + $"/{((DayTime)i).ToString()}"))
-                        AssetDatabase.CreateFolder(assetPath, ((DayTime)i).ToString());
+                    Debug.Log(assetPath + $"/{((WorldTimeZone)i).ToString()}");
+                    if (!AssetDatabase.IsValidFolder(assetPath + $"/{((WorldTimeZone)i).ToString()}"))
+                        AssetDatabase.CreateFolder(assetPath, ((WorldTimeZone)i).ToString());
                 }
 
                 #endregion
 
-                bool lightProbeBake = Object.FindObjectsOfType<LightProbeGroup>().Length > 0;
-                bool reflectionProbeBake = Object.FindObjectsOfType<ReflectionProbe>().Length > 0;
+                bool lightProbeBake = UnityObject.FindObjectsOfType<LightProbeGroup>().Length > 0;
+                bool reflectionProbeBake = UnityObject.FindObjectsOfType<ReflectionProbe>().Length > 0;
 
                 //Calculate light for each time
-                for (int i = 0; i < Enum.GetValues(typeof(DayTime)).Length; i++)
+                for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
                 {
                     //Replace "Assets/" because bakery already assumes the path is in assets.
                     ftRenderLightmap.outputPathFull =
-                        (assetPath + $"/{((DayTime)i).ToString()}").Replace("Assets/", "");
+                        (assetPath + $"/{((WorldTimeZone)i).ToString()}").Replace("Assets/", "");
 
                     SetDayTime(i);
 
@@ -283,9 +288,9 @@ namespace Editor.World.TileSubController
 
         private static void SetDayTime(int index)
         {
-            DayNight.SetCurrentDayTime((DayTime)index);
+            WorldTime.SetCurrentDayTime((WorldTimeZone)index);
 
-            foreach (BakeryDirectLight bakeryDirectLight in Object.FindObjectsOfType<BakeryDirectLight>())
+            foreach (BakeryDirectLight bakeryDirectLight in UnityObject.FindObjectsOfType<BakeryDirectLight>())
             {
                 Light light = bakeryDirectLight.GetComponent<Light>();
                 bakeryDirectLight.color = light.color;
@@ -293,7 +298,7 @@ namespace Editor.World.TileSubController
                 bakeryDirectLight.indirectIntensity = light.bounceIntensity;
             }
 
-            foreach (BakeryPointLight bakeryPointLight in Object.FindObjectsOfType<BakeryPointLight>())
+            foreach (BakeryPointLight bakeryPointLight in UnityObject.FindObjectsOfType<BakeryPointLight>())
             {
                 Light light = bakeryPointLight.GetComponent<Light>();
                 bakeryPointLight.color = light.color;
@@ -311,7 +316,7 @@ namespace Editor.World.TileSubController
         {
         }
 
-        private static async UniTask BakePrefabLighting(SubController subController)
+        private static async UniTask BakePrefabLighting(TileController subController)
         {
             UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
@@ -320,7 +325,7 @@ namespace Editor.World.TileSubController
             await bakeTask.Task;
         }
 
-        private static async UniTask BakeLightProbeGroup(SubController subController)
+        private static async UniTask BakeLightProbeGroup(TileController subController)
         {
             UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
@@ -329,7 +334,7 @@ namespace Editor.World.TileSubController
             await bakeTask.Task;
         }
 
-        private static async UniTask BakeReflectionProbes(SubController subController)
+        private static async UniTask BakeReflectionProbes(TileController subController)
         {
             UniTaskCompletionSource<bool> bakeTask = new UniTaskCompletionSource<bool>();
 
@@ -376,7 +381,7 @@ namespace Editor.World.TileSubController
         /// Bake a custom Navmesh for use with the custom Navmesh agents.
         /// </summary>
         /// <param name="tileSubController">The current TileSubController</param>
-        private async void BakeNavmesh(SubController tileSubController)
+        private async void BakeNavmesh(TileController tileSubController)
         {
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
@@ -387,7 +392,7 @@ namespace Editor.World.TileSubController
 
             List<string> neighborsToLoad = new List<string>();
 
-            foreach (string path in Object.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
+            foreach (string path in UnityObject.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
             {
                 if (!neighborsToLoad.Contains(path))
@@ -801,7 +806,7 @@ namespace Editor.World.TileSubController
             NavTriangle[] navTriangles,
             IReadOnlyDictionary<int, List<int>> trianglesByVertexID, IReadOnlyList<Vector3> verts)
         {
-            NavigationPointEntry[] entries = Object.FindObjectsOfType<NavigationPoint>()
+            NavigationPointEntry[] entries = UnityObject.FindObjectsOfType<NavigationPoint>()
                 .SelectMany(p => p.GetEntryPoints()).ToArray();
             Dictionary<int, List<NavigationPointEntry>> result = new Dictionary<int, List<NavigationPointEntry>>();
 
@@ -960,7 +965,7 @@ namespace Editor.World.TileSubController
 
         /// <summary>
         /// Fill any holes that might have appeared by checking overlap.
-        /// If any three vertexes are directly connected to the two others then add a triangle between them.
+        /// If any three vertexes are directly connected to each other without having a matching triangle then add one.
         /// </summary>
         /// <param name="verts">3D vertices</param>
         /// <param name="areas">When a new triangle is created then add an area value as well</param>
