@@ -18,5 +18,11 @@ namespace Runtime.AI.Navigation.PathActions
         {
             throw new System.NotImplementedException();
         }
+
+        #region Getters
+
+        public override bool IsWalkAction() => false;
+
+        #endregion
     }
 }

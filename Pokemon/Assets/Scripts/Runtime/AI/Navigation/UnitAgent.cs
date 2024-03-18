@@ -83,10 +83,11 @@ namespace Runtime.AI.Navigation
             if (this.currentPath.Empty || this.currentPath.Complete)
                 return;
 
-            if (this.currentPath.GetCurrentPathAction() is WalkAction walkAction)
+            PathAction pathAction = this.currentPath.GetCurrentPathAction();
+            if (pathAction.IsWalkAction())
             {
                 Vector3 pos = this.transform.position;
-                Vector3 currentMoveVector = walkAction.Destination() - pos;
+                Vector3 currentMoveVector = pathAction.Destination() - pos;
                 currentMoveVector = this.AgentAvoidance(currentMoveVector);
 
                 if (Vector3.Angle(this.transform.forward, currentMoveVector) < this.settings.WalkTurnAngle)
@@ -95,7 +96,7 @@ namespace Runtime.AI.Navigation
                         Time.deltaTime);
                 }
             }
-            else if (this.currentPath.GetCurrentPathAction() is InteractAction interactAction)
+            else
             {
             }
 

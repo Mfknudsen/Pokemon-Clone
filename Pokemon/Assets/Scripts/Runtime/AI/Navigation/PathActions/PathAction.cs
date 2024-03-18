@@ -11,5 +11,7 @@ namespace Runtime.AI.Navigation.PathActions
         public abstract bool CheckAction(UnitAgent agent);
 
         public abstract Vector3 Destination();
+
+        public abstract bool IsWalkAction();
     }
 }

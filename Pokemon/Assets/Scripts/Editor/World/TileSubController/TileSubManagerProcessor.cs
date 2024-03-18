@@ -43,15 +43,15 @@ namespace Editor.World.TileSubController
 
         public override void ProcessMemberProperties(List<InspectorPropertyInfo> propertyInfos)
         {
-            propertyInfos.AddDelegate("Bake Navigation Mesh", 
+            propertyInfos.AddDelegate("Bake Navigation Mesh",
                 () => this.BakeNavmesh(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Navigation"));
 
-            propertyInfos.AddDelegate("Bake Lightning", 
+            propertyInfos.AddDelegate("Bake Lightning",
                 () => this.BakeLighting(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Lightning"));
 
-            propertyInfos.AddDelegate("Optimize Tile", 
+            propertyInfos.AddDelegate("Optimize Tile",
                 () => OptimizeTile(this.ValueEntry.Values[0]),
                 new FoldoutGroupAttribute("Optimize"), new PropertyOrderAttribute(-2));
         }
@@ -67,13 +67,14 @@ namespace Editor.World.TileSubController
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
 
+            BakedEditorManager.SetRunning(true);
+
             string editorProgressParTitle = "Optimizing tile: " + tileSubController.gameObject.scene.name;
             EditorUtility.DisplayProgressBar(editorProgressParTitle, "Grouping Terrain Trees", 0);
 
-            BakedEditorManager.SetRunning(true);
-
             TileEnvironment tileEnvironment = tileSubController.GetTileEnvironment();
             List<Terrain> terrains = tileEnvironment.GetTerrains();
+
             if (terrains.Count > 0)
             {
                 int totalInstanceCount = 0, currentCount = 0;
@@ -199,7 +200,6 @@ namespace Editor.World.TileSubController
 
                 for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
                 {
-                    Debug.Log(assetPath + $"/{((WorldTimeZone)i).ToString()}");
                     if (!AssetDatabase.IsValidFolder(assetPath + $"/{((WorldTimeZone)i).ToString()}"))
                         AssetDatabase.CreateFolder(assetPath, ((WorldTimeZone)i).ToString());
                 }
@@ -210,7 +210,8 @@ namespace Editor.World.TileSubController
                 bool reflectionProbeBake = UnityObject.FindObjectsOfType<ReflectionProbe>().Length > 0;
 
                 //Calculate light for each time
-                for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
+                //for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
+                for(int i = 0; i < 1; i++)
                 {
                     //Replace "Assets/" because bakery already assumes the path is in assets.
                     ftRenderLightmap.outputPathFull =
@@ -386,12 +387,16 @@ namespace Editor.World.TileSubController
             if (BakedEditorManager.IsBakeRunning || tileSubController == null)
                 return;
 
+            //Stops other processes from starting at the same time.
             BakedEditorManager.SetRunning(true);
 
+            //Title for the progressbar displayed during the baking process.
             string editorProgressParTitle = "Baking Navigation: " + tileSubController.gameObject.scene.name;
 
+            //Tile neighbors (Other scenes) to load during baking to allow agents to walk from tile to tile.
             List<string> neighborsToLoad = new List<string>();
 
+            //Finding all tile connection points to determine which to load.
             foreach (string path in UnityObject.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
             {
@@ -399,6 +404,13 @@ namespace Editor.World.TileSubController
                     neighborsToLoad.Add(path);
             }
 
+            //Find and disable all editor only objects.
+            GameObject[] editorGameObjects =
+                GameObject.FindGameObjectsWithTag("EditorOnly").Where(o => o.activeSelf).ToArray();
+            foreach (GameObject editorGameObject in editorGameObjects)
+                editorGameObject.SetActive(false);
+
+            //The current loaded neighbor tiles (Scenes).
             Scene[] loadedScenes = Array.Empty<Scene>();
             try
             {
@@ -418,13 +430,11 @@ namespace Editor.World.TileSubController
                 loadedScenes = await UniTask.WhenAll(loadSceneTasks);
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors", 1f);
 
-                foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
-                    g.SetActive(false);
-
                 //Construct Navigation Mesh and setup custom navmesh logic
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Calculation Navigation Mesh Triangulation",
                     0f);
 
+                //Use Unitys build in method for creating a navigation mesh and store the information. 
                 NavMeshTriangulation navmesh =
                     BuildNavMeshTriangulation(tileSubController.GetComponent<NavMeshSurface>());
 
@@ -432,13 +442,14 @@ namespace Editor.World.TileSubController
 
                 #region Check Vertices and Indices for overlap
 
+                //First iteration of the values to be stored.
                 List<Vector3> verts = navmesh.vertices.ToList();
                 List<int> indices = navmesh.indices.ToList();
                 List<int> areas = navmesh.areas.ToList();
                 Dictionary<Vector2Int, List<int>> vertsByPos = new Dictionary<Vector2Int, List<int>>();
 
+                //Group vertices by their 2D (x,z) positions for faster checking later on.
                 const float groupSize = 5f;
-
                 for (int i = 0; i < verts.Count; i++)
                 {
                     Vector3 v = verts[i];
@@ -451,6 +462,7 @@ namespace Editor.World.TileSubController
                         vertsByPos.Add(id, new List<int> { i });
                 }
 
+                //Check if some vertices is so close to another that one can be removed while the other takes over the removed ones connection.
                 this.CheckOverlap(verts, indices, vertsByPos, groupSize, editorProgressParTitle);
 
                 #endregion
@@ -621,10 +633,12 @@ namespace Editor.World.TileSubController
             }
             catch (Exception e)
             {
+                //Displayed progressbar contains a cancel button which when used should throw an exception with the message: "Cancel".
                 if (e.Message.Equals("Cancel"))
                     Debug.Log("Baking navmesh was canceled");
                 else
                 {
+                    //If an exception is thrown without the message: "Cancel" then it is an error.
                     Debug.LogError("Baking Navigation Mesh Failed");
                     Debug.LogError(e);
                 }
@@ -632,6 +646,7 @@ namespace Editor.World.TileSubController
 
             #region UnLoad neighbor scenes
 
+            //Unload the currently loaded neighbors (Scenes).
             if (loadedScenes.Length > 0)
             {
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 0f);
@@ -645,15 +660,19 @@ namespace Editor.World.TileSubController
                 EditorUtility.DisplayProgressBar(editorProgressParTitle, "Unloading Neighbors", 1f);
             }
 
-            foreach (GameObject g in GameObject.FindGameObjectsWithTag("EditorOnly"))
+            //All editor only objects gets enabled.
+            foreach (GameObject g in editorGameObjects)
                 g.SetActive(true);
 
             #endregion
 
+            //The progressbar is no longer needed.
             EditorUtility.ClearProgressBar();
 
+            //Save the the current scene
             EditorSceneManager.SaveScene(tileSubController.gameObject.scene);
 
+            //Other process may start now.
             BakedEditorManager.SetRunning(false);
         }
 
@@ -854,72 +873,67 @@ namespace Editor.World.TileSubController
         /// </summary>
         /// <param name="verts">3D vertices</param>
         /// <param name="indices">Each pair of threes indicate one triangle</param>
-        /// <param name="vertsByPos">List of vertex ids based on the divided floor int of x and z value</param>
+        /// <param name="vertsByPos">List of vertex ids grouped based on the divided floor int of x and z value</param>
         /// <param name="groupSize">Division value for creating the vertex groupings</param>
-        /// <param name="editorProgressParTitle">Editor loading bar title</param>
+        /// <param name="editorProgressParTitle">Editor progressbar title</param>
         /// <exception cref="Exception">Throws "Cancel" if the user cancels the progress</exception>
         private void CheckOverlap(List<Vector3> verts, List<int> indices, Dictionary<Vector2Int, List<int>> vertsByPos,
             float groupSize, string editorProgressParTitle)
         {
-            float divided = 20f;
+            //The ids of vertices to be removed, grouped index.
             Dictionary<int, List<int>> removed = new Dictionary<int, List<int>>();
-            for (int original = 0; original < verts.Count; original++)
+            for (int currentVertIndex = 0; currentVertIndex < verts.Count; currentVertIndex++)
             {
-                if (removed.TryGetValue(Mathf.FloorToInt(original / divided), out List<int> removedList))
+                //Check if the current vertex id is part of the to be removed.
+                if (removed.TryGetValue(Mathf.FloorToInt(currentVertIndex / groupSize), out List<int> removedList))
                 {
-                    if (removedList.Contains(original))
+                    //If its to be removed then dont check this vertex.
+                    if (removedList.Contains(currentVertIndex))
                         continue;
                 }
 
-                Vector2Int id = new Vector2Int(Mathf.FloorToInt(verts[original].x / groupSize),
-                    Mathf.FloorToInt(verts[original].z / groupSize));
+                //2D id of the vertex based on its x and z values and grouped by group size.
+                Vector2Int id = new Vector2Int(Mathf.FloorToInt(verts[currentVertIndex].x / groupSize),
+                    Mathf.FloorToInt(verts[currentVertIndex].z / groupSize));
+                
+                //Get the 
                 List<int> toCheck = new List<int>();
-                if (vertsByPos.TryGetValue(id, out List<int> l1))
-                    toCheck.AddRange(l1);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, -1), out List<int> l2))
-                    toCheck.AddRange(l2);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, 0), out List<int> l3))
-                    toCheck.AddRange(l3);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(-1, 1), out List<int> l4))
-                    toCheck.AddRange(l4);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(0, -1), out List<int> l5))
-                    toCheck.AddRange(l5);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(0, 1), out List<int> l6))
-                    toCheck.AddRange(l6);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(1, -1), out List<int> l7))
-                    toCheck.AddRange(l7);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(1, 0), out List<int> l8))
-                    toCheck.AddRange(l8);
-                if (vertsByPos.TryGetValue(id + new Vector2Int(1, 1), out List<int> l9))
-                    toCheck.AddRange(l9);
-
-                toCheck = toCheck.Where(x => x != original).ToList();
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if(vertsByPos.TryGetValue(id + new Vector2Int(x, y), out List<int> list))
+                            toCheck.AddRange(list);
+                    }
+                }
+                
+                toCheck = toCheck.Where(x => x != currentVertIndex).ToList();
 
                 foreach (int other in toCheck)
                 {
-                    if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / groupSize), out removedList))
                     {
                         if (removedList.Contains(other))
                             continue;
                     }
 
-                    if (Vector3.Distance(verts[original], verts[other]) > OVERLAP_CHECK_DISTANCE)
+                    if (Vector3.Distance(verts[currentVertIndex], verts[other]) > OVERLAP_CHECK_DISTANCE)
                         continue;
 
-                    if (removed.TryGetValue(Mathf.FloorToInt(other / divided), out removedList))
+                    if (removed.TryGetValue(Mathf.FloorToInt(other / groupSize), out removedList))
                         removedList.Add(other);
                     else
-                        removed.Add(Mathf.FloorToInt(other / divided), new List<int> { other });
+                        removed.Add(Mathf.FloorToInt(other / groupSize), new List<int> { other });
 
                     for (int indicesIndex = 0; indicesIndex < indices.Count; indicesIndex++)
                     {
                         if (indices[indicesIndex] == other)
-                            indices[indicesIndex] = original;
+                            indices[indicesIndex] = currentVertIndex;
                     }
                 }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
-                        $"Checking vertex overlap: {original} / {verts.Count}", 1f / verts.Count * original))
+                        $"Checking vertex overlap: {currentVertIndex} / {verts.Count}", 1f / verts.Count * currentVertIndex))
                     throw new Exception("Cancel");
             }
 

@@ -26,6 +26,8 @@ namespace Runtime.AI.Navigation.PathActions
 
         public override Vector3 Destination() => this.destination;
 
+        public override bool IsWalkAction() => true;
+
         #endregion
 
         #region In

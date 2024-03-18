@@ -162,8 +162,14 @@ namespace Runtime.World
 
         private static void UpdateRealtimeLights(WorldTimeZone from, WorldTimeZone towards, float time)
         {
+            if (_lights == null)
+                return;
+
             foreach (DayTimeLight dayTimeLight in _lights)
-                dayTimeLight.Interpolate(from, towards, time);
+            {
+                if (dayTimeLight != null)
+                    dayTimeLight.Interpolate(from, towards, time);
+            }
         }
 
         private static void UpdateLightmap(WorldTimeZone from, WorldTimeZone towards, float time)
