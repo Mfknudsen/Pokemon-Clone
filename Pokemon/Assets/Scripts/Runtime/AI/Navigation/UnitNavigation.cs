@@ -9,6 +9,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.LowLevel;
 using UnityEngine.PlayerLoop;
 
 #endregion
@@ -22,7 +23,7 @@ namespace Runtime.AI.Navigation
         /// <summary>
         /// The current main navigation mesh
         /// </summary>
-        private static CalculatedNavMesh _navMesh;
+        private static NavigationMesh _navMesh;
 
         /// <summary>
         /// For when navigation mesh changes then all agents will try to recalculate their path to use the new mesh
@@ -38,8 +39,6 @@ namespace Runtime.AI.Navigation
         /// Agents split into groups based on their x and z coordinate
         /// </summary>
         private static List<UnitAgent>[,] _groupedUnitAgents;
-
-        private const float GROUPING_SIZE = 5;
 
         private static List<QueuedAgentRequest> _requests;
 
@@ -76,7 +75,7 @@ namespace Runtime.AI.Navigation
 
         #region Setters
 
-        public static void SetNavMesh(CalculatedNavMesh set)
+        public static void SetNavMesh(NavigationMesh set)
         {
             if (_navMesh == set)
                 return;
@@ -102,7 +101,7 @@ namespace Runtime.AI.Navigation
 
             if (_navMesh == null) return;
 
-            Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+            Vector2Int id = GroupingIDByPosition(agent.transform.position);
             _groupedUnitAgents[id.x, id.y].Add(agent);
         }
 
@@ -193,7 +192,7 @@ namespace Runtime.AI.Navigation
         /// <returns>Agents around input agent</returns>
         public static List<UnitAgent> GetAgentsByAgentPosition(UnitAgent agent)
         {
-            Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+            Vector2Int id = GroupingIDByPosition(agent.transform.position);
 
             List<UnitAgent> result = new List<UnitAgent>();
 
@@ -232,10 +231,10 @@ namespace Runtime.AI.Navigation
         /// Add the update function to the game loop and setup the request list.
         /// In editor it will need to add the on exit play mode function to stop the update from happening multiple times during play mode an while play mode is not active.
         /// </summary>
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         private static void Initialize()
         {
-            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
+            PlayerLoopSystem playerLoop = PlayerLoop.GetCurrentPlayerLoop();
             for (int i = 0; i < playerLoop.subSystemList.Length; i++)
             {
                 if (playerLoop.subSystemList[i].type == typeof(FixedUpdate))
@@ -245,11 +244,11 @@ namespace Runtime.AI.Navigation
                     playerLoop.subSystemList[i].updateDelegate += UpdateNavigationValues;
             }
 
-            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+            PlayerLoop.SetPlayerLoop(playerLoop);
 
             _requests = new List<QueuedAgentRequest>();
             _allUnitAgents = new List<UnitAgent>();
-            
+
             _unitAgentLayer = LayerMask.NameToLayer("AI");
 
 #if UNITY_EDITOR
@@ -272,7 +271,7 @@ namespace Runtime.AI.Navigation
             DisposeNatives();
             _navMesh = null;
 
-            UnityEngine.LowLevel.PlayerLoopSystem playerLoop = UnityEngine.LowLevel.PlayerLoop.GetCurrentPlayerLoop();
+            PlayerLoopSystem playerLoop = PlayerLoop.GetCurrentPlayerLoop();
             for (int i = 0; i < playerLoop.subSystemList.Length; i++)
             {
                 if (playerLoop.subSystemList[i].type == typeof(FixedUpdate))
@@ -282,7 +281,7 @@ namespace Runtime.AI.Navigation
                     playerLoop.subSystemList[i].updateDelegate -= UpdateNavigationValues;
             }
 
-            UnityEngine.LowLevel.PlayerLoop.SetPlayerLoop(playerLoop);
+            PlayerLoop.SetPlayerLoop(playerLoop);
         }
 #endif
 
@@ -341,9 +340,13 @@ namespace Runtime.AI.Navigation
         /// </summary>
         private static void ResetAgentGrouping()
         {
-            _groupedUnitAgents = new List<UnitAgent>[
-                Mathf.FloorToInt((_navMesh.GetMaxX() - _navMesh.GetMinX()) / GROUPING_SIZE),
-                Mathf.FloorToInt((_navMesh.GetMaxY() - _navMesh.GetMinY()) / GROUPING_SIZE)];
+            int lengthX = Mathf.FloorToInt((_navMesh.GetMaxZ() - _navMesh.GetMinZ()) / _navMesh.GetGroupDivisionSize()),
+                lengthY = Mathf.FloorToInt((_navMesh.GetMaxX() - _navMesh.GetMinX()) / _navMesh.GetGroupDivisionSize());
+
+            lengthX = lengthX < 1 ? 1 : lengthX;
+            lengthY = lengthY < 1 ? 1 : lengthY;
+
+            _groupedUnitAgents = new List<UnitAgent>[lengthX, lengthY];
 
             for (int x = 0; x < _groupedUnitAgents.GetLength(0); x++)
             {
@@ -353,7 +356,8 @@ namespace Runtime.AI.Navigation
 
             foreach (UnitAgent agent in _allUnitAgents)
             {
-                Vector2Int id = GroupingIDByAgentPosition(agent.transform.position);
+                Vector2Int id = GroupingIDByPosition(agent.transform.position);
+                Debug.Log($"{_groupedUnitAgents.GetLength(0)} {_groupedUnitAgents.GetLength(1)}  |  {id.x} {id.y}");
                 _groupedUnitAgents[id.x, id.y].Add(agent);
             }
         }
@@ -373,18 +377,25 @@ namespace Runtime.AI.Navigation
             for (int i = 0; i < count; i++)
                 agents[i] = new JobAgent(_requests[i]);
 
-            PathCalculatorJob calculationJob =
-                new PathCalculatorJob(paths, agents, _verts, _simpleVerts, _areas, _triangles);
+            AStartCalculationJob calculationCalculationJob =
+                new AStartCalculationJob(paths, agents, _simpleVerts, _areas, _triangles);
 
-            _currentJob = calculationJob.Schedule(_requests.Count, 100);
+            _currentJob = calculationCalculationJob.Schedule(_requests.Count, 100);
             _currentJob.Complete();
+            calculationCalculationJob.Dispose();
 
             for (int i = 0; i < _requests.Count; i++)
+            {
                 _requests[i].agent.SetPath(ToUnitPath(agents[i], paths[i], _requests[i].agent));
+                paths[i].Dispose();
+            }
 
             _requests.Clear();
-            agents.Dispose();
-            paths.Dispose();
+
+            if (agents.IsCreated)
+                agents.Dispose();
+            if (paths.IsCreated)
+                paths.Dispose();
         }
 
         /// <summary>
@@ -421,21 +432,18 @@ namespace Runtime.AI.Navigation
                 agent);
         }
 
-        private static Vector2Int GroupingIDByAgentPosition(Vector3 position)
+        private static Vector2Int GroupingIDByPosition(Vector3 position)
         {
-            int minFloorX = _navMesh.GetMinX(),
-                minFloorY = _navMesh.GetMinY(),
-                maxFloorX = _navMesh.GetMaxX(),
-                maxFloorY = _navMesh.GetMaxY();
+            float minFloorX = _navMesh.GetMinX(),
+                minFloorZ = _navMesh.GetMinZ();
 
-            int x = position.x < minFloorX ? 0 :
-                    position.x > maxFloorX ? Mathf.FloorToInt((maxFloorX - minFloorX) / _navMesh.GetGroupDivisionSize()) :
-                    Mathf.FloorToInt((maxFloorX - position.x) / _navMesh.GetGroupDivisionSize()),
-                y = position.y < minFloorY ? 0 :
-                    position.y > maxFloorY ? Mathf.FloorToInt((maxFloorY - minFloorY) / _navMesh.GetGroupDivisionSize()) :
-                    Mathf.FloorToInt((maxFloorY - position.y) / _navMesh.GetGroupDivisionSize());
-
-            return new Vector2Int(x, y);
+            int x = Mathf.FloorToInt(Mathf.Clamp((position.x - minFloorX) / _navMesh.GetGroupDivisionSize(),
+                    1,
+                    _groupedUnitAgents.GetLength(0)) - 1),
+                z = Mathf.FloorToInt(Mathf.Clamp((position.z - minFloorZ) / _navMesh.GetGroupDivisionSize(),
+                    1,
+                    _groupedUnitAgents.GetLength(1)) - 1);
+            return new Vector2Int(x, z);
         }
 
         #endregion

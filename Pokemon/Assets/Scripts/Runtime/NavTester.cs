@@ -19,7 +19,7 @@ namespace Runtime
 
         [SerializeField] private Transform[] vertices;
 
-        private CalculatedNavMesh temp;
+        private NavigationMesh temp;
 
         private List<Portal> portals;
 
@@ -35,7 +35,7 @@ namespace Runtime
 
         private void Start()
         {
-            this.temp = ScriptableObject.CreateInstance<CalculatedNavMesh>();
+            this.temp = ScriptableObject.CreateInstance<NavigationMesh>();
             List<Vector3> verts = new List<Vector3>();
             List<Vector2> simple = new List<Vector2>();
             foreach (Transform t in this.vertices)
@@ -90,7 +90,7 @@ namespace Runtime
                 Vector3[] pos = this.remapped.Values.Select(r => r.vert).ToArray();
                 for (int i = 1; i < this.portals.Count; i++)
                 {
-                    Debug.DrawLine(pos[this.portals[i].left]+ Vector3.up,
+                    Debug.DrawLine(pos[this.portals[i].left] + Vector3.up,
                         pos[this.portals[i - 1].left] + Vector3.up, Color.blue);
                     Debug.DrawLine(pos[this.portals[i].right] + Vector3.up,
                         pos[this.portals[i - 1].right] + Vector3.up, Color.cyan);

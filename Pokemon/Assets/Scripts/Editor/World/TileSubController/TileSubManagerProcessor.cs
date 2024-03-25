@@ -175,7 +175,7 @@ namespace Editor.World.TileSubController
                 {
                     loadSceneTasks.Add(AsyncLoadScene(neighborsToLoad[i]));
                     EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors",
-                        .25f + (.5f / neighborsToLoad.Count * i));
+                        .25f + .5f / neighborsToLoad.Count * i);
                 }
 
                 loadedScenes = await UniTask.WhenAll(loadSceneTasks);
@@ -211,7 +211,7 @@ namespace Editor.World.TileSubController
 
                 //Calculate light for each time
                 //for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
-                for(int i = 0; i < 1; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     //Replace "Assets/" because bakery already assumes the path is in assets.
                     ftRenderLightmap.outputPathFull =
@@ -424,7 +424,7 @@ namespace Editor.World.TileSubController
                 {
                     loadSceneTasks.Add(AsyncLoadScene(neighborsToLoad[i]));
                     EditorUtility.DisplayProgressBar(editorProgressParTitle, "Loading Neighbors",
-                        .25f + (.5f / neighborsToLoad.Count * i));
+                        .25f + .5f / neighborsToLoad.Count * i);
                 }
 
                 loadedScenes = await UniTask.WhenAll(loadSceneTasks);
@@ -517,7 +517,7 @@ namespace Editor.World.TileSubController
                     }
 
                     EditorUtility.DisplayProgressBar(editorProgressParTitle,
-                        "Checking NavTriangle neighbor connections", .5f + (.5f / triangles.Count * connected.Count));
+                        "Checking NavTriangle neighbor connections", .5f + .5f / triangles.Count * connected.Count);
                 }
 
                 #endregion
@@ -603,31 +603,40 @@ namespace Editor.World.TileSubController
                 #region Create the storage to contain the final result
 
                 Scene s = tileSubController.gameObject.scene;
-                string assetPath = s.path.Replace(".unity", "/"), assetName = s.name + " NavMesh Calculations.asset";
+                string assetFolderPath = s.path.Replace(".unity", "/"),
+                    assetName = s.name + " NavMesh Calculations.asset";
 
                 try
                 {
-                    CalculatedNavMesh calculatedNavMesh =
-                        AssetDatabase.LoadAssetAtPath<CalculatedNavMesh>(assetPath + assetName);
+                    NavigationMesh calculatedNavMesh =
+                        AssetDatabase.LoadAssetAtPath<NavigationMesh>(assetFolderPath + assetName);
                     calculatedNavMesh.SetValues(fixedVertices.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(),
                         fixedEntryPoints);
                     EditorUtility.SetDirty(calculatedNavMesh);
                 }
                 catch
                 {
-                    CalculatedNavMesh calculatedNavMesh = ScriptableObject.CreateInstance<CalculatedNavMesh>();
+                    NavigationMesh calculatedNavMesh = ScriptableObject.CreateInstance<NavigationMesh>();
                     calculatedNavMesh.name = s.name + " NavMesh Calculations";
                     calculatedNavMesh.SetValues(fixedVertices.ToArray(), fixedTriangles.ToArray(), fixedAreas.ToArray(),
                         fixedEntryPoints);
                     tileSubController.SetCalculatedNavMesh(calculatedNavMesh);
 
                     EditorUtility.SetDirty(calculatedNavMesh);
-                    AssetDatabase.CreateAsset(calculatedNavMesh, assetPath + assetName);
+                    if (!AssetDatabase.IsValidFolder(assetFolderPath))
+                    {
+                        string[] split = assetFolderPath.Split('/');
+                        AssetDatabase.CreateFolder(
+                            assetFolderPath.Remove(assetFolderPath.Length - split[^2].Length - 2, split[^2].Length + 2),
+                            split[^2]);
+                    }
+
+                    AssetDatabase.CreateAsset(calculatedNavMesh, assetFolderPath + assetName);
                 }
 
                 AssetDatabase.SaveAssets();
 
-                tileSubController.gameObject.GetFirstComponentByRoot<NavMeshVisualizor>()?.Create();
+                tileSubController.gameObject.GetFirstComponentByRoot<NavMeshVisualizer>()?.Create();
 
                 #endregion
             }
@@ -895,18 +904,18 @@ namespace Editor.World.TileSubController
                 //2D id of the vertex based on its x and z values and grouped by group size.
                 Vector2Int id = new Vector2Int(Mathf.FloorToInt(verts[currentVertIndex].x / groupSize),
                     Mathf.FloorToInt(verts[currentVertIndex].z / groupSize));
-                
+
                 //Get the 
                 List<int> toCheck = new List<int>();
                 for (int x = -1; x <= 1; x++)
                 {
                     for (int y = -1; y <= 1; y++)
                     {
-                        if(vertsByPos.TryGetValue(id + new Vector2Int(x, y), out List<int> list))
+                        if (vertsByPos.TryGetValue(id + new Vector2Int(x, y), out List<int> list))
                             toCheck.AddRange(list);
                     }
                 }
-                
+
                 toCheck = toCheck.Where(x => x != currentVertIndex).ToList();
 
                 foreach (int other in toCheck)
@@ -933,7 +942,8 @@ namespace Editor.World.TileSubController
                 }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
-                        $"Checking vertex overlap: {currentVertIndex} / {verts.Count}", 1f / verts.Count * currentVertIndex))
+                        $"Checking vertex overlap: {currentVertIndex} / {verts.Count}",
+                        1f / verts.Count * currentVertIndex))
                     throw new Exception("Cancel");
             }
 

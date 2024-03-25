@@ -1,0 +1,3290 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9976288fc3c10a940b1b505844b1b640, type: 3}
+  m_Name: Avoidance Test NavMesh Calculations
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  vertices2D:
+  - {x: 1.4666667, y: -1.2000008}
+  - {x: 1.4666667, y: -0.0000019073486}
+  - {x: 4.266667, y: -0.0000019073486}
+  - {x: 4.266667, y: -1.2000008}
+  - {x: 4.266667, y: 1.2}
+  - {x: -0.0000019073486, y: -2.8000011}
+  - {x: 1.4666667, y: 1.2}
+  - {x: 1.2, y: -1.4666691}
+  - {x: 4.533334, y: -1.4666691}
+  - {x: 4.533334, y: 1.4666667}
+  - {x: -0.0000019073486, y: -1.4666691}
+  - {x: 5.2000003, y: -2.8000011}
+  - {x: 5.2000003, y: 2.8000002}
+  - {x: -1.2000008, y: -1.4666691}
+  - {x: 5.466667, y: -3.0666676}
+  - {x: -0.0000019073486, y: 2.8000002}
+  - {x: 5.466667, y: 3.0666668}
+  - {x: -1.4666691, y: -1.2000008}
+  - {x: 8.266667, y: -1.4666691}
+  - {x: 1.2, y: 1.4666667}
+  - {x: 8.266667, y: 1.4666667}
+  - {x: -5.2000027, y: -2.8000011}
+  - {x: 8.266667, y: -5.2000027}
+  - {x: -0.0000019073486, y: 1.4666667}
+  - {x: 8.266667, y: 5.2000003}
+  - {x: -4.5333347, y: -1.4666691}
+  - {x: 5.466667, y: -5.466669}
+  - {x: -1.2000008, y: 1.4666667}
+  - {x: 5.466667, y: 5.466667}
+  - {x: -4.2666683, y: -1.2000008}
+  - {x: -5.466669, y: -3.0666676}
+  - {x: 8.533334, y: -5.466669}
+  - {x: -1.4666691, y: 1.2}
+  - {x: 8.533334, y: 5.466667}
+  - {x: -4.2666683, y: -0.0000019073486}
+  - {x: -8.266668, y: -1.4666691}
+  - {x: 5.2000003, y: -5.7333355}
+  - {x: -4.2666683, y: 1.2}
+  - {x: 5.2000003, y: 5.7333336}
+  - {x: -1.4666691, y: -0.0000019073486}
+  - {x: -8.266668, y: -5.2000027}
+  - {x: 10.933334, y: -5.466669}
+  - {x: -4.5333347, y: 1.4666667}
+  - {x: 10.933334, y: 5.466667}
+  - {x: -5.466669, y: -5.466669}
+  - {x: 16.533335, y: -6.5333347}
+  - {x: -5.2000027, y: 2.8000002}
+  - {x: 2, y: 6.533334}
+  - {x: -8.533335, y: -5.466669}
+  - {x: 2, y: -6.5333347}
+  - {x: 16.533335, y: -5.466669}
+  - {x: -5.466669, y: 3.0666668}
+  - {x: 16.533335, y: 6.533334}
+  - {x: -0.0000019073486, y: 5.7333336}
+  - {x: -5.2000027, y: -5.7333355}
+  - {x: -0.0000019073486, y: -5.7333355}
+  - {x: 11.200001, y: -5.2000027}
+  - {x: -8.266668, y: 1.4666667}
+  - {x: 16.533335, y: 5.466667}
+  - {x: 1.7333335, y: 6.8}
+  - {x: -10.933336, y: -5.466669}
+  - {x: 1.7333335, y: -6.800001}
+  - {x: 16.533335, y: -4.133335}
+  - {x: -8.266668, y: 5.2000003}
+  - {x: 11.200001, y: 5.2000003}
+  - {x: 1.7333335, y: 9.200001}
+  - {x: -2.000002, y: -6.5333347}
+  - {x: 1.7333335, y: -9.200002}
+  - {x: 11.200001, y: -3.8666687}
+  - {x: -5.466669, y: 5.466667}
+  - {x: 16.533335, y: 4.1333337}
+  - {x: -0.0000019073486, y: 24.533335}
+  - {x: -16.533337, y: -6.5333347}
+  - {x: -0.0000019073486, y: -24.533337}
+  - {x: 16.800001, y: -3.8666687}
+  - {x: -8.533335, y: 5.466667}
+  - {x: 11.200001, y: 3.8666668}
+  - {x: 8, y: 19.466667}
+  - {x: -1.7333355, y: 9.200001}
+  - {x: -16.533337, y: -5.466669}
+  - {x: -1.7333355, y: -6.800001}
+  - {x: -1.7333355, y: -9.200002}
+  - {x: 8, y: -19.46667}
+  - {x: 14.933334, y: -1.4666691}
+  - {x: -5.2000027, y: 5.7333336}
+  - {x: 16.800001, y: 3.8666668}
+  - {x: 8.266667, y: 19.733334}
+  - {x: 2, y: 9.466667}
+  - {x: -1.7333355, y: 6.8}
+  - {x: -8.000002, y: 19.466667}
+  - {x: -11.200003, y: -5.2000027}
+  - {x: -8.000002, y: -19.46667}
+  - {x: 2, y: -9.466669}
+  - {x: 8.266667, y: -19.733335}
+  - {x: 11.200001, y: -1.4666691}
+  - {x: 15.200001, y: -1.2000008}
+  - {x: -10.933336, y: 5.466667}
+  - {x: 14.933334, y: 1.4666667}
+  - {x: 10.666667, y: 19.733334}
+  - {x: 8, y: 11.066668}
+  - {x: -2.000002, y: 6.533334}
+  - {x: -2.000002, y: 9.466667}
+  - {x: -8.266668, y: 19.733334}
+  - {x: -16.533337, y: -4.133335}
+  - {x: -8.266668, y: -19.733335}
+  - {x: -2.000002, y: -9.466669}
+  - {x: 8, y: -11.0666685}
+  - {x: 10.666667, y: -19.733335}
+  - {x: 18.266668, y: -1.2000008}
+  - {x: -16.533337, y: 6.533334}
+  - {x: 18.533335, y: 1.4666667}
+  - {x: 11.200001, y: 1.4666667}
+  - {x: 24.533335, y: 24.533335}
+  - {x: 8.266667, y: 10.8}
+  - {x: -8.000002, y: 11.066668}
+  - {x: -10.666668, y: 19.733334}
+  - {x: -11.200003, y: -3.8666687}
+  - {x: -10.666668, y: -19.733335}
+  - {x: -8.000002, y: -11.0666685}
+  - {x: 8.266667, y: -10.800002}
+  - {x: 24.533335, y: -24.533337}
+  - {x: 18.533335, y: -1.4666691}
+  - {x: 15.200001, y: -0.0000019073486}
+  - {x: -16.533337, y: 5.466667}
+  - {x: 15.200001, y: 1.2}
+  - {x: 19.2, y: 3.8666668}
+  - {x: 24.533335, y: 19.733334}
+  - {x: 16.533335, y: 9.466667}
+  - {x: -8.266668, y: 10.8}
+  - {x: -24.533337, y: 24.533335}
+  - {x: -16.800003, y: -3.8666687}
+  - {x: -24.533337, y: -24.533337}
+  - {x: -8.266668, y: -10.800002}
+  - {x: 16.533335, y: -9.466669}
+  - {x: 24.533335, y: -19.733335}
+  - {x: 19.2, y: -3.8666687}
+  - {x: 18.266668, y: -0.0000019073486}
+  - {x: -11.200003, y: 5.2000003}
+  - {x: 18.266668, y: 1.2}
+  - {x: 24.533335, y: 1.4666667}
+  - {x: 10.933334, y: 19.466667}
+  - {x: 10.666667, y: 10.8}
+  - {x: -16.533337, y: 9.466667}
+  - {x: -24.533337, y: 19.733334}
+  - {x: -14.933335, y: -1.4666691}
+  - {x: -24.533337, y: -19.733335}
+  - {x: -16.533337, y: -9.466669}
+  - {x: 10.666667, y: -10.800002}
+  - {x: 10.933334, y: -19.46667}
+  - {x: 24.533335, y: -1.4666691}
+  - {x: -16.533337, y: 4.1333337}
+  - {x: 24.533335, y: 3.8666668}
+  - {x: 16.800001, y: 12.800001}
+  - {x: 16.533335, y: 10.8}
+  - {x: -10.666668, y: 10.8}
+  - {x: -10.933336, y: 19.466667}
+  - {x: -11.200003, y: -1.4666691}
+  - {x: -18.533337, y: -1.4666691}
+  - {x: -10.933336, y: -19.46667}
+  - {x: -10.666668, y: -10.800002}
+  - {x: 16.533335, y: -10.800002}
+  - {x: 16.800001, y: -12.800002}
+  - {x: 24.533335, y: -3.8666687}
+  - {x: -11.200003, y: 3.8666668}
+  - {x: 19.466667, y: 4.1333337}
+  - {x: 19.2, y: 12.800001}
+  - {x: 10.933334, y: 12.800001}
+  - {x: 10.933334, y: 11.066668}
+  - {x: -16.533337, y: 10.8}
+  - {x: -16.800003, y: 12.800001}
+  - {x: -15.200003, y: -1.2000008}
+  - {x: -19.200003, y: -3.8666687}
+  - {x: -16.800003, y: -12.800002}
+  - {x: -16.533337, y: -10.800002}
+  - {x: 10.933334, y: -11.0666685}
+  - {x: 10.933334, y: -12.800002}
+  - {x: 19.2, y: -12.800002}
+  - {x: 19.466667, y: -4.133335}
+  - {x: -16.800003, y: 3.8666668}
+  - {x: 24.533335, y: 12.800001}
+  - {x: 16.533335, y: 12.533334}
+  - {x: -10.933336, y: 11.066668}
+  - {x: -10.933336, y: 12.800001}
+  - {x: -19.200003, y: 12.800001}
+  - {x: -18.26667, y: -1.2000008}
+  - {x: -24.533337, y: -1.4666691}
+  - {x: -19.200003, y: -12.800002}
+  - {x: -10.933336, y: -12.800002}
+  - {x: -10.933336, y: -11.0666685}
+  - {x: 16.533335, y: -12.533336}
+  - {x: 24.533335, y: -12.800002}
+  - {x: 19.466667, y: -12.533336}
+  - {x: -14.933335, y: 1.4666667}
+  - {x: 19.466667, y: 12.533334}
+  - {x: -16.533337, y: 12.533334}
+  - {x: -24.533337, y: 12.800001}
+  - {x: -18.26667, y: -0.0000019073486}
+  - {x: -24.533337, y: -3.8666687}
+  - {x: -24.533337, y: -12.800002}
+  - {x: -16.533337, y: -12.533336}
+  - {x: -11.200003, y: 1.4666667}
+  - {x: -15.200003, y: 1.2}
+  - {x: -19.46667, y: 12.533334}
+  - {x: -15.200003, y: -0.0000019073486}
+  - {x: -19.46667, y: -4.133335}
+  - {x: -19.46667, y: -12.533336}
+  - {x: -18.26667, y: 1.2}
+  - {x: -19.46667, y: 4.1333337}
+  - {x: -18.533337, y: 1.4666667}
+  - {x: -24.533337, y: 3.8666668}
+  - {x: -19.200003, y: 3.8666668}
+  - {x: -24.533337, y: 1.4666667}
+  verticesY:
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  - 0.06666667
+  triangles:
+  - id: 0
+    A: 0
+    B: 1
+    C: 2
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0100000002000000
+    widthDistanceBetweenNeighbor:
+    - 3.046309
+    - 2.8000002
+    navPointIDs: 
+  - id: 1
+    A: 0
+    B: 2
+    C: 3
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0000000003000000
+    widthDistanceBetweenNeighbor:
+    - 3.046309
+    - 2.8000002
+    navPointIDs: 
+  - id: 2
+    A: 4
+    B: 2
+    C: 1
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0400000000000000
+    widthDistanceBetweenNeighbor:
+    - 3.0463102
+    - 2.8000002
+    navPointIDs: 
+  - id: 3
+    A: 5
+    B: 0
+    C: 3
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 050000000600000001000000
+    widthDistanceBetweenNeighbor:
+    - 2.170511
+    - 4.556804
+    - 2.8000002
+    navPointIDs: 
+  - id: 4
+    A: 4
+    B: 1
+    C: 6
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0200000007000000
+    widthDistanceBetweenNeighbor:
+    - 3.0463102
+    - 2.8000002
+    navPointIDs: 
+  - id: 5
+    A: 5
+    B: 7
+    C: 0
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0300000008000000
+    widthDistanceBetweenNeighbor:
+    - 2.170511
+    - 1.7938169
+    navPointIDs: 
+  - id: 6
+    A: 5
+    B: 3
+    C: 8
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0300000009000000
+    widthDistanceBetweenNeighbor:
+    - 4.556804
+    - 4.725347
+    navPointIDs: 
+  - id: 7
+    A: 6
+    B: 9
+    C: 4
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 040000000a000000
+    widthDistanceBetweenNeighbor:
+    - 2.8000002
+    - 3.0782394
+    navPointIDs: 
+  - id: 8
+    A: 5
+    B: 10
+    C: 7
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 050000000b000000
+    widthDistanceBetweenNeighbor:
+    - 1.7938169
+    - 1.3333321
+    navPointIDs: 
+  - id: 9
+    A: 5
+    B: 8
+    C: 11
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 060000000c000000
+    widthDistanceBetweenNeighbor:
+    - 4.725347
+    - 1.4907107
+    navPointIDs: 
+  - id: 10
+    A: 6
+    B: 12
+    C: 9
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 070000000d0000000e000000
+    widthDistanceBetweenNeighbor:
+    - 3.0782394
+    - 4.061746
+    - 1.490712
+    navPointIDs: 
+  - id: 11
+    A: 13
+    B: 10
+    C: 5
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0f00000008000000
+    widthDistanceBetweenNeighbor:
+    - 1.7938148
+    - 1.3333321
+    navPointIDs: 
+  - id: 12
+    A: 8
+    B: 14
+    C: 11
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0900000010000000
+    widthDistanceBetweenNeighbor:
+    - 1.4907107
+    - 1.8523246
+    navPointIDs: 
+  - id: 13
+    A: 6
+    B: 15
+    C: 12
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0a00000011000000
+    widthDistanceBetweenNeighbor:
+    - 4.061746
+    - 2.1705108
+    navPointIDs: 
+  - id: 14
+    A: 16
+    B: 9
+    C: 12
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 120000000a000000
+    widthDistanceBetweenNeighbor:
+    - 1.852326
+    - 1.490712
+    navPointIDs: 
+  - id: 15
+    A: 17
+    B: 13
+    C: 5
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 130000000b000000
+    widthDistanceBetweenNeighbor:
+    - 2.17051
+    - 1.7938148
+    navPointIDs: 
+  - id: 16
+    A: 8
+    B: 18
+    C: 14
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0c00000014000000
+    widthDistanceBetweenNeighbor:
+    - 1.8523246
+    - 3.2249024
+    navPointIDs: 
+  - id: 17
+    A: 6
+    B: 19
+    C: 15
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0d00000015000000
+    widthDistanceBetweenNeighbor:
+    - 2.1705108
+    - 1.793818
+    navPointIDs: 
+  - id: 18
+    A: 16
+    B: 20
+    C: 9
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0e00000016000000
+    widthDistanceBetweenNeighbor:
+    - 1.852326
+    - 3.2249033
+    navPointIDs: 
+  - id: 19
+    A: 17
+    B: 5
+    C: 21
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 0f00000017000000
+    widthDistanceBetweenNeighbor:
+    - 2.17051
+    - 4.061746
+    navPointIDs: 
+  - id: 20
+    A: 22
+    B: 14
+    C: 18
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1800000010000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201023
+    - 3.2249024
+    navPointIDs: 
+  - id: 21
+    A: 19
+    B: 23
+    C: 15
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1100000019000000
+    widthDistanceBetweenNeighbor:
+    - 1.793818
+    - 1.3333335
+    navPointIDs: 
+  - id: 22
+    A: 16
+    B: 24
+    C: 20
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 120000001a000000
+    widthDistanceBetweenNeighbor:
+    - 3.2249033
+    - 3.5201013
+    navPointIDs: 
+  - id: 23
+    A: 17
+    B: 21
+    C: 25
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 130000001b0000001c000000
+    widthDistanceBetweenNeighbor:
+    - 4.061746
+    - 3.0782382
+    - 1.4907115
+    navPointIDs: 
+  - id: 24
+    A: 22
+    B: 26
+    C: 14
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 140000001d000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201023
+    - 2.81267
+    navPointIDs: 
+  - id: 25
+    A: 15
+    B: 23
+    C: 27
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 150000001e000000
+    widthDistanceBetweenNeighbor:
+    - 1.3333335
+    - 1.7938159
+    navPointIDs: 
+  - id: 26
+    A: 16
+    B: 28
+    C: 24
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 160000001f000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201013
+    - 2.81267
+    navPointIDs: 
+  - id: 27
+    A: 17
+    B: 25
+    C: 29
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1700000020000000
+    widthDistanceBetweenNeighbor:
+    - 3.0782382
+    - 2.7999992
+    navPointIDs: 
+  - id: 28
+    A: 30
+    B: 25
+    C: 21
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2100000017000000
+    widthDistanceBetweenNeighbor:
+    - 1.8523251
+    - 1.4907115
+    navPointIDs: 
+  - id: 29
+    A: 22
+    B: 31
+    C: 26
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1800000022000000
+    widthDistanceBetweenNeighbor:
+    - 2.81267
+    - 3.0666666
+    navPointIDs: 
+  - id: 30
+    A: 15
+    B: 27
+    C: 32
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1900000023000000
+    widthDistanceBetweenNeighbor:
+    - 1.7938159
+    - 2.1705098
+    navPointIDs: 
+  - id: 31
+    A: 28
+    B: 33
+    C: 24
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1a00000024000000
+    widthDistanceBetweenNeighbor:
+    - 2.81267
+    - 3.0666666
+    navPointIDs: 
+  - id: 32
+    A: 34
+    B: 17
+    C: 29
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 250000001b000000
+    widthDistanceBetweenNeighbor:
+    - 3.046308
+    - 2.7999992
+    navPointIDs: 
+  - id: 33
+    A: 30
+    B: 35
+    C: 25
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1c00000026000000
+    widthDistanceBetweenNeighbor:
+    - 1.8523251
+    - 3.2249017
+    navPointIDs: 
+  - id: 34
+    A: 36
+    B: 26
+    C: 31
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 270000001d000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439832
+    - 3.0666666
+    navPointIDs: 
+  - id: 35
+    A: 15
+    B: 32
+    C: 37
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1e0000002800000029000000
+    widthDistanceBetweenNeighbor:
+    - 2.1705098
+    - 4.556802
+    - 2.7999992
+    navPointIDs: 
+  - id: 36
+    A: 33
+    B: 28
+    C: 38
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 1f0000002a000000
+    widthDistanceBetweenNeighbor:
+    - 3.0666666
+    - 3.3439832
+    navPointIDs: 
+  - id: 37
+    A: 34
+    B: 39
+    C: 17
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 200000002b000000
+    widthDistanceBetweenNeighbor:
+    - 3.046308
+    - 2.7999992
+    navPointIDs: 
+  - id: 38
+    A: 30
+    B: 40
+    C: 35
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 210000002c000000
+    widthDistanceBetweenNeighbor:
+    - 3.2249017
+    - 3.5201015
+    navPointIDs: 
+  - id: 39
+    A: 36
+    B: 31
+    C: 41
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 220000002d000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439832
+    - 5.7395325
+    navPointIDs: 
+  - id: 40
+    A: 15
+    B: 37
+    C: 42
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 230000002e000000
+    widthDistanceBetweenNeighbor:
+    - 4.556802
+    - 4.725345
+    navPointIDs: 
+  - id: 41
+    A: 32
+    B: 34
+    C: 37
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 230000002b000000
+    widthDistanceBetweenNeighbor:
+    - 2.7999992
+    - 3.0463092
+    navPointIDs: 
+  - id: 42
+    A: 43
+    B: 33
+    C: 38
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2f00000024000000
+    widthDistanceBetweenNeighbor:
+    - 5.7395325
+    - 3.3439832
+    navPointIDs: 
+  - id: 43
+    A: 32
+    B: 39
+    C: 34
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2900000025000000
+    widthDistanceBetweenNeighbor:
+    - 3.0463092
+    - 2.7999992
+    navPointIDs: 
+  - id: 44
+    A: 30
+    B: 44
+    C: 40
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2600000030000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201015
+    - 2.812669
+    navPointIDs: 
+  - id: 45
+    A: 36
+    B: 41
+    C: 45
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 270000003100000032000000
+    widthDistanceBetweenNeighbor:
+    - 5.7395325
+    - 11.361534
+    - 5.7006826
+    navPointIDs: 
+  - id: 46
+    A: 15
+    B: 42
+    C: 46
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2800000033000000
+    widthDistanceBetweenNeighbor:
+    - 4.725345
+    - 1.4907126
+    navPointIDs: 
+  - id: 47
+    A: 43
+    B: 38
+    C: 47
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2a0000003400000035000000
+    widthDistanceBetweenNeighbor:
+    - 5.7395325
+    - 8.996791
+    - 3.2984848
+    navPointIDs: 
+  - id: 48
+    A: 44
+    B: 48
+    C: 40
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2c00000036000000
+    widthDistanceBetweenNeighbor:
+    - 2.812669
+    - 3.0666656
+    navPointIDs: 
+  - id: 49
+    A: 36
+    B: 45
+    C: 49
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2d00000037000000
+    widthDistanceBetweenNeighbor:
+    - 11.361534
+    - 3.2984846
+    navPointIDs: 
+  - id: 50
+    A: 41
+    B: 50
+    C: 45
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2d00000038000000
+    widthDistanceBetweenNeighbor:
+    - 5.7006826
+    - 5.6000004
+    navPointIDs: 
+  - id: 51
+    A: 42
+    B: 51
+    C: 46
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2e00000039000000
+    widthDistanceBetweenNeighbor:
+    - 1.4907126
+    - 1.8523265
+    navPointIDs: 
+  - id: 52
+    A: 43
+    B: 47
+    C: 52
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2f0000003a000000
+    widthDistanceBetweenNeighbor:
+    - 8.996791
+    - 5.7006826
+    navPointIDs: 
+  - id: 53
+    A: 38
+    B: 53
+    C: 47
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 2f0000003b000000
+    widthDistanceBetweenNeighbor:
+    - 3.2984848
+    - 2.1540678
+    navPointIDs: 
+  - id: 54
+    A: 48
+    B: 44
+    C: 54
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 300000003c000000
+    widthDistanceBetweenNeighbor:
+    - 3.0666656
+    - 3.3439817
+    navPointIDs: 
+  - id: 55
+    A: 49
+    B: 55
+    C: 36
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 310000003d000000
+    widthDistanceBetweenNeighbor:
+    - 3.2984846
+    - 2.1540675
+    navPointIDs: 
+  - id: 56
+    A: 50
+    B: 41
+    C: 56
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 320000003e000000
+    widthDistanceBetweenNeighbor:
+    - 5.6000004
+    - 5.3399963
+    navPointIDs: 
+  - id: 57
+    A: 42
+    B: 57
+    C: 51
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 330000003f000000
+    widthDistanceBetweenNeighbor:
+    - 1.8523265
+    - 3.2249024
+    navPointIDs: 
+  - id: 58
+    A: 52
+    B: 58
+    C: 43
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3400000040000000
+    widthDistanceBetweenNeighbor:
+    - 5.7006826
+    - 5.6000004
+    navPointIDs: 
+  - id: 59
+    A: 53
+    B: 59
+    C: 47
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3500000041000000
+    widthDistanceBetweenNeighbor:
+    - 2.1540678
+    - 2.0352466
+    navPointIDs: 
+  - id: 60
+    A: 60
+    B: 48
+    C: 54
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4200000036000000
+    widthDistanceBetweenNeighbor:
+    - 5.739532
+    - 3.3439817
+    navPointIDs: 
+  - id: 61
+    A: 49
+    B: 61
+    C: 55
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3700000043000000
+    widthDistanceBetweenNeighbor:
+    - 2.1540675
+    - 2.0352461
+    navPointIDs: 
+  - id: 62
+    A: 62
+    B: 50
+    C: 56
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4400000038000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 63
+    A: 63
+    B: 51
+    C: 57
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4500000039000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201004
+    - 3.2249024
+    navPointIDs: 
+  - id: 64
+    A: 64
+    B: 43
+    C: 58
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 460000003a000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 65
+    A: 65
+    B: 59
+    C: 53
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 470000003b000000
+    widthDistanceBetweenNeighbor:
+    - 3.8758526
+    - 2.0352466
+    navPointIDs: 
+  - id: 66
+    A: 60
+    B: 54
+    C: 66
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3c0000004800000049000000
+    widthDistanceBetweenNeighbor:
+    - 5.739532
+    - 8.996791
+    - 3.298485
+    navPointIDs: 
+  - id: 67
+    A: 55
+    B: 61
+    C: 67
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3d0000004a000000
+    widthDistanceBetweenNeighbor:
+    - 2.0352461
+    - 3.8758516
+    navPointIDs: 
+  - id: 68
+    A: 62
+    B: 56
+    C: 68
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3e0000004b000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 69
+    A: 63
+    B: 69
+    C: 51
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 3f0000004c000000
+    widthDistanceBetweenNeighbor:
+    - 3.5201004
+    - 2.812669
+    navPointIDs: 
+  - id: 70
+    A: 70
+    B: 64
+    C: 58
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4d00000040000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 71
+    A: 65
+    B: 53
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 410000004e0000004f000000
+    widthDistanceBetweenNeighbor:
+    - 3.8758526
+    - 15.430994
+    - 18.800001
+    navPointIDs: 
+  - id: 72
+    A: 60
+    B: 66
+    C: 72
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4200000050000000
+    widthDistanceBetweenNeighbor:
+    - 8.996791
+    - 5.7006826
+    navPointIDs: 
+  - id: 73
+    A: 54
+    B: 55
+    C: 66
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4200000051000000
+    widthDistanceBetweenNeighbor:
+    - 3.298485
+    - 2.1540656
+    navPointIDs: 
+  - id: 74
+    A: 55
+    B: 67
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 430000005200000053000000
+    widthDistanceBetweenNeighbor:
+    - 3.8758516
+    - 18.800001
+    - 15.430995
+    navPointIDs: 
+  - id: 75
+    A: 68
+    B: 74
+    C: 62
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4400000054000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 76
+    A: 63
+    B: 75
+    C: 69
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4500000055000000
+    widthDistanceBetweenNeighbor:
+    - 2.812669
+    - 3.0666656
+    navPointIDs: 
+  - id: 77
+    A: 70
+    B: 76
+    C: 64
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4600000056000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 78
+    A: 77
+    B: 65
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 570000005800000047000000
+    widthDistanceBetweenNeighbor:
+    - 9.469485
+    - 12.028115
+    - 15.430994
+    navPointIDs: 
+  - id: 79
+    A: 53
+    B: 78
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 47000000590000005a000000
+    widthDistanceBetweenNeighbor:
+    - 18.800001
+    - 3.8758516
+    - 15.430994
+    navPointIDs: 
+  - id: 80
+    A: 72
+    B: 79
+    C: 60
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 480000005b000000
+    widthDistanceBetweenNeighbor:
+    - 5.7006826
+    - 5.6000004
+    navPointIDs: 
+  - id: 81
+    A: 55
+    B: 80
+    C: 66
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 490000005c000000
+    widthDistanceBetweenNeighbor:
+    - 2.1540656
+    - 2.0352447
+    navPointIDs: 
+  - id: 82
+    A: 81
+    B: 55
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5c0000005d0000004a000000
+    widthDistanceBetweenNeighbor:
+    - 3.875851
+    - 15.430995
+    - 18.800001
+    navPointIDs: 
+  - id: 83
+    A: 67
+    B: 82
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4a0000005e0000005f000000
+    widthDistanceBetweenNeighbor:
+    - 15.430995
+    - 12.028115
+    - 9.469485
+    navPointIDs: 
+  - id: 84
+    A: 68
+    B: 83
+    C: 74
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4b0000006000000061000000
+    widthDistanceBetweenNeighbor:
+    - 5.6000004
+    - 4.4382176
+    - 3.0404675
+    navPointIDs: 
+  - id: 85
+    A: 84
+    B: 69
+    C: 75
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 620000004c000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439817
+    - 3.0666656
+    navPointIDs: 
+  - id: 86
+    A: 70
+    B: 85
+    C: 76
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4d00000063000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 87
+    A: 71
+    B: 86
+    C: 77
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4e00000064000000
+    widthDistanceBetweenNeighbor:
+    - 9.469485
+    - 9.5591755
+    navPointIDs: 
+  - id: 88
+    A: 77
+    B: 87
+    C: 65
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4e00000065000000
+    widthDistanceBetweenNeighbor:
+    - 12.028115
+    - 11.661903
+    navPointIDs: 
+  - id: 89
+    A: 53
+    B: 88
+    C: 78
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4f00000066000000
+    widthDistanceBetweenNeighbor:
+    - 3.8758516
+    - 2.0352452
+    navPointIDs: 
+  - id: 90
+    A: 78
+    B: 89
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 4f0000006700000068000000
+    widthDistanceBetweenNeighbor:
+    - 15.430994
+    - 12.028115
+    - 9.469483
+    navPointIDs: 
+  - id: 91
+    A: 90
+    B: 60
+    C: 79
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6900000050000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 92
+    A: 81
+    B: 80
+    C: 55
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5200000051000000
+    widthDistanceBetweenNeighbor:
+    - 3.875851
+    - 2.0352447
+    navPointIDs: 
+  - id: 93
+    A: 91
+    B: 81
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6a0000006b00000052000000
+    widthDistanceBetweenNeighbor:
+    - 9.469483
+    - 12.028115
+    - 15.430995
+    navPointIDs: 
+  - id: 94
+    A: 67
+    B: 92
+    C: 82
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 530000006c000000
+    widthDistanceBetweenNeighbor:
+    - 12.028115
+    - 11.661903
+    navPointIDs: 
+  - id: 95
+    A: 82
+    B: 93
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 530000006d000000
+    widthDistanceBetweenNeighbor:
+    - 9.469485
+    - 9.5591755
+    navPointIDs: 
+  - id: 96
+    A: 68
+    B: 94
+    C: 83
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 54000000
+    widthDistanceBetweenNeighbor:
+    - 4.4382176
+    navPointIDs: 
+  - id: 97
+    A: 74
+    B: 83
+    C: 95
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 540000006e000000
+    widthDistanceBetweenNeighbor:
+    - 3.0404675
+    - 3.1098423
+    navPointIDs: 
+  - id: 98
+    A: 84
+    B: 75
+    C: 96
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 550000006f000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439817
+    - 5.739532
+    navPointIDs: 
+  - id: 99
+    A: 97
+    B: 76
+    C: 85
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 700000007100000056000000
+    widthDistanceBetweenNeighbor:
+    - 3.040468
+    - 4.438218
+    - 5.6000004
+    navPointIDs: 
+  - id: 100
+    A: 98
+    B: 86
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7200000057000000
+    widthDistanceBetweenNeighbor:
+    - 11.696916
+    - 9.5591755
+    navPointIDs: 
+  - id: 101
+    A: 77
+    B: 99
+    C: 87
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5800000073000000
+    widthDistanceBetweenNeighbor:
+    - 11.661903
+    - 6.20967
+    navPointIDs: 
+  - id: 102
+    A: 100
+    B: 88
+    C: 53
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7400000059000000
+    widthDistanceBetweenNeighbor:
+    - 2.154066
+    - 2.0352452
+    navPointIDs: 
+  - id: 103
+    A: 78
+    B: 101
+    C: 89
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5a00000075000000
+    widthDistanceBetweenNeighbor:
+    - 12.028115
+    - 11.661903
+    navPointIDs: 
+  - id: 104
+    A: 89
+    B: 102
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5a00000076000000
+    widthDistanceBetweenNeighbor:
+    - 9.469483
+    - 9.559173
+    navPointIDs: 
+  - id: 105
+    A: 90
+    B: 79
+    C: 103
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5b00000077000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.438955
+    navPointIDs: 
+  - id: 106
+    A: 73
+    B: 104
+    C: 91
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5d00000078000000
+    widthDistanceBetweenNeighbor:
+    - 9.469483
+    - 9.559173
+    navPointIDs: 
+  - id: 107
+    A: 91
+    B: 105
+    C: 81
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5d00000079000000
+    widthDistanceBetweenNeighbor:
+    - 12.028115
+    - 11.661903
+    navPointIDs: 
+  - id: 108
+    A: 92
+    B: 106
+    C: 82
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5e0000007a000000
+    widthDistanceBetweenNeighbor:
+    - 11.661903
+    - 6.2096696
+    navPointIDs: 
+  - id: 109
+    A: 73
+    B: 93
+    C: 107
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 5f0000007b000000
+    widthDistanceBetweenNeighbor:
+    - 9.5591755
+    - 11.696916
+    navPointIDs: 
+  - id: 110
+    A: 74
+    B: 95
+    C: 108
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 610000007c0000007d000000
+    widthDistanceBetweenNeighbor:
+    - 3.1098423
+    - 3.0433912
+    - 3.0666676
+    navPointIDs: 
+  - id: 111
+    A: 84
+    B: 96
+    C: 109
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 620000007e0000007f000000
+    widthDistanceBetweenNeighbor:
+    - 5.739532
+    - 11.361534
+    - 5.7006826
+    navPointIDs: 
+  - id: 112
+    A: 110
+    B: 97
+    C: 85
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 800000008100000063000000
+    widthDistanceBetweenNeighbor:
+    - 3.6000004
+    - 2.9604807
+    - 3.040468
+    navPointIDs: 
+  - id: 113
+    A: 97
+    B: 111
+    C: 76
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 63000000
+    widthDistanceBetweenNeighbor:
+    - 4.438218
+    navPointIDs: 
+  - id: 114
+    A: 112
+    B: 98
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8200000064000000
+    widthDistanceBetweenNeighbor:
+    - 14.673939
+    - 11.696916
+    navPointIDs: 
+  - id: 115
+    A: 99
+    B: 113
+    C: 87
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6500000083000000
+    widthDistanceBetweenNeighbor:
+    - 6.20967
+    - 6.4069414
+    navPointIDs: 
+  - id: 116
+    A: 100
+    B: 53
+    C: 84
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 660000007e000000
+    widthDistanceBetweenNeighbor:
+    - 2.154066
+    - 3.2984853
+    navPointIDs: 
+  - id: 117
+    A: 101
+    B: 114
+    C: 89
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6700000084000000
+    widthDistanceBetweenNeighbor:
+    - 11.661903
+    - 6.20967
+    navPointIDs: 
+  - id: 118
+    A: 71
+    B: 102
+    C: 115
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6800000085000000
+    widthDistanceBetweenNeighbor:
+    - 9.559173
+    - 11.696913
+    navPointIDs: 
+  - id: 119
+    A: 90
+    B: 103
+    C: 116
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6900000086000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 120
+    A: 117
+    B: 104
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 870000006a000000
+    widthDistanceBetweenNeighbor:
+    - 11.696913
+    - 9.559173
+    navPointIDs: 
+  - id: 121
+    A: 91
+    B: 118
+    C: 105
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6b00000088000000
+    widthDistanceBetweenNeighbor:
+    - 11.661903
+    - 6.2096696
+    navPointIDs: 
+  - id: 122
+    A: 92
+    B: 119
+    C: 106
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6c00000089000000
+    widthDistanceBetweenNeighbor:
+    - 6.2096696
+    - 6.4069414
+    navPointIDs: 
+  - id: 123
+    A: 107
+    B: 120
+    C: 73
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6d0000008a000000
+    widthDistanceBetweenNeighbor:
+    - 11.696916
+    - 14.673939
+    navPointIDs: 
+  - id: 124
+    A: 74
+    B: 108
+    C: 121
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6e0000008b000000
+    widthDistanceBetweenNeighbor:
+    - 3.0433912
+    - 2.9604802
+    navPointIDs: 
+  - id: 125
+    A: 122
+    B: 108
+    C: 95
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8c0000006e000000
+    widthDistanceBetweenNeighbor:
+    - 3.2930908
+    - 3.0666676
+    navPointIDs: 
+  - id: 126
+    A: 84
+    B: 109
+    C: 100
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6f00000074000000
+    widthDistanceBetweenNeighbor:
+    - 11.361534
+    - 3.2984853
+    navPointIDs: 
+  - id: 127
+    A: 96
+    B: 123
+    C: 109
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 6f0000008d000000
+    widthDistanceBetweenNeighbor:
+    - 5.7006826
+    - 5.6000004
+    navPointIDs: 
+  - id: 128
+    A: 110
+    B: 124
+    C: 97
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 700000008e000000
+    widthDistanceBetweenNeighbor:
+    - 3.6000004
+    - 3.3439837
+    navPointIDs: 
+  - id: 129
+    A: 110
+    B: 85
+    C: 125
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 700000008f000000
+    widthDistanceBetweenNeighbor:
+    - 2.9604807
+    - 2.4908721
+    navPointIDs: 
+  - id: 130
+    A: 112
+    B: 126
+    C: 98
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7200000090000000
+    widthDistanceBetweenNeighbor:
+    - 14.673939
+    - 13.866668
+    navPointIDs: 
+  - id: 131
+    A: 113
+    B: 127
+    C: 87
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7300000091000000
+    widthDistanceBetweenNeighbor:
+    - 6.4069414
+    - 8.373504
+    navPointIDs: 
+  - id: 132
+    A: 101
+    B: 128
+    C: 114
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7500000092000000
+    widthDistanceBetweenNeighbor:
+    - 6.20967
+    - 6.4069405
+    navPointIDs: 
+  - id: 133
+    A: 115
+    B: 129
+    C: 71
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7600000093000000
+    widthDistanceBetweenNeighbor:
+    - 11.696913
+    - 14.67394
+    navPointIDs: 
+  - id: 134
+    A: 103
+    B: 130
+    C: 116
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7700000094000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 135
+    A: 117
+    B: 73
+    C: 131
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7800000095000000
+    widthDistanceBetweenNeighbor:
+    - 11.696913
+    - 14.67394
+    navPointIDs: 
+  - id: 136
+    A: 118
+    B: 132
+    C: 105
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7900000096000000
+    widthDistanceBetweenNeighbor:
+    - 6.2096696
+    - 6.4069405
+    navPointIDs: 
+  - id: 137
+    A: 133
+    B: 119
+    C: 92
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 970000007a000000
+    widthDistanceBetweenNeighbor:
+    - 8.373504
+    - 6.4069414
+    navPointIDs: 
+  - id: 138
+    A: 107
+    B: 134
+    C: 120
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7b00000098000000
+    widthDistanceBetweenNeighbor:
+    - 14.673939
+    - 13.866668
+    navPointIDs: 
+  - id: 139
+    A: 74
+    B: 121
+    C: 135
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7c00000099000000
+    widthDistanceBetweenNeighbor:
+    - 2.9604802
+    - 2.4908717
+    navPointIDs: 
+  - id: 140
+    A: 122
+    B: 136
+    C: 108
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7d0000009a000000
+    widthDistanceBetweenNeighbor:
+    - 3.2930908
+    - 3.0666676
+    navPointIDs: 
+  - id: 141
+    A: 123
+    B: 96
+    C: 137
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 7f0000009b000000
+    widthDistanceBetweenNeighbor:
+    - 5.6000004
+    - 5.3399963
+    navPointIDs: 
+  - id: 142
+    A: 110
+    B: 138
+    C: 124
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 800000009c000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439837
+    - 3.0666676
+    navPointIDs: 
+  - id: 143
+    A: 125
+    B: 139
+    C: 110
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 810000009d000000
+    widthDistanceBetweenNeighbor:
+    - 2.4908721
+    - 5.8484573
+    navPointIDs: 
+  - id: 144
+    A: 98
+    B: 126
+    C: 140
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 820000009e000000
+    widthDistanceBetweenNeighbor:
+    - 13.866668
+    - 13.602614
+    navPointIDs: 
+  - id: 145
+    A: 113
+    B: 141
+    C: 127
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 830000009f000000
+    widthDistanceBetweenNeighbor:
+    - 8.373504
+    - 6.0162754
+    navPointIDs: 
+  - id: 146
+    A: 142
+    B: 128
+    C: 101
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a000000084000000
+    widthDistanceBetweenNeighbor:
+    - 8.373505
+    - 6.4069405
+    navPointIDs: 
+  - id: 147
+    A: 115
+    B: 143
+    C: 129
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 85000000a1000000
+    widthDistanceBetweenNeighbor:
+    - 14.67394
+    - 13.866669
+    navPointIDs: 
+  - id: 148
+    A: 144
+    B: 116
+    C: 130
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a2000000a300000086000000
+    widthDistanceBetweenNeighbor:
+    - 4.438217
+    - 3.0404682
+    - 5.6000004
+    navPointIDs: 
+  - id: 149
+    A: 117
+    B: 131
+    C: 145
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 87000000a4000000
+    widthDistanceBetweenNeighbor:
+    - 14.67394
+    - 13.866669
+    navPointIDs: 
+  - id: 150
+    A: 132
+    B: 146
+    C: 105
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 88000000a5000000
+    widthDistanceBetweenNeighbor:
+    - 6.4069405
+    - 8.373505
+    navPointIDs: 
+  - id: 151
+    A: 133
+    B: 147
+    C: 119
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 89000000a6000000
+    widthDistanceBetweenNeighbor:
+    - 8.373504
+    - 6.0162754
+    navPointIDs: 
+  - id: 152
+    A: 134
+    B: 107
+    C: 148
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8a000000a7000000
+    widthDistanceBetweenNeighbor:
+    - 13.866668
+    - 13.602614
+    navPointIDs: 
+  - id: 153
+    A: 149
+    B: 135
+    C: 121
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a80000008b000000
+    widthDistanceBetweenNeighbor:
+    - 5.848457
+    - 2.4908717
+    navPointIDs: 
+  - id: 154
+    A: 138
+    B: 136
+    C: 122
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9c0000008c000000
+    widthDistanceBetweenNeighbor:
+    - 3.293092
+    - 3.0666676
+    navPointIDs: 
+  - id: 155
+    A: 137
+    B: 150
+    C: 123
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8d000000a9000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.438955
+    navPointIDs: 
+  - id: 156
+    A: 138
+    B: 122
+    C: 124
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8e0000009a000000
+    widthDistanceBetweenNeighbor:
+    - 3.0666676
+    - 3.293092
+    navPointIDs: 
+  - id: 157
+    A: 125
+    B: 151
+    C: 139
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 8f000000aa000000
+    widthDistanceBetweenNeighbor:
+    - 5.8484573
+    - 5.333334
+    navPointIDs: 
+  - id: 158
+    A: 126
+    B: 152
+    C: 140
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 90000000ab000000ac000000
+    widthDistanceBetweenNeighbor:
+    - 13.602614
+    - 10.386315
+    - 8.88044
+    navPointIDs: 
+  - id: 159
+    A: 141
+    B: 153
+    C: 127
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 91000000ad000000
+    widthDistanceBetweenNeighbor:
+    - 6.0162754
+    - 5.8666677
+    navPointIDs: 
+  - id: 160
+    A: 142
+    B: 154
+    C: 128
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 92000000ae000000
+    widthDistanceBetweenNeighbor:
+    - 8.373505
+    - 6.0162764
+    navPointIDs: 
+  - id: 161
+    A: 143
+    B: 115
+    C: 155
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 93000000af000000
+    widthDistanceBetweenNeighbor:
+    - 13.866669
+    - 13.602614
+    navPointIDs: 
+  - id: 162
+    A: 144
+    B: 156
+    C: 116
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 94000000
+    widthDistanceBetweenNeighbor:
+    - 4.438217
+    navPointIDs: 
+  - id: 163
+    A: 157
+    B: 144
+    C: 130
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b0000000b100000094000000
+    widthDistanceBetweenNeighbor:
+    - 3.6000013
+    - 2.9604802
+    - 3.0404682
+    navPointIDs: 
+  - id: 164
+    A: 158
+    B: 117
+    C: 145
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b200000095000000
+    widthDistanceBetweenNeighbor:
+    - 13.602614
+    - 13.866669
+    navPointIDs: 
+  - id: 165
+    A: 132
+    B: 159
+    C: 146
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 96000000b3000000
+    widthDistanceBetweenNeighbor:
+    - 8.373505
+    - 6.0162764
+    navPointIDs: 
+  - id: 166
+    A: 133
+    B: 160
+    C: 147
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 97000000b4000000
+    widthDistanceBetweenNeighbor:
+    - 6.0162754
+    - 5.8666677
+    navPointIDs: 
+  - id: 167
+    A: 161
+    B: 134
+    C: 148
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b5000000b600000098000000
+    widthDistanceBetweenNeighbor:
+    - 8.880441
+    - 10.386316
+    - 13.602614
+    navPointIDs: 
+  - id: 168
+    A: 149
+    B: 162
+    C: 135
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 99000000b7000000
+    widthDistanceBetweenNeighbor:
+    - 5.848457
+    - 5.333334
+    navPointIDs: 
+  - id: 169
+    A: 137
+    B: 163
+    C: 150
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9b000000b8000000
+    widthDistanceBetweenNeighbor:
+    - 5.438955
+    - 5.3399963
+    navPointIDs: 
+  - id: 170
+    A: 151
+    B: 125
+    C: 164
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9d000000b9000000
+    widthDistanceBetweenNeighbor:
+    - 5.333334
+    - 5.0736804
+    navPointIDs: 
+  - id: 171
+    A: 126
+    B: 165
+    C: 152
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9e000000ba000000
+    widthDistanceBetweenNeighbor:
+    - 10.386315
+    - 8.747316
+    navPointIDs: 
+  - id: 172
+    A: 152
+    B: 166
+    C: 140
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9e000000bb000000
+    widthDistanceBetweenNeighbor:
+    - 8.88044
+    - 5.866667
+    navPointIDs: 
+  - id: 173
+    A: 153
+    B: 141
+    C: 167
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: 9f000000bc000000
+    widthDistanceBetweenNeighbor:
+    - 5.8666677
+    - 5.606346
+    navPointIDs: 
+  - id: 174
+    A: 142
+    B: 168
+    C: 154
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a0000000bd000000
+    widthDistanceBetweenNeighbor:
+    - 6.0162764
+    - 5.8666687
+    navPointIDs: 
+  - id: 175
+    A: 169
+    B: 143
+    C: 155
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: be000000bf000000a1000000
+    widthDistanceBetweenNeighbor:
+    - 8.88044
+    - 10.386315
+    - 13.602614
+    navPointIDs: 
+  - id: 176
+    A: 157
+    B: 170
+    C: 144
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a3000000c0000000
+    widthDistanceBetweenNeighbor:
+    - 3.6000013
+    - 3.3439837
+    navPointIDs: 
+  - id: 177
+    A: 157
+    B: 130
+    C: 171
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a3000000c1000000
+    widthDistanceBetweenNeighbor:
+    - 2.9604802
+    - 2.4908717
+    navPointIDs: 
+  - id: 178
+    A: 145
+    B: 172
+    C: 158
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a4000000c2000000c3000000
+    widthDistanceBetweenNeighbor:
+    - 13.602614
+    - 10.386316
+    - 8.880441
+    navPointIDs: 
+  - id: 179
+    A: 159
+    B: 173
+    C: 146
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a5000000c4000000
+    widthDistanceBetweenNeighbor:
+    - 6.0162764
+    - 5.8666687
+    navPointIDs: 
+  - id: 180
+    A: 174
+    B: 147
+    C: 160
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c5000000a6000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.8666677
+    navPointIDs: 
+  - id: 181
+    A: 148
+    B: 175
+    C: 161
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a7000000c6000000
+    widthDistanceBetweenNeighbor:
+    - 8.880441
+    - 5.866667
+    navPointIDs: 
+  - id: 182
+    A: 161
+    B: 176
+    C: 134
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a7000000c7000000
+    widthDistanceBetweenNeighbor:
+    - 10.386316
+    - 8.747317
+    navPointIDs: 
+  - id: 183
+    A: 177
+    B: 135
+    C: 162
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c8000000a8000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 5.333334
+    navPointIDs: 
+  - id: 184
+    A: 163
+    B: 178
+    C: 150
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: a9000000c9000000
+    widthDistanceBetweenNeighbor:
+    - 5.3399963
+    - 5.6000004
+    navPointIDs: 
+  - id: 185
+    A: 179
+    B: 151
+    C: 164
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: ca000000aa000000
+    widthDistanceBetweenNeighbor:
+    - 10.039037
+    - 5.0736804
+    navPointIDs: 
+  - id: 186
+    A: 126
+    B: 179
+    C: 165
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: ab000000cb000000
+    widthDistanceBetweenNeighbor:
+    - 8.747316
+    - 5.333334
+    navPointIDs: 
+  - id: 187
+    A: 166
+    B: 152
+    C: 180
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: ac000000cc000000
+    widthDistanceBetweenNeighbor:
+    - 5.866667
+    - 5.606346
+    navPointIDs: 
+  - id: 188
+    A: 180
+    B: 153
+    C: 167
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: cc000000ad000000
+    widthDistanceBetweenNeighbor:
+    - 5.7888784
+    - 5.606346
+    navPointIDs: 
+  - id: 189
+    A: 181
+    B: 154
+    C: 168
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: cd000000ae000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.8666687
+    navPointIDs: 
+  - id: 190
+    A: 155
+    B: 182
+    C: 169
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: af000000ce000000
+    widthDistanceBetweenNeighbor:
+    - 8.88044
+    - 5.866667
+    navPointIDs: 
+  - id: 191
+    A: 169
+    B: 183
+    C: 143
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: af000000cf000000
+    widthDistanceBetweenNeighbor:
+    - 10.386315
+    - 8.747316
+    navPointIDs: 
+  - id: 192
+    A: 157
+    B: 184
+    C: 170
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b0000000d0000000
+    widthDistanceBetweenNeighbor:
+    - 3.3439837
+    - 3.0666676
+    navPointIDs: 
+  - id: 193
+    A: 171
+    B: 185
+    C: 157
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b1000000d1000000
+    widthDistanceBetweenNeighbor:
+    - 2.4908717
+    - 5.848457
+    navPointIDs: 
+  - id: 194
+    A: 145
+    B: 186
+    C: 172
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b2000000d2000000
+    widthDistanceBetweenNeighbor:
+    - 10.386316
+    - 8.747317
+    navPointIDs: 
+  - id: 195
+    A: 172
+    B: 187
+    C: 158
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b2000000d3000000
+    widthDistanceBetweenNeighbor:
+    - 8.880441
+    - 5.866667
+    navPointIDs: 
+  - id: 196
+    A: 173
+    B: 159
+    C: 188
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b3000000d4000000
+    widthDistanceBetweenNeighbor:
+    - 5.8666687
+    - 5.606346
+    navPointIDs: 
+  - id: 197
+    A: 189
+    B: 174
+    C: 160
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d5000000b4000000
+    widthDistanceBetweenNeighbor:
+    - 5.788879
+    - 5.606346
+    navPointIDs: 
+  - id: 198
+    A: 189
+    B: 161
+    C: 175
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d5000000b5000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.866667
+    navPointIDs: 
+  - id: 199
+    A: 176
+    B: 190
+    C: 134
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b6000000d6000000
+    widthDistanceBetweenNeighbor:
+    - 8.747317
+    - 5.333334
+    navPointIDs: 
+  - id: 200
+    A: 162
+    B: 191
+    C: 177
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b7000000d7000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 10.039036
+    navPointIDs: 
+  - id: 201
+    A: 163
+    B: 192
+    C: 178
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b8000000d8000000d9000000
+    widthDistanceBetweenNeighbor:
+    - 5.6000004
+    - 4.438217
+    - 3.0404685
+    navPointIDs: 
+  - id: 202
+    A: 179
+    B: 164
+    C: 193
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: b9000000cb000000
+    widthDistanceBetweenNeighbor:
+    - 10.039037
+    - 5.0736804
+    navPointIDs: 
+  - id: 203
+    A: 193
+    B: 165
+    C: 179
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: ca000000ba000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 5.333334
+    navPointIDs: 
+  - id: 204
+    A: 180
+    B: 167
+    C: 166
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: bb000000bc000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.7888784
+    navPointIDs: 
+  - id: 205
+    A: 181
+    B: 168
+    C: 194
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: bd000000da000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.7888784
+    navPointIDs: 
+  - id: 206
+    A: 194
+    B: 169
+    C: 182
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: da000000be000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.866667
+    navPointIDs: 
+  - id: 207
+    A: 183
+    B: 195
+    C: 143
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: bf000000db000000
+    widthDistanceBetweenNeighbor:
+    - 8.747316
+    - 5.333334
+    navPointIDs: 
+  - id: 208
+    A: 196
+    B: 170
+    C: 184
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: dc000000c0000000
+    widthDistanceBetweenNeighbor:
+    - 3.2930908
+    - 3.0666676
+    navPointIDs: 
+  - id: 209
+    A: 171
+    B: 197
+    C: 185
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c1000000dd000000
+    widthDistanceBetweenNeighbor:
+    - 5.848457
+    - 5.333334
+    navPointIDs: 
+  - id: 210
+    A: 145
+    B: 198
+    C: 186
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c2000000de000000
+    widthDistanceBetweenNeighbor:
+    - 8.747317
+    - 5.333334
+    navPointIDs: 
+  - id: 211
+    A: 187
+    B: 172
+    C: 199
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c3000000df000000
+    widthDistanceBetweenNeighbor:
+    - 5.866667
+    - 5.606346
+    navPointIDs: 
+  - id: 212
+    A: 188
+    B: 199
+    C: 173
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c4000000df000000
+    widthDistanceBetweenNeighbor:
+    - 5.606346
+    - 5.788879
+    navPointIDs: 
+  - id: 213
+    A: 189
+    B: 175
+    C: 174
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c5000000c6000000
+    widthDistanceBetweenNeighbor:
+    - 5.788879
+    - 5.606346
+    navPointIDs: 
+  - id: 214
+    A: 190
+    B: 176
+    C: 191
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c7000000d7000000
+    widthDistanceBetweenNeighbor:
+    - 5.333334
+    - 5.0736804
+    navPointIDs: 
+  - id: 215
+    A: 162
+    B: 190
+    C: 191
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c8000000d6000000
+    widthDistanceBetweenNeighbor:
+    - 10.039036
+    - 5.0736804
+    navPointIDs: 
+  - id: 216
+    A: 163
+    B: 200
+    C: 192
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c9000000
+    widthDistanceBetweenNeighbor:
+    - 4.438217
+    navPointIDs: 
+  - id: 217
+    A: 178
+    B: 192
+    C: 201
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: c9000000e0000000
+    widthDistanceBetweenNeighbor:
+    - 3.0404685
+    - 3.1098413
+    navPointIDs: 
+  - id: 218
+    A: 181
+    B: 194
+    C: 182
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: cd000000ce000000
+    widthDistanceBetweenNeighbor:
+    - 5.7888784
+    - 5.606346
+    navPointIDs: 
+  - id: 219
+    A: 195
+    B: 183
+    C: 202
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: cf000000e1000000
+    widthDistanceBetweenNeighbor:
+    - 5.333334
+    - 5.0736804
+    navPointIDs: 
+  - id: 220
+    A: 196
+    B: 203
+    C: 170
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d0000000e2000000
+    widthDistanceBetweenNeighbor:
+    - 3.2930908
+    - 3.0666676
+    navPointIDs: 
+  - id: 221
+    A: 197
+    B: 171
+    C: 204
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d1000000e3000000
+    widthDistanceBetweenNeighbor:
+    - 5.333334
+    - 5.0736804
+    navPointIDs: 
+  - id: 222
+    A: 205
+    B: 186
+    C: 198
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e4000000d2000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 5.333334
+    navPointIDs: 
+  - id: 223
+    A: 188
+    B: 187
+    C: 199
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d4000000d3000000
+    widthDistanceBetweenNeighbor:
+    - 5.788879
+    - 5.606346
+    navPointIDs: 
+  - id: 224
+    A: 178
+    B: 201
+    C: 206
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: d9000000e5000000e6000000
+    widthDistanceBetweenNeighbor:
+    - 3.1098413
+    - 3.0433903
+    - 3.0666676
+    navPointIDs: 
+  - id: 225
+    A: 195
+    B: 202
+    C: 207
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: db000000e7000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 10.039037
+    navPointIDs: 
+  - id: 226
+    A: 201
+    B: 203
+    C: 196
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e6000000dc000000
+    widthDistanceBetweenNeighbor:
+    - 3.293092
+    - 3.0666676
+    navPointIDs: 
+  - id: 227
+    A: 197
+    B: 204
+    C: 205
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: dd000000e4000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 10.039036
+    navPointIDs: 
+  - id: 228
+    A: 197
+    B: 205
+    C: 198
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e3000000de000000
+    widthDistanceBetweenNeighbor:
+    - 10.039036
+    - 5.0736804
+    navPointIDs: 
+  - id: 229
+    A: 178
+    B: 206
+    C: 208
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e0000000e8000000
+    widthDistanceBetweenNeighbor:
+    - 3.0433903
+    - 2.9604807
+    navPointIDs: 
+  - id: 230
+    A: 201
+    B: 196
+    C: 206
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e0000000e2000000
+    widthDistanceBetweenNeighbor:
+    - 3.0666676
+    - 3.293092
+    navPointIDs: 
+  - id: 231
+    A: 195
+    B: 207
+    C: 209
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e1000000e9000000
+    widthDistanceBetweenNeighbor:
+    - 10.039037
+    - 5.0736804
+    navPointIDs: 
+  - id: 232
+    A: 178
+    B: 208
+    C: 210
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e5000000ea000000
+    widthDistanceBetweenNeighbor:
+    - 2.9604807
+    - 2.4908721
+    navPointIDs: 
+  - id: 233
+    A: 207
+    B: 210
+    C: 209
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e7000000eb000000
+    widthDistanceBetweenNeighbor:
+    - 5.0736804
+    - 5.333334
+    navPointIDs: 
+  - id: 234
+    A: 210
+    B: 208
+    C: 211
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e8000000eb000000
+    widthDistanceBetweenNeighbor:
+    - 2.4908721
+    - 5.8484573
+    navPointIDs: 
+  - id: 235
+    A: 210
+    B: 211
+    C: 209
+    area: 0
+    maxY: 0.06666667
+    neighborIDs: e9000000ea000000
+    widthDistanceBetweenNeighbor:
+    - 5.333334
+    - 5.8484573
+    navPointIDs: 
+  areaType: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  navigationEntryPoints:
+    keyData: 
+  triangleByVertexID:
+  - triangleIndexes: 00000000010000000300000005000000
+  - triangleIndexes: 000000000200000004000000
+  - triangleIndexes: 000000000100000002000000
+  - triangleIndexes: 010000000300000006000000
+  - triangleIndexes: 020000000400000007000000
+  - triangleIndexes: 03000000050000000600000008000000090000000b0000000f00000013000000
+  - triangleIndexes: 04000000070000000a0000000d00000011000000
+  - triangleIndexes: 0500000008000000
+  - triangleIndexes: 06000000090000000c00000010000000
+  - triangleIndexes: 070000000a0000000e00000012000000
+  - triangleIndexes: 080000000b000000
+  - triangleIndexes: 090000000c000000
+  - triangleIndexes: 0a0000000d0000000e000000
+  - triangleIndexes: 0b0000000f000000
+  - triangleIndexes: 0c000000100000001400000018000000
+  - triangleIndexes: 0d0000001100000015000000190000001e00000023000000280000002e000000
+  - triangleIndexes: 0e00000012000000160000001a000000
+  - triangleIndexes: 0f00000013000000170000001b0000002000000025000000
+  - triangleIndexes: 1000000014000000
+  - triangleIndexes: 1100000015000000
+  - triangleIndexes: 1200000016000000
+  - triangleIndexes: 13000000170000001c000000
+  - triangleIndexes: 14000000180000001d000000
+  - triangleIndexes: 1500000019000000
+  - triangleIndexes: 160000001a0000001f000000
+  - triangleIndexes: 170000001b0000001c00000021000000
+  - triangleIndexes: 180000001d00000022000000
+  - triangleIndexes: 190000001e000000
+  - triangleIndexes: 1a0000001f00000024000000
+  - triangleIndexes: 1b00000020000000
+  - triangleIndexes: 1c00000021000000260000002c000000
+  - triangleIndexes: 1d0000002200000027000000
+  - triangleIndexes: 1e00000023000000290000002b000000
+  - triangleIndexes: 1f000000240000002a000000
+  - triangleIndexes: 2000000025000000290000002b000000
+  - triangleIndexes: 2100000026000000
+  - triangleIndexes: 22000000270000002d0000003100000037000000
+  - triangleIndexes: 230000002800000029000000
+  - triangleIndexes: 240000002a0000002f00000035000000
+  - triangleIndexes: 250000002b000000
+  - triangleIndexes: 260000002c00000030000000
+  - triangleIndexes: 270000002d0000003200000038000000
+  - triangleIndexes: 280000002e0000003300000039000000
+  - triangleIndexes: 2a0000002f000000340000003a00000040000000
+  - triangleIndexes: 2c0000003000000036000000
+  - triangleIndexes: 2d0000003100000032000000
+  - triangleIndexes: 2e00000033000000
+  - triangleIndexes: 2f00000034000000350000003b000000
+  - triangleIndexes: 30000000360000003c000000
+  - triangleIndexes: 31000000370000003d000000
+  - triangleIndexes: 32000000380000003e000000
+  - triangleIndexes: 33000000390000003f00000045000000
+  - triangleIndexes: 340000003a000000
+  - triangleIndexes: 350000003b00000041000000470000004f000000590000006600000074000000
+  - triangleIndexes: 360000003c0000004200000049000000
+  - triangleIndexes: 370000003d00000043000000490000004a00000051000000520000005c000000
+  - triangleIndexes: 380000003e00000044000000
+  - triangleIndexes: 390000003f000000
+  - triangleIndexes: 3a0000004000000046000000
+  - triangleIndexes: 3b00000041000000
+  - triangleIndexes: 3c0000004200000048000000500000005b000000
+  - triangleIndexes: 3d00000043000000
+  - triangleIndexes: 3e000000440000004b000000
+  - triangleIndexes: 3f000000450000004c000000
+  - triangleIndexes: 40000000460000004d000000
+  - triangleIndexes: 41000000470000004e00000058000000
+  - triangleIndexes: 42000000480000004900000051000000
+  - triangleIndexes: 430000004a000000530000005e000000
+  - triangleIndexes: 440000004b0000005400000060000000
+  - triangleIndexes: 450000004c00000055000000
+  - triangleIndexes: 460000004d00000056000000
+  - triangleIndexes: 470000004e0000004f000000570000005a0000006400000068000000720000007600000085000000
+  - triangleIndexes: 4800000050000000
+  - triangleIndexes: 4a00000052000000530000005d0000005f0000006a0000006d000000780000007b00000087000000
+  - triangleIndexes: 4b00000054000000610000006e0000007c0000008b000000
+  - triangleIndexes: 4c0000005500000062000000
+  - triangleIndexes: 4d000000560000006300000071000000
+  - triangleIndexes: 4e000000570000005800000065000000
+  - triangleIndexes: 4f000000590000005a00000067000000
+  - triangleIndexes: 500000005b00000069000000
+  - triangleIndexes: 510000005c000000
+  - triangleIndexes: 520000005c0000005d0000006b000000
+  - triangleIndexes: 530000005e0000005f0000006c000000
+  - triangleIndexes: 540000006000000061000000
+  - triangleIndexes: 55000000620000006f000000740000007e000000
+  - triangleIndexes: 56000000630000007000000081000000
+  - triangleIndexes: 5700000064000000
+  - triangleIndexes: 58000000650000007300000083000000
+  - triangleIndexes: 5900000066000000
+  - triangleIndexes: 5a000000670000006800000075000000
+  - triangleIndexes: 5b0000006900000077000000
+  - triangleIndexes: 5d0000006a0000006b00000079000000
+  - triangleIndexes: 5e0000006c0000007a00000089000000
+  - triangleIndexes: 5f0000006d000000
+  - triangleIndexes: 60000000
+  - triangleIndexes: 610000006e0000007d000000
+  - triangleIndexes: 620000006f0000007f0000008d000000
+  - triangleIndexes: 63000000700000007100000080000000
+  - triangleIndexes: 64000000720000008200000090000000
+  - triangleIndexes: 6500000073000000
+  - triangleIndexes: 66000000740000007e000000
+  - triangleIndexes: 67000000750000008400000092000000
+  - triangleIndexes: 6800000076000000
+  - triangleIndexes: 690000007700000086000000
+  - triangleIndexes: 6a00000078000000
+  - triangleIndexes: 6b000000790000008800000096000000
+  - triangleIndexes: 6c0000007a000000
+  - triangleIndexes: 6d0000007b0000008a00000098000000
+  - triangleIndexes: 6e0000007c0000007d0000008c000000
+  - triangleIndexes: 6f0000007e0000007f000000
+  - triangleIndexes: 7000000080000000810000008e0000008f000000
+  - triangleIndexes: 71000000
+  - triangleIndexes: 7200000082000000
+  - triangleIndexes: 730000008300000091000000
+  - triangleIndexes: 7500000084000000
+  - triangleIndexes: 760000008500000093000000a1000000
+  - triangleIndexes: 770000008600000094000000a2000000
+  - triangleIndexes: 780000008700000095000000a4000000
+  - triangleIndexes: 7900000088000000
+  - triangleIndexes: 7a0000008900000097000000
+  - triangleIndexes: 7b0000008a000000
+  - triangleIndexes: 7c0000008b00000099000000
+  - triangleIndexes: 7d0000008c0000009a0000009c000000
+  - triangleIndexes: 7f0000008d0000009b000000
+  - triangleIndexes: 800000008e0000009c000000
+  - triangleIndexes: 810000008f0000009d000000aa000000
+  - triangleIndexes: 82000000900000009e000000ab000000ba000000
+  - triangleIndexes: 83000000910000009f000000
+  - triangleIndexes: 8400000092000000a0000000
+  - triangleIndexes: 8500000093000000
+  - triangleIndexes: 8600000094000000a3000000b1000000
+  - triangleIndexes: 8700000095000000
+  - triangleIndexes: 8800000096000000a5000000
+  - triangleIndexes: 8900000097000000a6000000
+  - triangleIndexes: 8a00000098000000a7000000b6000000c7000000
+  - triangleIndexes: 8b00000099000000a8000000b7000000
+  - triangleIndexes: 8c0000009a000000
+  - triangleIndexes: 8d0000009b000000a9000000
+  - triangleIndexes: 8e0000009a0000009c000000
+  - triangleIndexes: 8f0000009d000000
+  - triangleIndexes: 900000009e000000ac000000
+  - triangleIndexes: 910000009f000000ad000000
+  - triangleIndexes: 92000000a0000000ae000000
+  - triangleIndexes: 93000000a1000000af000000bf000000cf000000
+  - triangleIndexes: 94000000a2000000a3000000b0000000
+  - triangleIndexes: 95000000a4000000b2000000c2000000d2000000
+  - triangleIndexes: 96000000a5000000b3000000
+  - triangleIndexes: 97000000a6000000b4000000
+  - triangleIndexes: 98000000a7000000b5000000
+  - triangleIndexes: 99000000a8000000
+  - triangleIndexes: 9b000000a9000000b8000000
+  - triangleIndexes: 9d000000aa000000b9000000
+  - triangleIndexes: 9e000000ab000000ac000000bb000000
+  - triangleIndexes: 9f000000ad000000bc000000
+  - triangleIndexes: a0000000ae000000bd000000
+  - triangleIndexes: a1000000af000000be000000
+  - triangleIndexes: a2000000
+  - triangleIndexes: a3000000b0000000b1000000c0000000c1000000
+  - triangleIndexes: a4000000b2000000c3000000
+  - triangleIndexes: a5000000b3000000c4000000
+  - triangleIndexes: a6000000b4000000c5000000
+  - triangleIndexes: a7000000b5000000b6000000c6000000
+  - triangleIndexes: a8000000b7000000c8000000d7000000
+  - triangleIndexes: a9000000b8000000c9000000d8000000
+  - triangleIndexes: aa000000b9000000ca000000
+  - triangleIndexes: ab000000ba000000cb000000
+  - triangleIndexes: ac000000bb000000cc000000
+  - triangleIndexes: ad000000bc000000cc000000
+  - triangleIndexes: ae000000bd000000cd000000
+  - triangleIndexes: af000000be000000bf000000ce000000
+  - triangleIndexes: b0000000c0000000d0000000dc000000
+  - triangleIndexes: b1000000c1000000d1000000dd000000
+  - triangleIndexes: b2000000c2000000c3000000d3000000
+  - triangleIndexes: b3000000c4000000d4000000
+  - triangleIndexes: b4000000c5000000d5000000
+  - triangleIndexes: b5000000c6000000d5000000
+  - triangleIndexes: b6000000c7000000d6000000
+  - triangleIndexes: b7000000c8000000
+  - triangleIndexes: b8000000c9000000d9000000e0000000e5000000e8000000
+  - triangleIndexes: b9000000ba000000ca000000cb000000
+  - triangleIndexes: bb000000bc000000cc000000
+  - triangleIndexes: bd000000cd000000da000000
+  - triangleIndexes: be000000ce000000da000000
+  - triangleIndexes: bf000000cf000000db000000
+  - triangleIndexes: c0000000d0000000
+  - triangleIndexes: c1000000d1000000
+  - triangleIndexes: c2000000d2000000de000000
+  - triangleIndexes: c3000000d3000000df000000
+  - triangleIndexes: c4000000d4000000df000000
+  - triangleIndexes: c5000000c6000000d5000000
+  - triangleIndexes: c7000000d6000000d7000000
+  - triangleIndexes: c8000000d6000000d7000000
+  - triangleIndexes: c9000000d8000000d9000000
+  - triangleIndexes: ca000000cb000000
+  - triangleIndexes: cd000000ce000000da000000
+  - triangleIndexes: cf000000db000000e1000000e7000000
+  - triangleIndexes: d0000000dc000000e2000000e6000000
+  - triangleIndexes: d1000000dd000000e3000000e4000000
+  - triangleIndexes: d2000000de000000e4000000
+  - triangleIndexes: d3000000d4000000df000000
+  - triangleIndexes: d8000000
+  - triangleIndexes: d9000000e0000000e2000000e6000000
+  - triangleIndexes: db000000e1000000
+  - triangleIndexes: dc000000e2000000
+  - triangleIndexes: dd000000e3000000
+  - triangleIndexes: de000000e3000000e4000000
+  - triangleIndexes: e0000000e5000000e6000000
+  - triangleIndexes: e1000000e7000000e9000000
+  - triangleIndexes: e5000000e8000000ea000000
+  - triangleIndexes: e7000000e9000000eb000000
+  - triangleIndexes: e8000000e9000000ea000000eb000000
+  - triangleIndexes: ea000000eb000000
+  minFloorX: -5
+  minFloorZ: -5
+  maxFloorX: -2
+  maxFloorZ: 0

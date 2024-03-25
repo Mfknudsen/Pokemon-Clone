@@ -11,31 +11,30 @@ using Unity.Mathematics;
 
 namespace Runtime.AI.Navigation
 {
-    public struct PathCalculatorJob : IJobParallelFor, IDisposable
+    public struct AStartCalculationJob : IJobParallelFor, IDisposable
     {
         #region Values
 
         [WriteOnly] private NativeArray<JobPath> paths;
         [ReadOnly] private NativeArray<JobAgent> agents;
 
-        [ReadOnly] private NativeArray<float3> verts;
         [ReadOnly] private NativeArray<float2> simpleVerts;
         [ReadOnly] private NativeArray<int> areas;
 
         [ReadOnly] private NativeArray<JobTriangle> triangles;
 
-        UnsafeList<Node> toCheckNodes, checkedNodes;
+        private UnsafeList<Node> toCheckNodes, checkedNodes;
 
         #endregion
 
         #region Build In States
 
-        public PathCalculatorJob(NativeArray<JobPath> paths, NativeArray<JobAgent> agents, NativeArray<float3> verts, NativeArray<float2> simpleVerts,
-           NativeArray<int> areas, NativeArray<JobTriangle> triangles)
+        public AStartCalculationJob(NativeArray<JobPath> paths, NativeArray<JobAgent> agents,
+            NativeArray<float2> simpleVerts,
+            NativeArray<int> areas, NativeArray<JobTriangle> triangles)
         {
             this.paths = paths;
             this.agents = agents;
-            this.verts = verts;
             this.simpleVerts = simpleVerts;
             this.areas = areas;
             this.triangles = triangles;
@@ -206,15 +205,15 @@ namespace Runtime.AI.Navigation
                 if (checking.previousNodeTriangleID == -1)
                     break;
 
-                Node bestNeigbor = Get(checking.previousNodeTriangleID, checkedNodes);
+                Node bestNeighbor = Get(checking.previousNodeTriangleID, checkedNodes);
                 for (int i = 0; i < checkedNodes.Length; i++)
                 {
                     if (Contains(triangles[checking.triangleID].neighbors, checkedNodes[i].triangleID) &&
-                        checkedNodes[i].cost < bestNeigbor.cost)
-                        bestNeigbor = checkedNodes[i];
+                        checkedNodes[i].cost < bestNeighbor.cost)
+                        bestNeighbor = checkedNodes[i];
                 }
 
-                checking = bestNeigbor;
+                checking = bestNeighbor;
             }
 
             this.nodePath = new UnsafeList<int>(this.checkList.Length, Allocator.TempJob);
@@ -334,22 +333,27 @@ namespace Runtime.AI.Navigation
         public readonly float cost, dist, previousCost;
         public readonly int previousNodeTriangleID;
 
-        public Node(Node newPrevious, Node oldNode, NativeArray<int> areas, NativeArray<float2> simpleVerts, NativeArray<JobTriangle> triangles)
+        public Node(Node newPrevious, Node oldNode, NativeArray<int> areas, NativeArray<float2> simpleVerts,
+            NativeArray<JobTriangle> triangles)
         {
             this.triangleID = oldNode.triangleID;
             this.dist = oldNode.dist;
 
             this.previousNodeTriangleID = newPrevious.previousNodeTriangleID;
             this.previousCost = newPrevious.cost;
-            this.cost = newPrevious.cost + (areas[this.triangleID] + 1) * math.distance(Center(triangles[this.triangleID], simpleVerts), Center(triangles[newPrevious.triangleID], simpleVerts));
+            this.cost = newPrevious.cost + (areas[this.triangleID] + 1) * math.distance(
+                Center(triangles[this.triangleID], simpleVerts),
+                Center(triangles[newPrevious.triangleID], simpleVerts));
         }
 
-        public Node(JobTriangle triangle, NativeArray<float2> simpleVerts, float2 destination, Node previousNode, NativeArray<int> areas, NativeArray<JobTriangle> triangles)
+        public Node(JobTriangle triangle, NativeArray<float2> simpleVerts, float2 destination, Node previousNode,
+            NativeArray<int> areas, NativeArray<JobTriangle> triangles)
         {
             this.previousNodeTriangleID = previousNode.triangleID;
             this.triangleID = triangle.id;
             this.previousCost = previousNode.cost;
-            this.cost = this.previousCost + (areas[this.triangleID] + 1) * math.distance(Center(triangle, simpleVerts), Center(triangles[previousNode.triangleID], simpleVerts));
+            this.cost = this.previousCost + (areas[this.triangleID] + 1) * math.distance(Center(triangle, simpleVerts),
+                Center(triangles[previousNode.triangleID], simpleVerts));
             this.dist = math.distance(Center(triangle, simpleVerts), destination);
         }
 

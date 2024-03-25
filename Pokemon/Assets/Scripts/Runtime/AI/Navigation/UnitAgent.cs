@@ -1,9 +1,8 @@
 #region Libraries
 
-using Sirenix.OdinInspector;
-using System.Collections;
 using Runtime.AI.Navigation.PathActions;
 using Runtime.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,14 +15,14 @@ namespace Runtime.AI.Navigation
     {
         #region Values
 
-        [SerializeField, InlineEditor, Required]
+        [SerializeField] [InlineEditor] [Required]
         private UnitAgentSettings settings;
 
         private UnitPath currentPath;
 
         private int currentTriangleIndex = -1;
 
-        [SerializeField, HideInInspector] private Rigidbody rb;
+        [SerializeField] [HideInInspector] private Rigidbody rb;
 
         private bool pathPending, isOnNavMesh, isStopped;
 
@@ -35,13 +34,11 @@ namespace Runtime.AI.Navigation
 
         #region Build In States
 
-        private IEnumerator Start()
+        private void Start()
         {
             this.onPathComplete = new UnityEvent();
-            this.rb ??= this.GetComponent<Rigidbody>();
+            this.rb = this.gameObject.GetComponentInChildren<Rigidbody>();
             this.rb.useGravity = false;
-
-            yield return new WaitWhile(() => !UnitNavigation.Ready);
 
             this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
@@ -65,8 +62,9 @@ namespace Runtime.AI.Navigation
 
         public UnitAgentSettings Settings => this.settings;
 
-
         public bool IsStopped() => this.isStopped;
+
+        public bool IsOnNavMesh() => this.isOnNavMesh;
 
         #endregion
 

@@ -1,19 +1,19 @@
 #region Libraries
 
-using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.Core;
 using Runtime.Variables;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 #endregion
 
 namespace Runtime.AI.Navigation
 {
-    public sealed class CalculatedNavMesh : SerializedScriptableObject
+    public sealed class NavigationMesh : SerializedScriptableObject
     {
         #region Values
 
@@ -24,17 +24,19 @@ namespace Runtime.AI.Navigation
         [SerializeField] private int[] areaType;
         [SerializeField] private SDictionary<int, List<NavigationPointEntry>> navigationEntryPoints;
 
-        [SerializeField] private SDictionary<Vector2Int, List<int>> trianglesByVertexPosition;
-
         /// <summary>
         /// Index of vertex returns all NavTriangles containing the vertex id.
         /// </summary>
-        [SerializeReference] private List<List<int>> triangleByVertexID;
+        [SerializeField] private List<TrianglesByVertexElement> triangleByVertexID;
 
         private NavigationPoint[] navigationPoints;
 
-        private const float GROUP_DIVISION = 10f;
-        [SerializeField, HideInInspector] private int minFloorX, minFloorY, maxFloorX, maxFloorY;
+        private const float GROUP_DIVISION = 5f;
+
+        [SerializeField] [HideInInspector] private float minFloorX,
+            minFloorZ,
+            maxFloorX,
+            maxFloorZ;
 
         #endregion
 
@@ -47,15 +49,15 @@ namespace Runtime.AI.Navigation
         public int[] Areas => this.areaType;
 
         public List<int> GetTrianglesByVertexID(int id) =>
-            this.triangleByVertexID[id];
+            this.triangleByVertexID[id].GetList();
 
-        public int GetMinX() => this.minFloorX;
+        public float GetMinX() => this.minFloorX;
 
-        public int GetMinY() => this.minFloorY;
+        public float GetMinZ() => this.minFloorZ;
 
-        public int GetMaxX() => this.maxFloorX;
+        public float GetMaxX() => this.maxFloorX;
 
-        public int GetMaxY() => this.maxFloorY;
+        public float GetMaxZ() => this.maxFloorZ;
 
         public float GetGroupDivisionSize() => GROUP_DIVISION;
 
@@ -82,53 +84,36 @@ namespace Runtime.AI.Navigation
                 this.verticesY[i] = y;
             }
 
-            this.trianglesByVertexPosition = new SDictionary<Vector2Int, List<int>>();
-
-            this.triangleByVertexID = new List<List<int>>();
+            this.triangleByVertexID = new List<TrianglesByVertexElement>(vertices.Length);
             for (int i = 0; i < vertices.Length; i++)
-                this.triangleByVertexID.Add(new List<int>());
+                this.triangleByVertexID.Add(new TrianglesByVertexElement());
 
             navTriangles.ForEach(t =>
             {
-                int a = t.Vertices[0], b = t.Vertices[1], c = t.Vertices[2];
-                Vector2Int A = new Vector2Int(Mathf.FloorToInt(this.vertices2D[a].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[a].y / GROUP_DIVISION)),
-                    B = new Vector2Int(Mathf.FloorToInt(this.vertices2D[b].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[b].y / GROUP_DIVISION)),
-                    C = new Vector2Int(Mathf.FloorToInt(this.vertices2D[c].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[c].y / GROUP_DIVISION));
+                int aIndex = t.Vertices[0], bIndex = t.Vertices[1], cIndex = t.Vertices[2];
+                Vector2Int aVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[aIndex].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[aIndex].y / GROUP_DIVISION)),
+                    bVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[bIndex].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[bIndex].y / GROUP_DIVISION)),
+                    cVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[cIndex].x / GROUP_DIVISION),
+                        Mathf.FloorToInt(this.vertices2D[cIndex].y / GROUP_DIVISION));
 
-                this.minFloorX = Mathf.Min(this.minFloorX, Mathf.Min(Mathf.Min(A.x, B.x), C.x));
-                this.minFloorY = Mathf.Min(this.minFloorY, Mathf.Min(Mathf.Min(A.y, B.y), C.y));
+                this.minFloorX = Mathf.Min(this.minFloorX, Mathf.Min(Mathf.Min(aVector.x, bVector.x), cVector.x));
+                this.minFloorZ = Mathf.Min(this.minFloorZ, Mathf.Min(Mathf.Min(aVector.y, bVector.y), cVector.y));
 
-                this.maxFloorX = Mathf.Max(this.minFloorX, Mathf.Max(Mathf.Max(A.x, B.x), C.x));
-                this.maxFloorY = Mathf.Max(this.minFloorY, Mathf.Max(Mathf.Max(A.y, B.y), C.y));
+                this.maxFloorX = Mathf.Max(this.minFloorX, Mathf.Max(Mathf.Max(aVector.x, bVector.x), cVector.x));
+                this.maxFloorZ = Mathf.Max(this.minFloorZ, Mathf.Max(Mathf.Max(aVector.y, bVector.y), cVector.y));
 
-                if (this.trianglesByVertexPosition.TryGetValue(A, out List<int> list))
-                    list.Add(t.ID);
-                else
-                    this.trianglesByVertexPosition.Add(A, new List<int> { t.ID });
-
-                if (this.trianglesByVertexPosition.TryGetValue(B, out list))
-                    list.Add(t.ID);
-                else
-                    this.trianglesByVertexPosition.Add(B, new List<int> { t.ID });
-
-                if (this.trianglesByVertexPosition.TryGetValue(C, out list))
-                    list.Add(t.ID);
-                else
-                    this.trianglesByVertexPosition.Add(C, new List<int> { t.ID });
-
-                this.triangleByVertexID[a].Add(t.ID);
-                this.triangleByVertexID[b].Add(t.ID);
-                this.triangleByVertexID[c].Add(t.ID);
+                this.triangleByVertexID[aIndex].Add(t.ID);
+                this.triangleByVertexID[bIndex].Add(t.ID);
+                this.triangleByVertexID[cIndex].Add(t.ID);
             });
         }
 
         public void SetVert(int index, Vector3 v)
         {
             this.vertices2D[index] = new Vector2(v.x, v.z);
-            ;
+
             this.verticesY[index] = v.y;
         }
 
@@ -139,14 +124,24 @@ namespace Runtime.AI.Navigation
         public Vector3[] Vertices()
         {
             Vector3[] result = new Vector3[this.verticesY.Length];
+
             for (int i = 0; i < this.verticesY.Length; i++)
                 result[i] = new Vector3(this.vertices2D[i].x, this.verticesY[i], this.vertices2D[i].y);
+
             return result;
         }
 
-        public NavTriangle[] GetByIndex(int index) => this.triangles.Where(t => t.Vertices.Contains(index)).ToArray();
+        public NavTriangle[] GetByVertexIndex(int index)
+        {
+            NavTriangle[] result = new NavTriangle[this.triangleByVertexID[index].Count];
 
-        public int[] Inds => this.triangles.SelectMany(t => t.Vertices).ToArray();
+            for (int i = 0; i < result.Length; i++)
+                result[i] = this.triangles[this.triangleByVertexID[index].Get(i)];
+
+            return result;
+        }
+
+        public int[] Indices => this.triangles.SelectMany(t => t.Vertices).ToArray();
 
         public int ClosestTriangleIndex(Vector3 p)
         {
@@ -372,5 +367,24 @@ namespace Runtime.AI.Navigation
             Vector3.Lerp(Vector3.Lerp(verts[this.A], verts[this.B], .5f), verts[this.C], .5f);
 
         #endregion
+    }
+
+    [Serializable]
+    internal class TrianglesByVertexElement
+    {
+        [SerializeField] private List<int> triangleIndexes;
+
+        public void Add(int toAdd)
+        {
+            this.triangleIndexes ??= new List<int>();
+
+            this.triangleIndexes.Add(toAdd);
+        }
+
+        public int Count => this.triangleIndexes.Count;
+
+        public int Get(int i) => this.triangleIndexes[i];
+
+        public List<int> GetList() => this.triangleIndexes;
     }
 }

@@ -1,7 +1,7 @@
 #region Libraries
 
-using Runtime.AI.Navigation;
 using System.Linq;
+using Runtime.AI.Navigation;
 using Runtime.World.Overworld;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Runtime.Editor
 {
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
-    public sealed class NavMeshVisualizor : MonoBehaviour
+    public sealed class NavMeshVisualizer : MonoBehaviour
     {
         #region Build In States
 
@@ -20,15 +20,16 @@ namespace Runtime.Editor
         {
             Mesh mesh = new Mesh { name = "Navmesh" };
 
-            CalculatedNavMesh calculatedNavmesh = this.transform.root.GetComponent<TileSubController>().GetNavmesh;
+            NavigationMesh calculatedNavmesh = this.transform.root.GetComponent<TileSubController>().GetNavmesh;
 
             mesh.SetVertices(calculatedNavmesh.Vertices());
-            mesh.SetIndices(calculatedNavmesh.Triangles.SelectMany(t => t.Vertices).ToArray(), MeshTopology.Triangles, 0);
+            mesh.SetIndices(calculatedNavmesh.Triangles.SelectMany(t => t.Vertices).ToArray(), MeshTopology.Triangles,
+                0);
             mesh.SetNormals(calculatedNavmesh.Vertices().Select(v => Vector3.up).ToArray());
             mesh.RecalculateNormals();
 
             this.GetComponent<MeshRenderer>().material =
-                AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Editor/NavmeshVisualizor.mat");
+                AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Editor/NavmeshVisualizer.mat");
             this.GetComponent<MeshFilter>().mesh = mesh;
         }
 #endif
