@@ -89,7 +89,6 @@ namespace Editor.World.TileSubController
                     lowestY = currentTerrainPosition.y - currentBounds.extents.y * .5f;
 
                 if (terrains.Count > 1)
-                {
                     for (int i = 1; i < terrains.Count; i++)
                     {
                         currentBounds = terrains[i].terrainData.bounds;
@@ -99,7 +98,6 @@ namespace Editor.World.TileSubController
                         lowestX = currentTerrainPosition.x - currentBounds.extents.x * .5f;
                         lowestY = currentTerrainPosition.y - currentBounds.extents.y * .5f;
                     }
-                }
 
                 int x = Mathf.FloorToInt((highestX - lowestX) / GROUPING),
                     y = Mathf.FloorToInt((highestY - lowestY) / GROUPING);
@@ -138,7 +136,7 @@ namespace Editor.World.TileSubController
         #region Lighting
 
         /// <summary>
-        /// Bake the lighting using Bakery asset
+        ///     Bake the lighting using Bakery asset
         /// </summary>
         /// <param name="tileSubController">The current TileSubController</param>
         private async void BakeLighting(TileController tileSubController)
@@ -156,10 +154,8 @@ namespace Editor.World.TileSubController
 
             foreach (string path in UnityObject.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
-            {
                 if (!neighborsToLoad.Contains(path))
                     neighborsToLoad.Add(path);
-            }
 
             Scene[] loadedScenes = Array.Empty<Scene>();
 
@@ -199,10 +195,8 @@ namespace Editor.World.TileSubController
                 assetPath += "/Lighting";
 
                 for (int i = 0; i < Enum.GetValues(typeof(WorldTimeZone)).Length; i++)
-                {
                     if (!AssetDatabase.IsValidFolder(assetPath + $"/{((WorldTimeZone)i).ToString()}"))
                         AssetDatabase.CreateFolder(assetPath, ((WorldTimeZone)i).ToString());
-                }
 
                 #endregion
 
@@ -379,7 +373,7 @@ namespace Editor.World.TileSubController
         #region Custom Navmesh Baking
 
         /// <summary>
-        /// Bake a custom Navmesh for use with the custom Navmesh agents.
+        ///     Bake a custom Navmesh for use with the custom Navmesh agents.
         /// </summary>
         /// <param name="tileSubController">The current TileSubController</param>
         private async void BakeNavmesh(TileController tileSubController)
@@ -399,10 +393,8 @@ namespace Editor.World.TileSubController
             //Finding all tile connection points to determine which to load.
             foreach (string path in UnityObject.FindObjectsOfType<ConnectionPoint>().Select(cp => cp.ScenePath)
                          .ToArray())
-            {
                 if (!neighborsToLoad.Contains(path))
                     neighborsToLoad.Add(path);
-            }
 
             //Find and disable all editor only objects.
             GameObject[] editorGameObjects =
@@ -511,10 +503,8 @@ namespace Editor.World.TileSubController
                     toCheck.RemoveAt(0);
                     connected.Add(index);
                     foreach (int n in navTriangle.Neighbors)
-                    {
                         if (!toCheck.Contains(n) && !connected.Contains(n))
                             toCheck.Add(n);
-                    }
 
                     EditorUtility.DisplayProgressBar(editorProgressParTitle,
                         "Checking NavTriangle neighbor connections", .5f + .5f / triangles.Count * connected.Count);
@@ -556,7 +546,9 @@ namespace Editor.World.TileSubController
                             outListA.Add(fixedVertices.IndexOf(a));
                     }
                     else
+                    {
                         vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(a) });
+                    }
 
                     id = new Vector2Int(Mathf.FloorToInt(b.x / groupSize), Mathf.FloorToInt(b.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListB))
@@ -565,7 +557,9 @@ namespace Editor.World.TileSubController
                             outListB.Add(fixedVertices.IndexOf(b));
                     }
                     else
+                    {
                         vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(b) });
+                    }
 
                     id = new Vector2Int(Mathf.FloorToInt(c.x / groupSize), Mathf.FloorToInt(c.z / groupSize));
                     if (vertsByPos.TryGetValue(id, out List<int> outListC))
@@ -574,7 +568,9 @@ namespace Editor.World.TileSubController
                             outListC.Add(fixedVertices.IndexOf(c));
                     }
                     else
+                    {
                         vertsByPos.Add(id, new List<int> { fixedVertices.IndexOf(c) });
+                    }
                 }
 
                 FillHoles(fixedVertices, fixedAreas, fixedIndices, editorProgressParTitle);
@@ -644,7 +640,9 @@ namespace Editor.World.TileSubController
             {
                 //Displayed progressbar contains a cancel button which when used should throw an exception with the message: "Cancel".
                 if (e.Message.Equals("Cancel"))
+                {
                     Debug.Log("Baking navmesh was canceled");
+                }
                 else
                 {
                     //If an exception is thrown without the message: "Cancel" then it is an error.
@@ -686,7 +684,7 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Loads the scene at the path async
+        ///     Loads the scene at the path async
         /// </summary>
         /// <param name="path">File path for the scene</param>
         /// <returns></returns>
@@ -700,7 +698,7 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Unloads a currently loaded scene async
+        ///     Unloads a currently loaded scene async
         /// </summary>
         /// <param name="scene">Name of the loaded scene to unload</param>
         private static async UniTask AsyncUnloadScene(Scene scene)
@@ -711,8 +709,8 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Builds a navmesh from the TileSubController and returns the navmesh triangulation from the build navmesh.
-        /// Then remove the build navmesh as it is no longer needed.
+        ///     Builds a navmesh from the TileSubController and returns the navmesh triangulation from the build navmesh.
+        ///     Then remove the build navmesh as it is no longer needed.
         /// </summary>
         /// <param name="surface">To build the navmesh from</param>
         /// <returns>Navmesh triangulation containing vertices, indices and areas in arrays</returns>
@@ -727,7 +725,7 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Creates new NavTriangles from the indices 
+        ///     Creates new NavTriangles from the indices
         /// </summary>
         /// <param name="verts">3D vertices</param>
         /// <param name="indices">Each pair of threes indicate one triangle</param>
@@ -756,7 +754,9 @@ namespace Editor.World.TileSubController
                         list.Add(tID);
                 }
                 else
+                {
                     trianglesByVertexID.Add(a, new List<int>() { tID });
+                }
 
                 if (trianglesByVertexID.TryGetValue(b, out list))
                 {
@@ -764,7 +764,9 @@ namespace Editor.World.TileSubController
                         list.Add(tID);
                 }
                 else
+                {
                     trianglesByVertexID.Add(b, new List<int>() { tID });
+                }
 
                 if (trianglesByVertexID.TryGetValue(c, out list))
                 {
@@ -772,7 +774,9 @@ namespace Editor.World.TileSubController
                         list.Add(tID);
                 }
                 else
+                {
                     trianglesByVertexID.Add(c, new List<int>() { tID });
+                }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
                         $"Creating NavTriangles: {i / 3f} / {indices.Count / 3f}",
@@ -782,7 +786,7 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Setup the connected neighbors for each NavTriangle
+        ///     Setup the connected neighbors for each NavTriangle
         /// </summary>
         /// <param name="triangles">The triangles to check</param>
         /// <param name="trianglesByVertexID">A list of triangle ids based on a vertex id</param>
@@ -824,7 +828,7 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Setup what entry points each triangle contains
+        ///     Setup what entry points each triangle contains
         /// </summary>
         /// <param name="navTriangles">Triangles to check if entry point is within</param>
         /// <param name="trianglesByVertexID">A list of triangle ids based on a vertex id</param>
@@ -859,7 +863,7 @@ namespace Editor.World.TileSubController
                 foreach (int i in tIDs)
                 {
                     Vector3[] tPos = navTriangles[i].Vertices.Select(v => verts[v]).ToArray();
-                    if (!MathC.PointWithinTriangle2D(pos, tPos[0], tPos[1], tPos[2]))
+                    if (!MathC.PointWithinTriangle2DWithTolerance(pos, tPos[0], tPos[1], tPos[2]))
                         continue;
 
                     navTriangles[i].SetNavPointIDs(navTriangles[i].NavPoints.Append(e).ToArray());
@@ -877,8 +881,9 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Check each vertex and if its close to another then remove the other and replace any indices containing it with the current one.
-        /// If the other vertex is in a triangle with the current then remove said triangle.
+        ///     Check each vertex and if its close to another then remove the other and replace any indices containing it with the
+        ///     current one.
+        ///     If the other vertex is in a triangle with the current then remove said triangle.
         /// </summary>
         /// <param name="verts">3D vertices</param>
         /// <param name="indices">Each pair of threes indicate one triangle</param>
@@ -895,11 +900,9 @@ namespace Editor.World.TileSubController
             {
                 //Check if the current vertex id is part of the to be removed.
                 if (removed.TryGetValue(Mathf.FloorToInt(currentVertIndex / groupSize), out List<int> removedList))
-                {
                     //If its to be removed then dont check this vertex.
                     if (removedList.Contains(currentVertIndex))
                         continue;
-                }
 
                 //2D id of the vertex based on its x and z values and grouped by group size.
                 Vector2Int id = new Vector2Int(Mathf.FloorToInt(verts[currentVertIndex].x / groupSize),
@@ -908,23 +911,17 @@ namespace Editor.World.TileSubController
                 //Get the 
                 List<int> toCheck = new List<int>();
                 for (int x = -1; x <= 1; x++)
-                {
-                    for (int y = -1; y <= 1; y++)
-                    {
-                        if (vertsByPos.TryGetValue(id + new Vector2Int(x, y), out List<int> list))
-                            toCheck.AddRange(list);
-                    }
-                }
+                for (int y = -1; y <= 1; y++)
+                    if (vertsByPos.TryGetValue(id + new Vector2Int(x, y), out List<int> list))
+                        toCheck.AddRange(list);
 
                 toCheck = toCheck.Where(x => x != currentVertIndex).ToList();
 
                 foreach (int other in toCheck)
                 {
                     if (removed.TryGetValue(Mathf.FloorToInt(other / groupSize), out removedList))
-                    {
                         if (removedList.Contains(other))
                             continue;
-                    }
 
                     if (Vector3.Distance(verts[currentVertIndex], verts[other]) > OVERLAP_CHECK_DISTANCE)
                         continue;
@@ -935,10 +932,8 @@ namespace Editor.World.TileSubController
                         removed.Add(Mathf.FloorToInt(other / groupSize), new List<int> { other });
 
                     for (int indicesIndex = 0; indicesIndex < indices.Count; indicesIndex++)
-                    {
                         if (indices[indicesIndex] == other)
                             indices[indicesIndex] = currentVertIndex;
-                    }
                 }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
@@ -957,10 +952,8 @@ namespace Editor.World.TileSubController
                 verts.RemoveAt(index);
 
                 for (int j = 0; j < indices.Count; j++)
-                {
                     if (indices[j] >= index)
                         indices[j] = indices[j] - 1;
-                }
 
                 if (EditorUtility.DisplayCancelableProgressBar(editorProgressParTitle,
                         $"Removing overlapping vertices: {i} / {toRemove.Count}", 1f / toRemove.Count * i))
@@ -988,8 +981,8 @@ namespace Editor.World.TileSubController
         }
 
         /// <summary>
-        /// Fill any holes that might have appeared by checking overlap.
-        /// If any three vertexes are directly connected to each other without having a matching triangle then add one.
+        ///     Fill any holes that might have appeared by checking overlap.
+        ///     If any three vertexes are directly connected to each other without having a matching triangle then add one.
         /// </summary>
         /// <param name="verts">3D vertices</param>
         /// <param name="areas">When a new triangle is created then add an area value as well</param>
@@ -1045,7 +1038,7 @@ namespace Editor.World.TileSubController
 
                     Vector2 a = verts[indices[j]].XZ(), b = verts[indices[j + 1]].XZ(), c = verts[indices[j + 2]].XZ();
 
-                    if (!MathC.PointWithinTriangle2D(p, a, b, c))
+                    if (!MathC.PointWithinTriangle2DWithTolerance(p, a, b, c))
                         continue;
 
                     Vector2 close1 = MathC.ClosetPointOnLine(p, a, b),
@@ -1121,20 +1114,20 @@ namespace Editor.World.TileSubController
                                 continue;
 
                             //One of the new triangle points is within an already existing triangle
-                            if (MathC.PointWithinTriangle2D(center, aP, bP, cP) ||
-                                MathC.PointWithinTriangle2D(a, aP, bP, cP) ||
-                                MathC.PointWithinTriangle2D(b, aP, bP, cP) ||
-                                MathC.PointWithinTriangle2D(c, aP, bP, cP))
+                            if (MathC.PointWithinTriangle2DWithTolerance(center, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2DWithTolerance(a, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2DWithTolerance(b, aP, bP, cP) ||
+                                MathC.PointWithinTriangle2DWithTolerance(c, aP, bP, cP))
                             {
                                 denied = true;
                                 break;
                             }
 
-                            if (MathC.TriangleIntersect2D(a, b, c, aP, bP, cP))
-                            {
-                                denied = true;
-                                break;
-                            }
+                            if (!MathC.TriangleIntersect2D(a, b, c, aP, bP, cP))
+                                continue;
+
+                            denied = true;
+                            break;
                         }
 
                         if (denied)

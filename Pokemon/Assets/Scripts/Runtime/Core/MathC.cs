@@ -11,48 +11,39 @@ namespace Runtime.Core
 {
     public static class MathC
     {
-        public static bool LineIntersect2D(Vector2 start1, Vector2 end1, Vector2 start2, Vector2 end2)
+        public static bool LineIntersect2DWithTolerance(Vector2 start1, Vector2 end1, Vector2 start2, Vector2 end2)
         {
             //Line1
-            float A1 = end1.y - start1.y;
-            float B1 = start1.x - end1.x;
-            float C1 = A1 * start1.x + B1 * start1.y;
+            float a1 = end1.y - start1.y;
+            float b1 = start1.x - end1.x;
+            float c1 = a1 * start1.x + b1 * start1.y;
 
             //Line2
-            float A2 = end2.y - start2.y;
-            float B2 = start2.x - end2.x;
-            float C2 = A2 * start2.x + B2 * start2.y;
+            float a2 = end2.y - start2.y;
+            float b2 = start2.x - end2.x;
+            float c2 = a2 * start2.x + b2 * start2.y;
 
-            float denominator = A1 * B2 - A2 * B1;
+            float denominator = a1 * b2 - a2 * b1;
 
             if (denominator == 0)
                 return false;
 
-            Vector2 point = new Vector2((B2 * C1 - B1 * C2) / denominator, (A1 * C2 - A2 * C1) / denominator);
+            Vector2 point = new Vector2((b2 * c1 - b1 * c2) / denominator, (a1 * c2 - a2 * c1) / denominator);
 
             if (point == start1 || point == end1 ||
                 point == start2 || point == end2)
                 return false;
 
             const float tolerance = .001f;
-            if ((point.x > MathF.Min(start1.x, end1.x) + tolerance &&
-                 point.x < MathF.Max(start1.x, end1.x) - tolerance) &&
-                (point.x > MathF.Min(start2.x, end2.x) + tolerance &&
-                 point.x < MathF.Max(start2.x, end2.x) - tolerance) &&
-                (point.y > MathF.Min(start1.y, end1.y) + tolerance &&
-                 point.y < MathF.Max(start1.y, end1.y) - tolerance) &&
-                (point.y > MathF.Min(start2.y, end2.y) + tolerance &&
-                 point.y < MathF.Max(start2.y, end2.y) - tolerance))
-            {
-                Debug.DrawLine(start1.ToV3(4), end1.ToV3(4), Color.red);
-                Debug.DrawLine(start2.ToV3(4), end2.ToV3(4), Color.green);
 
-                Debug.DrawRay(point.ToV3(4), Vector3.up, Color.yellow);
-
-                return true;
-            }
-
-            return false;
+            return point.x > MathF.Min(start1.x, end1.x) + tolerance &&
+                   point.x < MathF.Max(start1.x, end1.x) - tolerance &&
+                   point.x > MathF.Min(start2.x, end2.x) + tolerance &&
+                   point.x < MathF.Max(start2.x, end2.x) - tolerance &&
+                   point.y > MathF.Min(start1.y, end1.y) + tolerance &&
+                   point.y < MathF.Max(start1.y, end1.y) - tolerance &&
+                   point.y > MathF.Min(start2.y, end2.y) + tolerance &&
+                   point.y < MathF.Max(start2.y, end2.y) - tolerance;
         }
 
         public static Vector3 LerpPosition(AnimationCurve curve, float time, Vector3 p0, Vector3 p1, Vector3 p2)
@@ -69,36 +60,63 @@ namespace Runtime.Core
             return result;
         }
 
-        //https://www.youtube.com/watch?v=HYAgJN3x4GA
-        public static bool PointWithinTriangle2D(Vector2 point, Vector2 a, Vector2 b, Vector2 c,
+        public static bool PointWithinTriangle2DWithTolerance(Vector2 point, Vector2 a, Vector2 b, Vector2 c,
             float tolerance = .001f)
         {
-            float w1 = (a.x * (c.y - a.y) + (point.y - a.y) * (c.x - a.x) - point.x * (c.y - a.y)) /
-                       ((b.y - a.y) * (c.x - a.x) - (b.x - a.x) * (c.y - a.y));
+            float s1 = c.y - a.y + 0.0001f;
+            float s2 = c.x - a.x;
+            float s3 = b.y - a.y;
+            float s4 = point.y - a.y;
 
-            float w2 = (point.y - a.y - w1 * (b.y - a.y)) /
-                       (c.y - a.y);
-
+            float w1 = (a.x * s1 + s4 * s2 - point.x * s1) / (s3 * s2 - (b.x - a.x + 0.0001f) * s1);
+            float w2 = (s4 - w1 * s3) / s1;
             return w1 >= tolerance && w2 >= tolerance && w1 + w2 <= 1f - tolerance;
+        }
+
+        //https://www.youtube.com/watch?v=HYAgJN3x4GA
+        public static bool PointWithinTriangle2D(Vector2 point, Vector2 a, Vector2 b, Vector2 c)
+        {
+            float s1 = c.y - a.y + 0.0001f;
+            float s2 = c.x - a.x;
+            float s3 = b.y - a.y;
+            float s4 = point.y - a.y;
+
+            float w1 = (a.x * s1 + s4 * s2 - point.x * s1) / (s3 * s2 - (b.x - a.x + 0.0001f) * s1);
+            float w2 = (s4 - w1 * s3) / s1;
+            return w1 >= 0 && w2 >= 0 && w1 + w2 <= 1;
+        }
+
+        //https://www.youtube.com/watch?v=HYAgJN3x4GA
+        public static bool PointWithinTriangle2D(Vector2 point, Vector2 a, Vector2 b, Vector2 c, out float w1,
+            out float w2)
+        {
+            float s1 = c.y - a.y + 0.0001f;
+            float s2 = c.x - a.x;
+            float s3 = b.y - a.y;
+            float s4 = point.y - a.y;
+
+            w1 = (a.x * s1 + s4 * s2 - point.x * s1) / (s3 * s2 - (b.x - a.x + 0.0001f) * s1);
+            w2 = (s4 - w1 * s3) / s1;
+            return w1 >= 0 && w2 >= 0 && w1 + w2 <= 1;
         }
 
         public static bool TriangleIntersect2D(Vector2 a1, Vector2 a2, Vector2 a3, Vector2 b1, Vector2 b2, Vector2 b3)
         {
-            return (LineIntersect2D(a1, a2, b1, b2) ||
-                    LineIntersect2D(a1, a3, b1, b2) ||
-                    LineIntersect2D(a2, a3, b1, b2) ||
-                    LineIntersect2D(a1, a2, b1, b3) ||
-                    LineIntersect2D(a1, a3, b1, b3) ||
-                    LineIntersect2D(a2, a3, b1, b3) ||
-                    LineIntersect2D(a1, a2, b2, b3) ||
-                    LineIntersect2D(a1, a3, b2, b3) ||
-                    LineIntersect2D(a2, a3, b2, b3));
+            return LineIntersect2DWithTolerance(a1, a2, b1, b2) ||
+                   LineIntersect2DWithTolerance(a1, a3, b1, b2) ||
+                   LineIntersect2DWithTolerance(a2, a3, b1, b2) ||
+                   LineIntersect2DWithTolerance(a1, a2, b1, b3) ||
+                   LineIntersect2DWithTolerance(a1, a3, b1, b3) ||
+                   LineIntersect2DWithTolerance(a2, a3, b1, b3) ||
+                   LineIntersect2DWithTolerance(a1, a2, b2, b3) ||
+                   LineIntersect2DWithTolerance(a1, a3, b2, b3) ||
+                   LineIntersect2DWithTolerance(a2, a3, b2, b3);
         }
 
         public static Vector2 ClosetPointOnLine(Vector2 point, Vector2 start, Vector2 end)
         {
             //Get heading
-            Vector2 heading = (end - start);
+            Vector2 heading = end - start;
             float magnitudeMax = heading.magnitude;
             heading.Normalize();
 
@@ -110,10 +128,25 @@ namespace Runtime.Core
             return start + heading * dotP;
         }
 
-        public static float ClosesPointValue(Vector2 point, Vector2 start, Vector2 end)
+        public static Vector3 ClosetPointOnLine(Vector3 point, Vector3 start, Vector3 end)
         {
             //Get heading
-            Vector2 heading = (end - start);
+            Vector3 heading = end - start;
+            float magnitudeMax = heading.magnitude;
+            heading.Normalize();
+
+            //Do projection from the point but clamp it
+            Vector3 lhs = point - start;
+            float dotP = Vector3.Dot(lhs, heading);
+            dotP = Mathf.Clamp(dotP, 0f, magnitudeMax);
+
+            return start + heading * dotP;
+        }
+
+        public static float ClosestPointValue(Vector2 point, Vector2 start, Vector2 end)
+        {
+            //Get heading
+            Vector2 heading = end - start;
             float magnitudeMax = heading.magnitude;
             heading.Normalize();
 
@@ -138,7 +171,7 @@ namespace Runtime.Core
             uint i = BitConverter.ToUInt32(BitConverter.GetBytes(y), 0);
             i = 0x5f3759df - (i >> 1);
             y = BitConverter.ToSingle(BitConverter.GetBytes(i), 0);
-            y = y * (threehalfs - (x2 * y * y));
+            y = y * (threehalfs - x2 * y * y);
 
             return y;
         }

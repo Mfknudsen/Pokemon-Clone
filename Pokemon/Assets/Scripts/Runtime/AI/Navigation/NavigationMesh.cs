@@ -25,7 +25,7 @@ namespace Runtime.AI.Navigation
         [SerializeField] private SDictionary<int, List<NavigationPointEntry>> navigationEntryPoints;
 
         /// <summary>
-        /// Index of vertex returns all NavTriangles containing the vertex id.
+        ///     Index of vertex returns all NavTriangles containing the vertex id.
         /// </summary>
         [SerializeField] private List<TrianglesByVertexElement> triangleByVertexID;
 
@@ -33,7 +33,7 @@ namespace Runtime.AI.Navigation
 
         private const float GROUP_DIVISION = 5f;
 
-        [SerializeField] [HideInInspector] private float minFloorX,
+        [SerializeField] [ReadOnly] private float minFloorX,
             minFloorZ,
             maxFloorX,
             maxFloorZ;
@@ -79,9 +79,8 @@ namespace Runtime.AI.Navigation
             this.verticesY = new float[vertices.Length];
             for (int i = 0; i < vertices.Length; i++)
             {
-                float x = vertices[i].x, y = vertices[i].y, z = vertices[i].z;
-                this.vertices2D[i] = new Vector2(x, z);
-                this.verticesY[i] = y;
+                this.vertices2D[i] = new Vector2(vertices[i].x, vertices[i].z);
+                this.verticesY[i] = vertices[i].y;
             }
 
             this.triangleByVertexID = new List<TrianglesByVertexElement>(vertices.Length);
@@ -90,24 +89,26 @@ namespace Runtime.AI.Navigation
 
             navTriangles.ForEach(t =>
             {
-                int aIndex = t.Vertices[0], bIndex = t.Vertices[1], cIndex = t.Vertices[2];
-                Vector2Int aVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[aIndex].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[aIndex].y / GROUP_DIVISION)),
-                    bVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[bIndex].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[bIndex].y / GROUP_DIVISION)),
-                    cVector = new Vector2Int(Mathf.FloorToInt(this.vertices2D[cIndex].x / GROUP_DIVISION),
-                        Mathf.FloorToInt(this.vertices2D[cIndex].y / GROUP_DIVISION));
-
-                this.minFloorX = Mathf.Min(this.minFloorX, Mathf.Min(Mathf.Min(aVector.x, bVector.x), cVector.x));
-                this.minFloorZ = Mathf.Min(this.minFloorZ, Mathf.Min(Mathf.Min(aVector.y, bVector.y), cVector.y));
-
-                this.maxFloorX = Mathf.Max(this.minFloorX, Mathf.Max(Mathf.Max(aVector.x, bVector.x), cVector.x));
-                this.maxFloorZ = Mathf.Max(this.minFloorZ, Mathf.Max(Mathf.Max(aVector.y, bVector.y), cVector.y));
-
-                this.triangleByVertexID[aIndex].Add(t.ID);
-                this.triangleByVertexID[bIndex].Add(t.ID);
-                this.triangleByVertexID[cIndex].Add(t.ID);
+                foreach (int triangleVertex in t.Vertices)
+                    this.triangleByVertexID[triangleVertex].Add(t.ID);
             });
+
+            this.minFloorX = this.maxFloorX = this.vertices2D[0].x;
+            this.minFloorZ = this.maxFloorZ = this.vertices2D[0].y;
+
+            foreach (Vector2 vertex in this.vertices2D)
+            {
+                this.minFloorX = Mathf.Min(this.minFloorX, vertex.x);
+                this.minFloorZ = Mathf.Min(this.minFloorZ, vertex.y);
+
+                this.maxFloorX = Mathf.Max(this.maxFloorX, vertex.x);
+                this.maxFloorZ = Mathf.Max(this.maxFloorZ, vertex.y);
+            }
+
+            this.minFloorX -= GROUP_DIVISION;
+            this.minFloorZ -= GROUP_DIVISION;
+            this.maxFloorX += GROUP_DIVISION;
+            this.maxFloorZ += GROUP_DIVISION;
         }
 
         public void SetVert(int index, Vector3 v)
@@ -149,11 +150,10 @@ namespace Runtime.AI.Navigation
 
             foreach (NavTriangle navTriangle in this.Triangles)
             {
-                if (!MathC.PointWithinTriangle2D(agentXZ,
+                if (!MathC.PointWithinTriangle2DWithTolerance(agentXZ,
                         this.SimpleVertices[navTriangle.GetA],
                         this.SimpleVertices[navTriangle.GetB],
-                        this.SimpleVertices[navTriangle.GetC],
-                        0))
+                        this.SimpleVertices[navTriangle.GetC]))
                     continue;
 
                 return navTriangle.ID;
@@ -176,11 +176,10 @@ namespace Runtime.AI.Navigation
             foreach (int navTriangleID in trianglesByVertexID)
             {
                 NavTriangle navTriangle = this.Triangles[navTriangleID];
-                if (!MathC.PointWithinTriangle2D(agentXZ,
+                if (!MathC.PointWithinTriangle2DWithTolerance(agentXZ,
                         this.SimpleVertices[navTriangle.GetA],
                         this.SimpleVertices[navTriangle.GetB],
-                        this.SimpleVertices[navTriangle.GetC],
-                        0))
+                        this.SimpleVertices[navTriangle.GetC]))
                     continue;
 
                 return navTriangle.ID;
@@ -279,20 +278,16 @@ namespace Runtime.AI.Navigation
         {
             this.neighborIDs.Clear();
             for (int i = 0; i < set.Length; i++)
-            {
                 if (!this.neighborIDs.Contains(set[i]))
                     this.neighborIDs.Add(set[i]);
-            }
         }
 
         public void SetNavPointIDs(int[] set)
         {
             this.navPointIDs.Clear();
             for (int i = 0; i < set.Length; i++)
-            {
                 if (!this.navPointIDs.Contains(set[i]))
                     this.navPointIDs.Add(set[i]);
-            }
         }
 #endif
 
@@ -365,6 +360,10 @@ namespace Runtime.AI.Navigation
 
         public Vector3 Center(Vector3[] verts) =>
             Vector3.Lerp(Vector3.Lerp(verts[this.A], verts[this.B], .5f), verts[this.C], .5f);
+
+        public Vector3 Center(NavigationMesh navigationMesh) =>
+            Vector3.Lerp(Vector3.Lerp(navigationMesh.VertByIndex(this.A), navigationMesh.VertByIndex(this.B), .5f),
+                navigationMesh.VertByIndex(this.C), .5f);
 
         #endregion
     }

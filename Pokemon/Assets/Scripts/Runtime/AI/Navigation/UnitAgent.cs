@@ -1,5 +1,6 @@
 #region Libraries
 
+using System.Collections;
 using Runtime.AI.Navigation.PathActions;
 using Runtime.Core;
 using Sirenix.OdinInspector;
@@ -11,6 +12,7 @@ using UnityEngine.Events;
 namespace Runtime.AI.Navigation
 {
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]
     public sealed class UnitAgent : MonoBehaviour
     {
         #region Values
@@ -34,11 +36,22 @@ namespace Runtime.AI.Navigation
 
         #region Build In States
 
-        private void Start()
+        private void Reset()
+        {
+            this.rb = this.gameObject.GetComponent<Rigidbody>();
+            this.rb.useGravity = false;
+            this.rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            CapsuleCollider capsuleCollider = this.GetComponent<CapsuleCollider>();
+            capsuleCollider.center = Vector3.up;
+            capsuleCollider.height = 2;
+        }
+
+        private IEnumerator Start()
         {
             this.onPathComplete = new UnityEvent();
-            this.rb = this.gameObject.GetComponentInChildren<Rigidbody>();
-            this.rb.useGravity = false;
+
+            yield return new WaitUntil(() => UnitNavigation.Ready);
 
             this.currentTriangleIndex = UnitNavigation.PlaceAgentOnNavMesh(this);
 
@@ -89,10 +102,8 @@ namespace Runtime.AI.Navigation
                 currentMoveVector = this.AgentAvoidance(currentMoveVector);
 
                 if (Vector3.Angle(this.transform.forward, currentMoveVector) < this.settings.WalkTurnAngle)
-                {
                     this.rb.MovePosition(pos + currentMoveVector.normalized * this.settings.MoveSpeed *
                         Time.deltaTime);
-                }
             }
             else
             {
@@ -106,17 +117,25 @@ namespace Runtime.AI.Navigation
 
         public void MoveTo(Vector3 position)
         {
-            if (InTriangle2D(UnitNavigation.GetTriangleByID(this.currentTriangleIndex).Vertices, position))
+            if (this.InCurrentTriangle(position))
             {
-                return;
+                NavTriangle t = UnitNavigation.GetTriangleByID(this.currentTriangleIndex);
+                MathC.PointWithinTriangle2D(position.XZ(),
+                    UnitNavigation.Get2DVertByIndex(t.GetA),
+                    UnitNavigation.Get2DVertByIndex(t.GetB),
+                    UnitNavigation.Get2DVertByIndex(t.GetC),
+                    out float w1, out float w2);
+                Debug.Log($"{w1}  |  {w2}");
             }
+
+            if (this.InCurrentTriangle(position)) return;
 
             UnitNavigation.QueueForPath(this, position);
         }
 
         public void MoveToAndFace(Vector3 position, Quaternion direction)
         {
-            if (InTriangle2D(UnitNavigation.GetTriangleByID(this.currentTriangleIndex).Vertices, position))
+            if (this.InCurrentTriangle(position))
             {
                 if (Vector3.Angle(this.transform.forward, direction.ForwardFromRotation()) >
                     this.settings.WalkTurnAngle)
@@ -133,12 +152,20 @@ namespace Runtime.AI.Navigation
         public void SetPath(UnitPath path) =>
             this.currentPath = path;
 
+        internal void Place(Vector3 position)
+        {
+            this.transform.position =
+                position + Vector3.up * this.GetComponent<CapsuleCollider>().center.y;
+
+            this.rb.velocity = Vector3.zero;
+        }
+
         #endregion
 
         #region Internal
 
         /// <summary>
-        /// Attempt to avoid walking into other agents
+        ///     Attempt to avoid walking into other agents
         /// </summary>
         /// <param name="currentMoveDirection">Current move direction from the agent to it's destination</param>
         /// <returns>Offset move vector</returns>
@@ -181,7 +208,9 @@ namespace Runtime.AI.Navigation
                 }
                 else
                     //If right is clear then continue that way
+                {
                     return currentMoveDirection + tempRight * i;
+                }
 
                 //Check left
                 if (Physics.BoxCast(
@@ -201,21 +230,23 @@ namespace Runtime.AI.Navigation
                 }
                 else
                     //If left is clear then continue that way
+                {
                     return currentMoveDirection + tempRight * -i;
+                }
             }
 
             //If there isn't found a better path then default to going right around
             return currentMoveDirection + tempRight;
         }
 
-        private static bool InTriangle2D(int[] corners, Vector3 point)
+        private bool InCurrentTriangle(Vector3 point)
         {
-            if (corners.Length < 3)
-                return false;
+            NavTriangle t = UnitNavigation.GetTriangleByID(this.currentTriangleIndex);
 
-            Vector2[] positions = UnitNavigation.Get2DVertByIndex(corners);
-
-            return MathC.PointWithinTriangle2D(point.XZ(), positions[0], positions[1], positions[2]);
+            return MathC.PointWithinTriangle2D(point.XZ(),
+                UnitNavigation.Get2DVertByIndex(t.GetA),
+                UnitNavigation.Get2DVertByIndex(t.GetB),
+                UnitNavigation.Get2DVertByIndex(t.GetC));
         }
 
         #endregion

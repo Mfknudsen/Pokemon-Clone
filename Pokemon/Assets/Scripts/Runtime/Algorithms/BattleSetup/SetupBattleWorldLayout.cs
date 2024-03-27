@@ -1,11 +1,11 @@
 #region Libraries
 
 using System.Collections.Generic;
-using Runtime.Core;
-using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Runtime.Battle.Systems.BattleStart;
+using Runtime.Core;
 using Runtime.World.Overworld;
+using UnityEngine;
 
 #endregion
 
@@ -50,8 +50,8 @@ namespace Runtime.Algorithms.BattleSetup
         #region Setters
 
         /// <summary>
-        /// Set the information to be checked against.
-        /// Will instantly set if "GetFreeformBattleLayout" hasn't been called and are not done.
+        ///     Set the information to be checked against.
+        ///     Will instantly set if "GetFreeformBattleLayout" hasn't been called and are not done.
         /// </summary>
         /// <param name="set">New information to be set</param>
         public static void SetOptimizedWorldInformation(TileOptimizedInformation set)
@@ -71,7 +71,7 @@ namespace Runtime.Algorithms.BattleSetup
         #region Out
 
         /// <summary>
-        /// Get the best battle layout.
+        ///     Get the best battle layout.
         /// </summary>
         /// <param name="battleStarter">Battlestarter calling the function</param>
         /// <param name="centerStartPosition">Position between the battlestarter and the player</param>
@@ -152,7 +152,7 @@ namespace Runtime.Algorithms.BattleSetup
         #region Internal
 
         /// <summary>
-        /// Check a new battle spot.
+        ///     Check a new battle spot.
         /// </summary>
         /// <param name="battleLayout">Out value of a new battlelayout</param>
         /// <param name="obstructedValue">Out value of the obstructed value to determine which layout to be used</param>
@@ -199,7 +199,7 @@ namespace Runtime.Algorithms.BattleSetup
         }
 
         /// <summary>
-        /// Get 8 different directions for use with the check pattern.
+        ///     Get 8 different directions for use with the check pattern.
         /// </summary>
         /// <param name="originalCenter">The original center between the player and battlestarter</param>
         /// <param name="playerPosition">The player position</param>
@@ -227,16 +227,14 @@ namespace Runtime.Algorithms.BattleSetup
             Vector3 originalNoY = new Vector3(originalCenter.x, 0, originalCenter.z);
 
             for (int i = 0; i < forwardDirections.Length; i++)
-            {
                 rightDirections[i] = Quaternion
                     .LookRotation(
                         new Vector3(forwardDirections[i].x, 0, forwardDirections[i].y) - originalNoY,
                         Vector3.up).RightFromRotation().XZ();
-            }
         }
 
         /// <summary>
-        /// Direction for each pokemon spot position based on the giving number of allied and enemy count
+        ///     Direction for each pokemon spot position based on the giving number of allied and enemy count
         /// </summary>
         /// <param name="alliedCount">Spot count for the player and player allies</param>
         /// <param name="enemyCount">Spots count for the enemies</param>
@@ -308,7 +306,7 @@ namespace Runtime.Algorithms.BattleSetup
         }
 
         /// <summary>
-        /// Check if the area of the pokemon spot is filled with props from the environment
+        ///     Check if the area of the pokemon spot is filled with props from the environment
         /// </summary>
         /// <param name="position">The position of the spot</param>
         /// <returns>True if the removed area of the spot cylinder is less then "ALLOWED_OBSTRUCTED_PERCENTAGE_VALUE"</returns>
@@ -327,10 +325,8 @@ namespace Runtime.Algorithms.BattleSetup
 
             List<OptimizedTreeInstance> relevantProps = new List<OptimizedTreeInstance>();
             for (int x = -1; x <= 1 && xID + x >= 0 && xID + x < props.GetLength(0); x++)
-            {
-                for (int y = -1; y <= 1 && yID + y >= 0 && yID + y < props.GetLength(1); y++)
-                    relevantProps.AddRange(props[xID + x, yID + y]);
-            }
+            for (int y = -1; y <= 1 && yID + y >= 0 && yID + y < props.GetLength(1); y++)
+                relevantProps.AddRange(props[xID + x, yID + y]);
 
             const float spotArea = SPOT_CHECK_RADIUS * Mathf.PI * SPOT_CHECK_HEIGHT;
             float removeArea = 0;
@@ -349,7 +345,6 @@ namespace Runtime.Algorithms.BattleSetup
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="position"></param>
         /// <param name="forward"></param>
@@ -371,10 +366,8 @@ namespace Runtime.Algorithms.BattleSetup
 
             List<OptimizedTreeInstance> relevantProps = new List<OptimizedTreeInstance>();
             for (int x = -2; x <= 2 && xID + x >= 0 && xID + x < props.GetLength(0); x++)
-            {
-                for (int y = -2; y <= 2 && yID + y >= 0 && yID + y < props.GetLength(1); y++)
-                    relevantProps.AddRange(props[xID + x, yID + y]);
-            }
+            for (int y = -2; y <= 2 && yID + y >= 0 && yID + y < props.GetLength(1); y++)
+                relevantProps.AddRange(props[xID + x, yID + y]);
 
             foreach (OptimizedTreeInstance optimizedTreeInstance in relevantProps)
             {
@@ -384,8 +377,8 @@ namespace Runtime.Algorithms.BattleSetup
                 Vector2 rightPoint = newOrigin + right * (centerBoxDimension.x + optimizedTreeInstance.radius * 2f),
                     forwardPoint = newOrigin + forward * (centerBoxDimension.y + optimizedTreeInstance.radius * 2f);
 
-                float x = MathC.ClosesPointValue(posXZ, newOrigin, rightPoint),
-                    y = MathC.ClosesPointValue(posXZ, newOrigin, forwardPoint);
+                float x = MathC.ClosestPointValue(posXZ, newOrigin, rightPoint),
+                    y = MathC.ClosestPointValue(posXZ, newOrigin, forwardPoint);
 
                 if (x == 0 || x == 1 || y == 0 || y == 1)
                     continue;
